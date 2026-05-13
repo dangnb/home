@@ -1,0 +1,398 @@
+[
+  {
+    "slug": "thao-nhi-yatch",
+    "name": "Du Thuyền Thảo Nhi Yatch",
+    "categoryId": "vip",
+    "badge": "Du thuyền nhà hàng",
+    "tagline": "Biệt Thự Di Động – Đẳng Cấp 5 Sao Trên Sông Hàn",
+    "originalPrice": "1.500.000 ₫",
+    "salePrice": "900.000 ₫",
+    "floors": 2,
+    "capacity": 9,
+    "mainImage": "/images/thaonhi_yatch1-300x169.webp",
+    "gallery": [
+      "/images/thaonhi_yatch1-300x169.webp",
+      "/images/banner_desktop.webp"
+    ],
+    "highlights": [
+      "Không gian riêng tư, sang trọng tuyệt đối – chỉ 9 khách",
+      "Setup tiệc theo yêu cầu: lãng mạn, riêng tư, ấm cúng",
+      "Góc sống ảo cực chill, thiết kế hiện đại nội thất cao cấp"
+    ],
+    "description": "Du Thuyền Thảo Nhi Yatch hạ thuỷ vào giữa năm 2025.",
+    "tours": [
+      {
+        "name": "Tour Hoàng Hôn Trên Sông Hàn",
+        "icon": "🌅",
+        "schedule": [
+          "17:30-18:00: Đón khách",
+          "18:30: Khởi hành",
+          "19:30: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "DJ chuyên nghiệp",
+      "Tiệc Buffet mini",
+      "Bảo hiểm hành khách"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-poseidon-cruise",
+      "du-thuyen-danang-dragon-cruise"
+    ]
+  },
+  {
+    "slug": "du-thuyen-poseidon-cruise",
+    "name": "Du thuyền POSEIDON CRUISE",
+    "categoryId": "dinner",
+    "badge": "Du thuyền 5* nhà hàng",
+    "tagline": "Du Thuyền 5 Sao – Buffet & DJ Bar Đẳng Cấp",
+    "originalPrice": "1.200.000 ₫",
+    "salePrice": "800.000 ₫",
+    "floors": 2,
+    "capacity": 198,
+    "mainImage": "/images/DU-THUYEN-POSEIDON-300x170.jpg",
+    "gallery": [
+      "/images/DU-THUYEN-POSEIDON-300x170.jpg"
+    ],
+    "highlights": [
+      "Du thuyền 5* lớn nhất – 198 khách",
+      "DJ & Dancer phục vụ hàng đêm",
+      "Buffet đa dạng cao cấp"
+    ],
+    "description": "POSEIDON CRUISE là du thuyền nhà hàng 5 sao lớn nhất trên sông Hàn.",
+    "tours": [
+      {
+        "name": "Tour Ăn Tối Sông Hàn",
+        "icon": "🚢",
+        "schedule": [
+          "18:00: Đón khách",
+          "19:00: Khởi hành",
+          "22:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "Buffet cao cấp",
+      "DJ & Dancer",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "thao-nhi-yatch",
+      "tau-rong-song-han"
+    ]
+  },
+  {
+    "slug": "tau-rong-song-han",
+    "name": "Tàu Rồng Sông Hàn",
+    "categoryId": "dinner",
+    "badge": "Du thuyền nhà hàng",
+    "tagline": "Biểu Tượng Sông Hàn",
+    "originalPrice": "900.000 ₫",
+    "salePrice": "700.000 ₫",
+    "floors": 3,
+    "capacity": 220,
+    "mainImage": "/images/TAU-RONG-SONG-HAN-300x169.jpg",
+    "gallery": [
+      "/images/TAU-RONG-SONG-HAN-300x169.jpg"
+    ],
+    "highlights": [
+      "Tàu Rồng biểu tượng 3 tầng",
+      "220 khách",
+      "Karaoke & múa Chămpa"
+    ],
+    "description": "Tàu Rồng Sông Hàn với thiết kế hình rồng độc đáo.",
+    "tours": [
+      {
+        "name": "Tour Ăn Tối Sông Hàn",
+        "icon": "🍽️",
+        "schedule": [
+          "18:30: Đón khách",
+          "21:30: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "Set menu",
+      "Múa Chămpa",
+      "Karaoke"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-poseidon-cruise",
+      "thao-nhi-yatch"
+    ]
+  },
+  {
+    "slug": "du-thuyen-danang-dragon-cruise",
+    "name": "Du Thuyền DANANG DRAGON CRUISE",
+    "categoryId": "dinner",
+    "badge": "Du thuyền 3 sao",
+    "tagline": "Dragon Cruise – Sang Trọng Và Đẳng Cấp",
+    "originalPrice": "1.000.000 ₫",
+    "salePrice": "850.000 ₫",
+    "floors": 2,
+    "capacity": 65,
+    "mainImage": "/images/DA-NANG-CRUSIE-2-300x225.jpg",
+    "gallery": [
+      "/images/DA-NANG-CRUSIE-2-300x225.jpg"
+    ],
+    "highlights": [
+      "Du thuyền 3 sao",
+      "65 khách không gian ấm cúng"
+    ],
+    "description": "DANANG DRAGON CRUISE phục vụ ăn tối theo phong cách Âu.",
+    "tours": [
+      {
+        "name": "Tour Ăn Tối",
+        "icon": "🌊",
+        "schedule": [
+          "18:00: Đón khách",
+          "21:30: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "Set menu Âu",
+      "Nước uống",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-poseidon-cruise",
+      "thao-nhi-yatch"
+    ]
+  },
+  {
+    "slug": "du-thuyen-bao-anh",
+    "name": "Du Thuyền Bảo Anh",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "Ngắm Sông Hàn – Không Gian Thoáng Mát",
+    "originalPrice": "200.000 ₫",
+    "salePrice": "150.000 ₫",
+    "floors": 2,
+    "capacity": 95,
+    "mainImage": "/images/DU-THUYEN-BAO-ANH4-300x225.jpg",
+    "gallery": [
+      "/images/DU-THUYEN-BAO-ANH4-300x225.jpg"
+    ],
+    "highlights": [
+      "2 tầng thoáng mát view 360°",
+      "Phục vụ 1 suất ăn tối"
+    ],
+    "description": "Du Thuyền Bảo Anh lý tưởng cho gia đình yên tĩnh.",
+    "tours": [
+      {
+        "name": "Tour Du Ngoạn Sông Hàn",
+        "icon": "🌙",
+        "schedule": [
+          "19:00: Đón khách",
+          "21:30: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất cơm gà",
+      "Nước suối",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-duy-khang",
+      "du-thuyen-my-xuan"
+    ]
+  },
+  {
+    "slug": "du-thuyen-duy-khang",
+    "name": "Du Thuyền Duy Khang",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "Thoáng Mát – Yên Tĩnh – View Đẹp",
+    "originalPrice": "200.000 ₫",
+    "salePrice": "150.000 ₫",
+    "floors": 2,
+    "capacity": 92,
+    "mainImage": "/images/4u-6-300x188.jpg",
+    "gallery": [
+      "/images/4u-6-300x188.jpg"
+    ],
+    "highlights": [
+      "2 tầng không ồn ào",
+      "Phù hợp gia đình"
+    ],
+    "description": "Du Thuyền Duy Khang mang đến không gian yên tĩnh.",
+    "tours": [
+      {
+        "name": "Tour Du Ngoạn",
+        "icon": "⛵",
+        "schedule": [
+          "19:00: Khởi hành",
+          "21:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất ăn tối",
+      "Nước suối",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-bao-anh",
+      "du-thuyen-my-xuan"
+    ]
+  },
+  {
+    "slug": "du-thuyen-my-xuan",
+    "name": "Du Thuyền Mỹ Xuân",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "Không Gian Rộng – Lịch Chạy Đều",
+    "originalPrice": "150.000 ₫",
+    "salePrice": "150.000 ₫",
+    "floors": 2,
+    "capacity": 90,
+    "mainImage": "/images/DU-THUYEN-MY-XUAN-300x225.jpg",
+    "gallery": [
+      "/images/DU-THUYEN-MY-XUAN-300x225.jpg"
+    ],
+    "highlights": [
+      "Không gian rộng 2 tầng",
+      "Giá tốt nhất"
+    ],
+    "description": "Du Thuyền Mỹ Xuân không gian rộng rãi, giá cạnh tranh.",
+    "tours": [
+      {
+        "name": "Tour Du Ngoạn",
+        "icon": "⛵",
+        "schedule": [
+          "19:00: Khởi hành",
+          "21:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất ăn tối",
+      "Nước uống",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-bao-anh",
+      "du-thuyen-duy-khang"
+    ]
+  },
+  {
+    "slug": "du-thuyen-4u",
+    "name": "Du Thuyền Sông Hàn 4U",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "4U – Trải Nghiệm Dành Cho Bạn",
+    "originalPrice": "225.000 ₫",
+    "salePrice": "185.000 ₫",
+    "floors": 2,
+    "capacity": 89,
+    "mainImage": "/images/4u-6-300x188.jpg",
+    "gallery": [
+      "/images/4u-6-300x188.jpg"
+    ],
+    "highlights": [
+      "Thiết kế hiện đại 2 tầng",
+      "View tầng 2 đẹp"
+    ],
+    "description": "Du Thuyền 4U không gian hiện đại view 360°.",
+    "tours": [
+      {
+        "name": "Tour Du Ngoạn",
+        "icon": "🚤",
+        "schedule": [
+          "19:00: Khởi hành",
+          "21:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất ăn tối",
+      "Nước suối",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-bao-anh",
+      "du-thuyen-my-xuan"
+    ]
+  },
+  {
+    "slug": "du-thuyen-sweettime",
+    "name": "Du Thuyền Sweet Time",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "Sweet Time – Khoảng Thời Gian Ngọt Ngào",
+    "originalPrice": "200.000 ₫",
+    "salePrice": "150.000 ₫",
+    "floors": 2,
+    "capacity": 90,
+    "mainImage": "/images/DU-THUYEN-SWEETTIME6-300x225.jpg",
+    "gallery": [
+      "/images/DU-THUYEN-SWEETTIME6-300x225.jpg"
+    ],
+    "highlights": [
+      "Không gian lãng mạn",
+      "Phù hợp cặp đôi"
+    ],
+    "description": "Du Thuyền Sweet Time lý tưởng cho hẹn hò lãng mạn.",
+    "tours": [
+      {
+        "name": "Tour Lãng Mạn",
+        "icon": "💕",
+        "schedule": [
+          "19:00: Khởi hành",
+          "21:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất ăn tối",
+      "Nước suối",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-bao-anh",
+      "du-thuyen-tay-bac"
+    ]
+  },
+  {
+    "slug": "du-thuyen-tay-bac",
+    "name": "Du Thuyền Tây Bắc",
+    "categoryId": "regular",
+    "badge": "Du Thuyền Không Ăn Tối",
+    "tagline": "Tây Bắc – Hương Vị Riêng Trên Sông Hàn",
+    "originalPrice": "150.000 ₫",
+    "salePrice": "150.000 ₫",
+    "floors": 2,
+    "capacity": 90,
+    "mainImage": "/images/DU-THUYEN-TAY-BAC3-300x225.jpg",
+    "gallery": [
+      "/images/DU-THUYEN-TAY-BAC3-300x225.jpg"
+    ],
+    "highlights": [
+      "Phù hợp nhóm đông",
+      "Giá bình dân"
+    ],
+    "description": "Du Thuyền Tây Bắc phù hợp nhóm đông, gia đình lớn.",
+    "tours": [
+      {
+        "name": "Tour Du Ngoạn",
+        "icon": "⛵",
+        "schedule": [
+          "19:00: Khởi hành",
+          "21:00: Cập bến"
+        ]
+      }
+    ],
+    "includes": [
+      "1 suất ăn tối",
+      "Nước suối",
+      "Bảo hiểm"
+    ],
+    "relatedSlugs": [
+      "du-thuyen-bao-anh",
+      "du-thuyen-my-xuan"
+    ]
+  }
+]

@@ -22,7 +22,7 @@ const dinnerCruises = [
 ];
 
 const thongTinLinks = [
-  { label: "Giá Vé Du Thuyền Sông Hàn", href: "/#gia-ve" },
+  { label: "Giá Vé Du Thuyền Sông Hàn", href: "/gia-ve" },
 ];
 
 export default function Navbar() {

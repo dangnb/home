@@ -1,0 +1,5 @@
+[
+  { "id": "regular", "label": "Du Thuyền Không Ăn Tối", "slug": "du-thuyen-khong-an-toi", "description": "Du thuyền tham quan sông Hàn không có dịch vụ ăn tối" },
+  { "id": "dinner", "label": "Du Thuyền Nhà Hàng", "slug": "du-thuyen-nha-hang", "description": "Du thuyền kết hợp ăn tối sang trọng trên sông Hàn" },
+  { "id": "vip", "label": "Du Thuyền VIP", "slug": "du-thuyen-vip", "description": "Du thuyền hạng VIP, không gian riêng tư đẳng cấp 5 sao" }
+]
