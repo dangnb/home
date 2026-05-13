@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import OfficialTicketCounter from "@/components/OfficialTicketCounter";
 import CruiseSection from "@/components/CruiseSection";
+import FireworksBanner from "@/components/FireworksBanner";
 
 export default function Home() {
   const regularCruises = [
@@ -99,6 +100,8 @@ export default function Home() {
           viewAllLink="#"
         />
       </div>
+
+      <FireworksBanner />
 
       <CruiseSection 
         id="co-an-toi"

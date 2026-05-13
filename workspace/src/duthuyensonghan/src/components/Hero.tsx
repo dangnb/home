@@ -7,9 +7,9 @@ export default function Hero() {
     <>
       <section className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <motion.img 
-          src="/images/banner_desktop.webp" 
-          alt="Du Thuyền Sông Hàn" 
+        <motion.img
+          src="/images/banner_desktop.webp"
+          alt="Du Thuyền Sông Hàn"
           className={styles.heroImage}
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
@@ -18,13 +18,13 @@ export default function Hero() {
         <div className={styles.overlay}></div>
       </section>
       <div className={styles.textBar}>
-        <motion.h1 
+        <motion.h1
           className={styles.title}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <span style={{ color: '#ff3b30' }}>VN</span> Du Thuyền Sông Hàn Đà Nẵng - Đặt Vé Giá Tốt, Trực tiếp đón khách
+          Du Thuyền Sông Hàn Đà Nẵng - Đặt Vé Giá Tốt, Trực tiếp đón khách
         </motion.h1>
       </div>
     </>

@@ -13,12 +13,13 @@
   background: transparent;
 }
 
-/* Trang chủ sau khi cuộn: nền tối */
+/* Trang chủ sau khi cuộn: nền trắng mờ glassmorphism */
 .navbar.scrolled {
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 1rem 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Các trang khác: nền trắng đặc */
@@ -60,7 +61,7 @@
   text-decoration: none;
 }
 
-/* Chữ màu tối cho các trang không phải trang chủ */
+/* Chữ màu tối khi cuộn (trên nền trắng) hoặc trang khác */
 .navLink.dark {
   color: var(--text-dark);
 }
@@ -132,4 +133,99 @@
     text-align: center;
     margin-top: 1rem;
   }
+}
+
+/* ── DROPDOWN ── */
+.dropdownWrapper {
+  position: relative;
+}
+
+.hasChevron {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.chevron {
+  font-size: 0.75rem;
+  margin-top: 1px;
+  transition: transform 0.2s;
+}
+
+.dropdownWrapper:hover .chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  min-width: 230px;
+  overflow: hidden;
+  z-index: 1100;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background: #f0fdf9;
+  color: var(--primary);
+}
+
+.dropdown .dropdownItem:first-child {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.dropdown .dropdownItem:first-child:hover {
+  background: var(--primary-hover);
+}
+
+/* ── MOBILE GROUPS ── */
+.mobileGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--border-color);
+}
+
+.mobileGroupTitle {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 0.5rem;
+}
+
+.mobileSubLink {
+  display: block;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.mobileSubLink:hover {
+  background: #f0fdf9;
+  color: var(--primary);
 }

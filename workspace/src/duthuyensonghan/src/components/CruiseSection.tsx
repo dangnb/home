@@ -47,7 +47,12 @@ export default function CruiseSection({ id, title, subtitle, cruises, viewAllLin
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className={styles.title}>{title}</h2>
+          <div className={styles.titleCol}>
+            {id === 'khong-an-toi' && <span className={styles.badge}>Du Thuyền Không Nhà Hàng</span>}
+            {id === 'co-an-toi' && <span className={styles.badge}>Du Thuyền 5* nhà hàng, Bar…</span>}
+            <h2 className={styles.title}>{title}</h2>
+          </div>
+          <div className={styles.divider} />
           {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         </motion.div>
 
@@ -81,6 +86,11 @@ export default function CruiseSection({ id, title, subtitle, cruises, viewAllLin
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Link href={viewAllLink} className={styles.viewAllButton}>
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', verticalAlign: 'middle'}}>
+              <rect y="0" width="18" height="2.5" rx="1.25" fill="currentColor"/>
+              <rect y="5.75" width="18" height="2.5" rx="1.25" fill="currentColor"/>
+              <rect y="11.5" width="18" height="2.5" rx="1.25" fill="currentColor"/>
+            </svg>
             Xem Thêm Du Thuyền
           </Link>
         </motion.div>
