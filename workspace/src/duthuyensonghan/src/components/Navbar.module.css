@@ -1,0 +1,93 @@
+.navbar {
+  background: var(--white);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navLink {
+  font-weight: 500;
+  color: var(--text-dark);
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: var(--primary);
+}
+
+.bookButton {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.bookButton:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.menuIcon {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.mobileMenu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+  .menuIcon {
+    display: block;
+  }
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .mobileMenu .navLink {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .mobileMenu .bookButton {
+    text-align: center;
+    margin-top: 1rem;
+  }
+}

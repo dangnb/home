@@ -1,8 +1,8 @@
 :root {
-  --primary: #00bca5;
-  --primary-hover: #009986;
+  --primary: #01bf93;
+  --primary-hover: #009975;
   --secondary: #ff6600;
-  --bg-color: #f0fdfa; /* Very light teal background as seen in the image */
+  --bg-color: #f1f1f1;
   --text-dark: #333333;
   --text-gray: #666666;
   --white: #ffffff;
@@ -10,7 +10,7 @@
   --radius: 8px;
   --radius-lg: 16px;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
   --max-width: 1200px;
 }
 

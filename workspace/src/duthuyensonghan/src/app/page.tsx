@@ -1,66 +1,119 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import OfficialTicketCounter from "@/components/OfficialTicketCounter";
+import CruiseSection from "@/components/CruiseSection";
+import Footer from "@/components/Footer";
+import FloatingButtons from "@/components/FloatingButtons";
 
 export default function Home() {
+  const regularCruises = [
+    {
+      id: "4u",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/4u-6-300x188.jpg",
+      title: "Du Thuyền Sông Hàn 4U",
+      floors: 2,
+      capacity: 89,
+      price: "150.000 VNĐ",
+      isSale: true
+    },
+    {
+      id: "sweettime",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-SWEETTIME6-300x225.jpg",
+      title: "Du Thuyền Sweet Time",
+      floors: 2,
+      capacity: 90,
+      price: "150.000 VNĐ"
+    },
+    {
+      id: "myxuan",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-MY-XUAN-300x225.jpg",
+      title: "Du thuyền Mỹ Xuân",
+      floors: 2,
+      capacity: 90,
+      price: "150.000 VNĐ",
+      isSale: true
+    },
+    {
+      id: "taybac",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-TAY-BAC3-300x225.jpg",
+      title: "Du Thuyền Tây Bắc",
+      floors: 2,
+      capacity: 90,
+      price: "150.000 VNĐ"
+    },
+    {
+      id: "baoanh",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/DU-THUYEN-BAO-ANH4-300x225.jpg",
+      title: "Du Thuyền Bảo Anh",
+      floors: 2,
+      capacity: 95,
+      price: "150.000 VNĐ"
+    }
+  ];
+
+  const dinnerCruises = [
+    {
+      id: "poseidon",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-POSEIDON-300x170.jpg",
+      title: "Du thuyền POSEIDON CRUISE",
+      floors: 2,
+      capacity: 198,
+      price: "800.000 VNĐ",
+      isSale: true
+    },
+    {
+      id: "taurong",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/TAU-RONG-SONG-HAN-300x169.jpg",
+      title: "Tàu Rồng Sông Hàn",
+      floors: 3,
+      capacity: 220,
+      price: "700.000 VNĐ"
+    },
+    {
+      id: "dragon",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/DA-NANG-CRUSIE-2-300x225.jpg",
+      title: "Du Thuyền DANANG DRAGON CRUISE",
+      floors: 2,
+      capacity: 65,
+      price: "850.000 VNĐ",
+      isSale: true
+    },
+    {
+      id: "thaonhi",
+      image: "https://duthuyensonghan.vn/wp-content/uploads/2026/01/thaonhi_yatch1-300x169.webp",
+      title: "Thảo Nhi Yatch",
+      floors: 2,
+      capacity: 9,
+      price: "1.200.000 VNĐ"
+    }
+  ];
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main>
+      <Navbar />
+      <Hero />
+      <OfficialTicketCounter />
+      
+      <div style={{ backgroundColor: '#f9f9f9', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+        <CruiseSection 
+          id="khong-an-toi"
+          title="Top Du Thuyền Sông Hàn được đặt nhiều nhất"
+          subtitle="Nếu quý khách không có nhu cầu ăn tối, tổ chức tiệc. Muốn yên tĩnh để du ngoạn, đắm chìm với vẻ đẹp thơ mộng của dòng sông Hàn thì đây là top những du thuyền không thể bỏ qua."
+          cruises={regularCruises}
+          viewAllLink="#"
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      <CruiseSection 
+        id="co-an-toi"
+        title="Du Thuyền Đà Nẵng Có Ăn Tối – Trải Nghiệm Sang Trọng"
+        subtitle="Quý khách cần 1 du thuyền sông Hàn 5* sang trọng để: Tổ chức 1 buổi ăn tối bên người thân, liên hoan, gala diner hay 1 quầy Bar có DJ để quẩy suốt đêm."
+        cruises={dinnerCruises}
+        viewAllLink="#"
+      />
+
+      <Footer />
+      <FloatingButtons />
+    </main>
   );
 }
