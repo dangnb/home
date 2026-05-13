@@ -1,9 +1,30 @@
 .navbar {
-  background: var(--white);
-  box-shadow: var(--shadow);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Trang chủ: trong suốt */
+.navbar.transparent {
+  background: transparent;
+}
+
+/* Trang chủ sau khi cuộn: nền tối */
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 1rem 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Các trang khác: nền trắng đặc */
+.navbar.solid {
+  background: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 1rem 0;
 }
 
@@ -14,36 +35,57 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--primary);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
 }
 
 .navLinks {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
+  flex-grow: 1;
+  justify-content: center;
 }
 
 .navLink {
-  font-weight: 500;
-  color: var(--text-dark);
+  font-weight: 600;
+  color: var(--white);
   transition: color 0.3s ease;
+  font-size: 1.15rem;
+  text-decoration: none;
 }
 
-.navLink:hover {
+/* Chữ màu tối cho các trang không phải trang chủ */
+.navLink.dark {
+  color: var(--text-dark);
+}
+
+.navLink:hover,
+.navLink.active {
   color: var(--primary);
+}
+
+.navLink.dark:hover,
+.navLink.dark.active {
+  color: var(--primary);
+}
+
+.rightAction {
+  display: flex;
+  align-items: center;
 }
 
 .bookButton {
   background-color: var(--primary);
   color: var(--white);
-  padding: 0.5rem 1.5rem;
-  border-radius: var(--radius);
-  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 700;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -56,7 +98,7 @@
   display: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--primary);
+  color: var(--white);
 }
 
 .mobileMenu {

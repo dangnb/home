@@ -1,15 +1,12 @@
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import OfficialTicketCounter from "@/components/OfficialTicketCounter";
 import CruiseSection from "@/components/CruiseSection";
-import Footer from "@/components/Footer";
-import FloatingButtons from "@/components/FloatingButtons";
 
 export default function Home() {
   const regularCruises = [
     {
       id: "4u",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/4u-6-300x188.jpg",
+      image: "/images/4u-6-300x188.jpg",
       title: "Du Thuyền Sông Hàn 4U",
       floors: 2,
       capacity: 89,
@@ -18,7 +15,7 @@ export default function Home() {
     },
     {
       id: "sweettime",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-SWEETTIME6-300x225.jpg",
+      image: "/images/DU-THUYEN-SWEETTIME6-300x225.jpg",
       title: "Du Thuyền Sweet Time",
       floors: 2,
       capacity: 90,
@@ -26,7 +23,7 @@ export default function Home() {
     },
     {
       id: "myxuan",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-MY-XUAN-300x225.jpg",
+      image: "/images/DU-THUYEN-MY-XUAN-300x225.jpg",
       title: "Du thuyền Mỹ Xuân",
       floors: 2,
       capacity: 90,
@@ -35,7 +32,7 @@ export default function Home() {
     },
     {
       id: "taybac",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-TAY-BAC3-300x225.jpg",
+      image: "/images/DU-THUYEN-TAY-BAC3-300x225.jpg",
       title: "Du Thuyền Tây Bắc",
       floors: 2,
       capacity: 90,
@@ -43,7 +40,7 @@ export default function Home() {
     },
     {
       id: "baoanh",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/DU-THUYEN-BAO-ANH4-300x225.jpg",
+      image: "/images/DU-THUYEN-BAO-ANH4-300x225.jpg",
       title: "Du Thuyền Bảo Anh",
       floors: 2,
       capacity: 95,
@@ -54,7 +51,7 @@ export default function Home() {
   const dinnerCruises = [
     {
       id: "poseidon",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2021/07/DU-THUYEN-POSEIDON-300x170.jpg",
+      image: "/images/DU-THUYEN-POSEIDON-300x170.jpg",
       title: "Du thuyền POSEIDON CRUISE",
       floors: 2,
       capacity: 198,
@@ -63,7 +60,7 @@ export default function Home() {
     },
     {
       id: "taurong",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/TAU-RONG-SONG-HAN-300x169.jpg",
+      image: "/images/TAU-RONG-SONG-HAN-300x169.jpg",
       title: "Tàu Rồng Sông Hàn",
       floors: 3,
       capacity: 220,
@@ -71,7 +68,7 @@ export default function Home() {
     },
     {
       id: "dragon",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2025/03/DA-NANG-CRUSIE-2-300x225.jpg",
+      image: "/images/DA-NANG-CRUSIE-2-300x225.jpg",
       title: "Du Thuyền DANANG DRAGON CRUISE",
       floors: 2,
       capacity: 65,
@@ -80,7 +77,7 @@ export default function Home() {
     },
     {
       id: "thaonhi",
-      image: "https://duthuyensonghan.vn/wp-content/uploads/2026/01/thaonhi_yatch1-300x169.webp",
+      image: "/images/thaonhi_yatch1-300x169.webp",
       title: "Thảo Nhi Yatch",
       floors: 2,
       capacity: 9,
@@ -90,7 +87,6 @@ export default function Home() {
 
   return (
     <main>
-      <Navbar />
       <Hero />
       <OfficialTicketCounter />
       
@@ -111,9 +107,6 @@ export default function Home() {
         cruises={dinnerCruises}
         viewAllLink="#"
       />
-
-      <Footer />
-      <FloatingButtons />
     </main>
   );
 }

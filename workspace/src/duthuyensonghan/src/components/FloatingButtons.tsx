@@ -28,12 +28,12 @@ export default function FloatingButtons() {
       </a>
       <a href="https://wa.me/84796768636" target="_blank" rel="noopener noreferrer" className={`${styles.button} ${styles.whatsapp}`} aria-label="WhatsApp">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="https://duthuyensonghan.vn/wp-content/uploads/2025/03/whatsapp.png" alt="WhatsApp" style={{width: 30, height: 30}} />
+        <img src="/images/whatsapp.png" alt="WhatsApp" style={{width: 30, height: 30}} />
         <span className={styles.tooltip}>WhatsApp</span>
       </a>
       <a href="https://t.me/+84987654321" target="_blank" rel="noopener noreferrer" className={`${styles.button} ${styles.telegram}`} aria-label="Telegram">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="https://duthuyensonghan.vn/wp-content/uploads/2025/03/telegram.png" alt="Telegram" style={{width: 30, height: 30}} />
+        <img src="/images/telegram.png" alt="Telegram" style={{width: 30, height: 30}} />
         <span className={styles.tooltip}>Telegram</span>
       </a>
     </motion.div>

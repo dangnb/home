@@ -35,7 +35,7 @@ export default function OfficialTicketCounter() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src="https://duthuyensonghan.vn/wp-content/uploads/2025/12/Screenshot-2025-03-08-at-10.33.57%E2%80%AFAM-1.webp" 
+            src="/images/Screenshot-2025-03-08-at-10.33.57 AM-1.webp" 
             alt="Bản đồ 2Da Tickets" 
             className={styles.mapImage} 
           />

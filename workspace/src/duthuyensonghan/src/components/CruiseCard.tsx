@@ -24,12 +24,12 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
         <div className={styles.features}>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://duthuyensonghan.vn/wp-content/themes/thuatpartner-com/images/dien-tich.png" alt="Tầng" style={{width: 16, height: 16}} />
+            <img src="/images/dien-tich.png" alt="Tầng" style={{width: 16, height: 16}} />
             {floors} Tầng
           </div>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://duthuyensonghan.vn/wp-content/themes/thuatpartner-com/images/phong-ngu.png" alt="Người" style={{width: 16, height: 16}} />
+            <img src="/images/phong-ngu.png" alt="Người" style={{width: 16, height: 16}} />
             {capacity} Người
           </div>
         </div>
