@@ -150,6 +150,14 @@ export default function Navbar() {
           >
             Pháo Hoa
           </Link>
+
+          {/* Đặt Lịch */}
+          <Link
+            href="/dat-lich"
+            className={`${linkClass} ${pathname === "/dat-lich" ? styles.active : ""}`}
+          >
+            Đặt Lịch
+          </Link>
         </div>
 
         <div className={styles.rightAction}>
@@ -191,6 +199,7 @@ export default function Navbar() {
               ))}
             </div>
             <Link href="/phao-hoa" className={`${styles.navLink} ${styles.dark}`} onClick={() => setIsOpen(false)}>Pháo Hoa</Link>
+            <Link href="/dat-lich" className={`${styles.navLink} ${styles.dark}`} onClick={() => setIsOpen(false)}>Đặt Lịch</Link>
             <a href="tel:0796768636" className={styles.bookButton} onClick={() => setIsOpen(false)}>Đặt Vé Ngay</a>
           </motion.div>
         )}

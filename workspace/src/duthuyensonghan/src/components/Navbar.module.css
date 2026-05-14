@@ -4,8 +4,8 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.5rem 0;
-  transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+  padding: 1.25rem 0;
+  transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Trang chủ: trong suốt */
@@ -13,20 +13,22 @@
   background: transparent;
 }
 
-/* Trang chủ sau khi cuộn: nền trắng mờ glassmorphism */
+/* Trang chủ sau khi cuộn: nền trắng mờ glassmorphism cao cấp */
 .navbar.scrolled {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 1rem 0;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 0.85rem 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Các trang khác: nền trắng đặc */
 .navbar.solid {
   background: var(--white);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 1rem 0;
+  box-shadow: var(--shadow-sm);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .navContainer {
@@ -54,10 +56,11 @@
 }
 
 .navLink {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--white);
-  transition: color 0.3s ease;
-  font-size: 1.15rem;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
   text-decoration: none;
 }
 
@@ -84,15 +87,19 @@
 .bookButton {
   background-color: var(--primary);
   color: var(--white);
-  padding: 0.5rem 1.25rem;
-  border-radius: 4px;
-  font-weight: 700;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 0.55rem 1.25rem;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(1, 191, 147, 0.3);
 }
 
 .bookButton:hover {
   background-color: var(--primary-hover);
   transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(1, 191, 147, 0.4);
 }
 
 .menuIcon {
@@ -160,13 +167,15 @@
   position: absolute;
   top: calc(100% + 14px);
   left: 0;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
-  min-width: 230px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+  min-width: 240px;
   overflow: hidden;
   z-index: 1100;
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 
 .dropdownItem {

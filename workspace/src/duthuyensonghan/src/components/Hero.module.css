@@ -2,45 +2,155 @@
   position: relative;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   overflow: hidden;
+  min-height: 480px;
 }
 
 .heroImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  z-index: 1;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 2;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.25) 40%,
+    rgba(0, 20, 40, 0.75) 100%
+  );
+  z-index: 1;
 }
 
 .textBar {
-  background-color: var(--white);
-  padding: 1.5rem 1rem;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 2.5rem 1rem 3rem;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(1, 191, 147, 0.9);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary);
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  font-weight: 900;
+  color: #fff;
   margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+  max-width: 800px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  box-shadow: 0 4px 20px rgba(1, 191, 147, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.heroCta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(1, 191, 147, 0.65);
+}
+
+.heroCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.heroCtaSecondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.heroStats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.heroStatValue {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.heroStatLabel {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 @media (max-width: 768px) {
+  .hero {
+    min-height: 360px;
+  }
   .title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+  }
+  .heroStats {
+    gap: 1.25rem;
   }
 }
