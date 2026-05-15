@@ -5,8 +5,9 @@ import styles from "./admin.module.css";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
-  { href: "/admin/categories", label: "Danh Mục", icon: "🗂️" },
+  { href: "/admin/bookings", label: "Đặt Lịch", icon: "🎟️" },
   { href: "/admin/cruises", label: "Du Thuyền", icon: "🚢" },
+  { href: "/admin/categories", label: "Danh Mục", icon: "🗂️" },
   { href: "/admin/pricing", label: "Bài Viết Giá", icon: "💰" },
 ];
 
@@ -26,7 +27,9 @@ export default function AdminSidebar() {
         <img src="/images/logopng-1.png" alt="Logo" className={styles.logoImg} />
         <span className={styles.logoText}>Admin Panel</span>
       </div>
+
       <nav className={styles.sidebarNav}>
+        <span className={styles.navSection}>Menu chính</span>
         {navItems.map(item => (
           <Link
             key={item.href}
@@ -38,6 +41,7 @@ export default function AdminSidebar() {
           </Link>
         ))}
       </nav>
+
       <div className={styles.sidebarFooter}>
         <a href="/" target="_blank" rel="noreferrer" className={styles.viewSite}>
           🌐 Xem Website

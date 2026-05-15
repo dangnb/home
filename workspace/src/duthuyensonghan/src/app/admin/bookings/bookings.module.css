@@ -1,0 +1,92 @@
+.toolbar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.65rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+
+.searchInput:focus {
+  border-color: #01bf93;
+  box-shadow: 0 0 0 3px rgba(1, 191, 147, 0.12);
+}
+
+.filterBtns {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filterBtn:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.filterBtnActive {
+  background: #f0fdf9;
+  border-color: #01bf93;
+  color: #065f46;
+}
+
+.filterCount {
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 100px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.filterBtnActive .filterCount {
+  background: #a7f3d0;
+  color: #065f46;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.statusSelect {
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1.5px solid;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.2s;
+}
+
+.statusSelect:hover {
+  opacity: 0.85;
+}

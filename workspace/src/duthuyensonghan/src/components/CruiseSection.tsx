@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 interface Cruise {
   id: string;
+  slug?: string;
   image: string;
   title: string;
   floors: number;
@@ -27,13 +28,13 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.2 }
+    transition: { staggerChildren: 0.12 }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
 export default function CruiseSection({ id, title, subtitle, cruises, viewAllLink }: CruiseSectionProps) {
@@ -49,7 +50,7 @@ export default function CruiseSection({ id, title, subtitle, cruises, viewAllLin
         >
           <div className={styles.titleCol}>
             {id === 'khong-an-toi' && <span className={styles.badge}>Du Thuyền Không Nhà Hàng</span>}
-            {id === 'co-an-toi' && <span className={styles.badge}>Du Thuyền 5* nhà hàng, Bar…</span>}
+            {id === 'co-an-toi' && <span className={styles.badge}>Du Thuyền 5★ Nhà Hàng & Bar</span>}
             <h2 className={styles.title}>{title}</h2>
           </div>
           <div className={styles.divider} />
@@ -72,7 +73,7 @@ export default function CruiseSection({ id, title, subtitle, cruises, viewAllLin
                 capacity={cruise.capacity}
                 isSale={cruise.isSale}
                 price={cruise.price}
-                link={`#${cruise.id}`}
+                link={cruise.slug ? `/du-thuyen/${cruise.slug}` : `#${cruise.id}`}
               />
             </motion.div>
           ))}
@@ -83,15 +84,13 @@ export default function CruiseSection({ id, title, subtitle, cruises, viewAllLin
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Link href={viewAllLink} className={styles.viewAllButton}>
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: '8px', verticalAlign: 'middle'}}>
-              <rect y="0" width="18" height="2.5" rx="1.25" fill="currentColor"/>
-              <rect y="5.75" width="18" height="2.5" rx="1.25" fill="currentColor"/>
-              <rect y="11.5" width="18" height="2.5" rx="1.25" fill="currentColor"/>
+            Xem Tất Cả Du Thuyền & Bảng Giá
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginLeft:'8px'}}>
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Xem Thêm Du Thuyền
           </Link>
         </motion.div>
       </div>

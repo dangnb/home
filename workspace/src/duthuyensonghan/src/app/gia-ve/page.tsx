@@ -1,39 +1,32 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { getCruises } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Giá Vé Du Thuyền Sông Hàn Đà Nẵng 2025 – 2Da Tickets",
   description: "Bảng giá vé du thuyền sông Hàn Đà Nẵng cập nhật mới nhất. Giảm ngay 30% khi đặt tại 2Da Tickets.",
 };
 
-const allCruises = [
-  { name: "Du Thuyền Duy Khang", slug: "du-thuyen-duy-khang", original: "200.000 ₫", sale: "150.000 ₫", image: "/images/4u-6-300x188.jpg", type: "regular" },
-  { name: "Du Thuyền Bảo Anh", slug: "du-thuyen-bao-anh", original: "200.000 ₫", sale: "150.000 ₫", image: "/images/DU-THUYEN-BAO-ANH4-300x225.jpg", type: "regular" },
-  { name: "Du Thuyền Tây Bắc", slug: "du-thuyen-tay-bac", original: null, sale: "150.000 ₫", image: "/images/DU-THUYEN-TAY-BAC3-300x225.jpg", type: "regular" },
-  { name: "Du Thuyền Mỹ Xuân", slug: "du-thuyen-my-xuan", original: null, sale: "150.000 ₫", image: "/images/DU-THUYEN-MY-XUAN-300x225.jpg", type: "regular" },
-  { name: "Du Thuyền Sweet Time", slug: "du-thuyen-sweettime", original: "200.000 ₫", sale: "150.000 ₫", image: "/images/DU-THUYEN-SWEETTIME6-300x225.jpg", type: "regular" },
-  { name: "Tàu Rồng Sông Hàn", slug: "tau-rong-song-han", original: "200.000 ₫", sale: "150.000 ₫", image: "/images/TAU-RONG-SONG-HAN-300x169.jpg", type: "dinner" },
-  { name: "Du Thuyền Sông Hàn 4U", slug: "du-thuyen-4u", original: "225.000 ₫", sale: "185.000 ₫", image: "/images/4u-6-300x188.jpg", type: "dinner" },
-  { name: "DANANG DRAGON CRUISE", slug: "du-thuyen-danang-dragon-cruise", original: "250.000 ₫", sale: "200.000 ₫", image: "/images/DA-NANG-CRUSIE-2-300x225.jpg", type: "dinner" },
-  { name: "POSEIDON CRUISE", slug: "du-thuyen-poseidon-cruise", original: "400.000 ₫", sale: "350.000 ₫", image: "/images/DU-THUYEN-POSEIDON-300x170.jpg", type: "dinner" },
-  { name: "Thảo Nhi Yatch", slug: "thao-nhi-yatch", original: "1.500.000 ₫", sale: "900.000 ₫", image: "/images/thaonhi_yatch1-300x169.webp", type: "vip" },
-];
+function CruiseCard({ cruise }: {
+  cruise: { name: string; slug: string; originalPrice: string; salePrice: string; mainImage: string; categoryId: string }
+}) {
+  const isVip = cruise.categoryId === "vip";
+  const hasSale = cruise.originalPrice && cruise.originalPrice !== cruise.salePrice;
 
-function CruiseCard({ cruise }: { cruise: typeof allCruises[0] }) {
   return (
-    <Link href={`/du-thuyen/${cruise.slug}`} className={`${styles.card} ${cruise.type === 'vip' ? styles.vipCard : ''}`}>
+    <Link href={`/du-thuyen/${cruise.slug}`} className={`${styles.card} ${isVip ? styles.vipCard : ""}`}>
       <div className={styles.cardImg}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={cruise.image} alt={cruise.name} />
-        {cruise.original && <span className={styles.saleBadge}>Sale!</span>}
-        {cruise.type === 'vip' && <span className={styles.vipBadge}>⭐ VIP</span>}
+        <img src={cruise.mainImage} alt={cruise.name} />
+        {hasSale && <span className={styles.saleBadge}>Sale!</span>}
+        {isVip && <span className={styles.vipBadge}>⭐ VIP</span>}
       </div>
       <div className={styles.cardBody}>
         <h3 className={styles.cardName}>{cruise.name}</h3>
         <div className={styles.cardPrice}>
-          {cruise.original && <span className={styles.originalPrice}>{cruise.original}</span>}
-          <span className={cruise.type === 'vip' ? styles.salePriceVip : styles.salePrice}>{cruise.sale}</span>
+          {hasSale && <span className={styles.originalPrice}>{cruise.originalPrice}</span>}
+          <span className={isVip ? styles.salePriceVip : styles.salePrice}>{cruise.salePrice}</span>
         </div>
         <span className={styles.cardCta}>Xem chi tiết →</span>
       </div>
@@ -42,9 +35,10 @@ function CruiseCard({ cruise }: { cruise: typeof allCruises[0] }) {
 }
 
 export default function GiaVePage() {
-  const regular = allCruises.filter(c => c.type === "regular");
-  const dinner = allCruises.filter(c => c.type === "dinner");
-  const vip = allCruises.filter(c => c.type === "vip");
+  const allCruises = getCruises();
+  const regular = allCruises.filter(c => c.categoryId === "regular");
+  const dinner = allCruises.filter(c => c.categoryId === "dinner");
+  const vip = allCruises.filter(c => c.categoryId === "vip");
 
   return (
     <main className={styles.page}>
@@ -83,48 +77,54 @@ export default function GiaVePage() {
       <div className={`container ${styles.content}`}>
 
         {/* Không ăn tối */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionBadge}>Du Thuyền Không Nhà Hàng</div>
-            <h2 className={styles.sectionTitle}>Giá Vé Du Thuyền Không Ăn Tối</h2>
-            <p className={styles.sectionDesc}>Giá niêm yết tại bến: <strong>150.000đ</strong>. Đặt tại 2Da Tickets được giảm còn:</p>
-            <div className={styles.priceTags}>
-              <span className={styles.priceTag}>Chuyến thường: <strong>99.000đ</strong></span>
-              <span className={styles.priceTag}>Cầu Rồng phun lửa: <strong>120.000đ</strong></span>
+        {regular.length > 0 && (
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionBadge}>Du Thuyền Không Nhà Hàng</div>
+              <h2 className={styles.sectionTitle}>Giá Vé Du Thuyền Không Ăn Tối</h2>
+              <p className={styles.sectionDesc}>Giá niêm yết tại bến: <strong>150.000đ</strong>. Đặt tại 2Da Tickets được giảm còn:</p>
+              <div className={styles.priceTags}>
+                <span className={styles.priceTag}>Chuyến thường: <strong>99.000đ</strong></span>
+                <span className={styles.priceTag}>Cầu Rồng phun lửa: <strong>120.000đ</strong></span>
+              </div>
             </div>
-          </div>
-          <div className={styles.grid}>
-            {regular.map(c => <CruiseCard key={c.slug} cruise={c} />)}
-          </div>
-        </section>
+            <div className={styles.grid}>
+              {regular.map(c => <CruiseCard key={c.slug} cruise={c} />)}
+            </div>
+          </section>
+        )}
 
         {/* Có ăn tối */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionBadge}>Du Thuyền 5★ Nhà Hàng</div>
-            <h2 className={styles.sectionTitle}>Giá Vé Du Thuyền Có Ăn Tối</h2>
-            <p className={styles.sectionDesc}>Phù hợp cho tiệc công ty, gala dinner, hẹn hò. Chia làm 2 loại:</p>
-            <div className={styles.priceTags}>
-              <span className={styles.priceTag}>Suất menu: <strong>300.000đ – 600.000đ</strong></span>
-              <span className={styles.priceTag}>Buffet: <strong>600.000đ – 1.000.000đ</strong></span>
+        {dinner.length > 0 && (
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionBadge}>Du Thuyền 5★ Nhà Hàng</div>
+              <h2 className={styles.sectionTitle}>Giá Vé Du Thuyền Có Ăn Tối</h2>
+              <p className={styles.sectionDesc}>Phù hợp cho tiệc công ty, gala dinner, hẹn hò. Chia làm 2 loại:</p>
+              <div className={styles.priceTags}>
+                <span className={styles.priceTag}>Suất menu: <strong>300.000đ – 600.000đ</strong></span>
+                <span className={styles.priceTag}>Buffet: <strong>600.000đ – 1.000.000đ</strong></span>
+              </div>
             </div>
-          </div>
-          <div className={styles.grid}>
-            {dinner.map(c => <CruiseCard key={c.slug} cruise={c} />)}
-          </div>
-        </section>
+            <div className={styles.grid}>
+              {dinner.map(c => <CruiseCard key={c.slug} cruise={c} />)}
+            </div>
+          </section>
+        )}
 
         {/* VIP */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionBadge} style={{ background: "linear-gradient(135deg,#d4af37,#f5c842)", color: "#333" }}>⭐ Đẳng Cấp VIP</div>
-            <h2 className={styles.sectionTitle}>Du Thuyền Hạng VIP – Biệt Thự Di Động</h2>
-            <p className={styles.sectionDesc}>Không gian riêng tư chỉ 9 khách – dịch vụ 5 sao độc quyền trên sông Hàn</p>
-          </div>
-          <div className={styles.grid}>
-            {vip.map(c => <CruiseCard key={c.slug} cruise={c} />)}
-          </div>
-        </section>
+        {vip.length > 0 && (
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionBadge} style={{ background: "linear-gradient(135deg,#d4af37,#f5c842)", color: "#333" }}>⭐ Đẳng Cấp VIP</div>
+              <h2 className={styles.sectionTitle}>Du Thuyền Hạng VIP – Biệt Thự Di Động</h2>
+              <p className={styles.sectionDesc}>Không gian riêng tư – dịch vụ 5 sao độc quyền trên sông Hàn</p>
+            </div>
+            <div className={styles.grid}>
+              {vip.map(c => <CruiseCard key={c.slug} cruise={c} />)}
+            </div>
+          </section>
+        )}
 
         {/* Pháo hoa */}
         <section className={styles.fireworksSection}>

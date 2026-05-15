@@ -1,18 +1,18 @@
 .card {
   background: var(--white);
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 48px rgba(1, 191, 147, 0.16), 0 6px 16px rgba(0,0,0,0.1);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Image */
@@ -27,11 +27,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card:hover .image {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 /* Gradient overlay at bottom of image */
@@ -70,12 +70,13 @@
 }
 
 .title {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-dark);
   line-height: 1.4;
   margin: 0;
-  transition: color 0.2s;
+  transition: color 0.3s ease;
+  letter-spacing: -0.01em;
 }
 
 .card:hover .title {
@@ -113,33 +114,59 @@
 }
 
 .priceLabel {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: #aaa;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.15rem;
 }
 
 .price {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--primary);
   letter-spacing: -0.01em;
 }
 
-/* Book CTA button overlay on hover */
+/* Book CTA button */
 .bookBtn {
   display: inline-block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--primary);
-  border: 1.5px solid var(--primary);
-  padding: 0.4rem 1rem;
+  color: #fff;
+  background: var(--primary);
+  padding: 0.4rem 0.9rem;
   border-radius: 100px;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(1,191,147,0.3);
 }
 
 .bookBtn:hover {
-  background: var(--primary);
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Image overlay CTA */
+.imageOverlayBtn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(1,191,147,0.92) 0%, transparent 100%);
   color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 1.5rem 1rem 0.75rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  letter-spacing: 0.03em;
+}
+
+.card:hover .imageOverlayBtn {
+  opacity: 1;
+  transform: translateY(0);
 }
 

@@ -114,3 +114,59 @@ export function getPricing(): Pricing {
 export function savePricing(data: Pricing): void {
   writeJSON("pricing.json", data);
 }
+
+// ── Bookings ─────────────────────────────────────────
+export type BookingStatus = "new" | "confirmed" | "cancelled";
+
+export interface Booking {
+  id: string;
+  cruiseSlug: string;
+  cruiseName: string;
+  customerName: string;
+  phone: string;
+  email: string;
+  date: string;        // ISO date string YYYY-MM-DD
+  time: string;        // e.g. "17:30"
+  guests: number;
+  note: string;
+  status: BookingStatus;
+  createdAt: string;   // ISO datetime
+}
+
+export function getBookings(): Booking[] {
+  return readJSON<Booking[]>("bookings.json");
+}
+
+export function saveBookings(data: Booking[]): void {
+  writeJSON("bookings.json", data);
+}
+
+export function createBooking(booking: Omit<Booking, "id" | "createdAt" | "status">): Booking {
+  const all = getBookings();
+  const newBooking: Booking = {
+    ...booking,
+    id: `BK${Date.now()}`,
+    status: "new",
+    createdAt: new Date().toISOString(),
+  };
+  all.unshift(newBooking); // newest first
+  saveBookings(all);
+  return newBooking;
+}
+
+export function updateBookingStatus(id: string, status: BookingStatus): boolean {
+  const all = getBookings();
+  const idx = all.findIndex(b => b.id === id);
+  if (idx === -1) return false;
+  all[idx].status = status;
+  saveBookings(all);
+  return true;
+}
+
+export function deleteBooking(id: string): boolean {
+  const all = getBookings();
+  const filtered = all.filter(b => b.id !== id);
+  if (filtered.length === all.length) return false;
+  saveBookings(filtered);
+  return true;
+}
