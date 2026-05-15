@@ -1,0 +1,9 @@
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.csproj.AssemblyReference.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.AssemblyInfoInputs.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.AssemblyInfo.cs
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.csproj.CoreCompileInputs.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.MvcApplicationPartsAssemblyInfo.cs
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.MvcApplicationPartsAssemblyInfo.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.API\obj\Debug\net10.0\SalesManagement.API.sourcelink.json

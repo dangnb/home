@@ -1,0 +1,16 @@
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.csproj.AssemblyReference.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.AssemblyInfoInputs.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.AssemblyInfo.cs
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.csproj.CoreCompileInputs.cache
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.sourcelink.json
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\bin\Debug\net10.0\SalesManagement.Application.deps.json
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\bin\Debug\net10.0\SalesManagement.Application.dll
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\bin\Debug\net10.0\SalesManagement.Application.pdb
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\bin\Debug\net10.0\SalesManagement.Domain.dll
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\bin\Debug\net10.0\SalesManagement.Domain.pdb
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesMan.0A0B8F87.Up2Date
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.dll
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\refint\SalesManagement.Application.dll
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\SalesManagement.Application.pdb
+D:\GIT\HOME\job_out\workspace\src\banhang\SalesManagement.Application\obj\Debug\net10.0\ref\SalesManagement.Application.dll
