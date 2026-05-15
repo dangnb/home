@@ -9,9 +9,10 @@ import BookingForm from "@/components/BookingForm";
 interface Props {
   cruise: Cruise;
   relatedCruises: Cruise[];
+  timeSlots?: string[];
 }
 
-export default function CruiseDetailClient({ cruise, relatedCruises }: Props) {
+export default function CruiseDetailClient({ cruise, relatedCruises, timeSlots }: Props) {
   const [activeImg, setActiveImg] = useState(0);
   const [showBooking, setShowBooking] = useState(false);
 
@@ -177,7 +178,7 @@ export default function CruiseDetailClient({ cruise, relatedCruises }: Props) {
                     style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: "1.1rem" }}
                   >✕</button>
                 </div>
-                <BookingForm cruiseSlug={cruise.slug} cruiseName={cruise.name} />
+                <BookingForm cruiseSlug={cruise.slug} cruiseName={cruise.name} timeSlots={timeSlots} />
               </div>
             )}
           </div>

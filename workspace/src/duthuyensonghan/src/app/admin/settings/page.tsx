@@ -13,13 +13,14 @@ interface SiteSettings {
   seoTitle: string; seoDescription: string; seoKeywords: string;
   footerTaglines: string[];
   copyright: string;
+  departureSlots: string[];
 }
 
 export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings | null>(null);
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer">("contact");
+  const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots">("contact");
 
   useEffect(() => {
     fetch("/api/settings").then(r => r.json()).then(setForm);
@@ -60,6 +61,7 @@ export default function SettingsPage() {
     { id: "map",     label: "📍 Bản đồ",       icon: "📍" },
     { id: "seo",     label: "🔍 SEO",          icon: "🔍" },
     { id: "footer",  label: "📄 Footer",       icon: "📄" },
+    { id: "slots",   label: "🕐 Giờ xuất bến", icon: "🕐" },
   ] as const;
 
   return (
@@ -119,7 +121,7 @@ export default function SettingsPage() {
                     placeholder="0796768636" />
                 </div>
                 <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                  Hiển thị: {form.hotline ? form.hotline.replace(/(\d{4})(\d{3})(\d{3})/, "$1.$2.$3") : "—"}
+                  Hiển thị: {form.hotline ? form.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3") : "—"}
                 </span>
               </div>
               <div className={styles.formField}>
@@ -368,6 +370,78 @@ export default function SettingsPage() {
                   onClick={() => set("footerTaglines", [...form.footerTaglines, ""])}>
                   + Thêm dòng
                 </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Tab: Giờ xuất bến ── */}
+        {activeTab === "slots" && (
+          <div className={styles.formCard}>
+            <h3 className={styles.cardSectionTitle}>🕐 Cấu Hình Giờ Xuất Bến</h3>
+            <p style={{ fontSize: "0.82rem", color: "#64748b", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+              Danh sách các chuyến xuất bến hiển thị trong form đặt lịch. Mỗi dòng là một lựa chọn.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {(form.departureSlots ?? []).map((slot, i) => (
+                <div key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                  <span style={{
+                    width: "26px", height: "26px", borderRadius: "50%",
+                    background: "#01bf93", color: "#fff", fontSize: "0.72rem",
+                    fontWeight: 800, display: "flex", alignItems: "center",
+                    justifyContent: "center", flexShrink: 0,
+                  }}>{i + 1}</span>
+                  <input
+                    value={slot}
+                    onChange={e => {
+                      const arr = [...(form.departureSlots ?? [])];
+                      arr[i] = e.target.value;
+                      set("departureSlots", arr);
+                    }}
+                    placeholder="17:00 – Chuyến chiều"
+                    style={{
+                      flex: 1, padding: "0.65rem 0.85rem",
+                      border: "1.5px solid #e2e8f0", borderRadius: "8px",
+                      fontSize: "0.875rem", outline: "none", fontFamily: "inherit",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => set("departureSlots", (form.departureSlots ?? []).filter((_, idx) => idx !== i))}
+                    style={{
+                      width: "34px", height: "34px", border: "1px solid #fecaca",
+                      borderRadius: "8px", background: "#fff", color: "#ef4444",
+                      cursor: "pointer", flexShrink: 0, fontSize: "0.9rem",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}
+                  >✕</button>
+                </div>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className={styles.btnSecondary}
+              style={{ marginTop: "0.75rem", fontSize: "0.875rem" }}
+              onClick={() => set("departureSlots", [...(form.departureSlots ?? []), ""])}
+            >
+              + Thêm chuyến
+            </button>
+
+            {/* Preview */}
+            <div className={sStyles.preview} style={{ marginTop: "1.5rem" }}>
+              <div className={sStyles.previewTitle}>Xem trước trong form đặt lịch</div>
+              <div style={{ padding: "1rem" }}>
+                <select style={{
+                  width: "100%", padding: "0.65rem 0.85rem",
+                  border: "1.5px solid #e2e8f0", borderRadius: "8px",
+                  fontSize: "0.875rem", background: "#fff",
+                }}>
+                  {(form.departureSlots ?? []).map((slot, i) => (
+                    <option key={i}>{slot}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

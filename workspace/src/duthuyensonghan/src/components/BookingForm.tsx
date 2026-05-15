@@ -6,18 +6,24 @@ import styles from "./BookingForm.module.css";
 interface BookingFormProps {
   cruiseSlug?: string;
   cruiseName?: string;
-  /** If true, renders as a full-page standalone form */
   standalone?: boolean;
+  timeSlots?: string[];
 }
 
-const TIME_SLOTS = [
+const DEFAULT_SLOTS = [
   "17:00 – Chuyến chiều",
   "17:30 – Chuyến chiều tối",
   "19:00 – Chuyến tối",
   "19:30 – Chuyến tối muộn",
 ];
 
-export default function BookingForm({ cruiseSlug = "", cruiseName = "", standalone = false }: BookingFormProps) {
+export default function BookingForm({
+  cruiseSlug = "",
+  cruiseName = "",
+  standalone = false,
+  timeSlots,
+}: BookingFormProps) {
+  const TIME_SLOTS = (timeSlots && timeSlots.length > 0) ? timeSlots : DEFAULT_SLOTS;
   const [form, setForm] = useState({
     customerName: "",
     phone: "",

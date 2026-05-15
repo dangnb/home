@@ -4,6 +4,22 @@ import { ReactNodeViewRenderer, NodeViewWrapper } from "@tiptap/react";
 import { useState, useRef, useEffect } from "react";
 import styles from "./ImageExtension.module.css";
 
+// Extend TipTap commands type
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    image: {
+      setImage: (attrs: {
+        src: string;
+        alt?: string;
+        align?: ImageAlign;
+        effect?: ImageEffect;
+        width?: string;
+        caption?: string;
+      }) => ReturnType;
+    };
+  }
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────
 export type ImageAlign = "left" | "center" | "right" | "full";
 export type ImageEffect = "none" | "rounded" | "circle" | "shadow" | "border" | "grayscale" | "sepia";
@@ -257,5 +273,18 @@ export const ImageWithEffects = Node.create({
 
   addNodeView() {
     return ReactNodeViewRenderer(ImageNodeView);
+  },
+
+  addCommands() {
+    return {
+      setImage:
+        (attrs: { src: string; alt?: string; align?: ImageAlign; effect?: ImageEffect; width?: string; caption?: string }) =>
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs,
+          });
+        },
+    };
   },
 });

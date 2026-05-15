@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getCruises, getPosts, getPostBySlug } from "@/lib/db";
+import { getCruises, getPosts, getPostBySlug, getSettings } from "@/lib/db";
 import { notFound } from "next/navigation";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -63,6 +63,9 @@ export default async function PostDetailPage({
 
   // Featured cruises for sidebar
   const featuredCruises = allCruises.slice(0, 4);
+
+  const s = getSettings();
+  const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
 
   return (
     <main className={styles.page}>
@@ -214,7 +217,7 @@ export default async function PostDetailPage({
             <div className={styles.sideWidgetTitle}>🎟️ Đặt Lịch Nhanh</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", padding: "1rem" }}>
               <a
-                href="tel:0796768636"
+                href={`tel:${s.hotline}`}
                 style={{
                   display: "block", textAlign: "center",
                   background: "linear-gradient(135deg,var(--primary),#00a87c)",
@@ -223,10 +226,10 @@ export default async function PostDetailPage({
                   boxShadow: "0 3px 12px rgba(1,191,147,0.3)",
                 }}
               >
-                📞 Gọi: 0796.768.636
+                📞 Gọi: {phoneDisplay}
               </a>
               <a
-                href="https://zalo.me/0796768636"
+                href={s.zalo}
                 target="_blank"
                 rel="noreferrer"
                 style={{

@@ -259,6 +259,9 @@ export interface SiteSettings {
   // Nội dung footer
   footerTaglines: string[];
   copyright: string;
+
+  // Giờ xuất bến
+  departureSlots: string[];
 }
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -286,6 +289,12 @@ const DEFAULT_SETTINGS: SiteSettings = {
     "✅ Trực tiếp dẫn lên du thuyền.",
   ],
   copyright: "© Copyright 2Da Tickets Du Thuyền Sông Hàn Đà Nẵng",
+  departureSlots: [
+    "17:00 – Chuyến chiều",
+    "17:30 – Chuyến chiều tối",
+    "19:00 – Chuyến tối",
+    "19:30 – Chuyến tối muộn",
+  ],
 };
 
 export function getSettings(): SiteSettings {

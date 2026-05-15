@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BookingForm from "@/components/BookingForm";
 import styles from "./page.module.css";
+import { getSettings } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Đặt Lịch Du Thuyền Sông Hàn – 2Da Tickets",
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function DatLichPage() {
+  const s = getSettings();
+  const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
   return (
     <main className={styles.page}>
       {/* Hero */}
@@ -26,7 +29,7 @@ export default function DatLichPage() {
         <div className={styles.grid}>
           {/* Left: Form */}
           <div>
-            <BookingForm standalone />
+            <BookingForm standalone timeSlots={s.departureSlots} />
           </div>
 
           {/* Right: Info */}
@@ -34,8 +37,8 @@ export default function DatLichPage() {
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>📞 Liên hệ trực tiếp</h3>
               <p className={styles.infoDesc}>Nếu cần tư vấn ngay, gọi hoặc nhắn tin cho chúng tôi:</p>
-              <a href="tel:0796768636" className={styles.infoCallBtn}>0796.768.636</a>
-              <a href="https://zalo.me/0796768636" target="_blank" rel="noreferrer" className={styles.infoZaloBtn}>
+              <a href={`tel:${s.hotline}`} className={styles.infoCallBtn}>{phoneDisplay}</a>
+              <a href={s.zalo} target="_blank" rel="noreferrer" className={styles.infoZaloBtn}>
                 💬 Nhắn Zalo
               </a>
             </div>
@@ -60,25 +63,22 @@ export default function DatLichPage() {
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>🕐 Giờ khởi hành</h3>
               <ul className={styles.timeList}>
-                {[
-                  { time: "17:00", label: "Chuyến chiều" },
-                  { time: "17:30", label: "Chuyến chiều tối" },
-                  { time: "19:00", label: "Chuyến tối" },
-                  { time: "19:30", label: "Chuyến tối muộn" },
-                ].map(t => (
-                  <li key={t.time} className={styles.timeItem}>
-                    <span className={styles.timeBadge}>{t.time}</span>
-                    <span>{t.label}</span>
-                  </li>
-                ))}
+                {s.departureSlots.map((slot, i) => {
+                  const [time, ...labelParts] = slot.split("–").map(p => p.trim());
+                  const label = labelParts.join("–").trim() || slot;
+                  return (
+                    <li key={i} className={styles.timeItem}>
+                      <span className={styles.timeBadge}>{time}</span>
+                      <span>{label}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>📍 Địa điểm đón khách</h3>
-              <p className={styles.infoDesc}>
-                Cảng Sông Thu cũ – dưới chân <strong>Cầu Trần Thị Lý</strong>, Đà Nẵng.
-              </p>
+              <p className={styles.infoDesc}>{s.address}</p>
               <p className={styles.infoDesc} style={{marginTop:'0.5rem'}}>
                 Nhân viên sẽ trực tiếp đón và dẫn quý khách lên du thuyền.
               </p>

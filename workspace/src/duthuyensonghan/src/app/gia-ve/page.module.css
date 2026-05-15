@@ -243,7 +243,7 @@
   display: block; text-align: center;
   background: linear-gradient(135deg,var(--primary),#00a87c);
   color: #fff; font-weight: 700; font-size: 0.95rem;
-  padding: 0.75rem; border-radius: 8px; margin: 0 1rem;
+  padding: 0.75rem; border-radius: 8px; margin: 1rem 1rem 0;
   box-shadow: 0 3px 12px rgba(1,191,147,0.3);
   transition: transform 0.2s;
 }
@@ -252,7 +252,7 @@
 .sideZaloBtn {
   display: block; text-align: center;
   background: #0068FF; color: #fff; font-weight: 700; font-size: 0.9rem;
-  padding: 0.7rem; border-radius: 8px; margin: 0 1rem;
+  padding: 0.7rem; border-radius: 8px; margin: 0.6rem 1rem 0;
   transition: background 0.2s;
 }
 .sideZaloBtn:hover { background: #0052cc; }
@@ -260,7 +260,7 @@
 .sideBookBtn {
   display: block; text-align: center;
   background: #fff; color: var(--primary); font-weight: 700; font-size: 0.9rem;
-  padding: 0.7rem; border-radius: 8px; margin: 0 1rem 1rem;
+  padding: 0.7rem; border-radius: 8px; margin: 0.6rem 1rem 1rem;
   border: 1.5px solid var(--primary);
   transition: background 0.2s;
 }

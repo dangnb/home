@@ -5,29 +5,25 @@ import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-const regularCruises = [
-  { label: "Du Thuyền Bảo Anh", href: "/du-thuyen/du-thuyen-bao-anh" },
-  { label: "Du Thuyền Duy Khang", href: "/du-thuyen/du-thuyen-duy-khang" },
-  { label: "Du Thuyền Mỹ Xuân", href: "/du-thuyen/du-thuyen-my-xuan" },
-  { label: "Du Thuyền 4U", href: "/du-thuyen/du-thuyen-4u" },
-  { label: "Du Thuyền Sweet Time", href: "/du-thuyen/du-thuyen-sweettime" },
-  { label: "Du Thuyền Tây Bắc", href: "/du-thuyen/du-thuyen-tay-bac" },
-];
-
-const dinnerCruises = [
-  { label: "Du thuyền POSEIDON", href: "/du-thuyen/du-thuyen-poseidon-cruise" },
-  { label: "Du Thuyền Thảo Nhi Yatch", href: "/du-thuyen/thao-nhi-yatch" },
-  { label: "Du Thuyền Dragon Cruise", href: "/du-thuyen/du-thuyen-danang-dragon-cruise" },
-  { label: "Tàu Rồng Sông Hàn", href: "/du-thuyen/tau-rong-song-han" },
-];
+interface NavCruise { label: string; href: string; }
 
 const thongTinLinks = [
   { label: "Giá Vé Du Thuyền Sông Hàn", href: "/gia-ve" },
 ];
 
-export default function Navbar({ hotline }: { hotline?: string }) {
+interface NavbarProps {
+  hotline?: string;
+  regularCruises?: NavCruise[];
+  dinnerCruises?: NavCruise[];
+}
+
+export default function Navbar({
+  hotline,
+  regularCruises = [],
+  dinnerCruises = [],
+}: NavbarProps) {
   const phone = hotline ?? "0796768636";
-  const phoneDisplay = phone.replace(/(\d{4})(\d{3})(\d{3})/, "$1.$2.$3");
+  const phoneDisplay = phone.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);

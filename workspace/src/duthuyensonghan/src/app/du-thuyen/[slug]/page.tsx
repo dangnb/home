@@ -1,4 +1,4 @@
-import { getCruises, getCruiseBySlug, type Cruise } from "@/lib/db";
+import { getCruises, getCruiseBySlug, type Cruise, getSettings } from "@/lib/db";
 import { notFound } from "next/navigation";
 import CruiseDetailClient from "./CruiseDetailClient";
 import type { Metadata } from "next";
@@ -36,5 +36,7 @@ export default async function CruiseDetailPage({
     .map(s => allCruises.find(c => c.slug === s))
     .filter((c): c is Cruise => !!c);
 
-  return <CruiseDetailClient cruise={cruise} relatedCruises={relatedCruises} />;
+  const settings = getSettings();
+
+  return <CruiseDetailClient cruise={cruise} relatedCruises={relatedCruises} timeSlots={settings.departureSlots} />;
 }

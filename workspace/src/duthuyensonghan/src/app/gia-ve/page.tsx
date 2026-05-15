@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getCruises, getPricing } from "@/lib/db";
+import { getCruises, getPricing, getPosts, getSettings } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Giá Vé Du Thuyền Sông Hàn Đà Nẵng 2025 – 2Da Tickets",
@@ -11,14 +11,20 @@ export const metadata: Metadata = {
 export default function GiaVePage() {
   const allCruises = getCruises();
   const pricing = getPricing();
+  const s = getSettings();
+  const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
 
   const regular = allCruises.filter(c => c.categoryId === "regular");
   const dinner  = allCruises.filter(c => c.categoryId === "dinner");
   const vip     = allCruises.filter(c => c.categoryId === "vip");
 
+  // 5 bài viết mới nhất đã xuất bản
+  const recentPosts = getPosts()
+    .filter(p => p.status === "published")
+    .slice(0, 5);
+
   // Featured cruises for sidebar (first 4)
   const featured = allCruises.slice(0, 4);
-
   return (
     <main className={styles.page}>
       {/* ── HERO ── */}
@@ -162,8 +168,8 @@ export default function GiaVePage() {
             <h3 className={styles.ctaTitle}>Cần tư vấn thêm? Liên hệ ngay!</h3>
             <p className={styles.ctaDesc}>Nhân viên 2Da Tickets sẽ tư vấn đúng nhu cầu và giá vé phù hợp nhất cho bạn.</p>
             <div className={styles.ctaBtns}>
-              <a href="tel:0796768636" className={styles.btnCall}>📞 Gọi Ngay: 0796.768.636</a>
-              <a href="https://zalo.me/0796768636" target="_blank" rel="noreferrer" className={styles.btnZalo}>💬 Nhắn Zalo</a>
+              <a href={`tel:${s.hotline}`} className={styles.btnCall}>📞 Gọi Ngay: {phoneDisplay}</a>
+              <a href={s.zalo} target="_blank" rel="noreferrer" className={styles.btnZalo}>💬 Nhắn Zalo</a>
             </div>
           </section>
 
@@ -189,10 +195,10 @@ export default function GiaVePage() {
           <div className={styles.sideWidget}>
             <div className={styles.sideWidgetTitle}>🎟️ Đặt Lịch Nhanh</div>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-              <a href="tel:0796768636" className={styles.sideCallBtn}>
-                📞 Gọi: 0796.768.636
+              <a href={`tel:${s.hotline}`} className={styles.sideCallBtn}>
+                📞 Gọi: {phoneDisplay}
               </a>
-              <a href="https://zalo.me/0796768636" target="_blank" rel="noreferrer" className={styles.sideZaloBtn}>
+              <a href={s.zalo} target="_blank" rel="noreferrer" className={styles.sideZaloBtn}>
                 💬 Nhắn Zalo ngay
               </a>
               <Link href="/dat-lich" className={styles.sideBookBtn}>
@@ -205,17 +211,16 @@ export default function GiaVePage() {
           <div className={styles.sideWidget}>
             <div className={styles.sideWidgetTitle}>📰 Bài Viết Mới Cập Nhật</div>
             <div className={styles.sidePostList}>
-              {[
-                { title: "Giá Vé Du Thuyền Sông Hàn 2025", href: "/gia-ve" },
-                { title: "Kinh nghiệm đặt vé tránh bị lừa đảo", href: "/gia-ve" },
-                { title: "Top du thuyền nhà hàng tốt nhất", href: "/gia-ve" },
-                { title: "Hướng dẫn di chuyển đến bến du thuyền", href: "/gia-ve" },
-              ].map((p, i) => (
-                <Link key={i} href={p.href} className={styles.sidePost}>
+              {recentPosts.length > 0 ? recentPosts.map(p => (
+                <Link key={p.id} href={`/bai-viet/${p.slug}`} className={styles.sidePost}>
                   <div className={styles.sidePostDot} />
                   <span>{p.title}</span>
                 </Link>
-              ))}
+              )) : (
+                <p style={{ padding: "0.75rem 1.1rem", fontSize: "0.82rem", color: "#94a3b8" }}>
+                  Chưa có bài viết nào.
+                </p>
+              )}
             </div>
           </div>
 

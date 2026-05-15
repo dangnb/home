@@ -4,7 +4,7 @@ import type { SiteSettings } from "@/lib/db";
 export default function Footer({ settings }: { settings: SiteSettings }) {
   const s = settings;
 
-  const hotlineDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3})/, "$1 $2 $3");
+  const hotlineDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1 $2 $3");
 
   return (
     <footer className={styles.footer}>
