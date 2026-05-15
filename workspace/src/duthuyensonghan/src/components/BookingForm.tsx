@@ -82,7 +82,7 @@ export default function BookingForm({ cruiseSlug = "", cruiseName = "", standalo
           </div>
           <div className={styles.successInfoItem}>
             <span>📅 Ngày</span>
-            <strong>{new Date(form.date).toLocaleDateString("vi-VN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</strong>
+            <strong>{(() => { const d = new Date(form.date); return `${d.getDate().toString().padStart(2,"0")}/${(d.getMonth()+1).toString().padStart(2,"0")}/${d.getFullYear()}`; })()}</strong>
           </div>
           <div className={styles.successInfoItem}>
             <span>🕐 Giờ</span>

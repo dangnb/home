@@ -25,7 +25,9 @@ const thongTinLinks = [
   { label: "Giá Vé Du Thuyền Sông Hàn", href: "/gia-ve" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ hotline }: { hotline?: string }) {
+  const phone = hotline ?? "0796768636";
+  const phoneDisplay = phone.replace(/(\d{4})(\d{3})(\d{3})/, "$1.$2.$3");
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -151,6 +153,14 @@ export default function Navbar() {
             Pháo Hoa
           </Link>
 
+          {/* Bài Viết */}
+          <Link
+            href="/bai-viet"
+            className={`${linkClass} ${pathname.startsWith("/bai-viet") ? styles.active : ""}`}
+          >
+            Bài Viết
+          </Link>
+
           {/* Đặt Lịch */}
           <Link
             href="/dat-lich"
@@ -161,8 +171,8 @@ export default function Navbar() {
         </div>
 
         <div className={styles.rightAction}>
-          <a href="tel:0796768636" className={styles.bookButton}>
-            0796.768.636
+          <a href={`tel:${phone}`} className={styles.bookButton}>
+            {phoneDisplay}
           </a>
         </div>
 
@@ -199,8 +209,9 @@ export default function Navbar() {
               ))}
             </div>
             <Link href="/phao-hoa" className={`${styles.navLink} ${styles.dark}`} onClick={() => setIsOpen(false)}>Pháo Hoa</Link>
+            <Link href="/bai-viet" className={`${styles.navLink} ${styles.dark}`} onClick={() => setIsOpen(false)}>Bài Viết</Link>
             <Link href="/dat-lich" className={`${styles.navLink} ${styles.dark}`} onClick={() => setIsOpen(false)}>Đặt Lịch</Link>
-            <a href="tel:0796768636" className={styles.bookButton} onClick={() => setIsOpen(false)}>Đặt Vé Ngay</a>
+            <a href={`tel:${phone}`} className={styles.bookButton} onClick={() => setIsOpen(false)}>Đặt Vé Ngay</a>
           </motion.div>
         )}
       </AnimatePresence>

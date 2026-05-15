@@ -184,9 +184,11 @@ export default function BookingsPage() {
               <tbody>
                 {filtered.map(b => {
                   const st = STATUS_LABELS[b.status];
-                  const dateStr = new Date(b.date).toLocaleDateString("vi-VN", {
-                    weekday: "short", day: "2-digit", month: "2-digit", year: "numeric"
-                  });
+                  // Format date without locale to avoid hydration mismatch
+                  const d = new Date(b.date);
+                  const dateStr = `${d.getDate().toString().padStart(2,"0")}/${(d.getMonth()+1).toString().padStart(2,"0")}/${d.getFullYear()}`;
+                  const createdD = new Date(b.createdAt);
+                  const createdStr = `${createdD.getDate().toString().padStart(2,"0")}/${(createdD.getMonth()+1).toString().padStart(2,"0")}/${createdD.getFullYear()} ${createdD.getHours().toString().padStart(2,"0")}:${createdD.getMinutes().toString().padStart(2,"0")}`;
                   return (
                     <tr key={b.id}>
                       <td>
@@ -198,7 +200,7 @@ export default function BookingsPage() {
                           <div style={{ fontSize: "0.78rem", color: "#94a3b8" }}>{b.email}</div>
                         )}
                         <div style={{ fontSize: "0.72rem", color: "#cbd5e1", marginTop: "0.2rem" }}>
-                          {new Date(b.createdAt).toLocaleString("vi-VN")}
+                          {createdStr}
                         </div>
                       </td>
                       <td>

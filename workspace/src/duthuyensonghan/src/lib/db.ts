@@ -170,3 +170,136 @@ export function deleteBooking(id: string): boolean {
   saveBookings(filtered);
   return true;
 }
+
+// ── Posts ─────────────────────────────────────────
+export interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;        // short description
+  content: string;        // HTML from rich editor
+  thumbnail: string;      // image URL
+  categoryId: string;     // e.g. "tin-tuc", "kinh-nghiem", "gia-ve"
+  status: "published" | "draft";
+  createdAt: string;      // ISO datetime
+  updatedAt: string;
+}
+
+export function getPosts(): Post[] {
+  return readJSON<Post[]>("posts.json");
+}
+
+export function getPostBySlug(slug: string): Post | undefined {
+  return getPosts().find((p) => p.slug === slug);
+}
+
+export function savePosts(data: Post[]): void {
+  writeJSON("posts.json", data);
+}
+
+export function createPost(post: Omit<Post, "id" | "createdAt" | "updatedAt">): Post {
+  const all = getPosts();
+  const now = new Date().toISOString();
+  const newPost: Post = {
+    ...post,
+    id: `POST${Date.now()}`,
+    createdAt: now,
+    updatedAt: now,
+  };
+  all.unshift(newPost);
+  savePosts(all);
+  return newPost;
+}
+
+export function updatePost(id: string, update: Partial<Omit<Post, "id" | "createdAt">>): boolean {
+  const all = getPosts();
+  const idx = all.findIndex((p) => p.id === id);
+  if (idx === -1) return false;
+  all[idx] = { ...all[idx], ...update, updatedAt: new Date().toISOString() };
+  savePosts(all);
+  return true;
+}
+
+export function deletePost(id: string): boolean {
+  const all = getPosts();
+  const filtered = all.filter((p) => p.id !== id);
+  if (filtered.length === all.length) return false;
+  savePosts(filtered);
+  return true;
+}
+
+// ── Site Settings ─────────────────────────────────────
+export interface SiteSettings {
+  // Thông tin liên hệ
+  siteName: string;
+  tagline: string;
+  hotline: string;
+  hotline2: string;
+  email: string;
+  address: string;
+  workingHours: string;
+
+  // Mạng xã hội
+  facebook: string;
+  tiktok: string;
+  youtube: string;
+  zalo: string;
+  instagram: string;
+
+  // Bản đồ
+  mapEmbedUrl: string;
+  mapLat: string;
+  mapLng: string;
+
+  // SEO
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string;
+
+  // Nội dung footer
+  footerTaglines: string[];
+  copyright: string;
+}
+
+const DEFAULT_SETTINGS: SiteSettings = {
+  siteName: "Du Thuyền Sông Hàn – 2Da Tickets",
+  tagline: "Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín",
+  hotline: "0796768636",
+  hotline2: "",
+  email: "support@duthuyensonghan.vn",
+  address: "Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng",
+  workingHours: "24/7",
+  facebook: "https://www.facebook.com/2datickets",
+  tiktok: "https://www.tiktok.com/@duthuyensonghan.danang",
+  youtube: "https://www.youtube.com/@2datickets",
+  zalo: "https://zalo.me/0796768636",
+  instagram: "",
+  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0!2d108.2270!3d16.0600!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142195d3a6e8c0f%3A0x2d0d6e31f24c8b4!2zRHUgdGh1eeG7gW4gU8O0bmcgSMOgbg!5e0!3m2!1svi!2svn!4v1234567890",
+  mapLat: "16.0600",
+  mapLng: "108.2270",
+  seoTitle: "Du thuyền Sông Hàn – Đặt Vé Uy Tín, Giá Tốt",
+  seoDescription: "Top Du thuyền Sông Hàn Đà Nẵng Đẹp - Ưu tiên view đẹp, trực tiếp đón và dẫn lên du thuyền. Đặt vé nhanh, an toàn.",
+  seoKeywords: "du thuyền sông hàn, du thuyen song han, vé du thuyền đà nẵng",
+  footerTaglines: [
+    "✅ Ưu tiên view đẹp.",
+    "✅ Trực tiếp đón tại bến.",
+    "✅ Trực tiếp dẫn lên du thuyền.",
+  ],
+  copyright: "© Copyright 2Da Tickets Du Thuyền Sông Hàn Đà Nẵng",
+};
+
+export function getSettings(): SiteSettings {
+  const filePath = path.join(DATA_DIR, "settings.json");
+  if (!fs.existsSync(filePath)) return DEFAULT_SETTINGS;
+  try {
+    const raw = fs.readFileSync(filePath, "utf-8");
+    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
+
+export function saveSettings(data: Partial<SiteSettings>): void {
+  const current = getSettings();
+  writeJSON("settings.json", { ...current, ...data });
+}

@@ -7,8 +7,10 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
   { href: "/admin/bookings", label: "Đặt Lịch", icon: "🎟️" },
   { href: "/admin/cruises", label: "Du Thuyền", icon: "🚢" },
+  { href: "/admin/posts", label: "Bài Viết", icon: "📝" },
   { href: "/admin/categories", label: "Danh Mục", icon: "🗂️" },
   { href: "/admin/pricing", label: "Bài Viết Giá", icon: "💰" },
+  { href: "/admin/settings", label: "Cấu Hình", icon: "⚙️" },
 ];
 
 export default function AdminSidebar() {
