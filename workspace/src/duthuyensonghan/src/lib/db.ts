@@ -262,6 +262,17 @@ export interface SiteSettings {
 
   // Giờ xuất bến
   departureSlots: string[];
+
+  // Banner trang chủ
+  bannerImage: string;
+  bannerBadge: string;
+  bannerTitle: string;
+  bannerSubtitle: string;
+  bannerCta1Text: string;
+  bannerCta1Link: string;
+  bannerCta2Text: string;
+  bannerCta2Link: string;
+  bannerStats: { value: string; label: string }[];
 }
 
 const DEFAULT_SETTINGS: SiteSettings = {
@@ -294,6 +305,20 @@ const DEFAULT_SETTINGS: SiteSettings = {
     "17:30 – Chuyến chiều tối",
     "19:00 – Chuyến tối",
     "19:30 – Chuyến tối muộn",
+  ],
+  bannerImage: "/images/banner_desktop.webp",
+  bannerBadge: "⭐ Hơn 1000 đánh giá 5 sao trên Google",
+  bannerTitle: "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
+  bannerSubtitle: "",
+  bannerCta1Text: "📞 Đặt Vé Ngay",
+  bannerCta1Link: "tel:0796768636",
+  bannerCta2Text: "Xem Du Thuyền ↓",
+  bannerCta2Link: "#khong-an-toi",
+  bannerStats: [
+    { value: "10+",   label: "Du Thuyền" },
+    { value: "1000+", label: "Đánh Giá 5★" },
+    { value: "24/7",  label: "Hỗ Trợ" },
+    { value: "0đ",    label: "Phí Giữ Chỗ" },
   ],
 };
 

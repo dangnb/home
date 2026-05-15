@@ -14,13 +14,22 @@ interface SiteSettings {
   footerTaglines: string[];
   copyright: string;
   departureSlots: string[];
+  bannerImage: string;
+  bannerBadge: string;
+  bannerTitle: string;
+  bannerSubtitle: string;
+  bannerCta1Text: string;
+  bannerCta1Link: string;
+  bannerCta2Text: string;
+  bannerCta2Link: string;
+  bannerStats: { value: string; label: string }[];
 }
 
 export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings | null>(null);
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots">("contact");
+  const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("contact");
 
   useEffect(() => {
     fetch("/api/settings").then(r => r.json()).then(setForm);
@@ -62,6 +71,7 @@ export default function SettingsPage() {
     { id: "seo",     label: "🔍 SEO",          icon: "🔍" },
     { id: "footer",  label: "📄 Footer",       icon: "📄" },
     { id: "slots",   label: "🕐 Giờ xuất bến", icon: "🕐" },
+    { id: "banner",  label: "🖼️ Banner",       icon: "🖼️" },
   ] as const;
 
   return (
@@ -442,6 +452,171 @@ export default function SettingsPage() {
                     <option key={i}>{slot}</option>
                   ))}
                 </select>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Tab: Banner ── */}
+        {activeTab === "banner" && (
+          <div className={styles.formCard}>
+            <h3 className={styles.cardSectionTitle}>🖼️ Cấu Hình Banner Trang Chủ</h3>
+            <p style={{ fontSize: "0.82rem", color: "#64748b", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+              Banner chiếm toàn màn hình trang chủ. Thay đổi ảnh, tiêu đề, nút CTA và các chỉ số thống kê.
+            </p>
+
+            <div className={styles.formGrid}>
+              {/* Ảnh banner */}
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>Ảnh Banner (URL)</label>
+                <div className={sStyles.inputWithIcon}>
+                  <span className={sStyles.inputIcon}>🖼️</span>
+                  <input value={form.bannerImage ?? ""} onChange={e => set("bannerImage", e.target.value)}
+                    placeholder="/images/banner_desktop.webp" />
+                </div>
+                {form.bannerImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.bannerImage} alt="preview" style={{
+                    marginTop: "0.5rem", height: "120px", width: "100%",
+                    objectFit: "cover", borderRadius: "10px", border: "1px solid #e2e8f0",
+                  }} />
+                )}
+              </div>
+
+              {/* Badge */}
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>Badge (dòng nhỏ phía trên tiêu đề)</label>
+                <input value={form.bannerBadge ?? ""} onChange={e => set("bannerBadge", e.target.value)}
+                  placeholder="⭐ Hơn 1000 đánh giá 5 sao trên Google" />
+              </div>
+
+              {/* Tiêu đề */}
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>Tiêu đề chính</label>
+                <textarea value={form.bannerTitle ?? ""} onChange={e => set("bannerTitle", e.target.value)}
+                  rows={3} placeholder={"Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách"} />
+                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Dùng Enter để xuống dòng trong tiêu đề</span>
+              </div>
+
+              {/* Subtitle */}
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>Mô tả phụ (tuỳ chọn)</label>
+                <input value={form.bannerSubtitle ?? ""} onChange={e => set("bannerSubtitle", e.target.value)}
+                  placeholder="Trực tiếp đón và dẫn lên du thuyền..." />
+              </div>
+
+              {/* CTA 1 */}
+              <div className={styles.formField}>
+                <label>Nút CTA 1 – Text</label>
+                <input value={form.bannerCta1Text ?? ""} onChange={e => set("bannerCta1Text", e.target.value)}
+                  placeholder="📞 Đặt Vé Ngay" />
+              </div>
+              <div className={styles.formField}>
+                <label>Nút CTA 1 – Link</label>
+                <input value={form.bannerCta1Link ?? ""} onChange={e => set("bannerCta1Link", e.target.value)}
+                  placeholder="tel:0796768636 hoặc /dat-lich" />
+              </div>
+
+              {/* CTA 2 */}
+              <div className={styles.formField}>
+                <label>Nút CTA 2 – Text</label>
+                <input value={form.bannerCta2Text ?? ""} onChange={e => set("bannerCta2Text", e.target.value)}
+                  placeholder="Xem Du Thuyền ↓" />
+              </div>
+              <div className={styles.formField}>
+                <label>Nút CTA 2 – Link</label>
+                <input value={form.bannerCta2Link ?? ""} onChange={e => set("bannerCta2Link", e.target.value)}
+                  placeholder="#khong-an-toi hoặc /gia-ve" />
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div style={{ marginTop: "1.5rem" }}>
+              <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#475569", display: "block", marginBottom: "0.75rem" }}>
+                Chỉ số thống kê (hiển thị dưới nút CTA)
+              </label>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                {(form.bannerStats ?? []).map((stat, i) => (
+                  <div key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                    <input
+                      value={stat.value}
+                      onChange={e => {
+                        const arr = [...(form.bannerStats ?? [])];
+                        arr[i] = { ...arr[i], value: e.target.value };
+                        set("bannerStats", arr);
+                      }}
+                      placeholder="10+"
+                      style={{ width: "90px", padding: "0.6rem 0.75rem", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit", fontWeight: 700 }}
+                    />
+                    <input
+                      value={stat.label}
+                      onChange={e => {
+                        const arr = [...(form.bannerStats ?? [])];
+                        arr[i] = { ...arr[i], label: e.target.value };
+                        set("bannerStats", arr);
+                      }}
+                      placeholder="Du Thuyền"
+                      style={{ flex: 1, padding: "0.6rem 0.75rem", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
+                    />
+                    <button type="button"
+                      onClick={() => set("bannerStats", (form.bannerStats ?? []).filter((_, idx) => idx !== i))}
+                      style={{ width: "34px", height: "34px", border: "1px solid #fecaca", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button type="button" className={styles.btnSecondary}
+                  style={{ fontSize: "0.82rem", marginTop: "0.25rem", width: "fit-content" }}
+                  onClick={() => set("bannerStats", [...(form.bannerStats ?? []), { value: "", label: "" }])}>
+                  + Thêm chỉ số
+                </button>
+              </div>
+            </div>
+
+            {/* Preview */}
+            <div className={sStyles.preview} style={{ marginTop: "1.5rem" }}>
+              <div className={sStyles.previewTitle}>Xem trước banner</div>
+              <div style={{
+                position: "relative", height: "220px", borderRadius: "0 0 10px 10px",
+                overflow: "hidden", background: "#0d1f3c",
+              }}>
+                {form.bannerImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.bannerImage} alt="preview" style={{
+                    position: "absolute", inset: 0, width: "100%", height: "100%",
+                    objectFit: "cover", opacity: 0.5,
+                  }} />
+                )}
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(to bottom, transparent 0%, rgba(0,15,35,0.85) 100%)",
+                }} />
+                <div style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0,
+                  padding: "1.25rem", textAlign: "center",
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem",
+                }}>
+                  {form.bannerBadge && (
+                    <span style={{ background: "rgba(1,191,147,0.9)", color: "#fff", fontSize: "0.65rem", fontWeight: 800, padding: "0.25rem 0.75rem", borderRadius: "100px", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      {form.bannerBadge}
+                    </span>
+                  )}
+                  <p style={{ color: "#fff", fontWeight: 900, fontSize: "1rem", lineHeight: 1.3, margin: 0, textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
+                    {(form.bannerTitle ?? "").split("\\n").join(" · ")}
+                  </p>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    {form.bannerCta1Text && (
+                      <span style={{ background: "var(--primary)", color: "#fff", fontSize: "0.72rem", fontWeight: 700, padding: "0.35rem 0.85rem", borderRadius: "100px" }}>
+                        {form.bannerCta1Text}
+                      </span>
+                    )}
+                    {form.bannerCta2Text && (
+                      <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: "0.72rem", fontWeight: 600, padding: "0.35rem 0.85rem", borderRadius: "100px", border: "1px solid rgba(255,255,255,0.3)" }}>
+                        {form.bannerCta2Text}
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

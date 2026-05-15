@@ -2,10 +2,11 @@ import Hero from "@/components/Hero";
 import OfficialTicketCounter from "@/components/OfficialTicketCounter";
 import CruiseSection from "@/components/CruiseSection";
 import FireworksBanner from "@/components/FireworksBanner";
-import { getCruises } from "@/lib/db";
+import { getCruises, getSettings } from "@/lib/db";
 
 export default function Home() {
   const allCruises = getCruises();
+  const s = getSettings();
 
   const regularCruises = allCruises
     .filter(c => c.categoryId === "regular")
@@ -35,7 +36,18 @@ export default function Home() {
 
   return (
     <main>
-      <Hero />
+      <Hero
+        image={s.bannerImage}
+        badge={s.bannerBadge}
+        title={s.bannerTitle}
+        subtitle={s.bannerSubtitle}
+        cta1Text={s.bannerCta1Text}
+        cta1Link={s.bannerCta1Link}
+        cta2Text={s.bannerCta2Text}
+        cta2Link={s.bannerCta2Link}
+        stats={s.bannerStats}
+        hotline={s.hotline}
+      />
       <OfficialTicketCounter />
 
       <div style={{ backgroundColor: "#f9f9f9", borderTop: "1px solid var(--border-color)", borderBottom: "1px solid var(--border-color)" }}>
