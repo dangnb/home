@@ -5,14 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using SalesManagement.Application.Interfaces;
 using SalesManagement.Infrastructure.Data;
 using SalesManagement.Infrastructure.Repositories;
-using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configure MariaDB
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// 1. Configure SQLite
+var connectionString = "Data Source=sales.db";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseSqlite(connectionString));
 
 // 2. Configure Dependency Injection
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -47,39 +47,22 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SalesManagement API", Version = "v1" });
-    // Swagger UI with JWT Bearer config
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter 'Bearer' [space] and then your valid token. Example: \"Bearer eyJ...\"",
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Auto-migrate database on startup for demo
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+}
+
 // Configure the HTTP request pipeline.
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

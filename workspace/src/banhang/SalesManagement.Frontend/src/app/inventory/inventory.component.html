@@ -1,0 +1,124 @@
+<div class="inventory-container animate-fade-in-up">
+    <div class="header-actions">
+        <div class="title-block">
+            <h2>Inventory Transactions</h2>
+            <span class="subtitle">Manage Inbound & Outbound Stock</span>
+        </div>
+        <div class="actions">
+            <button class="btn-primary btn-sm" (click)="toggleCreateMode()">
+                {{ isCreateMode ? '← Back to List' : '+ New Transaction' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Transaction List View -->
+    <div class="glass-panel compact-table-container" *ngIf="!isCreateMode">
+        <table class="compact-table">
+            <thead>
+                <tr>
+                    <th>Txn Code</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Warehouse</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let t of transactions">
+                    <td class="font-mono">{{ t.code }}</td>
+                    <td>
+                        <span class="badge" [class.badge-in]="t.type === 'IN'" [class.badge-out]="t.type === 'OUT'">
+                            {{ t.type }}
+                        </span>
+                    </td>
+                    <td>{{ t.createdAt | date:'short' }}</td>
+                    <td>{{ t.warehouseName }}</td>
+                    <td>{{ t.totalItems }}</td>
+                    <td>
+                        <span class="badge" [class.badge-draft]="t.status === 'DRAFT'"
+                            [class.badge-completed]="t.status === 'COMPLETED'">
+                            {{ t.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-primary btn-xs" *ngIf="t.status === 'DRAFT'" (click)="approveTxn(t.id)">✓
+                            Approve</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="empty-state" *ngIf="transactions.length === 0">No transactions found.</div>
+    </div>
+
+    <!-- Create Mode View (Compact Form) -->
+    <div class="glass-panel form-container" *ngIf="isCreateMode">
+        <div class="form-header">
+            <h3>Create Receipt / Delivery Note</h3>
+        </div>
+
+        <div class="master-form-row">
+            <div class="form-group">
+                <label>Transaction Code</label>
+                <input type="text" class="glass-input-sm" [(ngModel)]="currentTxn.code" placeholder="e.g. PN001">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select class="glass-input-sm" [(ngModel)]="currentTxn.type">
+                    <option value="IN">IN (Receipt)</option>
+                    <option value="OUT">OUT (Delivery)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Warehouse</label>
+                <select class="glass-input-sm" [(ngModel)]="currentTxn.warehouseId">
+                    <option *ngFor="let w of warehouses" [value]="w.id">{{ w.name }} ({{ w.code }})</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group mt-1">
+            <label>Notes</label>
+            <input type="text" class="glass-input-sm full-width" [(ngModel)]="currentTxn.note"
+                placeholder="Reason for transaction...">
+        </div>
+
+        <!-- Details Grid -->
+        <div class="details-section mt-2">
+            <div class="details-header">
+                <h4>Transaction Items</h4>
+                <button class="btn-secondary btn-xs" (click)="addRow()">+ Add Row</button>
+            </div>
+
+            <table class="compact-table detail-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th width="100">Qty</th>
+                        <th width="150">Unit Price</th>
+                        <th width="50">X</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of currentDetails; let i = index">
+                        <td>
+                            <select class="glass-input-xs full-width" [(ngModel)]="d.productId">
+                                <option *ngFor="let p of products" [value]="p.id">{{ p.sku }} - {{ p.name }}</option>
+                            </select>
+                        </td>
+                        <td><input type="number" class="glass-input-xs full-width text-right" [(ngModel)]="d.quantity">
+                        </td>
+                        <td><input type="number" class="glass-input-xs full-width text-right" [(ngModel)]="d.unitPrice">
+                        </td>
+                        <td><button class="icon-btn-xs delete" (click)="removeRow(i)">✕</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-actions mt-3">
+            <button class="btn-primary" (click)="saveDraft()" [disabled]="currentDetails.length === 0">Save
+                Draft</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="login-container">
+    <div class="glass-panel login-box animate-fade-in-up">
+        <div class="logo-wrapper">
+            <div class="logo-icon"></div>
+            <h2>Welcome Back</h2>
+        </div>
+        <p class="subtitle">Log in to your Nexus Sales account</p>
+
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" [(ngModel)]="username" required placeholder="admin"
+                    class="glass-input">
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" [(ngModel)]="password" required
+                    placeholder="••••••••" class="glass-input">
+            </div>
+
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary login-btn" [disabled]="!loginForm.valid">
+                {{ isLoading ? 'Authenticating...' : 'Sign In' }}
+            </button>
+        </form>
+
+        <p class="register-link">
+            Don't have an account? <a href="#">Request Access</a>
+        </p>
+
+        <!-- Error message display -->
+        <div *ngIf="errorMessage" class="error-msg">
+            {{ errorMessage }}
+        </div>
+    </div>
+</div>

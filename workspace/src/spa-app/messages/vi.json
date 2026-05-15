@@ -1,0 +1,303 @@
+{
+  "HomePage": {
+    "title": "Trang chủ",
+    "hero": {
+      "heading": "Đánh Thức Vẻ Đẹp Tự Nhiên Của Bạn",
+      "subheading": "Trải nghiệm các dịch vụ chăm sóc sắc đẹp và thư giãn chuyên nghiệp tại Ngọc Hương Spa & Clinic.",
+      "cta": "Đặt Lịch Ngay"
+    },
+    "services": {
+      "heading": "Dịch Vụ Nổi Bật",
+      "viewMore": "Xem Chi Tiết",
+      "items": {
+        "facial": "Chăm Sóc Da Mặt Chuyên Sâu",
+        "massage": "Massage Trị Liệu",
+        "laser": "Trẻ Hóa Da Công Nghệ Laser"
+      }
+    },
+    "about": {
+      "heading": "Về Ngọc Hương Spa",
+      "description1": "Tại Ngọc Hương Spa & Clinic, chúng tôi tin rằng mỗi người đều sở hữu một vẻ đẹp tự nhiên độc đáo. Sứ mệnh của chúng tôi là đánh thức và tôn vinh vẻ đẹp đó thông qua các liệu trình tiên tiến và sản phẩm chăm sóc cao cấp.",
+      "description2": "Với đội ngũ chuyên viên giàu kinh nghiệm và trang thiết bị hiện đại, chúng tôi mang đến một không gian thư giãn tuyệt đối, giúp bạn thoát khỏi những bộn bề của cuộc sống và phục hồi năng lượng từ bên trong.",
+      "mission": "Sứ Mệnh",
+      "missionText": "Cung cấp các dịch vụ chăm sóc sắc đẹp và sức khỏe chất lượng nhất, đảm bảo sự hài lòng tuyệt đối của khách hàng.",
+      "vision": "Tầm Nhìn",
+      "visionText": "Trở thành thương hiệu Spa & Clinic hàng đầu, được khách hàng tin tưởng lựa chọn bởi chuyên môn và sự tận tâm."
+    },
+    "gallery": {
+      "heading": "Hình Ảnh Thực Tế"
+    },
+    "testimonials": {
+      "heading": "Khách Hàng Nói Gì Về Chúng Tôi",
+      "items": {
+        "client1": {
+          "name": "Nguyễn Thị Mai",
+          "content": "Liệu trình chăm sóc da mặt thật sự tuyệt vời. Da tôi cảm thấy rất mềm mịn và sáng bóng. Nhân viên rất chuyên nghiệp và thân thiện."
+        },
+        "client2": {
+          "name": "Trần Hoàng Yến",
+          "content": "Tôi rất khuyên bạn nên thử massage trị liệu tại đây. Nó hoàn toàn làm giảm cơn đau lưng của tôi sau một tuần dài làm việc. Không gian rất thư giãn."
+        },
+        "client3": {
+          "name": "Lê Ngọc Hân",
+          "content": "Quy trình chăm sóc da bằng laser mang lại cho tôi kết quả xuất sắc. Phòng khám rất sạch sẽ và họ sử dụng các sản phẩm cao cấp. Chắc chắn sẽ quay lại!"
+        }
+      }
+    },
+    "news": {
+      "heading": "Tin Tức & Cẩm Nang Làm Đẹp",
+      "readMore": "Đọc Tiếp",
+      "items": {
+        "post1": {
+          "title": "5 Bước Chăm Sóc Da Cơ Bản Để Có Làn Da Sáng Mịn",
+          "date": "10 Tháng 5, 2026",
+          "excerpt": "Khám phá bí quyết để có làn da rạng rỡ và tươi trẻ với 5 bước chăm sóc da hàng ngày đơn giản nhưng vô cùng hiệu quả này."
+        },
+        "post2": {
+          "title": "Lợi Ích Của Việc Massage Trị Liệu Thường Xuyên",
+          "date": "05 Tháng 5, 2026",
+          "excerpt": "Tìm hiểu cách massage thường xuyên có thể cải thiện lưu thông máu, giảm căng thẳng và tăng cường sức khỏe tổng thể của bạn."
+        },
+        "post3": {
+          "title": "Tìm Hiểu Về Các Phương Pháp Làm Đẹp Bằng Laser",
+          "date": "28 Tháng 4, 2026",
+          "excerpt": "Hướng dẫn toàn diện về các phương pháp điều trị bằng laser khác nhau và cách chúng có thể giải quyết các vấn đề về da như sắc tố và lão hóa."
+        }
+      }
+    },
+    "booking": {
+      "heading": "Đặt Lịch Hẹn",
+      "subheading": "Điền vào biểu mẫu dưới đây và chúng tôi sẽ liên hệ lại để xác nhận lịch hẹn của bạn.",
+      "form": {
+        "name": "Họ và Tên",
+        "phone": "Số Điện Thoại",
+        "service": "Dịch Vụ Quan Tâm",
+        "submit": "Gửi Yêu Cầu"
+      }
+    }
+  },
+  "Services": {
+    "facial": {
+      "title": "Chăm Sóc Da Mặt Chuyên Sâu",
+      "description": "Trẻ hóa làn da của bạn với liệu trình chăm sóc da mặt cao cấp sử dụng các sản phẩm hữu cơ hoàn toàn tự nhiên.",
+      "duration": "60 Phút",
+      "price": "Từ 500.000 VNĐ",
+      "benefits": [
+        "Làm sạch sâu lỗ chân lông",
+        "Cấp ẩm và nuôi dưỡng làn da",
+        "Giảm nếp nhăn và dấu hiệu lão hóa"
+      ],
+      "steps": [
+        { "title": "Bước 1: Làm sạch", "desc": "Tẩy trang và loại bỏ bụi bẩn trên bề mặt da." },
+        { "title": "Bước 2: Tẩy tế bào chết", "desc": "Loại bỏ lớp sừng già cỗi, giúp da sáng mịn hơn." },
+        { "title": "Bước 3: Massage", "desc": "Massage mặt chuyên sâu giúp tăng cường lưu thông máu và thư giãn." },
+        { "title": "Bước 4: Đắp mặt nạ", "desc": "Đắp mặt nạ cao cấp phù hợp với từng loại da." }
+      ]
+    },
+    "massage": {
+      "title": "Massage Trị Liệu Toàn Thân",
+      "description": "Liệu pháp massage toàn thân giúp thư giãn cơ bắp, giảm căng thẳng mệt mỏi hiệu quả.",
+      "duration": "90 Phút",
+      "price": "Từ 800.000 VNĐ",
+      "benefits": [
+        "Giảm đau nhức cơ bắp tức thì",
+        "Tăng cường lưu thông tuần hoàn máu",
+        "Mang lại giấc ngủ sâu và ngon hơn"
+      ],
+      "steps": [
+        { "title": "Bước 1: Tư vấn", "desc": "Trao đổi về tình trạng sức khỏe và vùng cơ cần tập trung." },
+        { "title": "Bước 2: Khởi động", "desc": "Thao tác nhẹ nhàng để làm nóng cơ thể." },
+        { "title": "Bước 3: Ấn huyệt sâu", "desc": "Tác động vào các huyệt đạo để giải tỏa sự ách tắc." },
+        { "title": "Bước 4: Thư giãn", "desc": "Kết thúc bằng những động tác xoa bóp êm ái." }
+      ]
+    },
+    "laser": {
+      "title": "Trẻ Hóa Da Công Nghệ Laser",
+      "description": "Ứng dụng công nghệ Laser tiên tiến giúp đánh bay nám, tàn nhang và sẹo rỗ.",
+      "duration": "45 Phút",
+      "price": "Từ 1.200.000 VNĐ",
+      "benefits": [
+        "Làm đều màu da tự nhiên",
+        "Xóa mờ các vết thâm nám và sẹo rỗ",
+        "Kích thích tăng sinh collagen"
+      ],
+      "steps": [
+        { "title": "Bước 1: Chuẩn bị", "desc": "Làm sạch da và thoa gel lạnh bảo vệ." },
+        { "title": "Bước 2: Bắn Laser", "desc": "Sử dụng tia laser với bước sóng phù hợp tác động lên da." },
+        { "title": "Bước 3: Làm dịu", "desc": "Đắp mặt nạ phục hồi và làm mát da tức thì." },
+        { "title": "Bước 4: Bảo vệ", "desc": "Thoa kem dưỡng phục hồi và kem chống nắng." }
+      ]
+    },
+    "thai-chi": {
+      "title": "Thải Chì Bằng Phương Pháp Đông Y",
+      "description": "Liệu pháp hút chì độc tố bằng công nghệ hiện đại kết hợp dược liệu Đông Y, mang lại làn da trắng hồng khỏe mạnh.",
+      "duration": "60 Phút",
+      "price": "350.000 VNĐ",
+      "benefits": [
+        "Hút sạch độc tố, chì tích tụ do trang điểm",
+        "Làm sáng da, mờ vết thâm sạm",
+        "Se khít lỗ chân lông hiệu quả",
+        "Sử dụng 100% thảo dược Đông Y an toàn"
+      ],
+      "steps": [
+        { "title": "Tẩy trang và rửa mặt", "desc": "Làm sạch bề mặt da với sữa rửa mặt dịu nhẹ, loại bỏ bụi bẩn và bã nhờn." },
+        { "title": "Tẩy tế bào chết", "desc": "Lấy đi lớp sừng già cỗi, giúp da thông thoáng dễ hấp thụ dưỡng chất." },
+        { "title": "Xông hơi hút bã nhờn", "desc": "Mở rộng lỗ chân lông, hút sạch dầu thừa và mụn cám." },
+        { "title": "Chạy máy hút chì", "desc": "Sử dụng viên nang thải chì Đông Y kết hợp máy siêu âm để đẩy chì ra khỏi da." },
+        { "title": "Đắp mặt nạ thảo dược", "desc": "Làm dịu da, cung cấp độ ẩm và dưỡng chất phục hồi." }
+      ]
+    },
+    "phuc-hoi-da": {
+      "title": "Phục Hồi Da Bằng Đông Y",
+      "description": "Quy trình tái tạo màng bảo vệ tự nhiên của da, dành riêng cho da mỏng yếu, nhạy cảm hoặc bị tổn thương.",
+      "duration": "90 Phút",
+      "price": "500.000 VNĐ",
+      "benefits": [
+        "Làm dịu tức thì tình trạng da ửng đỏ, mẫn cảm",
+        "Phục hồi lớp màng lipid bảo vệ da",
+        "Nuôi dưỡng từ sâu bên trong với nhân sâm, nấm linh chi",
+        "Cân bằng độ ẩm và độ pH tự nhiên"
+      ],
+      "steps": [
+        { "title": "Làm sạch chuyên sâu", "desc": "Sử dụng sản phẩm dành riêng cho da nhạy cảm." },
+        { "title": "Phun oxy tươi", "desc": "Cung cấp lượng oxy tinh khiết giúp làm dịu và làm mát da tức thì." },
+        { "title": "Điện di tinh chất phục hồi", "desc": "Đưa huyết thanh Đông Y vào sâu lớp biểu bì giúp tái tạo tế bào." },
+        { "title": "Massage ấn huyệt", "desc": "Kích thích tuần hoàn máu, giúp da hồng hào." },
+        { "title": "Đắp mặt nạ yến mạch", "desc": "Khóa ẩm và tăng cường hàng rào bảo vệ da." }
+      ]
+    },
+    "thai-doc": {
+      "title": "Thải Độc Phục Hồi Da",
+      "description": "Giải pháp toàn diện kết hợp giữa thải độc tố và phục hồi chuyên sâu, mang lại sức sống mới cho làn da mệt mỏi.",
+      "duration": "120 Phút",
+      "price": "750.000 VNĐ",
+      "benefits": [
+        "Đào thải tận gốc corticoid, kem trộn tích tụ",
+        "Kích thích sản sinh collagen và elastin mới",
+        "Trẻ hóa làn da, giảm thiểu nếp nhăn",
+        "Hiệu quả thấy rõ ngay sau lần đầu tiên"
+      ],
+      "steps": [
+        { "title": "Soi da và tư vấn", "desc": "Đánh giá mức độ nhiễm độc và tình trạng tổn thương của da." },
+        { "title": "Làm sạch và xông hơi", "desc": "Giúp lỗ chân lông giãn nở hoàn toàn." },
+        { "title": "Đắp mặt nạ sủi bọt thải độc", "desc": "Sử dụng mặt nạ carbon hoạt tính sủi bọt để đẩy độc tố từ sâu trong lỗ chân lông lên bề mặt." },
+        { "title": "Siêu âm lạnh phục hồi", "desc": "Sử dụng máy búa lạnh kết hợp tế bào gốc để làm dịu và se khít lỗ chân lông." },
+        { "title": "Chiếu ánh sáng sinh học", "desc": "Sử dụng ánh sáng đỏ để kích thích tăng sinh tế bào mới." }
+      ]
+    },
+    "common": {
+      "duration": "Thời gian",
+      "price": "Mức giá",
+      "benefits": "Lợi ích mang lại",
+      "procedure": "Quy trình thực hiện",
+      "bookNow": "Đặt Lịch Ngay",
+      "related": "Dịch vụ liên quan",
+      "viewMore": "Xem chi tiết"
+    }
+  },
+  "NewsDetails": {
+    "post1": {
+      "title": "5 Bước Chăm Sóc Da Cơ Bản Để Có Làn Da Sáng Mịn",
+      "date": "10 Tháng 5, 2026",
+      "author": "Bác sĩ Sarah Nguyễn",
+      "content": [
+        "Sở hữu một làn da rạng rỡ, tươi trẻ không chỉ phụ thuộc vào gen di truyền—mà còn nhờ vào thói quen chăm sóc da nhất quán và hiệu quả. Trong bài viết này, chúng tôi sẽ hướng dẫn bạn 5 bước cơ bản cần thực hiện mỗi ngày.",
+        "**Bước 1: Làm sạch kép (Double Cleansing)**\nNền tảng của bất kỳ quy trình chăm sóc da nào cũng bắt đầu từ một làn da sạch. Làm sạch kép bao gồm việc sử dụng dầu tẩy trang trước để loại bỏ lớp trang điểm và kem chống nắng, sau đó dùng sữa rửa mặt gốc nước để rửa trôi mồ hôi và bụi bẩn. Điều này đảm bảo lỗ chân lông của bạn hoàn toàn thông thoáng.",
+        "**Bước 2: Sử dụng Toner**\nToner giúp cân bằng độ pH của da sau khi rửa mặt. Hãy tìm kiếm các loại toner không chứa cồn với thành phần cấp ẩm như axit hyaluronic hoặc thành phần làm dịu như nước hoa hồng. Thoa toner giúp da chuẩn bị sẵn sàng để hấp thụ tốt hơn các dưỡng chất ở những bước tiếp theo.",
+        "**Bước 3: Serum và Đặc trị**\nĐây là bước bạn nhắm vào các vấn đề cụ thể của da. Cho dù bạn đang gặp rắc rối với tình trạng tăng sắc tố, nếp nhăn hay mụn, việc chọn đúng loại serum là rất quan trọng. Vitamin C cực kỳ hiệu quả trong việc làm sáng da, trong khi retinol là tiêu chuẩn vàng để chống lão hóa.",
+        "**Bước 4: Dưỡng ẩm**\nNgay cả khi bạn có làn da dầu, việc dưỡng ẩm là không thể bỏ qua. Một loại kem dưỡng ẩm tốt sẽ khóa lại tất cả các dưỡng chất bạn vừa thoa và ngăn ngừa tình trạng mất nước qua lớp biểu bì. Chọn dạng gel mỏng nhẹ cho da dầu và dạng kem đặc cho da khô.",
+        "**Bước 5: Chống nắng (Chỉ dùng ban ngày)**\nBước quan trọng nhất để ngăn ngừa lão hóa sớm và tổn thương da là thoa kem chống nắng phổ rộng với chỉ số SPF ít nhất là 30 vào mỗi buổi sáng. Tia UV luôn hiện diện ngay cả trong những ngày nhiều mây, vì vậy hãy biến việc này thành thói quen hàng ngày.",
+        "Bằng cách tuân thủ đều đặn 5 bước này, bạn sẽ nhận thấy sự cải thiện rõ rệt về kết cấu, độ đều màu và sức khỏe tổng thể của làn da. Hãy nhớ rằng, chăm sóc da là một cuộc đua marathon, không phải chạy nước rút!"
+      ]
+    },
+    "post2": {
+      "title": "Lợi Ích Của Việc Massage Trị Liệu Thường Xuyên",
+      "date": "05 Tháng 5, 2026",
+      "author": "Chuyên viên Anna Trần",
+      "content": [
+        "Trong nhịp sống hối hả hiện đại, căng thẳng gần như là điều không thể tránh khỏi. Mặc dù nhiều người coi massage như một sự xa xỉ, nó thực chất là một phần thiết yếu của một lối sống lành mạnh. Massage trị liệu vượt xa khái niệm thư giãn đơn thuần—nó mang lại những lợi ích sâu sắc về cả thể chất lẫn tinh thần.",
+        "**Phục hồi Thể chất**\nMassage thường xuyên giúp giảm bớt tình trạng căng cơ và đau nhức mãn tính. Các kỹ thuật như massage mô sâu (deep tissue) nhắm vào các nút thắt và sự kết dính trong sợi cơ, phục hồi sự linh hoạt và phạm vi chuyển động. Nó cũng kích thích lưu thông máu, cung cấp oxy và dưỡng chất đến các mô trong khi đào thải độc tố ra ngoài.",
+        "**Sức khỏe Tinh thần**\nSức mạnh của những cái chạm không nên bị đánh giá thấp. Liệu pháp massage đã được chứng minh là làm giảm nồng độ cortisol (hormone gây căng thẳng) đồng thời làm tăng nồng độ serotonin và dopamine. Sự thay đổi hóa học này trong não giúp giảm bớt các triệu chứng lo âu và trầm cảm, mang lại cho bạn cảm giác bình tĩnh và thư thái.",
+        "**Cải thiện Chất lượng Giấc ngủ**\nNếu bạn đang phải vật lộn với chứng mất ngủ hoặc những đêm trằn trọc, một buổi massage trị liệu có thể vô cùng hữu ích. Bằng cách thúc đẩy sự thư giãn sâu và giảm bớt khó chịu về mặt thể chất, massage giúp điều hòa chu kỳ giấc ngủ của bạn, cho phép bạn có những giấc ngủ sâu và không bị gián đoạn.",
+        "Việc kết hợp các buổi massage thường xuyên vào thói quen chăm sóc sức khỏe có thể biến đổi hoàn toàn chất lượng cuộc sống của bạn. Dù bạn lên lịch mỗi tuần một lần hay mỗi tháng một lần, tâm trí và cơ thể bạn chắc chắn sẽ biết ơn."
+      ]
+    },
+    "post3": {
+      "title": "Tìm Hiểu Về Các Phương Pháp Làm Đẹp Bằng Laser",
+      "date": "28 Tháng 4, 2026",
+      "author": "Bác sĩ Michael Lê",
+      "content": [
+        "Công nghệ Laser đã tạo ra một cuộc cách mạng trong lĩnh vực da liễu và thẩm mỹ nội khoa. Từ việc xóa bỏ những tổn thương do ánh nắng mặt trời tích tụ nhiều năm cho đến làm phẳng các vết sẹo mụn sâu, phương pháp điều trị bằng laser mang lại giải pháp mạnh mẽ cho nhiều vấn đề về da. Nhưng với vô số lựa chọn hiện nay, việc hiểu cách thức hoạt động của chúng là bước đầu tiên quan trọng.",
+        "**Laser Hoạt Động Như Thế Nào?**\nLaser sử dụng các chùm ánh sáng tập trung để nhắm vào các sắc tố cụ thể trong da, chẳng hạn như melanin (trong các đốm sẫm màu) hoặc hemoglobin (trong mạch máu). Nhiệt lượng do laser tạo ra sẽ phá hủy mục tiêu hoặc tạo ra các tổn thương vi điểm có kiểm soát, từ đó kích thích quá trình tự chữa lành tự nhiên của cơ thể.",
+        "**Laser Bóc Tách (Ablative) và Không Bóc Tách (Non-Ablative)**\nLaser bóc tách (như CO2) loại bỏ các lớp ngoài cùng của da, mang lại kết quả ngoạn mục cho nếp nhăn sâu và sẹo nặng, nhưng đòi hỏi thời gian nghỉ dưỡng đáng kể. Laser không bóc tách bỏ qua bề mặt để làm nóng mô bên dưới, thúc đẩy sản xuất collagen với thời gian phục hồi rất ngắn.",
+        "**Laser Có Thể Điều Trị Những Gì?**\n- **Tăng sắc tố:** Laser phá vỡ hiệu quả lượng melanin dư thừa, điều trị các đốm đồi mồi, tàn nhang và nám.\n- **Vấn đề mạch máu:** Chúng có thể làm xẹp các mạch máu nổi và giảm mẩn đỏ liên quan đến chứng rosacea.\n- **Kết cấu và tông màu da:** Bằng cách kích thích collagen, laser làm mịn vùng da sần sùi, thu nhỏ lỗ chân lông và làm mờ nếp nhăn mảnh.\n- **Sẹo mụn:** Laser vi điểm tạo ra các rãnh siêu nhỏ trên da, khuyến khích mô mới khỏe mạnh thay thế các vùng bị sẹo.",
+        "Trước khi trải qua bất kỳ phương pháp điều trị bằng laser nào, một buổi tư vấn kỹ lưỡng với chuyên gia có trình độ là điều bắt buộc để xác định phương pháp tiếp cận tốt nhất cho loại da và vấn đề riêng biệt của bạn."
+      ]
+    },
+    "common": {
+      "back": "Quay Lại Tin Tức"
+    }
+  },
+  "Navigation": {
+    "home": "Trang chủ",
+    "services": "Dịch vụ",
+    "about": "Giới thiệu",
+    "gallery": "Thư viện",
+    "testimonials": "Khách hàng",
+    "news": "Tin tức",
+    "contact": "Liên hệ"
+  },
+  "ServiceCategories": {
+    "body-care": "Tẩy Da Chết Và Dưỡng Thể Body",
+    "facial-care": "Chăm Sóc Da Mặt",
+    "herbal-hair-wash": "Gội Đầu Bằng Thảo Dược",
+    "eye-care": "Chăm Sóc Mắt",
+    "rf-weight-loss": "Giảm Béo Bằng Công Nghệ RF",
+    "traditional-medicine-skin-care": "Chăm Sóc Da Đông Y",
+    "acne-treatment": "Điều Trị Mụn",
+    "melasma-treatment": "Điều Trị Nám",
+    "safe-skin-whitening": "Tắm Trắng An Toàn",
+    "full-body-massage": "Chăm Sóc Da Toàn Thân & Massage Body",
+    "permanent-hair-removal": "Triệt Lông Vĩnh Viễn",
+    "cosmetic-tattooing": "Phun Xăm Thẩm Mỹ",
+    "acne-treatment-process": "Quy Trình Điều Trị Mụn",
+    "waxing": "Waxing Tẩy Lông"
+  },
+  "CategoryPages": {
+    "readMore": "Xem thêm",
+    "traditional-medicine-skin-care": {
+      "title": "CHĂM SÓC DA ĐÔNG Y",
+      "items": {
+        "thai-chi": {
+          "title": "THẢI CHÌ BẰNG PHƯƠNG PHÁP ĐÔNG Y",
+          "excerpt": "Nguyên nhân gây ra nhiễm chì hàng ngày, chúng ta luôn phải tiếp xúc và sống trong..."
+        },
+        "phuc-hoi-da": {
+          "title": "PHỤC HỒI DA BẰNG ĐÔNG Y",
+          "excerpt": "Đến với NGỌC HƯƠNG SPA đã có quy trình PHỤC HỒI DA BẰNG ĐÔNG Y, bạn không còn..."
+        },
+        "thai-doc": {
+          "title": "THẢI ĐỘC PHỤC HỒI DA BẰNG ĐÔNG Y",
+          "excerpt": "Làn da khỏe mạnh, trắng sáng không tì vết với phương pháp thải độc thảo dược an toàn..."
+        }
+      }
+    },
+    "fallback": {
+      "title": "DANH MỤC DỊCH VỤ",
+      "items": {
+        "service-1": {
+          "title": "DỊCH VỤ CƠ BẢN 1",
+          "excerpt": "Trải nghiệm quy trình chăm sóc chuyên sâu với các sản phẩm độc quyền từ thiên nhiên..."
+        },
+        "service-2": {
+          "title": "DỊCH VỤ CAO CẤP 2",
+          "excerpt": "Giải pháp toàn diện giúp tái tạo và phục hồi năng lượng cho cơ thể sau những ngày làm việc..."
+        },
+        "service-3": {
+          "title": "DỊCH VỤ TRỊ LIỆU 3",
+          "excerpt": "Ứng dụng công nghệ hiện đại kết hợp phương pháp cổ truyền mang lại hiệu quả tức thì..."
+        }
+      }
+    }
+  }
+}

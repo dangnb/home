@@ -1,0 +1,194 @@
+.inventory-container {
+    max-width: 1000px;
+    margin: 1rem auto;
+    /* Compact spacing */
+    padding: 0 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.title-block h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    /* Standard dashboard size */
+}
+
+.title-block .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.btn-xs {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+}
+
+/* Compact Table System */
+.compact-table-container {
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 8px;
+    /* Tighter radius */
+}
+
+.compact-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    /* ERP Standard Text */
+}
+
+.compact-table th,
+.compact-table td {
+    padding: 0.65rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+}
+
+.compact-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
+.font-mono {
+    font-family: 'Space Mono', monospace;
+    color: #94a3b8;
+}
+
+/* Badges */
+.badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge-in {
+    background: rgba(52, 211, 153, 0.15);
+    color: #34d399;
+}
+
+.badge-out {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+}
+
+.badge-draft {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+}
+
+.badge-completed {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+}
+
+/* Form Elements Compact */
+.form-container {
+    padding: 1.5rem;
+}
+
+.form-header h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.master-form-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.glass-input-sm {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.glass-input-xs {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    padding: 0.2rem 0.4rem;
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+.full-width {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mt-3 {
+    margin-top: 3rem;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.details-header h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.icon-btn-xs {
+    background: transparent;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}.inventory-container { color: #3b3f5c !important; } .compact-table { color: #3b3f5c !important; } .compact-table-container { background: #ffffff !important; border: 1px solid var(--border-color); box-shadow: 0 0 10px rgba(0,0,0,0.03); } .glass-panel { background: #fff !important; }

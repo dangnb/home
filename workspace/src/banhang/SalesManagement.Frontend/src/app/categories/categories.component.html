@@ -1,0 +1,55 @@
+<div class="categories-container animate-fade-in-up">
+    <div class="header-actions">
+        <h2>Category Management</h2>
+        <div class="actions">
+            <button class="btn-primary" (click)="openAddModal()">+ Add Category</button>
+        </div>
+    </div>
+
+    <div class="glass-panel table-container">
+        <table *ngIf="!isLoading && categories.length > 0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of categories">
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.description }}</td>
+                    <td>
+                        <button class="icon-btn edit" (click)="openEditModal(c)">✏️</button>
+                        <button class="icon-btn delete" (click)="deleteCategory(c.id!)">🗑️</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="!isLoading && categories.length === 0">
+            <p>No categories found. Start by adding one.</p>
+        </div>
+        <div class="loading-state" *ngIf="isLoading">
+            <p>Loading categories...</p>
+        </div>
+    </div>
+
+    <!-- Add / Edit Modal -->
+    <div class="modal-overlay animate-fade-in" *ngIf="isModalOpen">
+        <div class="modal glass-panel">
+            <h3>{{ isEditMode ? 'Edit Category' : 'Add New Category' }}</h3>
+            <form (ngSubmit)="saveCategory()" #catForm="ngForm">
+                <input type="text" placeholder="Category Name" [(ngModel)]="currentCategory.name" name="name" required
+                    class="glass-input">
+                <textarea placeholder="Description" [(ngModel)]="currentCategory.description" name="description"
+                    class="glass-input"></textarea>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" [disabled]="!catForm.valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

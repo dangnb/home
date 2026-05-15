@@ -1,0 +1,93 @@
+<div class="products-container animate-fade-in-up">
+    <div class="header-actions">
+        <h2>Product Management</h2>
+        <div class="actions">
+            <button class="btn-secondary" (click)="openBulkUpload()">Upload CSV (Bulk)</button>
+            <button class="btn-primary" (click)="openAddModal()">+ Add Product</button>
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="glass-panel table-container">
+        <table *ngIf="!isLoading && products.length > 0">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of products">
+                    <td>{{ p.sku }}</td>
+                    <td>{{ p.name }}</td>
+                    <td><span class="stock-badge" style="background: rgba(147, 51, 234, 0.2); color: #c084fc">{{
+                            getCategoryName(p.categoryId) }}</span></td>
+                    <td>${{ p.price }}</td>
+                    <td>{{ p.description }}</td>
+                    <td>
+                        <button class="icon-btn edit" (click)="openEditModal(p)">✏️</button>
+                        <button class="icon-btn delete" (click)="deleteProduct(p.id!)">🗑️</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="empty-state" *ngIf="!isLoading && products.length === 0">
+            <p>No products found. Start by adding one or bulk uploading.</p>
+        </div>
+        <div class="loading-state" *ngIf="isLoading">
+            <p>Loading products...</p>
+        </div>
+    </div>
+
+    <!-- Add / Edit Modal -->
+    <div class="modal-overlay animate-fade-in" *ngIf="isModalOpen">
+        <div class="modal glass-panel">
+            <h3>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h3>
+            <form (ngSubmit)="saveProduct()" #productForm="ngForm">
+                <input type="text" placeholder="SKU" [(ngModel)]="currentProduct.sku" name="sku" required
+                    class="glass-input">
+                <input type="text" placeholder="Name" [(ngModel)]="currentProduct.name" name="name" required
+                    class="glass-input">
+
+                <select [(ngModel)]="currentProduct.categoryId" name="categoryId" class="glass-input">
+                    <option [ngValue]="null">-- Select Category --</option>
+                    <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+                </select>
+
+                <div class="row">
+                    <input type="number" placeholder="Price" [(ngModel)]="currentProduct.price" name="price" required
+                        class="glass-input">
+                </div>
+                <textarea placeholder="Description" [(ngModel)]="currentProduct.description" name="description"
+                    class="glass-input"></textarea>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" [disabled]="!productForm.valid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bulk Upload Modal -->
+    <div class="modal-overlay animate-fade-in" *ngIf="isBulkModalOpen">
+        <div class="modal glass-panel">
+            <h3>Bulk Upload Products</h3>
+            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 1rem;">Paste JSON Array of products below to
+                upload in bulk.</p>
+            <form (ngSubmit)="submitBulkUpload()">
+                <textarea placeholder='[{"sku": "P01", "name": "Laptop", "price": 999, "stock": 10, "description": ""}]'
+                    [(ngModel)]="bulkJson" name="bulkJson" class="glass-input" rows="8"></textarea>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" (click)="closeBulkUpload()">Cancel</button>
+                    <button type="submit" class="btn-primary" [disabled]="!bulkJson">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

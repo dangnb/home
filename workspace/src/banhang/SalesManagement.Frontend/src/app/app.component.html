@@ -1,0 +1,72 @@
+<div class="app-container">
+    <!-- Navigation -->
+    <header class="glass-header">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <span>Nexus Sales</span>
+        </div>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Leads</a>
+            <a href="#">Analytics</a>
+            <a href="#">Reports</a>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn-secondary">Log In</button>
+            <button class="btn-primary">Get Started</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="animate-fade-in-up">Next-Generation <br> <span class="text-gradient">Sales Management</span></h1>
+            <p class="hero-subtitle animate-fade-in-up delay-1">
+                Empower your team with real-time analytics, automated pipelines, and highly convertible lead scoring.
+            </p>
+            <div class="hero-actions animate-fade-in-up delay-2">
+                <button class="btn-primary" (click)="startTrial()">Start Free Trial <span
+                        class="arrow">→</span></button>
+                <button class="btn-secondary">Book a Demo</button>
+            </div>
+        </div>
+
+        <!-- Hero Image/Graphic -->
+        <div class="hero-graphic animate-fade-in delay-3">
+            <div class="glass-panel dashboard-preview">
+                <div class="dashboard-header">
+                    <div class="dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="title">Revenue Overview</div>
+                </div>
+                <div class="dashboard-body">
+                    <div class="stat-cards">
+                        <div class="stat-card glass-panel">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value">$124,500</span>
+                            <span class="stat-trend positive">+14.5%</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <span class="stat-label">Active Leads</span>
+                            <span class="stat-value">842</span>
+                            <span class="stat-trend positive">+5.2%</span>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder glass-panel">
+                        <!-- Pure CSS pseudo-chart -->
+                        <div class="bar" style="height: 40%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                        <div class="bar" style="height: 35%"></div>
+                        <div class="bar" style="height: 80%"></div>
+                        <div class="bar" style="height: 55%"></div>
+                        <div class="bar" style="height: 90%"></div>
+                        <div class="bar primary" style="height: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

@@ -1,0 +1,303 @@
+{
+  "HomePage": {
+    "title": "Home",
+    "hero": {
+      "heading": "Awaken Your Natural Beauty",
+      "subheading": "Experience professional beauty and relaxation services at Ngoc Huong Spa & Clinic.",
+      "cta": "Book Now"
+    },
+    "services": {
+      "heading": "Featured Services",
+      "viewMore": "View Details",
+      "items": {
+        "facial": "Advanced Facial Treatment",
+        "massage": "Therapeutic Massage",
+        "laser": "Laser Skin Care"
+      }
+    },
+    "about": {
+      "heading": "About Ngoc Huong Spa",
+      "description1": "At Ngoc Huong Spa & Clinic, we believe that every individual possesses a unique natural beauty. Our mission is to awaken and enhance that beauty through advanced treatments and premium skincare products.",
+      "description2": "With a team of highly skilled therapists and state-of-the-art facilities, we provide a tranquil sanctuary where you can escape the hustle of daily life and rejuvenate your body and soul.",
+      "mission": "Our Mission",
+      "missionText": "To provide the highest quality beauty and wellness services, ensuring absolute customer satisfaction.",
+      "vision": "Our Vision",
+      "visionText": "To become the leading spa and clinic brand, trusted by customers for our expertise and dedication."
+    },
+    "gallery": {
+      "heading": "Procedures Gallery"
+    },
+    "testimonials": {
+      "heading": "What Our Clients Say",
+      "items": {
+        "client1": {
+          "name": "Nguyen Thi Mai",
+          "content": "The facial treatment was absolutely amazing. My skin feels so soft and glowing. The staff is very professional and friendly."
+        },
+        "client2": {
+          "name": "Tran Hoang Yen",
+          "content": "I highly recommend the therapeutic massage here. It completely relieved my back pain after a long week of work. The atmosphere is very relaxing."
+        },
+        "client3": {
+          "name": "Le Ngoc Han",
+          "content": "The laser skin care procedure gave me excellent results. The clinic is very clean, and they use high-end products. Will definitely come back!"
+        }
+      }
+    },
+    "news": {
+      "heading": "Beauty Blog & News",
+      "readMore": "Read Full Article",
+      "items": {
+        "post1": {
+          "title": "5 Essential Skincare Steps for Glowing Skin",
+          "date": "May 10, 2026",
+          "excerpt": "Discover the secret to achieving radiant and youthful skin with these 5 simple yet effective daily skincare routines."
+        },
+        "post2": {
+          "title": "The Benefits of Regular Therapeutic Massage",
+          "date": "May 05, 2026",
+          "excerpt": "Learn how regular massages can improve your blood circulation, reduce stress, and boost your overall well-being."
+        },
+        "post3": {
+          "title": "Understanding Laser Skin Treatments",
+          "date": "April 28, 2026",
+          "excerpt": "A comprehensive guide to different laser treatments and how they can address various skin concerns like pigmentation and aging."
+        }
+      }
+    },
+    "booking": {
+      "heading": "Book an Appointment",
+      "subheading": "Fill out the form below and we will contact you to confirm your appointment.",
+      "form": {
+        "name": "Your Name",
+        "phone": "Phone Number",
+        "service": "Service of Interest",
+        "submit": "Submit Request"
+      }
+    }
+  },
+  "Services": {
+    "facial": {
+      "title": "Advanced Facial Treatment",
+      "description": "Rejuvenate your skin with our premium facial treatment using high-end organic products.",
+      "duration": "60 Minutes",
+      "price": "From $50",
+      "benefits": [
+        "Deeply cleanses pores",
+        "Hydrates and nourishes skin",
+        "Reduces fine lines and wrinkles"
+      ],
+      "steps": [
+        { "title": "Step 1: Cleansing", "desc": "Removing makeup and impurities from the skin surface." },
+        { "title": "Step 2: Exfoliation", "desc": "Removing dead skin cells to reveal a brighter complexion." },
+        { "title": "Step 3: Massage", "desc": "Facial massage to improve blood circulation and relaxation." },
+        { "title": "Step 4: Mask", "desc": "Applying a premium hydrating mask tailored to your skin type." }
+      ]
+    },
+    "massage": {
+      "title": "Therapeutic Massage",
+      "description": "A relaxing full-body massage to relieve stress and muscle tension.",
+      "duration": "90 Minutes",
+      "price": "From $80",
+      "benefits": [
+        "Relieves muscle tension and pain",
+        "Improves blood circulation",
+        "Promotes deep relaxation and better sleep"
+      ],
+      "steps": [
+        { "title": "Step 1: Consultation", "desc": "Discussing your specific needs and focus areas." },
+        { "title": "Step 2: Warm Up", "desc": "Gentle strokes to warm up the muscles." },
+        { "title": "Step 3: Deep Tissue", "desc": "Applying targeted pressure to relieve knots and tension." },
+        { "title": "Step 4: Relaxation", "desc": "Soothing techniques to conclude the session." }
+      ]
+    },
+    "laser": {
+      "title": "Laser Skin Care",
+      "description": "Advanced laser technology to treat pigmentation, acne scars, and aging signs.",
+      "duration": "45 Minutes",
+      "price": "From $120",
+      "benefits": [
+        "Evens out skin tone",
+        "Reduces acne scars and pigmentation",
+        "Stimulates collagen production"
+      ],
+      "steps": [
+        { "title": "Step 1: Preparation", "desc": "Cleansing the skin and applying a cooling gel." },
+        { "title": "Step 2: Laser Treatment", "desc": "Precise application of laser energy to targeted areas." },
+        { "title": "Step 3: Cooling", "desc": "Applying a soothing mask to calm the skin." },
+        { "title": "Step 4: Protect", "desc": "Apply soothing cream and sunscreen." }
+      ]
+    },
+    "thai-chi": {
+      "title": "Traditional Lead Detoxification",
+      "description": "A detoxifying therapy using modern technology combined with traditional herbs, bringing you healthy, glowing skin.",
+      "duration": "60 Minutes",
+      "price": "350,000 VND",
+      "benefits": [
+        "Removes toxins and lead accumulated from makeup",
+        "Brightens skin and fades dark spots",
+        "Effectively tightens pores",
+        "Uses 100% safe traditional herbs"
+      ],
+      "steps": [
+        { "title": "Step 1: Cleansing", "desc": "Cleanse the skin surface with a gentle cleanser, removing dirt and sebum." },
+        { "title": "Step 2: Exfoliation", "desc": "Remove dead skin cells, helping the skin absorb nutrients easily." },
+        { "title": "Step 3: Steaming & Extraction", "desc": "Open pores, extract excess oil and blackheads." },
+        { "title": "Step 4: Lead Detox Machine", "desc": "Use traditional herbal detox capsules combined with an ultrasonic machine to push lead out of the skin." },
+        { "title": "Step 5: Herbal Mask", "desc": "Soothe the skin, provide moisture and restorative nutrients." }
+      ]
+    },
+    "phuc-hoi-da": {
+      "title": "Traditional Skin Restoration",
+      "description": "A process to regenerate the skin's natural protective barrier, specifically for thin, sensitive, or damaged skin.",
+      "duration": "90 Minutes",
+      "price": "500,000 VND",
+      "benefits": [
+        "Instantly soothes redness and sensitivity",
+        "Restores the skin's protective lipid barrier",
+        "Nourishes deeply with ginseng and reishi mushroom",
+        "Balances natural moisture and pH levels"
+      ],
+      "steps": [
+        { "title": "Step 1: Deep Cleansing", "desc": "Use products specifically for sensitive skin." },
+        { "title": "Step 2: Fresh Oxygen Spray", "desc": "Provide pure oxygen to instantly soothe and cool the skin." },
+        { "title": "Step 3: Restorative Essence Electroporation", "desc": "Deliver traditional herbal serum deep into the epidermis to regenerate cells." },
+        { "title": "Step 4: Acupressure Massage", "desc": "Stimulate blood circulation, giving the skin a rosy glow." },
+        { "title": "Step 5: Oatmeal Mask", "desc": "Lock in moisture and strengthen the skin's protective barrier." }
+      ]
+    },
+    "thai-doc": {
+      "title": "Herbal Detox & Rejuvenation",
+      "description": "A comprehensive solution combining detoxification and deep restoration, bringing new life to tired skin.",
+      "duration": "120 Minutes",
+      "price": "750,000 VND",
+      "benefits": [
+        "Completely eliminates accumulated corticoids and mixed creams",
+        "Stimulates the production of new collagen and elastin",
+        "Rejuvenates the skin, minimizing wrinkles",
+        "Visible results right after the first session"
+      ],
+      "steps": [
+        { "title": "Step 1: Skin Analysis", "desc": "Assess the level of toxicity and skin damage." },
+        { "title": "Step 2: Cleansing & Steaming", "desc": "Help pores expand completely." },
+        { "title": "Step 3: Detox Bubbling Mask", "desc": "Use an active carbon bubbling mask to push toxins from deep within the pores to the surface." },
+        { "title": "Step 4: Cold Ultrasound Restoration", "desc": "Use a cold hammer combined with stem cells to soothe and tighten pores." },
+        { "title": "Step 5: Bio-Light Therapy", "desc": "Use red light to stimulate the proliferation of new cells." }
+      ]
+    },
+    "common": {
+      "duration": "Duration",
+      "price": "Price",
+      "benefits": "Key Benefits",
+      "procedure": "Procedure Steps",
+      "bookNow": "Book Now",
+      "related": "Related Services",
+      "viewMore": "View Details"
+    }
+  },
+  "NewsDetails": {
+    "post1": {
+      "title": "5 Essential Skincare Steps for Glowing Skin",
+      "date": "May 10, 2026",
+      "author": "Dr. Sarah Nguyen",
+      "content": [
+        "Achieving radiant, youthful skin isn't just about genetics—it's about a consistent and effective skincare routine. In this comprehensive guide, we'll walk you through the five essential steps you need to follow every day.",
+        "**Step 1: Double Cleansing**\nThe foundation of any good skincare routine starts with a clean canvas. Double cleansing involves using an oil-based cleanser first to remove makeup and sunscreen, followed by a water-based cleanser to wash away sweat and dirt. This ensures that your pores are completely free of impurities.",
+        "**Step 2: Toning**\nToners help to balance the skin's pH after cleansing. Look for alcohol-free toners with hydrating ingredients like hyaluronic acid or soothing ingredients like rose water. Applying toner preps the skin to better absorb the products that follow.",
+        "**Step 3: Serums and Treatments**\nThis is where you target specific skin concerns. Whether you're dealing with hyperpigmentation, fine lines, or acne, choosing the right serum is crucial. Vitamin C is excellent for brightening, while retinol is the gold standard for anti-aging.",
+        "**Step 4: Moisturizing**\nEven if you have oily skin, moisturizing is non-negotiable. A good moisturizer traps all the beneficial ingredients you just applied and prevents water loss from the skin barrier. Choose a lightweight gel for oily skin and a rich cream for dry skin.",
+        "**Step 5: Sun Protection (Daytime Only)**\nThe most important step in preventing premature aging and skin damage is applying broad-spectrum sunscreen with at least SPF 30 every morning. UV rays are present even on cloudy days, so make this a daily habit.",
+        "By following these five steps consistently, you'll notice a significant improvement in your skin's texture, tone, and overall health. Remember, skincare is a marathon, not a sprint!"
+      ]
+    },
+    "post2": {
+      "title": "The Benefits of Regular Therapeutic Massage",
+      "date": "May 05, 2026",
+      "author": "Therapist Anna Tran",
+      "content": [
+        "In our fast-paced modern world, stress is almost unavoidable. While many consider massage a luxury, it is actually a vital component of a healthy lifestyle. Therapeutic massage goes beyond simple relaxation—it offers profound physical and mental benefits.",
+        "**Physical Rejuvenation**\nRegular massage helps to relieve chronic muscle tension and pain. Techniques like deep tissue massage target knots and adhesions in the muscle fibers, restoring flexibility and range of motion. It also stimulates blood flow, delivering oxygen and nutrients to tissues while flushing out toxins.",
+        "**Mental Wellbeing**\nThe power of human touch shouldn't be underestimated. Massage therapy has been proven to lower cortisol (the stress hormone) levels while simultaneously increasing serotonin and dopamine levels. This chemical shift in the brain helps alleviate symptoms of anxiety and depression, leaving you feeling calm and centered.",
+        "**Improved Sleep Quality**\nIf you struggle with insomnia or restless nights, a therapeutic massage can be incredibly beneficial. By promoting deep relaxation and reducing physical discomfort, massage helps regulate your sleep cycle, allowing for restorative, uninterrupted sleep.",
+        "Incorporating regular massage sessions into your wellness routine can transform your overall quality of life. Whether you schedule a session once a week or once a month, your mind and body will thank you."
+      ]
+    },
+    "post3": {
+      "title": "Understanding Laser Skin Treatments",
+      "date": "April 28, 2026",
+      "author": "Dr. Michael Le",
+      "content": [
+        "Laser technology has revolutionized the field of dermatology and medical aesthetics. From erasing years of sun damage to smoothing out deep acne scars, laser treatments offer powerful solutions for various skin concerns. But with so many options available, understanding how they work is the first step.",
+        "**How Do Lasers Work?**\nLasers use focused beams of light to target specific chromophores (color pigments) in the skin, such as melanin (in dark spots) or hemoglobin (in blood vessels). The heat generated by the laser either destroys the target or creates controlled micro-injuries that stimulate the body's natural healing process.",
+        "**Ablative vs. Non-Ablative Lasers**\nAblative lasers (like CO2) remove the outer layers of the skin, offering dramatic results for deep wrinkles and severe scarring, but require significant downtime. Non-ablative lasers bypass the surface to heat the underlying tissue, promoting collagen production with minimal recovery time.",
+        "**What Can Lasers Treat?**\n- **Pigmentation:** Lasers effectively break down excess melanin, treating sunspots, freckles, and melasma.\n- **Vascular Issues:** They can collapse visible blood vessels and reduce redness associated with rosacea.\n- **Texture and Tone:** By stimulating collagen, lasers smooth out rough skin, reduce pore size, and soften fine lines.\n- **Acne Scars:** Fractional lasers create microscopic channels in the skin, encouraging new, healthy tissue to replace scarred areas.",
+        "Before undergoing any laser treatment, a thorough consultation with a qualified professional is essential to determine the best approach for your unique skin type and concerns."
+      ]
+    },
+    "common": {
+      "back": "Back to News"
+    }
+  },
+  "Navigation": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "gallery": "Gallery",
+    "testimonials": "Testimonials",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "ServiceCategories": {
+    "body-care": "Body Exfoliation & Care",
+    "facial-care": "Facial Care",
+    "herbal-hair-wash": "Herbal Hair Wash",
+    "eye-care": "Eye Care",
+    "rf-weight-loss": "RF Weight Loss",
+    "traditional-medicine-skin-care": "Traditional Skin Care",
+    "acne-treatment": "Acne Treatment",
+    "melasma-treatment": "Melasma Treatment",
+    "safe-skin-whitening": "Safe Skin Whitening",
+    "full-body-massage": "Full Body Care & Massage",
+    "permanent-hair-removal": "Permanent Hair Removal",
+    "cosmetic-tattooing": "Cosmetic Tattooing",
+    "acne-treatment-process": "Acne Treatment Process",
+    "waxing": "Waxing"
+  },
+  "CategoryPages": {
+    "readMore": "Read more",
+    "traditional-medicine-skin-care": {
+      "title": "TRADITIONAL SKIN CARE",
+      "items": {
+        "thai-chi": {
+          "title": "TRADITIONAL LEAD DETOXIFICATION",
+          "excerpt": "Daily exposure to environmental pollutants causes lead accumulation. We provide a safe solution..."
+        },
+        "phuc-hoi-da": {
+          "title": "TRADITIONAL SKIN RESTORATION",
+          "excerpt": "At NGOC HUONG SPA, our traditional skin restoration process ensures you no longer have to worry..."
+        },
+        "thai-doc": {
+          "title": "HERBAL DETOX & REJUVENATION",
+          "excerpt": "Achieve flawless, healthy glowing skin with our safe herbal detoxification methods..."
+        }
+      }
+    },
+    "fallback": {
+      "title": "SERVICE CATEGORY",
+      "items": {
+        "service-1": {
+          "title": "BASIC SERVICE 1",
+          "excerpt": "Experience deep care procedures with our exclusive natural products designed for you..."
+        },
+        "service-2": {
+          "title": "PREMIUM SERVICE 2",
+          "excerpt": "A comprehensive solution to regenerate and restore your body's energy after stressful work days..."
+        },
+        "service-3": {
+          "title": "THERAPEUTIC SERVICE 3",
+          "excerpt": "Combining modern technology with traditional methods to deliver immediate, visible results..."
+        }
+      }
+    }
+  }
+}
