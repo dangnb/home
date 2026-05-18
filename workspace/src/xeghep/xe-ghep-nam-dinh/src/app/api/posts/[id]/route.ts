@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthUser } from "@/lib/middleware-auth";
+import { cleanupRemovedImages, deleteAllPostImages } from "@/lib/image-cleanup";
 import slugify from "slugify";
 
 // GET /api/posts/[id] - Get single post
@@ -41,6 +42,9 @@ export async function PUT(
     const body = await request.json();
     const { title, content, excerpt, thumbnail, published, categoryId, metaTitle, metaDesc, ogImage } = body;
 
+    // Get old post to compare images
+    const oldPost = await prisma.post.findUnique({ where: { id } });
+
     const updateData: Record<string, unknown> = {};
     if (title !== undefined) {
       updateData.title = title;
@@ -60,6 +64,16 @@ export async function PUT(
       data: updateData,
     });
 
+    // Cleanup removed images (async, don't block response)
+    if (oldPost && content !== undefined) {
+      cleanupRemovedImages(
+        oldPost.content,
+        content,
+        oldPost.thumbnail,
+        thumbnail
+      ).catch((err) => console.error("Image cleanup error:", err));
+    }
+
     return NextResponse.json({ post });
   } catch (error) {
     console.error("Update post error:", error);
@@ -67,7 +81,7 @@ export async function PUT(
   }
 }
 
-// DELETE /api/posts/[id] - Delete post
+// DELETE /api/posts/[id] - Delete post and its images
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -79,9 +93,20 @@ export async function DELETE(
     }
 
     const { id } = await params;
+
+    // Get post to find images before deleting
+    const post = await prisma.post.findUnique({ where: { id } });
+
+    if (post) {
+      // Delete all images associated with this post
+      deleteAllPostImages(post.content, post.thumbnail).catch((err) =>
+        console.error("Image cleanup error:", err)
+      );
+    }
+
     await prisma.post.delete({ where: { id } });
 
-    return NextResponse.json({ message: "Đã xóa bài viết" });
+    return NextResponse.json({ message: "Đã xóa bài viết và ảnh liên quan" });
   } catch (error) {
     console.error("Delete post error:", error);
     return NextResponse.json({ error: "Lỗi server" }, { status: 500 });
