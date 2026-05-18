@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { generateSEO, getLocalBusinessSchema } from "@/lib/seo";
+import { generateSEO, getLocalBusinessSchema, getFAQSchema, getServiceSchema } from "@/lib/seo";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
-export const metadata: Metadata = generateSEO({
-  title: "Xe Ghép Nam Định – Xe Ghép Nam Định Hà Nội | Đặt xe nhanh 24/7",
-  description:
-    "Dịch vụ xe ghép Nam Định đi Hà Nội và chiều ngược lại: đón trả tận nơi, giá rõ ràng, đặt xe nhanh 24/7. Hotline: 0379.803.990",
-});
+export const metadata: Metadata = {
+  metadataBase: new URL("https://xeghepnamdinh.vn"),
+  ...generateSEO({
+    title: "Xe Ghép Nam Định – Xe Ghép Nam Định Hà Nội | Đặt xe nhanh 24/7",
+    description:
+      "Dịch vụ xe ghép Nam Định đi Hà Nội và chiều ngược lại: đón trả tận nơi, giá rõ ràng, đặt xe nhanh 24/7. Hotline: 0379.803.990",
+  }),
+  verification: {
+    google: "YOUR_GOOGLE_VERIFICATION_CODE",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -18,6 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const localBusinessSchema = getLocalBusinessSchema();
+  const faqSchema = getFAQSchema();
+  const serviceSchema = getServiceSchema();
 
   return (
     <html lang="vi" suppressHydrationWarning>
@@ -67,6 +75,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>{children}</body>

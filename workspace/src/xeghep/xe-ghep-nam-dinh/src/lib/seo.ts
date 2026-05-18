@@ -142,3 +142,88 @@ export function getGoogleAnalyticsScript(gaId: string) {
     gtag('config', '${gaId}');
   `;
 }
+
+
+// FAQ Schema for rich snippets in Google
+export function getFAQSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Xe ghép Nam Định là gì?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Xe ghép Nam Định là dịch vụ đi chung xe từ Hà Nội về Nam Định và ngược lại. Bạn sẽ đi chung với 2-5 khách khác, được đón tận nhà và trả tận nơi với giá chỉ từ 250.000đ/người.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Giá xe ghép Nam Định Hà Nội bao nhiêu?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Giá xe ghép Nam Định - Hà Nội là 250.000đ/ghế. Taxi riêng 4 chỗ: 900.000đ/xe, 7 chỗ: 1.100.000đ/xe. Giá đã bao gồm phí cầu đường.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Xe ghép Nam Định có đón tận nhà không?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Có. Xe ghép Nam Định đón tận nhà và trả tận nơi, không cần ra bến xe. Phục vụ 24/7.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Đặt xe ghép Nam Định như thế nào?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Bạn có thể đặt xe qua hotline 0379.803.990, chat Zalo, hoặc đặt trực tuyến trên website xeghepnamdinh.vn. Nên đặt trước 60-90 phút.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Xe ghép Nam Định có miễn phí hủy chuyến không?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Có. Xe Ghép Nam Định miễn phí hủy chuyến khi khách hàng thay đổi lộ trình. Cam kết hoàn tiền 100% nếu không hài lòng.",
+        },
+      },
+    ],
+  };
+}
+
+// Service schema
+export function getServiceSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Xe Ghép Nam Định - Hà Nội",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Xe Ghép Nam Định",
+    },
+    serviceType: "Dịch vụ vận chuyển hành khách",
+    areaServed: [
+      { "@type": "City", name: "Nam Định" },
+      { "@type": "City", name: "Hà Nội" },
+    ],
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Xe ghép Nam Định - Hà Nội",
+        price: "250000",
+        priceCurrency: "VND",
+        description: "Đón tận nhà, trả tận nơi, xe đời mới",
+      },
+      {
+        "@type": "Offer",
+        name: "Taxi 4 chỗ Nam Định - Hà Nội",
+        price: "900000",
+        priceCurrency: "VND",
+        description: "Xe riêng 4 chỗ, đưa đón tận nhà",
+      },
+    ],
+  };
+}
