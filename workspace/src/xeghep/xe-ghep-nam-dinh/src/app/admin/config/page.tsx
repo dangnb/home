@@ -13,11 +13,14 @@ interface ConfigItem {
 
 const defaultConfigs: ConfigItem[] = [
   { key: "site_name", label: "Tên website", value: "Xe Ghép Nam Định", description: "Tên hiển thị trên website", type: "text" },
+  { key: "company_name", label: "Tên công ty", value: "CÔNG TY CỔ PHẦN THƯƠNG MẠI DỊCH VỤ XE GHÉP NAM ĐỊNH", description: "Tên đầy đủ công ty", type: "text" },
   { key: "hotline", label: "Hotline", value: "0379803990", description: "Số điện thoại hotline", type: "text" },
   { key: "hotline_2", label: "Hotline 2", value: "0345076789", description: "Số điện thoại phụ", type: "text" },
+  { key: "email", label: "Email", value: "info@xeghepnamdinh.vn", description: "Email liên hệ", type: "text" },
   { key: "zalo_link", label: "Link Zalo", value: "https://zalo.me/0379803990", description: "Link chat Zalo", type: "text" },
-  { key: "address_1", label: "Địa chỉ 1", value: "Ngã tư bưu điện, TT Giao Thủy, Nam Định", description: "Trụ sở chính", type: "text" },
-  { key: "address_2", label: "Địa chỉ 2", value: "Số 2A Văn Cao, P. Thụy Khê, Q. Tây Hồ, Hà Nội", description: "Văn phòng Hà Nội", type: "text" },
+  { key: "address_1", label: "Địa chỉ 1 (Nam Định)", value: "Ngã tư bưu điện, TT Giao Thủy, Nam Định", description: "Trụ sở Nam Định", type: "text" },
+  { key: "address_2", label: "Địa chỉ 2 (Hà Nội)", value: "Số 2A Văn Cao, P. Thụy Khê, Q. Tây Hồ, Hà Nội", description: "Văn phòng Hà Nội", type: "text" },
+  { key: "map_embed", label: "Google Maps Embed URL", value: "", description: "URL iframe Google Maps (lấy từ Google Maps > Share > Embed)", type: "textarea" },
   { key: "facebook_pixel", label: "Facebook Pixel ID", value: "", description: "ID pixel Facebook Ads", type: "text" },
   { key: "google_analytics", label: "Google Analytics ID", value: "", description: "ID Google Analytics (G-XXXXXXX)", type: "text" },
   { key: "google_ads_id", label: "Google Ads ID", value: "", description: "ID Google Ads conversion", type: "text" },
@@ -118,18 +121,28 @@ export default function AdminConfig() {
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Thông tin chung</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {configs.filter((c) => ["site_name", "hotline", "hotline_2", "zalo_link", "address_1", "address_2"].includes(c.key)).map((config) => (
+            {configs.filter((c) => ["site_name", "company_name", "hotline", "hotline_2", "email", "zalo_link", "address_1", "address_2", "map_embed"].includes(c.key)).map((config) => (
               <div key={config.key}>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   {config.label}
                 </label>
-                <input
-                  type="text"
-                  value={config.value}
-                  onChange={(e) => updateValue(config.key, e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
-                  placeholder={config.description}
-                />
+                {config.type === "textarea" ? (
+                  <textarea
+                    value={config.value}
+                    onChange={(e) => updateValue(config.key, e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    rows={3}
+                    placeholder={config.description}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    value={config.value}
+                    onChange={(e) => updateValue(config.key, e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    placeholder={config.description}
+                  />
+                )}
                 <p className="text-xs text-gray-400 mt-1">{config.description}</p>
               </div>
             ))}

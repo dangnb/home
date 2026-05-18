@@ -58,6 +58,21 @@
   outline-offset: 2px;
 }
 
+/* Allow text to wrap around floated images in editor */
+.ProseMirror {
+  overflow: hidden;
+}
+
+.ProseMirror .node-image {
+  display: block;
+}
+
+.ProseMirror::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* Editor placeholder */
 .ProseMirror p.is-editor-empty:first-child::before {
   content: "Bắt đầu viết nội dung bài viết...";
@@ -76,6 +91,55 @@
 .prose img:hover {
   transform: scale(1.02);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Blog images with alignment */
+.prose img[data-align="left"] {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.prose img[data-align="center"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prose img[data-align="right"] {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Blog images with float - text wraps around */
+.prose img[data-float="left"] {
+  float: left;
+  margin: 8px 16px 8px 0;
+}
+
+.prose img[data-float="right"] {
+  float: right;
+  margin: 8px 0 8px 16px;
+}
+
+.prose::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Image fade-in animation on scroll */
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.prose img.animated {
+  animation: imageReveal 0.6s ease forwards;
 }
 
 /* Custom scrollbar */

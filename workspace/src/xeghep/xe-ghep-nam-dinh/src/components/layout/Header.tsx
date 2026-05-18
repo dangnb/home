@@ -9,9 +9,8 @@ const navLinks = [
   { href: "/", label: "Trang chủ" },
   { href: "/#bang-gia", label: "Bảng giá" },
   { href: "/#dich-vu", label: "Dịch vụ" },
-  { href: "/dat-ve", label: "Đặt vé" },
-  { href: "/blog", label: "Blog" },
-  { href: "/#lien-he", label: "Liên hệ" },
+  { href: "/blog", label: "Tin tức" },
+  { href: "/lien-he", label: "Liên hệ" },
 ];
 
 export default function Header() {

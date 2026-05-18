@@ -2,13 +2,13 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
+import { ResizableImageExtension } from "./ImageExtension";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
 import { Color, TextStyle, FontSize } from "@tiptap/extension-text-style";
 import Link from "@tiptap/extension-link";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useState, useRef } from "react";
 import {
   Bold,
   Italic,
@@ -51,7 +51,6 @@ const COLORS = [
 export default function RichTextEditor({ content, onChange }: RichTextEditorProps) {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showFontSize, setShowFontSize] = useState(false);
-  const [draggedImage, setDraggedImage] = useState<HTMLElement | null>(null);
   const editorRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
@@ -59,12 +58,8 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
       }),
-      Image.configure({
-        HTMLAttributes: {
-          class: "editor-image",
-          draggable: "true",
-        },
-        allowBase64: true,
+      ResizableImageExtension.configure({
+        allowBase64: false,
       }),
       TextAlign.configure({
         types: ["heading", "paragraph", "image"],
@@ -167,69 +162,6 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
       },
     },
   });
-
-  // Image drag & drop repositioning
-  useEffect(() => {
-    if (!editorRef.current) return;
-
-    const handleDragStart = (e: DragEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === "IMG" && target.classList.contains("editor-image")) {
-        setDraggedImage(target);
-        e.dataTransfer?.setData("text/plain", "image-move");
-        if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
-      }
-    };
-
-    const handleDragOver = (e: DragEvent) => {
-      if (draggedImage) {
-        e.preventDefault();
-        if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
-      }
-    };
-
-    const handleDrop = (e: DragEvent) => {
-      if (draggedImage && editor) {
-        e.preventDefault();
-        const src = draggedImage.getAttribute("src");
-        if (src) {
-          // Delete old image position
-          const { state } = editor.view;
-          let oldPos = -1;
-          state.doc.descendants((node, pos) => {
-            if (node.type.name === "image" && node.attrs.src === src && oldPos === -1) {
-              oldPos = pos;
-            }
-          });
-
-          if (oldPos >= 0) {
-            // Get new position
-            const coords = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
-            if (coords) {
-              const tr = state.tr;
-              tr.delete(oldPos, oldPos + 1);
-              const adjustedPos = coords.pos > oldPos ? coords.pos - 1 : coords.pos;
-              const imageNode = state.schema.nodes.image.create({ src });
-              tr.insert(adjustedPos, imageNode);
-              editor.view.dispatch(tr);
-            }
-          }
-        }
-        setDraggedImage(null);
-      }
-    };
-
-    const el = editorRef.current;
-    el.addEventListener("dragstart", handleDragStart);
-    el.addEventListener("dragover", handleDragOver);
-    el.addEventListener("drop", handleDrop);
-
-    return () => {
-      el.removeEventListener("dragstart", handleDragStart);
-      el.removeEventListener("dragover", handleDragOver);
-      el.removeEventListener("drop", handleDrop);
-    };
-  }, [draggedImage, editor]);
 
   const uploadImage = useCallback(
     async (file: File): Promise<string | null> => {
