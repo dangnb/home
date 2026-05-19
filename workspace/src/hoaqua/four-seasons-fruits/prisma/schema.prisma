@@ -49,6 +49,7 @@ model Product {
   comments    Comment[]
   wishlist    Wishlist[]
   stockHistory StockHistory[]
+  importItems  ImportReceiptItem[]
 }
 
 // ============================================
@@ -255,4 +256,51 @@ model StockHistory {
   orderId   String?  // Liên kết đơn hàng (nếu có)
   stockAfter Int     // Tồn kho sau thay đổi
   createdAt DateTime @default(now())
+}
+
+// ============================================
+// Import Receipt (Phiếu nhập hàng)
+// ============================================
+model ImportReceipt {
+  id           String              @id @default(cuid())
+  code         String              @unique // Mã phiếu: PN-20240101-001
+  supplier     String              // Nhà cung cấp
+  note         String?             // Ghi chú
+  totalAmount  Float               @default(0) // Tổng tiền nhập
+  status       String              @default("draft") // "draft" | "confirmed" | "cancelled"
+  createdBy    String?             // Người tạo
+  confirmedAt  DateTime?           // Ngày duyệt
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  items        ImportReceiptItem[]
+}
+
+model ImportReceiptItem {
+  id              String        @id @default(cuid())
+  importReceiptId String
+  importReceipt   ImportReceipt @relation(fields: [importReceiptId], references: [id], onDelete: Cascade)
+  productId       String
+  product         Product       @relation(fields: [productId], references: [id])
+  quantity        Int           // Số lượng nhập
+  unitPrice       Float         // Giá nhập/đơn vị
+  totalPrice      Float         // quantity * unitPrice
+}
+
+// ============================================
+// Supplier (Nhà cung cấp)
+// ============================================
+model Supplier {
+  id          String   @id @default(cuid())
+  name        String
+  code        String?  @unique // Mã NCC
+  phone       String?
+  email       String?
+  address     String?
+  contactName String?  // Người liên hệ
+  taxCode     String?  // Mã số thuế
+  description String?  // Rich text HTML (editor)
+  logo        String?  // Logo URL
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

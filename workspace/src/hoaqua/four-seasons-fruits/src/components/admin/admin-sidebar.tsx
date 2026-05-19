@@ -19,6 +19,9 @@ import {
   Ticket,
   MessageCircle,
   Star,
+  Warehouse,
+  FileInput,
+  Truck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -27,6 +30,9 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Sản phẩm", icon: Package },
   { href: "/admin/categories", label: "Danh mục", icon: FolderTree },
+  { href: "/admin/suppliers", label: "Nhà cung cấp", icon: Truck },
+  { href: "/admin/inventory", label: "Kho hàng", icon: Warehouse },
+  { href: "/admin/import-receipts", label: "Phiếu nhập", icon: FileInput },
   { href: "/admin/orders", label: "Đơn hàng", icon: ShoppingCart },
   { href: "/admin/promotions", label: "Khuyến mại", icon: Percent },
   { href: "/admin/vouchers", label: "Voucher", icon: Ticket },
