@@ -15,7 +15,7 @@ const navLinks = [
   { href: "/products", label: "Sản phẩm" },
   { href: "/#categories", label: "Danh mục" },
   { href: "/about", label: "Giới thiệu" },
-  { href: "/#contact", label: "Liên hệ" },
+  { href: "/contact", label: "Liên hệ" },
 ];
 
 export function Navbar() {
@@ -44,11 +44,11 @@ export function Navbar() {
           : "bg-white"
       }`}
     >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-18 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Leaf className="h-6 w-6 text-emerald-600 group-hover:rotate-12 transition-transform" />
-          <span className="text-xl font-bold text-gray-900">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <Leaf className="h-7 w-7 text-emerald-600 group-hover:rotate-12 transition-transform" />
+          <span className="text-2xl font-bold text-gray-900">
             FourSeasons
           </span>
         </Link>
@@ -61,7 +61,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-4 py-2 text-sm font-medium transition-colors ${
+                className={`relative px-5 py-2 text-[15px] font-medium transition-colors ${
                   isActive
                     ? "text-emerald-700"
                     : "text-gray-600 hover:text-gray-900"

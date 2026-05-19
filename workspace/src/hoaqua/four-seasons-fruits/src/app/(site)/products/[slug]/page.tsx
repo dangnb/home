@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { formatPrice } from "@/lib/format";
+import { applyPromotionsToProducts } from "@/lib/promotion";
 import { AddToCartButton } from "./add-to-cart-button";
 import { ProductImageGallery } from "./product-image-gallery";
 import { Badge } from "@/components/ui/badge";
@@ -41,10 +42,9 @@ export default async function ProductDetailPage({
     imageList = [product.image];
   }
 
-  const discountPercent =
-    product.isOnSale && product.salePrice
-      ? Math.round(((product.price - product.salePrice) / product.price) * 100)
-      : 0;
+  // Apply promotions
+  const [productWithPromo] = await applyPromotionsToProducts([product]);
+  const { effectivePrice, discountPercent, hasPromotion } = productWithPromo;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -83,17 +83,17 @@ export default async function ProductDetailPage({
           </div>
 
           {/* Price */}
-          <div className="flex items-baseline gap-3">
-            {product.isOnSale && product.salePrice ? (
+          <div className="flex items-baseline gap-3 flex-wrap">
+            {effectivePrice < product.price ? (
               <>
                 <span className="text-3xl font-bold text-red-500">
-                  {formatPrice(product.salePrice)}
+                  {formatPrice(effectivePrice)}
                 </span>
                 <span className="text-xl text-gray-400 line-through">
                   {formatPrice(product.price)}
                 </span>
-                <Badge className="bg-red-100 text-red-600 border-0">
-                  Tiết kiệm {formatPrice(product.price - product.salePrice)}
+                <Badge className={`border-0 ${hasPromotion ? "bg-orange-100 text-orange-600" : "bg-red-100 text-red-600"}`}>
+                  {hasPromotion ? `KM -${discountPercent}%` : `Tiết kiệm ${formatPrice(product.price - effectivePrice)}`}
                 </Badge>
               </>
             ) : (
@@ -130,7 +130,7 @@ export default async function ProductDetailPage({
               id: product.id,
               name: product.name,
               price: product.price,
-              salePrice: product.salePrice,
+              salePrice: effectivePrice < product.price ? effectivePrice : product.salePrice,
               image: product.image,
               unit: product.unit,
             }}

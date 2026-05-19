@@ -1,6 +1,7 @@
-// Landing Page - Server component that fetches data and passes to client sections
+// Landing Page - Applies active promotions to product prices
 
 import { db } from "@/lib/db";
+import { applyPromotionsToProducts } from "@/lib/promotion";
 import { HeroBanner } from "@/components/site/hero-banner";
 import { FeaturesSection } from "@/components/site/features-section";
 import { BestSellersSection } from "@/components/site/best-sellers-section";
@@ -10,7 +11,7 @@ import { TestimonialsSection } from "@/components/site/testimonials-section";
 import { PromoBanner } from "@/components/site/promo-banner";
 
 export default async function HomePage() {
-  const [featuredProducts, saleProducts, categories] = await Promise.all([
+  const [rawFeatured, rawSale, categories] = await Promise.all([
     db.product.findMany({
       where: { featured: true },
       include: { category: true },
@@ -29,17 +30,15 @@ export default async function HomePage() {
     }),
   ]);
 
-  // Map products to include categoryId for filtering
-  const productsWithCategoryId = featuredProducts.map((p) => ({
-    ...p,
-    categoryId: p.categoryId,
-  }));
+  // Apply promotions to get effective prices
+  const featuredProducts = await applyPromotionsToProducts(rawFeatured);
+  const saleProducts = await applyPromotionsToProducts(rawSale);
 
   return (
     <>
       <HeroBanner />
       <FeaturesSection />
-      <BestSellersSection products={productsWithCategoryId} />
+      <BestSellersSection products={featuredProducts} />
       <CategoriesSection categories={categories} />
       <FlashSaleSection products={saleProducts} />
       <PromoBanner />

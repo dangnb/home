@@ -17,6 +17,9 @@ interface Product {
   unit: string;
   isOnSale: boolean;
   category: { name: string } | null;
+  effectivePrice?: number;
+  discountPercent?: number;
+  hasPromotion?: boolean;
 }
 
 export function FlashSaleSection({ products }: { products: Product[] }) {
@@ -77,6 +80,9 @@ export function FlashSaleSection({ products }: { products: Product[] }) {
                 unit={product.unit}
                 isOnSale={product.isOnSale}
                 category={product.category}
+                effectivePrice={product.effectivePrice}
+                discountPercent={product.discountPercent}
+                hasPromotion={product.hasPromotion}
               />
             </StaggerItem>
           ))}

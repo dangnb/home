@@ -104,3 +104,94 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+// ============================================
+// Store Settings (configurable contact info)
+// ============================================
+model StoreSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+// ============================================
+// Promotion Model (Chương trình khuyến mại)
+// ============================================
+model Promotion {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  discount    Float    // Phần trăm chiết khấu (VD: 10 = 10%)
+  type        String   @default("product") // "product" | "category" | "all"
+  productIds  String?  // JSON array of product IDs (for type "product")
+  categoryIds String?  // JSON array of category IDs (for type "category")
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  minOrder    Float?   // Đơn hàng tối thiểu (optional)
+  maxDiscount Float?   // Giảm tối đa (optional)
+  code        String?  @unique // Mã khuyến mại (optional)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================
+// Voucher Model (Mã giảm giá cho khách hàng)
+// ============================================
+model Voucher {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  description   String?
+  discountType  String   @default("percent") // "percent" | "fixed"
+  discountValue Float    // Giá trị giảm (% hoặc VND tùy discountType)
+  minOrder      Float?   // Đơn tối thiểu
+  maxDiscount   Float?   // Giảm tối đa (chỉ dùng khi discountType = percent)
+  usageLimit    Int?     // Số lần sử dụng tối đa (null = không giới hạn)
+  usedCount     Int      @default(0) // Số lần đã dùng
+  perUserLimit  Int      @default(1) // Số lần mỗi người dùng (theo email)
+  startDate     DateTime
+  endDate       DateTime
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  usages        VoucherUsage[]
+}
+
+// ============================================
+// Voucher Usage (Lịch sử sử dụng voucher)
+// ============================================
+model VoucherUsage {
+  id        String   @id @default(cuid())
+  voucherId String
+  voucher   Voucher  @relation(fields: [voucherId], references: [id])
+  email     String   // Email khách hàng
+  orderId   String?  // Liên kết đơn hàng
+  discount  Float    // Số tiền đã giảm
+  createdAt DateTime @default(now())
+}
+
+// ============================================
+// Chat Models (Live chat between customer & admin)
+// ============================================
+model ChatConversation {
+  id          String        @id @default(cuid())
+  customerName  String
+  customerEmail String?
+  customerPhone String?
+  status      String        @default("open") // "open" | "closed"
+  lastMessage String?
+  lastAt      DateTime?
+  unreadAdmin Int           @default(0) // Unread count for admin
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  messages    ChatMessage[]
+}
+
+model ChatMessage {
+  id             String           @id @default(cuid())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String           // "customer" | "admin"
+  content        String
+  createdAt      DateTime         @default(now())
+}

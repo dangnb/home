@@ -20,6 +20,9 @@ interface Product {
   isOnSale: boolean;
   categoryId: string;
   category: { name: string } | null;
+  effectivePrice?: number;
+  discountPercent?: number;
+  hasPromotion?: boolean;
 }
 
 export function BestSellersSection({ products }: { products: Product[] }) {
@@ -100,6 +103,9 @@ export function BestSellersSection({ products }: { products: Product[] }) {
                   unit={product.unit}
                   isOnSale={product.isOnSale}
                   category={product.category}
+                  effectivePrice={product.effectivePrice}
+                  discountPercent={product.discountPercent}
+                  hasPromotion={product.hasPromotion}
                 />
               </motion.div>
             </StaggerItem>

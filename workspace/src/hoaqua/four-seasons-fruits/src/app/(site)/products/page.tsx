@@ -1,6 +1,7 @@
 // Product Listing Page with search, category filter, and pagination
 
 import { db } from "@/lib/db";
+import { applyPromotionsToProducts } from "@/lib/promotion";
 import { ProductCard } from "@/components/site/product-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -35,7 +36,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   }
 
   // Fetch products and categories
-  const [products, total, categories] = await Promise.all([
+  const [rawProducts, total, categories] = await Promise.all([
     db.product.findMany({
       where,
       include: { category: true },
@@ -46,6 +47,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     db.product.count({ where }),
     db.category.findMany({ orderBy: { name: "asc" } }),
   ]);
+
+  // Apply active promotions to get effective prices
+  const products = await applyPromotionsToProducts(rawProducts);
 
   const totalPages = Math.ceil(total / PRODUCTS_PER_PAGE);
 
@@ -129,6 +133,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               unit={product.unit}
               isOnSale={product.isOnSale}
               category={product.category}
+              effectivePrice={product.effectivePrice}
+              discountPercent={product.discountPercent}
+              hasPromotion={product.hasPromotion}
             />
           ))}
         </div>
