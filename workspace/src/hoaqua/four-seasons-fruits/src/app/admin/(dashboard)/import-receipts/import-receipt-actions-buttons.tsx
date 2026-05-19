@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { confirmImportReceipt, cancelImportReceipt, deleteImportReceipt } from "@/actions/import-receipt-actions";
 import { Button } from "@/components/ui/button";
-import { Check, X, Trash2, Eye } from "lucide-react";
+import { Check, X, Trash2, Eye, Edit2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -49,6 +49,11 @@ export function ImportReceiptActions({ receiptId, status, code }: { receiptId: s
 
       {status === "draft" && (
         <>
+          <Link href={`/admin/import-receipts/${receiptId}/edit`}>
+            <Button variant="ghost" size="sm" title="Sửa" className="text-gray-600 hover:bg-gray-50">
+              <Edit2 className="h-4 w-4" />
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" onClick={handleConfirm} disabled={isLoading} className="text-emerald-600 hover:bg-emerald-50" title="Duyệt">
             <Check className="h-4 w-4" />
           </Button>
