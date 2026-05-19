@@ -1,0 +1,106 @@
+// Prisma Schema for Four Seasons Fruits E-commerce
+// Using SQLite for development (easily switchable to PostgreSQL)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Category Model
+// ============================================
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+// ============================================
+// Product Model
+// ============================================
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String?
+  content     String?     // Rich text content (HTML from editor)
+  price       Float
+  salePrice   Float?
+  image       String?
+  images      String?     // JSON array of image URLs
+  stock       Int         @default(0)
+  unit        String      @default("kg")
+  featured    Boolean     @default(false)
+  isOnSale    Boolean     @default(false)
+  categoryId  String
+  category    Category    @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+// ============================================
+// Order Model
+// ============================================
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  shippingAddress String
+  total           Float
+  status          String      @default("pending")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+}
+
+// ============================================
+// OrderItem Model
+// ============================================
+model OrderItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  price     Float
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+}
+
+// ============================================
+// Admin User Model (for demo authentication)
+// ============================================
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// Post Model (Store articles / About pages)
+// ============================================
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?  // Short summary
+  content     String   // Rich text HTML content
+  coverImage  String?  // Cover/banner image URL
+  published   Boolean  @default(false)
+  type        String   @default("article") // "article" | "about" | "page"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
