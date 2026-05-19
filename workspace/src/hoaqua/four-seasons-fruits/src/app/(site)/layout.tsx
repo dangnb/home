@@ -1,9 +1,10 @@
 // Layout for public-facing pages (customer site)
-// Includes Navbar, CartDrawer, and Footer
+// Includes Navbar, CartDrawer, Footer, and Chat Widget
 
 import { Navbar } from "@/components/site/navbar";
 import { CartDrawer } from "@/components/site/cart-drawer";
 import { Footer } from "@/components/site/footer";
+import { ChatWidget } from "@/components/site/chat-widget";
 
 export default function SiteLayout({
   children,
@@ -16,6 +17,7 @@ export default function SiteLayout({
       <CartDrawer />
       <main className="flex-1">{children}</main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

@@ -46,6 +46,9 @@ model Product {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   orderItems  OrderItem[]
+  comments    Comment[]
+  wishlist    Wishlist[]
+  stockHistory StockHistory[]
 }
 
 // ============================================
@@ -194,4 +197,62 @@ model ChatMessage {
   sender         String           // "customer" | "admin"
   content        String
   createdAt      DateTime         @default(now())
+}
+
+// ============================================
+// Customer User (for login, comment, wishlist)
+// ============================================
+model Customer {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  avatar    String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  comments  Comment[]
+  wishlist  Wishlist[]
+}
+
+// ============================================
+// Product Comment / Review
+// ============================================
+model Comment {
+  id         String   @id @default(cuid())
+  content    String
+  rating     Int      @default(5) // 1-5 stars
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+// ============================================
+// Wishlist (Sản phẩm yêu thích)
+// ============================================
+model Wishlist {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([productId, customerId])
+}
+
+// ============================================
+// Stock History (Lịch sử kho)
+// ============================================
+model StockHistory {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  type      String   // "in" (nhập) | "out" (xuất) | "return" (trả hàng) | "adjust" (điều chỉnh)
+  quantity  Int      // Số lượng thay đổi (luôn dương)
+  reason    String   // Lý do: "Đơn hàng #xxx", "Trả hàng #xxx", "Nhập kho", "Điều chỉnh"
+  orderId   String?  // Liên kết đơn hàng (nếu có)
+  stockAfter Int     // Tồn kho sau thay đổi
+  createdAt DateTime @default(now())
 }

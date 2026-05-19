@@ -17,6 +17,8 @@ import {
   Settings,
   Percent,
   Ticket,
+  MessageCircle,
+  Star,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -28,6 +30,8 @@ const navItems = [
   { href: "/admin/orders", label: "Đơn hàng", icon: ShoppingCart },
   { href: "/admin/promotions", label: "Khuyến mại", icon: Percent },
   { href: "/admin/vouchers", label: "Voucher", icon: Ticket },
+  { href: "/admin/comments", label: "Đánh giá", icon: Star },
+  { href: "/admin/chat", label: "Chat", icon: MessageCircle },
   { href: "/admin/posts", label: "Bài viết", icon: FileText },
   { href: "/admin/settings", label: "Cài đặt", icon: Settings },
 ];

@@ -1,13 +1,19 @@
 // Admin Dashboard Overview Page
-// Shows key metrics: total products, orders, revenue
+// Shows key metrics: total products, orders, revenue, comments
 
 import { getDashboardStats } from "@/actions/order-actions";
+import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/format";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, ShoppingCart, DollarSign, TrendingUp } from "lucide-react";
+import { Package, ShoppingCart, DollarSign, TrendingUp, Star, MessageSquare, Users } from "lucide-react";
 
 export default async function AdminDashboardPage() {
-  const stats = await getDashboardStats();
+  const [stats, totalComments, totalCustomers, avgRating] = await Promise.all([
+    getDashboardStats(),
+    db.comment.count(),
+    db.customer.count(),
+    db.comment.aggregate({ _avg: { rating: true } }),
+  ]);
 
   return (
     <div>
@@ -66,6 +72,53 @@ export default async function AdminDashboardPage() {
                 ? formatPrice(stats.totalRevenue / stats.totalOrders)
                 : formatPrice(0)}
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Second row stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Đánh giá
+            </CardTitle>
+            <MessageSquare className="h-4 w-4 text-purple-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalComments}</div>
+            <p className="text-xs text-gray-500 mt-1">
+              Trung bình: {avgRating._avg.rating?.toFixed(1) || "0"} ⭐
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Khách hàng
+            </CardTitle>
+            <Users className="h-4 w-4 text-cyan-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalCustomers}</div>
+            <p className="text-xs text-gray-500 mt-1">Đã đăng ký tài khoản</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Điểm đánh giá
+            </CardTitle>
+            <Star className="h-4 w-4 text-yellow-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-1.5">
+              <span className="text-2xl font-bold">{avgRating._avg.rating?.toFixed(1) || "0"}</span>
+              <span className="text-gray-400">/5</span>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Từ {totalComments} đánh giá</p>
           </CardContent>
         </Card>
       </div>

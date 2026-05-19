@@ -1,11 +1,16 @@
-// Product Detail Page with image gallery and rich content
+// Product Detail Page with image gallery, rich content, comments, wishlist
 
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { formatPrice } from "@/lib/format";
 import { applyPromotionsToProducts } from "@/lib/promotion";
+import { getCustomerSession } from "@/actions/customer-auth-actions";
+import { getProductComments } from "@/actions/comment-actions";
+import { isInWishlist } from "@/actions/wishlist-actions";
 import { AddToCartButton } from "./add-to-cart-button";
 import { ProductImageGallery } from "./product-image-gallery";
+import { ProductComments } from "@/components/site/product-comments";
+import { WishlistButton } from "@/components/site/wishlist-button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -46,6 +51,13 @@ export default async function ProductDetailPage({
   const [productWithPromo] = await applyPromotionsToProducts([product]);
   const { effectivePrice, discountPercent, hasPromotion } = productWithPromo;
 
+  // Get comments and customer session
+  const [comments, customer] = await Promise.all([
+    getProductComments(product.id),
+    getCustomerSession(),
+  ]);
+  const wished = customer ? await isInWishlist(product.id) : false;
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
@@ -77,9 +89,17 @@ export default async function ProductDetailPage({
                 {product.category.name}
               </Link>
             )}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
-              {product.name}
-            </h1>
+            <div className="flex items-start justify-between">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+                {product.name}
+              </h1>
+              <WishlistButton
+                productId={product.id}
+                isInWishlist={wished}
+                isLoggedIn={!!customer}
+                size="lg"
+              />
+            </div>
           </div>
 
           {/* Price */}
@@ -166,6 +186,13 @@ export default async function ProductDetailPage({
           />
         </div>
       )}
+
+      {/* Comments Section */}
+      <ProductComments
+        productId={product.id}
+        comments={comments}
+        currentCustomerId={customer?.id || null}
+      />
     </div>
   );
 }
