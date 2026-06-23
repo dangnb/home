@@ -1,0 +1,122 @@
+<div class="page-header">
+    <h2>Quản lý sản phẩm</h2>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Thêm sản phẩm mới</button>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm..." />
+        <select class="filter-select">
+            <option value="">Tất cả danh mục</option>
+            <option value="Trái cây">Trái cây</option>
+            <option value="Rau củ">Rau củ</option>
+            <option value="Thịt cá">Thịt cá</option>
+        </select>
+    </div>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá bán</th>
+                    <th>Tồn kho</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of products">
+                    <td>#SP00{{p.id}}</td>
+                    <td>
+                        <div class="img-thumb" [style.background]="p.imageColor">{{p.imageIcon}}</div>
+                    </td>
+                    <td>{{p.name}}</td>
+                    <td>{{p.category}}</td>
+                    <td>{{p.price | number:'1.0-0'}} ₫</td>
+                    <td>{{p.stockQuantity}} {{p.unit}}</td>
+                    <td>
+                        <span class="badge" [ngClass]="p.status === 'Đang bán' ? 'badge-success' : 'badge-warning'">
+                            {{p.status}}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn edit" (click)="openEditModal(p)">Sửa</button>
+                        <button class="action-btn delete" (click)="deleteProduct(p.id)">Xóa</button>
+                    </td>
+                </tr>
+                <tr *ngIf="products.length === 0">
+                    <td colspan="8" style="text-align:center; padding:2rem;">Không có sản phẩm nào.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Form -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3 *ngIf="!isEditMode">Thêm sản phẩm mới</h3>
+            <h3 *ngIf="isEditMode">Chỉnh sửa sản phẩm</h3>
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Tên sản phẩm <span class="required">*</span></label>
+                <input type="text" [(ngModel)]="editingProduct.name" class="form-control"
+                    placeholder="Ví dụ: Táo New Zealand">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Danh mục</label>
+                    <select [(ngModel)]="editingProduct.category" class="form-control">
+                        <option value="Trái cây">Trái cây</option>
+                        <option value="Rau củ">Rau củ</option>
+                        <option value="Thịt cá">Thịt cá</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Giá bán (VNĐ)</label>
+                    <input type="number" [(ngModel)]="editingProduct.price" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Số lượng kho</label>
+                    <input type="number" [(ngModel)]="editingProduct.stockQuantity" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Đơn vị (kg, bó, hộp)</label>
+                    <input type="text" [(ngModel)]="editingProduct.unit" class="form-control">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Icon (Emoji)</label>
+                    <input type="text" [(ngModel)]="editingProduct.imageIcon" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Màu nền (#Mã_Màu)</label>
+                    <input type="text" [(ngModel)]="editingProduct.imageColor" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Trạng thái</label>
+                <select [(ngModel)]="editingProduct.status" class="form-control">
+                    <option value="Đang bán">Đang bán</option>
+                    <option value="Sắp hết">Sắp hết</option>
+                    <option value="Ngừng kinh doanh">Ngừng kinh doanh</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="closeModal()">Hủy</button>
+            <button class="btn btn-primary" (click)="saveProduct()">Lưu sản phẩm</button>
+        </div>
+    </div>
+</div>

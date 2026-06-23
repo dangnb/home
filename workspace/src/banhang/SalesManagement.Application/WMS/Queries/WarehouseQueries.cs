@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SalesManagement.Infrastructure.Data;
+using SalesManagement.Application.Interfaces;
 
 namespace SalesManagement.Application.WMS.Queries;
 
@@ -11,9 +11,9 @@ public record GetStockLedgerReportQuery(Guid WarehouseId, Guid ProductId, DateTi
 
 public class GetStockLedgerReportHandler : IRequestHandler<GetStockLedgerReportQuery, List<StockLedgerDto>>
 {
-    private readonly ApplicationDbContext _db;
+    private readonly IApplicationDbContext _db;
 
-    public GetStockLedgerReportHandler(ApplicationDbContext db)
+    public GetStockLedgerReportHandler(IApplicationDbContext db)
     {
         _db = db;
     }

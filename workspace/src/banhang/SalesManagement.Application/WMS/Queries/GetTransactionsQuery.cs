@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SalesManagement.Infrastructure.Data;
+using SalesManagement.Application.Interfaces;
 
 namespace SalesManagement.Application.WMS.Queries;
 
@@ -10,9 +10,9 @@ public record GetTransactionsQuery() : IRequest<List<TransactionSummaryDto>>;
 
 public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery, List<TransactionSummaryDto>>
 {
-    private readonly ApplicationDbContext _db;
+    private readonly IApplicationDbContext _db;
 
-    public GetTransactionsQueryHandler(ApplicationDbContext db)
+    public GetTransactionsQueryHandler(IApplicationDbContext db)
     {
         _db = db;
     }

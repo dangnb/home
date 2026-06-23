@@ -30,7 +30,6 @@ public class Product
         Name = name;
         Sku = sku;
         Price = price;
-        Stock = stock;
         Description = description;
         Unit = unit;
         CategoryId = categoryId;

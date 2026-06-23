@@ -1,0 +1,10 @@
+
+> sales-management.frontend@0.0.0 build
+> ng build
+
+[33m❯[39m Building...
+[31m✖[39m Building... [31m[FAILED: Inlining of fonts failed. An error has occurred while retrieving https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700 over the internet.
+getaddrinfo ENOTFOUND fonts.googleapis.com][39m
+[1m[31mAn unhandled exception occurred: Inlining of fonts failed. An error has occurred while retrieving https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700 over the internet.
+getaddrinfo ENOTFOUND fonts.googleapis.com
+See "C:\Users\DANGHP\AppData\Local\Temp\ng-ccqI8w\angular-errors.log" for further details.[39m[22m

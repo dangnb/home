@@ -1,99 +1,59 @@
-<div class="app-layout">
-  <div class="sidebar">
-    <div class="logo">
-      KeroUI
-    </div>
-    <div class="sidebar-nav">
-      <div style="font-size: 0.75rem; color: #f87171; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.05em;">
-        MENU</div>
-      <a routerLink="/" [class.active]="isHome()">Dashboards</a>
-      <a routerLink="/categories" [class.active]="activeUrl() === '/categories'">Categories</a>
-      <a routerLink="/products" [class.active]="activeUrl() === '/products'">Products</a>
-      <a routerLink="/inventory" [class.active]="activeUrl() === '/inventory'">Inventory</a>
-      <a href="javascript:void(0)">Management</a>
-    </div>
-    <div class="auth-buttons vertical">
-      @if (isHome()) {
-      <button class="btn-secondary" routerLink="/login">Log In</button>
-      }
-      @if (!isHome()) {
-      <button class="btn-secondary" routerLink="/">Back to Home</button>
-      }
-      <button class="btn-primary">Get Started</button>
-    </div>
-  </div>
+<div class="d-flex flex-column flex-root">
+  <div class="page d-flex flex-row flex-column-fluid">
 
-  <div class="main-content">
-    <div class="top-header" *ngIf="!isLoginPage()">
-      <div class="header-left">
-        <h2 class="title">Analytics</h2>
-        <span class="subtitle">This is an example dashboard created using build-in elements and components.</span>
+    <!-- Sidebar -->
+    <div id="kt_aside" class="aside aside-dark aside-hoverable"
+      style="width: 250px; background-color: #1e1e2d; padding: 20px;">
+      <div class="aside-logo flex-column-auto"
+        style="color: white; font-size: 24px; font-weight: bold; margin-bottom: 30px;">
+        NEXUS SALES
       </div>
-      <div class="header-right">
-        <span>🔍 Search...</span>
-        <span class="header-icon">⊞</span>
-        <span class="header-icon">🔔</span>
-        <div class="user-avatar"></div>
+      <div class="aside-menu flex-column-fluid">
+        <ul
+          class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+          style="list-style: none; padding: 0;">
+          <li class="menu-item py-2">
+            <a routerLink="/" class="menu-link px-3" style="color: #9899ac; text-decoration: none; display: block;"
+              [class.text-primary]="isHome()">Dashboard</a>
+          </li>
+          <li class="menu-item py-2">
+            <a routerLink="/sales" class="menu-link px-3" style="color: #9899ac; text-decoration: none; display: block;"
+              [class.text-primary]="activeUrl() === '/sales'">Sales Orders</a>
+          </li>
+          <li class="menu-item py-2">
+            <a routerLink="/purchases" class="menu-link px-3"
+              style="color: #9899ac; text-decoration: none; display: block;"
+              [class.text-primary]="activeUrl() === '/purchases'">Purchase Orders</a>
+          </li>
+          <li class="menu-item py-2">
+            <a routerLink="/categories" class="menu-link px-3"
+              style="color: #9899ac; text-decoration: none; display: block;">Categories</a>
+          </li>
+          <li class="menu-item py-2">
+            <a routerLink="/products" class="menu-link px-3"
+              style="color: #9899ac; text-decoration: none; display: block;">Products</a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="content-wrapper">
-      <router-outlet *ngIf="!isHome()"></router-outlet>
 
-      <!-- Hero Section -->
-      @if (isHome()) {
-      <main class="hero">
-        <div class="hero-content">
-          <h1 class="animate-fade-in-up">Next-Generation <br> <span class="text-gradient">Sales Management</span></h1>
-          <p class="hero-subtitle animate-fade-in-up delay-1">
-            Empower your team with real-time analytics, automated pipelines, and highly convertible lead scoring.
-          </p>
-          <div class="hero-actions animate-fade-in-up delay-2">
-            <button class="btn-primary" (click)="startTrial()">Start Free Trial <span class="arrow">→</span></button>
-            <button class="btn-secondary">Book a Demo</button>
-          </div>
+    <!-- Wrapper -->
+    <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper"
+      style="background-color: #f5f8fa; flex-grow: 1;">
+
+      <!-- Header -->
+      <div id="kt_header" class="header align-items-stretch"
+        style="background: white; border-bottom: 1px solid #EFF2F5; height: 60px; display: flex; align-items: center; padding: 0 30px;">
+        <h1 class="fs-4 fw-bolder text-dark mb-0">Hệ thống Quản lý Bán Hàng & Tổng Kho</h1>
+      </div>
+
+      <!-- Content -->
+      <div class="content d-flex flex-column flex-column-fluid p-8" id="kt_content" style="padding: 30px;">
+        <div class="container-xxl" id="kt_content_container">
+          <router-outlet></router-outlet>
         </div>
+      </div>
 
-        <!-- Hero Image/Graphic -->
-        <div class="hero-graphic animate-fade-in delay-3">
-          <div class="glass-panel dashboard-preview">
-            <div class="dashboard-header">
-              <div class="dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <div class="title">Revenue Overview</div>
-            </div>
-            <div class="dashboard-body">
-              <div class="stat-cards">
-                <div class="stat-card glass-panel">
-                  <span class="stat-label">Total Revenue</span>
-                  <span class="stat-value">$124,500</span>
-                  <span class="stat-trend positive">+14.5%</span>
-                </div>
-                <div class="stat-card glass-panel">
-                  <span class="stat-label">Active Leads</span>
-                  <span class="stat-value">842</span>
-                  <span class="stat-trend positive">+5.2%</span>
-                </div>
-              </div>
-              <div class="chart-placeholder glass-panel">
-                <!-- Pure CSS pseudo-chart -->
-                <div class="bar" style="height: 40%"></div>
-                <div class="bar" style="height: 60%"></div>
-                <div class="bar" style="height: 35%"></div>
-                <div class="bar" style="height: 80%"></div>
-                <div class="bar" style="height: 55%"></div>
-                <div class="bar" style="height: 90%"></div>
-                <div class="bar primary" style="height: 100%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      }
-
-      <router-outlet />
     </div>
   </div>
 </div>

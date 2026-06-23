@@ -254,6 +254,7 @@
       "SalesManagement.Application/1.0.0": {
         "dependencies": {
           "MediatR": "14.1.0",
+          "Microsoft.EntityFrameworkCore": "10.0.8",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.8",
           "SalesManagement.Domain": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "8.18.0"

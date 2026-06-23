@@ -1,0 +1,42 @@
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin<span>Panel</span></h2>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
+            </li>
+            <li>
+                <a routerLink="/admin/products" routerLinkActive="active">🏷️ Sản phẩm</a>
+            </li>
+            <li>
+                <a routerLink="/admin/categories" routerLinkActive="active">📁 Danh mục</a>
+            </li>
+            <li>
+                <a routerLink="/admin/orders" routerLinkActive="active">🛒 Đơn hàng</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a routerLink="/">🔙 Về trang chủ</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="topbar">
+            <div class="breadcrumb">
+                <span>Quản lý / Sản phẩm</span>
+            </div>
+            <div class="user-info">
+                <span class="user-name">Chào, Admin</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

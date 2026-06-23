@@ -1,0 +1,402 @@
+
+> sales-management.frontend@0.0.0 build
+> ng build
+
+[33m❯[39m Building...
+[32m✔[39m Building...
+Application bundle generation failed. [4.587 seconds] - 2026-06-15T07:56:10.646Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/base/functions/_set.scss:37:16:
+[37m      37 │     $current-val: [32m[37mif($i == length($maps), $value, $result);
+         ╵                   [32m^[0m
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($i == length($maps)): $value; else: $result)
+  
+  More info: [4mhttps://sass-lang.com/d/if-function[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1221:28:
+[37m      1221 │ $ribbon-label-border-color: [32m[37mdarken($primary, 20%) !default;
+           ╵                             [32m^[0m
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.adjust instead.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1221:28:
+[37m      1221 │ $ribbon-label-border-color: [32m[37mdarken($primary, 20%) !default;
+           ╵                             [32m^[0m
+
+
+  darken() is deprecated. Suggestions:
+  
+  color.scale($color, $lightness: -36.170212766%)
+  color.adjust($color, $lightness: -20%)
+  
+  More info: [4mhttps://sass-lang.com/d/color-functions[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1242:10:
+[37m      1242 │     active: [32m[37mdarken(#3b5998, 7.5%)
+           ╵             [32m^[0m
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.adjust instead.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1242:10:
+[37m      1242 │     active: [32m[37mdarken(#3b5998, 7.5%)
+           ╵             [32m^[0m
+
+
+  darken() is deprecated. Suggestions:
+  
+  color.scale($color, $lightness: -18.1279620853%)
+  color.adjust($color, $lightness: -7.5%)
+  
+  More info: [4mhttps://sass-lang.com/d/color-functions[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1248:10:
+[37m      1248 │     active: [32m[37mdarken(#dd4b39, 7.5%)
+           ╵             [32m^[0m
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.adjust instead.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1248:10:
+[37m      1248 │     active: [32m[37mdarken(#dd4b39, 7.5%)
+           ╵             [32m^[0m
+
+
+  darken() is deprecated. Suggestions:
+  
+  color.scale($color, $lightness: -13.7589928058%)
+  color.adjust($color, $lightness: -7.5%)
+  
+  More info: [4mhttps://sass-lang.com/d/color-functions[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1254:10:
+[37m      1254 │     active: [32m[37mdarken(#1da1f2, 7.5%)
+           ╵             [32m^[0m
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.adjust instead.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1254:10:
+[37m      1254 │     active: [32m[37mdarken(#1da1f2, 7.5%)
+           ╵             [32m^[0m
+
+
+  darken() is deprecated. Suggestions:
+  
+  color.scale($color, $lightness: -14.1143911439%)
+  color.adjust($color, $lightness: -7.5%)
+  
+  More info: [4mhttps://sass-lang.com/d/color-functions[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1260:10:
+[37m      1260 │     active: [32m[37mdarken(#e1306c, 7.5%)
+           ╵             [32m^[0m
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.adjust instead.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/_variables.scss:1260:10:
+[37m      1260 │     active: [32m[37mdarken(#e1306c, 7.5%)
+           ╵             [32m^[0m
+
+
+  darken() is deprecated. Suggestions:
+  
+  color.scale($color, $lightness: -14.010989011%)
+  color.adjust($color, $lightness: -7.5%)
+  
+  More info: [4mhttps://sass-lang.com/d/color-functions[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/core/components/mixins/_shape.scss:15:39:
+[37m      15 │     $vertex-angle: $i * $central-angle + [32m[37mif($rotated, -90deg, 0deg);
+         ╵                                          [32m^[0m
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($rotated): -90deg; else: 0deg)
+  
+  More info: [4mhttps://sass-lang.com/d/if-function[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/style.scss:6:8:
+[37m      6 │ @import [32m[37m"init";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/assets/sass/style.scss:9:8:
+[37m      9 │ @import [32m[37m"./core/components/components";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m"./assets/sass/style.scss";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:5:8:
+[37m      5 │ @import [32m[37m'./assets/sass/plugins.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:7:8:
+[37m      7 │ @import [32m[37m"./assets/sass/style.angular.scss";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1m245 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings.[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+  null
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~socicon/css/socicon.css"[0m
+
+    src/styles.scss:8:8:
+[37m      8 │ @import [32m"~socicon/css/socicon.css"[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~socicon/css/socicon.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~@fortawesome/fontawesome-free/css/all.min.css"[0m
+
+    src/styles.scss:9:8:
+[37m      9 │ @import [32m"~@fortawesome/fontawesome-free/css/all.min.css"[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~@fortawesome/fontawesome-free/css/all.min.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~line-awesome/dist/line-awesome/css/line-awesome.css"[0m
+
+    src/styles.scss:10:8:
+[37m      10 │ @import [32m"~line-awesome/dist/line-awesome/css/line-awesome.css"[37m;
+         ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~line-awesome/dist/line-awesome/css/line-awesome.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~prism-themes/themes/prism-shades-of-purple.css"[0m
+
+    src/styles.scss:11:8:
+[37m      11 │ @import [32m"~prism-themes/themes/prism-shades-of-purple.css"[37m;
+         ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~prism-themes/themes/prism-shades-of-purple.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~bootstrap-icons/font/bootstrap-icons.css"[0m
+
+    src/styles.scss:12:8:
+[37m      12 │ @import [32m"~bootstrap-icons/font/bootstrap-icons.css"[37m;
+         ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~bootstrap-icons/font/bootstrap-icons.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "~animate.css/animate.css"[0m
+
+    src/styles.scss:13:8:
+[37m      13 │ @import [32m"~animate.css/animate.css"[37m;
+         ╵         [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  You can mark the path "~animate.css/animate.css" as external to exclude it from the bundle, which will remove this error and leave the unresolved path in the bundle.
+
+[39m[22m

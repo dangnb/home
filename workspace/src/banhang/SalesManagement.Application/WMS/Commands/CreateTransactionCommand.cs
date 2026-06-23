@@ -1,5 +1,5 @@
 using MediatR;
-using SalesManagement.Infrastructure.Data;
+using SalesManagement.Application.Interfaces;
 using SalesManagement.Domain.Entities;
 using SalesManagement.Domain.Enums;
 
@@ -12,9 +12,9 @@ public record CreateTransactionCommand(CreateTransactionDto Dto) : IRequest<Guid
 
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, Guid>
 {
-    private readonly ApplicationDbContext _db;
+    private readonly IApplicationDbContext _db;
 
-    public CreateTransactionCommandHandler(ApplicationDbContext db)
+    public CreateTransactionCommandHandler(IApplicationDbContext db)
     {
         _db = db;
     }

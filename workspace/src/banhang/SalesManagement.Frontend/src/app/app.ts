@@ -20,10 +20,20 @@ export class App implements OnInit {
     ).subscribe((event: any) => {
       this.activeUrl.set(event.urlAfterRedirects);
     });
+
+    const splashScreen = document.getElementById('splash-screen');
+    if (splashScreen) {
+      splashScreen.style.display = 'none';
+      splashScreen.remove();
+    }
   }
 
   isHome() {
     return this.activeUrl() === '/';
+  }
+
+  isLoginPage() {
+    return this.activeUrl() === '/login';
   }
 
   startTrial() {

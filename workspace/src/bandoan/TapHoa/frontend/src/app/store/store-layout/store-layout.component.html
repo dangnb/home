@@ -1,0 +1,30 @@
+<div class="grocery-app-container">
+    <header class="main-header">
+        <div class="logo">
+            <h1 routerLink="/">Fresh<span>Mart</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm trái cây, thịt cá, rau củ..." />
+            <button>Tìm kiếm</button>
+        </div>
+        <div class="header-actions">
+            <button class="cart-btn">🛒 Giỏ hàng (0)</button>
+            <button class="login-btn" routerLink="/admin">Quản trị</button>
+        </div>
+    </header>
+
+    <nav class="categories-nav">
+        <ul>
+            <li><a href="#">Rau củ quả tươi</a></li>
+            <li><a href="#">Thịt cá & Hải sản</a></li>
+            <li><a href="#">Sữa & Bơ</a></li>
+            <li><a href="#">Đồ uống</a></li>
+            <li><a href="#">Bánh kẹo</a></li>
+            <li><a href="#">Gia vị nấu ăn</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

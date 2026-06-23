@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using SalesManagement.Application.Interfaces;
 using SalesManagement.Domain.Entities;
 
 namespace SalesManagement.Infrastructure.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -20,6 +21,14 @@ public class ApplicationDbContext : DbContext
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
     public DbSet<TransactionDetail> TransactionDetails => Set<TransactionDetail>();
     public DbSet<StockLedger> StockLedgers => Set<StockLedger>();
+
+    // Sales & Purchasing Module
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
+    public DbSet<SalesOrder> SalesOrders => Set<SalesOrder>();
+    public DbSet<SalesOrderDetail> SalesOrderDetails => Set<SalesOrderDetail>();
+    public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+    public DbSet<PurchaseOrderDetail> PurchaseOrderDetails => Set<PurchaseOrderDetail>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,6 +56,18 @@ public class ApplicationDbContext : DbContext
             .HasMany(t => t.Details)
             .WithOne(d => d.Transaction)
             .HasForeignKey(d => d.TransactionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SalesOrder>()
+            .HasMany(o => o.Details)
+            .WithOne(d => d.SalesOrder)
+            .HasForeignKey(d => d.SalesOrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PurchaseOrder>()
+            .HasMany(o => o.Details)
+            .WithOne(d => d.PurchaseOrder)
+            .HasForeignKey(d => d.PurchaseOrderId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Seeding Data

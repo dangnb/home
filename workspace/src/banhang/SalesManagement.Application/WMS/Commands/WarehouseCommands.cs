@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SalesManagement.Infrastructure.Data;
+using SalesManagement.Application.Interfaces;
 using SalesManagement.Domain.Entities;
 using SalesManagement.Domain.Enums;
 
@@ -10,9 +10,9 @@ public record ApproveTransactionCommand(Guid TransactionId) : IRequest<bool>;
 
 public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransactionCommand, bool>
 {
-    private readonly ApplicationDbContext _db;
+    private readonly IApplicationDbContext _db;
 
-    public ApproveTransactionCommandHandler(ApplicationDbContext db)
+    public ApproveTransactionCommandHandler(IApplicationDbContext db)
     {
         _db = db;
     }
