@@ -1,3 +1,4 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -34,7 +35,7 @@ body {
   align-items: center;
   padding: 1rem 5%;
   background: var(--light);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -43,6 +44,7 @@ body {
     color: var(--dark);
     font-size: 1.8rem;
     font-weight: 800;
+
     span {
       color: var(--primary);
     }
@@ -53,7 +55,7 @@ body {
     flex: 1;
     max-width: 600px;
     margin: 0 2rem;
-    
+
     input {
       flex: 1;
       padding: 0.75rem 1rem;
@@ -62,6 +64,7 @@ body {
       outline: none;
       font-family: 'Inter';
       transition: all 0.3s;
+
       &:focus {
         border-color: var(--primary);
       }
@@ -76,6 +79,7 @@ body {
       cursor: pointer;
       font-weight: 600;
       transition: background 0.3s;
+
       &:hover {
         background: var(--primary-hover);
       }
@@ -85,7 +89,7 @@ body {
   .header-actions {
     display: flex;
     gap: 1rem;
-    
+
     button {
       padding: 0.5rem 1rem;
       border-radius: 8px;
@@ -93,11 +97,12 @@ body {
       cursor: pointer;
       transition: all 0.3s;
     }
-    
+
     .cart-btn {
       background: #ecfdf5;
       color: var(--primary);
       border: 1px solid #d1fae5;
+
       &:hover {
         background: #d1fae5;
       }
@@ -107,6 +112,7 @@ body {
       background: transparent;
       border: 1px solid var(--gray);
       color: var(--dark);
+
       &:hover {
         background: var(--gray);
       }
@@ -117,12 +123,12 @@ body {
 .categories-nav {
   background: var(--dark);
   padding: 0.5rem 5%;
-  
+
   ul {
     list-style: none;
     display: flex;
     gap: 2rem;
-    
+
     li a {
       color: #fff;
       text-decoration: none;
@@ -130,7 +136,7 @@ body {
       font-weight: 500;
       opacity: 0.9;
       transition: opacity 0.3s;
-      
+
       &:hover {
         opacity: 1;
         color: var(--primary);
@@ -141,7 +147,7 @@ body {
 
 .main-content {
   padding: 2rem 5%;
-  
+
   .hero-banner {
     background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
     border-radius: 16px;
@@ -149,23 +155,23 @@ body {
     margin-bottom: 3rem;
     position: relative;
     overflow: hidden;
-    
+
     .banner-content {
       max-width: 500px;
-      
+
       h2 {
         font-size: 2.5rem;
         color: #166534;
         margin-bottom: 1rem;
         line-height: 1.2;
       }
-      
+
       p {
         font-size: 1.1rem;
         color: #14532d;
         margin-bottom: 2rem;
       }
-      
+
       .shop-now-btn {
         background: var(--secondary);
         color: white;
@@ -176,7 +182,7 @@ body {
         font-weight: 600;
         cursor: pointer;
         transition: transform 0.2s, background 0.3s;
-        
+
         &:hover {
           background: #ea580c;
           transform: translateY(-2px);
@@ -184,7 +190,7 @@ body {
       }
     }
   }
-  
+
   .featured-products {
     h3 {
       font-size: 1.5rem;
@@ -192,50 +198,50 @@ body {
       color: var(--dark);
       font-weight: 700;
     }
-    
+
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      
+
       .product-card {
         background: var(--light);
         border: 1px solid var(--gray);
         border-radius: 12px;
         overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
-        
+
         &:hover {
           transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
-        
+
         .product-img-placeholder {
           height: 200px;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 1.5rem;
-          color: rgba(0,0,0,0.5);
+          color: rgba(0, 0, 0, 0.5);
           font-weight: 600;
         }
-        
+
         .product-info {
           padding: 1.5rem;
-          
+
           h4 {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
           }
-          
+
           .price {
             color: var(--secondary);
             font-weight: 700;
             font-size: 1.2rem;
             margin-bottom: 1rem;
           }
-          
+
           .add-to-cart {
             width: 100%;
             padding: 0.75rem;
@@ -246,7 +252,7 @@ body {
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            
+
             &:hover {
               background: var(--primary);
               color: white;

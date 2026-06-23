@@ -3,6 +3,7 @@ import { StoreLayoutComponent } from './store/store-layout/store-layout.componen
 import { HomeComponent } from './store/home/home.component';
 import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { ProductsComponent } from './admin/products/products.component';
+import { CategoriesComponent } from './admin/categories/categories.component';
 
 export const routes: Routes = [
     {
@@ -17,7 +18,8 @@ export const routes: Routes = [
         component: AdminLayoutComponent,
         children: [
             { path: '', redirectTo: 'products', pathMatch: 'full' },
-            { path: 'products', component: ProductsComponent }
+            { path: 'products', component: ProductsComponent },
+            { path: 'categories', component: CategoriesComponent }
         ]
     }
 ];

@@ -1,0 +1,72 @@
+// Metronic-style Helper Classes mapped top of Bootstrap
+
+.transition-base {
+    transition: all 0.3s ease;
+}
+
+.hover-elevate-up {
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+.bg-light-primary {
+    background-color: #e1f0ff;
+    color: #0d6efd;
+}
+
+.btn-light-warning {
+    background-color: #fff8dd;
+    color: #ffc700;
+
+    &:hover {
+        background-color: #ffc700;
+        color: #fff;
+    }
+}
+
+.btn-light-danger {
+    background-color: #fff5f8;
+    color: #f1416c;
+
+    &:hover {
+        background-color: #f1416c;
+        color: #fff;
+    }
+}
+
+.form-control-solid {
+    background-color: #f5f8fa;
+    border-color: #f5f8fa;
+    color: #5e6278;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:focus {
+        background-color: #eef3f7;
+        border-color: #eef3f7;
+    }
+}
+
+.py-20 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+}
+
+.border-dashed {
+    border-style: dashed !important;
+}
+
+.border-2 {
+    border-width: 2px !important;
+}
+
+.bg-light-secondary {
+    background-color: #f9f9f9;
+}
+
+.mw-400px {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
