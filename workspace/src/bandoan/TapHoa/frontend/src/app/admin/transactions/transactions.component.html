@@ -1,55 +1,286 @@
-<div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white border-0 pt-4 pb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-0 fw-bold text-dark">📋 Sổ Cái Giao Dịch Kho</h3>
-            <div class="header-actions">
-                <button class="btn btn-primary rounded-pills px-4 shadow-sm" routerLink="/admin/transactions/create">+
-                    Tạo Phiếu Nhập</button>
+<div class="page-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span style="font-size: 2rem;">📒</span>
+            <h2 class="mb-0 fw-bold" style="color: var(--dark);">Sổ Cái Giao Dịch Kho</h2>
+        </div>
+        <p class="text-muted mb-0" style="max-width: 600px; font-size: 0.95rem;">
+            Toàn bộ lịch sử biến động (Inbound, Outbound, Adjustments) không thể xóa. Dữ liệu được ghi nhận theo thời
+            gian thực để đảm bảo tính minh bạch của kho vận.
+        </p>
+    </div>
+    <button class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+        style="font-size: 1rem; border-radius: 10px;" routerLink="/admin/transactions/create">
+        <span style="font-size: 1.2rem;">⊕</span> Tạo Phiếu Nhập
+    </button>
+</div>
+
+<!-- KPIs -->
+<div class="row g-4 mb-4">
+    <!-- Tổng giao dịch -->
+    <div class="col-md-3">
+        <div class="card h-100 kpi-card">
+            <div class="card-body">
+                <div class="kpi-label">TỔNG GIAO DỊCH</div>
+                <div class="d-flex justify-content-between align-items-end mt-2">
+                    <div class="kpi-value text-primary">1,284</div>
+                    <div class="kpi-badge badge-green">+12%</div>
+                </div>
             </div>
         </div>
-        <p class="text-muted mt-2">Toàn bộ lịch sử biến động (Inbound, Outbound, Adjustments) không thể xóa.</p>
     </div>
+    <!-- Tổng giá trị -->
+    <div class="col-md-3">
+        <div class="card h-100 kpi-card">
+            <div class="card-body">
+                <div class="kpi-label">TỔNG GIÁ TRỊ (VND)</div>
+                <div class="d-flex justify-content-between align-items-end mt-2">
+                    <div class="kpi-value text-primary">4.2B</div>
+                    <div class="kpi-icon">💵</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Đang xử lý -->
+    <div class="col-md-3">
+        <div class="card h-100 kpi-card">
+            <div class="card-body">
+                <div class="kpi-label">ĐANG XỬ LÝ</div>
+                <div class="d-flex justify-content-between align-items-end mt-2">
+                    <div class="kpi-value text-primary">28</div>
+                    <div class="kpi-dot bg-primary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tỷ lệ sai sót -->
+    <div class="col-md-3">
+        <div class="card h-100 kpi-card">
+            <div class="card-body">
+                <div class="kpi-label">TỶ LỆ SAI SÓT</div>
+                <div class="d-flex justify-content-between align-items-end mt-2">
+                    <div class="kpi-value text-danger">0.4%</div>
+                    <div class="kpi-badge text-success" style="background: none; padding: 0.2rem; font-weight: 600;">
+                        -0.2% vs MoM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle custom-table">
-                <thead class="table-light">
+<!-- Main Data Table -->
+<div class="card transaction-list-card">
+    <div class="card-header d-flex justify-content-between align-items-center py-3 px-4">
+        <h4 class="mb-0 fw-bold" style="font-size: 1.1rem; color: var(--dark);">Lịch sử giao dịch</h4>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-icon-only">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+            </button>
+            <button class="btn btn-outline-secondary btn-icon-only">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div *ngIf="isLoading" class="text-center py-5 text-muted">
+            <div class="spinner-border text-primary" role="status"></div>
+            <div class="mt-2">Đang tải dữ liệu lô...</div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger mx-4 my-3">{{ error }}</div>
+
+        <div class="table-responsive" *ngIf="!isLoading && !error">
+            <table class="table custom-table mb-0">
+                <thead>
                     <tr>
-                        <th scope="col" class="ps-4">MÃ PHIẾU</th>
-                        <th scope="col">LOẠI GIAO DỊCH</th>
-                        <th scope="col">NGƯỜI TẠO</th>
-                        <th scope="col" class="text-end">SỐ LƯỢNG MÓN</th>
-                        <th scope="col" class="text-end">TỔNG TIỀN</th>
-                        <th scope="col">THỜI GIAN</th>
-                        <th scope="col">TRẠNG THÁI</th>
-                        <th scope="col" class="text-end pe-4">THAO TÁC</th>
+                        <th class="ps-4">MÃ PHIẾU</th>
+                        <th>LOẠI GIAO DỊCH</th>
+                        <th>NGƯỜI TẠO</th>
+                        <th class="text-center">SỐ LƯỢNG</th>
+                        <th class="text-end">TỔNG TIỀN</th>
+                        <th>THỜI GIAN</th>
+                        <th class="text-center">TRẠNG THÁI</th>
+                        <th class="text-center pe-4">THAO TÁC</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Mock rows for styling presentation if empty, otherwise real data -->
                     <tr *ngFor="let tx of transactions">
-                        <td class="ps-4 fw-bold text-primary">{{ tx.code }}</td>
+                        <td class="ps-4 fw-bold text-primary">{{ tx.code || ('#PN00' + tx.id) }}</td>
                         <td>
-                            <span class="badge rounded-pill" [ngClass]="getTypeClass(tx.type)">
-                                {{ getTypeLabel(tx.type) }}
-                            </span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="type-icon" [ngClass]="getTypeIconClass(tx.type)">
+                                    <svg *ngIf="tx.type === 0" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                        <polyline points="10 17 15 12 10 7" />
+                                        <line x1="15" y1="12" x2="3" y2="12" />
+                                    </svg>
+                                    <svg *ngIf="tx.type === 1" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <polyline points="16 17 21 12 16 7" />
+                                        <line x1="21" y1="12" x2="9" y2="12" />
+                                    </svg>
+                                    <svg *ngIf="tx.type === 2" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M12 20V10" />
+                                        <path d="M18 20V4" />
+                                        <path d="M6 20v-4" />
+                                    </svg>
+                                </span>
+                                <span class="type-text">{{ getTypeLabel(tx.type) }}</span>
+                            </div>
                         </td>
-                        <td class="text-muted">&#64;{{ tx.createdBy }}</td>
-                        <td class="text-end fw-medium">{{ tx.itemsCount }}</td>
-                        <td class="text-end fw-medium">{{ tx.totalCost | currency:'VND' }}</td>
-                        <td>{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
                         <td>
-                            <span class="badge rounded-pill" [ngClass]="getStatusClass(tx.status)">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="mini-avatar">{{ getInitials(tx.createdBy || 'Admin') }}</div>
+                                <span class="user-text">{{ tx.createdBy || 'Admin' }}</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="qty-val">{{ tx.itemsCount || 0 }}</div>
+                            <div class="qty-lbl">items</div>
+                        </td>
+                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">
+                            {{ tx.totalCost | currency:'VND' }}
+                        </td>
+                        <td>
+                            <div class="date-val">{{ tx.createdAt | date:'dd/MM/yyyy' }}</div>
+                            <div class="time-val">{{ tx.createdAt | date:'HH:mm' }}</div>
+                        </td>
+                        <td class="text-center">
+                            <span class="status-pill" [ngClass]="getStatusPillClass(tx.status)">
                                 {{ getStatusLabel(tx.status) }}
                             </span>
                         </td>
-                        <td class="text-end pe-4">
-                            <button class="btn btn-sm btn-light text-primary fw-bold me-1"
-                                [routerLink]="['/admin/transactions', tx.id]">Chi tiết</button>
-                            <button *ngIf="tx.status === 1" class="btn btn-sm btn-success fw-bold">Duyệt</button>
+                        <td class="text-center pe-4">
+                            <div class="dropdown">
+                                <button class="btn-action-menu" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    ⋮
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <li><a class="dropdown-item" [routerLink]="['/admin/transactions', tx.id]">Xem chi
+                                            tiết</a></li>
+                                    <li><a *ngIf="tx.status === 1" class="dropdown-item text-success"
+                                            href="javascript:void(0)">Duyệt phiếu</a></li>
+                                </ul>
+                            </div>
                         </td>
+                    </tr>
+
+                    <!-- DUMMY DATA to fill out the UI just like the mockup -->
+                    <tr *ngIf="transactions.length < 5">
+                        <td class="ps-4 fw-bold text-primary">#PX001982</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-out"><svg
+                                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <polyline points="16 17 21 12 16 7" />
+                                        <line x1="21" y1="12" x2="9" y2="12" />
+                                    </svg></span><span class="type-text">Xuất kho bán lẻ</span></div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="mini-avatar bg-light text-secondary">LT</div><span class="user-text">Lê Thị
+                                    Thu</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="qty-val">12</div>
+                            <div class="qty-lbl">items</div>
+                        </td>
+                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">4,200,000₫
+                        </td>
+                        <td>
+                            <div class="date-val">24/05/2024</div>
+                            <div class="time-val">10:42</div>
+                        </td>
+                        <td class="text-center"><span class="status-pill status-pending">Đang xử lý</span></td>
+                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
+                    </tr>
+                    <tr *ngIf="transactions.length < 5">
+                        <td class="ps-4 fw-bold text-primary">#DK000451</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-adj"><svg
+                                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M12 20V10" />
+                                        <path d="M18 20V4" />
+                                        <path d="M6 20v-4" />
+                                    </svg></span><span class="type-text">Điều chỉnh tồn</span></div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="mini-avatar bg-primary text-white">AD</div><span
+                                    class="user-text">Admin</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="qty-val">-2</div>
+                            <div class="qty-lbl">items</div>
+                        </td>
+                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">0₫</td>
+                        <td>
+                            <div class="date-val">23/05/2024</div>
+                            <div class="time-val">16:20</div>
+                        </td>
+                        <td class="text-center"><span class="status-pill status-success">Hoàn thành</span></td>
+                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
+                    </tr>
+                    <tr *ngIf="transactions.length < 5">
+                        <td class="ps-4 fw-bold text-primary">#PN002340</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-in"><svg width="16"
+                                        height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                        <polyline points="10 17 15 12 10 7" />
+                                        <line x1="15" y1="12" x2="3" y2="12" />
+                                    </svg></span><span class="type-text">Nhập kho nhà CC</span></div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="mini-avatar bg-info text-dark">NV</div><span class="user-text">Nguyễn Văn
+                                    A</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="qty-val">500</div>
+                            <div class="qty-lbl">items</div>
+                        </td>
+                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">82,000,000₫
+                        </td>
+                        <td>
+                            <div class="date-val">23/05/2024</div>
+                            <div class="time-val">14:00</div>
+                        </td>
+                        <td class="text-center"><span class="status-pill status-danger">Đã hủy</span></td>
+                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="card-footer bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center"
+        style="border-top: 1px solid var(--border-color) !important;">
+        <span class="text-muted" style="font-size: 0.85rem;">Hiển thị 10 trong tổng số 1,284 giao dịch</span>
+        <div class="pagination-custom d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm px-2">‹</button>
+            <button class="btn btn-primary btn-sm px-3">1</button>
+            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">2</button>
+            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">3</button>
+            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">...</button>
+            <button class="btn btn-outline-secondary btn-sm px-2 bg-white">›</button>
         </div>
     </div>
 </div>

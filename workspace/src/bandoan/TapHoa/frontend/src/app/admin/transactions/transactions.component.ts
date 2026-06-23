@@ -36,26 +36,41 @@ export class TransactionsComponent implements OnInit {
     }
 
     getTypeClass(type: number): string {
-        if (type === 0) return 'bg-primary';
-        if (type === 1) return 'bg-info text-dark';
-        return 'bg-warning text-dark';
+        return ''; // unused now
     }
 
     getTypeLabel(type: number): string {
-        if (type === 0) return 'Nhập Kho';
-        if (type === 1) return 'Xuất Kho';
-        return 'Điều Chỉnh';
+        if (type === 0) return 'Nhập kho nội bộ'; // For design matching
+        if (type === 1) return 'Xuất kho bán lẻ';
+        return 'Điều chỉnh tồn';
+    }
+
+    getTypeIconClass(type: number): string {
+        if (type === 0) return 'type-in';
+        if (type === 1) return 'type-out';
+        return 'type-adj';
+    }
+
+    getInitials(name: string): string {
+        if (!name) return 'A';
+        const parts = name.trim().split(' ');
+        if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
     getStatusClass(status: number): string {
-        if (status === 0) return 'bg-secondary';
-        if (status === 1) return 'bg-warning text-dark';
-        return 'bg-success';
+        return ''; // unused
+    }
+
+    getStatusPillClass(status: number): string {
+        if (status === 0) return 'status-draft'; // Draft
+        if (status === 1) return 'status-pending'; // PendingApproval
+        return 'status-success'; // Completed
     }
 
     getStatusLabel(status: number): string {
-        if (status === 0) return 'Bản Nháp';
-        if (status === 1) return 'Chờ Duyệt';
-        return 'Hoàn Thành';
+        if (status === 0) return 'Đã lưu nháp';
+        if (status === 1) return 'Đang xử lý';
+        return 'Hoàn thành';
     }
 }
