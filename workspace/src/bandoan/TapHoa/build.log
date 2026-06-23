@@ -1,7 +1,10 @@
-D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(8,40): error CS0246: The type or namespace name 'IAppDbContext' could not be found (are you missing a using directive or an assembly reference?) [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs(2,28): error CS0234: The type or namespace name 'Configuration' does not exist in the namespace 'Microsoft.Extensions' (are you missing an assembly reference?) [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs(4,14): error CS0234: The type or namespace name 'IdentityModel' does not exist in the namespace 'System' (are you missing an assembly reference?) [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs(15,22): error CS0246: The type or namespace name 'IConfiguration' could not be found (are you missing a using directive or an assembly reference?) [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs(17,64): error CS0246: The type or namespace name 'IConfiguration' could not be found (are you missing a using directive or an assembly reference?) [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
 
 Build FAILED.
     0 Warning(s)
-    1 Error(s)
+    4 Error(s)
 
-Time Elapsed 00:00:04.13
+Time Elapsed 00:00:02.52

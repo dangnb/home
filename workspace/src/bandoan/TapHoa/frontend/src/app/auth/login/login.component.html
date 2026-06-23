@@ -1,0 +1,70 @@
+<div class="login-wrapper">
+    <!-- Dynamic Background Particles/Gradients -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="login-container">
+        <div class="login-image-side">
+            <div class="overlay-content">
+                <div class="logo">
+                    <span class="emoji">🛒</span>
+                    <h2>FreshMart CMS</h2>
+                </div>
+                <div class="brand-text">
+                    <h1>Quản trị dễ dàng,<br>Kinh doanh hiệu quả</h1>
+                    <p>Hệ thống quản lý chuỗi siêu thị và siêu thị mini chuẩn Enterprise với CQRS & DDD Architecture.
+                    </p>
+                </div>
+                <div class="features-list">
+                    <span>✅ Bán hàng POS</span>
+                    <span>✅ Kho hàng WMS</span>
+                    <span>✅ Phân quyền RBAC</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-form-side">
+            <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+                <div class="form-header">
+                    <h1 class="welcome-text">Đăng Nhập</h1>
+                    <p class="subtitle">Truy cập vào hệ thống quản trị nội bộ</p>
+                </div>
+
+                <div class="alert-box pulse-animation" *ngIf="errorMsg">
+                    <span class="icon">⚠️</span>
+                    <span>{{ errorMsg }}</span>
+                </div>
+
+                <div class="auth-input-group mt-2">
+                    <label>Tên đăng nhập</label>
+                    <div class="auth-input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" name="username" [(ngModel)]="loginData.username" required
+                            placeholder="Tên đăng nhập..." autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="auth-input-group">
+                    <div class="label-row">
+                        <label>Mật khẩu</label>
+                        <a href="#" class="forgot-link">Quên mật khẩu?</a>
+                    </div>
+                    <div class="auth-input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" name="password" [(ngModel)]="loginData.password" required
+                            placeholder="••••••••" autocomplete="off" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login" [class.loading]="isLoading"
+                    [disabled]="!loginForm.form.valid || isLoading">
+                    <span class="btn-text" *ngIf="!isLoading">Đăng Nhập Ngay 🚀</span>
+                    <span class="loader" *ngIf="isLoading"></span>
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="container-fluid py-5">
+    <div class="row mb-5">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold text-dark fs-2 mb-1">Quản lý Vai trò & Phân quyền</h2>
+                <span class="text-muted fw-semibold">Thiết lập ma trận phân quyền Binary (Bitwise) tốc độ cao</span>
+            </div>
+            <button class="btn btn-primary px-4 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2"
+                (click)="openAddModal()">
+                <span>🔐</span> Thêm vai trò mới
+            </button>
+        </div>
+    </div>
+
+    <!-- Roles Grid -->
+    <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-4" *ngFor="let role of roles">
+            <div class="card border-0 shadow-sm rounded-4 h-100 hover-elevate-up transition-base">
+                <div class="card-header border-0 pt-6 bg-transparent d-flex justify-content-between align-items-start">
+                    <div class="d-flex align-items-center bg-light-primary rounded-4 p-3"
+                        style="width: 55px; height: 55px;">
+                        <span class="fs-2 w-100 text-center">🛡️</span>
+                    </div>
+                    <div class="card-toolbar d-flex gap-2">
+                        <button class="btn btn-icon btn-light-warning btn-sm rounded-3 shadow-none border-0"
+                            (click)="openEditModal(role)" title="Phân Quyền / Sửa">
+                            ⚙️
+                        </button>
+                        <button class="btn btn-icon btn-light-danger btn-sm rounded-3 shadow-none border-0"
+                            (click)="deleteRole(role.id)" *ngIf="role.name !== 'Admin'">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body pt-4 pb-4">
+                    <h3 class="card-title fw-bolder text-dark fs-3 mb-2">{{ role.name }}</h3>
+                    <p class="text-muted fw-semibold fs-6 mb-4">{{ role.description }}</p>
+
+                    <div class="d-flex align-items-center bg-light rounded px-3 py-2">
+                        <span class="badge bg-secondary me-2">Bitmask</span>
+                        <code
+                            class="fw-bold fs-6 text-dark">{{ role.permissions === -1 ? 'MASTER_ACCESS' : role.permissions }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Matrix Phân Quyền -->
+<div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" *ngIf="showModal"
+    (click)="closeModal()">
+    <div class="modal-dialog modal-dialog-centered modal-xl" (click)="$event.stopPropagation()">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0 mt-4 px-5">
+                <h3 class="modal-title fw-bolder text-dark">
+                    {{ isEditMode ? 'Thiết lập quyền: ' + editingRole.name : 'Tạo Vai trò & Phân quyền' }}
+                </h3>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+
+            <div class="modal-body px-5 py-4">
+                <form (ngSubmit)="saveRole()" #roleForm="ngForm">
+                    <div class="row g-5 mb-5">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark">Tên vai trò (Role Name)</label>
+                            <input type="text" class="form-control form-control-solid rounded-3" name="name"
+                                [(ngModel)]="editingRole.name" required [disabled]="editingRole.name === 'Admin'">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark">Mô tả (Description)</label>
+                            <input type="text" class="form-control form-control-solid rounded-3" name="description"
+                                [(ngModel)]="editingRole.description" required>
+                        </div>
+                    </div>
+
+                    <!-- Ma trận quyền (Permissions Matrix) -->
+                    <div class="separator mb-5 border-bottom border-2 border-dashed"></div>
+                    <h4 class="fw-bold text-dark mb-4">Ma Trận Cờ Nhị Phân (Bitwise Flags)</h4>
+
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-3" *ngFor="let group of permissionsList">
+                            <div class="card bg-light border-0 shadow-none rounded-3 h-100">
+                                <div class="card-header border-0 pt-4 pb-2 bg-transparent">
+                                    <h5 class="fw-bolder text-primary mb-0">{{ group.group }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-check form-switch mb-3" *ngFor="let perm of group.items">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            [id]="'perm_' + perm.value"
+                                            [checked]="hasPermission(editingRole.permissions, perm.value)"
+                                            (change)="togglePermission($event, perm.value)"
+                                            [disabled]="editingRole.name === 'Admin'">
+                                        <label class="form-check-label fw-semibold text-gray-700 ms-2"
+                                            [for]="'perm_' + perm.value">
+                                            {{ perm.label }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top d-flex justify-content-between align-items-center">
+                        <div class="bg-light-primary text-primary px-3 py-2 rounded-2 fw-bold">
+                            Current Bitmask Value: <span class="fs-5 ms-1">{{ editingRole.permissions }}</span>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button type="button" class="btn btn-light rounded-pill px-4"
+                                (click)="closeModal()">Hủy</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm"
+                                [disabled]="!roleForm.form.valid">
+                                Lưu Vai Trò
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

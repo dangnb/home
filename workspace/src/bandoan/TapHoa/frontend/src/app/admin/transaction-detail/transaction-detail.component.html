@@ -1,0 +1,89 @@
+<div class="card shadow-sm border-0 rounded-4" style="min-height: 400px;">
+    <div class="card-body p-5 text-center" *ngIf="isLoading">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Đang tải dữ liệu phiếu kho...</p>
+    </div>
+
+    <div class="card-body p-5 text-center" *ngIf="!isLoading && error">
+        <h4 class="text-danger">⚠️ Lỗi</h4>
+        <p>{{ error }}</p>
+        <button class="btn btn-outline-secondary btn-sm mt-2 rounded-pills px-4" routerLink="/admin/transactions">Quay
+            Lại</button>
+    </div>
+
+    <ng-container *ngIf="!isLoading && transaction">
+        <div class="card-header bg-white border-0 pt-4 pb-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0 fw-bold text-dark">📋 Chi Tiết Phiếu Kho</h3>
+                <button class="btn btn-sm btn-outline-secondary rounded-pills px-4" routerLink="/admin/transactions">
+                    Trở về Sổ Cái
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body mt-3">
+            <div class="row bg-light rounded-4 p-4 mb-4 mx-0">
+                <div class="col-md-3">
+                    <p class="text-muted fw-bold small text-uppercase mb-1">Mã Phiếu</p>
+                    <h5 class="fw-bold text-primary">{{ transaction.code }}</h5>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-muted fw-bold small text-uppercase mb-1">Loại Chứng Từ</p>
+                    <h5 class="fw-bold">{{ getTypeLabel(transaction.type) }}</h5>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-muted fw-bold small text-uppercase mb-1">Trạng Thái</p>
+                    <span class="badge rounded-pill fw-bold" [ngClass]="getStatusBadgeClass(transaction.status)">
+                        {{ getStatusLabel(transaction.status) }}
+                    </span>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-muted fw-bold small text-uppercase mb-1">Tổng Giá Trị</p>
+                    <h5 class="fw-bold text-success">{{ totalAmount | currency:'VND' }}</h5>
+                </div>
+            </div>
+
+            <div class="row mb-4 px-2">
+                <div class="col-md-4">
+                    <p class="text-muted fw-bold small mb-1">Người Tạo:</p>
+                    <p class="fw-medium">&#64;{{ transaction.createdBy }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted fw-bold small mb-1">Thời Gian Tạo:</p>
+                    <p class="fw-medium">{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-muted fw-bold small mb-1">Tham Chiếu / Ghi Chú:</p>
+                    <p class="fw-medium">{{ transaction.referenceId }} <br> <span class="text-muted">{{
+                            transaction.notes }}</span></p>
+                </div>
+            </div>
+
+            <h5 class="fw-bold text-primary mb-3">📦 Danh Sách Tiết</h5>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light text-muted small text-uppercase">
+                        <tr>
+                            <th class="ps-3">Sản phẩm</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Đơn giá vốn</th>
+                            <th class="text-end">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let l of transaction.lines">
+                            <td class="ps-3 fw-medium">[{{ l.productId }}] {{ l.productName }}</td>
+                            <td class="text-center">{{ l.quantity }}</td>
+                            <td class="text-end">{{ l.unitCost | currency:'VND' }}</td>
+                            <td class="text-end fw-bold">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div *ngIf="transaction.lines.length === 0" class="text-center p-3 text-muted">
+                Phiếu không có mặt hàng nào.
+            </div>
+        </div>
+    </ng-container>
+</div>

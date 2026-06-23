@@ -1,5 +1,7 @@
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using TapHoa.API.Authorization;
+using TapHoa.Domain.Enums;
 using TapHoa.Application.Categories.Commands.CreateCategory;
 using TapHoa.Application.Categories.Commands.UpdateCategory;
 using TapHoa.Application.Categories.Commands.DeleteCategory;
@@ -12,13 +14,16 @@ public static class CategoriesEndpoints
 {
     public static RouteGroupBuilder MapCategoriesEndpoints(this RouteGroupBuilder group)
     {
+        group.RequireAuthorization();
+
         group.MapGet("/", async ([FromServices] ISender sender) =>
         {
             var categories = await sender.Send(new GetCategoriesQuery());
             return Results.Ok(categories);
         })
         .WithName("GetCategories")
-        .WithDescription("Gets all categories");
+        .WithDescription("Gets all categories")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewCategories);
 
         group.MapGet("/{id:int}", async (int id, [FromServices] ISender sender) =>
         {
@@ -26,7 +31,8 @@ public static class CategoriesEndpoints
             return category is not null ? Results.Ok(category) : Results.NotFound();
         })
         .WithName("GetCategoryById")
-        .WithDescription("Gets a specific category by ID");
+        .WithDescription("Gets a specific category by ID")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewCategories);
 
         group.MapPost("/", async ([FromBody] CreateCategoryCommand command, [FromServices] ISender sender) =>
         {
@@ -34,7 +40,8 @@ public static class CategoriesEndpoints
             return Results.CreatedAtRoute("GetCategoryById", new { id = created.Id }, created);
         })
         .WithName("CreateCategory")
-        .WithDescription("Creates a new category");
+        .WithDescription("Creates a new category")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateCategories);
 
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryCommand command, [FromServices] ISender sender) =>
         {
@@ -44,7 +51,8 @@ public static class CategoriesEndpoints
             return result ? Results.NoContent() : Results.NotFound();
         })
         .WithName("UpdateCategory")
-        .WithDescription("Updates an existing category");
+        .WithDescription("Updates an existing category")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.UpdateCategories);
 
         group.MapDelete("/{id:int}", async (int id, [FromServices] ISender sender) =>
         {
@@ -52,7 +60,8 @@ public static class CategoriesEndpoints
             return result ? Results.NoContent() : Results.NotFound();
         })
         .WithName("DeleteCategory")
-        .WithDescription("Deletes a category");
+        .WithDescription("Deletes a category")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.DeleteCategories);
 
         return group;
     }

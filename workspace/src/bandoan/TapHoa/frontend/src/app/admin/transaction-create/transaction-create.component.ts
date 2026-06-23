@@ -1,0 +1,141 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto } from '../../services/transaction.service';
+
+@Component({
+    selector: 'app-transaction-create',
+    standalone: true,
+    imports: [CommonModule, FormsModule, RouterModule],
+    templateUrl: './transaction-create.component.html',
+    styleUrl: './transaction-create.component.scss'
+})
+export class TransactionCreateComponent {
+    private transactionService = inject(TransactionService);
+    private router = inject(Router);
+
+    referenceId: string = '';
+    notes: string = '';
+
+    // For testing, hardcode available products
+    availableProducts = [
+        { id: 1, name: 'Cocacola 330ml', price: 10000 },
+        { id: 2, name: 'Rau cải thìa hữu cơ', price: 15000 },
+        { id: 3, name: 'Thịt bò thăn Úc', price: 350000 }
+    ];
+
+    lines: (TransactionLineDto & { productName: string })[] = [];
+
+    // For Autocomplete
+    searchQuery: string = '';
+    filteredProducts: any[] = [];
+    showDropdown: boolean = false;
+
+    selectedProductId: number | null = null;
+    selectedQuantity: number = 1;
+    selectedCost: number = 0;
+    isSubmitting = false;
+
+    // Simulate clicking outside
+    hideDropdownTimeout: any;
+
+    onSearchChange() {
+        if (!this.searchQuery) {
+            this.filteredProducts = [];
+            this.showDropdown = false;
+            this.selectedProductId = null;
+            this.selectedCost = 0;
+            return;
+        }
+
+        const query = this.searchQuery.toLowerCase();
+        this.filteredProducts = this.availableProducts.filter(p =>
+            p.name.toLowerCase().includes(query) || p.id.toString().includes(query)
+        );
+        this.showDropdown = true;
+    }
+
+    onProductSelect(prod: any) {
+        this.selectedProductId = prod.id;
+        this.searchQuery = prod.name;
+        this.selectedCost = prod.price;
+        this.showDropdown = false;
+
+        // Focus quantity input for fast typing (optional)
+    }
+
+    onSearchBlur() {
+        // Small delay to allow clicking on dropdown items
+        this.hideDropdownTimeout = setTimeout(() => {
+            this.showDropdown = false;
+        }, 200);
+    }
+
+    onSearchFocus() {
+        if (this.searchQuery) {
+            this.onSearchChange();
+        } else {
+            this.filteredProducts = this.availableProducts;
+            this.showDropdown = true;
+        }
+    }
+
+    addLine() {
+        if (!this.selectedProductId) {
+            alert('Vui lòng chọn sản phẩm'); return;
+        }
+        if (this.selectedQuantity <= 0) {
+            alert('Số lượng phải lớn hơn 0'); return;
+        }
+
+        const prod = this.availableProducts.find(p => p.id == this.selectedProductId);
+        if (!prod) return;
+
+        this.lines.push({
+            productId: prod.id,
+            productName: prod.name,
+            quantity: this.selectedQuantity,
+            unitCost: this.selectedCost
+        });
+
+        // reset
+        this.selectedProductId = null;
+        this.searchQuery = '';
+        this.selectedQuantity = 1;
+        this.selectedCost = 0;
+    }
+
+    removeLine(index: number) {
+        this.lines.splice(index, 1);
+    }
+
+    get totalAmount() {
+        return this.lines.reduce((acc, curr) => acc + (curr.quantity * curr.unitCost), 0);
+    }
+
+    submitTransaction() {
+        if (this.lines.length === 0) {
+            alert('Phải có ít nhất 1 mặt hàng trong phiếu!'); return;
+        }
+
+        this.isSubmitting = true;
+        const req: CreateInboundTransactionRequest = {
+            referenceId: this.referenceId,
+            notes: this.notes,
+            lines: this.lines.map(l => ({ productId: l.productId, quantity: l.quantity, unitCost: l.unitCost }))
+        };
+
+        this.transactionService.createInboundTransaction(req).subscribe({
+            next: (res) => {
+                alert('Tạo phiếu nhập nháp thành công!');
+                this.router.navigate(['/admin/transactions']);
+            },
+            error: (err) => {
+                console.error(err);
+                alert('Lỗi tạo phiếu: ' + (err.error?.title || err.message));
+                this.isSubmitting = false;
+            }
+        });
+    }
+}

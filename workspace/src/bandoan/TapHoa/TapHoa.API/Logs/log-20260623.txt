@@ -1,0 +1,156 @@
+2026-06-23 14:01:09.160 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1732.9120 ms
+2026-06-23 14:01:09.256 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-23 14:01:09.321 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-23 14:01:11.747 +07:00 [INF] HTTP POST /api/v1/auth/login responded 401 in 2501.3061 ms
+2026-06-23 14:03:45.840 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 485.5101 ms
+2026-06-23 14:03:57.135 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.2045 ms
+2026-06-23 14:07:11.244 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 158.4772 ms
+2026-06-23 14:08:08.127 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 233.8402 ms
+2026-06-23 14:09:39.794 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1375 ms
+2026-06-23 14:09:39.989 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 191.8262 ms
+2026-06-23 14:09:41.047 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 908.5900 ms
+2026-06-23 14:10:39.284 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.5957 ms
+2026-06-23 14:10:41.452 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.4158 ms
+2026-06-23 14:10:50.044 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.2287 ms
+2026-06-23 14:11:05.053 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0162 ms
+2026-06-23 14:11:05.754 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8168 ms
+2026-06-23 14:11:06.030 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.1810 ms
+2026-06-23 14:11:06.319 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.1209 ms
+2026-06-23 14:11:06.604 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7010 ms
+2026-06-23 14:11:06.965 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.6850 ms
+2026-06-23 14:11:07.414 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.1388 ms
+2026-06-23 14:11:07.748 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7778 ms
+2026-06-23 14:11:08.052 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5895 ms
+2026-06-23 14:11:40.477 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0584 ms
+2026-06-23 14:11:41.535 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 5.4645 ms
+2026-06-23 14:11:50.869 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.8521 ms
+2026-06-23 14:11:51.625 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6570 ms
+2026-06-23 14:11:51.942 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7625 ms
+2026-06-23 14:11:52.585 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5697 ms
+2026-06-23 14:13:46.317 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 5.7427 ms
+2026-06-23 14:14:02.452 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.0258 ms
+2026-06-23 14:14:03.221 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 35.4992 ms
+2026-06-23 14:14:04.617 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5536 ms
+2026-06-23 14:25:16.085 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 3.1229 ms
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-23 14:25:16.163 +07:00 [ERR] An exception occurred: Bad binary signature. (0x80131192)
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-06-23 14:25:16.712 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 0.4990 ms
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-23 14:25:16.716 +07:00 [ERR] An exception occurred: Bad binary signature. (0x80131192)
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-06-23 14:25:17.208 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 0.4906 ms
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-23 14:25:17.212 +07:00 [ERR] An exception occurred: Bad binary signature. (0x80131192)
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-06-23 14:25:17.907 +07:00 [ERR] HTTP GET /api/v1/products responded 500 in 0.4979 ms
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.1
+   at lambda_method52(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-23 14:25:17.911 +07:00 [ERR] An exception occurred: Bad binary signature. (0x80131192)
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.1
+   at lambda_method52(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-06-23 14:25:18.600 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 0.3356 ms
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-23 14:25:18.606 +07:00 [ERR] An exception occurred: Bad binary signature. (0x80131192)
+System.BadImageFormatException: Bad binary signature. (0x80131192)
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.thodBuilder`1
+   at lambda_method57(Closure, Object, HttpContext)
+   at Asp.Versioning.Routing.ReportApiVersionsDecorator.<>c__DisplayClass4_0.<op_Implicit>b__0(HttpContext context)
+   at Asp.Versioning.Builder.EndpointBuilderFinalizer.<>c__DisplayClass2_0.<Finialize>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context)
+2026-06-23 14:32:02.381 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-23 14:54:07.254 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 102.7863 ms
+2026-06-23 14:54:09.268 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 5.4269 ms
+2026-06-23 14:54:10.433 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 4.6983 ms
+2026-06-23 14:54:11.029 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 0.2269 ms
+2026-06-23 14:54:13.864 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 0.2411 ms
+2026-06-23 14:54:14.818 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 0.2197 ms
+2026-06-23 14:54:22.205 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.2004 ms
+2026-06-23 14:54:23.890 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.1901 ms
+2026-06-23 14:54:24.720 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 0.2561 ms
+2026-06-23 14:54:25.249 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.2491 ms
+2026-06-23 14:55:41.633 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.6824 ms
+2026-06-23 15:00:12.957 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.2236 ms
+2026-06-23 15:00:13.769 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 0.1398 ms

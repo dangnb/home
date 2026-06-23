@@ -8,18 +8,34 @@
             <li>
                 <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
             </li>
+            <li class="nav-divider">Hàng Hoá</li>
             <li>
                 <a routerLink="/admin/products" routerLinkActive="active">🏷️ Sản phẩm</a>
             </li>
             <li>
                 <a routerLink="/admin/categories" routerLinkActive="active">📁 Danh mục</a>
             </li>
+            <li class="nav-divider">Quản Lý Kho (WMS)</li>
             <li>
-                <a routerLink="/admin/orders" routerLinkActive="active">🛒 Đơn hàng</a>
+                <a routerLink="/admin/inventory" routerLinkActive="active">📦 Tồn kho tức thời</a>
+            </li>
+            <li>
+                <a routerLink="/admin/transactions" routerLinkActive="active">📋 Sổ cái giao dịch</a>
+            </li>
+            <li class="nav-divider">Bán Hàng</li>
+            <li>
+                <a routerLink="/admin/orders" routerLinkActive="active">🛒 Đơn hàng POS</a>
+            </li>
+            <li class="nav-divider">Hệ Thống</li>
+            <li>
+                <a routerLink="/admin/users" routerLinkActive="active">👤 Người dùng</a>
+            </li>
+            <li>
+                <a routerLink="/admin/roles" routerLinkActive="active">🔐 Vai trò & Quyền</a>
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a routerLink="/">🔙 Về trang chủ</a>
+            <a routerLink="/login" class="text-danger fw-bold">🚪 Đăng xuất</a>
         </div>
     </aside>
 

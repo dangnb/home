@@ -1,4 +1,8 @@
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TapHoa.API.Middlewares;
@@ -40,6 +44,26 @@ builder.Services.AddApiVersioning(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+// Configure JWT Authentication
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "TapHoaApi",
+            ValidAudience = "TapHoaFrontend",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, TapHoa.API.Authorization.PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, TapHoa.API.Authorization.PermissionAuthorizationHandler>();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=taphoa.db";
 
 // EF Core
@@ -47,6 +71,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IInventoryTransactionRepository, InventoryTransactionRepository>();
+builder.Services.AddScoped<IStockLevelRepository, StockLevelRepository>();
 
 // Dapper Factory
 builder.Services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
@@ -78,6 +106,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
 
 // Map Endpoints with Versioning
@@ -93,5 +124,13 @@ app.MapGroup("api/v{version:apiVersion}/products")
 app.MapGroup("api/v{version:apiVersion}/categories")
    .WithApiVersionSet(apiVersionSet)
    .MapCategoriesEndpoints();
+
+app.MapGroup("api/v{version:apiVersion}/auth")
+   .WithApiVersionSet(apiVersionSet)
+   .MapAuthEndpoints();
+
+app.MapGroup("api/v{version:apiVersion}/transactions")
+   .WithApiVersionSet(apiVersionSet)
+   .MapTransactionsEndpoints();
 
 app.Run(); // Trigger hot reload
