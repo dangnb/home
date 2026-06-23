@@ -1,53 +1,84 @@
-<div class="admin-container">
+<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <h2>Admin<span>Panel</span></h2>
+            <div class="subtitle">HỆ THỐNG QUẢN TRỊ</div>
         </div>
         <ul class="nav-links">
             <li>
-                <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
+                <a routerLink="/admin/dashboard" routerLinkActive="active" title="Dashboard"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">◱</span> <span
+                        class="nav-text">Dashboard</span></a>
             </li>
             <li class="nav-divider">Hàng Hoá</li>
             <li>
-                <a routerLink="/admin/products" routerLinkActive="active">🏷️ Sản phẩm</a>
+                <a routerLink="/admin/products" routerLinkActive="active" title="Sản phẩm"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">✧</span> <span
+                        class="nav-text">Sản phẩm</span></a>
             </li>
             <li>
-                <a routerLink="/admin/categories" routerLinkActive="active">📁 Danh mục</a>
+                <a routerLink="/admin/categories" routerLinkActive="active" title="Danh mục"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">⊟</span> <span
+                        class="nav-text">Danh mục</span></a>
             </li>
-            <li class="nav-divider">Quản Lý Kho (WMS)</li>
+            <li class="nav-divider">Kho (WMS)</li>
             <li>
-                <a routerLink="/admin/inventory" routerLinkActive="active">📦 Tồn kho tức thời</a>
+                <a routerLink="/admin/inventory" routerLinkActive="active" title="Tồn kho"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">⛃</span> <span
+                        class="nav-text">Tồn kho </span></a>
             </li>
             <li>
-                <a routerLink="/admin/transactions" routerLinkActive="active">📋 Sổ cái giao dịch</a>
+                <a routerLink="/admin/transactions" routerLinkActive="active" title="Sổ cái"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">☷</span> <span
+                        class="nav-text">Sổ cái</span></a>
             </li>
             <li class="nav-divider">Bán Hàng</li>
             <li>
-                <a routerLink="/admin/orders" routerLinkActive="active">🛒 Đơn hàng POS</a>
+                <a routerLink="/admin/orders" routerLinkActive="active" title="Đơn POS"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">⚲</span> <span
+                        class="nav-text">Đơn POS</span></a>
             </li>
             <li class="nav-divider">Hệ Thống</li>
             <li>
-                <a routerLink="/admin/users" routerLinkActive="active">👤 Người dùng</a>
+                <a routerLink="/admin/users" routerLinkActive="active" title="NSD"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">⚇</span> <span
+                        class="nav-text">NSD</span></a>
             </li>
             <li>
-                <a routerLink="/admin/roles" routerLinkActive="active">🔐 Vai trò & Quyền</a>
+                <a routerLink="/admin/roles" routerLinkActive="active" title="Quyền"><span class="icon"
+                        style="font-size: 1.2rem; font-weight: normal; color: #a1a1aa;">⚿</span> <span
+                        class="nav-text">Quyền</span></a>
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a routerLink="/login" class="text-danger fw-bold">🚪 Đăng xuất</a>
+            <a routerLink="/login" class="text-danger fw-bold" title="Đăng xuất"><span>🚪</span> <span
+                    class="nav-text">Log out</span></a>
         </div>
     </aside>
 
     <!-- Main Content -->
     <div class="main-wrapper">
-        <header class="topbar">
-            <div class="breadcrumb">
-                <span>Quản lý / Sản phẩm</span>
+        <header class="topbar d-flex justify-content-between align-items-center px-4">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-light border-0 shadow-sm" (click)="toggleSidebar()">
+                    ☰
+                </button>
+                <div class="breadcrumb mb-0">
+                    Tra cứu quản trị / <span class="text-dark fw-bold ms-1">Tổng quan</span>
+                </div>
             </div>
-            <div class="user-info">
-                <span class="user-name">Chào, Admin</span>
-                <div class="avatar">A</div>
+
+            <div class="user-profile d-flex gap-3 align-items-center">
+                <button
+                    class="btn btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px;" (click)="toggleTheme()" title="Đổi giao diện">
+                    {{ isDarkMode ? '☀️' : '🌙' }}
+                </button>
+                <div class="user-info">
+                    <span class="user-name">Chào, Admin</span>
+                    <div class="avatar">A</div>
+                </div>
             </div>
         </header>
 

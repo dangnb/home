@@ -2,29 +2,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  color: var(--text);
+  background-color: var(--gray);
+  -webkit-font-smoothing: antialiased;
 }
 
 :root {
-  --primary: #22c55e;
-  --primary-hover: #16a34a;
-  --secondary: #f97316;
-  --dark: #1f2937;
-  --gray: #f3f4f6;
-  --text: #374151;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary: #10b981;
+  --dark: #0f172a;
+  --gray: #f8fafc;
+  --text: #334155;
   --light: #ffffff;
+  --border-color: #e2e8f0;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  color: var(--text);
-  background-color: #fdfdfd;
 }
 
 .grocery-app-container {
@@ -266,4 +264,65 @@ body {
       }
     }
   }
+}
+
+/* Base Body Styling */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Card Overrides for Premium Depth */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025) !important;
+}
+
+.card-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-bottom: 1rem !important;
+}
+
+/* Button Refinements */
+.btn {
+  font-weight: 600 !important;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* Inputs and Forms */
+.form-control,
+.form-select {
+  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1) !important;
 }
