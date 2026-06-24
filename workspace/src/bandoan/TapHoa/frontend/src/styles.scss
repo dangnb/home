@@ -17,6 +17,11 @@ body {
   --text: #334155;
   --light: #ffffff;
   --border-color: #e2e8f0;
+  --root-font-size: 16px;
+}
+
+html {
+  font-size: var(--root-font-size) !important;
 }
 
 * {

@@ -6,7 +6,7 @@
 }
 
 .sidebar {
-    width: 250px;
+    width: 210px;
     background-color: var(--bs-body-bg, #ffffff);
     border-right: 1px solid var(--border-color, #e2e8f0);
     display: flex;
@@ -230,7 +230,7 @@
 
 .main-wrapper {
     flex: 1;
-    margin-left: 250px;
+    margin-left: 210px;
     display: flex;
     flex-direction: column;
     transition: margin-left 0.3s ease;
@@ -238,9 +238,9 @@
     /* match body bg */
 
     .topbar {
-        height: 70px;
+        height: 60px;
         background: var(--bs-body-bg, #ffffff);
-        padding: 0 2rem;
+        padding: 0 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -401,7 +401,7 @@
     }
 
     .content-area {
-        padding: 2rem;
+        padding: 1rem;
         flex: 1;
     }
 }

@@ -52,6 +52,11 @@
                     <span class="icon">⚿</span> <span class="nav-text">Quyền</span>
                 </a>
             </li>
+            <li>
+                <a routerLink="/admin/audits" routerLinkActive="active" title="Audits">
+                    <span class="icon">📝</span> <span class="nav-text">Audit Log</span>
+                </a>
+            </li>
         </ul>
         <div class="sidebar-footer">
             <a routerLink="/settings" class="settings-link" title="Cài đặt">
@@ -94,6 +99,15 @@
             </div>
 
             <div class="topbar-right">
+                <div class="font-size-controls"
+                    style="display:flex; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; margin-right: 10px;">
+                    <button class="btn-icon"
+                        style="padding: 4px 8px; font-size: 14px; font-weight:bold; border-right: 1px solid #e2e8f0;"
+                        (click)="changeFontSize(-1)" title="Thu nhỏ chữ">A-</button>
+                    <button class="btn-icon" style="padding: 4px 8px; font-size: 16px; font-weight:bold;"
+                        (click)="changeFontSize(1)" title="Phóng to chữ">A+</button>
+                </div>
+
                 <button class="btn-icon" (click)="toggleTheme()" title="Đổi giao diện">
                     <svg *ngIf="!isDarkMode" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

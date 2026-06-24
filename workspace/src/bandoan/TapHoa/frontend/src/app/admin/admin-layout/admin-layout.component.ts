@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class AdminLayoutComponent {
   isSidebarCollapsed = false;
   isDarkMode = false;
+  currentFontSize = 16;
 
   ngOnInit() {
     // Load theme from localStorage
@@ -23,6 +24,22 @@ export class AdminLayoutComponent {
     } else {
       document.documentElement.setAttribute('data-bs-theme', 'light');
     }
+
+    // Load font size from localStorage
+    const savedFontSize = localStorage.getItem('fontSize');
+    if (savedFontSize) {
+      this.currentFontSize = parseInt(savedFontSize, 10);
+      document.documentElement.style.setProperty('--root-font-size', `${this.currentFontSize}px`);
+    }
+  }
+
+  changeFontSize(step: number) {
+    this.currentFontSize += step;
+    if (this.currentFontSize < 12) this.currentFontSize = 12;
+    if (this.currentFontSize > 24) this.currentFontSize = 24;
+
+    document.documentElement.style.setProperty('--root-font-size', `${this.currentFontSize}px`);
+    localStorage.setItem('fontSize', this.currentFontSize.toString());
   }
 
   toggleSidebar() {
