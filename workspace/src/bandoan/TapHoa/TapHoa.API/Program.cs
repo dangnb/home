@@ -9,6 +9,7 @@ using TapHoa.API.Middlewares;
 using FluentValidation;
 using TapHoa.Application.Behaviors;
 using TapHoa.Application.Interfaces;
+using TapHoa.API.Middlewares;
 using TapHoa.Application.Products.Commands.CreateProduct;
 using TapHoa.Infrastructure.Data;
 using TapHoa.Domain.Interfaces;
@@ -81,9 +82,13 @@ builder.Services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(co
 
 builder.Services.AddValidatorsFromAssembly(typeof(CreateProductCommand).Assembly); // Since all validators are in this assembly
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); // For queries/behaviors in API
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuditBehavior<,>));
     cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 });
 
@@ -97,7 +102,12 @@ app.UseSerilogRequestLogging(); // Added request logging
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    context.Database.EnsureCreated();
+    try {
+        context.Database.EnsureCreated();
+    } catch(Exception ex) {
+        System.IO.File.WriteAllText("ef_error.txt", ex.ToString());
+        throw;
+    }
 }
 
 if (app.Environment.IsDevelopment())
@@ -106,6 +116,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+app.UseStaticFiles(); // Allow serving uploads directory
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -132,5 +143,9 @@ app.MapGroup("api/v{version:apiVersion}/auth")
 app.MapGroup("api/v{version:apiVersion}/transactions")
    .WithApiVersionSet(apiVersionSet)
    .MapTransactionsEndpoints();
+
+app.MapGroup("api/v{version:apiVersion}/audits")
+   .WithApiVersionSet(apiVersionSet)
+   .MapAuditsEndpoints();
 
 app.Run(); // Trigger hot reload

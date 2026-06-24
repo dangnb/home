@@ -7,8 +7,8 @@ public class Product
     public int Id { get; private set; }
     public string Name { get; private set; }
     public string Category { get; private set; }
-    public string ImageIcon { get; private set; }
-    public string ImageColor { get; private set; }
+    public string? MainImageUrl { get; private set; }
+    public List<string> AdditionalImages { get; private set; } = new();
     public decimal Price { get; private set; }
     public int StockQuantity { get; private set; }
     public string Unit { get; private set; }
@@ -17,19 +17,19 @@ public class Product
     // Private parameterless constructor for EF Core
     private Product() { }
 
-    private Product(string name, string category, decimal price, int stockQuantity, string unit, string imageIcon, string imageColor, string status)
+    private Product(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status)
     {
         Name = name;
         Category = category;
         Price = price;
         StockQuantity = stockQuantity;
         Unit = unit;
-        ImageIcon = imageIcon;
-        ImageColor = imageColor;
+        MainImageUrl = mainImageUrl;
+        AdditionalImages = additionalImages ?? new List<string>();
         Status = status;
     }
 
-    public static Product Create(string name, string category, decimal price, int stockQuantity, string unit, string imageIcon, string imageColor, string status)
+    public static Product Create(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -40,10 +40,10 @@ public class Product
         if (stockQuantity < 0)
             throw new DomainException("Số lượng tồn kho không thể là số âm.");
 
-        return new Product(name, category, price, stockQuantity, unit, imageIcon, imageColor, status);
+        return new Product(name, category, price, stockQuantity, unit, mainImageUrl, additionalImages, status);
     }
 
-    public void Update(string name, string category, decimal price, int stockQuantity, string unit, string imageIcon, string imageColor, string status)
+    public void Update(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -59,8 +59,8 @@ public class Product
         Price = price;
         StockQuantity = stockQuantity;
         Unit = unit;
-        ImageIcon = imageIcon;
-        ImageColor = imageColor;
+        MainImageUrl = mainImageUrl;
+        AdditionalImages = additionalImages ?? new List<string>();
         Status = status;
     }
 

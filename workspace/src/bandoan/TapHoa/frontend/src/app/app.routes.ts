@@ -7,6 +7,7 @@ import { CategoriesComponent } from './admin/categories/categories.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RolesComponent } from './admin/roles/roles.component';
 import { UsersComponent } from './admin/users/users.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: AdminLayoutComponent,
+        canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: ProductsComponent }, // Temp dashboard
@@ -33,7 +35,8 @@ export const routes: Routes = [
             { path: 'transactions/create', loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) },
             { path: 'transactions/:id', loadComponent: () => import('./admin/transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) },
             { path: 'roles', component: RolesComponent },
-            { path: 'users', component: UsersComponent }
+            { path: 'users', component: UsersComponent },
+            { path: 'audits', loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) }
         ]
     }
 ];

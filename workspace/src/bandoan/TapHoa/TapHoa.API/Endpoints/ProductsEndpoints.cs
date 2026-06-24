@@ -63,6 +63,30 @@ public static class ProductsEndpoints
         .WithDescription("Deletes a product")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.DeleteProducts);
 
+        group.MapPost("/upload-image", async (Microsoft.AspNetCore.Http.IFormFile file, [FromServices] Microsoft.AspNetCore.Hosting.IWebHostEnvironment env) =>
+        {
+            if (file == null || file.Length == 0) return Results.BadRequest("No file uploaded");
+
+            var webRoot = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            var uploadsFolder = Path.Combine(webRoot, "uploads", "products");
+            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var fileUrl = $"/uploads/products/{uniqueFileName}";
+            return Results.Ok(new { url = fileUrl });
+        })
+        .WithName("UploadProductImage")
+        .WithDescription("Uploads an image for a product")
+        .DisableAntiforgery()
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts);
+
         return group;
     }
 }

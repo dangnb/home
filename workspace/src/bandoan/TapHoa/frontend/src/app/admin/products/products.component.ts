@@ -69,6 +69,32 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  onMainImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.productService.uploadImage(file).subscribe(res => {
+        this.editingProduct.mainImageUrl = res.url;
+      });
+    }
+  }
+
+  onAdditionalImageSelected(event: any) {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.productService.uploadImage(file).subscribe(res => {
+        this.editingProduct.additionalImages = this.editingProduct.additionalImages || [];
+        this.editingProduct.additionalImages.push(res.url);
+      });
+    }
+  }
+
+  removeAdditionalImage(index: number) {
+    if (this.editingProduct.additionalImages) {
+      this.editingProduct.additionalImages.splice(index, 1);
+    }
+  }
+
   private getEmptyProduct(): Product {
     return {
       id: 0,
@@ -78,8 +104,8 @@ export class ProductsComponent implements OnInit {
       stockQuantity: 0,
       unit: 'kg',
       status: 'Đang bán',
-      imageIcon: '📦',
-      imageColor: '#f3f4f6'
+      mainImageUrl: '',
+      additionalImages: []
     };
   }
 }

@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     
     // Warehouse
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
@@ -58,14 +59,6 @@ public class AppDbContext : DbContext
             new { Id = 1, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc) }
         );
 
-        // Seed a Dummy Category and Product for testing Inbound transaction
-        modelBuilder.Entity<Category>().HasData(
-            new { Id = 1, Name = "Nước Giải Khát", Description = "Đồ uống các loại", CreatedAt = DateTime.UtcNow }
-        );
-
-        modelBuilder.Entity<Product>().HasData(
-            new { Id = 1, Name = "Cocacola 330ml", Barcode = "893456789", Price = 10000m, CategoryId = 1, CreatedAt = DateTime.UtcNow }
-        );
 
         // Seed initial data using anonymous objects since Product has private setters
         modelBuilder.Entity<Category>().HasData(
@@ -75,9 +68,9 @@ public class AppDbContext : DbContext
         );
 
         modelBuilder.Entity<Product>().HasData(
-            new { Id = 1, Name = "Táo New Zealand size to", Category = "Trái cây", Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", ImageIcon = "🍏", ImageColor = "#ffd7d7" },
-            new { Id = 2, Name = "Rau cải thìa hữu cơ", Category = "Rau củ", Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", ImageIcon = "🥬", ImageColor = "#d7ffd9" },
-            new { Id = 3, Name = "Thịt bò thăn Úc tươi sạch", Category = "Thịt cá", Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", ImageIcon = "🥩", ImageColor = "#ffe3d7" }
+            new { Id = 1, Name = "Táo New Zealand size to", Category = "Trái cây", Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = "[]" },
+            new { Id = 2, Name = "Rau cải thìa hữu cơ", Category = "Rau củ", Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = "[]" },
+            new { Id = 3, Name = "Thịt bò thăn Úc tươi sạch", Category = "Thịt cá", Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", MainImageUrl = (string?)null, AdditionalImages = "[]" }
         );
     }
 }

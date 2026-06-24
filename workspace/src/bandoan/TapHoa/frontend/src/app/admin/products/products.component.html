@@ -32,7 +32,9 @@
                 <tr *ngFor="let p of products">
                     <td>#SP00{{p.id}}</td>
                     <td>
-                        <div class="img-thumb" [style.background]="p.imageColor">{{p.imageIcon}}</div>
+                        <img *ngIf="p.mainImageUrl" [src]="'http://localhost:5222' + p.mainImageUrl"
+                            style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb;" />
+                        <div *ngIf="!p.mainImageUrl" class="img-thumb" style="background: #f3f4f6;">📦</div>
                     </td>
                     <td>{{p.name}}</td>
                     <td>{{p.category}}</td>
@@ -64,54 +66,142 @@
             <h3 *ngIf="isEditMode">Chỉnh sửa sản phẩm</h3>
             <button class="close-btn" (click)="closeModal()">&times;</button>
         </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label>Tên sản phẩm <span class="required">*</span></label>
-                <input type="text" [(ngModel)]="editingProduct.name" class="form-control"
-                    placeholder="Ví dụ: Táo New Zealand">
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Danh mục</label>
-                    <select [(ngModel)]="editingProduct.category" class="form-control">
-                        <option value="Trái cây">Trái cây</option>
-                        <option value="Rau củ">Rau củ</option>
-                        <option value="Thịt cá">Thịt cá</option>
-                        <option value="Khác">Khác</option>
-                    </select>
+        <div class="modal-body form-classic">
+            <div class="grid-layout">
+                <!-- Cột trái: Thông tin chính -->
+                <div class="left-column">
+                    <div class="classic-panel">
+                        <div class="panel-header">Thông tin sản phẩm</div>
+                        <div class="panel-body">
+                            <div class="form-row-classic">
+                                <label>Tên sản phẩm <span class="required">(*)</span></label>
+                                <div class="flex-grow-1">
+                                    <input type="text" [(ngModel)]="editingProduct.name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row-classic">
+                                <label>Liên kết tĩnh</label>
+                                <div class="flex-grow-1">
+                                    <input type="text" disabled placeholder="Tự động tạo từ tên sản phẩm..."
+                                        class="form-control" style="background:#f8f9fa;">
+                                </div>
+                            </div>
+                            <div class="form-row-classic">
+                                <label>Loại sản phẩm</label>
+                                <div class="flex-grow-1">
+                                    <select [(ngModel)]="editingProduct.category" class="form-select">
+                                        <option value="Trái cây">Trái cây</option>
+                                        <option value="Rau củ">Rau củ</option>
+                                        <option value="Thịt cá">Thịt cá</option>
+                                        <option value="Khác">Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row-classic">
+                                <label>Mã sản phẩm</label>
+                                <div class="flex-grow-1">
+                                    <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control"
+                                        disabled style="background:#f8f9fa;">
+                                    <span
+                                        style="display:inline-block; width: 120px; text-align: center; font-weight: 500;">Đơn
+                                        vị tính</span>
+                                    <select [(ngModel)]="editingProduct.unit" class="form-select" style="width: 120px;">
+                                        <option value="kg">kg</option>
+                                        <option value="bó">Bó</option>
+                                        <option value="hộp">Hộp</option>
+                                        <option value="chai">Chai</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row-classic">
+                                <label>Giá sản phẩm</label>
+                                <div class="flex-grow-1">
+                                    <input type="number" [(ngModel)]="editingProduct.price" class="form-control">
+                                    <select disabled class="form-select" style="max-width: 150px; background:#f8f9fa;">
+                                        <option>Vietnam Dong</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="classic-panel">
+                        <div class="panel-header">Hình minh họa</div>
+                        <div class="panel-body">
+                            <div class="form-row-classic mb-2">
+                                <label>Ảnh chính</label>
+                                <div class="flex-grow-1">
+                                    <input type="file" (change)="onMainImageSelected($event)" accept="image/*"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row-classic mb-3" *ngIf="editingProduct.mainImageUrl">
+                                <label></label>
+                                <div class="flex-grow-1">
+                                    <img [src]="'http://localhost:5222' + editingProduct.mainImageUrl" height="80"
+                                        style="border: 1px solid #ddd; border-radius: 4px; object-fit: contain;">
+                                </div>
+                            </div>
+
+                            <div class="form-row-classic mb-2 mt-4">
+                                <label>Ảnh phụ đính kèm</label>
+                                <div class="flex-grow-1">
+                                    <input type="file" multiple (change)="onAdditionalImageSelected($event)"
+                                        accept="image/*" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row-classic mb-0"
+                                *ngIf="editingProduct.additionalImages && editingProduct.additionalImages.length > 0">
+                                <label></label>
+                                <div class="flex-grow-1" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <div *ngFor="let url of editingProduct.additionalImages; let i = index"
+                                        style="position: relative;">
+                                        <img [src]="'http://localhost:5222' + url" width="60" height="60"
+                                            style="object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                                        <button class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                            style="padding: 0px 4px; font-size: 10px; margin: 2px;"
+                                            (click)="removeAdditionalImage(i)">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Giá bán (VNĐ)</label>
-                    <input type="number" [(ngModel)]="editingProduct.price" class="form-control">
+
+                <!-- Cột phải: Thuộc tính mở rộng -->
+                <div class="right-column">
+                    <div class="classic-panel">
+                        <div class="panel-header">Trạng thái cấu hình & Tồn kho</div>
+                        <div class="panel-body">
+                            <div class="form-group mb-3">
+                                <label style="display:block; margin-bottom: 5px; font-weight: 500;">Số lượng tồn kho
+                                    (hiện tại)</label>
+                                <input type="number" [(ngModel)]="editingProduct.stockQuantity" class="form-control">
+                            </div>
+
+                            <hr style="border-color:#e5e7eb; margin: 15px 0;">
+
+                            <div class="form-group">
+                                <label style="display:block; margin-bottom: 5px; font-weight: 500;">Trạng thái kinh
+                                    doanh</label>
+                                <select [(ngModel)]="editingProduct.status" class="form-select">
+                                    <option value="Đang bán">Đang bán</option>
+                                    <option value="Sắp hết">Sắp hết</option>
+                                    <option value="Ngừng kinh doanh">Ngừng bán (Ẩn)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="classic-panel">
+                        <div class="panel-header">Phân quyền block</div>
+                        <div class="panel-body">
+                            <label style="display:flex; align-items:center; gap:8px;">
+                                <input type="checkbox" checked /> Hiển thị ghim Sản phẩm mới
+                            </label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Số lượng kho</label>
-                    <input type="number" [(ngModel)]="editingProduct.stockQuantity" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Đơn vị (kg, bó, hộp)</label>
-                    <input type="text" [(ngModel)]="editingProduct.unit" class="form-control">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Icon (Emoji)</label>
-                    <input type="text" [(ngModel)]="editingProduct.imageIcon" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Màu nền (#Mã_Màu)</label>
-                    <input type="text" [(ngModel)]="editingProduct.imageColor" class="form-control">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Trạng thái</label>
-                <select [(ngModel)]="editingProduct.status" class="form-control">
-                    <option value="Đang bán">Đang bán</option>
-                    <option value="Sắp hết">Sắp hết</option>
-                    <option value="Ngừng kinh doanh">Ngừng kinh doanh</option>
-                </select>
             </div>
         </div>
         <div class="modal-footer">

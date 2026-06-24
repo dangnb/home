@@ -111,25 +111,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Mock rows for styling presentation if empty, otherwise real data -->
-                    <tr *ngFor="let tx of transactions">
+                    <!-- Real Data Rows -->
+                    <tr *ngFor="let tx of paginatedTransactions">
                         <td class="ps-4 fw-bold text-primary">{{ tx.code || ('#PN00' + tx.id) }}</td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 <span class="type-icon" [ngClass]="getTypeIconClass(tx.type)">
-                                    <svg *ngIf="tx.type === 0" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    <svg *ngIf="tx.type === 1" width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
                                         <polyline points="10 17 15 12 10 7" />
                                         <line x1="15" y1="12" x2="3" y2="12" />
                                     </svg>
-                                    <svg *ngIf="tx.type === 1" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    <svg *ngIf="tx.type === 2" width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                                         <polyline points="16 17 21 12 16 7" />
                                         <line x1="21" y1="12" x2="9" y2="12" />
                                     </svg>
-                                    <svg *ngIf="tx.type === 2" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    <svg *ngIf="tx.type === 3" width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <path d="M12 20V10" />
                                         <path d="M18 20V4" />
@@ -177,95 +177,8 @@
                         </td>
                     </tr>
 
-                    <!-- DUMMY DATA to fill out the UI just like the mockup -->
-                    <tr *ngIf="transactions.length < 5">
-                        <td class="ps-4 fw-bold text-primary">#PX001982</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-out"><svg
-                                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                                        <polyline points="16 17 21 12 16 7" />
-                                        <line x1="21" y1="12" x2="9" y2="12" />
-                                    </svg></span><span class="type-text">Xuất kho bán lẻ</span></div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="mini-avatar bg-light text-secondary">LT</div><span class="user-text">Lê Thị
-                                    Thu</span>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="qty-val">12</div>
-                            <div class="qty-lbl">items</div>
-                        </td>
-                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">4,200,000₫
-                        </td>
-                        <td>
-                            <div class="date-val">24/05/2024</div>
-                            <div class="time-val">10:42</div>
-                        </td>
-                        <td class="text-center"><span class="status-pill status-pending">Đang xử lý</span></td>
-                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
-                    </tr>
-                    <tr *ngIf="transactions.length < 5">
-                        <td class="ps-4 fw-bold text-primary">#DK000451</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-adj"><svg
-                                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M12 20V10" />
-                                        <path d="M18 20V4" />
-                                        <path d="M6 20v-4" />
-                                    </svg></span><span class="type-text">Điều chỉnh tồn</span></div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="mini-avatar bg-primary text-white">AD</div><span
-                                    class="user-text">Admin</span>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="qty-val">-2</div>
-                            <div class="qty-lbl">items</div>
-                        </td>
-                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">0₫</td>
-                        <td>
-                            <div class="date-val">23/05/2024</div>
-                            <div class="time-val">16:20</div>
-                        </td>
-                        <td class="text-center"><span class="status-pill status-success">Hoàn thành</span></td>
-                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
-                    </tr>
-                    <tr *ngIf="transactions.length < 5">
-                        <td class="ps-4 fw-bold text-primary">#PN002340</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2"><span class="type-icon type-in"><svg width="16"
-                                        height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                                        <polyline points="10 17 15 12 10 7" />
-                                        <line x1="15" y1="12" x2="3" y2="12" />
-                                    </svg></span><span class="type-text">Nhập kho nhà CC</span></div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="mini-avatar bg-info text-dark">NV</div><span class="user-text">Nguyễn Văn
-                                    A</span>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="qty-val">500</div>
-                            <div class="qty-lbl">items</div>
-                        </td>
-                        <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">82,000,000₫
-                        </td>
-                        <td>
-                            <div class="date-val">23/05/2024</div>
-                            <div class="time-val">14:00</div>
-                        </td>
-                        <td class="text-center"><span class="status-pill status-danger">Đã hủy</span></td>
-                        <td class="text-center pe-4"><button class="btn-action-menu">⋮</button></td>
+                    <tr *ngIf="transactions.length === 0 && !isLoading" class="text-center">
+                        <td colspan="8" class="py-4 text-muted">Chưa có giao dịch kho nào.</td>
                     </tr>
                 </tbody>
             </table>
@@ -273,14 +186,21 @@
     </div>
     <div class="card-footer bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center"
         style="border-top: 1px solid var(--border-color) !important;">
-        <span class="text-muted" style="font-size: 0.85rem;">Hiển thị 10 trong tổng số 1,284 giao dịch</span>
-        <div class="pagination-custom d-flex gap-2">
-            <button class="btn btn-outline-secondary btn-sm px-2">‹</button>
-            <button class="btn btn-primary btn-sm px-3">1</button>
-            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">2</button>
-            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">3</button>
-            <button class="btn btn-outline-secondary btn-sm px-3 bg-white">...</button>
-            <button class="btn btn-outline-secondary btn-sm px-2 bg-white">›</button>
+        <span class="text-muted" style="font-size: 0.85rem;">
+            Hiển thị {{ paginatedTransactions.length }} trong tổng số {{ transactions.length }} giao dịch
+        </span>
+        <div class="pagination-custom d-flex gap-2" *ngIf="totalPages > 1">
+            <button class="btn btn-outline-secondary btn-sm px-2" [disabled]="currentPage === 1"
+                (click)="goToPage(currentPage - 1)">‹</button>
+
+            <button *ngFor="let page of paginationArray" class="btn btn-sm px-3"
+                [ngClass]="page === currentPage ? 'btn-primary' : 'btn-outline-secondary bg-white'"
+                (click)="goToPage(page)">
+                {{ page }}
+            </button>
+
+            <button class="btn btn-outline-secondary btn-sm px-2 bg-white" [disabled]="currentPage === totalPages"
+                (click)="goToPage(currentPage + 1)">›</button>
         </div>
     </div>
 </div>

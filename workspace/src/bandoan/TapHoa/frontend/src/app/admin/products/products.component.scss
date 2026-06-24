@@ -169,84 +169,128 @@
 }
 
 .modal-content {
-    background: white;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
+    background: #f0f0f1;
+    border-radius: 8px;
+    width: 95%;
+    max-width: 1000px;
+    height: 90vh;
+    /* Fixed height to allow inner scrolling better */
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 
     .modal-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid #f3f4f6;
+        padding: 1.25rem 1.5rem;
+        background: white;
+        border-bottom: 2px solid #8e1515;
+        /* Like the red title in the image */
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         h3 {
             margin: 0;
-            color: #1f2937;
+            color: #8e1515;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
         .close-btn {
-            background: none;
+            background: #8e1515;
             border: none;
-            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
             cursor: pointer;
-            color: #9ca3af;
+            color: white;
 
             &:hover {
-                color: #374151;
+                background: #5c0f0f;
             }
         }
     }
 
     .modal-body {
         padding: 1.5rem;
+        flex: 1;
+        overflow-y: auto;
 
-        .form-group {
-            margin-bottom: 1rem;
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .classic-panel {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+
+            .panel-header {
+                background: #f9fafb;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+                color: #4b5563;
+            }
+
+            .panel-body {
+                padding: 1rem;
+            }
+        }
+
+        .form-row-classic {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
 
             label {
-                display: block;
-                margin-bottom: 0.5rem;
-                font-weight: 500;
-                font-size: 0.9rem;
+                flex: 0 0 130px;
+                text-align: right;
+                padding-right: 15px;
+                font-size: 0.85rem;
+                color: #374151;
+                margin-bottom: 0;
 
                 .required {
                     color: #ef4444;
                 }
             }
 
-            .form-control {
-                width: 100%;
-                padding: 0.6rem 0.8rem;
-                border: 1px solid #d1d5db;
-                border-radius: 6px;
-
-                &:focus {
-                    border-color: #22c55e;
-                    outline: none;
-                }
+            .flex-grow-1 {
+                flex: 1;
+                display: flex;
+                gap: 0.5rem;
             }
         }
 
-        .form-row {
-            display: flex;
-            gap: 1rem;
+        .form-control,
+        .form-select {
+            width: 100%;
+            padding: 0.4rem 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            font-size: 0.85rem;
 
-            .form-group {
-                flex: 1;
+            &:focus {
+                border-color: #22c55e;
+                outline: none;
             }
         }
     }
 
     .modal-footer {
         padding: 1rem 1.5rem;
-        border-top: 1px solid #f3f4f6;
+        border-top: 1px solid #e5e7eb;
         display: flex;
         gap: 1rem;
         justify-content: flex-end;
-        background: #f9fafb;
+        background: white;
     }
 }

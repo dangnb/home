@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto } from '../../services/transaction.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-transaction-create',
@@ -13,6 +14,7 @@ import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto
 })
 export class TransactionCreateComponent {
     private transactionService = inject(TransactionService);
+    private alertService = inject(AlertService);
     private router = inject(Router);
 
     referenceId: string = '';
@@ -83,10 +85,10 @@ export class TransactionCreateComponent {
 
     addLine() {
         if (!this.selectedProductId) {
-            alert('Vui lòng chọn sản phẩm'); return;
+            this.alertService.warning('Cảnh báo', 'Vui lòng chọn sản phẩm'); return;
         }
         if (this.selectedQuantity <= 0) {
-            alert('Số lượng phải lớn hơn 0'); return;
+            this.alertService.warning('Cảnh báo', 'Số lượng phải lớn hơn 0'); return;
         }
 
         const prod = this.availableProducts.find(p => p.id == this.selectedProductId);
@@ -116,7 +118,7 @@ export class TransactionCreateComponent {
 
     submitTransaction() {
         if (this.lines.length === 0) {
-            alert('Phải có ít nhất 1 mặt hàng trong phiếu!'); return;
+            this.alertService.warning('Cảnh báo', 'Phải có ít nhất 1 mặt hàng trong phiếu!'); return;
         }
 
         this.isSubmitting = true;
@@ -128,12 +130,12 @@ export class TransactionCreateComponent {
 
         this.transactionService.createInboundTransaction(req).subscribe({
             next: (res) => {
-                alert('Tạo phiếu nhập nháp thành công!');
+                this.alertService.success('Thành công', 'Tạo phiếu nhập nháp thành công!');
                 this.router.navigate(['/admin/transactions']);
             },
             error: (err) => {
                 console.error(err);
-                alert('Lỗi tạo phiếu: ' + (err.error?.title || err.message));
+                this.alertService.error('Thất bại', 'Lỗi tạo phiếu: ' + (err.error?.title || err.message));
                 this.isSubmitting = false;
             }
         });
