@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
     this.users = [...this.mockUsers];
   }
 
-  getRoleName(roleId: number) {
+  getRoleName(roleId: string) {
     return this.roles.find(r => r.id == roleId)?.name || 'N/A';
   }
 
@@ -63,7 +63,7 @@ export class UsersComponent implements OnInit {
     this.closeModal();
   }
 
-  deleteUser(id: number) {
+  deleteUser(id: string) {
     if (confirm('Bạn có chắc chắn muốn khóa/xóa User này?')) {
       this.users = this.users.filter(u => u.id !== id);
     }

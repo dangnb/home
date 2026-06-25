@@ -1,10 +1,11 @@
+using TapHoa.Domain.Common;
 using TapHoa.Domain.Exceptions;
 
 namespace TapHoa.Domain.Entities;
 
-public class Category
+public class Category : BaseAuditableEntity
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Name { get; private set; }
     public string Description { get; private set; }
     public string Icon { get; private set; }

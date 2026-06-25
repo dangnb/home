@@ -5,12 +5,13 @@
 
 <div class="card">
     <div class="card-header">
-        <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm..." />
-        <select class="filter-select">
+        <input type="text" [(ngModel)]="searchTerm" class="search-input" placeholder="Tìm kiếm tên, ID sản phẩm..." />
+        <select [(ngModel)]="selectedCategory" class="filter-select">
             <option value="">Tất cả danh mục</option>
             <option value="Trái cây">Trái cây</option>
             <option value="Rau củ">Rau củ</option>
             <option value="Thịt cá">Thịt cá</option>
+            <option value="Khác">Khác</option>
         </select>
     </div>
 
@@ -29,10 +30,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let p of products">
+                <tr *ngFor="let p of filteredProducts">
                     <td>#SP00{{p.id}}</td>
                     <td>
-                        <img *ngIf="p.mainImageUrl" [src]="'http://localhost:5222' + p.mainImageUrl"
+                        <img *ngIf="p.mainImageUrl" [src]="fileUrl + p.mainImageUrl"
                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb;" />
                         <div *ngIf="!p.mainImageUrl" class="img-thumb" style="background: #f3f4f6;">📦</div>
                     </td>
@@ -50,8 +51,8 @@
                         <button class="action-btn delete" (click)="deleteProduct(p.id)">Xóa</button>
                     </td>
                 </tr>
-                <tr *ngIf="products.length === 0">
-                    <td colspan="8" style="text-align:center; padding:2rem;">Không có sản phẩm nào.</td>
+                <tr *ngIf="filteredProducts.length === 0">
+                    <td colspan="8" style="text-align:center; padding:2rem;">Không có sản phẩm nào phù hợp.</td>
                 </tr>
             </tbody>
         </table>
@@ -138,7 +139,7 @@
                             <div class="form-row-classic mb-3" *ngIf="editingProduct.mainImageUrl">
                                 <label></label>
                                 <div class="flex-grow-1">
-                                    <img [src]="'http://localhost:5222' + editingProduct.mainImageUrl" height="80"
+                                    <img [src]="fileUrl + editingProduct.mainImageUrl" height="80"
                                         style="border: 1px solid #ddd; border-radius: 4px; object-fit: contain;">
                                 </div>
                             </div>
@@ -156,7 +157,7 @@
                                 <div class="flex-grow-1" style="display: flex; gap: 8px; flex-wrap: wrap;">
                                     <div *ngFor="let url of editingProduct.additionalImages; let i = index"
                                         style="position: relative;">
-                                        <img [src]="'http://localhost:5222' + url" width="60" height="60"
+                                        <img [src]="fileUrl + url" width="60" height="60"
                                             style="object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
                                         <button class="btn btn-sm btn-danger position-absolute top-0 end-0"
                                             style="padding: 0px 4px; font-size: 10px; margin: 2px;"

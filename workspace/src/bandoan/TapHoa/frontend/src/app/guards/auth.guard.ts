@@ -11,7 +11,12 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
 
     try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
+        // Fix Base64Url decoding (replace - with +, _ with /)
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join('')));
         const expiry = payload.exp * 1000; // exp is in seconds
         const now = new Date().getTime();
 

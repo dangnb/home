@@ -3,7 +3,7 @@ using TapHoa.Domain.Interfaces;
 
 namespace TapHoa.Application.Categories.Commands.DeleteCategory;
 
-public record DeleteCategoryCommand(int Id) : IRequest<bool>;
+public record DeleteCategoryCommand(Guid Id) : IRequest<bool>;
 
 public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>
 {

@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface TransactionLineDto {
-    productId: number;
+    productId: string;
     quantity: number;
     unitCost: number;
 }
@@ -15,7 +16,7 @@ export interface CreateInboundTransactionRequest {
 }
 
 export interface TransactionDetailDto {
-    id: number;
+    id: string;
     code: string;
     type: number; // 0=Inbound, 1=Outbound, 2=Adjustment
     referenceId: string;
@@ -24,7 +25,7 @@ export interface TransactionDetailDto {
     status: number; // 0=Draft, 1=PendingApproval, 2=Completed
     createdAt: string;
     lines: {
-        productId: number;
+        productId: string;
         productName: string;
         quantity: number;
         unitCost: number;
@@ -36,23 +37,17 @@ export interface TransactionDetailDto {
 })
 export class TransactionService {
     private http = inject(HttpClient);
-    private backendUrl = 'http://localhost:5222/api/v1';
-
-    private get headers() {
-        const authInfo = JSON.parse(localStorage.getItem('authInfo') || '{}');
-        const token = authInfo.token;
-        return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    }
+    private backendUrl = environment.apiUrl;
 
     createInboundTransaction(payload: CreateInboundTransactionRequest): Observable<any> {
-        return this.http.post(`${this.backendUrl}/transactions/inbound`, payload, { headers: this.headers });
+        return this.http.post(`${this.backendUrl}/transactions/inbound`, payload);
     }
 
     getTransactions(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.backendUrl}/transactions`, { headers: this.headers });
+        return this.http.get<any[]>(`${this.backendUrl}/transactions`);
     }
 
-    getTransactionById(id: number): Observable<TransactionDetailDto> {
-        return this.http.get<TransactionDetailDto>(`${this.backendUrl}/transactions/${id}`, { headers: this.headers });
+    getTransactionById(id: string): Observable<TransactionDetailDto> {
+        return this.http.get<TransactionDetailDto>(`${this.backendUrl}/transactions/${id}`);
     }
 }

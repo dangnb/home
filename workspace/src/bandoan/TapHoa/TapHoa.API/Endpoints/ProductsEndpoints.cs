@@ -25,7 +25,7 @@ public static class ProductsEndpoints
         .WithDescription("Gets all products using Dapper")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
 
-        group.MapGet("/{id:int}", async (int id, [FromServices] ISender sender) =>
+        group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var product = await sender.Send(new GetProductByIdQuery(id));
             return product is not null ? Results.Ok(product) : Results.NotFound();
@@ -43,7 +43,7 @@ public static class ProductsEndpoints
         .WithDescription("Creates a new product")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts);
 
-        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateProductCommand command, [FromServices] ISender sender) =>
+        group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateProductCommand command, [FromServices] ISender sender) =>
         {
             if (id != command.Id) return Results.BadRequest();
 
@@ -54,7 +54,7 @@ public static class ProductsEndpoints
         .WithDescription("Updates an existing product")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.UpdateProducts);
 
-        group.MapDelete("/{id:int}", async (int id, [FromServices] ISender sender) =>
+        group.MapDelete("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new DeleteProductCommand(id));
             return result ? Results.NoContent() : Results.NotFound();

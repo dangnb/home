@@ -25,7 +25,7 @@ public static class CategoriesEndpoints
         .WithDescription("Gets all categories")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewCategories);
 
-        group.MapGet("/{id:int}", async (int id, [FromServices] ISender sender) =>
+        group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var category = await sender.Send(new GetCategoryByIdQuery(id));
             return category is not null ? Results.Ok(category) : Results.NotFound();
@@ -43,7 +43,7 @@ public static class CategoriesEndpoints
         .WithDescription("Creates a new category")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateCategories);
 
-        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryCommand command, [FromServices] ISender sender) =>
+        group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateCategoryCommand command, [FromServices] ISender sender) =>
         {
             if (id != command.Id) return Results.BadRequest();
 
@@ -54,7 +54,7 @@ public static class CategoriesEndpoints
         .WithDescription("Updates an existing category")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.UpdateCategories);
 
-        group.MapDelete("/{id:int}", async (int id, [FromServices] ISender sender) =>
+        group.MapDelete("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new DeleteCategoryCommand(id));
             return result ? Results.NoContent() : Results.NotFound();

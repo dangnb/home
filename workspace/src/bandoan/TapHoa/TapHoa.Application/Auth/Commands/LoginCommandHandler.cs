@@ -45,6 +45,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim("FullName", user.FullName),
+            new Claim("CompanyId", user.CompanyId.ToString()),
             new Claim("Permissions", packedPermissions.ToString()) // Pack bits into 1 string claim
         };
 

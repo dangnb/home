@@ -1,0 +1,20 @@
+﻿  Determining projects to restore...
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  All projects are up-to-date for restore.
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  TapHoa.Domain -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Domain\bin\Debug\net10.0\TapHoa.Domain.dll
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionByIdQueryHandler.cs(17,65): error CS1503: Argument 1: cannot convert from 'int' to 'System.Guid' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs(21,13): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Commands\UpdateProduct\UpdateProductCommandValidator.cs(9,9): error CS1929: 'IRuleBuilderInitial<UpdateProductCommand, Guid>' does not contain a definition for 'GreaterThan' and the best extension method overload 'DefaultValidatorExtensions.GreaterThan<UpdateProductCommand, int>(IRuleBuilder<UpdateProductCommand, int?>, int)' requires a receiver of type 'FluentValidation.IRuleBuilder<TapHoa.Application.Products.Commands.UpdateProduct.UpdateProductCommand, int?>' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+
+Build FAILED.
+
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionByIdQueryHandler.cs(17,65): error CS1503: Argument 1: cannot convert from 'int' to 'System.Guid' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs(21,13): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Commands\UpdateProduct\UpdateProductCommandValidator.cs(9,9): error CS1929: 'IRuleBuilderInitial<UpdateProductCommand, Guid>' does not contain a definition for 'GreaterThan' and the best extension method overload 'DefaultValidatorExtensions.GreaterThan<UpdateProductCommand, int>(IRuleBuilder<UpdateProductCommand, int?>, int)' requires a receiver of type 'FluentValidation.IRuleBuilder<TapHoa.Application.Products.Commands.UpdateProduct.UpdateProductCommand, int?>' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj]
+    2 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:01.50

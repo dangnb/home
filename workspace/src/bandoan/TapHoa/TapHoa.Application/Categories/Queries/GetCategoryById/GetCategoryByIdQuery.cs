@@ -5,7 +5,7 @@ using TapHoa.Application.Categories.DTOs;
 
 namespace TapHoa.Application.Categories.Queries.GetCategoryById;
 
-public record GetCategoryByIdQuery(int Id) : IRequest<CategoryDto?>;
+public record GetCategoryByIdQuery(Guid Id) : IRequest<CategoryDto?>;
 
 public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto?>
 {

@@ -3,10 +3,10 @@ using TapHoa.Domain.Enums;
 
 namespace TapHoa.Application.Warehouse.Queries;
 
-public record TransactionDetailLineDto(int ProductId, string ProductName, int Quantity, decimal UnitCost);
+public record TransactionDetailLineDto(Guid ProductId, string ProductName, int Quantity, decimal UnitCost);
 
 public record TransactionDetailDto(
-    int Id,
+    Guid Id,
     string Code,
     TransactionType Type,
     string ReferenceId,
@@ -16,4 +16,4 @@ public record TransactionDetailDto(
     DateTime CreatedAt,
     List<TransactionDetailLineDto> Lines);
 
-public record GetTransactionByIdQuery(int Id) : IRequest<TransactionDetailDto?>;
+public record GetTransactionByIdQuery(Guid Id) : IRequest<TransactionDetailDto?>;

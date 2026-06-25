@@ -1,0 +1,7 @@
+src/app/admin/roles/roles.component.ts(25,7): error TS2322: Type 'number' is not assignable to type 'string'.
+src/app/admin/roles/roles.component.ts(26,7): error TS2322: Type 'number' is not assignable to type 'string'.
+src/app/admin/roles/roles.component.ts(27,7): error TS2322: Type 'number' is not assignable to type 'string'.
+src/app/admin/roles/roles.component.ts(65,7): error TS2322: Type 'number' is not assignable to type 'string'.
+src/app/admin/roles/roles.component.ts(65,41): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/app/admin/transaction-create/transaction-create.component.ts(94,55): error TS2367: This comparison appears to be unintentional because the types 'number' and 'string | null' have no overlap.
+src/app/admin/transaction-create/transaction-create.component.ts(98,13): error TS2322: Type 'number' is not assignable to type 'string'.

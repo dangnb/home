@@ -1,10 +1,11 @@
+using TapHoa.Domain.Common;
 using TapHoa.Domain.Exceptions;
 
 namespace TapHoa.Domain.Entities;
 
-public class Product
+public class Product : BaseAuditableEntity
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Name { get; private set; }
     public string Category { get; private set; }
     public string? MainImageUrl { get; private set; }
@@ -64,20 +65,13 @@ public class Product
         Status = status;
     }
 
-    // Usually DDD provides separated methods like AddStock, DecreaseStock
-    public void DecreaseStock(int quantity)
+    public void UpdateStatus(string status)
     {
-        if (quantity < 0) throw new DomainException("Số lượng giảm không hợp lệ.");
-        if (StockQuantity < quantity) throw new DomainException("Số lượng tồn kho không đủ.");
-        
-        StockQuantity -= quantity;
-        if (StockQuantity == 0)
-        {
-            Status = "Hết hàng";
-        }
-        else if (StockQuantity < 10)
-        {
-            Status = "Sắp hết";
-        }
+        Status = status;
+    }
+    
+    public void UpdateStockCache(int newTotalStock)
+    {
+        StockQuantity = newTotalStock;
     }
 }

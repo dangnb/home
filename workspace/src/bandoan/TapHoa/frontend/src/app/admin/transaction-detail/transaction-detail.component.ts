@@ -21,11 +21,11 @@ export class TransactionDetailComponent implements OnInit {
     ngOnInit() {
         const idParam = this.route.snapshot.paramMap.get('id');
         if (idParam) {
-            this.fetchDetail(Number(idParam));
+            this.fetchDetail(idParam);
         }
     }
 
-    fetchDetail(id: number) {
+    fetchDetail(id: string) {
         this.transactionService.getTransactionById(id).subscribe({
             next: (res) => {
                 this.transaction = res;

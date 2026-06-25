@@ -2,7 +2,7 @@ namespace TapHoa.Domain.Entities;
 
 public class AuditLog
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Action { get; private set; }
     public string RequestName { get; private set; }
     public string RequestData { get; private set; }

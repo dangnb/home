@@ -7,7 +7,7 @@ using TapHoa.Infrastructure.Data;
 
 namespace TapHoa.API.Endpoints;
 
-public record AuditLogDto(int Id, string Action, string RequestName, string RequestData, string Username, DateTime Timestamp);
+public record AuditLogDto(Guid Id, string Action, string RequestName, string RequestData, string Username, DateTime Timestamp);
 public record GetAuditLogsQuery() : IRequest<List<AuditLogDto>>;
 
 public class GetAuditLogsQueryHandler : IRequestHandler<GetAuditLogsQuery, List<AuditLogDto>>

@@ -5,7 +5,7 @@ using TapHoa.Domain.Interfaces;
 
 namespace TapHoa.Application.Warehouse.Commands;
 
-public class CreateInboundTransactionCommandHandler : IRequestHandler<CreateInboundTransactionCommand, int>
+public class CreateInboundTransactionCommandHandler : IRequestHandler<CreateInboundTransactionCommand, Guid>
 {
     private readonly IInventoryTransactionRepository _transactionRepository;
     private readonly IProductRepository _productRepository;
@@ -21,7 +21,7 @@ public class CreateInboundTransactionCommandHandler : IRequestHandler<CreateInbo
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<int> Handle(CreateInboundTransactionCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateInboundTransactionCommand request, CancellationToken cancellationToken)
     {
         if (request.Lines == null || !request.Lines.Any())
             throw new ArgumentException("Transaction must have at least one line.");

@@ -1,0 +1,540 @@
+2026-06-25 14:33:38.537 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-25 14:33:38.927 +07:00 [WRN] The WebRootPath was not found: D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\wwwroot. Static files may be unavailable.
+2026-06-25 14:42:14.051 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 2.7132 ms
+2026-06-25 14:42:17.257 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 14:42:17.329 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 14:42:17.880 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:42:18.312 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 4219.9833 ms
+2026-06-25 14:42:19.301 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.3891 ms
+2026-06-25 14:42:19.403 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:42:19.428 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 122.9270 ms
+2026-06-25 14:42:20.220 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:42:20.223 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 39.1557 ms
+2026-06-25 14:42:33.112 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0555 ms
+2026-06-25 14:42:33.140 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:42:33.624 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 507.5850 ms
+2026-06-25 14:42:33.680 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0790 ms
+2026-06-25 14:42:33.794 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 108.7940 ms
+2026-06-25 14:42:50.472 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.1303 ms
+2026-06-25 14:42:50.512 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 35.5960 ms
+2026-06-25 14:42:50.522 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.4798 ms
+2026-06-25 14:42:51.760 +07:00 [INF] HTTP OPTIONS /api/v1/products/1 responded 204 in 0.0611 ms
+2026-06-25 14:42:51.846 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 14:42:51.962 +07:00 [INF] HTTP PUT /api/v1/products/1 responded 204 in 198.5739 ms
+2026-06-25 14:42:51.969 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0327 ms
+2026-06-25 14:42:51.977 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.0014 ms
+2026-06-25 14:42:51.983 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.1450 ms
+2026-06-25 14:42:56.244 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.1051 ms
+2026-06-25 14:45:17.692 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0521 ms
+2026-06-25 14:45:17.755 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 55.1234 ms
+2026-06-25 14:45:19.240 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.4572 ms
+2026-06-25 14:45:21.536 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.6776 ms
+2026-06-25 14:45:28.924 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0328 ms
+2026-06-25 14:45:28.932 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.5680 ms
+2026-06-25 14:45:28.939 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.0896 ms
+2026-06-25 14:45:40.932 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.0410 ms
+2026-06-25 14:45:40.941 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 3.1485 ms
+2026-06-25 14:45:40.950 +07:00 [INF] HTTP GET /uploads/products/e38daca1-f53c-4619-9a6a-f615a2e8ab97.png responded 404 in 0.0703 ms
+2026-06-25 14:45:44.871 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0314 ms
+2026-06-25 14:45:44.893 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 18.3463 ms
+FluentValidation.ValidationException: Validation failed: 
+ -- Name: Tên sản phẩm không được để trống. Severity: Error
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 30
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_2>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 39
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 14:45:44.940 +07:00 [ERR] An exception occurred: Validation failed: 
+ -- Name: Tên sản phẩm không được để trống. Severity: Error
+FluentValidation.ValidationException: Validation failed: 
+ -- Name: Tên sản phẩm không được để trống. Severity: Error
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 30
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_2>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 39
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 14:45:50.538 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.1385 ms
+2026-06-25 14:45:53.768 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.2972 ms
+2026-06-25 14:45:53.777 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 1.3702 ms
+2026-06-25 14:45:53.792 +07:00 [INF] HTTP GET /uploads/products/9d135631-2a71-47cf-adde-61584b94ca3e.png responded 404 in 0.0718 ms
+2026-06-25 14:45:54.752 +07:00 [INF] HTTP OPTIONS /api/v1/products/1 responded 204 in 0.0325 ms
+2026-06-25 14:45:54.777 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 14:45:54.818 +07:00 [INF] HTTP PUT /api/v1/products/1 responded 204 in 62.1242 ms
+2026-06-25 14:45:54.826 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0344 ms
+2026-06-25 14:45:54.831 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.6188 ms
+2026-06-25 14:45:54.866 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.0952 ms
+2026-06-25 14:45:56.594 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.0918 ms
+2026-06-25 14:45:56.594 +07:00 [INF] HTTP GET /uploads/products/9d135631-2a71-47cf-adde-61584b94ca3e.png responded 404 in 0.0550 ms
+2026-06-25 14:46:46.228 +07:00 [INF] HTTP GET /uploads/products/9d135631-2a71-47cf-adde-61584b94ca3e.png responded 404 in 0.0895 ms
+2026-06-25 14:46:46.228 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 404 in 0.1496 ms
+2026-06-25 14:47:33.746 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-25 14:49:32.983 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.6208 ms
+2026-06-25 14:49:33.111 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 14:49:33.153 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 14:49:33.549 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:49:33.977 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 973.0600 ms
+2026-06-25 14:49:43.771 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.1713 ms
+2026-06-25 14:49:43.888 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 14:49:44.436 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 661.1435 ms
+2026-06-25 14:49:44.618 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0439 ms
+2026-06-25 14:49:44.767 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 145.2799 ms
+2026-06-25 14:49:44.869 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 200 in 93.3449 ms
+2026-06-25 14:49:48.192 +07:00 [INF] HTTP GET /uploads/products/9d135631-2a71-47cf-adde-61584b94ca3e.png responded 200 in 16.8731 ms
+2026-06-25 14:49:59.119 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.0481 ms
+2026-06-25 14:49:59.155 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 30.6700 ms
+2026-06-25 14:49:59.160 +07:00 [INF] HTTP GET /uploads/products/8cb6688d-040f-478f-b279-bf76380570b0.png responded 200 in 0.9038 ms
+2026-06-25 14:50:03.511 +07:00 [INF] HTTP OPTIONS /api/v1/products/1 responded 204 in 0.0374 ms
+2026-06-25 14:50:03.636 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 14:50:03.753 +07:00 [INF] HTTP PUT /api/v1/products/1 responded 204 in 238.7028 ms
+2026-06-25 14:50:03.757 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0313 ms
+2026-06-25 14:50:03.762 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.4652 ms
+2026-06-25 14:53:05.228 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1060 ms
+2026-06-25 14:53:05.239 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 6.8510 ms
+2026-06-25 14:53:05.248 +07:00 [INF] HTTP GET /uploads/products/7f799999-dc43-4fd0-bc62-9daf3a0b2986.png responded 304 in 1.0019 ms
+2026-06-25 14:53:06.121 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 3.4980 ms
+2026-06-25 14:54:54.091 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-25 14:56:42.424 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 14:56:42.459 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 14:56:42.535 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-25 15:01:32.748 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:01:32.781 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:01:32.871 +07:00 [WRN] The foreign key property 'StockLevel.ProductId1' was created in shadow state because a conflicting property with the simple name 'ProductId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2026-06-25 15:01:44.261 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.8910 ms
+2026-06-25 15:01:44.299 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:01:44.329 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:01:44.695 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:01:45.043 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 767.2661 ms
+2026-06-25 15:01:51.535 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.3921 ms
+2026-06-25 15:01:51.646 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:01:51.850 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 311.8542 ms
+2026-06-25 15:01:55.269 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:01:55.459 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 220.5241 ms
+2026-06-25 15:01:55.519 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0619 ms
+2026-06-25 15:01:55.614 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 85.4694 ms
+2026-06-25 15:01:58.835 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0654 ms
+2026-06-25 15:01:58.890 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 49.0987 ms
+2026-06-25 15:02:02.366 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 5.2851 ms
+2026-06-25 15:02:03.228 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 3.7441 ms
+2026-06-25 15:02:53.549 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0575 ms
+2026-06-25 15:02:53.570 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:02:53.574 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 21.4782 ms
+2026-06-25 15:03:01.970 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0589 ms
+2026-06-25 15:03:01.999 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:03:02.001 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 26.9564 ms
+2026-06-25 15:08:01.402 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:08:01.436 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:28:45.157 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:28:45.198 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:29:27.189 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 2.3017 ms
+2026-06-25 15:29:27.312 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:29:27.350 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:29:27.574 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:29:28.398 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1191.7820 ms
+2026-06-25 15:29:28.525 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.5150 ms
+2026-06-25 15:29:28.717 +07:00 [ERR] HTTP GET /api/v1/products responded 500 in 186.7016 ms
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 15:29:28.773 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 15:29:37.215 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0861 ms
+2026-06-25 15:29:37.281 +07:00 [ERR] HTTP GET /api/v1/products responded 500 in 34.5138 ms
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 15:29:37.293 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 15:29:59.100 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1149 ms
+2026-06-25 15:29:59.121 +07:00 [ERR] HTTP GET /api/v1/products responded 500 in 9.8701 ms
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 15:29:59.131 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+System.Data.DataException: Error parsing column 0 (Id=019EFDE5-5287-7183-A35A-196ABAC54861 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize95cbb68e-7ca3-454e-9058-d94f31aaac3d(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 15:30:30.674 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:30:30.703 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:31:58.724 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:31:58.728 +07:00 [INF] HTTP GET /api/roles responded 404 in 52.8917 ms
+2026-06-25 15:32:23.719 +07:00 [INF] HTTP GET /api/roles responded 404 in 1.1012 ms
+2026-06-25 15:32:42.548 +07:00 [INF] HTTP GET /api/categories responded 404 in 2.8009 ms
+2026-06-25 15:33:42.556 +07:00 [INF] HTTP POST /api/auth/login responded 404 in 0.2657 ms
+2026-06-25 15:34:31.622 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:34:31.884 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:34:32.713 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1123.2233 ms
+2026-06-25 15:34:53.689 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 69.0638 ms
+2026-06-25 15:37:02.817 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:37:02.874 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:37:23.734 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:37:23.761 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:37:23.961 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:37:24.577 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 868.9938 ms
+2026-06-25 15:37:24.656 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 67.1502 ms
+System.Data.DataException: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserializea31bbcc5-291a-4f77-a92d-62e9b8a7e869(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea31bbcc5-291a-4f77-a92d-62e9b8a7e869(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 15:37:24.720 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+System.Data.DataException: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserializea31bbcc5-291a-4f77-a92d-62e9b8a7e869(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea31bbcc5-291a-4f77-a92d-62e9b8a7e869(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 15:37:58.990 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:37:59.026 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:38:06.545 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:38:06.574 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:38:06.831 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:38:07.470 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 943.8507 ms
+2026-06-25 15:38:07.559 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 80.3011 ms
+System.Data.DataException: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize19b49ac7-b4d0-4369-93ce-01ddcfaab344(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize19b49ac7-b4d0-4369-93ce-01ddcfaab344(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 15:38:07.571 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+System.Data.DataException: Error parsing column 0 (Id=019EFDEC-EA69-796F-A89E-E49387048B88 - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Deserialize19b49ac7-b4d0-4369-93ce-01ddcfaab344(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize19b49ac7-b4d0-4369-93ce-01ddcfaab344(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 22
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 15:40:16.532 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:40:16.575 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:40:39.930 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:40:39.957 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:40:40.195 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:40:40.738 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 826.7464 ms
+2026-06-25 15:40:40.817 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 69.0799 ms
+2026-06-25 15:40:58.054 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 2.8703 ms
+2026-06-25 15:40:58.213 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 129.8605 ms
+2026-06-25 15:40:59.650 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 7.2874 ms
+2026-06-25 15:41:02.956 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 3.1901 ms
+2026-06-25 15:41:08.884 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1246 ms
+2026-06-25 15:41:08.978 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:41:09.139 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 250.8638 ms
+2026-06-25 15:41:09.180 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0397 ms
+2026-06-25 15:41:09.191 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 6.9057 ms
+2026-06-25 15:41:29.324 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.0393 ms
+2026-06-25 15:41:29.361 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 33.4740 ms
+2026-06-25 15:41:29.386 +07:00 [INF] HTTP GET /uploads/products/2100260b-d7c6-484f-993e-deeb93922f8d.png responded 200 in 18.3686 ms
+2026-06-25 15:41:30.328 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 0.0458 ms
+2026-06-25 15:41:30.332 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.4216 ms
+2026-06-25 15:41:32.046 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.2875 ms
+2026-06-25 15:41:33.591 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.2236 ms
+2026-06-25 15:41:33.983 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.3107 ms
+2026-06-25 15:41:34.232 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.3711 ms
+2026-06-25 15:41:34.409 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.3702 ms
+2026-06-25 15:41:40.450 +07:00 [INF] HTTP GET /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.1354 ms
+2026-06-25 15:41:47.140 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 0.0729 ms
+2026-06-25 15:41:47.224 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 404 in 0.3073 ms
+2026-06-25 15:44:19.739 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:44:19.773 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:44:56.370 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 1.6293 ms
+2026-06-25 15:44:56.471 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:44:56.478 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:44:56.535 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 149.4045 ms
+2026-06-25 15:44:57.166 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 8.3097 ms
+2026-06-25 15:45:01.205 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.1158 ms
+2026-06-25 15:45:01.302 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 92.5896 ms
+2026-06-25 15:45:01.325 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 200 in 15.9438 ms
+2026-06-25 15:45:02.136 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 0.0470 ms
+2026-06-25 15:45:02.651 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 15:45:03.234 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 1095.5785 ms
+2026-06-25 15:45:03.239 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0401 ms
+2026-06-25 15:45:03.245 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 3.1661 ms
+2026-06-25 15:45:03.358 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 15:45:03.372 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 135.3269 ms
+2026-06-25 15:45:03.377 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.6848 ms
+2026-06-25 15:45:07.986 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 4.6924 ms
+2026-06-25 15:52:56.451 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:52:56.489 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 15:53:46.964 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.3712 ms
+2026-06-25 15:53:48.699 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 15:53:48.743 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 15:53:49.066 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 15:53:49.874 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 2891.8116 ms
+2026-06-25 15:53:49.983 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 1.2618 ms
+2026-06-25 15:53:50.131 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 139.9854 ms
+2026-06-25 15:53:50.174 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 200 in 28.8311 ms
+2026-06-25 15:54:02.735 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.1236 ms
+2026-06-25 15:54:02.789 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 46.7545 ms
+2026-06-25 15:54:02.795 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 200 in 1.6885 ms
+2026-06-25 15:54:03.800 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7574-bea2-c40e73335307 responded 204 in 0.0474 ms
+2026-06-25 15:54:04.039 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 15:54:04.218 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7574-bea2-c40e73335307 responded 204 in 414.8219 ms
+2026-06-25 15:54:04.238 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0534 ms
+2026-06-25 15:54:04.245 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.2806 ms
+2026-06-25 15:54:08.219 +07:00 [INF] HTTP GET /api/v1/categories responded 401 in 3.0312 ms
+2026-06-25 16:11:18.359 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0610 ms
+2026-06-25 16:11:18.440 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 16:11:18.585 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 223.2785 ms
+2026-06-25 16:11:18.665 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0436 ms
+2026-06-25 16:11:18.673 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 4.6364 ms
+2026-06-25 16:11:18.740 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 304 in 1.4596 ms
+2026-06-25 16:11:18.740 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 304 in 1.0143 ms
+2026-06-25 16:11:20.727 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.4062 ms
+2026-06-25 16:11:21.109 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0474 ms
+2026-06-25 16:11:21.118 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 6.1893 ms
+2026-06-25 16:11:25.689 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0411 ms
+2026-06-25 16:11:25.693 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7917 ms
+2026-06-25 16:11:27.562 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0453 ms
+2026-06-25 16:11:27.567 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.4701 ms
+2026-06-25 16:11:28.908 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1158 ms
+2026-06-25 16:11:28.992 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 42.8814 ms
+2026-06-25 16:11:30.504 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5887 ms
+2026-06-25 16:11:31.285 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1092 ms
+2026-06-25 16:11:31.289 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8977 ms
+2026-06-25 16:11:53.216 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.0587 ms
+2026-06-25 16:11:53.228 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 7.1097 ms
+2026-06-25 16:11:53.237 +07:00 [INF] HTTP GET /uploads/products/b0bc0372-434f-4f8f-903a-f73d486911b8.png responded 200 in 3.2473 ms
+2026-06-25 16:11:54.297 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 0.0523 ms
+2026-06-25 16:11:54.335 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 16:11:54.367 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 67.4793 ms
+2026-06-25 16:11:54.373 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0653 ms
+2026-06-25 16:11:54.380 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0184 ms
+2026-06-25 16:12:23.582 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0472 ms
+2026-06-25 16:12:23.596 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 4.5937 ms
+2026-06-25 16:12:58.865 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0361 ms
+2026-06-25 16:12:58.875 +07:00 [ERR] HTTP POST /api/v1/transactions/inbound responded 500 in 7.3421 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateInboundTransactionCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Application.Warehouse.Commands.TransactionLineDto. Path: $.lines[0].productId | LineNumber: 0 | BytePositionInLine: 63.
+ ---> System.FormatException: The JSON value is not in a supported Guid format.
+   at System.Text.Json.ThrowHelper.ThrowFormatException(DataType dataType)
+   at System.Text.Json.Utf8JsonReader.GetGuid()
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.TryRead[TArg](ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo, TArg& arg)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.ReadAndCacheConstructorArgument(ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.ReadConstructorArgumentsWithContinuation(ReadStack& state, Utf8JsonReader& reader, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.TryRead[TArg](ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo, TArg& arg)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.ReadAndCacheConstructorArgument(ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.ReadConstructorArgumentsWithContinuation(ReadStack& state, Utf8JsonReader& reader, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, Utf8JsonReader& reader, Exception ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-25 16:12:58.899 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateInboundTransactionCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateInboundTransactionCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Application.Warehouse.Commands.TransactionLineDto. Path: $.lines[0].productId | LineNumber: 0 | BytePositionInLine: 63.
+ ---> System.FormatException: The JSON value is not in a supported Guid format.
+   at System.Text.Json.ThrowHelper.ThrowFormatException(DataType dataType)
+   at System.Text.Json.Utf8JsonReader.GetGuid()
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.TryRead[TArg](ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo, TArg& arg)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.ReadAndCacheConstructorArgument(ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.ReadConstructorArgumentsWithContinuation(ReadStack& state, Utf8JsonReader& reader, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.TryRead[TArg](ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo, TArg& arg)
+   at System.Text.Json.Serialization.Converters.SmallObjectWithParameterizedConstructorConverter`5.ReadAndCacheConstructorArgument(ReadStack& state, Utf8JsonReader& reader, JsonParameterInfo jsonParameterInfo)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.ReadConstructorArgumentsWithContinuation(ReadStack& state, Utf8JsonReader& reader, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Converters.ObjectWithParameterizedConstructorConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, Utf8JsonReader& reader, Exception ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-25 16:13:39.992 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0352 ms
+2026-06-25 16:13:39.999 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.8107 ms
+2026-06-25 16:13:47.271 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0259 ms
+2026-06-25 16:13:47.275 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.0239 ms
+2026-06-25 16:13:54.467 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0356 ms
+2026-06-25 16:13:54.473 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1606 ms

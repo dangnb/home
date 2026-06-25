@@ -14,7 +14,7 @@ public class InventoryTransactionRepository : BaseRepository<InventoryTransactio
         return await _dbSet.Include(x => x.Lines).ToListAsync(cancellationToken);
     }
 
-    public async Task<InventoryTransaction?> GetWithLinesAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<InventoryTransaction?> GetWithLinesAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbSet.Include(x => x.Lines)
                            .ThenInclude(l => l.Product)
@@ -32,8 +32,13 @@ public class StockLevelRepository : BaseRepository<StockLevel>, IStockLevelRepos
 {
     public StockLevelRepository(AppDbContext context) : base(context) { }
 
-    public async Task<StockLevel?> GetByProductIdAsync(int productId, CancellationToken cancellationToken = default)
+    public async Task<StockLevel?> GetByProductIdAsync(Guid productId, CancellationToken cancellationToken = default)
     {
         return await _dbSet.FirstOrDefaultAsync(x => x.ProductId == productId, cancellationToken);
+    }
+
+    public async Task<StockLevel?> GetByProductIdAndStoreIdAsync(Guid productId, Guid storeId, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet.FirstOrDefaultAsync(x => x.ProductId == productId && x.StoreId == storeId, cancellationToken);
     }
 }

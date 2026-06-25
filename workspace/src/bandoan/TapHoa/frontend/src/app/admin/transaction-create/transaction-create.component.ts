@@ -22,9 +22,9 @@ export class TransactionCreateComponent {
 
     // For testing, hardcode available products
     availableProducts = [
-        { id: 1, name: 'Cocacola 330ml', price: 10000 },
-        { id: 2, name: 'Rau cải thìa hữu cơ', price: 15000 },
-        { id: 3, name: 'Thịt bò thăn Úc', price: 350000 }
+        { id: "1", name: 'Cocacola 330ml', price: 10000 },
+        { id: "2", name: 'Rau cải thìa hữu cơ', price: 15000 },
+        { id: "3", name: 'Thịt bò thăn Úc', price: 350000 }
     ];
 
     lines: (TransactionLineDto & { productName: string })[] = [];
@@ -34,7 +34,7 @@ export class TransactionCreateComponent {
     filteredProducts: any[] = [];
     showDropdown: boolean = false;
 
-    selectedProductId: number | null = null;
+    selectedProductId: string | null = null;
     selectedQuantity: number = 1;
     selectedCost: number = 0;
     isSubmitting = false;

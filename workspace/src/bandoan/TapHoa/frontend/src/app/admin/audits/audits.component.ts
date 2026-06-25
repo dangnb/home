@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { AuditService } from '../../services/audit.service';
 
 @Component({
-    selector: 'app-audits',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+   selector: 'app-audits',
+   standalone: true,
+   imports: [CommonModule],
+   template: `
     <div class="page-header">
         <h2>Nhật ký hoạt động (Audit Logs)</h2>
     </div>
@@ -41,18 +41,18 @@ import { HttpClient } from '@angular/common/http';
        </div>
     </div>
   `,
-    styles: [`
+   styles: [`
     .page-header { margin-bottom: 20px; }
   `]
 })
 export class AuditsComponent implements OnInit {
-    private http = inject(HttpClient);
-    logs: any[] = [];
+   private auditService = inject(AuditService);
+   logs: any[] = [];
 
-    ngOnInit() {
-        this.http.get<any[]>('http://localhost:5222/api/v1/audits').subscribe({
-            next: (data) => this.logs = data,
-            error: (err) => console.error(err)
-        });
-    }
+   ngOnInit() {
+      this.auditService.getAudits().subscribe({
+         next: (data: any[]) => this.logs = data,
+         error: (err: any) => console.error(err)
+      });
+   }
 }

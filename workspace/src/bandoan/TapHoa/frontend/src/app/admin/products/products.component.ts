@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-products',
@@ -13,11 +14,25 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+  fileUrl = environment.fileUrl;
+
+  // Search & Filter
+  searchTerm = '';
+  selectedCategory = '';
 
   // Modal State
   showModal = false;
   isEditMode = false;
   editingProduct: Product = this.getEmptyProduct();
+
+  get filteredProducts(): Product[] {
+    return this.products.filter(p => {
+      const matchesSearch = p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        p.id.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesCategory = this.selectedCategory ? p.category === this.selectedCategory : true;
+      return matchesSearch && matchesCategory;
+    });
+  }
 
   constructor(private productService: ProductService) { }
 
@@ -61,7 +76,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: string) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
       this.productService.deleteProduct(id).subscribe(() => {
         this.loadProducts();
@@ -97,7 +112,7 @@ export class ProductsComponent implements OnInit {
 
   private getEmptyProduct(): Product {
     return {
-      id: 0,
+      id: "",
       name: '',
       category: 'Trái cây',
       price: 0,

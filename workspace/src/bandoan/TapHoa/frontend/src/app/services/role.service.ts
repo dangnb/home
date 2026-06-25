@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Role } from '../models/role';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,7 @@ import { Role } from '../models/role';
 export class RoleService {
     // We will connect to real API later, for now we can mock if endpoint doesn't exist, 
     // but building the real API endpoint is better. We will point to real API.
-    private apiUrl = 'http://localhost:5222/api/v1/roles';
+    private apiUrl = `${environment.apiUrl}/roles`;
 
     constructor(private http: HttpClient) { }
 
@@ -21,11 +22,11 @@ export class RoleService {
         return this.http.post<Role>(this.apiUrl, role);
     }
 
-    updateRole(id: number, role: Role): Observable<void> {
+    updateRole(id: string, role: Role): Observable<void> {
         return this.http.put<void>(`${this.apiUrl}/${id}`, role);
     }
 
-    deleteRole(id: number): Observable<void> {
+    deleteRole(id: string): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
 }

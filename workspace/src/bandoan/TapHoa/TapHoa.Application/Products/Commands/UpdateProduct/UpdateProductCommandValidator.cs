@@ -6,7 +6,7 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
-        RuleFor(v => v.Id).GreaterThan(0).WithMessage("ID không hợp lệ.");
+        RuleFor(v => v.Id).NotEmpty().WithMessage("ID không hợp lệ.");
 
         RuleFor(v => v.Name)
             .NotEmpty().WithMessage("Tên sản phẩm không được để trống.")

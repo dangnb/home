@@ -2,44 +2,39 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
-    private apiUrl = 'http://localhost:5222/api/v1/products';
+    private apiUrl = `${environment.apiUrl}/products`;
 
     constructor(private http: HttpClient) { }
 
-    private get headers() {
-        const authInfo = JSON.parse(localStorage.getItem('authInfo') || '{}');
-        const token = authInfo.token;
-        return { headers: { Authorization: `Bearer ${token}` } };
-    }
-
     getProducts(): Observable<Product[]> {
-        return this.http.get<Product[]>(this.apiUrl, this.headers);
+        return this.http.get<Product[]>(this.apiUrl);
     }
 
-    getProduct(id: number): Observable<Product> {
-        return this.http.get<Product>(`${this.apiUrl}/${id}`, this.headers);
+    getProduct(id: string): Observable<Product> {
+        return this.http.get<Product>(`${this.apiUrl}/${id}`);
     }
 
     createProduct(product: Product): Observable<Product> {
-        return this.http.post<Product>(this.apiUrl, product, this.headers);
+        return this.http.post<Product>(this.apiUrl, product);
     }
 
-    updateProduct(id: number, product: Product): Observable<void> {
-        return this.http.put<void>(`${this.apiUrl}/${id}`, product, this.headers);
+    updateProduct(id: string, product: Product): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/${id}`, product);
     }
 
-    deleteProduct(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`, this.headers);
+    deleteProduct(id: string): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
 
     uploadImage(file: File): Observable<{ url: string }> {
         const formData = new FormData();
         formData.append('file', file);
-        return this.http.post<{ url: string }>(`${this.apiUrl}/upload-image`, formData, this.headers);
+        return this.http.post<{ url: string }>(`${this.apiUrl}/upload-image`, formData);
     }
 }

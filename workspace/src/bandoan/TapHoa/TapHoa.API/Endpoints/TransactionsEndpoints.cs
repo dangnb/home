@@ -27,7 +27,7 @@ public static class TransactionsEndpoints
         .WithDescription("Creates a new inbound transaction (Draft)")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts); // For now tying it to CreateProducts permission
 
-        group.MapGet("/{id:int}", async (int id, [FromServices] ISender sender) =>
+        group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetTransactionByIdQuery(id));
             return result is not null ? Results.Ok(result) : Results.NotFound();

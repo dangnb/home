@@ -24,6 +24,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+Dapper.SqlMapper.AddTypeHandler(new JsonStringListTypeHandler());
+Dapper.SqlMapper.AddTypeHandler(new GuidTypeHandler());
+Dapper.SqlMapper.AddTypeHandler(new NullableGuidTypeHandler());
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -83,6 +87,7 @@ builder.Services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(co
 builder.Services.AddValidatorsFromAssembly(typeof(CreateProductCommand).Assembly); // Since all validators are in this assembly
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<TapHoa.Application.Interfaces.ICurrentUserService, TapHoa.API.Services.CurrentUserService>();
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly);
@@ -116,7 +121,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-app.UseStaticFiles(); // Allow serving uploads directory
+var webRootPath = builder.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+if (!Directory.Exists(webRootPath)) Directory.CreateDirectory(webRootPath);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(webRootPath),
+    RequestPath = ""
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -148,4 +160,59 @@ app.MapGroup("api/v{version:apiVersion}/audits")
    .WithApiVersionSet(apiVersionSet)
    .MapAuditsEndpoints();
 
-app.Run(); // Trigger hot reload
+app.Run();
+
+// Dapper Type Handler for JSON List<string> (like AdditionalImages)
+public class JsonStringListTypeHandler : Dapper.SqlMapper.TypeHandler<List<string>>
+{
+    public override void SetValue(System.Data.IDbDataParameter parameter, List<string> value)
+    {
+        parameter.Value = System.Text.Json.JsonSerializer.Serialize(value ?? new List<string>());
+    }
+
+    public override List<string> Parse(object value)
+    {
+        if (value is string json)
+        {
+            if (string.IsNullOrWhiteSpace(json)) return new List<string>();
+            return System.Text.Json.JsonSerializer.Deserialize<List<string>>(json) ?? new List<string>();
+        }
+        return new List<string>();
+    }
+}
+
+public class GuidTypeHandler : Dapper.SqlMapper.TypeHandler<Guid>
+{
+    public override void SetValue(System.Data.IDbDataParameter parameter, Guid value)
+    {
+        parameter.Value = value.ToString();
+    }
+
+    public override Guid Parse(object value)
+    {
+        if (value is string s && Guid.TryParse(s, out var guid))
+            return guid;
+        if (value is byte[] bytes)
+            return new Guid(bytes);
+            
+        return Guid.Empty;
+    }
+}
+public class NullableGuidTypeHandler : Dapper.SqlMapper.TypeHandler<Guid?>
+{
+    public override void SetValue(System.Data.IDbDataParameter parameter, Guid? value)
+    {
+        if (value.HasValue) parameter.Value = value.Value.ToString();
+        else parameter.Value = DBNull.Value;
+    }
+
+    public override Guid? Parse(object value)
+    {
+        if (value is string s && Guid.TryParse(s, out var guid))
+            return guid;
+        if (value is byte[] bytes)
+            return new Guid(bytes);
+            
+        return null;
+    }
+}

@@ -60,7 +60,7 @@ export class CategoriesComponent implements OnInit {
         }
     }
 
-    deleteCategory(id: number) {
+    deleteCategory(id: string) {
         if (confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) {
             this.categoryService.deleteCategory(id).subscribe(() => {
                 this.loadCategories();
@@ -70,7 +70,7 @@ export class CategoriesComponent implements OnInit {
 
     private getEmptyCategory(): Category {
         return {
-            id: 0,
+            id: "",
             name: '',
             description: '',
             icon: '📁'

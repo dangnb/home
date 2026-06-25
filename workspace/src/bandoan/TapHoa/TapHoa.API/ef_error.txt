@@ -1,4 +1,4 @@
-System.InvalidOperationException: The seed entity for entity type 'Product' cannot be added because the value provided for the property 'AdditionalImages' is not compatible with the property type 'System.Collections.Generic.List<string>'. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the involved property value.
+System.InvalidOperationException: The seed entity for entity type 'Category' cannot be added because no value was provided for the required property 'CreatedDate'.
    at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.ValidateData(IModel model, IDiagnosticsLogger`1 logger)
    at Microsoft.EntityFrameworkCore.Infrastructure.RelationalModelValidator.ValidateData(IModel model, IDiagnosticsLogger`1 logger)
    at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.Validate(IModel model, IDiagnosticsLogger`1 logger)
@@ -48,4 +48,4 @@ System.InvalidOperationException: The seed entity for entity type 'Product' cann
    at Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService[TService](IInfrastructure`1 accessor)
    at Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade.get_Dependencies()
    at Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade.EnsureCreated()
-   at Program.<Main>$(String[] args) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 106
+   at Program.<Main>$(String[] args) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 109

@@ -4,7 +4,7 @@ using TapHoa.Domain.Enums;
 namespace TapHoa.Application.Warehouse.Queries;
 
 public record TransactionListDto(
-    int Id,
+    Guid Id,
     string Code,
     TransactionType Type,
     string CreatedBy,

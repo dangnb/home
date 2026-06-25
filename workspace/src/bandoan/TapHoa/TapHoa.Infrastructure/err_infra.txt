@@ -1,0 +1,25 @@
+﻿  Determining projects to restore...
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+  All projects are up-to-date for restore.
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  TapHoa.Domain -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Domain\bin\Debug\net10.0\TapHoa.Domain.dll
+  TapHoa.Application -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\bin\Debug\net10.0\TapHoa.Application.dll
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(39,46): error CS0029: Cannot implicitly convert type 'int' to 'System.Guid' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(62,76): error CS0019: Operator '==' cannot be applied to operands of type 'Guid' and 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(63,77): error CS0019: Operator '==' cannot be applied to operands of type 'Guid' and 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+
+Build FAILED.
+
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(39,46): error CS0029: Cannot implicitly convert type 'int' to 'System.Guid' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(62,76): error CS0019: Operator '==' cannot be applied to operands of type 'Guid' and 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(63,77): error CS0019: Operator '==' cannot be applied to operands of type 'Guid' and 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
+    4 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:02.18

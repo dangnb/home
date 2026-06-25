@@ -4,7 +4,7 @@ using TapHoa.Application.Interfaces;
 
 namespace TapHoa.Application.Auth.Queries;
 
-public record UserDto(int Id, string Username, string FullName, string Email, bool IsActive, IEnumerable<string> Roles);
+public record UserDto(Guid Id, string Username, string FullName, string Email, bool IsActive, IEnumerable<string> Roles);
 
 public record GetUsersQuery() : IRequest<IEnumerable<UserDto>>;
 
@@ -26,7 +26,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<U
             LEFT JOIN UserRoles ur ON u.Id = ur.UsersId
             LEFT JOIN Roles r ON ur.RolesId = r.Id";
 
-        var userDict = new Dictionary<int, UserDto>();
+        var userDict = new Dictionary<Guid, UserDto>();
 
         await connection.QueryAsync<UserDto, string, UserDto>(
             sql,

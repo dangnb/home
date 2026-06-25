@@ -1,0 +1,30 @@
+﻿  Determining projects to restore...
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  All projects are up-to-date for restore.
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  TapHoa.Domain -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Domain\bin\Debug\net10.0\TapHoa.Domain.dll
+  TapHoa.Application -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\bin\Debug\net10.0\TapHoa.Application.dll
+  TapHoa.Infrastructure -> D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\bin\Debug\net10.0\TapHoa.Infrastructure.dll
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs(12,7): warning CS0105: The using directive for 'TapHoa.API.Middlewares' appeared previously in this namespace [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs(166,26): warning CS8765: Nullability of type of parameter 'value' doesn't match overridden member (possibly because of nullability attributes). [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs(29,49): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+
+Build FAILED.
+
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\TapHoa.Application.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs(12,7): warning CS0105: The using directive for 'TapHoa.API.Middlewares' appeared previously in this namespace [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs(166,26): warning CS8765: Nullability of type of parameter 'value' doesn't match overridden member (possibly because of nullability attributes). [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs(29,49): error CS1503: Argument 1: cannot convert from 'System.Guid' to 'int' [D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\TapHoa.API.csproj]
+    8 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.71

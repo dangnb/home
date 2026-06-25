@@ -4,7 +4,7 @@ namespace TapHoa.Domain.Entities.Warehouse;
 
 public class InventoryTransaction
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Code { get; private set; }
     public TransactionType Type { get; private set; }
     public TransactionStatus Status { get; private set; }
@@ -33,7 +33,7 @@ public class InventoryTransaction
         Lines = new List<InventoryTransactionLine>();
     }
 
-    public void AddLine(int productId, int quantity, decimal unitCost)
+    public void AddLine(Guid productId, int quantity, decimal unitCost)
     {
         if (Status != TransactionStatus.Draft)
             throw new InvalidOperationException("Can only add lines to Draft transactions.");

@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { AuthResultDto } from '../../models/auth-result';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +19,13 @@ export class LoginComponent {
   isLoading = false;
   errorMsg = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   onSubmit() {
     this.isLoading = true;
     this.errorMsg = '';
 
-    this.http.post<AuthResultDto>('http://localhost:5222/api/v1/auth/login', this.loginData).subscribe({
+    this.authService.login(this.loginData).subscribe({
       next: (res) => {
         // Just storing directly on localStorage for simplicity
         localStorage.setItem('jwtToken', res.token);

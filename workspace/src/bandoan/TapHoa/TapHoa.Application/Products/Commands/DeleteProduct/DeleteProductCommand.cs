@@ -3,7 +3,7 @@ using TapHoa.Domain.Interfaces;
 
 namespace TapHoa.Application.Products.Commands.DeleteProduct;
 
-public record DeleteProductCommand(int Id) : IRequest<bool>;
+public record DeleteProductCommand(Guid Id) : IRequest<bool>;
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, bool>
 {

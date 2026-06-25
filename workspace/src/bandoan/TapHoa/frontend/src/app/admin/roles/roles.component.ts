@@ -18,13 +18,13 @@ export class RolesComponent implements OnInit {
 
   showModal = false;
   isEditMode = false;
-  editingRole: Role = { id: 0, name: '', description: '', permissions: 0 };
+  editingRole: Role = { id: "", name: '', description: '', permissions: 0 };
 
   // Temporary mock data since we haven't implemented full backend GET /roles yet
   mockRoles: Role[] = [
-    { id: 1, name: 'Admin', description: 'Quản trị viên hệ thống', permissions: -1 }, // All
-    { id: 2, name: 'Manager', description: 'Quản lý cửa hàng', permissions: AppPermissions.ViewProducts | AppPermissions.CreateProducts | AppPermissions.ViewCategories },
-    { id: 3, name: 'Cashier', description: 'Nhân viên thu ngân', permissions: AppPermissions.ViewProducts }
+    { id: "1", name: 'Admin', description: 'Quản trị viên hệ thống', permissions: -1 }, // All
+    { id: "2", name: 'Manager', description: 'Quản lý cửa hàng', permissions: AppPermissions.ViewProducts | AppPermissions.CreateProducts | AppPermissions.ViewCategories },
+    { id: "3", name: 'Cashier', description: 'Nhân viên thu ngân', permissions: AppPermissions.ViewProducts }
   ];
 
   constructor(private roleService: RoleService) { }
@@ -40,7 +40,7 @@ export class RolesComponent implements OnInit {
 
   openAddModal() {
     this.isEditMode = false;
-    this.editingRole = { id: 0, name: '', description: '', permissions: 0 };
+    this.editingRole = { id: "", name: '', description: '', permissions: 0 };
     this.showModal = true;
   }
 
@@ -62,14 +62,14 @@ export class RolesComponent implements OnInit {
         this.mockRoles[index] = { ...this.editingRole };
       }
     } else {
-      this.editingRole.id = Math.max(0, ...this.roles.map(r => r.id)) + 1;
+      this.editingRole.id = Date.now().toString();
       this.roles.push({ ...this.editingRole });
       this.mockRoles.push({ ...this.editingRole });
     }
     this.closeModal();
   }
 
-  deleteRole(id: number) {
+  deleteRole(id: string) {
     if (confirm('Bạn có chắc chắn muốn xóa vai trò này không?')) {
       this.roles = this.roles.filter(r => r.id !== id);
       this.mockRoles = this.mockRoles.filter(r => r.id !== id);
