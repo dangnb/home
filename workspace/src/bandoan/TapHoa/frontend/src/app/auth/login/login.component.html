@@ -55,9 +55,12 @@
             </div>
             <div class="auth-input-wrapper">
               <span class="input-icon">🔒</span>
-              <input type="password" name="password" [(ngModel)]="loginData.password" required
+              <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="loginData.password" required
                 placeholder="••••••••" autocomplete="off" />
-              </div>
+              <button type="button" class="toggle-password-btn" (click)="showPassword = !showPassword" tabindex="-1">
+                {{ showPassword ? '👁️' : '🙈' }}
+              </button>
+            </div>
             </div>
 
             <button type="submit" class="btn-login" [class.loading]="isLoading"

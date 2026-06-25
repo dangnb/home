@@ -153,3 +153,144 @@
 2026-06-25 17:37:55.080 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7640 ms
 2026-06-25 17:38:03.543 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0285 ms
 2026-06-25 17:38:03.546 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4064 ms
+2026-06-25 22:13:49.532 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:13:49.557 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:14:12.906 +07:00 [WRN] As of ""2026-06-25T15:14:12.9034669+00:00"", the heartbeat has been running for ""00:00:02.7094297"" which is longer than ""00:00:01"". This could be caused by thread pool starvation.
+2026-06-25 22:16:31.665 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 2.6980 ms
+2026-06-25 22:16:33.649 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 22:16:33.693 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 22:16:33.955 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:16:35.275 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 3591.9057 ms
+2026-06-25 22:21:29.563 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.5523 ms
+2026-06-25 22:21:29.616 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:21:29.911 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 346.9806 ms
+2026-06-25 22:21:31.495 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:21:31.608 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 123.3883 ms
+2026-06-25 22:21:47.176 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0506 ms
+2026-06-25 22:21:47.183 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:21:47.398 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 220.0465 ms
+2026-06-25 22:25:04.853 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0484 ms
+2026-06-25 22:25:04.860 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:25:05.072 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 217.3934 ms
+2026-06-25 22:26:43.086 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:26:43.111 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:26:43.394 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:26:43.394 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:27:10.554 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:27:10.583 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:28:03.311 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 2.1755 ms
+2026-06-25 22:28:03.346 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 22:28:03.369 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 22:28:03.537 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 22:28:04.388 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1064.9461 ms
+2026-06-25 22:28:04.538 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.7190 ms
+2026-06-25 22:28:04.628 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 88.2846 ms
+2026-06-25 22:28:50.723 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0962 ms
+2026-06-25 22:28:50.741 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 14.9653 ms
+2026-06-25 22:28:51.058 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 9.0821 ms
+2026-06-25 22:28:58.104 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0482 ms
+2026-06-25 22:28:58.107 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.5490 ms
+2026-06-25 22:28:59.284 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1259 ms
+2026-06-25 22:28:59.298 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 12.8942 ms
+2026-06-25 22:29:53.979 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0873 ms
+2026-06-25 22:29:53.982 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.3267 ms
+2026-06-25 22:32:19.627 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0556 ms
+2026-06-25 22:32:19.631 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.3602 ms
+2026-06-25 22:32:20.132 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0555 ms
+2026-06-25 22:32:20.134 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8231 ms
+2026-06-25 22:32:30.823 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1778 ms
+2026-06-25 22:32:30.826 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5190 ms
+2026-06-25 22:33:31.131 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:33:31.156 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:34:45.376 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 1.4556 ms
+2026-06-25 22:34:45.456 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 22:34:45.461 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 22:34:45.507 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 121.4839 ms
+2026-06-25 22:34:59.096 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.4219 ms
+2026-06-25 22:34:59.148 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 49.3785 ms
+2026-06-25 22:35:09.553 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1221 ms
+2026-06-25 22:35:09.567 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 10.6798 ms
+2026-06-25 22:35:20.857 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0624 ms
+2026-06-25 22:35:20.863 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.1272 ms
+2026-06-25 22:35:30.606 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1098 ms
+2026-06-25 22:35:30.613 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 4.9179 ms
+2026-06-25 22:42:49.052 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:42:49.079 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 22:43:44.545 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 2.3673 ms
+2026-06-25 22:43:44.656 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 22:43:44.662 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 22:43:44.756 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 194.4765 ms
+2026-06-25 22:43:59.733 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.7470 ms
+2026-06-25 22:43:59.759 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 23.8095 ms
+2026-06-25 22:44:56.857 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0653 ms
+2026-06-25 22:44:56.872 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 12.8883 ms
+2026-06-25 22:45:04.865 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0548 ms
+2026-06-25 22:45:04.868 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5360 ms
+2026-06-25 22:45:40.184 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0761 ms
+2026-06-25 22:45:40.417 +07:00 [INF] Audit Logged: Create by admin - CreateProductCommand
+2026-06-25 22:45:40.561 +07:00 [INF] HTTP POST /api/v1/products responded 201 in 374.3322 ms
+2026-06-25 22:45:40.566 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0742 ms
+2026-06-25 22:45:40.569 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7368 ms
+2026-06-25 22:45:48.333 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0978 ms
+2026-06-25 22:45:48.336 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1679 ms
+2026-06-25 22:46:04.719 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0828 ms
+2026-06-25 22:46:04.792 +07:00 [INF] Audit Logged: Create by admin - CreateProductCommand
+2026-06-25 22:46:04.806 +07:00 [INF] HTTP POST /api/v1/products responded 201 in 84.0578 ms
+2026-06-25 22:46:04.811 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0983 ms
+2026-06-25 22:46:04.815 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1902 ms
+2026-06-25 22:46:18.676 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0687 ms
+2026-06-25 22:46:18.686 +07:00 [INF] Audit Logged: Create by admin - CreateProductCommand
+2026-06-25 22:46:18.695 +07:00 [INF] HTTP POST /api/v1/products responded 201 in 17.0745 ms
+2026-06-25 22:46:18.702 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0745 ms
+2026-06-25 22:46:18.706 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2507 ms
+2026-06-25 22:46:31.957 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1786 ms
+2026-06-25 22:46:31.960 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3954 ms
+2026-06-25 22:46:44.873 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.2301 ms
+2026-06-25 22:46:44.876 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1825 ms
+2026-06-25 22:56:19.335 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0430 ms
+2026-06-25 22:56:19.338 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.8469 ms
+2026-06-25 22:56:51.524 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0481 ms
+2026-06-25 22:56:51.527 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0569 ms
+2026-06-25 22:57:21.716 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1074 ms
+2026-06-25 22:57:21.730 +07:00 [INF] Audit Logged: Create by admin - CreateProductCommand
+2026-06-25 22:57:21.735 +07:00 [INF] HTTP POST /api/v1/products responded 201 in 15.9298 ms
+2026-06-25 22:57:21.742 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0517 ms
+2026-06-25 22:57:21.746 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6446 ms
+2026-06-25 22:57:33.210 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1544 ms
+2026-06-25 22:57:33.214 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6252 ms
+2026-06-25 22:57:50.167 +07:00 [INF] HTTP OPTIONS /api/v1/products/01950000-0000-7000-8000-000000002003 responded 204 in 0.0353 ms
+2026-06-25 22:57:50.187 +07:00 [INF] Audit Logged: Delete by admin - DeleteProductCommand
+2026-06-25 22:57:50.755 +07:00 [INF] HTTP DELETE /api/v1/products/01950000-0000-7000-8000-000000002003 responded 204 in 585.8284 ms
+2026-06-25 22:57:50.758 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0513 ms
+2026-06-25 22:57:50.762 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.0655 ms
+2026-06-25 22:57:59.378 +07:00 [INF] HTTP OPTIONS /api/v1/products/01950000-0000-7000-8000-000000002001 responded 204 in 0.0317 ms
+2026-06-25 22:57:59.385 +07:00 [INF] Audit Logged: Delete by admin - DeleteProductCommand
+2026-06-25 22:57:59.394 +07:00 [INF] HTTP DELETE /api/v1/products/01950000-0000-7000-8000-000000002001 responded 204 in 14.4699 ms
+2026-06-25 22:57:59.398 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0315 ms
+2026-06-25 22:57:59.400 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1350 ms
+2026-06-25 22:57:59.404 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0858 ms
+2026-06-25 22:57:59.406 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9933 ms
+2026-06-25 22:58:44.333 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0437 ms
+2026-06-25 22:58:44.340 +07:00 [INF] Audit Logged: Create by admin - CreateProductCommand
+2026-06-25 22:58:44.343 +07:00 [INF] HTTP POST /api/v1/products responded 201 in 8.6985 ms
+2026-06-25 22:58:44.346 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0308 ms
+2026-06-25 22:58:44.348 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9167 ms
+2026-06-25 22:58:46.741 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0397 ms
+2026-06-25 22:58:46.744 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3918 ms
+2026-06-25 22:58:47.904 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1544 ms
+2026-06-25 23:02:25.815 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 23:02:25.840 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 23:02:32.717 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 1.7519 ms
+2026-06-25 23:02:32.808 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 23:02:32.814 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 23:02:32.890 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 159.4735 ms
+2026-06-25 23:03:11.503 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.3417 ms
+2026-06-25 23:03:11.518 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 11.9995 ms
+2026-06-25 23:03:27.770 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0763 ms
+2026-06-25 23:03:27.799 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 27.9251 ms
+2026-06-25 23:03:41.432 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0479 ms
+2026-06-25 23:03:41.934 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 501.0133 ms
+2026-06-25 23:03:49.133 +07:00 [INF] HTTP OPTIONS /api/v1/audits responded 204 in 0.0985 ms
+2026-06-25 23:03:49.317 +07:00 [INF] HTTP GET /api/v1/audits responded 200 in 181.9174 ms
+2026-06-25 23:03:55.355 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1238 ms
+2026-06-25 23:03:55.363 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 6.4990 ms

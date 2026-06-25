@@ -3,6 +3,7 @@ using TapHoa.Application.Products.Commands.CreateProduct;
 using TapHoa.Application.Products.Commands.UpdateProduct;
 using TapHoa.Application.Products.Commands.DeleteProduct;
 using TapHoa.Application.Products.Queries.GetProducts;
+using TapHoa.Application.Products.Queries.GetPagedProducts;
 using TapHoa.Application.Products.Queries.GetProductById;
 using Microsoft.AspNetCore.Mvc;
 using TapHoa.API.Authorization;
@@ -23,6 +24,21 @@ public static class ProductsEndpoints
         })
         .WithName("GetProducts")
         .WithDescription("Gets all products using Dapper")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+
+        group.MapGet("/paged", async (
+            [FromQuery] int pageIndex,
+            [FromQuery] int pageSize,
+            [FromQuery] string? searchTerm,
+            [FromQuery] string? category,
+            [FromServices] ISender sender) =>
+        {
+            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, category);
+            var result = await sender.Send(query);
+            return Results.Ok(result);
+        })
+        .WithName("GetPagedProducts")
+        .WithDescription("Gets paged products with search and category filters")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
 
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>

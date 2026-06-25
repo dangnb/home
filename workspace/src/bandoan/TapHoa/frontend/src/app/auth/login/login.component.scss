@@ -245,10 +245,29 @@
                 font-size: 1.1rem;
             }
 
+            .toggle-password-btn {
+                position: absolute;
+                right: 1rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 1.1rem;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                color: #94a3b8;
+                user-select: none;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: #64748b;
+                }
+            }
+
             input {
                 width: 100%;
                 box-sizing: border-box;
-                padding: 0.875rem 1rem 0.875rem 2.8rem;
+                padding: 0.875rem 2.8rem 0.875rem 2.8rem;
                 border: 2px solid #e2e8f0;
                 border-radius: 12px;
                 background: #f8fafc;

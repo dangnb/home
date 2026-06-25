@@ -5,8 +5,8 @@
 
 <div class="card">
   <div class="card-header">
-    <input type="text" [(ngModel)]="searchTerm" class="search-input" placeholder="Tìm kiếm tên, ID sản phẩm..." />
-    <select [(ngModel)]="selectedCategory" class="filter-select">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" class="search-input" placeholder="Tìm kiếm tên, ID sản phẩm..." />
+    <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="filter-select">
       <option value="">Tất cả danh mục</option>
       <option value="Trái cây">Trái cây</option>
       <option value="Rau củ">Rau củ</option>
@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (p of paginatedProducts; track p) {
+        @for (p of products; track p) {
         <tr>
           <td>#SP00{{p.id}}</td>
           <td>
@@ -57,7 +57,7 @@
           </td>
         </tr>
         }
-        @if (filteredProducts.length === 0) {
+        @if (products.length === 0) {
         <tr>
           <td colspan="8" style="text-align:center; padding:2rem;">Không có sản phẩm nào phù hợp.</td>
         </tr>
@@ -66,7 +66,7 @@
     </table>
   </div>
 
-  <app-pagination [totalItems]="filteredProducts.length" [pageSize]="pageSize" [currentPage]="currentPage"
+  <app-pagination [totalItems]="totalCount" [pageSize]="pageSize" [currentPage]="currentPage"
     (pageChange)="onPageChange($event)">
   </app-pagination>
 </div>

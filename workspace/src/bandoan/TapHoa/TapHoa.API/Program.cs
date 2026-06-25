@@ -72,7 +72,9 @@ builder.Services.AddScoped<IAuthorizationHandler, TapHoa.API.Authorization.Permi
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=taphoa.db";
 
 // EF Core
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlite(connectionString)
+           .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

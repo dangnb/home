@@ -100,7 +100,7 @@ public class AppDbContext : DbContext
         );
 
         // Hash "admin123" with BCrypt (Hardcoded to prevent EF Model changes on every run)
-        var adminPasswordHash = "$2a$11$90Xb.I39c65h/T9qWn.2IuTksr6Kx7Oa6Jt4i57l.P6z0uLWe21M6";
+        var adminPasswordHash = "$2a$11$8rpnI.9n7caa2N3lLrkVeOyfSDUH1LlRGHt4.64Z6c0uGaFs8q0xy";
 
         modelBuilder.Entity<User>().HasData(
             new { Id = adminUserId, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", PhoneNumber = (string?)null, CitizenId = (string?)null, Address = (string?)null, IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), CompanyId = companyId }

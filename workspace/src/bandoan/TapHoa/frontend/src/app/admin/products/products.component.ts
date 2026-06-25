@@ -24,38 +24,21 @@ export class ProductsComponent implements OnInit {
   // Pagination State
   currentPage = 1;
   pageSize = 5;
+  totalCount = 0;
 
   // Modal State
   showModal = false;
   isEditMode = false;
   editingProduct: Product = this.getEmptyProduct();
 
-  get filteredProducts(): Product[] {
-    return this.products.filter(p => {
-      const matchesSearch = p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        p.id.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesCategory = this.selectedCategory ? p.category === this.selectedCategory : true;
-      return matchesSearch && matchesCategory;
-    });
-  }
-
-  get paginatedProducts(): Product[] {
-    const safeFiltered = this.filteredProducts;
-    const maxPage = Math.ceil(safeFiltered.length / this.pageSize);
-    if (this.currentPage > maxPage && maxPage > 0) {
-      this.currentPage = maxPage;
-    }
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return safeFiltered.slice(start, end);
-  }
-
   onPageChange(page: number) {
     this.currentPage = page;
+    this.loadProducts();
   }
 
   onSearchChange() {
     this.currentPage = 1; // Reset to page 1 on search
+    this.loadProducts();
   }
 
   constructor(private productService: ProductService) { }
@@ -65,8 +48,19 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts() {
-    this.productService.getProducts().subscribe(data => {
-      this.products = data;
+    this.productService.getPaged(this.currentPage, this.pageSize, {
+      searchTerm: this.searchTerm,
+      category: this.selectedCategory
+    }).subscribe(res => {
+      this.products = res.items;
+      this.totalCount = res.totalCount;
+
+      // Handle edge case where the current page becomes out of bounds (e.g. after deletion)
+      const maxPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPage > maxPage && maxPage > 0) {
+        this.currentPage = maxPage;
+        this.loadProducts();
+      }
     });
   }
 
@@ -94,6 +88,7 @@ export class ProductsComponent implements OnInit {
       });
     } else {
       this.productService.createProduct(this.editingProduct).subscribe(() => {
+        this.currentPage = 1; // Reset to page 1 to see the newly added product
         this.loadProducts();
         this.closeModal();
       });

@@ -18,6 +18,7 @@ export class LoginComponent {
   };
   isLoading = false;
   errorMsg = '';
+  showPassword = false;
 
   constructor(private authService: AuthService, private router: Router) { }
 
