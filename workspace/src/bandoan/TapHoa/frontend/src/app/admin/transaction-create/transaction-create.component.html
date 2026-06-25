@@ -1,113 +1,123 @@
 <div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white border-0 pt-4 pb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-0 fw-bold text-dark">📥 Tạo Mới Phiếu Nhập Kho</h3>
-            <button class="btn btn-sm btn-outline-secondary rounded-pills px-4" routerLink="/admin/transactions">
-                Trở về
-            </button>
-        </div>
+  <div class="card-header bg-white border-0 pt-4 pb-0">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="mb-0 fw-bold text-dark">📥 Tạo Mới Phiếu Nhập Kho</h3>
+      <button class="btn btn-sm btn-outline-secondary rounded-pills px-4" routerLink="/admin/transactions">
+        Trở về
+      </button>
     </div>
+  </div>
 
-    <div class="card-body mt-3">
-        <!-- Master Data -->
-        <h5 class="fw-bold text-primary mb-3">1. Thông tin chung</h5>
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <label class="form-label text-muted fw-bold small">Mã tham chiếu (Đơn hàng/PO) <span
-                        class="text-danger">*</span></label>
-                <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
-                    [(ngModel)]="referenceId" placeholder="Ví dụ: PO-2026-623">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label text-muted fw-bold small">Ghi chú</label>
-                <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input" [(ngModel)]="notes"
-                    placeholder="Ghi chú thêm về lô hàng">
-            </div>
+  <div class="card-body mt-3">
+    <!-- Master Data -->
+    <h5 class="fw-bold text-primary mb-3">1. Thông tin chung</h5>
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label text-muted fw-bold small">Mã tham chiếu (Đơn hàng/PO) <span
+        class="text-danger">*</span></label>
+        <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
+          [(ngModel)]="referenceId" placeholder="Ví dụ: PO-2026-623">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label text-muted fw-bold small">Ghi chú</label>
+          <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input" [(ngModel)]="notes"
+            placeholder="Ghi chú thêm về lô hàng">
+          </div>
         </div>
 
         <!-- Add Lines Form -->
         <h5 class="fw-bold text-primary mb-3">2. Nhập sản phẩm</h5>
         <div class="card bg-light border-0 rounded-4 mb-4">
-            <div class="card-body">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-4 position-relative">
-                        <label class="form-label fw-bold small">Tìm mặt hàng (Tên/Mã)</label>
-                        <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
-                            [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" (focus)="onSearchFocus()"
-                            (blur)="onSearchBlur()" placeholder="Gõ để tìm kiếm mặt hàng...">
+          <div class="card-body">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-4 position-relative">
+                <label class="form-label fw-bold small">Tìm mặt hàng (Tên/Mã)</label>
+                <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
+                  [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" (focus)="onSearchFocus()"
+                  (blur)="onSearchBlur()" placeholder="Gõ để tìm kiếm mặt hàng...">
 
-                        <!-- Dropdown Menu -->
-                        <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete"
-                            [class.show]="showDropdown">
-                            <li *ngIf="filteredProducts.length === 0" class="px-3 py-2 text-muted small">Không tìm thấy
-                                sản phẩm.</li>
-                            <li *ngFor="let p of filteredProducts">
-                                <a class="dropdown-item py-2 dropdown-item-custom" href="javascript:void(0)"
-                                    (click)="onProductSelect(p)">
-                                    <div class="d-flex justify-content-between">
-                                        <span class="fw-medium">{{ p.name }}</span>
-                                        <span class="text-primary fw-bold">{{ p.price | currency:'VND' }}</span>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold small">Số lượng</label>
-                        <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
-                            [(ngModel)]="selectedQuantity" min="1">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold small">Giá vốn (VND)</label>
-                        <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
-                            [(ngModel)]="selectedCost" min="0">
+                  <!-- Dropdown Menu -->
+                  <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete"
+                    [class.show]="showDropdown">
+                    @if (filteredProducts.length === 0) {
+                      <li class="px-3 py-2 text-muted small">Không tìm thấy
+                      sản phẩm.</li>
+                    }
+                    @for (p of filteredProducts; track p) {
+                      <li>
+                        <a class="dropdown-item py-2 dropdown-item-custom" href="javascript:void(0)"
+                          (click)="onProductSelect(p)">
+                          <div class="d-flex justify-content-between">
+                            <span class="fw-medium">{{ p.name }}</span>
+                            <span class="text-primary fw-bold">{{ p.price | currency:'VND' }}</span>
+                          </div>
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label fw-bold small">Số lượng</label>
+                  <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
+                    [(ngModel)]="selectedQuantity" min="1">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label fw-bold small">Giá vốn (VND)</label>
+                    <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
+                      [(ngModel)]="selectedCost" min="0">
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary btn-sm w-100 py-1 rounded-3 fw-bold" (click)="addLine()">+
-                            THÊM</button>
+                      <button class="btn btn-primary btn-sm w-100 py-1 rounded-3 fw-bold" (click)="addLine()">+
+                      THÊM</button>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+              </div>
 
-        <!-- Selected Lines Table -->
-        <div class="table-responsive mb-4" *ngIf="lines.length > 0">
-            <table class="table align-middle">
-                <thead class="table-light text-muted small text-uppercase">
-                    <tr>
+              <!-- Selected Lines Table -->
+              @if (lines.length > 0) {
+                <div class="table-responsive mb-4">
+                  <table class="table align-middle">
+                    <thead class="table-light text-muted small text-uppercase">
+                      <tr>
                         <th class="ps-3">Sản phẩm</th>
                         <th class="text-center">Số lượng</th>
                         <th class="text-end">Giá vốn</th>
                         <th class="text-end">Thành tiền</th>
                         <th class="text-center">Xóa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let l of lines; let i = index">
-                        <td class="ps-3 fw-medium">{{ l.productName }}</td>
-                        <td class="text-center">{{ l.quantity }}</td>
-                        <td class="text-end">{{ l.unitCost | currency:'VND' }}</td>
-                        <td class="text-end fw-bold text-success">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
-                        <td class="text-center">
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (l of lines; track l; let i = $index) {
+                        <tr>
+                          <td class="ps-3 fw-medium">{{ l.productName }}</td>
+                          <td class="text-center">{{ l.quantity }}</td>
+                          <td class="text-end">{{ l.unitCost | currency:'VND' }}</td>
+                          <td class="text-end fw-bold text-success">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
+                          <td class="text-center">
                             <button class="btn btn-sm btn-outline-danger border-0" (click)="removeLine(i)">❌</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
 
-        <div class="alert alert-info border-0 rounded-4" *ngIf="lines.length === 0">
-            Chưa có sản phẩm nào được đưa vào phiếu nhập. Vui lòng thêm từ bên trên.
-        </div>
+              @if (lines.length === 0) {
+                <div class="alert alert-info border-0 rounded-4">
+                  Chưa có sản phẩm nào được đưa vào phiếu nhập. Vui lòng thêm từ bên trên.
+                </div>
+              }
 
-        <hr>
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <h4 class="mb-0 text-muted">Tổng cộng: <span class="fw-bold text-danger fs-3 ms-2">{{ totalAmount |
-                    currency:'VND' }}</span></h4>
-            <button class="btn btn-success btn-sm px-5 py-1 rounded-pills fw-bold shadow-sm"
-                [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()">
-                {{ isSubmitting ? 'ĐANG LƯU...' : '💾 LƯU PHIẾU KHO' }}
-            </button>
-        </div>
-    </div>
-</div>
+              <hr>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <h4 class="mb-0 text-muted">Tổng cộng: <span class="fw-bold text-danger fs-3 ms-2">{{ totalAmount |
+                  currency:'VND' }}</span></h4>
+                  <button class="btn btn-success btn-sm px-5 py-1 rounded-pills fw-bold shadow-sm"
+                    [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()">
+                    {{ isSubmitting ? 'ĐANG LƯU...' : '💾 LƯU PHIẾU KHO' }}
+                  </button>
+                </div>
+              </div>
+            </div>

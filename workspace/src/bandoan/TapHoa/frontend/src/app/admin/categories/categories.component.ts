@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
     selector: 'app-categories',
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './categories.component.html',
     styleUrl: './categories.component.scss'
 })

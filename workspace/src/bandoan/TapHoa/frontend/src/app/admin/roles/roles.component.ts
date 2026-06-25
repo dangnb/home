@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
 import { Role } from '../../models/role';
@@ -7,7 +7,7 @@ import { AppPermissionsList, AppPermissions } from '../../models/permission.enum
 
 @Component({
     selector: 'app-roles',
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './roles.component.html',
     styleUrls: ['./roles.component.scss']
 })

@@ -1,46 +1,48 @@
 <div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-white border-0 pt-4 pb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-0 fw-bold text-dark">📦 Tồn Kho Tức Thời</h3>
-            <div class="header-actions">
-                <button class="btn btn-outline-secondary me-2 rounded-pills">📥 Tải báo cáo</button>
-            </div>
-        </div>
-        <p class="text-muted mt-2">Dữ liệu StockLevel chốt tĩnh từ Ledger, làm mới liên tục.</p>
+  <div class="card-header bg-white border-0 pt-4 pb-0">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="mb-0 fw-bold text-dark">📦 Tồn Kho Tức Thời</h3>
+      <div class="header-actions">
+        <button class="btn btn-outline-secondary me-2 rounded-pills">📥 Tải báo cáo</button>
+      </div>
     </div>
+    <p class="text-muted mt-2">Dữ liệu StockLevel chốt tĩnh từ Ledger, làm mới liên tục.</p>
+  </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle custom-table">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col" class="ps-4">SẢN PHẨM</th>
-                        <th scope="col">BARCODE</th>
-                        <th scope="col" class="text-center">TỒN THỰC TẾ (ON HAND)</th>
-                        <th scope="col" class="text-center">CÓ THỂ BÁN (AVAILABLE)</th>
-                        <th scope="col">LẦN NHẬP KHO GẦN NHẤT</th>
-                        <th scope="col">TRẠNG THÁI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of inventories">
-                        <td class="ps-4 fw-medium">{{ item.productName }}</td>
-                        <td class="text-muted">{{ item.barcode }}</td>
-                        <td class="text-center fw-bold text-primary">{{ item.qtyOnHand }}</td>
-                        <td class="text-center fw-bold"
-                            [ngClass]="{'text-danger': item.availableQty <= 5, 'text-success': item.availableQty > 5}">
-                            {{ item.availableQty }}
-                        </td>
-                        <td>{{ item.lastRestocked | date:'dd/MM/yyyy' }}</td>
-                        <td>
-                            <span class="badge rounded-pill"
-                                [ngClass]="{'bg-success': item.qtyOnHand > 10, 'bg-warning text-dark': item.qtyOnHand <= 10 && item.qtyOnHand > 0, 'bg-danger': item.qtyOnHand === 0}">
-                                {{ item.qtyOnHand > 10 ? 'Sẵn Hàng' : (item.qtyOnHand === 0 ? 'Hết Hàng' : 'Sắp Hết') }}
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle custom-table">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" class="ps-4">SẢN PHẨM</th>
+            <th scope="col">BARCODE</th>
+            <th scope="col" class="text-center">TỒN THỰC TẾ (ON HAND)</th>
+            <th scope="col" class="text-center">CÓ THỂ BÁN (AVAILABLE)</th>
+            <th scope="col">LẦN NHẬP KHO GẦN NHẤT</th>
+            <th scope="col">TRẠNG THÁI</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of inventories; track item) {
+            <tr>
+              <td class="ps-4 fw-medium">{{ item.productName }}</td>
+              <td class="text-muted">{{ item.barcode }}</td>
+              <td class="text-center fw-bold text-primary">{{ item.qtyOnHand }}</td>
+              <td class="text-center fw-bold"
+                [ngClass]="{'text-danger': item.availableQty <= 5, 'text-success': item.availableQty > 5}">
+                {{ item.availableQty }}
+              </td>
+              <td>{{ item.lastRestocked | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge rounded-pill"
+                  [ngClass]="{'bg-success': item.qtyOnHand > 10, 'bg-warning text-dark': item.qtyOnHand <= 10 && item.qtyOnHand > 0, 'bg-danger': item.qtyOnHand === 0}">
+                  {{ item.qtyOnHand > 10 ? 'Sẵn Hàng' : (item.qtyOnHand === 0 ? 'Hết Hàng' : 'Sắp Hết') }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
