@@ -97,8 +97,14 @@ export class ProductsComponent implements OnInit {
 
   deleteProduct(id: string) {
     if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-      this.productService.deleteProduct(id).subscribe(() => {
-        this.loadProducts();
+      this.productService.deleteProduct(id).subscribe({
+        next: () => {
+          this.loadProducts();
+        },
+        error: (err) => {
+          console.error('Lỗi xóa sản phẩm:', err);
+          alert('Không thể xóa sản phẩm. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau!');
+        }
       });
     }
   }

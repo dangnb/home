@@ -294,3 +294,46 @@
 2026-06-25 23:03:49.317 +07:00 [INF] HTTP GET /api/v1/audits responded 200 in 181.9174 ms
 2026-06-25 23:03:55.355 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1238 ms
 2026-06-25 23:03:55.363 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 6.4990 ms
+2026-06-25 23:04:59.887 +07:00 [INF] HTTP OPTIONS /api/v1/products/019eff81-4c74-73ce-9678-539c4df1c152 responded 204 in 0.1019 ms
+2026-06-25 23:04:59.987 +07:00 [INF] Audit Logged: Delete by admin - DeleteProductCommand
+2026-06-25 23:05:00.106 +07:00 [INF] HTTP DELETE /api/v1/products/019eff81-4c74-73ce-9678-539c4df1c152 responded 204 in 216.2635 ms
+2026-06-25 23:05:00.110 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0592 ms
+2026-06-25 23:05:00.114 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4365 ms
+2026-06-25 23:05:05.831 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1295 ms
+2026-06-25 23:05:05.833 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0253 ms
+2026-06-25 23:05:30.372 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0616 ms
+2026-06-25 23:05:30.375 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.7260 ms
+2026-06-25 23:07:27.041 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0656 ms
+2026-06-25 23:07:27.044 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2353 ms
+2026-06-25 23:07:53.344 +07:00 [INF] HTTP OPTIONS /api/v1/products/01950000-0000-7000-8000-000000002002 responded 204 in 0.1679 ms
+2026-06-25 23:07:53.352 +07:00 [INF] Audit Logged: Delete by admin - DeleteProductCommand
+2026-06-25 23:07:53.366 +07:00 [INF] HTTP DELETE /api/v1/products/01950000-0000-7000-8000-000000002002 responded 204 in 19.6824 ms
+2026-06-25 23:07:53.372 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1298 ms
+2026-06-25 23:07:53.376 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2423 ms
+2026-06-25 23:07:59.743 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1239 ms
+2026-06-25 23:07:59.746 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9809 ms
+2026-06-25 23:08:11.043 +07:00 [INF] HTTP OPTIONS /api/v1/products/019eff75-5649-7418-ae93-f52ba25171a4 responded 204 in 0.0374 ms
+2026-06-25 23:08:11.048 +07:00 [INF] Audit Logged: Delete by admin - DeleteProductCommand
+2026-06-25 23:08:11.070 +07:00 [INF] HTTP DELETE /api/v1/products/019eff75-5649-7418-ae93-f52ba25171a4 responded 204 in 25.6846 ms
+2026-06-25 23:08:11.079 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0551 ms
+2026-06-25 23:08:11.082 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7162 ms
+2026-06-25 23:08:30.211 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0582 ms
+2026-06-25 23:08:30.216 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.1681 ms
+2026-06-25 23:08:30.890 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0297 ms
+2026-06-25 23:08:30.892 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2360 ms
+2026-06-25 23:08:31.287 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0394 ms
+2026-06-25 23:08:31.289 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0055 ms
+2026-06-25 23:08:33.245 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0872 ms
+2026-06-25 23:08:52.194 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0342 ms
+2026-06-25 23:08:52.284 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1742 ms
+2026-06-25 23:08:52.840 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9476 ms
+2026-06-25 23:08:54.962 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9789 ms
+2026-06-25 23:08:55.449 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5610 ms
+2026-06-25 23:08:55.771 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1706 ms
+2026-06-25 23:08:56.141 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4078 ms
+2026-06-25 23:08:56.381 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0382 ms
+2026-06-25 23:08:56.383 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0242 ms
+2026-06-25 23:08:56.961 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9571 ms
+2026-06-25 23:08:57.378 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0332 ms
+2026-06-25 23:08:57.381 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0868 ms
+2026-06-25 23:08:57.709 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3252 ms
