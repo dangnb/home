@@ -9,6 +9,7 @@ public class UpdateCategoryCommand : IRequest<bool>
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Icon { get; set; } = string.Empty;
+    public Guid? ParentId { get; set; }
 }
 
 public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, bool>
@@ -27,7 +28,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         var category = await _repository.GetByIdAsync(request.Id, cancellationToken);
         if (category == null) return false;
 
-        category.Update(request.Name, request.Description, request.Icon);
+        category.Update(request.Name, request.Description, request.Icon, request.ParentId);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return true;

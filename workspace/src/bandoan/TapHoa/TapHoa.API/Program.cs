@@ -108,7 +108,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try {
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
     } catch(Exception ex) {
         System.IO.File.WriteAllText("ef_error.txt", ex.ToString());
         throw;

@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
+import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 
 @Component({
-    selector: 'app-products',
-    imports: [CommonModule, FormsModule],
-    templateUrl: './products.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrl: './products.component.scss'
+  selector: 'app-products',
+  imports: [CommonModule, FormsModule, PaginationComponent],
+  templateUrl: './products.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
@@ -19,6 +20,10 @@ export class ProductsComponent implements OnInit {
   // Search & Filter
   searchTerm = '';
   selectedCategory = '';
+
+  // Pagination State
+  currentPage = 1;
+  pageSize = 5;
 
   // Modal State
   showModal = false;
@@ -32,6 +37,25 @@ export class ProductsComponent implements OnInit {
       const matchesCategory = this.selectedCategory ? p.category === this.selectedCategory : true;
       return matchesSearch && matchesCategory;
     });
+  }
+
+  get paginatedProducts(): Product[] {
+    const safeFiltered = this.filteredProducts;
+    const maxPage = Math.ceil(safeFiltered.length / this.pageSize);
+    if (this.currentPage > maxPage && maxPage > 0) {
+      this.currentPage = maxPage;
+    }
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return safeFiltered.slice(start, end);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  onSearchChange() {
+    this.currentPage = 1; // Reset to page 1 on search
   }
 
   constructor(private productService: ProductService) { }

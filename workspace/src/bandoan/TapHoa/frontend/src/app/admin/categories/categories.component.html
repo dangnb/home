@@ -1,105 +1,166 @@
 <div class="container-fluid py-5">
-  <div class="row mb-5">
-    <div class="col-12 d-flex justify-content-between align-items-center">
+  <!-- Header & Search Bar -->
+  <div class="row align-items-center mb-5 g-3">
+    <div class="col-12 col-md-4">
       <h2 class="fw-bold text-dark fs-2 mb-0">Quản lý Danh mục</h2>
-      <button class="btn btn-primary px-4 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2"
+    </div>
+    <div class="col-12 col-md-8 d-flex justify-content-md-end gap-3">
+      <!-- Search Input -->
+      <div class="position-relative" style="max-width: 300px; width: 100%;">
+        <span class="position-absolute top-50 translate-middle-y ms-3 fs-5 text-muted">🔍</span>
+        <input type="text" class="form-control form-control-solid rounded-pill ps-10 border-0 shadow-sm"
+          placeholder="Tìm tên, ID, mô tả..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+      </div>
+
+      <!-- Add Button -->
+      <button
+        class="btn btn-primary px-4 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2 flex-shrink-0"
         (click)="openAddModal()">
         <span>✨</span> Thêm danh mục mới
       </button>
     </div>
   </div>
 
-  <!-- Cards Grid View (Metronic Style) -->
-  @if (categories.length > 0) {
-    <div class="row g-4">
-      @for (category of categories; track category) {
-        <div class="col-12 col-md-6 col-xl-4">
-          <div class="card border-0 shadow-sm rounded-4 h-100 hover-elevate-up transition-base">
-            <div class="card-header border-0 pt-6 bg-transparent d-flex justify-content-between align-items-start">
-              <div class="d-flex align-items-center bg-light-primary rounded-4 p-3"
-                style="width: 65px; height: 65px;">
-                <span class="fs-1 w-100 text-center">{{ category.icon || '📁' }}</span>
+  <!-- Unified Tree View Layout -->
+  @if (filteredCategoryNodes.length > 0) {
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-0">
+
+      <!-- List Header -->
+      <div class="d-flex align-items-center justify-content-between p-4 border-bottom bg-light">
+        <h4 class="mb-0 fw-bold text-muted text-uppercase fs-7">Cấu trúc Danh mục</h4>
+        <h4 class="mb-0 fw-bold text-muted text-uppercase fs-7 text-end" style="width: 150px;">Thao tác</h4>
+      </div>
+
+      <!-- Recursive Template for Tree Rows -->
+      <ng-template #categoryTree let-nodes="nodes">
+        @for (node of nodes; track node.id) {
+        <div class="tree-row-wrapper position-relative transition-base">
+          <!-- The Row -->
+          <div class="tree-row d-flex align-items-center justify-content-between p-3 border-bottom hover-bg-light"
+            [style.padding-left]="(1.5 + node.level * 2.5) + 'rem !important'">
+
+            <!-- Tree guide line using inline CSS for exact alignment based on level -->
+            <div class="tree-line" *ngIf="node.level > 0" [style.left.rem]="(1.5 + (node.level - 1) * 2.5) + 0.5"></div>
+
+            <div class="d-flex align-items-center gap-3 w-100">
+
+              <!-- Expand/Collapse Button -->
+              <button class="btn btn-icon btn-sm btn-active-light-primary rounded-circle"
+                style="width: 28px; height: 28px;"
+                [style.visibility]="node.children.length === 0 ? 'hidden' : 'visible'" (click)="toggleExpand(node)">
+                <span class="fs-6">{{ node.expanded ? '▼' : '▶' }}</span>
+              </button>
+
+              <!-- Node Icon -->
+              <div
+                class="d-flex align-items-center justify-content-center bg-light-primary rounded-3 text-primary shadow-sm"
+                style="width: 40px; height: 40px; font-size: 1.25rem;">
+                {{ node.icon || '📁' }}
               </div>
-              <div class="card-toolbar d-flex gap-2">
-                <button class="btn btn-icon btn-light-warning btn-sm rounded-3 shadow-none border-0"
-                  (click)="openEditModal(category)" title="Chỉnh sửa">
-                  ✏️
-                </button>
-                <button class="btn btn-icon btn-light-danger btn-sm rounded-3 shadow-none border-0"
-                  (click)="deleteCategory(category.id)" title="Xóa">
-                  🗑️
-                </button>
+
+              <!-- Node Info -->
+              <div class="d-flex flex-column">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fw-bolder text-dark fs-5">{{ node.name }}</span>
+                  @if (node.children.length > 0) {
+                  <span class="badge bg-light-info text-info rounded-pill px-2 py-1 fs-9">{{ node.children.length }}
+                    con</span>
+                  }
+                </div>
+                <span class="text-muted fs-7 text-truncate" style="max-width: 400px;">
+                  <span class="fw-semibold text-secondary me-1">ID: #{{ node.id.substring(0, 5) }}</span>
+                  {{ node.description || 'Chưa có mô tả' }}
+                </span>
               </div>
             </div>
-            <div class="card-body pt-4">
-              <h3 class="card-title fw-bolder text-dark fs-4 mb-2">{{ category.name }}</h3>
-              <p class="text-muted fw-semibold fs-6 text-truncate" style="max-height: 3rem;">{{
-              category.description || 'Chưa có mô tả...' }}</p>
-            </div>
-            <div class="card-footer border-0 bg-transparent pt-0 pb-6 text-end">
-              <span class="badge bg-light text-secondary text-uppercase fw-bold border">ID: #{{ category.id
-              }}</span>
+
+            <!-- Actions -->
+            <div class="d-flex align-items-center gap-2" style="min-width: max-content;">
+              <button class="btn btn-sm btn-light-primary fw-bold px-3 shadow-sm rounded-pill"
+                (click)="openAddModal(node.id)">
+                + Thêm con
+              </button>
+              <button class="btn btn-icon btn-light-warning btn-sm rounded-circle shadow-sm"
+                (click)="openEditModal(node)" title="Chỉnh sửa">
+                ✏️
+              </button>
+              <button class="btn btn-icon btn-light-danger btn-sm rounded-circle shadow-sm"
+                (click)="deleteCategory(node.id)" title="Xóa">
+                🗑️
+              </button>
             </div>
           </div>
+
+          <!-- Children Outlet -->
+          <div class="tree-children" [class.d-none]="!node.expanded" *ngIf="node.children.length > 0">
+            <ng-container *ngTemplateOutlet="categoryTree; context: { nodes: node.children }"></ng-container>
+          </div>
         </div>
-      }
+        }
+      </ng-template>
+
+      <!-- Initialize Tree -->
+      <ng-container *ngTemplateOutlet="categoryTree; context: { nodes: filteredCategoryNodes }"></ng-container>
     </div>
+  </div>
   }
 
   <!-- Empty State -->
-  @if (categories.length === 0) {
-    <div class="card border-dashed border-2 bg-light-secondary rounded-4 shadow-none">
-      <div class="card-body py-20 text-center d-flex flex-column align-items-center justify-content-center">
-        <div class="fs-1 mb-4 opacity-50">📂</div>
-        <h3 class="fw-bolder text-dark mb-3">Chưa có danh mục nào</h3>
-        <p class="text-muted fw-semibold fs-5 mb-5 mw-400px">Bắt đầu xây dựng cấu trúc cửa hàng của bạn bằng cách
+  @if (filteredCategoryNodes.length === 0) {
+  <div class="card border-dashed border-2 bg-light-secondary rounded-4 shadow-none">
+    <div class="card-body py-20 text-center d-flex flex-column align-items-center justify-content-center">
+      <div class="fs-1 mb-4 opacity-50">📂</div>
+      <h3 class="fw-bolder text-dark mb-3">Chưa có danh mục nào</h3>
+      <p class="text-muted fw-semibold fs-5 mb-5 mw-400px">Bắt đầu xây dựng cấu trúc cửa hàng của bạn bằng cách
         thêm danh mục sản phẩm đầu tiên.</p>
-        <button class="btn btn-primary rounded-pill px-5 shadow-sm" (click)="openAddModal()">
-          Khởi tạo ngay
-        </button>
-      </div>
+      <button class="btn btn-primary rounded-pill px-5 shadow-sm" (click)="openAddModal()">
+        Khởi tạo ngay
+      </button>
     </div>
+  </div>
   }
 </div>
 
 <!-- Modal Thêm/Sửa (Bootstrap Modal Style) -->
 @if (showModal) {
-  <div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);"
-    (click)="closeModal()">
-    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-      <div class="modal-content border-0 rounded-4 shadow-lg">
-        <div class="modal-header border-bottom-0 pb-0 mt-4 px-5">
-          <h3 class="modal-title fw-bolder">{{ isEditMode ? 'Sửa thông tin danh mục' : 'Thêm danh mục mới' }}</h3>
-          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
-        </div>
-        <div class="modal-body px-5 py-4">
-          <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
-            <div class="row g-4">
-              <div class="col-12">
-                <label class="form-label fw-bold text-dark">Tên danh mục</label>
-                <input type="text" class="form-control form-control-solid form-control-lg rounded-3"
-                  name="name" [(ngModel)]="editingCategory.name" required>
-                </div>
-                <div class="col-12">
-                  <label class="form-label fw-bold text-dark">Icon (Emoji/Text)</label>
-                  <input type="text" class="form-control form-control-solid form-control-lg rounded-3"
-                    name="icon" [(ngModel)]="editingCategory.icon">
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label fw-bold text-dark">Mô tả</label>
-                    <textarea class="form-control form-control-solid form-control-lg rounded-3"
-                    name="description" [(ngModel)]="editingCategory.description" rows="3"></textarea>
-                  </div>
-                </div>
-                <div class="mt-5 d-flex justify-content-end gap-3">
-                  <button type="button" class="btn btn-light" (click)="closeModal()">Hủy</button>
-                  <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.form.valid">
-                    Lưu danh mục
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+<app-modal [title]="isEditMode ? 'Sửa thông tin danh mục' : 'Thêm danh mục mới'" size="md" (closeDialog)="closeModal()">
+  <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
+    <div class="row g-4">
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Tên danh mục</label>
+        <input type="text" class="form-control form-control-solid form-control-lg rounded-3" name="name"
+          [(ngModel)]="editingCategory.name" required>
       </div>
-    }
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Icon (Emoji/Text)</label>
+        <input type="text" class="form-control form-control-solid form-control-lg rounded-3" name="icon"
+          [(ngModel)]="editingCategory.icon">
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Danh mục cha</label>
+        <select class="form-select form-control-solid form-control-lg rounded-3" name="parentId"
+          [(ngModel)]="editingCategory.parentId">
+          <option value="">-- Không có (Danh mục gốc) --</option>
+          @for (cat of categories; track cat) {
+          @if (cat.id !== editingCategory.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+          }
+          }
+        </select>
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Mô tả</label>
+        <textarea class="form-control form-control-solid form-control-lg rounded-3" name="description"
+          [(ngModel)]="editingCategory.description" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="mt-5 d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-light" (click)="closeModal()">Hủy</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.form.valid">
+        Lưu danh mục
+      </button>
+    </div>
+  </form>
+</app-modal>
+}

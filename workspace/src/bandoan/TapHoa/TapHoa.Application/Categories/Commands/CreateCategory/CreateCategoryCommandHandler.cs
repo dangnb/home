@@ -18,7 +18,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
     public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = Category.Create(request.Name, request.Description, request.Icon);
+        var category = Category.Create(request.Name, request.Description, request.Icon, request.ParentId);
 
         await _repository.AddAsync(category, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -28,7 +28,8 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             Id = category.Id,
             Name = category.Name,
             Description = category.Description,
-            Icon = category.Icon
+            Icon = category.Icon,
+            ParentId = category.ParentId
         };
     }
 }

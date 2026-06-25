@@ -1,0 +1,25 @@
+@if (totalPages > 1) {
+<nav aria-label="Page navigation" class="mt-4 d-flex justify-content-end">
+    <ul class="pagination pagination-sm m-0">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link px-3" href="javascript:void(0)" (click)="goToPage(currentPage - 1)">
+                Trước
+            </a>
+        </li>
+
+        @for (page of pages; track $index) {
+        <li class="page-item" [class.active]="currentPage === page" [class.disabled]="page === -1">
+            <a class="page-link px-3" href="javascript:void(0)" (click)="page !== -1 && goToPage(page)">
+                {{ page === -1 ? '...' : page }}
+            </a>
+        </li>
+        }
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link px-3" href="javascript:void(0)" (click)="goToPage(currentPage + 1)">
+                Sau
+            </a>
+        </li>
+    </ul>
+</nav>
+}

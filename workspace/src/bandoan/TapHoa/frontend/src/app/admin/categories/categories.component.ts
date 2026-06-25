@@ -1,18 +1,29 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
+
+export interface CategoryNode extends Category {
+    children: CategoryNode[];
+    level: number;
+    expanded: boolean;
+}
 
 @Component({
     selector: 'app-categories',
-    imports: [FormsModule],
+    imports: [CommonModule, FormsModule, ModalComponent],
     templateUrl: './categories.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
     categories: Category[] = [];
+    categoryNodes: CategoryNode[] = [];
+    filteredCategoryNodes: CategoryNode[] = [];
+
+    searchTerm: string = '';
 
     showModal = false;
     isEditMode = false;
@@ -27,12 +38,57 @@ export class CategoriesComponent implements OnInit {
     loadCategories() {
         this.categoryService.getCategories().subscribe(data => {
             this.categories = data;
+            this.categoryNodes = this.buildTree(data);
+            this.applyFilter();
         });
     }
 
-    openAddModal() {
+    onSearch() {
+        this.applyFilter();
+    }
+
+    private applyFilter() {
+        if (!this.searchTerm.trim()) {
+            this.filteredCategoryNodes = this.categoryNodes;
+            return;
+        }
+        const term = this.searchTerm.toLowerCase().trim();
+        this.filteredCategoryNodes = this.filterTreeNodes(this.categoryNodes, term);
+    }
+
+    private filterTreeNodes(nodes: CategoryNode[], term: string): CategoryNode[] {
+        return nodes.map(node => {
+            const matches = node.name.toLowerCase().includes(term) || (node.description?.toLowerCase().includes(term) ?? false) || node.id.includes(term);
+            const filteredChildren = this.filterTreeNodes(node.children, term);
+
+            if (matches || filteredChildren.length > 0) {
+                return { ...node, children: filteredChildren, expanded: true }; // Tự động mở rộng nếu tìm thấy con
+            }
+            return null;
+        }).filter(n => n !== null) as CategoryNode[];
+    }
+
+    private buildTree(categories: Category[], parentId?: string, level: number = 0): CategoryNode[] {
+        return categories
+            .filter(c => (c.parentId || null) === (parentId || null))
+            .map(c => ({
+                ...c,
+                level: level,
+                expanded: true,
+                children: this.buildTree(categories, c.id, level + 1)
+            }));
+    }
+
+    toggleExpand(node: CategoryNode) {
+        node.expanded = !node.expanded;
+    }
+
+    openAddModal(parentId?: string) {
         this.isEditMode = false;
         this.editingCategory = this.getEmptyCategory();
+        if (parentId) {
+            this.editingCategory.parentId = parentId;
+        }
         this.showModal = true;
     }
 
@@ -47,13 +103,18 @@ export class CategoriesComponent implements OnInit {
     }
 
     saveCategory() {
+        const payload = { ...this.editingCategory };
+        if (!payload.parentId || payload.parentId === "") {
+            payload.parentId = undefined;
+        }
+
         if (this.isEditMode) {
-            this.categoryService.updateCategory(this.editingCategory.id, this.editingCategory).subscribe(() => {
+            this.categoryService.updateCategory(payload.id, payload).subscribe(() => {
                 this.loadCategories();
                 this.closeModal();
             });
         } else {
-            this.categoryService.createCategory(this.editingCategory).subscribe(() => {
+            this.categoryService.createCategory(payload).subscribe(() => {
                 this.loadCategories();
                 this.closeModal();
             });
@@ -61,7 +122,7 @@ export class CategoriesComponent implements OnInit {
     }
 
     deleteCategory(id: string) {
-        if (confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) {
+        if (confirm('Bạn có chắc chắn muốn xóa danh mục này không? Các danh mục con có thể cũng bị ảnh hưởng.')) {
             this.categoryService.deleteCategory(id).subscribe(() => {
                 this.loadCategories();
             });
@@ -73,7 +134,8 @@ export class CategoriesComponent implements OnInit {
             id: "",
             name: '',
             description: '',
-            icon: '📁'
+            icon: '📁',
+            parentId: ''
         };
     }
 }

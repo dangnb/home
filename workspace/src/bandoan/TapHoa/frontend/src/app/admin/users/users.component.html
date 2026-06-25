@@ -74,64 +74,72 @@
       </div>
     </div>
   </div>
+
+  <app-pagination [totalItems]="totalUsers" [pageSize]="pageSize" [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
 </div>
 
 <!-- Modal -->
 @if (showModal) {
-<div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" (click)="closeModal()">
-  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-    <div class="modal-content border-0 rounded-4 shadow-lg">
-      <div class="modal-header border-bottom-0 pb-0 mt-4 px-5">
-        <h3 class="modal-title fw-bolder text-dark">{{ isEditMode ? 'Sửa thông tin: ' + editingUser.fullName :
-          'Thêm thành viên mới' }}</h3>
-        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+<app-modal [title]="isEditMode ? 'Sửa thông tin: ' + editingUser.fullName : 'Thêm thành viên mới'" size="lg"
+  (closeDialog)="closeModal()">
+  <form (ngSubmit)="saveUser()" #userForm="ngForm">
+    <div class="row g-4">
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Họ và tên</label>
+        <input type="text" class="form-control form-control-solid rounded-3" name="fullName"
+          [(ngModel)]="editingUser.fullName" required>
       </div>
-      <div class="modal-body px-5 py-4">
-        <form (ngSubmit)="saveUser()" #userForm="ngForm">
-          <div class="row g-4">
-            <div class="col-12">
-              <label class="form-label fw-bold text-dark">Họ và tên</label>
-              <input type="text" class="form-control form-control-solid rounded-3" name="fullName"
-                [(ngModel)]="editingUser.fullName" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-bold text-dark">Tên đăng nhập (Username)</label>
-              <input type="text" class="form-control form-control-solid rounded-3" name="username"
-                [(ngModel)]="editingUser.username" required [disabled]="isEditMode">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-bold text-dark">Email liên hệ</label>
-              <input type="email" class="form-control form-control-solid rounded-3" name="email"
-                [(ngModel)]="editingUser.email" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-bold text-dark">Phân công Vai trò</label>
-              <select class="form-select form-select-solid rounded-3" name="roleId" [(ngModel)]="editingUser.roleId"
-                required>
-                @for (role of roles; track role) {
-                <option [value]="role.id">{{ role.name }}</option>
-                }
-              </select>
-            </div>
-            <div class="col-md-6 d-flex align-items-end mb-2">
-              <div class="form-check form-switch form-check-custom form-check-solid">
-                <input class="form-check-input" type="checkbox" id="isActive" name="isActive"
-                  [(ngModel)]="editingUser.isActive" />
-                <label class="form-check-label fw-bold text-dark ms-3" for="isActive">
-                  Tài khoản đang hoạt động
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="mt-5 pt-4 d-flex justify-content-end gap-3">
-            <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Thoát</button>
-            <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm" [disabled]="!userForm.form.valid">
-              {{ isEditMode ? 'Cập nhật' : 'Khởi tạo' }}
-            </button>
-          </div>
-        </form>
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-dark">Tên đăng nhập (Username)</label>
+        <input type="text" class="form-control form-control-solid rounded-3" name="username"
+          [(ngModel)]="editingUser.username" required [disabled]="isEditMode">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-dark">Email liên hệ</label>
+        <input type="email" class="form-control form-control-solid rounded-3" name="email"
+          [(ngModel)]="editingUser.email" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-dark">Phân công Vai trò</label>
+        <select class="form-select form-select-solid rounded-3" name="roleId" [(ngModel)]="editingUser.roleId" required>
+          @for (role of roles; track role) {
+          <option [value]="role.id">{{ role.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-dark">Số điện thoại</label>
+        <input type="text" class="form-control form-control-solid rounded-3" name="phoneNumber"
+          [(ngModel)]="editingUser.phoneNumber">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-dark">Căn cước công dân</label>
+        <input type="text" class="form-control form-control-solid rounded-3" name="citizenId"
+          [(ngModel)]="editingUser.citizenId">
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-bold text-dark">Địa chỉ thường trú</label>
+        <input type="text" class="form-control form-control-solid rounded-3" name="address"
+          [(ngModel)]="editingUser.address">
+      </div>
+      <div class="col-md-6 d-flex align-items-end mb-2">
+        <div class="form-check form-switch form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" id="isActive" name="isActive"
+            [(ngModel)]="editingUser.isActive" />
+          <label class="form-check-label fw-bold text-dark ms-3" for="isActive">
+            Tài khoản đang hoạt động
+          </label>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="mt-5 pt-4 d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Thoát</button>
+      <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm" [disabled]="!userForm.form.valid">
+        {{ isEditMode ? 'Cập nhật' : 'Khởi tạo' }}
+      </button>
+    </div>
+  </form>
+</app-modal>
 }

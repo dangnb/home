@@ -65,11 +65,11 @@ public class AppDbContext : DbContext
         // StockLevel composite key
         modelBuilder.Entity<StockLevel>().HasKey(x => new { x.ProductId, x.StoreId });
 
-        var companyId = Guid.CreateVersion7();
-        var adminRoleId = Guid.CreateVersion7();
-        var managerRoleId = Guid.CreateVersion7();
-        var cashierRoleId = Guid.CreateVersion7();
-        var adminUserId = Guid.CreateVersion7();
+        var companyId = Guid.Parse("01950000-0000-7000-8000-000000000000");
+        var adminRoleId = Guid.Parse("01950000-0000-7000-8000-000000000001");
+        var managerRoleId = Guid.Parse("01950000-0000-7000-8000-000000000002");
+        var cashierRoleId = Guid.Parse("01950000-0000-7000-8000-000000000003");
+        var adminUserId = Guid.Parse("01950000-0000-7000-8000-000000000004");
 
         // RBAC Relationships Setup
         modelBuilder.Entity<User>()
@@ -99,24 +99,24 @@ public class AppDbContext : DbContext
             new { Id = cashierRoleId, Name = "Cashier", Description = "Store Cashier", Permissions = cashierPermissions }
         );
 
-        // Hash "admin123" with BCrypt
-        var adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
+        // Hash "admin123" with BCrypt (Hardcoded to prevent EF Model changes on every run)
+        var adminPasswordHash = "$2a$11$90Xb.I39c65h/T9qWn.2IuTksr6Kx7Oa6Jt4i57l.P6z0uLWe21M6";
 
         modelBuilder.Entity<User>().HasData(
-            new { Id = adminUserId, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), CompanyId = companyId }
+            new { Id = adminUserId, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", PhoneNumber = (string?)null, CitizenId = (string?)null, Address = (string?)null, IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), CompanyId = companyId }
         );
 
         // Seed initial data using anonymous objects since Product has private setters
         modelBuilder.Entity<Category>().HasData(
-            new { Id = Guid.CreateVersion7(), Name = "Trái cây", Description = "Hoa quả tươi các loại", Icon = "🍎", CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.CreateVersion7(), Name = "Rau củ", Description = "Rau củ sạch nông trại", Icon = "🥬", CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.CreateVersion7(), Name = "Thịt cá", Description = "Thịt tươi sống và hải sản", Icon = "🥩", CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000001001"), Name = "Trái cây", Description = "Hoa quả tươi các loại", Icon = "🍎", ParentId = (Guid?)null, CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000001002"), Name = "Rau củ", Description = "Rau củ sạch nông trại", Icon = "🥬", ParentId = (Guid?)null, CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000001003"), Name = "Thịt cá", Description = "Thịt tươi sống và hải sản", Icon = "🥩", ParentId = (Guid?)null, CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
         );
 
         modelBuilder.Entity<Product>().HasData(
-            new { Id = Guid.CreateVersion7(), Name = "Táo New Zealand size to", Category = "Trái cây", Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.CreateVersion7(), Name = "Rau cải thìa hữu cơ", Category = "Rau củ", Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.CreateVersion7(), Name = "Thịt bò thăn Úc tươi sạch", Category = "Thịt cá", Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002001"), Name = "Táo New Zealand size to", Category = "Trái cây", Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002002"), Name = "Rau cải thìa hữu cơ", Category = "Rau củ", Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002003"), Name = "Thịt bò thăn Úc tươi sạch", Category = "Thịt cá", Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
         );
     }
 }

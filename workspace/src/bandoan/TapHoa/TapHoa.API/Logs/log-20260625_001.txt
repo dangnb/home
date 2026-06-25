@@ -1,0 +1,155 @@
+2026-06-25 17:23:11.086 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:11.136 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:11.732 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:11.734 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:56.691 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:56.718 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:57.329 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:23:57.329 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:24:21.606 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:24:21.641 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:29.144 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:29.180 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:29.660 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:29.661 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:52.985 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:25:53.016 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:26:07.991 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:26:08.031 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:26:08.565 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:26:08.567 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:03.580 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:03.610 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:17.641 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:17.684 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:18.333 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:27:18.335 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:28:57.365 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:28:57.401 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:29:10.506 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:29:10.538 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:29:11.020 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:29:11.022 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:08.257 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:08.294 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:20.946 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:20.980 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:21.471 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:30:21.472 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:31:33.894 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:31:33.930 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:31:51.146 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:31:51.181 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-25 17:33:17.935 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 1.6602 ms
+2026-06-25 17:33:18.085 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-25 17:33:18.093 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-25 17:33:18.165 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 215.7133 ms
+2026-06-25 17:33:18.169 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 50.6723 ms
+2026-06-25 17:33:18.385 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 16.6608 ms
+2026-06-25 17:33:18.788 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0959 ms
+2026-06-25 17:33:18.797 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 6.0004 ms
+2026-06-25 17:33:26.398 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1438 ms
+2026-06-25 17:33:26.571 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-25 17:33:26.776 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 374.7300 ms
+2026-06-25 17:33:26.782 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.3860 ms
+2026-06-25 17:33:47.889 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0465 ms
+2026-06-25 17:33:47.979 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-25 17:33:48.011 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 116.7812 ms
+2026-06-25 17:33:48.018 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.3832 ms
+2026-06-25 17:34:03.596 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0475 ms
+2026-06-25 17:34:03.624 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-25 17:34:03.658 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 58.9677 ms
+2026-06-25 17:34:03.663 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7858 ms
+2026-06-25 17:34:18.809 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0608 ms
+2026-06-25 17:34:18.846 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-25 17:34:18.870 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 55.6453 ms
+2026-06-25 17:34:18.874 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6406 ms
+2026-06-25 17:35:46.181 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0624 ms
+2026-06-25 17:35:46.187 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6424 ms
+2026-06-25 17:35:47.036 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6134 ms
+2026-06-25 17:35:47.302 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9891 ms
+2026-06-25 17:35:47.473 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.7158 ms
+2026-06-25 17:35:48.099 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9298 ms
+2026-06-25 17:35:48.302 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0378 ms
+2026-06-25 17:35:48.459 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8517 ms
+2026-06-25 17:35:59.361 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.2616 ms
+2026-06-25 17:35:59.366 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5800 ms
+2026-06-25 17:36:01.938 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 5.8721 ms
+2026-06-25 17:36:02.515 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7606 ms
+2026-06-25 17:36:02.834 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7669 ms
+2026-06-25 17:36:03.054 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5095 ms
+2026-06-25 17:36:03.219 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3071 ms
+2026-06-25 17:36:03.387 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8543 ms
+2026-06-25 17:36:03.566 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5684 ms
+2026-06-25 17:36:03.758 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7734 ms
+2026-06-25 17:36:03.912 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8385 ms
+2026-06-25 17:36:04.109 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9768 ms
+2026-06-25 17:36:04.244 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6721 ms
+2026-06-25 17:36:04.370 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.2248 ms
+2026-06-25 17:36:04.376 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7681 ms
+2026-06-25 17:36:04.585 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1284 ms
+2026-06-25 17:36:04.775 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3069 ms
+2026-06-25 17:36:04.976 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8968 ms
+2026-06-25 17:36:05.169 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6467 ms
+2026-06-25 17:36:05.383 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6896 ms
+2026-06-25 17:36:05.655 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.4100 ms
+2026-06-25 17:36:05.868 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7001 ms
+2026-06-25 17:36:06.089 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1613 ms
+2026-06-25 17:36:06.294 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6850 ms
+2026-06-25 17:36:06.527 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7553 ms
+2026-06-25 17:36:06.778 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6142 ms
+2026-06-25 17:36:07.009 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6556 ms
+2026-06-25 17:36:07.800 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2374 ms
+2026-06-25 17:36:08.051 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6520 ms
+2026-06-25 17:36:08.296 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7581 ms
+2026-06-25 17:36:08.534 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0332 ms
+2026-06-25 17:36:08.704 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6240 ms
+2026-06-25 17:36:08.891 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1428 ms
+2026-06-25 17:36:09.070 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5860 ms
+2026-06-25 17:36:09.328 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4564 ms
+2026-06-25 17:36:09.592 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0370 ms
+2026-06-25 17:36:09.597 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5174 ms
+2026-06-25 17:36:09.867 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6577 ms
+2026-06-25 17:36:10.016 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6935 ms
+2026-06-25 17:36:10.238 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4835 ms
+2026-06-25 17:36:10.449 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4817 ms
+2026-06-25 17:36:10.683 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4618 ms
+2026-06-25 17:36:10.919 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4492 ms
+2026-06-25 17:36:11.137 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5153 ms
+2026-06-25 17:36:11.343 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8437 ms
+2026-06-25 17:36:11.558 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5600 ms
+2026-06-25 17:36:11.795 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0816 ms
+2026-06-25 17:36:12.055 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7170 ms
+2026-06-25 17:36:12.252 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5768 ms
+2026-06-25 17:36:12.449 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5086 ms
+2026-06-25 17:36:12.674 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3725 ms
+2026-06-25 17:36:13.869 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4471 ms
+2026-06-25 17:36:14.503 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3180 ms
+2026-06-25 17:36:14.917 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0397 ms
+2026-06-25 17:36:14.920 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3274 ms
+2026-06-25 17:36:15.385 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3479 ms
+2026-06-25 17:36:15.628 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3733 ms
+2026-06-25 17:36:15.789 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4375 ms
+2026-06-25 17:36:16.107 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3046 ms
+2026-06-25 17:36:16.360 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3456 ms
+2026-06-25 17:36:20.740 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0628 ms
+2026-06-25 17:36:20.769 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1448 ms
+2026-06-25 17:36:21.846 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5319 ms
+2026-06-25 17:36:23.131 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4733 ms
+2026-06-25 17:37:04.828 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0294 ms
+2026-06-25 17:37:04.835 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.3327 ms
+2026-06-25 17:37:17.720 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0352 ms
+2026-06-25 17:37:17.724 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4402 ms
+2026-06-25 17:37:43.805 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0386 ms
+2026-06-25 17:37:43.809 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.9293 ms
+2026-06-25 17:37:44.265 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7106 ms
+2026-06-25 17:37:45.143 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0359 ms
+2026-06-25 17:37:45.147 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4109 ms
+2026-06-25 17:37:46.664 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5400 ms
+2026-06-25 17:37:52.750 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0824 ms
+2026-06-25 17:37:52.755 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6031 ms
+2026-06-25 17:37:54.240 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7539 ms
+2026-06-25 17:37:55.074 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0509 ms
+2026-06-25 17:37:55.080 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7640 ms
+2026-06-25 17:38:03.543 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0285 ms
+2026-06-25 17:38:03.546 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.4064 ms

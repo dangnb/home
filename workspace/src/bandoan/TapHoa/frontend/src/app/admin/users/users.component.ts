@@ -1,13 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
-    selector: 'app-users',
-    imports: [CommonModule, FormsModule],
-    templateUrl: './users.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrls: ['./users.component.scss']
+  selector: 'app-users',
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent],
+  templateUrl: './users.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
   users: any[] = [];
@@ -19,7 +21,12 @@ export class UsersComponent implements OnInit {
 
   showModal = false;
   isEditMode = false;
-  editingUser: any = { id: 0, username: '', fullName: '', email: '', roleId: 0, isActive: true };
+  editingUser: any = { id: 0, username: '', fullName: '', email: '', roleId: 0, isActive: true, phoneNumber: '', citizenId: '', address: '' };
+
+  // Pagination state
+  currentPage = 1;
+  pageSize = 5;
+  totalUsers = 0;
 
   // Mock data until Users API is fully connected
   mockUsers = [
@@ -29,7 +36,26 @@ export class UsersComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.users = [...this.mockUsers];
+    // Generate some extra mock users for pagination demo
+    const generated = Array.from({ length: 22 }, (_, i) => ({
+      id: i + 4, username: `user${i}`, fullName: `Nhân viên ${i + 4}`, email: `nv${i + 4}@taphoa.com`, roleId: 3, isActive: true
+    }));
+    this.mockUsers = [...this.mockUsers, ...generated];
+
+    this.totalUsers = this.mockUsers.length;
+    this.updatePaginatedUsers();
+  }
+
+  updatePaginatedUsers() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.users = this.mockUsers.slice(start, end);
+    this.totalUsers = this.mockUsers.length;
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.updatePaginatedUsers();
   }
 
   getRoleName(roleId: string) {
@@ -38,7 +64,7 @@ export class UsersComponent implements OnInit {
 
   openAddModal() {
     this.isEditMode = false;
-    this.editingUser = { id: 0, username: '', fullName: '', email: '', roleId: this.roles[0]?.id, isActive: true };
+    this.editingUser = { id: 0, username: '', fullName: '', email: '', roleId: this.roles[0]?.id, isActive: true, phoneNumber: '', citizenId: '', address: '' };
     this.showModal = true;
   }
 
@@ -54,18 +80,30 @@ export class UsersComponent implements OnInit {
 
   saveUser() {
     if (this.isEditMode) {
-      const index = this.users.findIndex(u => u.id === this.editingUser.id);
-      if (index > -1) this.users[index] = { ...this.editingUser };
+      const index = this.mockUsers.findIndex(u => u.id === this.editingUser.id);
+      if (index > -1) {
+        this.mockUsers[index] = { ...this.editingUser };
+      }
     } else {
-      this.editingUser.id = Math.max(0, ...this.users.map(u => u.id)) + 1;
-      this.users.push({ ...this.editingUser });
+      this.editingUser.id = Math.max(0, ...this.mockUsers.map(u => u.id)) + 1;
+      this.mockUsers.unshift({ ...this.editingUser }); // add to top
     }
+
+    this.updatePaginatedUsers();
     this.closeModal();
   }
 
   deleteUser(id: string) {
     if (confirm('Bạn có chắc chắn muốn khóa/xóa User này?')) {
-      this.users = this.users.filter(u => u.id !== id);
+      this.mockUsers = this.mockUsers.filter(u => u.id !== (id as any));
+
+      // Prevent current page from being empty if possible
+      const maxPage = Math.ceil(this.mockUsers.length / this.pageSize);
+      if (this.currentPage > maxPage && maxPage > 0) {
+        this.currentPage = maxPage;
+      }
+
+      this.updatePaginatedUsers();
     }
   }
 }

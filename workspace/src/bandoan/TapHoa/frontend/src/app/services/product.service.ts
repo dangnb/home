@@ -3,35 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { environment } from '../../environments/environment';
+import { BaseCrudService } from './base-crud.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ProductService {
-    private apiUrl = `${environment.apiUrl}/products`;
-
-    constructor(private http: HttpClient) { }
-
-    getProducts(): Observable<Product[]> {
-        return this.http.get<Product[]>(this.apiUrl);
+export class ProductService extends BaseCrudService<Product> {
+    constructor(protected override http: HttpClient) {
+        super(http, `${environment.apiUrl}/products`);
     }
 
-    getProduct(id: string): Observable<Product> {
-        return this.http.get<Product>(`${this.apiUrl}/${id}`);
-    }
+    // Compatbility mappings for existing code
+    getProducts() { return this.getAll(); }
+    getProduct(id: string) { return this.getById(id); }
+    createProduct(product: Product) { return this.create(product); }
+    updateProduct(id: string, product: Product) { return this.update(id, product); }
+    deleteProduct(id: string) { return this.delete(id); }
 
-    createProduct(product: Product): Observable<Product> {
-        return this.http.post<Product>(this.apiUrl, product);
-    }
-
-    updateProduct(id: string, product: Product): Observable<void> {
-        return this.http.put<void>(`${this.apiUrl}/${id}`, product);
-    }
-
-    deleteProduct(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
-
+    // Đặc thù của Product
     uploadImage(file: File): Observable<{ url: string }> {
         const formData = new FormData();
         formData.append('file', file);

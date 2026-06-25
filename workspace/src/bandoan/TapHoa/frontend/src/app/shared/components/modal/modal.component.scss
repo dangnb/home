@@ -1,0 +1,17 @@
+/* Custom styles optional, mainly handled by Bootstrap 5 */
+.modal-body {
+
+    // Tùy biến thanh cuộn cho đẹp
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 10px;
+    }
+}

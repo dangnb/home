@@ -1,34 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Category } from '../models/category';
 import { environment } from '../../environments/environment';
+import { BaseCrudService } from './base-crud.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CategoryService {
-    private apiUrl = `${environment.apiUrl}/categories`;
-
-    constructor(private http: HttpClient) { }
-
-    getCategories(): Observable<Category[]> {
-        return this.http.get<Category[]>(this.apiUrl);
+export class CategoryService extends BaseCrudService<Category> {
+    constructor(protected override http: HttpClient) {
+        super(http, `${environment.apiUrl}/categories`);
     }
 
-    getCategory(id: string): Observable<Category> {
-        return this.http.get<Category>(`${this.apiUrl}/${id}`);
+    // Các hàm đặc thù của Category (nếu sau này có thêm) sẽ viết thêm ở đây
+    // Ví dụ: updateStatus, v.v.. Các hàm get/create/update/delete đã có sẵn.
+
+    // Ghi đè lại tên hàm getCategories() cũ để tương thích component cũ đang dùng (hoặc có thể refactor cả thư mục component lên dùng this.categoryService.getAll())
+    getCategories() {
+        return this.getAll();
     }
 
-    createCategory(category: Category): Observable<Category> {
-        return this.http.post<Category>(this.apiUrl, category);
+    getCategory(id: string) {
+        return this.getById(id);
     }
 
-    updateCategory(id: string, category: Category): Observable<void> {
-        return this.http.put<void>(`${this.apiUrl}/${id}`, category);
+    createCategory(category: Category) {
+        return this.create(category);
     }
 
-    deleteCategory(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    updateCategory(id: string, category: Category) {
+        return this.update(id, category);
+    }
+
+    deleteCategory(id: string) {
+        return this.delete(id);
     }
 }
