@@ -538,3 +538,21 @@ Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "Cre
 2026-06-25 16:13:47.275 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.0239 ms
 2026-06-25 16:13:54.467 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0356 ms
 2026-06-25 16:13:54.473 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1606 ms
+2026-06-25 16:15:26.531 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1015 ms
+2026-06-25 16:15:26.543 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.2937 ms
+2026-06-25 16:17:13.023 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0462 ms
+2026-06-25 16:17:13.031 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.9838 ms
+2026-06-25 16:17:13.784 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7998 ms
+2026-06-25 16:17:13.989 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7161 ms
+2026-06-25 16:17:14.185 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.6225 ms
+2026-06-25 16:17:14.403 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.9052 ms
+2026-06-25 16:17:16.163 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.3334 ms
+2026-06-25 16:17:26.546 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0253 ms
+2026-06-25 16:17:26.580 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-25 16:17:26.732 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 183.9230 ms
+2026-06-25 16:17:26.778 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0281 ms
+2026-06-25 16:17:26.801 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 17.5270 ms
+2026-06-25 16:18:08.276 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0411 ms
+2026-06-25 16:18:08.287 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.2445 ms
+2026-06-25 16:18:08.300 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 304 in 0.4725 ms
+2026-06-25 16:18:08.338 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 304 in 38.3348 ms

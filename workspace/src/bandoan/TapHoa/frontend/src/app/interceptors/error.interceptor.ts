@@ -1,11 +1,11 @@
-import { HttpErrorResponse, HttpInterceptorFn, HttpClient } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { throwError, BehaviorSubject, Observable } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
 import { AuthResultDto } from '../models/auth-result';
-import { environment } from '../../environments/environment';
+import { AuthService } from '../services/auth.service';
 
 let isRefreshing = false;
 const refreshTokenSubject = new BehaviorSubject<string | null>(null);
@@ -13,7 +13,7 @@ const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     const router = inject(Router);
     const alertService = inject(AlertService);
-    const http = inject(HttpClient);
+    const authService = inject(AuthService);
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
@@ -34,7 +34,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
                     } catch (e) { }
                 }
 
-                return handle401Error(req, next, http, router, alertService, currentToken, currentRefreshToken);
+                return handle401Error(req, next, authService, router, alertService, currentToken, currentRefreshToken);
             }
 
             return throwError(() => error);
@@ -45,7 +45,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 function handle401Error(
     req: any,
     next: any,
-    http: HttpClient,
+    authService: AuthService,
     router: Router,
     alertService: AlertService,
     token: string,
@@ -60,10 +60,7 @@ function handle401Error(
         isRefreshing = true;
         refreshTokenSubject.next(null);
 
-        return http.post<AuthResultDto>(`${environment.apiUrl}/auth/refresh-token`, {
-            token,
-            refreshToken
-        }).pipe(
+        return authService.refreshToken(token, refreshToken).pipe(
             switchMap((newAuthResult: AuthResultDto) => {
                 isRefreshing = false;
 

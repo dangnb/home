@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product';
 
 @Component({
     selector: 'app-transaction-create',
@@ -12,26 +14,21 @@ import { AlertService } from '../../services/alert.service';
     templateUrl: './transaction-create.component.html',
     styleUrl: './transaction-create.component.scss'
 })
-export class TransactionCreateComponent {
+export class TransactionCreateComponent implements OnInit {
     private transactionService = inject(TransactionService);
     private alertService = inject(AlertService);
+    private productService = inject(ProductService);
     private router = inject(Router);
 
     referenceId: string = '';
     notes: string = '';
 
-    // For testing, hardcode available products
-    availableProducts = [
-        { id: "1", name: 'Cocacola 330ml', price: 10000 },
-        { id: "2", name: 'Rau cải thìa hữu cơ', price: 15000 },
-        { id: "3", name: 'Thịt bò thăn Úc', price: 350000 }
-    ];
-
+    availableProducts: Product[] = [];
     lines: (TransactionLineDto & { productName: string })[] = [];
 
     // For Autocomplete
     searchQuery: string = '';
-    filteredProducts: any[] = [];
+    filteredProducts: Product[] = [];
     showDropdown: boolean = false;
 
     selectedProductId: string | null = null;
@@ -41,6 +38,12 @@ export class TransactionCreateComponent {
 
     // Simulate clicking outside
     hideDropdownTimeout: any;
+
+    ngOnInit(): void {
+        this.productService.getProducts().subscribe((res) => {
+            this.availableProducts = res;
+        });
+    }
 
     onSearchChange() {
         if (!this.searchQuery) {
