@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuditService } from '../../services/audit.service';
 
@@ -44,6 +44,7 @@ import { AuditService } from '../../services/audit.service';
       </div>
     </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .page-header { margin-bottom: 20px; }
   `]

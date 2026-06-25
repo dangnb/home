@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-inventory',
     imports: [CommonModule],
     templateUrl: './inventory.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './inventory.component.scss'
 })
 export class InventoryComponent {

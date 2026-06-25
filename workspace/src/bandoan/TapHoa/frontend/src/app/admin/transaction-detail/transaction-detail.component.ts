@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TransactionService, TransactionDetailDto } from '../../services/transaction.service';
@@ -7,6 +7,7 @@ import { TransactionService, TransactionDetailDto } from '../../services/transac
     selector: 'app-transaction-detail',
     imports: [CommonModule, RouterModule],
     templateUrl: './transaction-detail.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transaction-detail.component.scss' // can re-use the specific styles
 })
 export class TransactionDetailComponent implements OnInit {

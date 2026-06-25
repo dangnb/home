@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
@@ -7,6 +7,7 @@ import { TransactionService } from '../../services/transaction.service';
     selector: 'app-transactions',
     imports: [CommonModule, RouterModule],
     templateUrl: './transactions.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transactions.component.scss'
 })
 export class TransactionsComponent implements OnInit {

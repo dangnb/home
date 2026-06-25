@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
     selector: 'app-products',
     imports: [CommonModule, FormsModule],
     templateUrl: './products.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {

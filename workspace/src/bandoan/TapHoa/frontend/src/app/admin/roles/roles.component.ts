@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
@@ -9,6 +9,7 @@ import { AppPermissionsList, AppPermissions } from '../../models/permission.enum
     selector: 'app-roles',
     imports: [FormsModule],
     templateUrl: './roles.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {

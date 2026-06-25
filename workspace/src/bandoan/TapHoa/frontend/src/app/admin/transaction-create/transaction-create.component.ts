@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -11,6 +11,7 @@ import { Product } from '../../models/product';
     selector: 'app-transaction-create',
     imports: [CommonModule, FormsModule, RouterModule],
     templateUrl: './transaction-create.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transaction-create.component.scss'
 })
 export class TransactionCreateComponent implements OnInit {
