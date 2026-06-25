@@ -12,13 +12,18 @@ public class User
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public Guid CompanyId { get; private set; }
+    
+    // Additional Profile Info
+    public string? PhoneNumber { get; private set; }
+    public string? CitizenId { get; private set; }
+    public string? Address { get; private set; }
 
     [JsonIgnore]
     public virtual ICollection<Role> Roles { get; private set; } = new List<Role>();
 
     private User() { } // For EF
 
-    public User(string username, string passwordHash, string fullName, string email, Guid companyId)
+    public User(string username, string passwordHash, string fullName, string email, Guid companyId, string? phoneNumber = null, string? citizenId = null, string? address = null)
     {
         Username = username;
         PasswordHash = passwordHash;
@@ -27,6 +32,9 @@ public class User
         IsActive = true;
         CreatedAt = DateTime.UtcNow;
         CompanyId = companyId;
+        PhoneNumber = phoneNumber;
+        CitizenId = citizenId;
+        Address = address;
     }
 
     public void AssignRole(Role role)

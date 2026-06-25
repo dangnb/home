@@ -556,3 +556,40 @@ Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "Cre
 2026-06-25 16:18:08.287 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.2445 ms
 2026-06-25 16:18:08.300 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 304 in 0.4725 ms
 2026-06-25 16:18:08.338 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 304 in 38.3348 ms
+2026-06-25 16:43:05.472 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0429 ms
+2026-06-25 16:43:05.606 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-25 16:43:05.767 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 290.7056 ms
+2026-06-25 16:43:05.837 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0207 ms
+2026-06-25 16:43:05.847 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.8898 ms
+2026-06-25 16:43:06.041 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 200 in 139.5713 ms
+2026-06-25 16:43:06.048 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 200 in 136.1803 ms
+2026-06-25 16:43:08.565 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.7890 ms
+2026-06-25 16:43:10.622 +07:00 [INF] HTTP GET /uploads/products/b0bc0372-434f-4f8f-903a-f73d486911b8.png responded 200 in 12.4397 ms
+2026-06-25 16:43:14.179 +07:00 [INF] HTTP OPTIONS /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 0.0221 ms
+2026-06-25 16:43:14.209 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-25 16:43:14.230 +07:00 [INF] HTTP PUT /api/v1/products/019efdec-ea6a-7449-8ada-dd93e2c367c1 responded 204 in 47.3171 ms
+2026-06-25 16:43:14.237 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0135 ms
+2026-06-25 16:43:14.241 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5716 ms
+2026-06-25 16:44:23.693 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0189 ms
+2026-06-25 16:44:23.699 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0906 ms
+2026-06-25 16:45:07.001 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1160 ms
+2026-06-25 16:45:07.008 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8219 ms
+2026-06-25 16:45:09.131 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0182 ms
+2026-06-25 16:45:09.143 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.4616 ms
+2026-06-25 16:45:29.023 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0210 ms
+2026-06-25 16:45:29.027 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5316 ms
+2026-06-25 16:45:55.568 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0153 ms
+2026-06-25 16:45:55.571 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5046 ms
+2026-06-25 16:45:55.649 +07:00 [INF] HTTP GET /uploads/products/a3fe0acc-99b1-4583-8d12-69d14abd8780.png responded 304 in 0.2046 ms
+2026-06-25 16:45:55.649 +07:00 [INF] HTTP GET /uploads/products/c31d9190-bf5f-411d-9675-7e20d8f434ea.png responded 304 in 0.1116 ms
+2026-06-25 16:45:56.695 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.4779 ms
+2026-06-25 16:46:36.741 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0138 ms
+2026-06-25 16:46:36.746 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.3788 ms
+2026-06-25 16:46:39.445 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0053 ms
+2026-06-25 16:46:40.130 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0131 ms
+2026-06-25 16:46:40.166 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7568 ms
+2026-06-25 16:46:56.162 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0184 ms
+2026-06-25 16:46:56.198 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-25 16:46:56.264 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 99.5025 ms
+2026-06-25 16:46:56.283 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0193 ms
+2026-06-25 16:46:56.289 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.8535 ms
