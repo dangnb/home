@@ -5,7 +5,6 @@ import { TransactionService, TransactionDetailDto } from '../../services/transac
 
 @Component({
     selector: 'app-transaction-detail',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './transaction-detail.component.html',
     styleUrl: './transaction-detail.component.scss' // can re-use the specific styles

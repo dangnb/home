@@ -5,7 +5,6 @@ import { TransactionService } from '../../services/transaction.service';
 
 @Component({
     selector: 'app-transactions',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './transactions.component.html',
     styleUrl: './transactions.component.scss'

@@ -6,11 +6,10 @@ import { Role } from '../../models/role';
 import { AppPermissionsList, AppPermissions } from '../../models/permission.enum';
 
 @Component({
-  selector: 'app-roles',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+    selector: 'app-roles',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
   roles: Role[] = [];

@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AuditService } from '../../services/audit.service';
 
 @Component({
-   selector: 'app-audits',
-   standalone: true,
-   imports: [CommonModule],
-   template: `
+    selector: 'app-audits',
+    imports: [CommonModule],
+    template: `
     <div class="page-header">
         <h2>Nhật ký hoạt động (Audit Logs)</h2>
     </div>
@@ -41,7 +40,7 @@ import { AuditService } from '../../services/audit.service';
        </div>
     </div>
   `,
-   styles: [`
+    styles: [`
     .page-header { margin-bottom: 20px; }
   `]
 })

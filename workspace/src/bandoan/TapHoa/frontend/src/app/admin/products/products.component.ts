@@ -6,11 +6,10 @@ import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-products',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+    selector: 'app-products',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './products.component.html',
+    styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];

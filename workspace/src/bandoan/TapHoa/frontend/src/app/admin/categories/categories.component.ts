@@ -6,7 +6,6 @@ import { CategoryService } from '../../services/category.service';
 
 @Component({
     selector: 'app-categories',
-    standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './categories.component.html',
     styleUrl: './categories.component.scss'

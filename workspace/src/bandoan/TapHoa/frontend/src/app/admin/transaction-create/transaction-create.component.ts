@@ -9,7 +9,6 @@ import { Product } from '../../models/product';
 
 @Component({
     selector: 'app-transaction-create',
-    standalone: true,
     imports: [CommonModule, FormsModule, RouterModule],
     templateUrl: './transaction-create.component.html',
     styleUrl: './transaction-create.component.scss'
