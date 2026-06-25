@@ -1,22 +1,24 @@
-<div class="container-fluid py-5">
+<div class="container-fluid py-3">
   <!-- Header & Search Bar -->
-  <div class="row align-items-center mb-5 g-3">
+  <div class="row align-items-center mb-3 g-3">
     <div class="col-12 col-md-4">
-      <h2 class="fw-bold text-dark fs-2 mb-0">Quản lý Danh mục</h2>
+      <h2 class="fw-bold text-dark fs-3 mb-1">Quản lý Danh mục</h2>
+      <span class="text-muted fw-semibold fs-7">Cấu trúc phân tầng sản phẩm</span>
     </div>
-    <div class="col-12 col-md-8 d-flex justify-content-md-end gap-3">
+    <div class="col-12 col-md-8 d-flex justify-content-md-end align-items-center gap-3">
       <!-- Search Input -->
-      <div class="position-relative" style="max-width: 300px; width: 100%;">
-        <span class="position-absolute top-50 translate-middle-y ms-3 fs-5 text-muted">🔍</span>
-        <input type="text" class="form-control form-control-solid rounded-pill ps-10 border-0 shadow-sm"
-          placeholder="Tìm tên, ID, mô tả..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+      <div class="position-relative" style="max-width: 250px; width: 100%;">
+        <span class="position-absolute top-50 translate-middle-y ms-3 fs-7 text-muted">🔍</span>
+        <input type="text"
+          class="form-control form-control-solid form-control-sm rounded-pill ps-9 border-0 shadow-sm fs-7"
+          placeholder="Tìm tên, ID..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
       </div>
 
       <!-- Add Button -->
       <button
-        class="btn btn-primary px-4 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2 flex-shrink-0"
+        class="btn btn-primary btn-sm px-3 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2 flex-shrink-0"
         (click)="openAddModal()">
-        <span>✨</span> Thêm danh mục mới
+        <span>✨</span> Thêm mới
       </button>
     </div>
   </div>
@@ -27,9 +29,9 @@
     <div class="card-body p-0">
 
       <!-- List Header -->
-      <div class="d-flex align-items-center justify-content-between p-4 border-bottom bg-light">
-        <h4 class="mb-0 fw-bold text-muted text-uppercase fs-7">Cấu trúc Danh mục</h4>
-        <h4 class="mb-0 fw-bold text-muted text-uppercase fs-7 text-end" style="width: 150px;">Thao tác</h4>
+      <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom bg-light">
+        <span class="mb-0 fw-bolder text-muted text-uppercase fs-7">Cấu trúc Danh mục</span>
+        <span class="mb-0 fw-bolder text-muted text-uppercase fs-7 text-end pe-3" style="width: 120px;">Thao tác</span>
       </div>
 
       <!-- Recursive Template for Tree Rows -->
@@ -37,39 +39,39 @@
         @for (node of nodes; track node.id) {
         <div class="tree-row-wrapper position-relative transition-base">
           <!-- The Row -->
-          <div class="tree-row d-flex align-items-center justify-content-between p-3 border-bottom hover-bg-light"
-            [style.padding-left]="(1.5 + node.level * 2.5) + 'rem !important'">
+          <div class="tree-row d-flex align-items-center justify-content-between px-3 py-2 border-bottom hover-bg-light"
+            [style.padding-left]="(1.5 + node.level * 2) + 'rem !important'">
 
             <!-- Tree guide line using inline CSS for exact alignment based on level -->
-            <div class="tree-line" *ngIf="node.level > 0" [style.left.rem]="(1.5 + (node.level - 1) * 2.5) + 0.5"></div>
+            <div class="tree-line" *ngIf="node.level > 0" [style.left.rem]="(1.5 + (node.level - 1) * 2) + 0.4"></div>
 
-            <div class="d-flex align-items-center gap-3 w-100">
+            <div class="d-flex align-items-center gap-2 w-100">
 
               <!-- Expand/Collapse Button -->
               <button class="btn btn-icon btn-sm btn-active-light-primary rounded-circle"
-                style="width: 28px; height: 28px;"
+                style="width: 24px; height: 24px;"
                 [style.visibility]="node.children.length === 0 ? 'hidden' : 'visible'" (click)="toggleExpand(node)">
-                <span class="fs-6">{{ node.expanded ? '▼' : '▶' }}</span>
+                <span class="fs-8 text-secondary">{{ node.expanded ? '▼' : '▶' }}</span>
               </button>
 
               <!-- Node Icon -->
               <div
                 class="d-flex align-items-center justify-content-center bg-light-primary rounded-3 text-primary shadow-sm"
-                style="width: 40px; height: 40px; font-size: 1.25rem;">
+                style="width: 32px; height: 32px; font-size: 1rem;">
                 {{ node.icon || '📁' }}
               </div>
 
               <!-- Node Info -->
-              <div class="d-flex flex-column">
+              <div class="d-flex flex-column ms-1">
                 <div class="d-flex align-items-center gap-2">
-                  <span class="fw-bolder text-dark fs-5">{{ node.name }}</span>
+                  <span class="fw-bolder text-dark fs-6">{{ node.name }}</span>
                   @if (node.children.length > 0) {
                   <span class="badge bg-light-info text-info rounded-pill px-2 py-1 fs-9">{{ node.children.length }}
                     con</span>
                   }
                 </div>
-                <span class="text-muted fs-7 text-truncate" style="max-width: 400px;">
-                  <span class="fw-semibold text-secondary me-1">ID: #{{ node.id.substring(0, 5) }}</span>
+                <span class="text-muted text-truncate fs-8" style="max-width: 300px;">
+                  <span class="fw-semibold text-secondary me-1">#{{ node.id.substring(0, 5) }}</span>
                   {{ node.description || 'Chưa có mô tả' }}
                 </span>
               </div>
@@ -77,17 +79,17 @@
 
             <!-- Actions -->
             <div class="d-flex align-items-center gap-2" style="min-width: max-content;">
-              <button class="btn btn-sm btn-light-primary fw-bold px-3 shadow-sm rounded-pill"
+              <button class="btn btn-sm btn-light-primary fw-bold px-2 py-1 fs-8 shadow-sm rounded-pill"
                 (click)="openAddModal(node.id)">
-                + Thêm con
+                + Thêm
               </button>
               <button class="btn btn-icon btn-light-warning btn-sm rounded-circle shadow-sm"
-                (click)="openEditModal(node)" title="Chỉnh sửa">
-                ✏️
+                style="width:26px; height:26px;" (click)="openEditModal(node)" title="Chỉnh sửa">
+                <span class="fs-8">✏️</span>
               </button>
               <button class="btn btn-icon btn-light-danger btn-sm rounded-circle shadow-sm"
-                (click)="deleteCategory(node.id)" title="Xóa">
-                🗑️
+                style="width:26px; height:26px;" (click)="deleteCategory(node.id)" title="Xóa">
+                <span class="fs-8">🗑️</span>
               </button>
             </div>
           </div>
