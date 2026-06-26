@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using TapHoa.Domain.Interfaces;
 
@@ -61,6 +62,28 @@ public class UnitOfWork : IUnitOfWork
                 _currentTransaction = null;
             }
         }
+    }
+
+    public async Task<TResponse> ExecuteInTransactionAsync<TResponse>(Func<Task<TResponse>> action)
+    {
+        // Tích hợp Execution Strategy dành riêng cho tính năng RetryOnFailure của MySQL/EF Core
+        var strategy = _context.Database.CreateExecutionStrategy();
+        return await strategy.ExecuteAsync(async () =>
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var response = await action();
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return response;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        });
     }
 
     public void Dispose()

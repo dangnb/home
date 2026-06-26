@@ -6,4 +6,5 @@ public interface IUnitOfWork : IDisposable
     Task BeginTransactionAsync();
     Task CommitTransactionAsync();
     Task RollbackTransactionAsync();
+    Task<TResponse> ExecuteInTransactionAsync<TResponse>(Func<Task<TResponse>> action);
 }

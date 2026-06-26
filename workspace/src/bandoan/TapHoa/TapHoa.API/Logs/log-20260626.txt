@@ -1688,3 +1688,290 @@ System.ArgumentException: Connection string keyword 'server' is not supported. F
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
    at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:45:39.800 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.6151 ms
+2026-06-26 15:45:39.884 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 15:45:39.918 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 15:45:40.692 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:45:40.694 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:45:40.695 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:45:40.788 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-26 15:45:41.606 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-26 15:45:42.122 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-06-26 15:45:42.133 +07:00 [ERR] HTTP POST /api/v1/auth/login responded 500 in 2276.0125 ms
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Repositories.UserRepository.GetByUsernameAsync(String username, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Repositories\IdentityRepositories.cs:line 15
+   at TapHoa.Application.Auth.Commands.LoginCommandHandler.Handle(LoginCommand request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 34
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 42
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuthEndpoints.<>c.<<MapAuthEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuthEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:45:42.186 +07:00 [ERR] An exception occurred: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Repositories.UserRepository.GetByUsernameAsync(String username, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Repositories\IdentityRepositories.cs:line 15
+   at TapHoa.Application.Auth.Commands.LoginCommandHandler.Handle(LoginCommand request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 34
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 42
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuthEndpoints.<>c.<<MapAuthEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuthEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:45:47.803 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 27.3731 ms
+2026-06-26 15:45:48.267 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-26 15:45:48.276 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-06-26 15:45:48.286 +07:00 [ERR] HTTP POST /api/v1/auth/login responded 500 in 299.1600 ms
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Repositories.UserRepository.GetByUsernameAsync(String username, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Repositories\IdentityRepositories.cs:line 15
+   at TapHoa.Application.Auth.Commands.LoginCommandHandler.Handle(LoginCommand request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 34
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 42
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuthEndpoints.<>c.<<MapAuthEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuthEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:45:48.297 +07:00 [ERR] An exception occurred: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+System.InvalidOperationException: The configured execution strategy 'MySQLRetryingExecutionStrategy' does not support user-initiated transactions. Use the execution strategy returned by 'DbContext.Database.CreateExecutionStrategy()' to execute all the operations in the transaction as a retriable unit.
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.OnFirstExecution()
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Repositories.UserRepository.GetByUsernameAsync(String username, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Repositories\IdentityRepositories.cs:line 15
+   at TapHoa.Application.Auth.Commands.LoginCommandHandler.Handle(LoginCommand request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Auth\Commands\LoginCommandHandler.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 34
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 42
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuthEndpoints.<>c.<<MapAuthEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuthEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:54:23.196 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.5666 ms
+2026-06-26 15:54:23.687 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 15:54:23.729 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 15:54:25.780 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:54:25.782 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:54:25.783 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:54:25.903 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-26 15:54:27.265 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-26 15:54:29.089 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 5833.0793 ms
+2026-06-26 15:54:29.735 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 1.4641 ms
+2026-06-26 15:54:29.751 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0675 ms
+2026-06-26 15:54:30.231 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 480.0022 ms
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:54:30.284 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:54:30.317 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 294.0521 ms
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:54:30.321 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:54:41.399 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0897 ms
+2026-06-26 15:54:41.401 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0424 ms
+2026-06-26 15:54:41.424 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 7.5941 ms
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:54:41.424 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 15.8321 ms
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:54:41.442 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000001001 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee4542f96-5201-4441-b0cb-09bea95e65a4(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:54:41.471 +07:00 [ERR] An exception occurred: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+System.Data.DataException: Error parsing column 0 (Id=01950000-0000-7000-8000-000000002002 - Guid)
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializee99ff73f-7412-49d3-91bd-e3b94a66440b(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
