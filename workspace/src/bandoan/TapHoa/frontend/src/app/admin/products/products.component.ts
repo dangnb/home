@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
@@ -6,12 +6,14 @@ import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { AlertService } from '../../services/alert.service';
+import { CategoryService } from '../../services/category.service';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-products',
   imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './products.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.Default,
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
@@ -32,6 +34,16 @@ export class ProductsComponent implements OnInit {
   isEditMode = false;
   editingProduct: Product = this.getEmptyProduct();
 
+  // Categories Tree state
+  categories: any[] = [];
+  flatCategories: { id: string, name: string, pureName: string }[] = [];
+
+  // History State
+  showHistoryModal = false;
+  productHistory: any[] = [];
+  historyProduct: Product | null = null;
+  isHistoryLoading = false;
+
   onPageChange(page: number) {
     this.currentPage = page;
     this.loadProducts();
@@ -48,10 +60,54 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  constructor(private productService: ProductService, private alertService: AlertService) { }
+  constructor(
+    private productService: ProductService,
+    private alertService: AlertService,
+    private categoryService: CategoryService,
+    private transactionService: TransactionService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.loadProducts();
+    this.loadCategoriesTree();
+  }
+
+  loadCategoriesTree() {
+    this.categoryService.getCategories().subscribe(data => {
+      this.categories = data;
+      const tree = this.buildTree(data);
+      this.flatCategories = this.flattenTree(tree);
+    });
+  }
+
+  private buildTree(categories: any[], parentId?: string, level: number = 0): any[] {
+    return categories
+      .filter(c => (c.parentId || null) === (parentId || null))
+      .map(c => ({
+        ...c,
+        level: level,
+        children: this.buildTree(categories, c.id, level + 1)
+      }));
+  }
+
+  private flattenTree(nodes: any[], prefix = ''): { id: string, name: string, pureName: string }[] {
+    const flatList: { id: string, name: string, pureName: string }[] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const isLast = i === nodes.length - 1;
+      const connector = prefix === '' ? '' : (isLast ? '└─ ' : '├─ ');
+
+      const displayName = prefix.replace(/ /g, '\u00A0') + connector + node.name;
+
+      flatList.push({ id: node.id, name: displayName, pureName: node.name });
+
+      if (node.children && node.children.length > 0) {
+        const newPrefix = prefix === '' ? '   ' : (isLast ? prefix + '   ' : prefix + '│  ');
+        flatList.push(...this.flattenTree(node.children, newPrefix));
+      }
+    }
+    return flatList;
   }
 
   loadProducts() {
@@ -85,6 +141,30 @@ export class ProductsComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+  }
+
+  openHistoryModal(product: Product) {
+    this.historyProduct = product;
+    this.showHistoryModal = true;
+    this.isHistoryLoading = true;
+    this.transactionService.getProductTransactionHistory(product.id).subscribe({
+      next: (res) => {
+        this.productHistory = res;
+        this.isHistoryLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error(err);
+        this.isHistoryLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  closeHistoryModal() {
+    this.showHistoryModal = false;
+    this.productHistory = [];
+    this.historyProduct = null;
   }
 
   saveProduct() {

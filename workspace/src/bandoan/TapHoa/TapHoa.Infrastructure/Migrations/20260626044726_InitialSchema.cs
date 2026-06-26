@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TapHoa.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -141,6 +141,31 @@ namespace TapHoa.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WarehouseLocations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Zone = table.Column<string>(type: "TEXT", nullable: false),
+                    Aisle = table.Column<string>(type: "TEXT", nullable: false),
+                    Rack = table.Column<string>(type: "TEXT", nullable: false),
+                    Bin = table.Column<string>(type: "TEXT", nullable: false),
+                    Barcode = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WarehouseLocations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InventoryTransactionLines",
                 columns: table => new
                 {
@@ -168,22 +193,28 @@ namespace TapHoa.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockLevels",
+                name: "ProductBatches",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    StoreId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    QuantityOnHand = table.Column<int>(type: "INTEGER", nullable: false),
-                    AvailableQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReorderPoint = table.Column<int>(type: "INTEGER", nullable: false),
-                    MovingAverageCost = table.Column<decimal>(type: "TEXT", nullable: false),
-                    LastRestockedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    BatchNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    MfgDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StockLevels", x => new { x.ProductId, x.StoreId });
+                    table.PrimaryKey("PK_ProductBatches", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StockLevels_Products_ProductId",
+                        name: "FK_ProductBatches_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -214,14 +245,52 @@ namespace TapHoa.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "StockLevels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    LocationId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    BatchId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    StoreId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    QuantityOnHand = table.Column<int>(type: "INTEGER", nullable: false),
+                    AvailableQuantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReservedQuantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReorderPoint = table.Column<int>(type: "INTEGER", nullable: false),
+                    MovingAverageCost = table.Column<decimal>(type: "TEXT", nullable: false),
+                    LastRestockedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockLevels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StockLevels_ProductBatches_BatchId",
+                        column: x => x.BatchId,
+                        principalTable: "ProductBatches",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StockLevels_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StockLevels_WarehouseLocations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "WarehouseLocations",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CompanyId", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "Description", "Icon", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "ParentCategoryId", "ParentId" },
                 values: new object[,]
                 {
-                    { new Guid("019efe53-5f2b-756f-8ddc-1711ad07eca0"), new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Thịt tươi sống và hải sản", "🥩", false, null, null, "Thịt cá", null, null },
-                    { new Guid("019efe53-5f2b-7704-ba83-b5f736da0193"), new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Rau củ sạch nông trại", "🥬", false, null, null, "Rau củ", null, null },
-                    { new Guid("019efe53-5f2b-7a6b-a662-b2eba5ff371b"), new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Hoa quả tươi các loại", "🍎", false, null, null, "Trái cây", null, null }
+                    { new Guid("01950000-0000-7000-8000-000000001001"), new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Hoa quả tươi các loại", "🍎", false, null, null, "Trái cây", null, null },
+                    { new Guid("01950000-0000-7000-8000-000000001002"), new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Rau củ sạch nông trại", "🥬", false, null, null, "Rau củ", null, null },
+                    { new Guid("01950000-0000-7000-8000-000000001003"), new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, "Thịt tươi sống và hải sản", "🥩", false, null, null, "Thịt cá", null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -229,9 +298,9 @@ namespace TapHoa.Infrastructure.Migrations
                 columns: new[] { "Id", "AdditionalImages", "Category", "CompanyId", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "MainImageUrl", "ModifiedBy", "ModifiedDate", "Name", "Price", "Status", "StockQuantity", "Unit" },
                 values: new object[,]
                 {
-                    { new Guid("019efe53-5f2b-7126-a90e-fcd48205a9fd"), "[]", "Thịt cá", new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Thịt bò thăn Úc tươi sạch", 350000m, "Sắp hết", 5, "kg" },
-                    { new Guid("019efe53-5f2b-7895-a0de-1e9c3a2ebfab"), "[]", "Rau củ", new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Rau cải thìa hữu cơ", 15000m, "Đang bán", 30, "bó" },
-                    { new Guid("019efe53-5f2b-7c9e-89bb-2937d61034b3"), "[]", "Trái cây", new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Táo New Zealand size to", 75000m, "Đang bán", 150, "kg" }
+                    { new Guid("01950000-0000-7000-8000-000000002001"), "[]", "Trái cây", new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Táo New Zealand size to", 75000m, "Đang bán", 150, "kg" },
+                    { new Guid("01950000-0000-7000-8000-000000002002"), "[]", "Rau củ", new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Rau cải thìa hữu cơ", 15000m, "Đang bán", 30, "bó" },
+                    { new Guid("01950000-0000-7000-8000-000000002003"), "[]", "Thịt cá", new Guid("01950000-0000-7000-8000-000000000000"), null, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, null, false, null, null, null, "Thịt bò thăn Úc tươi sạch", 350000m, "Sắp hết", 5, "kg" }
                 });
 
             migrationBuilder.InsertData(
@@ -239,20 +308,20 @@ namespace TapHoa.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "Name", "Permissions" },
                 values: new object[,]
                 {
-                    { new Guid("019efe53-5dca-75c7-865c-5f89f67066e5"), "System Administrator", "Admin", -1L },
-                    { new Guid("019efe53-5dca-766f-ac37-ec499c709259"), "Store Cashier", "Cashier", 17825792L },
-                    { new Guid("019efe53-5dca-7ce5-8e4e-41329cc2d729"), "Store Manager", "Manager", 24117249L }
+                    { new Guid("01950000-0000-7000-8000-000000000001"), "System Administrator", "Admin", -1L },
+                    { new Guid("01950000-0000-7000-8000-000000000002"), "Store Manager", "Manager", 24117249L },
+                    { new Guid("01950000-0000-7000-8000-000000000003"), "Store Cashier", "Cashier", 17825792L }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Address", "CitizenId", "CompanyId", "CreatedAt", "Email", "FullName", "IsActive", "PasswordHash", "PhoneNumber", "Username" },
-                values: new object[] { new Guid("019efe53-5dca-7456-b106-fbd025a036ea"), null, null, new Guid("019efe53-5dca-72d8-b3d0-0891284f5fbf"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin@taphoa.com", "System Admin", true, "$2a$11$rRmpF39d9FlLVGQyFIn/mutCHhGs9uW/nTWiN9ZyYPh2OJ7/3Pz5.", null, "admin" });
+                values: new object[] { new Guid("01950000-0000-7000-8000-000000000004"), null, null, new Guid("01950000-0000-7000-8000-000000000000"), new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin@taphoa.com", "System Admin", true, "$2a$11$8rpnI.9n7caa2N3lLrkVeOyfSDUH1LlRGHt4.64Z6c0uGaFs8q0xy", null, "admin" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RolesId", "UsersId" },
-                values: new object[] { new Guid("019efe53-5dca-75c7-865c-5f89f67066e5"), new Guid("019efe53-5dca-7456-b106-fbd025a036ea") });
+                values: new object[] { new Guid("01950000-0000-7000-8000-000000000001"), new Guid("01950000-0000-7000-8000-000000000004") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_ParentCategoryId",
@@ -268,6 +337,26 @@ namespace TapHoa.Infrastructure.Migrations
                 name: "IX_InventoryTransactionLines_TransactionId",
                 table: "InventoryTransactionLines",
                 column: "TransactionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductBatches_ProductId",
+                table: "ProductBatches",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockLevels_BatchId",
+                table: "StockLevels",
+                column: "BatchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockLevels_LocationId",
+                table: "StockLevels",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StockLevels_ProductId_LocationId_BatchId",
+                table: "StockLevels",
+                columns: new[] { "ProductId", "LocationId", "BatchId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_UsersId",
@@ -297,13 +386,19 @@ namespace TapHoa.Infrastructure.Migrations
                 name: "InventoryTransactions");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductBatches");
+
+            migrationBuilder.DropTable(
+                name: "WarehouseLocations");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

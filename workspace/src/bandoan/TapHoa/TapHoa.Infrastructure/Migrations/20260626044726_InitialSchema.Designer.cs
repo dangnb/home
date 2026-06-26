@@ -11,8 +11,8 @@ using TapHoa.Infrastructure.Data;
 namespace TapHoa.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260626035005_AddWmsSchema")]
-    partial class AddWmsSchema
+    [Migration("20260626044726_InitialSchema")]
+    partial class InitialSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -525,7 +525,6 @@ namespace TapHoa.Infrastructure.Migrations
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("BLOB");
 
                     b.Property<Guid>("StoreId")

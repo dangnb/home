@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-transactions',
@@ -12,6 +13,7 @@ import { TransactionService } from '../../services/transaction.service';
 })
 export class TransactionsComponent implements OnInit {
     private transactionService = inject(TransactionService);
+    private alertService = inject(AlertService);
 
     transactions: any[] = [];
     paginatedTransactions: any[] = [];
@@ -109,5 +111,25 @@ export class TransactionsComponent implements OnInit {
         if (status === 0) return 'Đã lưu nháp';
         if (status === 1) return 'Đang xử lý';
         return 'Hoàn thành';
+    }
+
+    approveTransaction(id: string, type: number = 1) {
+        const title = type === 1 ? 'Duyệt phiếu nhập' : 'Duyệt phiếu xuất';
+        const msg = type === 1 ? 'số lượng hàng hóa sẽ chính thức được cộng vào kho.' : 'số lượng hàng hóa sẽ chính thức bị trừ khỏi kho.';
+
+        this.alertService.confirm(title, `Bằng cách duyệt phiếu này, ${msg} Bạn có chắc chắn số liệu đã chính xác?`, 'Có, duyệt ngay', 'Hủy').then((result: any) => {
+            if (result.isConfirmed) {
+                this.transactionService.approveTransaction(id).subscribe({
+                    next: (res: any) => {
+                        this.alertService.success('Thành công', 'Đã duyệt phiếu và cập nhật tồn kho thành công!');
+                        this.fetchTransactions(); // Reload data
+                    },
+                    error: (err: any) => {
+                        console.error(err);
+                        this.alertService.error('Lỗi', 'Không thể duyệt phiếu: ' + (err.error?.message || err.message));
+                    }
+                });
+            }
+        });
     }
 }

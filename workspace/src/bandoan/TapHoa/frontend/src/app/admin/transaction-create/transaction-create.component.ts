@@ -131,6 +131,8 @@ export class TransactionCreateComponent implements OnInit {
         return this.lines.reduce((acc, curr) => acc + (curr.quantity * curr.unitCost), 0);
     }
 
+    transactionType: 'inbound' | 'outbound' = 'inbound';
+
     submitTransaction() {
         if (this.lines.length === 0) {
             this.alertService.warning('Cảnh báo', 'Phải có ít nhất 1 mặt hàng trong phiếu!'); return;
@@ -150,9 +152,14 @@ export class TransactionCreateComponent implements OnInit {
             }))
         };
 
-        this.transactionService.createInboundTransaction(req).subscribe({
+        const reqObservable = this.transactionType === 'inbound'
+            ? this.transactionService.createInboundTransaction(req)
+            : this.transactionService.createOutboundTransaction(req);
+
+        reqObservable.subscribe({
             next: (res) => {
-                this.alertService.success('Thành công', 'Tạo phiếu nhập nháp thành công!');
+                const actionName = this.transactionType === 'inbound' ? 'nhập' : 'xuất';
+                this.alertService.success('Thành công', `Tạo phiếu ${actionName} nháp thành công!`);
                 this.router.navigate(['/admin/transactions']);
             },
             error: (err) => {

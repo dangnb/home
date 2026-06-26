@@ -16,7 +16,7 @@ export interface CategoryNode extends Category {
     selector: 'app-categories',
     imports: [CommonModule, FormsModule, ModalComponent],
     templateUrl: './categories.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
@@ -141,5 +141,30 @@ export class CategoriesComponent implements OnInit {
             icon: '📁',
             parentId: ''
         };
+    }
+
+    get flattenedCategoriesForSelect() {
+        const flatList: { id: string, name: string }[] = [];
+        const flatten = (nodes: CategoryNode[], prefix = '') => {
+            for (let i = 0; i < nodes.length; i++) {
+                const node = nodes[i];
+                if (this.isEditMode && node.id === this.editingCategory.id) continue;
+
+                const isLast = i === nodes.length - 1;
+                const connector = prefix === '' ? '' : (isLast ? '└─ ' : '├─ ');
+
+                // Use non-breaking spaces for HTML option preserve formatting
+                const displayName = prefix.replace(/ /g, '\u00A0') + connector + node.name;
+
+                flatList.push({ id: node.id, name: displayName });
+
+                if (node.children && node.children.length > 0) {
+                    const newPrefix = prefix === '' ? '   ' : (isLast ? prefix + '   ' : prefix + '│  ');
+                    flatten(node.children, newPrefix);
+                }
+            }
+        };
+        flatten(this.categoryNodes);
+        return flatList;
     }
 }

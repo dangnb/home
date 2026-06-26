@@ -10,7 +10,7 @@
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
       </button>
-      <h3 class="mb-0 fw-bolder text-primary fs-4" style="color: #0b5ed7 !important;">Tạo Mới Phiếu Nhập Kho</h3>
+      <h3 class="mb-0 fw-bolder text-primary fs-4" style="color: #0b5ed7 !important;">Tạo Phiếu Kho (Nhập/Xuất)</h3>
     </div>
     <div class="d-flex align-items-center gap-3">
       <button class="btn btn-icon btn-sm position-relative shadow-none border-0" style="background: none;">
@@ -49,16 +49,28 @@
       </div>
 
       <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
-        <div class="col-md-6">
+        <div class="col-md-5">
           <label class="form-label text-muted fw-bold small text-uppercase">Mã tham chiếu (Đơn hàng/PO) <span
               class="text-danger">*</span></label>
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
             placeholder="Ví dụ: PO-2026-623">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">Ghi chú</label>
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="notes"
             placeholder="Ghi chú thêm về lô hàng">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-muted fw-bold small text-uppercase">Loại nghiệp vụ <span
+              class="text-danger">*</span></label>
+          <div class="d-flex bg-white border rounded-3 overflow-hidden shadow-sm">
+            <input type="radio" class="btn-check" name="trType" id="typeIn" autocomplete="off"
+              [(ngModel)]="transactionType" value="inbound">
+            <label class="btn btn-outline-primary border-0 w-50 py-2 fw-medium rounded-0" for="typeIn">Nhập</label>
+            <input type="radio" class="btn-check" name="trType" id="typeOut" autocomplete="off"
+              [(ngModel)]="transactionType" value="outbound">
+            <label class="btn btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">Xuất</label>
+          </div>
         </div>
       </div>
 
@@ -234,17 +246,26 @@
         Tổng cộng: <span class="fw-bolder fs-3 ms-3 text-danger" style="letter-spacing: 0.5px;">đ{{ totalAmount |
           number:'1.0-0' }}</span>
       </h4>
-      <button
-        class="btn btn-primary px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
+      <button class="btn px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
         [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()"
-        style="background-color: #0d47a1; border-color: #0d47a1;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
+        [ngClass]="transactionType === 'inbound' ? 'btn-primary' : 'btn-danger'"
+        [style.backgroundColor]="transactionType === 'inbound' ? '#0d47a1' : '#b91c1c'"
+        [style.borderColor]="transactionType === 'inbound' ? '#0d47a1' : '#b91c1c'">
+        <svg *ngIf="transactionType === 'inbound'" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
           <polyline points="17 21 17 13 7 13 7 21"></polyline>
           <polyline points="7 3 7 8 15 8"></polyline>
         </svg>
-        {{ isSubmitting ? 'ĐANG LƯU...' : 'LƯU PHIẾU KHO' }}
+        <svg *ngIf="transactionType === 'outbound'" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 16 12 12 8 16"></polyline>
+          <line x1="12" y1="12" x2="12" y2="21"></line>
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+          <polyline points="16 16 12 12 8 16"></polyline>
+        </svg>
+        {{ isSubmitting ? 'ĐANG LƯU...' : (transactionType === 'inbound' ? 'LƯU PHIẾU TẠM NHẬP' : 'LƯU PHIẾU TẠM XUẤT')
+        }}
       </button>
     </div>
   </div>

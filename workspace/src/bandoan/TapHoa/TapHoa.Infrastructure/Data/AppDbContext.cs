@@ -77,8 +77,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
 
         modelBuilder.Entity<StockLevel>()
             .Property(x => x.RowVersion)
-            .IsRowVersion()
-            .IsConcurrencyToken();
+            .IsConcurrencyToken()
+            .ValueGeneratedNever();
 
         var companyId = Guid.Parse("01950000-0000-7000-8000-000000000000");
         var adminRoleId = Guid.Parse("01950000-0000-7000-8000-000000000001");

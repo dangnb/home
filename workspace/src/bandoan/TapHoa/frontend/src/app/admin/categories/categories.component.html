@@ -196,10 +196,8 @@
         <label class="form-label fw-bold text-dark fs-7">Danh mục cha</label>
         <select class="form-select form-control-solid rounded-2" name="parentId" [(ngModel)]="editingCategory.parentId">
           <option value="">-- Danh mục gốc --</option>
-          @for (cat of categories; track cat) {
-          @if (cat.id !== editingCategory.id) {
+          @for (cat of flattenedCategoriesForSelect; track cat.id) {
           <option [value]="cat.id">{{ cat.name }}</option>
-          }
           }
         </select>
       </div>

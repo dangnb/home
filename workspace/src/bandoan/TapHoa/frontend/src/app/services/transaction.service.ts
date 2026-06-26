@@ -46,11 +46,23 @@ export class TransactionService {
         return this.http.post(`${this.backendUrl}/transactions/inbound`, payload);
     }
 
+    createOutboundTransaction(payload: CreateInboundTransactionRequest): Observable<any> {
+        return this.http.post(`${this.backendUrl}/transactions/outbound`, payload);
+    }
+
     getTransactions(): Observable<any[]> {
         return this.http.get<any[]>(`${this.backendUrl}/transactions`);
     }
 
     getTransactionById(id: string): Observable<TransactionDetailDto> {
         return this.http.get<TransactionDetailDto>(`${this.backendUrl}/transactions/${id}`);
+    }
+
+    getProductTransactionHistory(productId: string): Observable<any[]> {
+        return this.http.get<any[]>(`${this.backendUrl}/transactions/product/${productId}`);
+    }
+
+    approveTransaction(id: string): Observable<any> {
+        return this.http.post(`${this.backendUrl}/transactions/${id}/approve`, {});
     }
 }

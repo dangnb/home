@@ -426,3 +426,722 @@ System.ArgumentException: Product with ID 01950000-0000-7000-8000-000000002001 d
 2026-06-26 11:21:05.537 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6436 ms
 2026-06-26 11:22:05.274 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0189 ms
 2026-06-26 11:22:05.280 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.0734 ms
+2026-06-26 11:29:13.115 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:29:13.152 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:29:13.153 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:29:26.535 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.4427 ms
+2026-06-26 11:29:26.632 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 11:29:26.639 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 11:29:27.140 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 590.8924 ms
+2026-06-26 11:29:47.396 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.4779 ms
+2026-06-26 11:29:47.478 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 79.1000 ms
+2026-06-26 11:30:40.128 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0448 ms
+2026-06-26 11:30:40.148 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 15.0529 ms
+2026-06-26 11:30:40.925 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0542 ms
+2026-06-26 11:30:41.246 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.0520 ms
+2026-06-26 11:30:42.056 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.1257 ms
+2026-06-26 11:30:42.427 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9321 ms
+2026-06-26 11:30:43.137 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 8.7768 ms
+2026-06-26 11:30:45.286 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0388 ms
+2026-06-26 11:30:45.291 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1771 ms
+2026-06-26 11:30:45.991 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.7704 ms
+2026-06-26 11:30:50.657 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0481 ms
+2026-06-26 11:30:50.663 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9440 ms
+2026-06-26 11:30:52.946 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.7125 ms
+2026-06-26 11:30:53.397 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9913 ms
+2026-06-26 11:30:53.631 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6080 ms
+2026-06-26 11:30:53.953 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0373 ms
+2026-06-26 11:30:57.176 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0508 ms
+2026-06-26 11:30:57.182 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.2044 ms
+2026-06-26 11:30:57.662 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.5949 ms
+2026-06-26 11:30:57.945 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3065 ms
+2026-06-26 11:30:58.168 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1943 ms
+2026-06-26 11:30:58.494 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1896 ms
+2026-06-26 11:30:59.040 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9398 ms
+2026-06-26 11:30:59.285 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.7064 ms
+2026-06-26 11:31:52.355 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1889 ms
+2026-06-26 11:31:52.361 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6853 ms
+2026-06-26 11:32:09.697 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0383 ms
+2026-06-26 11:32:09.705 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.3221 ms
+2026-06-26 11:32:11.633 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4057 ms
+2026-06-26 11:32:12.132 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1682 ms
+2026-06-26 11:32:17.001 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1222 ms
+2026-06-26 11:32:17.006 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.0017 ms
+2026-06-26 11:34:20.602 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0333 ms
+2026-06-26 11:34:20.607 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4797 ms
+2026-06-26 11:34:26.083 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 204 in 0.0332 ms
+2026-06-26 11:34:26.249 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:34:26.569 +07:00 [ERR] Failed executing DbCommand (9ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = Guid), @p5='?' (DbType = Decimal), @p6='?' (DbType = Guid), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "StockLevels" ("Id", "AvailableQuantity", "BatchId", "LastRestockedAt", "LocationId", "MovingAverageCost", "ProductId", "QuantityOnHand", "ReorderPoint", "ReservedQuantity", "StoreId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "RowVersion";
+2026-06-26 11:34:26.605 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-26 11:34:26.617 +07:00 [ERR] HTTP POST /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 500 in 529.8936 ms
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 11:34:26.656 +07:00 [ERR] An exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 11:36:50.226 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:36:50.262 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:36:50.269 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:37:20.702 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.8542 ms
+2026-06-26 11:37:20.817 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 11:37:20.826 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 11:37:21.346 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 626.9150 ms
+2026-06-26 11:37:23.117 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 204 in 0.6468 ms
+2026-06-26 11:37:23.391 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:37:23.667 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = Guid), @p5='?' (DbType = Decimal), @p6='?' (DbType = Guid), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "StockLevels" ("Id", "AvailableQuantity", "BatchId", "LastRestockedAt", "LocationId", "MovingAverageCost", "ProductId", "QuantityOnHand", "ReorderPoint", "ReservedQuantity", "StoreId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "RowVersion";
+2026-06-26 11:37:23.689 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-26 11:37:23.712 +07:00 [ERR] HTTP POST /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 500 in 588.3142 ms
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 11:37:23.735 +07:00 [ERR] An exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 11:37:25.905 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.3018 ms
+2026-06-26 11:37:25.932 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 20.9138 ms
+2026-06-26 11:37:26.532 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 8.7864 ms
+2026-06-26 11:37:26.902 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.6660 ms
+2026-06-26 11:37:27.124 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.3371 ms
+2026-06-26 11:37:27.363 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.2338 ms
+2026-06-26 11:37:28.540 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 204 in 0.1204 ms
+2026-06-26 11:37:28.570 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:37:28.588 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = Guid), @p5='?' (DbType = Decimal), @p6='?' (DbType = Guid), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "StockLevels" ("Id", "AvailableQuantity", "BatchId", "LastRestockedAt", "LocationId", "MovingAverageCost", "ProductId", "QuantityOnHand", "ReorderPoint", "ReservedQuantity", "StoreId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "RowVersion";
+2026-06-26 11:37:28.593 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-26 11:37:28.600 +07:00 [ERR] HTTP POST /api/v1/transactions/019f01fb-2094-7d02-aa51-00a7353dc7ff/approve responded 500 in 55.7583 ms
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 11:37:28.612 +07:00 [ERR] An exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 11:43:29.278 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:29.309 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:29.311 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:40.278 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:40.312 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:40.313 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:55.898 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:55.932 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:43:55.934 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:45:34.910 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.8310 ms
+2026-06-26 11:45:35.098 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 11:45:35.104 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 11:45:35.439 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 515.5362 ms
+2026-06-26 11:45:36.528 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 73.2868 ms
+2026-06-26 11:45:37.553 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1378 ms
+2026-06-26 11:45:37.652 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 95.1715 ms
+2026-06-26 11:45:49.923 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0490 ms
+2026-06-26 11:45:50.106 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-26 11:45:50.326 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 399.3841 ms
+2026-06-26 11:45:50.370 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0423 ms
+2026-06-26 11:45:50.394 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 20.6351 ms
+2026-06-26 11:45:53.299 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f023f-98b5-7960-84c2-0a7357320b19/approve responded 204 in 0.0446 ms
+2026-06-26 11:45:53.353 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:45:53.454 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?' (DbType = Guid), @p3='?' (DbType = DateTime), @p4='?' (DbType = Guid), @p5='?' (DbType = Decimal), @p6='?' (DbType = Guid), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "StockLevels" ("Id", "AvailableQuantity", "BatchId", "LastRestockedAt", "LocationId", "MovingAverageCost", "ProductId", "QuantityOnHand", "ReorderPoint", "ReservedQuantity", "StoreId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "RowVersion";
+2026-06-26 11:45:53.470 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-26 11:45:53.480 +07:00 [ERR] HTTP POST /api/v1/transactions/019f023f-98b5-7960-84c2-0a7357320b19/approve responded 500 in 177.8669 ms
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 11:45:53.499 +07:00 [ERR] An exception occurred: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'NOT NULL constraint failed: StockLevels.RowVersion'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Commands.ApproveTransactionCommandHandler.Handle(ApproveTransactionCommand request, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Commands\ApproveTransactionCommandHandler.cs:line 72
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 36
+   at TapHoa.API.Middlewares.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\AuditBehavior.cs:line 47
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 33
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 11:45:56.788 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0985 ms
+2026-06-26 11:45:56.793 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6293 ms
+2026-06-26 11:47:25.581 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:25.613 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:25.615 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:36.348 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:36.380 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:36.381 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:50.937 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:50.974 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:47:50.980 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 11:49:40.630 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.5841 ms
+2026-06-26 11:49:40.726 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 11:49:40.732 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 11:49:41.040 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 396.0433 ms
+2026-06-26 11:49:41.925 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 99.8395 ms
+2026-06-26 11:49:42.021 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 13.0253 ms
+2026-06-26 11:49:42.370 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.2524 ms
+2026-06-26 11:49:42.428 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 54.5549 ms
+2026-06-26 11:49:53.923 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0419 ms
+2026-06-26 11:49:54.079 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-26 11:49:54.309 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 383.0983 ms
+2026-06-26 11:49:54.335 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0532 ms
+2026-06-26 11:49:54.354 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 15.5115 ms
+2026-06-26 11:49:57.059 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f0243-51ba-76b8-bee2-27cdfeae2497/approve responded 204 in 0.0518 ms
+2026-06-26 11:49:57.107 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:49:57.210 +07:00 [INF] HTTP POST /api/v1/transactions/019f0243-51ba-76b8-bee2-27cdfeae2497/approve responded 200 in 147.6257 ms
+2026-06-26 11:49:57.218 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6870 ms
+2026-06-26 11:50:05.815 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0902 ms
+2026-06-26 11:50:05.820 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0588 ms
+2026-06-26 11:50:09.953 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0608 ms
+2026-06-26 11:50:09.968 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 4.8604 ms
+2026-06-26 11:50:26.491 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.1308 ms
+2026-06-26 11:50:26.532 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-26 11:50:26.568 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 72.1919 ms
+2026-06-26 11:50:26.587 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0693 ms
+2026-06-26 11:50:26.593 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9603 ms
+2026-06-26 11:50:29.363 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f0243-d06a-73d4-afe2-524429341f82/approve responded 204 in 0.0464 ms
+2026-06-26 11:50:29.391 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 11:50:29.418 +07:00 [INF] HTTP POST /api/v1/transactions/019f0243-d06a-73d4-afe2-524429341f82/approve responded 200 in 52.5484 ms
+2026-06-26 11:50:29.428 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2442 ms
+2026-06-26 11:50:33.616 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1826 ms
+2026-06-26 11:50:33.623 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.1715 ms
+2026-06-26 11:50:34.191 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 5.4127 ms
+2026-06-26 11:50:34.449 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8745 ms
+2026-06-26 11:50:34.717 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3711 ms
+2026-06-26 11:50:35.046 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.2233 ms
+2026-06-26 11:50:35.847 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.2037 ms
+2026-06-26 11:50:36.486 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9752 ms
+2026-06-26 12:28:54.014 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:28:54.048 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:28:54.050 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:30:43.344 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:30:43.375 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:30:43.377 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 12:32:12.150 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.5580 ms
+2026-06-26 12:32:12.244 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 12:32:12.251 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 12:32:12.727 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 563.2030 ms
+2026-06-26 12:32:13.858 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 80.5155 ms
+2026-06-26 12:32:54.101 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1822 ms
+2026-06-26 12:32:54.118 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 13.9801 ms
+2026-06-26 12:32:54.452 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.4058 ms
+2026-06-26 12:33:04.480 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0580 ms
+2026-06-26 12:33:04.486 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8132 ms
+2026-06-26 12:33:43.206 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0662 ms
+2026-06-26 12:33:43.211 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8766 ms
+2026-06-26 12:33:48.987 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0640 ms
+2026-06-26 12:33:49.048 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 57.2579 ms
+2026-06-26 12:34:26.876 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0600 ms
+2026-06-26 12:34:27.000 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-26 12:34:27.214 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 333.3831 ms
+2026-06-26 12:34:27.257 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0419 ms
+2026-06-26 12:34:27.262 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8007 ms
+2026-06-26 12:35:15.176 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0699 ms
+2026-06-26 12:35:15.185 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 6.1418 ms
+2026-06-26 12:35:17.208 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0966 ms
+2026-06-26 12:35:17.262 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 50.3015 ms
+2026-06-26 12:35:17.809 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.7076 ms
+2026-06-26 12:40:14.866 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0549 ms
+2026-06-26 12:40:14.872 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.5035 ms
+2026-06-26 12:40:16.092 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7529 ms
+2026-06-26 12:40:17.021 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7108 ms
+2026-06-26 12:40:18.020 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8265 ms
+2026-06-26 12:40:18.664 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6775 ms
+2026-06-26 12:40:20.102 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1537 ms
+2026-06-26 12:40:20.107 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.0756 ms
+2026-06-26 12:40:21.169 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0485 ms
+2026-06-26 12:40:21.178 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8451 ms
+2026-06-26 12:40:21.814 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.0181 ms
+2026-06-26 12:40:26.277 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0671 ms
+2026-06-26 12:40:26.281 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8475 ms
+2026-06-26 12:40:27.305 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9308 ms
+2026-06-26 12:40:27.887 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8069 ms
+2026-06-26 12:40:28.365 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9168 ms
+2026-06-26 12:40:28.699 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8470 ms
+2026-06-26 12:40:47.402 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0642 ms
+2026-06-26 12:40:47.416 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1406 ms
+2026-06-26 12:40:48.113 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0962 ms
+2026-06-26 12:40:48.510 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8274 ms
+2026-06-26 12:40:51.066 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9387 ms
+2026-06-26 12:41:00.750 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1351 ms
+2026-06-26 12:41:00.785 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-26 12:41:00.928 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 174.9225 ms
+2026-06-26 12:41:00.933 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5912 ms
+2026-06-26 12:41:03.164 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0459 ms
+2026-06-26 12:41:03.170 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6287 ms
+2026-06-26 12:41:11.738 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0353 ms
+2026-06-26 12:41:11.742 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2056 ms
+2026-06-26 12:41:12.584 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0153 ms
+2026-06-26 12:41:12.884 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0516 ms
+2026-06-26 12:41:13.357 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0249 ms
+2026-06-26 12:41:13.361 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1139 ms
+2026-06-26 12:42:33.657 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0379 ms
+2026-06-26 12:42:33.664 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8313 ms
+2026-06-26 12:42:34.318 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0300 ms
+2026-06-26 12:42:45.775 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0268 ms
+2026-06-26 12:42:45.779 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1318 ms
+2026-06-26 12:42:46.397 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1118 ms
+2026-06-26 12:42:47.216 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1283 ms
+2026-06-26 12:42:47.696 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0442 ms
+2026-06-26 12:42:47.700 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5386 ms
+2026-06-26 12:42:48.192 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7863 ms
+2026-06-26 12:42:58.825 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0337 ms
+2026-06-26 12:42:58.829 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5491 ms
+2026-06-26 12:42:59.526 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0332 ms
+2026-06-26 12:42:59.529 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7251 ms
+2026-06-26 12:43:00.359 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6416 ms
+2026-06-26 12:43:03.097 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9843 ms
+2026-06-26 12:43:40.435 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0259 ms
+2026-06-26 12:43:40.459 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3888 ms
+2026-06-26 12:43:41.042 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9279 ms
+2026-06-26 12:43:41.313 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6376 ms
+2026-06-26 12:43:41.531 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6293 ms
+2026-06-26 13:36:35.717 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 13:36:35.759 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 13:36:35.762 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 13:43:43.536 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.4852 ms
+2026-06-26 13:43:43.721 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 13:43:43.775 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 13:43:44.109 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-26 13:43:45.174 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1593.5289 ms
+2026-06-26 13:43:45.275 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.7653 ms
+2026-06-26 13:43:45.277 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1314 ms
+2026-06-26 13:43:45.486 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 204.1672 ms
+2026-06-26 13:43:45.489 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 176.3065 ms
+2026-06-26 13:43:48.029 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0646 ms
+2026-06-26 13:43:48.232 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 199.2801 ms
+2026-06-26 13:43:48.682 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0828 ms
+2026-06-26 13:43:48.750 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 38.0507 ms
+2026-06-26 13:43:49.496 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 6.8164 ms
+2026-06-26 13:43:51.528 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0398 ms
+2026-06-26 13:43:51.537 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 5.0868 ms
+2026-06-26 13:44:53.726 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/outbound responded 204 in 0.0556 ms
+2026-06-26 13:44:53.768 +07:00 [INF] Audit Logged: Create by admin - CreateOutboundTransactionCommand
+2026-06-26 13:44:54.044 +07:00 [INF] HTTP POST /api/v1/transactions/outbound responded 200 in 314.6423 ms
+2026-06-26 13:44:54.069 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0445 ms
+2026-06-26 13:44:54.088 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 13.8691 ms
+2026-06-26 13:45:04.425 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.1824 ms
+2026-06-26 13:45:04.433 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 4.3594 ms
+2026-06-26 13:45:06.527 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0571 ms
+2026-06-26 13:45:06.538 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.6976 ms
+2026-06-26 13:45:06.989 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.9601 ms
+2026-06-26 13:45:09.012 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.3906 ms
+2026-06-26 13:45:11.246 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f026c-1ae6-72dd-8905-e901fd3ee06e/approve responded 204 in 0.2138 ms
+2026-06-26 13:45:11.273 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 13:45:11.428 +07:00 [INF] HTTP POST /api/v1/transactions/019f026c-1ae6-72dd-8905-e901fd3ee06e/approve responded 200 in 178.2417 ms
+2026-06-26 13:45:11.438 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2303 ms
+2026-06-26 13:45:14.279 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/019f02ac-999e-72b1-91b7-44453ebc2be8/approve responded 204 in 0.0401 ms
+2026-06-26 13:45:14.307 +07:00 [INF] Audit Logged: Unknown by admin - ApproveTransactionCommand
+2026-06-26 13:45:14.332 +07:00 [INF] HTTP POST /api/v1/transactions/019f02ac-999e-72b1-91b7-44453ebc2be8/approve responded 200 in 49.9134 ms
+2026-06-26 13:45:14.340 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0261 ms
+2026-06-26 13:45:14.344 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2060 ms
+2026-06-26 13:45:16.290 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.1678 ms
+2026-06-26 13:45:16.296 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.4058 ms
+2026-06-26 13:45:19.403 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0396 ms
+2026-06-26 13:45:19.413 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.8761 ms
+2026-06-26 13:45:21.272 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.4050 ms
+2026-06-26 13:45:21.977 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0268 ms
+2026-06-26 13:45:21.983 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.5019 ms
+2026-06-26 13:45:22.753 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0284 ms
+2026-06-26 13:45:22.756 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.7127 ms
+2026-06-26 13:45:22.762 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.7881 ms
+2026-06-26 13:45:23.297 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0212 ms
+2026-06-26 13:45:23.312 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 11.4464 ms
+2026-06-26 13:45:23.836 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3786 ms
+2026-06-26 13:45:24.194 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.3146 ms
+2026-06-26 13:45:24.922 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0439 ms
+2026-06-26 13:45:25.676 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7068 ms
+2026-06-26 13:45:25.677 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.3129 ms
+2026-06-26 13:45:26.731 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9250 ms
+2026-06-26 13:45:27.983 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.6350 ms
+2026-06-26 13:45:29.287 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0219 ms
+2026-06-26 13:45:29.293 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0174 ms
+2026-06-26 13:45:42.914 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0254 ms
+2026-06-26 13:45:42.920 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.4323 ms
+2026-06-26 13:45:43.828 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.4968 ms
+2026-06-26 13:45:43.845 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9254 ms
+2026-06-26 13:48:43.424 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0284 ms
+2026-06-26 13:48:43.431 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9995 ms
+2026-06-26 13:49:06.218 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0254 ms
+2026-06-26 13:49:06.223 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4676 ms

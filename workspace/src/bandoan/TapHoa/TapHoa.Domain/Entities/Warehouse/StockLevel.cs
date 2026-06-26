@@ -40,6 +40,7 @@ public class StockLevel
         ReservedQuantity = 0;
         ReorderPoint = reorderPoint;
         MovingAverageCost = 0;
+        RowVersion = Guid.NewGuid().ToByteArray();
     }
 
     public void IncreaseStock(int quantity, decimal unitCost)
@@ -59,6 +60,7 @@ public class StockLevel
         QuantityOnHand += quantity;
         AvailableQuantity += quantity;
         LastRestockedAt = DateTime.UtcNow;
+        RowVersion = Guid.NewGuid().ToByteArray();
     }
 
     public void DecreaseStock(int quantity)
@@ -73,6 +75,8 @@ public class StockLevel
         // Safety bounds
         if (AvailableQuantity < 0) AvailableQuantity = 0;
         if (ReservedQuantity < 0) ReservedQuantity = 0;
+        
+        RowVersion = Guid.NewGuid().ToByteArray();
     }
 
     public void ReserveStock(int quantity)

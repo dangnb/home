@@ -27,6 +27,27 @@ public static class TransactionsEndpoints
         .WithDescription("Creates a new inbound transaction (Draft)")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts); // For now tying it to CreateProducts permission
 
+        group.MapPost("/outbound", async ([FromBody] CreateOutboundTransactionCommand command, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
+        {
+            var username = user.Identity?.Name ?? "System";
+            var finalCommand = command with { CreatedBy = username };
+
+            var id = await sender.Send(finalCommand);
+            return Results.Ok(new { Id = id, Message = "Outbound Transaction created successfully as Draft." });
+        })
+        .WithName("CreateOutboundTransaction")
+        .WithDescription("Creates a new outbound transaction (Draft)")
+        .RequireAuthorization();
+
+        group.MapPost("/{id:guid}/approve", async (Guid id, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
+        {
+            var username = user.Identity?.Name ?? "System";
+            var result = await sender.Send(new ApproveTransactionCommand(id, username));
+            return Results.Ok(new { Success = result, Message = "Transaction approved and stock updated successfully." });
+        })
+        .WithName("ApproveTransaction")
+        .RequireAuthorization();
+
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetTransactionByIdQuery(id));
@@ -41,6 +62,33 @@ public static class TransactionsEndpoints
             return Results.Ok(result);
         })
         .WithName("GetTransactions")
+        .RequireAuthorization();
+
+        group.MapGet("/product/{productId:guid}", async (Guid productId, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetProductTransactionHistoryQuery(productId));
+            return Results.Ok(result);
+        })
+        .WithName("GetProductTransactionHistory")
+        .RequireAuthorization();
+
+        group.MapPost("/adjust", async ([FromBody] CreateAdjustmentTransactionCommand command, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
+        {
+            var username = user.Identity?.Name ?? "System";
+            var finalCommand = command with { CreatedBy = username };
+
+            var id = await sender.Send(finalCommand);
+            return Results.Ok(new { Id = id, Message = "Stock adjusted successfully." });
+        })
+        .WithName("AdjustmentTransaction")
+        .RequireAuthorization();
+
+        group.MapGet("/stock", async ([FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetStockLevelsQuery());
+            return Results.Ok(result);
+        })
+        .WithName("GetStockLevels")
         .RequireAuthorization();
 
         return group;

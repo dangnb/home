@@ -9,10 +9,9 @@
       placeholder="Tìm kiếm tên, ID sản phẩm..." />
     <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="filter-select">
       <option value="">Tất cả danh mục</option>
-      <option value="Trái cây">Trái cây</option>
-      <option value="Rau củ">Rau củ</option>
-      <option value="Thịt cá">Thịt cá</option>
-      <option value="Khác">Khác</option>
+      @for (cat of flatCategories; track cat.id) {
+      <option [value]="cat.pureName">{{ cat.name }}</option>
+      }
     </select>
   </div>
 
@@ -55,6 +54,9 @@
           <td>
             <button class="action-btn edit" (click)="openEditModal(p)">Sửa</button>
             <button class="action-btn delete" (click)="deleteProduct(p.id)">Xóa</button>
+            <button class="action-btn history"
+              style="background-color: var(--primary-color); border: none; color: white;"
+              (click)="openHistoryModal(p)">Thẻ kho</button>
           </td>
         </tr>
         }
@@ -109,10 +111,9 @@
                 <label>Loại sản phẩm</label>
                 <div class="flex-grow-1">
                   <select [(ngModel)]="editingProduct.category" class="form-select">
-                    <option value="Trái cây">Trái cây</option>
-                    <option value="Rau củ">Rau củ</option>
-                    <option value="Thịt cá">Thịt cá</option>
-                    <option value="Khác">Khác</option>
+                    @for (cat of flatCategories; track cat.id) {
+                    <option [value]="cat.pureName">{{ cat.name }}</option>
+                    }
                   </select>
                 </div>
               </div>
@@ -222,6 +223,81 @@
     <div class="modal-footer">
       <button class="btn btn-secondary" (click)="closeModal()">Hủy</button>
       <button class="btn btn-primary" (click)="saveProduct()">Lưu sản phẩm</button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- History Modal -->
+@if (showHistoryModal) {
+<div class="modal-overlay" (click)="closeHistoryModal()">
+  <div class="modal-content" style="max-width: 800px;" (click)="$event.stopPropagation()">
+    <div class="modal-header d-flex justify-content-between align-items-center bg-light border-bottom p-3">
+      <h4 class="mb-0 fw-bold" style="color: var(--dark);">Lịch sử giao dịch: {{ historyProduct?.name }}</h4>
+      <button class="close-btn" (click)="closeHistoryModal()">&times;</button>
+    </div>
+    <div class="modal-body p-0">
+      @if (isHistoryLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Đang tải thẻ kho...</p>
+      </div>
+      }
+      @if (!isHistoryLoading) {
+      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light sticky-top shadow-sm">
+            <tr>
+              <th class="ps-4 py-3">Mã GD</th>
+              <th class="py-3">Thời gian</th>
+              <th class="py-3">Phân loại</th>
+              <th class="text-center py-3">Số lượng</th>
+              <th class="text-end pe-4 py-3">Đơn giá</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (tx of productHistory; track tx.transactionId) {
+            <tr>
+              <td class="ps-4 fw-bold text-primary">{{ tx.transactionCode }}</td>
+              <td>{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                @if (tx.type === 0) {
+                <span
+                  class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Nhập
+                  kho</span>
+                }
+                @if (tx.type === 1) {
+                <span
+                  class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">Xuất
+                  kho</span>
+                }
+                @if (tx.type === 2) {
+                <span
+                  class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">Kiểm
+                  kê / Điều chỉnh</span>
+                }
+              </td>
+              <td class="text-center">
+                <span class="fw-bold"
+                  [ngClass]="tx.quantity > 0 ? 'text-success' : (tx.quantity < 0 ? 'text-danger' : 'text-muted')">
+                  {{ tx.quantity > 0 ? '+' : '' }}{{ tx.quantity }}
+                </span>
+              </td>
+              <td class="text-end pe-4" style="font-family: monospace;">{{ tx.unitCost | number:'1.0-0' }} ₫</td>
+            </tr>
+            }
+            @if (productHistory.length === 0) {
+            <tr>
+              <td colspan="5" class="text-center py-4 text-muted">Chưa có phát sinh giao dịch nào.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+    <div class="modal-footer p-3 bg-light border-top">
+      <button class="btn btn-secondary px-4 rounded-pill fw-medium" (click)="closeHistoryModal()">Đóng</button>
     </div>
   </div>
 </div>

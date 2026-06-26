@@ -1,0 +1,66 @@
+using MediatR;
+using TapHoa.Domain.Interfaces;
+using TapHoa.Domain.Entities.Warehouse;
+using TapHoa.Domain.Enums;
+
+namespace TapHoa.Application.Warehouse.Commands;
+
+public record CreateOutboundTransactionCommand(
+    string ReferenceId,
+    string Notes,
+    string CreatedBy,
+    List<OutboundTransactionLineDto> Lines) : IRequest<Guid>;
+
+public record OutboundTransactionLineDto(
+    Guid ProductId,
+    int Quantity,
+    decimal UnitPrice,
+    string? LocationCode = null,
+    string? BatchNumber = null);
+
+public class CreateOutboundTransactionCommandHandler : IRequestHandler<CreateOutboundTransactionCommand, Guid>
+{
+    private readonly IInventoryTransactionRepository _transactionRepository;
+    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateOutboundTransactionCommandHandler(IInventoryTransactionRepository transactionRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
+    {
+        _transactionRepository = transactionRepository;
+        _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<Guid> Handle(CreateOutboundTransactionCommand request, CancellationToken cancellationToken)
+    {
+        if (request.Lines == null || !request.Lines.Any())
+            throw new ArgumentException("Transaction must have at least one line.");
+
+        var code = await _transactionRepository.GenerateNextCodeAsync(cancellationToken);
+
+        var transaction = new InventoryTransaction(
+            code,
+            TransactionType.Outbound,
+            request.ReferenceId,
+            request.CreatedBy,
+            request.Notes
+        );
+
+        foreach (var line in request.Lines)
+        {
+            var product = await _productRepository.GetByIdAsync(line.ProductId, cancellationToken);
+            if (product == null)
+                throw new ArgumentException($"Product with ID {line.ProductId} does not exist.");
+
+            if (line.Quantity <= 0)
+                throw new ArgumentException("Outbound quantity must be > 0.");
+
+            transaction.AddLine(product.Id, line.Quantity, line.UnitPrice);
+        }
+
+        await _transactionRepository.AddAsync(transaction, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return transaction.Id;
+    }
+}

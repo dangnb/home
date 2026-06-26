@@ -16,6 +16,10 @@ public interface IApplicationDbContext
     DbSet<InventoryTransaction> InventoryTransactions { get; }
     DbSet<InventoryTransactionLine> InventoryTransactionLines { get; }
     DbSet<StockLevel> StockLevels { get; }
+    DbSet<WarehouseLocation> WarehouseLocations { get; }
+    DbSet<ProductBatch> ProductBatches { get; }
+
+    Guid CurrentCompanyId { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
