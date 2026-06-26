@@ -12,10 +12,14 @@ export class AuthService {
     private apiUrl = `${environment.apiUrl}/auth`;
 
     login(loginData: any): Observable<AuthResultDto> {
-        return this.http.post<AuthResultDto>(`${this.apiUrl}/login`, loginData);
+        return this.http.post<AuthResultDto>(`${this.apiUrl}/login`, loginData, { withCredentials: true });
     }
 
-    refreshToken(token: string, refreshToken: string): Observable<AuthResultDto> {
-        return this.http.post<AuthResultDto>(`${this.apiUrl}/refresh-token`, { token, refreshToken });
+    refreshToken(): Observable<AuthResultDto> {
+        return this.http.post<AuthResultDto>(`${this.apiUrl}/refresh-token`, {}, { withCredentials: true });
+    }
+
+    logout(): Observable<any> {
+        return this.http.post(`${this.apiUrl}/revoke`, {}, { withCredentials: true });
     }
 }

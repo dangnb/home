@@ -19,22 +19,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         catchError((error: HttpErrorResponse) => {
             // Intercept 401 Unauthorized errors
             if (error.status === 401 && !req.url.includes('/auth/login') && !req.url.includes('/auth/refresh-token')) {
-                // Get tokens for refreshing
-                let currentToken = '';
-                let currentRefreshToken = '';
-                const authInfoStr = localStorage.getItem('authInfo');
-
-                if (authInfoStr) {
-                    try {
-                        const authInfo = JSON.parse(authInfoStr);
-                        if (authInfo) {
-                            currentToken = authInfo.token || '';
-                            currentRefreshToken = authInfo.refreshToken || '';
-                        }
-                    } catch (e) { }
-                }
-
-                return handle401Error(req, next, authService, router, alertService, currentToken, currentRefreshToken);
+                return handle401Error(req, next, authService, router, alertService);
             }
 
             return throwError(() => error);
@@ -47,20 +32,13 @@ function handle401Error(
     next: any,
     authService: AuthService,
     router: Router,
-    alertService: AlertService,
-    token: string,
-    refreshToken: string
+    alertService: AlertService
 ): Observable<any> {
     if (!isRefreshing) {
-        if (!refreshToken) {
-            forceLogout(router, alertService);
-            return throwError(() => new Error('No refresh token available'));
-        }
-
         isRefreshing = true;
         refreshTokenSubject.next(null);
 
-        return authService.refreshToken(token, refreshToken).pipe(
+        return authService.refreshToken().pipe(
             switchMap((newAuthResult: AuthResultDto) => {
                 isRefreshing = false;
 

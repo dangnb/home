@@ -24,9 +24,10 @@ public static class DependencyInjection
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll",
-                policy => policy.AllowAnyOrigin()
+                policy => policy.WithOrigins("http://localhost:4200")
                                 .AllowAnyMethod()
-                                .AllowAnyHeader());
+                                .AllowAnyHeader()
+                                .AllowCredentials());
         });
 
         // Setup API Versioning
