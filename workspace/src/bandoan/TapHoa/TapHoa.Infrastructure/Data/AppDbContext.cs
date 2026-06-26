@@ -70,6 +70,13 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
+        modelBuilder.Entity<Product>()
+            .Property(p => p.AdditionalImages)
+            .HasConversion(
+                v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
+                v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
+            );
+
         // WMS StockLevel keys
         modelBuilder.Entity<StockLevel>().HasKey(x => x.Id);
         modelBuilder.Entity<StockLevel>()

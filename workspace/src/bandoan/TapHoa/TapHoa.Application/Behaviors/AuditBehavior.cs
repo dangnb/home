@@ -1,23 +1,32 @@
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json;
-using TapHoa.Infrastructure.Data;
+using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Entities;
 using Microsoft.Extensions.Logging;
 
-namespace TapHoa.API.Middlewares;
+namespace TapHoa.Application.Behaviors;
 
+/// <summary>
+/// Pipeline chặn ngang các Command (Create/Update/Delete) trên tầng Use-Case.
+/// Chịu trách nhiệm ghi lại lịch sử thao tác (Audit Logs: lưu ai làm gì, lúc nào)
+/// giúp truy vết hành vi của các User trên hệ thống WMS một cách minh bạch.
+/// 
+/// Refactored to Clean Architecture: 
+/// Phụ thuộc vào interface IApplicationDbContext và ICurrentUserService thay vì framework web.
+/// </summary>
 public class AuditBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly AppDbContext _dbContext;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IApplicationDbContext _dbContext;
+    private readonly ICurrentUserService _currentUserService;
     private readonly ILogger<AuditBehavior<TRequest, TResponse>> _logger;
 
-    public AuditBehavior(AppDbContext dbContext, IHttpContextAccessor httpContextAccessor, ILogger<AuditBehavior<TRequest, TResponse>> logger)
+    public AuditBehavior(IApplicationDbContext dbContext, ICurrentUserService currentUserService, ILogger<AuditBehavior<TRequest, TResponse>> logger)
     {
         _dbContext = dbContext;
-        _httpContextAccessor = httpContextAccessor;
+        _currentUserService = currentUserService;
         _logger = logger;
     }
 
@@ -28,7 +37,7 @@ public class AuditBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TR
         // Chỉ lưu log với các command (Create, Update, Delete)
         if (requestName.EndsWith("Command"))
         {
-            var username = _httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
+            var username = _currentUserService.UserName ?? "System";
             var requestData = JsonSerializer.Serialize(request);
 
             var action = "Unknown";

@@ -8,45 +8,49 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TapHoa.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSchema : Migration
+    public partial class InitialMariaDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "AuditLogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Action = table.Column<string>(type: "TEXT", nullable: false),
-                    RequestName = table.Column<string>(type: "TEXT", nullable: false),
-                    RequestData = table.Column<string>(type: "TEXT", nullable: false),
-                    Username = table.Column<string>(type: "TEXT", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Action = table.Column<string>(type: "longtext", nullable: false),
+                    RequestName = table.Column<string>(type: "longtext", nullable: false),
+                    RequestData = table.Column<string>(type: "longtext", nullable: false),
+                    Username = table.Column<string>(type: "longtext", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuditLogs", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Icon = table.Column<string>(type: "TEXT", nullable: false),
-                    ParentId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    ParentCategoryId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Icon = table.Column<string>(type: "longtext", nullable: false),
+                    ParentId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    ParentCategoryId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "longtext", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,124 +60,130 @@ namespace TapHoa.Infrastructure.Migrations
                         column: x => x.ParentCategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id");
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "InventoryTransactions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Code = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<int>(type: "INTEGER", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReferenceId = table.Column<string>(type: "TEXT", nullable: false),
-                    Notes = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: false),
-                    ApprovedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ApprovedBy = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Code = table.Column<string>(type: "longtext", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ReferenceId = table.Column<string>(type: "longtext", nullable: false),
+                    Notes = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ApprovedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ApprovedBy = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InventoryTransactions", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Category = table.Column<string>(type: "TEXT", nullable: false),
-                    MainImageUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    AdditionalImages = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    StockQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    Unit = table.Column<string>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false),
+                    MainImageUrl = table.Column<string>(type: "longtext", nullable: true),
+                    AdditionalImages = table.Column<string>(type: "longtext", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false),
+                    Unit = table.Column<string>(type: "longtext", nullable: false),
+                    Status = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "longtext", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Permissions = table.Column<long>(type: "INTEGER", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Permissions = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Username = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    CitizenId = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Username = table.Column<string>(type: "longtext", nullable: false),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: false),
+                    FullName = table.Column<string>(type: "longtext", nullable: false),
+                    Email = table.Column<string>(type: "longtext", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true),
+                    CitizenId = table.Column<string>(type: "longtext", nullable: true),
+                    Address = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "WarehouseLocations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Zone = table.Column<string>(type: "TEXT", nullable: false),
-                    Aisle = table.Column<string>(type: "TEXT", nullable: false),
-                    Rack = table.Column<string>(type: "TEXT", nullable: false),
-                    Bin = table.Column<string>(type: "TEXT", nullable: false),
-                    Barcode = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Zone = table.Column<string>(type: "longtext", nullable: false),
+                    Aisle = table.Column<string>(type: "longtext", nullable: false),
+                    Rack = table.Column<string>(type: "longtext", nullable: false),
+                    Bin = table.Column<string>(type: "longtext", nullable: false),
+                    Barcode = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "longtext", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WarehouseLocations", x => x.Id);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "InventoryTransactionLines",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TransactionId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    UnitCost = table.Column<decimal>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    TransactionId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UnitCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,25 +200,26 @@ namespace TapHoa.Infrastructure.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ProductBatches",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    BatchNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    MfgDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    CreatedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DeletedBy = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    BatchNumber = table.Column<string>(type: "longtext", nullable: false),
+                    MfgDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DeletedBy = table.Column<string>(type: "longtext", nullable: true),
+                    CompanyId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,14 +230,15 @@ namespace TapHoa.Infrastructure.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
-                    RolesId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UsersId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    RolesId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    UsersId = table.Column<Guid>(type: "char(36)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -243,24 +255,25 @@ namespace TapHoa.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "StockLevels",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    LocationId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    BatchId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    StoreId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    QuantityOnHand = table.Column<int>(type: "INTEGER", nullable: false),
-                    AvailableQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReservedQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReorderPoint = table.Column<int>(type: "INTEGER", nullable: false),
-                    MovingAverageCost = table.Column<decimal>(type: "TEXT", nullable: false),
-                    LastRestockedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ProductId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    LocationId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    BatchId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    StoreId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    QuantityOnHand = table.Column<int>(type: "int", nullable: false),
+                    AvailableQuantity = table.Column<int>(type: "int", nullable: false),
+                    ReservedQuantity = table.Column<int>(type: "int", nullable: false),
+                    ReorderPoint = table.Column<int>(type: "int", nullable: false),
+                    MovingAverageCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LastRestockedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "longblob", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,7 +294,8 @@ namespace TapHoa.Infrastructure.Migrations
                         column: x => x.LocationId,
                         principalTable: "WarehouseLocations",
                         principalColumn: "Id");
-                });
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.InsertData(
                 table: "Categories",
