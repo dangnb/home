@@ -13,6 +13,8 @@ public static class DapperConfiguration
     public static void RegisterTypeHandlers()
     {
         SqlMapper.AddTypeHandler(new JsonStringListTypeHandler());
+        SqlMapper.RemoveTypeMap(typeof(Guid));
+        SqlMapper.RemoveTypeMap(typeof(Guid?));
         SqlMapper.AddTypeHandler(new GuidTypeHandler());
         SqlMapper.AddTypeHandler(new NullableGuidTypeHandler());
     }
@@ -45,9 +47,11 @@ public class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
 
     public override Guid Parse(object value)
     {
+        if (value == null || value is DBNull) return Guid.Empty;
+        if (value is Guid g) return g;
         if (value is string s && Guid.TryParse(s, out var guid))
             return guid;
-        if (value is byte[] bytes)
+        if (value is byte[] bytes && bytes.Length == 16)
             return new Guid(bytes);
             
         return Guid.Empty;
@@ -64,9 +68,11 @@ public class NullableGuidTypeHandler : SqlMapper.TypeHandler<Guid?>
 
     public override Guid? Parse(object value)
     {
+        if (value == null || value is DBNull) return null;
+        if (value is Guid g) return g;
         if (value is string s && Guid.TryParse(s, out var guid))
             return guid;
-        if (value is byte[] bytes)
+        if (value is byte[] bytes && bytes.Length == 16)
             return new Guid(bytes);
             
         return null;
