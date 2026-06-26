@@ -36,6 +36,12 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.currentPage = 1;
+    this.loadProducts();
+  }
+
   onSearchChange() {
     this.currentPage = 1; // Reset to page 1 on search
     this.loadProducts();

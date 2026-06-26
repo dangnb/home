@@ -1,14 +1,7 @@
 // Metronic-style Helper Classes mapped top of Bootstrap
 
 .transition-base {
-    transition: all 0.3s ease;
-}
-
-.hover-elevate-up {
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1) !important;
-    }
+    transition: all 0.2s ease-in-out;
 }
 
 .bg-light-primary {
@@ -61,37 +54,56 @@
     border-width: 2px !important;
 }
 
-.bg-light-secondary {
-    background-color: #f9f9f9;
+.tree-row {
+    &:hover {
+        background-color: #f8fbfd !important;
+        
+        .row-actions {
+            opacity: 1 !important;
+        }
+    }
 }
 
-.mw-400px {
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
+.letter-spacing-1 {
+    letter-spacing: 0.5px;
 }
 
-.hover-bg-light:hover {
-    background-color: #f8fcfd;
-}
+// Tree view lines styling
+.tree-node {
+    position: relative;
 
-.tree-row-wrapper {
-    .tree-line {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background-color: #e4e6ef;
-        z-index: 1;
-
-        &::before {
+    &.child-node {
+        &::before, &::after {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            width: 15px; // Horizontal branch pointing to the node
-            height: 2px;
-            background-color: #e4e6ef;
+            border-color: #d1d5db;
+            border-style: solid;
+            pointer-events: none;
+            z-index: 1;
         }
+
+        // Vertical line
+        &::before {
+            border-width: 0 0 0 1.5px;
+            top: -20px;
+            bottom: 0;
+            left: 28px; // Positioning to clear the padding/margin
+        }
+
+        // Horizontal line
+        &::after {
+            border-width: 1.5px 0 0 0;
+            top: 26px; // Center of the row
+            left: 28px;
+            width: 18px;
+        }
+
+        &.last-node::before {
+            bottom: auto;
+            height: 46px; // Adjust so it stops exactly at the horizontal line (26 + 20)
+        }
+        
+        // Adjust left positions based on depth (this is handled smoothly via indentation helper in HTML)
+        // Actually, the left rule needs to match the parent's expand-icon vertical center.
     }
 }

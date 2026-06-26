@@ -8,7 +8,14 @@ namespace TapHoa.Infrastructure.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    private readonly TapHoa.Application.Interfaces.ICurrentUserService? _currentUserService;
+
+    public AppDbContext(
+        DbContextOptions<AppDbContext> options,
+        TapHoa.Application.Interfaces.ICurrentUserService? currentUserService = null) : base(options) 
+    { 
+        _currentUserService = currentUserService;
+    }
 
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
@@ -21,13 +28,12 @@ public class AppDbContext : DbContext
     public DbSet<InventoryTransactionLine> InventoryTransactionLines => Set<InventoryTransactionLine>();
     public DbSet<StockLevel> StockLevels => Set<StockLevel>();
 
-    public Guid CurrentCompanyId => this.GetService<TapHoa.Application.Interfaces.ICurrentUserService>()?.CompanyId ?? Guid.Empty;
+    public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var currentUserService = this.GetService<TapHoa.Application.Interfaces.ICurrentUserService>();
-        var userName = currentUserService?.UserName ?? "System";
-        var companyId = currentUserService?.CompanyId ?? Guid.Empty;
+        var userName = _currentUserService?.UserName ?? "System";
+        var companyId = _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
         foreach (var entry in ChangeTracker.Entries<TapHoa.Domain.Common.BaseAuditableEntity>())
         {

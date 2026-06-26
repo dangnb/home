@@ -1,123 +1,228 @@
-<div class="card shadow-sm border-0 rounded-4">
-  <div class="card-header bg-white border-0 pt-4 pb-0">
-    <div class="d-flex justify-content-between align-items-center">
-      <h3 class="mb-0 fw-bold text-dark">📥 Tạo Mới Phiếu Nhập Kho</h3>
-      <button class="btn btn-sm btn-outline-secondary rounded-pills px-4" routerLink="/admin/transactions">
+<div class="px-3" style="max-width: 1200px; margin: 0 auto; margin-top: -1rem;">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-4 pt-3">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-icon btn-sm btn-light border-0 me-3 shadow-none" routerLink="/admin/transactions"
+        style="background: none; font-size: 1.25rem; font-weight: 300;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <h3 class="mb-0 fw-bolder text-primary fs-4" style="color: #0b5ed7 !important;">Tạo Mới Phiếu Nhập Kho</h3>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-icon btn-sm position-relative shadow-none border-0" style="background: none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span
+          class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+          style="width: 10px; height: 10px;"></span>
+      </button>
+      <button class="btn btn-icon btn-sm shadow-none border-0" style="background: none;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </button>
+      <button class="btn btn-white btn-sm px-4 py-2 rounded-2 fw-medium text-dark bg-white shadow-sm"
+        routerLink="/admin/transactions" style="border: 1px solid #cbd5e1;">
         Trở về
       </button>
     </div>
   </div>
 
-  <div class="card-body mt-3">
-    <!-- Master Data -->
-    <h5 class="fw-bold text-primary mb-3">1. Thông tin chung</h5>
-    <div class="row g-3 mb-4">
-      <div class="col-md-6">
-        <label class="form-label text-muted fw-bold small">Mã tham chiếu (Đơn hàng/PO) <span
-        class="text-danger">*</span></label>
-        <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
-          [(ngModel)]="referenceId" placeholder="Ví dụ: PO-2026-623">
+  <div class="card border shadow-sm rounded-4 overflow-hidden mb-5" style="border-color: #cbd5e1 !important;">
+    <div class="card-body p-4 p-md-5 bg-white">
+      <!-- Step 1 -->
+      <div class="d-flex align-items-center mb-4">
+        <span
+          class="rounded-circle bg-light-primary text-primary fw-bold d-flex justify-content-center align-items-center shadow-sm"
+          style="width: 28px; height: 28px; font-size: 14px;">1</span>
+        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">Thông tin chung</h5>
+      </div>
+
+      <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
+        <div class="col-md-6">
+          <label class="form-label text-muted fw-bold small text-uppercase">Mã tham chiếu (Đơn hàng/PO) <span
+              class="text-danger">*</span></label>
+          <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
+            placeholder="Ví dụ: PO-2026-623">
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted fw-bold small">Ghi chú</label>
-          <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input" [(ngModel)]="notes"
+          <label class="form-label text-muted fw-bold small text-uppercase">Ghi chú</label>
+          <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="notes"
             placeholder="Ghi chú thêm về lô hàng">
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="d-flex align-items-center mb-4">
+        <span
+          class="rounded-circle bg-light-primary text-primary fw-bold d-flex justify-content-center align-items-center shadow-sm"
+          style="width: 28px; height: 28px; font-size: 14px;">2</span>
+        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">Nhập sản phẩm</h5>
+      </div>
+
+      <!-- Gray Group box containing inputs -->
+      <div class="bg-light rounded-4 p-3 p-md-4 mb-4 border"
+        style="background-color: #f8fafc !important; border-color: #e2e8f0 !important;">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-5 position-relative">
+            <label class="form-label text-muted fw-bold small text-uppercase">Tìm mặt hàng (Tên/Mã)</label>
+            <div class="position-relative">
+              <span class="position-absolute top-50 translate-middle-y ms-3 text-muted">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              <input type="text" class="form-control custom-input rounded-3 shadow-none" style="padding-left: 2.5rem;"
+                [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" (focus)="onSearchFocus()"
+                (blur)="onSearchBlur()" placeholder="Táo New Zealand size to">
+            </div>
+            <!-- Dropdown Menu -->
+            <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete" [class.show]="showDropdown">
+              @if (filteredProducts.length === 0) {
+              <li class="px-3 py-2 text-muted small">Không tìm thấy sản phẩm.</li>
+              }
+              @for (p of filteredProducts; track p) {
+              <li>
+                <a class="dropdown-item py-2 dropdown-item-custom" href="javascript:void(0)"
+                  (click)="onProductSelect(p)">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-medium text-dark">{{ p.name }}</span>
+                    <span class="text-secondary fw-bold fs-8">{{ p.price | number:'1.0-0' }} ₫</span>
+                  </div>
+                </a>
+              </li>
+              }
+            </ul>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label text-muted fw-bold small text-uppercase">Số lượng</label>
+            <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity"
+              min="1">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-muted fw-bold small text-uppercase">Giá vốn (VND)</label>
+            <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost"
+              min="0">
+          </div>
+          <div class="col-md-2">
+            <button
+              class="btn btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
+              (click)="addLine()" style="background-color: #3b82f6; border-color: #3b82f6; padding: 0.6rem;">
+              <span class="fs-5 lh-1 fw-medium">+</span> THÊM
+            </button>
           </div>
         </div>
+      </div>
 
-        <!-- Add Lines Form -->
-        <h5 class="fw-bold text-primary mb-3">2. Nhập sản phẩm</h5>
-        <div class="card bg-light border-0 rounded-4 mb-4">
-          <div class="card-body">
-            <div class="row g-3 align-items-end">
-              <div class="col-md-4 position-relative">
-                <label class="form-label fw-bold small">Tìm mặt hàng (Tên/Mã)</label>
-                <input type="text" class="form-control py-1 rounded-3 shadow-none custom-input"
-                  [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" (focus)="onSearchFocus()"
-                  (blur)="onSearchBlur()" placeholder="Gõ để tìm kiếm mặt hàng...">
+      <!-- Empty Line State -->
+      @if (lines.length === 0) {
+      <div class="rounded-3 border border-primary border-opacity-25 shadow-sm"
+        style="background-color: #f4f8ff; padding: 1.5rem;">
+        <div class="d-flex align-items-center text-primary fw-medium" style="color: #4338ca !important;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="me-3 opacity-75">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Chưa có sản phẩm nào được đưa vào phiếu nhập. Vui lòng thêm từ bên trên.
+        </div>
+      </div>
 
-                  <!-- Dropdown Menu -->
-                  <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete"
-                    [class.show]="showDropdown">
-                    @if (filteredProducts.length === 0) {
-                      <li class="px-3 py-2 text-muted small">Không tìm thấy
-                      sản phẩm.</li>
-                    }
-                    @for (p of filteredProducts; track p) {
-                      <li>
-                        <a class="dropdown-item py-2 dropdown-item-custom" href="javascript:void(0)"
-                          (click)="onProductSelect(p)">
-                          <div class="d-flex justify-content-between">
-                            <span class="fw-medium">{{ p.name }}</span>
-                            <span class="text-primary fw-bold">{{ p.price | currency:'VND' }}</span>
-                          </div>
-                        </a>
-                      </li>
-                    }
-                  </ul>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-bold small">Số lượng</label>
-                  <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
-                    [(ngModel)]="selectedQuantity" min="1">
-                  </div>
-                  <div class="col-md-3">
-                    <label class="form-label fw-bold small">Giá vốn (VND)</label>
-                    <input type="number" class="form-control py-1 rounded-3 shadow-none custom-input"
-                      [(ngModel)]="selectedCost" min="0">
-                    </div>
-                    <div class="col-md-2">
-                      <button class="btn btn-primary btn-sm w-100 py-1 rounded-3 fw-bold" (click)="addLine()">+
-                      THÊM</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Selected Lines Table -->
-              @if (lines.length > 0) {
-                <div class="table-responsive mb-4">
-                  <table class="table align-middle">
-                    <thead class="table-light text-muted small text-uppercase">
-                      <tr>
-                        <th class="ps-3">Sản phẩm</th>
-                        <th class="text-center">Số lượng</th>
-                        <th class="text-end">Giá vốn</th>
-                        <th class="text-end">Thành tiền</th>
-                        <th class="text-center">Xóa</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (l of lines; track l; let i = $index) {
-                        <tr>
-                          <td class="ps-3 fw-medium">{{ l.productName }}</td>
-                          <td class="text-center">{{ l.quantity }}</td>
-                          <td class="text-end">{{ l.unitCost | currency:'VND' }}</td>
-                          <td class="text-end fw-bold text-success">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
-                          <td class="text-center">
-                            <button class="btn btn-sm btn-outline-danger border-0" (click)="removeLine(i)">❌</button>
-                          </td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              }
-
-              @if (lines.length === 0) {
-                <div class="alert alert-info border-0 rounded-4">
-                  Chưa có sản phẩm nào được đưa vào phiếu nhập. Vui lòng thêm từ bên trên.
-                </div>
-              }
-
-              <hr>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <h4 class="mb-0 text-muted">Tổng cộng: <span class="fw-bold text-danger fs-3 ms-2">{{ totalAmount |
-                  currency:'VND' }}</span></h4>
-                  <button class="btn btn-success btn-sm px-5 py-1 rounded-pills fw-bold shadow-sm"
-                    [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()">
-                    {{ isSubmitting ? 'ĐANG LƯU...' : '💾 LƯU PHIẾU KHO' }}
-                  </button>
-                </div>
-              </div>
+      <div class="card border shadow-none mt-5 text-center py-5"
+        style="border-color: #e2e8f0 !important; border-radius: 12px;">
+        <div class="card-body py-5">
+          <div class="mb-4 d-flex justify-content-center">
+            <div class="rounded-circle d-flex justify-content-center align-items-center"
+              style="width: 64px; height: 64px; background-color: #eff6ff;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
             </div>
+          </div>
+          <h5 class="fw-bold text-dark fs-5 mb-2">Theo dõi tồn kho thời gian thực</h5>
+          <p class="text-muted fw-medium fs-7 opacity-75 mb-0 mx-auto" style="max-width: 350px;">
+            WarehousePro tự động cập nhật số lượng tồn kho và giá vốn bình quân ngay sau khi phiếu nhập được lưu.
+          </p>
+        </div>
+      </div>
+      }
+
+      <!-- Selected Lines Table -->
+      @if (lines.length > 0) {
+      <div class="table-responsive mt-4 rounded-4 border border-gray-200 overflow-hidden shadow-sm">
+        <table class="table table-hover align-middle m-0">
+          <thead class="bg-light text-muted small text-uppercase" style="border-bottom: 2px solid #f1f3f5;">
+            <tr>
+              <th class="ps-4 py-3 border-0">Sản phẩm</th>
+              <th class="text-center py-3 border-0">Số lượng</th>
+              <th class="text-end py-3 border-0">Giá vốn</th>
+              <th class="text-end py-3 border-0 pe-4">Thành tiền</th>
+              <th class="text-center py-3 border-0" style="width: 60px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (l of lines; track l; let i = $index) {
+            <tr class="bg-white">
+              <td class="ps-4 fw-medium py-3 text-dark">{{ l.productName }}</td>
+              <td class="text-center fw-medium py-3 text-dark">{{ l.quantity }}</td>
+              <td class="text-end fw-medium py-3 text-dark">{{ l.unitCost | number:'1.0-0' }} ₫</td>
+              <td class="text-end fw-bold text-success py-3 pe-4">{{ (l.quantity * l.unitCost) | number:'1.0-0' }} ₫
+              </td>
+              <td class="text-center py-3">
+                <button class="btn btn-icon btn-sm btn-light-danger border-0 rounded-circle" (click)="removeLine(i)"
+                  title="Xóa">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+
+    <!-- Footer Bar -->
+    <div class="px-4 px-md-5 py-4 d-flex justify-content-between align-items-center"
+      style="background-color: #eef2f6 !important; border-top: 1px solid #e2e8f0;">
+      <h4 class="mb-0 text-dark d-flex align-items-center fw-bold fs-4">
+        Tổng cộng: <span class="fw-bolder fs-3 ms-3 text-danger" style="letter-spacing: 0.5px;">đ{{ totalAmount |
+          number:'1.0-0' }}</span>
+      </h4>
+      <button
+        class="btn btn-primary px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
+        [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()"
+        style="background-color: #0d47a1; border-color: #0d47a1;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        {{ isSubmitting ? 'ĐANG LƯU...' : 'LƯU PHIẾU KHO' }}
+      </button>
+    </div>
+  </div>
+</div>

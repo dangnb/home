@@ -1,25 +1,43 @@
-@if (totalPages > 1) {
-<nav aria-label="Page navigation" class="mt-4 d-flex justify-content-end">
-    <ul class="pagination pagination-sm m-0">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link px-3" href="javascript:void(0)" (click)="goToPage(currentPage - 1)">
-                Trước
-            </a>
-        </li>
+@if (totalPages > 0) {
+<div class="d-flex align-items-center justify-content-between py-3 px-4 w-100 bg-white">
+    <div class="d-flex align-items-center gap-2">
+        <span class="text-muted fw-medium fs-8">Hiển thị</span>
+        <select class="form-select border-0 bg-light rounded-2 text-dark fw-bold fs-8 px-2 py-1 shadow-none"
+            style="width: auto; max-width: 65px; background-color: #f1f4f8 !important; cursor: pointer; min-height: 28px; background-position: right 0.25rem center; background-size: 10px 10px; padding-right: 1.5rem !important;"
+            (change)="onPageSizeChange($event)">
+            @for (size of pageSizes; track size) {
+            <option [value]="size" [selected]="size == pageSize">{{ size }}</option>
+            }
+        </select>
+        <span class="text-muted fw-medium fs-8">
+            - Đang xem {{ (currentPage - 1) * pageSize + 1 }} đến {{ currentPage * pageSize > totalItems ? totalItems :
+            currentPage * pageSize }} của tổng {{ totalItems }}
+        </span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <a href="javascript:void(0)" class="text-decoration-none fw-medium fs-8 transition-base"
+            [class.text-muted]="currentPage !== 1" [class.opacity-50]="currentPage === 1"
+            [class.hover-text-primary]="currentPage !== 1" [style.pointer-events]="currentPage === 1 ? 'none' : 'auto'"
+            (click)="goToPage(currentPage - 1)">Trước</a>
 
-        @for (page of pages; track $index) {
-        <li class="page-item" [class.active]="currentPage === page" [class.disabled]="page === -1">
-            <a class="page-link px-3" href="javascript:void(0)" (click)="page !== -1 && goToPage(page)">
+        <div class="d-flex align-items-center">
+            @for (page of pages; track $index) {
+            <a href="javascript:void(0)" class="text-decoration-none fs-8 px-2 transition-base"
+                [class.text-primary]="currentPage === page" [class.fw-bold]="currentPage === page"
+                [class.text-muted]="currentPage !== page && page !== -1"
+                [class.hover-text-primary]="page !== -1 && currentPage !== page"
+                [style.pointer-events]="page === -1 || currentPage === page ? 'none' : 'auto'"
+                (click)="page !== -1 && goToPage(page)">
                 {{ page === -1 ? '...' : page }}
             </a>
-        </li>
-        }
+            }
+        </div>
 
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link px-3" href="javascript:void(0)" (click)="goToPage(currentPage + 1)">
-                Sau
-            </a>
-        </li>
-    </ul>
-</nav>
+        <a href="javascript:void(0)" class="text-decoration-none fw-medium fs-8 transition-base"
+            [class.text-muted]="currentPage !== totalPages" [class.opacity-50]="currentPage === totalPages"
+            [class.hover-text-primary]="currentPage !== totalPages"
+            [style.pointer-events]="currentPage === totalPages ? 'none' : 'auto'"
+            (click)="goToPage(currentPage + 1)">Sau</a>
+    </div>
+</div>
 }

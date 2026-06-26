@@ -58,6 +58,12 @@ export class UsersComponent implements OnInit {
     this.updatePaginatedUsers();
   }
 
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.currentPage = 1;
+    this.updatePaginatedUsers();
+  }
+
   getRoleName(roleId: string) {
     return this.roles.find(r => r.id == roleId)?.name || 'N/A';
   }

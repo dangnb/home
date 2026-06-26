@@ -76,7 +76,7 @@
   </div>
 
   <app-pagination [totalItems]="totalUsers" [pageSize]="pageSize" [currentPage]="currentPage"
-    (pageChange)="onPageChange($event)">
+    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
   </app-pagination>
 </div>
 

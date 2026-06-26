@@ -13,7 +13,9 @@ export class PaginationComponent implements OnChanges {
     @Input() totalItems: number = 0;
     @Input() pageSize: number = 10;
     @Input() currentPage: number = 1;
+    @Input() pageSizes: number[] = [10, 20, 50, 100];
     @Output() pageChange = new EventEmitter<number>();
+    @Output() pageSizeChange = new EventEmitter<number>();
 
     totalPages: number = 0;
     pages: number[] = [];
@@ -56,6 +58,16 @@ export class PaginationComponent implements OnChanges {
     goToPage(page: number) {
         if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
             this.pageChange.emit(page);
+        }
+    }
+
+    onPageSizeChange(event: Event) {
+        const target = event.target as HTMLSelectElement;
+        const newSize = parseInt(target.value, 10);
+        if (newSize !== this.pageSize) {
+            this.pageSizeChange.emit(newSize);
+            // Cũng có thể emit pageChange = 1 để reset về trang đầu khi thay đổi pageSize
+            // this.pageChange.emit(1);
         }
     }
 }

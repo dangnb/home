@@ -5,7 +5,8 @@
 
 <div class="card">
   <div class="card-header">
-    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" class="search-input" placeholder="Tìm kiếm tên, ID sản phẩm..." />
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" class="search-input"
+      placeholder="Tìm kiếm tên, ID sản phẩm..." />
     <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="filter-select">
       <option value="">Tất cả danh mục</option>
       <option value="Trái cây">Trái cây</option>
@@ -67,7 +68,7 @@
   </div>
 
   <app-pagination [totalItems]="totalCount" [pageSize]="pageSize" [currentPage]="currentPage"
-    (pageChange)="onPageChange($event)">
+    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
   </app-pagination>
 </div>
 
