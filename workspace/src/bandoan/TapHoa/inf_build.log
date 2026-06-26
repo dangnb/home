@@ -1,8 +1,0 @@
-d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(12,18): error CS0246: The type or namespace name 'User' could not be found (are you missing a using directive or an assembly reference?) [d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
-d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\AppDbContext.cs(13,18): error CS0246: The type or namespace name 'Role' could not be found (are you missing a using directive or an assembly reference?) [d:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\TapHoa.Infrastructure.csproj]
-
-Build FAILED.
-    19 Warning(s)
-    2 Error(s)
-
-Time Elapsed 00:00:03.61
