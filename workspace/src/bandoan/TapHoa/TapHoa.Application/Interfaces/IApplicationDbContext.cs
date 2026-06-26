@@ -1,0 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using TapHoa.Domain.Entities;
+using TapHoa.Domain.Entities.Identity;
+using TapHoa.Domain.Entities.Warehouse;
+
+namespace TapHoa.Application.Interfaces;
+
+public interface IApplicationDbContext
+{
+    DbSet<Product> Products { get; }
+    DbSet<Category> Categories { get; }
+    DbSet<User> Users { get; }
+    DbSet<Role> Roles { get; }
+    DbSet<AuditLog> AuditLogs { get; }
+    
+    DbSet<InventoryTransaction> InventoryTransactions { get; }
+    DbSet<InventoryTransactionLine> InventoryTransactionLines { get; }
+    DbSet<StockLevel> StockLevels { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+}

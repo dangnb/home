@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, computed, signal } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, computed, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-users',
@@ -12,6 +13,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  private alertService = inject(AlertService);
   users: any[] = [];
   roles: any[] = [
     { id: 1, name: 'Admin' },
@@ -100,16 +102,19 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: string) {
-    if (confirm('Bạn có chắc chắn muốn khóa/xóa User này?')) {
-      this.mockUsers = this.mockUsers.filter(u => u.id !== (id as any));
+    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn khóa/xóa User này?').then((result: any) => {
+      if (result.isConfirmed) {
+        this.mockUsers = this.mockUsers.filter(u => u.id !== (id as any));
 
-      // Prevent current page from being empty if possible
-      const maxPage = Math.ceil(this.mockUsers.length / this.pageSize);
-      if (this.currentPage > maxPage && maxPage > 0) {
-        this.currentPage = maxPage;
+        // Prevent current page from being empty if possible
+        const maxPage = Math.ceil(this.mockUsers.length / this.pageSize);
+        if (this.currentPage > maxPage && maxPage > 0) {
+          this.currentPage = maxPage;
+        }
+
+        this.updatePaginatedUsers();
+        this.alertService.success('Thành công', 'Đã xóa người dùng thành công.');
       }
-
-      this.updatePaginatedUsers();
-    }
+    });
   }
 }

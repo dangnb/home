@@ -248,3 +248,181 @@ System.ArgumentException: Product with ID 01950000-0000-7000-8000-000000002001 d
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
    at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 10:17:15.128 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:17:15.166 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:23:16.778 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:23:16.851 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:26:26.921 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:26:26.960 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:30:48.004 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 1.7678 ms
+2026-06-26 10:30:49.745 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 10:30:49.752 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 10:30:49.752 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 10:30:49.752 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 10:30:49.752 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 10:30:49.829 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1457.8602 ms
+2026-06-26 10:30:49.829 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1810.3640 ms
+2026-06-26 10:30:49.834 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 465.2824 ms
+2026-06-26 10:30:49.960 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 902.9503 ms
+2026-06-26 10:30:51.082 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 10.6989 ms
+2026-06-26 10:30:51.329 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.1046 ms
+2026-06-26 10:30:54.541 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1411 ms
+2026-06-26 10:30:54.584 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 16.6731 ms
+2026-06-26 10:31:02.499 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inbound responded 204 in 0.0414 ms
+2026-06-26 10:31:02.723 +07:00 [INF] Audit Logged: Create by admin - CreateInboundTransactionCommand
+2026-06-26 10:31:03.226 +07:00 [INF] HTTP POST /api/v1/transactions/inbound responded 200 in 723.9079 ms
+2026-06-26 10:31:03.307 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0509 ms
+2026-06-26 10:31:03.485 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 173.4398 ms
+2026-06-26 10:31:21.514 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0945 ms
+2026-06-26 10:31:21.527 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 9.8615 ms
+2026-06-26 10:31:32.444 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0589 ms
+2026-06-26 10:31:32.490 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 40.2984 ms
+2026-06-26 10:31:37.344 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.2903 ms
+2026-06-26 10:31:37.376 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 27.0982 ms
+2026-06-26 10:31:37.394 +07:00 [INF] HTTP GET /uploads/products/c1077064-224b-4330-bd29-0b282a6d3925.png responded 200 in 11.5775 ms
+2026-06-26 10:31:38.857 +07:00 [INF] HTTP OPTIONS /api/v1/products/019f01c7-c3ad-7fcd-a8d9-cb70d5e897a9 responded 204 in 0.0477 ms
+2026-06-26 10:31:38.959 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-06-26 10:31:39.089 +07:00 [INF] HTTP PUT /api/v1/products/019f01c7-c3ad-7fcd-a8d9-cb70d5e897a9 responded 204 in 228.6298 ms
+2026-06-26 10:31:39.102 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0813 ms
+2026-06-26 10:31:39.116 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.1926 ms
+2026-06-26 10:31:41.739 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1076 ms
+2026-06-26 10:31:41.745 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5997 ms
+2026-06-26 10:31:44.307 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1576 ms
+2026-06-26 10:31:44.313 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4183 ms
+2026-06-26 10:31:45.892 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0419 ms
+2026-06-26 10:31:47.028 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0498 ms
+2026-06-26 10:31:51.059 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0422 ms
+2026-06-26 10:31:51.064 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1116 ms
+2026-06-26 10:31:57.460 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0689 ms
+2026-06-26 10:31:57.465 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0178 ms
+2026-06-26 10:32:39.676 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0646 ms
+2026-06-26 10:32:39.705 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 16.0075 ms
+2026-06-26 10:32:42.459 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0391 ms
+2026-06-26 10:32:42.464 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.9214 ms
+2026-06-26 10:32:42.799 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.0372 ms
+2026-06-26 10:32:49.146 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1445 ms
+2026-06-26 10:32:49.174 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-26 10:32:49.285 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 135.4634 ms
+2026-06-26 10:32:49.290 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3926 ms
+2026-06-26 10:33:41.906 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0374 ms
+2026-06-26 10:33:41.910 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7488 ms
+2026-06-26 10:34:19.018 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1249 ms
+2026-06-26 10:34:19.021 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6238 ms
+2026-06-26 10:34:32.256 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0248 ms
+2026-06-26 10:34:32.260 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7838 ms
+2026-06-26 10:34:56.238 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0285 ms
+2026-06-26 10:34:56.257 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2722 ms
+2026-06-26 10:35:20.254 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0665 ms
+2026-06-26 10:35:20.259 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8156 ms
+2026-06-26 10:50:02.175 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:02.207 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:02.209 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:21.461 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:21.504 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:21.506 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:22.049 +07:00 [WRN] The migration operation 'PRAGMA foreign_keys = 0;
+' from migration 'AddWmsSchema' cannot be executed in a transaction. If the app is terminated or an unrecoverable error occurs while this operation is being executed then the migration will be left in a partially applied state and would need to be reverted manually before it can be applied again. Create a separate migration that contains just this operation.
+2026-06-26 10:50:36.913 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:36.943 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:50:36.946 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 10:55:09.511 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 1.4561 ms
+2026-06-26 10:55:09.748 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 10:55:09.760 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 10:55:09.870 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 344.7809 ms
+2026-06-26 10:55:10.261 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 10.3533 ms
+2026-06-26 10:55:10.845 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 10.2404 ms
+2026-06-26 10:55:11.876 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.2078 ms
+2026-06-26 10:55:12.367 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 486.0689 ms
+2026-06-26 10:55:46.298 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0512 ms
+2026-06-26 10:55:46.478 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 176.1863 ms
+2026-06-26 10:56:10.910 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0495 ms
+2026-06-26 10:56:10.918 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.7554 ms
+2026-06-26 10:56:27.246 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0367 ms
+2026-06-26 10:56:27.250 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3241 ms
+2026-06-26 11:00:10.261 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0519 ms
+2026-06-26 11:00:10.465 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-26 11:00:11.220 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 916.8466 ms
+2026-06-26 11:00:11.285 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1004 ms
+2026-06-26 11:00:11.331 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 40.7659 ms
+2026-06-26 11:00:11.369 +07:00 [INF] HTTP GET /uploads/products/c1077064-224b-4330-bd29-0b282a6d3925.png responded 304 in 5.8268 ms
+2026-06-26 11:00:18.982 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0739 ms
+2026-06-26 11:00:18.987 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.7239 ms
+2026-06-26 11:00:19.990 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0887 ms
+2026-06-26 11:00:20.036 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 4.8922 ms
+2026-06-26 11:06:18.974 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0566 ms
+2026-06-26 11:06:18.980 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 3.4813 ms
+2026-06-26 11:06:19.733 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.2890 ms
+2026-06-26 11:06:19.882 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7022 ms
+2026-06-26 11:08:09.194 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.2521 ms
+2026-06-26 11:08:09.199 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0444 ms
+2026-06-26 11:08:10.476 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0567 ms
+2026-06-26 11:10:24.919 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0330 ms
+2026-06-26 11:10:24.923 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0914 ms
+2026-06-26 11:10:26.053 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.9785 ms
+2026-06-26 11:10:26.877 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7582 ms
+2026-06-26 11:10:27.234 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.4886 ms
+2026-06-26 11:10:27.539 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7557 ms
+2026-06-26 11:10:28.042 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8117 ms
+2026-06-26 11:10:28.274 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7507 ms
+2026-06-26 11:10:28.481 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8213 ms
+2026-06-26 11:10:28.721 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8634 ms
+2026-06-26 11:10:28.929 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7092 ms
+2026-06-26 11:10:29.209 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.8265 ms
+2026-06-26 11:10:29.327 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.6809 ms
+2026-06-26 11:10:29.819 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.3102 ms
+2026-06-26 11:10:30.084 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0528 ms
+2026-06-26 11:10:30.090 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7108 ms
+2026-06-26 11:10:30.401 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7513 ms
+2026-06-26 11:10:30.741 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.0638 ms
+2026-06-26 11:11:59.084 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0449 ms
+2026-06-26 11:11:59.088 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.7764 ms
+2026-06-26 11:12:38.665 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0572 ms
+2026-06-26 11:12:38.670 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8629 ms
+2026-06-26 11:13:23.519 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0424 ms
+2026-06-26 11:13:23.524 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4425 ms
+2026-06-26 11:13:26.022 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0275 ms
+2026-06-26 11:13:26.026 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 0.5918 ms
+2026-06-26 11:13:50.245 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0327 ms
+2026-06-26 11:13:50.250 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9079 ms
+2026-06-26 11:15:06.891 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0421 ms
+2026-06-26 11:15:06.899 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.1184 ms
+2026-06-26 11:15:08.149 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0917 ms
+2026-06-26 11:15:31.703 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0336 ms
+2026-06-26 11:15:31.710 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.4469 ms
+2026-06-26 11:15:31.718 +07:00 [INF] HTTP GET /uploads/products/c1077064-224b-4330-bd29-0b282a6d3925.png responded 304 in 0.3671 ms
+2026-06-26 11:15:34.442 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0186 ms
+2026-06-26 11:15:34.447 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4273 ms
+2026-06-26 11:15:36.405 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0264 ms
+2026-06-26 11:15:36.440 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7779 ms
+2026-06-26 11:15:39.612 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0187 ms
+2026-06-26 11:15:39.655 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7102 ms
+2026-06-26 11:15:42.605 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0212 ms
+2026-06-26 11:15:42.608 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.6861 ms
+2026-06-26 11:15:43.836 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0211 ms
+2026-06-26 11:15:43.840 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.6944 ms
+2026-06-26 11:15:45.005 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0189 ms
+2026-06-26 11:15:45.008 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.6557 ms
+2026-06-26 11:15:46.944 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.3405 ms
+2026-06-26 11:15:46.963 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0475 ms
+2026-06-26 11:15:46.976 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 3.5251 ms
+2026-06-26 11:15:46.976 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 9.9455 ms
+2026-06-26 11:15:47.056 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0613 ms
+2026-06-26 11:15:47.062 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.0788 ms
+2026-06-26 11:15:47.158 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0155 ms
+2026-06-26 11:15:47.161 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7478 ms
+2026-06-26 11:15:47.179 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0224 ms
+2026-06-26 11:15:47.182 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 0.7484 ms
+2026-06-26 11:15:48.262 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0198 ms
+2026-06-26 11:15:48.266 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5315 ms
+2026-06-26 11:16:03.196 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0156 ms
+2026-06-26 11:16:03.200 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.5934 ms
+2026-06-26 11:16:04.180 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0171 ms
+2026-06-26 11:16:04.184 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2943 ms
+2026-06-26 11:16:07.947 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2162 ms
+2026-06-26 11:21:04.961 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0743 ms
+2026-06-26 11:21:04.969 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 3.4195 ms
+2026-06-26 11:21:04.976 +07:00 [INF] HTTP GET /uploads/products/c1077064-224b-4330-bd29-0b282a6d3925.png responded 304 in 0.2712 ms
+2026-06-26 11:21:05.533 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0181 ms
+2026-06-26 11:21:05.537 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6436 ms
+2026-06-26 11:22:05.274 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0189 ms
+2026-06-26 11:22:05.280 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.0734 ms

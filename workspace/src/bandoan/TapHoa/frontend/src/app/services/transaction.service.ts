@@ -7,6 +7,9 @@ export interface TransactionLineDto {
     productId: string;
     quantity: number;
     unitCost: number;
+    locationCode?: string;
+    batchNumber?: string;
+    expiryDate?: string;
 }
 
 export interface CreateInboundTransactionRequest {

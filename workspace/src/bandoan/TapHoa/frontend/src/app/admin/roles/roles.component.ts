@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
 import { Role } from '../../models/role';
 import { AppPermissionsList, AppPermissions } from '../../models/permission.enum';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
-    selector: 'app-roles',
-    imports: [FormsModule],
-    templateUrl: './roles.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrls: ['./roles.component.scss']
+  selector: 'app-roles',
+  imports: [FormsModule],
+  templateUrl: './roles.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
   roles: Role[] = [];
@@ -27,7 +28,7 @@ export class RolesComponent implements OnInit {
     { id: "3", name: 'Cashier', description: 'Nhân viên thu ngân', permissions: AppPermissions.ViewProducts }
   ];
 
-  constructor(private roleService: RoleService) { }
+  constructor(private roleService: RoleService, private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.loadRoles();
@@ -70,10 +71,13 @@ export class RolesComponent implements OnInit {
   }
 
   deleteRole(id: string) {
-    if (confirm('Bạn có chắc chắn muốn xóa vai trò này không?')) {
-      this.roles = this.roles.filter(r => r.id !== id);
-      this.mockRoles = this.mockRoles.filter(r => r.id !== id);
-    }
+    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa vai trò này không?').then((result: any) => {
+      if (result.isConfirmed) {
+        this.roles = this.roles.filter(r => r.id !== id);
+        this.mockRoles = this.mockRoles.filter(r => r.id !== id);
+        this.alertService.success('Thành công', 'Đã xóa vai trò.');
+      }
+    });
   }
 
   // --- BITWISE MATRIX LOGIC ---

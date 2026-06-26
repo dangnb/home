@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { AlertService } from '../../services/alert.service';
 
 export interface CategoryNode extends Category {
     children: CategoryNode[];
@@ -29,7 +30,7 @@ export class CategoriesComponent implements OnInit {
     isEditMode = false;
     editingCategory: Category = this.getEmptyCategory();
 
-    constructor(private categoryService: CategoryService) { }
+    constructor(private categoryService: CategoryService, private alertService: AlertService) { }
 
     ngOnInit() {
         this.loadCategories();
@@ -122,11 +123,14 @@ export class CategoriesComponent implements OnInit {
     }
 
     deleteCategory(id: string) {
-        if (confirm('Bạn có chắc chắn muốn xóa danh mục này không? Các danh mục con có thể cũng bị ảnh hưởng.')) {
-            this.categoryService.deleteCategory(id).subscribe(() => {
-                this.loadCategories();
-            });
-        }
+        this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa danh mục này không? Các danh mục con có thể cũng bị ảnh hưởng.').then((result: any) => {
+            if (result.isConfirmed) {
+                this.categoryService.deleteCategory(id).subscribe(() => {
+                    this.loadCategories();
+                    this.alertService.success('Thành công', 'Đã xóa danh mục.');
+                });
+            }
+        });
     }
 
     private getEmptyCategory(): Category {

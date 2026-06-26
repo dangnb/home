@@ -84,9 +84,9 @@
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
               </span>
-              <input type="text" class="form-control custom-input rounded-3 shadow-none" style="padding-left: 2.5rem;"
-                [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" (focus)="onSearchFocus()"
-                (blur)="onSearchBlur()" placeholder="Táo New Zealand size to">
+              <input type="text" class="form-control custom-input rounded-3 shadow-none"
+                style="padding-left: 2.5rem !important;" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
+                (focus)="onSearchFocus()" (blur)="onSearchBlur()" placeholder="Táo New Zealand size to">
             </div>
             <!-- Dropdown Menu -->
             <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete" [class.show]="showDropdown">
@@ -111,12 +111,28 @@
             <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity"
               min="1">
           </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted fw-bold small text-uppercase">Giá vốn (VND)</label>
+          <div class="col-md-2">
+            <label class="form-label text-muted fw-bold small text-uppercase">Giá vốn</label>
             <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost"
               min="0">
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
+            <label class="form-label text-muted fw-bold small text-uppercase">Vị trí kho (Ví dụ A-01-02)</label>
+            <input type="text" class="form-control custom-input rounded-3 shadow-none"
+              [(ngModel)]="selectedLocationCode" placeholder="A-01">
+          </div>
+        </div>
+        <div class="row g-3 align-items-end mt-1">
+          <div class="col-md-5">
+            <label class="form-label text-muted fw-bold small text-uppercase">Lô hàng (Batch)</label>
+            <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
+              placeholder="B001">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label text-muted fw-bold small text-uppercase">HSD (FEFO)</label>
+            <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
+          </div>
+          <div class="col-md-3">
             <button
               class="btn btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
               (click)="addLine()" style="background-color: #3b82f6; border-color: #3b82f6; padding: 0.6rem;">
@@ -172,6 +188,8 @@
           <thead class="bg-light text-muted small text-uppercase" style="border-bottom: 2px solid #f1f3f5;">
             <tr>
               <th class="ps-4 py-3 border-0">Sản phẩm</th>
+              <th class="py-3 border-0">Vị trí</th>
+              <th class="py-3 border-0">Lô & HSD</th>
               <th class="text-center py-3 border-0">Số lượng</th>
               <th class="text-end py-3 border-0">Giá vốn</th>
               <th class="text-end py-3 border-0 pe-4">Thành tiền</th>
@@ -182,6 +200,11 @@
             @for (l of lines; track l; let i = $index) {
             <tr class="bg-white">
               <td class="ps-4 fw-medium py-3 text-dark">{{ l.productName }}</td>
+              <td class="py-3 text-secondary small">{{ l.locationCode || 'Mặc định' }}</td>
+              <td class="py-3 text-secondary small">
+                {{ l.batchNumber || 'N/A' }}
+                @if (l.expiryDate) { <br><span class="opacity-75">{{ l.expiryDate | date:'dd/MM/yyyy' }}</span> }
+              </td>
               <td class="text-center fw-medium py-3 text-dark">{{ l.quantity }}</td>
               <td class="text-end fw-medium py-3 text-dark">{{ l.unitCost | number:'1.0-0' }} ₫</td>
               <td class="text-end fw-bold text-success py-3 pe-4">{{ (l.quantity * l.unitCost) | number:'1.0-0' }} ₫

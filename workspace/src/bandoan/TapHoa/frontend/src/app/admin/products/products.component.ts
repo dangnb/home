@@ -5,6 +5,7 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-products',
@@ -47,7 +48,7 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private alertService: AlertService) { }
 
   ngOnInit() {
     this.loadProducts();
@@ -102,17 +103,20 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteProduct(id: string) {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-      this.productService.deleteProduct(id).subscribe({
-        next: () => {
-          this.loadProducts();
-        },
-        error: (err) => {
-          console.error('Lỗi xóa sản phẩm:', err);
-          alert('Không thể xóa sản phẩm. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau!');
-        }
-      });
-    }
+    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa sản phẩm này không?').then((result: any) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProduct(id).subscribe({
+          next: () => {
+            this.loadProducts();
+            this.alertService.success('Thành công', 'Đã xóa sản phẩm.');
+          },
+          error: (err) => {
+            console.error('Lỗi xóa sản phẩm:', err);
+            this.alertService.error('Thất bại', 'Không thể xóa sản phẩm. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau!');
+          }
+        });
+      }
+    });
   }
 
   onMainImageSelected(event: any) {

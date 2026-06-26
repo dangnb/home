@@ -6,7 +6,7 @@ using TapHoa.Domain.Entities.Warehouse;
 
 namespace TapHoa.Infrastructure.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicationDbContext
 {
     private readonly TapHoa.Application.Interfaces.ICurrentUserService? _currentUserService;
 
@@ -27,6 +27,8 @@ public class AppDbContext : DbContext
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
     public DbSet<InventoryTransactionLine> InventoryTransactionLines => Set<InventoryTransactionLine>();
     public DbSet<StockLevel> StockLevels => Set<StockLevel>();
+    public DbSet<WarehouseLocation> WarehouseLocations => Set<WarehouseLocation>();
+    public DbSet<ProductBatch> ProductBatches => Set<ProductBatch>();
 
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
@@ -68,8 +70,15 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
-        // StockLevel composite key
-        modelBuilder.Entity<StockLevel>().HasKey(x => new { x.ProductId, x.StoreId });
+        // WMS StockLevel keys
+        modelBuilder.Entity<StockLevel>().HasKey(x => x.Id);
+        modelBuilder.Entity<StockLevel>()
+            .HasIndex(x => new { x.ProductId, x.LocationId, x.BatchId });
+
+        modelBuilder.Entity<StockLevel>()
+            .Property(x => x.RowVersion)
+            .IsRowVersion()
+            .IsConcurrencyToken();
 
         var companyId = Guid.Parse("01950000-0000-7000-8000-000000000000");
         var adminRoleId = Guid.Parse("01950000-0000-7000-8000-000000000001");

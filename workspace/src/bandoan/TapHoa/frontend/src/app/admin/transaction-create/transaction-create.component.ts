@@ -34,6 +34,12 @@ export class TransactionCreateComponent implements OnInit {
     selectedProductId: string | null = null;
     selectedQuantity: number = 1;
     selectedCost: number = 0;
+
+    // WMS
+    selectedLocationCode: string = '';
+    selectedBatchNumber: string = '';
+    selectedExpiryDate: string = '';
+
     isSubmitting = false;
 
     // Simulate clicking outside
@@ -101,7 +107,10 @@ export class TransactionCreateComponent implements OnInit {
             productId: prod.id,
             productName: prod.name,
             quantity: this.selectedQuantity,
-            unitCost: this.selectedCost
+            unitCost: this.selectedCost,
+            locationCode: this.selectedLocationCode || undefined,
+            batchNumber: this.selectedBatchNumber || undefined,
+            expiryDate: this.selectedExpiryDate || undefined
         });
 
         // reset
@@ -109,6 +118,9 @@ export class TransactionCreateComponent implements OnInit {
         this.searchQuery = '';
         this.selectedQuantity = 1;
         this.selectedCost = 0;
+        this.selectedLocationCode = '';
+        this.selectedBatchNumber = '';
+        this.selectedExpiryDate = '';
     }
 
     removeLine(index: number) {
@@ -128,7 +140,14 @@ export class TransactionCreateComponent implements OnInit {
         const req: CreateInboundTransactionRequest = {
             referenceId: this.referenceId,
             notes: this.notes,
-            lines: this.lines.map(l => ({ productId: l.productId, quantity: l.quantity, unitCost: l.unitCost }))
+            lines: this.lines.map(l => ({
+                productId: l.productId,
+                quantity: l.quantity,
+                unitCost: l.unitCost,
+                locationCode: l.locationCode,
+                batchNumber: l.batchNumber,
+                expiryDate: l.expiryDate
+            }))
         };
 
         this.transactionService.createInboundTransaction(req).subscribe({
