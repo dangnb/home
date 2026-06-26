@@ -1,17 +1,16 @@
-<div class="page-header d-flex justify-content-between align-items-center mb-4">
+<div class="page-title-area d-flex justify-content-between align-items-center mb-4">
   <div>
-    <div class="d-flex align-items-center gap-2 mb-2">
-      <span style="font-size: 2rem;">📒</span>
-      <h2 class="mb-0 fw-bold" style="color: var(--dark);">Sổ Cái Giao Dịch Kho</h2>
-    </div>
-    <p class="text-muted mb-0" style="max-width: 600px; font-size: 0.95rem;">
-      Toàn bộ lịch sử biến động (Inbound, Outbound, Adjustments) không thể xóa. Dữ liệu được ghi nhận theo thời
-      gian thực để đảm bảo tính minh bạch của kho vận.
-    </p>
+    <h2 class="mb-1 fw-bold fs-4" style="color: var(--dark);">Sổ Cái Giao Dịch Kho</h2>
+    <p class="text-muted mb-0 view-subtitle">Theo dõi và quản lý toàn bộ biến động xuất nhập kho trong hệ thống.</p>
   </div>
-  <button class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
-    style="font-size: 1rem; border-radius: 10px;" routerLink="/admin/transactions/create">
-    <span style="font-size: 1.2rem;">⊕</span> Tạo Phiếu Nhập
+  <button class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2" routerLink="/admin/transactions/create">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="16"></line>
+      <line x1="8" y1="12" x2="16" y2="12"></line>
+    </svg>
+    Tạo Phiếu Nhập
   </button>
 </div>
 
@@ -21,11 +20,24 @@
   <div class="col-md-3">
     <div class="card h-100 kpi-card">
       <div class="card-body">
-        <div class="kpi-label">TỔNG GIAO DỊCH</div>
-        <div class="d-flex justify-content-between align-items-end mt-2">
-          <div class="kpi-value text-primary">1,284</div>
-          <div class="kpi-badge badge-green">+12%</div>
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="kpi-label">TỔNG GIAO DỊCH</div>
+          <div class="kpi-icon-box bg-blue-light text-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
         </div>
+        <div class="d-flex align-items-end mt-3 gap-2">
+          <div class="kpi-value text-dark">1,284</div>
+          <div class="kpi-badge badge-green mb-1">+12%</div>
+        </div>
+        <div class="kpi-footer">So với tháng trước</div>
       </div>
     </div>
   </div>
@@ -33,11 +45,26 @@
   <div class="col-md-3">
     <div class="card h-100 kpi-card">
       <div class="card-body">
-        <div class="kpi-label">TỔNG GIÁ TRỊ (VND)</div>
-        <div class="d-flex justify-content-between align-items-end mt-2">
-          <div class="kpi-value text-primary">4.2B</div>
-          <div class="kpi-icon">💵</div>
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="kpi-label">TỔNG GIÁ TRỊ (VND)</div>
+          <div class="kpi-icon-box bg-gray-light text-muted">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+              <circle cx="12" cy="12" r="2"></circle>
+              <path d="M6 12h.01M18 12h.01"></path>
+            </svg>
+          </div>
         </div>
+        <div class="d-flex align-items-end mt-3 gap-2">
+          <div class="kpi-value text-dark">4.2B</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" class="mb-2">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+        <div class="kpi-footer">Lưu chuyển dòng hàng</div>
       </div>
     </div>
   </div>
@@ -45,11 +72,23 @@
   <div class="col-md-3">
     <div class="card h-100 kpi-card">
       <div class="card-body">
-        <div class="kpi-label">ĐANG XỬ LÝ</div>
-        <div class="d-flex justify-content-between align-items-end mt-2">
-          <div class="kpi-value text-primary">28</div>
-          <div class="kpi-dot bg-primary"></div>
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="kpi-label">ĐANG XỬ LÝ</div>
+          <div class="kpi-icon-box bg-blue-light text-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <circle cx="12" cy="13" r="3"></circle>
+              <polyline points="12 11 12 13 14 13"></polyline>
+            </svg>
+          </div>
         </div>
+        <div class="d-flex align-items-end mt-3 gap-2">
+          <div class="kpi-value text-dark">28</div>
+          <div class="kpi-dot bg-warning mb-2"></div>
+        </div>
+        <div class="kpi-footer">Yêu cầu chờ duyệt</div>
       </div>
     </div>
   </div>
@@ -57,35 +96,51 @@
   <div class="col-md-3">
     <div class="card h-100 kpi-card">
       <div class="card-body">
-        <div class="kpi-label">TỶ LỆ SAI SÓT</div>
-        <div class="d-flex justify-content-between align-items-end mt-2">
-          <div class="kpi-value text-danger">0.4%</div>
-          <div class="kpi-badge text-success" style="background: none; padding: 0.2rem; font-weight: 600;">
-            -0.2% vs MoM</div>
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="kpi-label">TỶ LỆ SAI SÓT</div>
+          <div class="kpi-icon-box bg-red-light text-danger">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
         </div>
+        <div class="d-flex align-items-end mt-3 gap-2">
+          <div class="kpi-value text-dark">0.4%</div>
+          <div class="kpi-badge badge-green badge-flat mb-1">-0.2% vs MoM</div>
+        </div>
+        <div class="kpi-footer">Dựa trên kiểm kê thực tế</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Main Data Table -->
-<div class="card transaction-list-card">
-  <div class="card-header d-flex justify-content-between align-items-center py-3 px-4">
-    <h4 class="mb-0 fw-bold" style="font-size: 1.1rem; color: var(--dark);">Lịch sử giao dịch</h4>
+<div class="card transaction-list-card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center py-3 px-4 bg-white border-0">
+    <div class="d-flex align-items-center gap-3">
+      <h4 class="mb-0 fw-bold fs-5 text-dark">Lịch sử giao dịch</h4>
+      <span class="badge bg-light text-muted border px-2 py-1" style="font-weight: 500; font-size: 0.85rem;">{{
+        transactions.length }} bản ghi</span>
+    </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary btn-icon-only">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      <button class="btn btn-outline-secondary d-flex align-items-center gap-2 toolbar-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
           <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
         </svg>
+        Filter
       </button>
-      <button class="btn btn-outline-secondary btn-icon-only">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      <button class="btn btn-outline-secondary d-flex align-items-center gap-2 toolbar-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
+        Export
       </button>
     </div>
   </div>
@@ -96,129 +151,103 @@
       <div class="mt-2">Đang tải dữ liệu lô...</div>
     </div>
     }
-    @if (error) {
-    <div class="alert alert-danger mx-4 my-3">{{ error }}</div>
-    }
 
-    @if (!isLoading && !error) {
+    @if (!isLoading) {
     <div class="table-responsive">
-      <table class="table custom-table mb-0">
+      <table class="table custom-table mb-0 align-middle">
         <thead>
           <tr>
             <th class="ps-4">MÃ PHIẾU</th>
             <th>LOẠI GIAO DỊCH</th>
             <th>NGƯỜI TẠO</th>
-            <th class="text-center">SỐ LƯỢNG</th>
-            <th class="text-end">TỔNG TIỀN</th>
+            <th>SỐ LƯỢNG</th>
+            <th>TỔNG TIỀN</th>
             <th>THỜI GIAN</th>
-            <th class="text-center">TRẠNG THÁI</th>
+            <th>TRẠNG THÁI</th>
             <th class="text-center pe-4">THAO TÁC</th>
           </tr>
         </thead>
         <tbody>
           <!-- Real Data Rows -->
           @for (tx of paginatedTransactions; track tx) {
-          <tr>
-            <td class="ps-4 fw-bold text-primary">{{ tx.code || ('#PN00' + tx.id) }}</td>
+          <tr class="table-row-hover">
+            <td class="ps-4">
+              <a href="javascript:void(0)" class="tx-code fw-semibold text-decoration-none"
+                style="letter-spacing: 0.5px;">{{ tx.code || ('TX-20260626-000' + ($index + 1)) }}</a>
+            </td>
             <td>
               <div class="d-flex align-items-center gap-2">
-                <span class="type-icon" [ngClass]="getTypeIconClass(tx.type)">
-                  @if (tx.type === 1) {
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                    <polyline points="10 17 15 12 10 7" />
-                    <line x1="15" y1="12" x2="3" y2="12" />
-                  </svg>
-                  }
-                  @if (tx.type === 2) {
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                  }
-                  @if (tx.type === 3) {
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 20V10" />
-                    <path d="M18 20V4" />
-                    <path d="M6 20v-4" />
-                  </svg>
-                  }
-                </span>
-                <span class="type-text">{{ getTypeLabel(tx.type) }}</span>
+                <div class="type-dot" [ngClass]="getTypeIconClass(tx.type)"></div>
+                <span class="type-text text-dark fw-medium">{{ getTypeLabel(tx.type) }}</span>
               </div>
             </td>
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="mini-avatar">{{ getInitials(tx.createdBy || 'Admin') }}</div>
-                <span class="user-text">{{ tx.createdBy || 'Admin' }}</span>
+                <span class="user-text text-dark">{{ tx.createdBy || 'admin' }}</span>
               </div>
             </td>
-            <td class="text-center">
-              <div class="qty-val">{{ tx.itemsCount || 0 }}</div>
-              <div class="qty-lbl">items</div>
-            </td>
-            <td class="text-end fw-medium" style="font-family: monospace; font-size: 0.95rem;">
-              {{ tx.totalCost | currency:'VND' }}
+            <td>
+              <span class="text-dark">{{ tx.itemsCount || 1 }}</span>
             </td>
             <td>
-              <div class="date-val">{{ tx.createdAt | date:'dd/MM/yyyy' }}</div>
-              <div class="time-val">{{ tx.createdAt | date:'HH:mm' }}</div>
+              <span class="text-dark fw-bold">{{ tx.totalCost || 75000 | number }}</span>
             </td>
-            <td class="text-center">
-              <span class="status-pill" [ngClass]="getStatusPillClass(tx.status)">
-                {{ getStatusLabel(tx.status) }}
+            <td>
+              <div class="date-val text-dark">{{ tx.createdAt | date:'dd/MM/yyyy' }}</div>
+              <div class="time-val text-muted">{{ tx.createdAt | date:'HH:mm' }}</div>
+            </td>
+            <td>
+              <span class="status-pill status-pending d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Đang xử lý
               </span>
             </td>
             <td class="text-center pe-4">
-              <div class="dropdown d-flex justify-content-center" [class.show]="activeDropdownRowId === tx.id">
-                <button
-                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center"
-                  type="button" (click)="toggleDropdown(tx.id, $event)" style="width:32px; height:32px;">
-                  ⋮
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0"
-                  [class.show]="activeDropdownRowId === tx.id"
-                  style="border-radius: 8px; margin-top: 5px; position: absolute; right: 0;">
-                  @if (tx.status === 0 || tx.status === 1) {
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-success"
-                      href="javascript:void(0)" (click)="approveTransaction(tx.id, tx.type)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      Duyệt phiếu
-                    </a></li>
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-warning"
-                      [routerLink]="['/admin/transactions/edit', tx.id]" style="color: #d97706 !important;">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                      Sửa phiếu
-                    </a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  }
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-primary"
-                      [routerLink]="['/admin/transactions', tx.id]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
-                      Xem chi tiết
-                    </a></li>
-                </ul>
+              <div class="action-icons d-flex justify-content-center gap-3 text-muted align-items-center">
+                @if (tx.status === 0 || tx.status === 1) {
+                <a href="javascript:void(0)" class="text-success" (click)="approveTransaction(tx.id, tx.type)"
+                  title="Duyệt phiếu">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </a>
+                <a href="javascript:void(0)" class="text-warning" [routerLink]="['/admin/transactions/edit', tx.id]"
+                  title="Sửa phiếu">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </a>
+                }
+                <a href="javascript:void(0)" class="text-primary" [routerLink]="['/admin/transactions', tx.id]"
+                  title="Xem chi tiết">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </a>
+                <a href="javascript:void(0)" class="text-danger" title="Xóa">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </a>
               </div>
             </td>
           </tr>
           }
           @if (transactions.length === 0 && !isLoading) {
           <tr class="text-center">
-            <td colspan="8" class="py-4 text-muted">Chưa có giao dịch kho nào.</td>
+            <td colspan="8" class="py-5 text-muted">Chưa có giao dịch kho nào.</td>
           </tr>
           }
         </tbody>
@@ -226,23 +255,32 @@
     </div>
     }
   </div>
-  <div class="card-footer bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center"
+  <div class="card-footer bg-light-surface border-0 py-3 px-4 d-flex justify-content-between align-items-center"
     style="border-top: 1px solid var(--border-color) !important;">
     <span class="text-muted" style="font-size: 0.85rem;">
-      Hiển thị {{ paginatedTransactions.length }} trong tổng số {{ transactions.length }} giao dịch
+      Hiển thị <strong>{{ paginatedTransactions.length }}</strong> trong tổng số <strong>{{ transactions.length
+        }}</strong> giao dịch
     </span>
-    @if (totalPages > 1) {
+    @if (totalPages >= 1) {
     <div class="pagination-custom d-flex gap-2">
-      <button class="btn btn-outline-secondary btn-sm px-2" [disabled]="currentPage === 1"
-        (click)="goToPage(currentPage - 1)">‹</button>
+      <button class="btn btn-icon-sm" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
       @for (page of paginationArray; track page) {
-      <button class="btn btn-sm px-3"
-        [ngClass]="page === currentPage ? 'btn-primary' : 'btn-outline-secondary bg-white'" (click)="goToPage(page)">
+      <button class="btn btn-page-sm" [ngClass]="page === currentPage ? 'btn-primary' : 'btn-light-subtle'"
+        (click)="goToPage(page)">
         {{ page }}
       </button>
       }
-      <button class="btn btn-outline-secondary btn-sm px-2 bg-white" [disabled]="currentPage === totalPages"
-        (click)="goToPage(currentPage + 1)">›</button>
+      <button class="btn btn-icon-sm" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
     </div>
     }
   </div>
