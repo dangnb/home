@@ -58,6 +58,14 @@ public static class TransactionsEndpoints
         .WithName("ApproveTransaction")
         .RequireAuthorization();
 
+        group.MapDelete("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new DeleteTransactionCommand(id));
+            return result ? Results.NoContent() : Results.NotFound();
+        })
+        .WithName("DeleteTransaction")
+        .RequireAuthorization();
+
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetTransactionByIdQuery(id));

@@ -144,4 +144,21 @@ export class TransactionsComponent implements OnInit {
             }
         });
     }
+
+    deleteTransaction(id: string) {
+        this.alertService.confirm('Xóa phiếu giao dịch', 'Bạn có chắc chắn muốn xóa vĩnh viễn phiếu giao dịch này? Hành động này không thể hoàn tác.', 'Có, xóa ngay', 'Hủy').then((result: any) => {
+            if (result.isConfirmed) {
+                this.transactionService.deleteTransaction(id).subscribe({
+                    next: (res: any) => {
+                        this.alertService.success('Thành công', 'Đã xóa phiếu giao dịch!');
+                        this.fetchTransactions();
+                    },
+                    error: (err: any) => {
+                        console.error(err);
+                        this.alertService.error('Lỗi', 'Không thể xóa phiếu: ' + (err.error?.message || err.message));
+                    }
+                });
+            }
+        });
+    }
 }

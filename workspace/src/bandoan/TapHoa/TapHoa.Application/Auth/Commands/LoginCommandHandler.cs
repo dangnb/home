@@ -13,11 +13,13 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
 {
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _config;
+    private readonly TapHoa.Application.Interfaces.IApplicationDbContext _dbContext;
 
-    public LoginCommandHandler(IUserRepository userRepository, IConfiguration config)
+    public LoginCommandHandler(IUserRepository userRepository, IConfiguration config, TapHoa.Application.Interfaces.IApplicationDbContext dbContext)
     {
         _userRepository = userRepository;
         _config = config;
+        _dbContext = dbContext;
     }
 
     public async Task<AuthResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -63,13 +65,22 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
             signingCredentials: creds
         );
 
+        var jwtString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        // Generate Refresh Token
+        var refreshToken = Convert.ToBase64String(Guid.NewGuid().ToByteArray()) + Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        var rtEntity = new TapHoa.Domain.Entities.Identity.UserToken(user.Id, refreshToken, DateTime.UtcNow.AddDays(7));
+        _dbContext.UserTokens.Add(rtEntity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
         return new AuthResultDto
         {
-            Token = new JwtSecurityTokenHandler().WriteToken(token),
+            Token = jwtString,
+            RefreshToken = refreshToken,
             Username = user.Username,
             FullName = user.FullName,
             Roles = roles,
-            Permissions = new List<string> { packedPermissions.ToString() } // Pass as string to UI
+            Permissions = new List<string> { packedPermissions.ToString() }
         };
     }
 }

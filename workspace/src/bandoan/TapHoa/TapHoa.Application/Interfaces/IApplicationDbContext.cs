@@ -11,6 +11,7 @@ public interface IApplicationDbContext
     DbSet<Category> Categories { get; }
     DbSet<User> Users { get; }
     DbSet<Role> Roles { get; }
+    DbSet<UserToken> UserTokens { get; }
     DbSet<AuditLog> AuditLogs { get; }
     
     DbSet<InventoryTransaction> InventoryTransactions { get; }

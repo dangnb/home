@@ -21,6 +21,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
+    public DbSet<UserToken> UserTokens => Set<UserToken>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     
     // Warehouse

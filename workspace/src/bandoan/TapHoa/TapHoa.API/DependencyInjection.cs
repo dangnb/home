@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Asp.Versioning;
 using TapHoa.Application.Interfaces;
 using TapHoa.API.Services;
@@ -55,6 +56,24 @@ public static class DependencyInjection
                     ValidIssuer = "TapHoaApi",
                     ValidAudience = "TapHoaFrontend",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                };
+                
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = async context =>
+                    {
+                        var dbContext = context.HttpContext.RequestServices.GetRequiredService<IApplicationDbContext>();
+                        var token = context.SecurityToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+                        if (token != null)
+                        {
+                            // Check if this raw token is blacklisted in DB
+                            var isRevoked = await dbContext.UserTokens.AnyAsync(t => t.Token == token.RawData && t.IsRevoked);
+                            if (isRevoked)
+                            {
+                                context.Fail("This token has been revoked by the system.");
+                            }
+                        }
+                    }
                 };
             });
 

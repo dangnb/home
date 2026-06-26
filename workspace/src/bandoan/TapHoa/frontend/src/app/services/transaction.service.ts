@@ -69,4 +69,8 @@ export class TransactionService {
     updateTransaction(id: string, payload: any): Observable<any> {
         return this.http.put(`${this.backendUrl}/transactions/${id}`, payload);
     }
+
+    deleteTransaction(id: string): Observable<any> {
+        return this.http.delete(`${this.backendUrl}/transactions/${id}`);
+    }
 }
