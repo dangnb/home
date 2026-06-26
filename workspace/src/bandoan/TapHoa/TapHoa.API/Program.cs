@@ -28,17 +28,8 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseSerilogRequestLogging(); 
 
-// Automatically apply EF Core Migrations
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try {
-        context.Database.Migrate();
-    } catch(Exception ex) {
-        System.IO.File.WriteAllText("ef_error.txt", ex.ToString());
-        throw;
-    }
-}
+// KHÔNG SỬ DỤNG context.Database.Migrate() Ở ĐÂY VÌ LỖI DBNull CAST CỦA ORACLE PROVIDER (.NET 10)
+// DB schema đã được cài đặt hoàn tất thông qua native script trước đó.
 
 if (app.Environment.IsDevelopment())
 {

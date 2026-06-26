@@ -3,9 +3,8 @@ using TapHoa.Domain.Exceptions;
 
 namespace TapHoa.Domain.Entities;
 
-public class Product : BaseAuditableEntity
+public class Product : BaseAuditableEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Name { get; private set; }
     public string Category { get; private set; }
     public string? MainImageUrl { get; private set; }

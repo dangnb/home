@@ -2,9 +2,10 @@ using TapHoa.Domain.Enums;
 
 namespace TapHoa.Domain.Entities.Warehouse;
 
-public class InventoryTransaction
+using TapHoa.Domain.Common;
+
+public class InventoryTransaction : BaseEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Code { get; private set; }
     public TransactionType Type { get; private set; }
     public TransactionStatus Status { get; private set; }

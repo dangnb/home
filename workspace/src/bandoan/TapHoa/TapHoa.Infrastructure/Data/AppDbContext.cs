@@ -37,7 +37,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         var userName = _currentUserService?.UserName ?? "System";
         var companyId = _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
-        foreach (var entry in ChangeTracker.Entries<TapHoa.Domain.Common.BaseAuditableEntity>())
+        foreach (var entry in ChangeTracker.Entries<TapHoa.Domain.Common.BaseAuditableEntity<Guid>>())
         {
             switch (entry.State)
             {

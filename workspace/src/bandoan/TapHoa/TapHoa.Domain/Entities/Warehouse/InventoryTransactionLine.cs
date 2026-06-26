@@ -1,9 +1,7 @@
 namespace TapHoa.Domain.Entities.Warehouse;
 
-public class InventoryTransactionLine
+public class InventoryTransactionLine : TapHoa.Domain.Common.BaseEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
-    
     public Guid TransactionId { get; private set; }
     public virtual InventoryTransaction Transaction { get; private set; }
 

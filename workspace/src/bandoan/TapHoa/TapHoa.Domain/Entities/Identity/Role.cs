@@ -2,9 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace TapHoa.Domain.Entities.Identity;
 
-public class Role
+using TapHoa.Domain.Common;
+
+public class Role : BaseEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Name { get; private set; }
     public string Description { get; private set; }
     public long Permissions { get; private set; }

@@ -1379,3 +1379,312 @@ Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving 
 2026-06-26 14:46:38.080 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
 2026-06-26 14:46:38.083 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
 2026-06-26 14:46:38.181 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-26 15:17:57.832 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:17:57.868 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:17:57.870 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:17:57.962 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-26 15:19:09.827 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 2.4529 ms
+2026-06-26 15:19:11.888 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 15:19:11.905 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 15:19:12.485 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:19:12.487 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:19:12.488 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-26 15:19:12.565 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-26 15:19:14.287 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 4388.2822 ms
+2026-06-26 15:19:16.272 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.5044 ms
+2026-06-26 15:19:16.941 +07:00 [ERR] HTTP GET /api/v1/products responded 500 in 665.4209 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 22
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:19:17.003 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetProducts.GetProductsQueryHandler.Handle(GetProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetProducts\GetProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 22
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:19:24.864 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0772 ms
+2026-06-26 15:19:24.876 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0614 ms
+2026-06-26 15:19:24.900 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 23.5048 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:19:24.904 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 18.7288 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:19:24.912 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:19:24.919 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:21:06.008 +07:00 [INF] HTTP GET /api/v1/products/paged responded 401 in 3.7973 ms
+2026-06-26 15:23:42.307 +07:00 [INF] HTTP GET /api/v1/products/paged responded 401 in 65.8216 ms
+2026-06-26 15:38:01.624 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 2.1409 ms
+2026-06-26 15:38:01.624 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 2.1447 ms
+2026-06-26 15:38:02.101 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-26 15:38:02.111 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 15:38:02.111 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-26 15:38:02.353 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 666.9835 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:38:02.353 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 664.6428 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:38:02.399 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:38:02.406 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:38:03.276 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 21.2891 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:38:03.276 +07:00 [ERR] HTTP GET /api/v1/categories responded 500 in 17.1902 ms
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-26 15:38:03.287 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-26 15:38:03.316 +07:00 [ERR] An exception occurred: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+System.ArgumentException: Connection string keyword 'server' is not supported. For a possible alternative, see https://go.microsoft.com/fwlink/?linkid=2142181.
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.GetIndex(String keyword)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder.set_Item(String keyword, Object value)
+   at System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnectionStringBuilder..ctor(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnectionFactory.GetPoolGroup(String connectionString)
+   at Microsoft.Data.Sqlite.SqliteConnection.set_ConnectionString(String value)
+   at Microsoft.Data.Sqlite.SqliteConnection..ctor(String connectionString)
+   at TapHoa.Infrastructure.Data.SqlConnectionFactory.CreateConnection() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\SqlConnectionFactory.cs:line 18
+   at TapHoa.Application.Categories.Queries.GetCategories.GetCategoriesQueryHandler.Handle(GetCategoriesQuery request, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Categories\Queries\GetCategories\GetCategoriesQueryHandler.cs:line 23
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CategoriesEndpoints.<>c.<<MapCategoriesEndpoints>b__0_0>d.MoveNext() in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CategoriesEndpoints.cs:line 21
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\GIT\HOME\job_out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23

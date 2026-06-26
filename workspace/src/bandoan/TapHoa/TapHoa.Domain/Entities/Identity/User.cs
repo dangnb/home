@@ -2,9 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace TapHoa.Domain.Entities.Identity;
 
-public class User
+using TapHoa.Domain.Common;
+
+public class User : BaseEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Username { get; private set; }
     public string PasswordHash { get; private set; }
     public string FullName { get; private set; }

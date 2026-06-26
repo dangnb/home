@@ -1,8 +1,9 @@
 namespace TapHoa.Domain.Entities;
 
-public class AuditLog
+using TapHoa.Domain.Common;
+
+public class AuditLog : BaseEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Action { get; private set; }
     public string RequestName { get; private set; }
     public string RequestData { get; private set; }

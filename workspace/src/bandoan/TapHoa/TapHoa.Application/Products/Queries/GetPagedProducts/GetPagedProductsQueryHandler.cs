@@ -29,7 +29,7 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
             FROM Products 
             WHERE IsDeleted = 0 
               AND CompanyId = @CompanyId
-              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS TEXT) LIKE @SearchPattern)
+              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS CHAR) LIKE @SearchPattern)
               AND (@Category IS NULL OR @Category = '' OR Category = @Category);";
 
         var parameters = new
@@ -46,7 +46,7 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
             FROM Products 
             WHERE IsDeleted = 0 
               AND CompanyId = @CompanyId
-              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS TEXT) LIKE @SearchPattern)
+              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS CHAR) LIKE @SearchPattern)
               AND (@Category IS NULL OR @Category = '' OR Category = @Category)
             ORDER BY CreatedDate DESC, Name ASC
             LIMIT @PageSize OFFSET @Offset;";

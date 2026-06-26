@@ -2,9 +2,8 @@ using TapHoa.Domain.Common;
 
 namespace TapHoa.Domain.Entities.Warehouse;
 
-public class WarehouseLocation : BaseAuditableEntity
+public class WarehouseLocation : BaseAuditableEntity<Guid>
 {
-    public Guid Id { get; private set; } = Guid.CreateVersion7();
     public string Zone { get; private set; } // Khu vực (VD: A)
     public string Aisle { get; private set; } // Dãy (VD: 01)
     public string Rack { get; private set; } // Kệ

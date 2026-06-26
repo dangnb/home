@@ -19,9 +19,9 @@ public static class DependencyInjection
         var dbConnectionString = configuration.GetConnectionString("DefaultConnection") 
             ?? throw new InvalidOperationException("DefaultConnection string is not found.");
 
-        // ============== CẤU HÌNH SQL SERVER RETRY STRATEGY (Cực kỳ Tối ưu) ==============
-        // Bật tính năng DbContextPool để tái sử dụng Connection tiết kiệm Memory, thích hợp cho hệ thống lớn WMS
-        services.AddDbContextPool<AppDbContext>(options =>
+        // Do AppDbContext có Inject ICurrentUserService (Scoped) qua constructor,
+        // chúng ta BUỘC PHẢI DÙNG AddDbContext (Scoped) thay vì AddDbContextPool (Singleton).
+        services.AddDbContext<AppDbContext>(options =>
         {
             options.UseMySQL(dbConnectionString, builder =>
             {

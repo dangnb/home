@@ -2,9 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TapHoa.Domain.Entities.Warehouse;
 
-public class StockLevel
+using TapHoa.Domain.Common;
+
+public class StockLevel : BaseEntity<Guid>
 {
-    public Guid Id { get; set; } = Guid.CreateVersion7();
     public Guid ProductId { get; private set; }
     public virtual Product Product { get; private set; }
 
