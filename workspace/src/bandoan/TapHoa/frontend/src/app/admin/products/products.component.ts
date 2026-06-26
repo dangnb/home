@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
@@ -28,6 +28,18 @@ export class ProductsComponent implements OnInit {
   currentPage = 1;
   pageSize = 5;
   totalCount = 0;
+
+  activeDropdownRowId: string | null = null;
+
+  toggleDropdown(id: string, event: Event) {
+    event.stopPropagation();
+    this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;
+  }
+
+  @HostListener('document:click')
+  closeDropdown() {
+    this.activeDropdownRowId = null;
+  }
 
   // Modal State
   showModal = false;

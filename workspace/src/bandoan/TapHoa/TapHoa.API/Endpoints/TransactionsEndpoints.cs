@@ -39,6 +39,16 @@ public static class TransactionsEndpoints
         .WithDescription("Creates a new outbound transaction (Draft)")
         .RequireAuthorization();
 
+        group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateTransactionCommand command, [FromServices] ISender sender) =>
+        {
+            if (id != command.TransactionId) return Results.BadRequest("ID mismatch");
+
+            var result = await sender.Send(command);
+            return result ? Results.NoContent() : Results.NotFound();
+        })
+        .WithName("UpdateTransaction")
+        .RequireAuthorization();
+
         group.MapPost("/{id:guid}/approve", async (Guid id, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
         {
             var username = user.Identity?.Name ?? "System";

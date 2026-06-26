@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto } from '../../services/transaction.service';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto, TransactionDetailDto } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
@@ -19,6 +19,10 @@ export class TransactionCreateComponent implements OnInit {
     private alertService = inject(AlertService);
     private productService = inject(ProductService);
     private router = inject(Router);
+    private route = inject(ActivatedRoute);
+
+    isEditMode = false;
+    editTransactionId: string | null = null;
 
     referenceId: string = '';
     notes: string = '';
@@ -42,12 +46,45 @@ export class TransactionCreateComponent implements OnInit {
 
     isSubmitting = false;
 
-    // Simulate clicking outside
     hideDropdownTimeout: any;
 
     ngOnInit(): void {
         this.productService.getProducts().subscribe((res) => {
             this.availableProducts = res;
+
+            this.route.paramMap.subscribe(params => {
+                const id = params.get('id');
+                if (id) {
+                    this.isEditMode = true;
+                    this.editTransactionId = id;
+                    this.loadTransactionForEditing(id);
+                }
+            });
+        });
+    }
+
+    loadTransactionForEditing(id: string) {
+        this.transactionService.getTransactionById(id).subscribe({
+            next: (dto: TransactionDetailDto) => {
+                this.referenceId = dto.referenceId;
+                this.notes = dto.notes;
+
+                // Set transaction type based on DTO
+                if (dto.type === 0) this.transactionType = 'inbound';
+                else if (dto.type === 1) this.transactionType = 'outbound';
+
+                // Map lines
+                this.lines = dto.lines.map(l => ({
+                    productId: l.productId,
+                    productName: l.productName,
+                    quantity: l.quantity,
+                    unitCost: l.unitCost
+                }));
+            },
+            error: (err) => {
+                this.alertService.error('Lỗi', 'Không thể tải thông tin phiếu. Có thể phiếu đã xóa hoặc không tồn tại.');
+                this.router.navigate(['/admin/transactions']);
+            }
         });
     }
 
@@ -139,7 +176,8 @@ export class TransactionCreateComponent implements OnInit {
         }
 
         this.isSubmitting = true;
-        const req: CreateInboundTransactionRequest = {
+        const req: any = {
+            transactionId: this.editTransactionId, // Used for update
             referenceId: this.referenceId,
             notes: this.notes,
             lines: this.lines.map(l => ({
@@ -152,19 +190,21 @@ export class TransactionCreateComponent implements OnInit {
             }))
         };
 
-        const reqObservable = this.transactionType === 'inbound'
-            ? this.transactionService.createInboundTransaction(req)
-            : this.transactionService.createOutboundTransaction(req);
+        const reqObservable = this.isEditMode
+            ? this.transactionService.updateTransaction(this.editTransactionId!, req)
+            : (this.transactionType === 'inbound'
+                ? this.transactionService.createInboundTransaction(req)
+                : this.transactionService.createOutboundTransaction(req));
 
         reqObservable.subscribe({
             next: (res) => {
-                const actionName = this.transactionType === 'inbound' ? 'nhập' : 'xuất';
-                this.alertService.success('Thành công', `Tạo phiếu ${actionName} nháp thành công!`);
+                const actionName = this.isEditMode ? 'cập nhật' : (this.transactionType === 'inbound' ? 'nhập' : 'xuất');
+                this.alertService.success('Thành công', `Phiếu đã được ${actionName} thành công!`);
                 this.router.navigate(['/admin/transactions']);
             },
             error: (err) => {
                 console.error(err);
-                this.alertService.error('Thất bại', 'Lỗi tạo phiếu: ' + (err.error?.title || err.message));
+                this.alertService.error('Thất bại', 'Lỗi lưu phiếu: ' + (err.error?.title || err.message));
                 this.isSubmitting = false;
             }
         });

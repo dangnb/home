@@ -65,4 +65,8 @@ export class TransactionService {
     approveTransaction(id: string): Observable<any> {
         return this.http.post(`${this.backendUrl}/transactions/${id}/approve`, {});
     }
+
+    updateTransaction(id: string, payload: any): Observable<any> {
+        return this.http.put(`${this.backendUrl}/transactions/${id}`, payload);
+    }
 }

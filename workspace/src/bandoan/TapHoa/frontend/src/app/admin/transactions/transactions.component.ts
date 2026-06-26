@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
@@ -23,6 +23,18 @@ export class TransactionsComponent implements OnInit {
     currentPage = 1;
     pageSize = 10;
     totalPages = 1;
+
+    activeDropdownRowId: string | null = null;
+
+    toggleDropdown(id: string, event: Event) {
+        event.stopPropagation();
+        this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;
+    }
+
+    @HostListener('document:click')
+    closeDropdown() {
+        this.activeDropdownRowId = null;
+    }
 
     get paginationArray() {
         const pages = [];

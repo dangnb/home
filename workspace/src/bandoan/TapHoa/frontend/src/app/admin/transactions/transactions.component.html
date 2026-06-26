@@ -171,21 +171,47 @@
               </span>
             </td>
             <td class="text-center pe-4">
-              <div class="d-flex align-items-center justify-content-center gap-2">
-                @if (tx.status === 0 || tx.status === 1) {
-                <button class="btn btn-sm btn-success px-3 rounded-pill" (click)="approveTransaction(tx.id, tx.type)"
-                  style="font-size: 0.75rem; font-weight: 600;">
-                  ✔ Duyệt
+              <div class="dropdown d-flex justify-content-center" [class.show]="activeDropdownRowId === tx.id">
+                <button
+                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center"
+                  type="button" (click)="toggleDropdown(tx.id, $event)" style="width:32px; height:32px;">
+                  ⋮
                 </button>
-                }
-                <div class="dropdown">
-                  <button class="btn-action-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    ⋮
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item" [routerLink]="['/admin/transactions', tx.id]">Xem chi tiết</a></li>
-                  </ul>
-                </div>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0"
+                  [class.show]="activeDropdownRowId === tx.id"
+                  style="border-radius: 8px; margin-top: 5px; position: absolute; right: 0;">
+                  @if (tx.status === 0 || tx.status === 1) {
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-success"
+                      href="javascript:void(0)" (click)="approveTransaction(tx.id, tx.type)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      Duyệt phiếu
+                    </a></li>
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-warning"
+                      [routerLink]="['/admin/transactions/edit', tx.id]" style="color: #d97706 !important;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                      Sửa phiếu
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  }
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-primary"
+                      [routerLink]="['/admin/transactions', tx.id]">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      Xem chi tiết
+                    </a></li>
+                </ul>
               </div>
             </td>
           </tr>

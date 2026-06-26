@@ -29,8 +29,6 @@ public class GetProductTransactionHistoryQueryHandler : IRequestHandler<GetProdu
 
     public async Task<List<ProductTransactionHistoryDto>> Handle(GetProductTransactionHistoryQuery request, CancellationToken cancellationToken)
     {
-        var companyId = _context.CurrentCompanyId;
-
         var query = from l in _context.InventoryTransactionLines
                     join t in _context.InventoryTransactions on l.TransactionId equals t.Id
                     where l.ProductId == request.ProductId

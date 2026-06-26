@@ -1,71 +1,11 @@
-// Metronic-style Helper Classes mapped top of Bootstrap
-
-.transition-base {
-    transition: all 0.2s ease-in-out;
-}
-
-.bg-light-primary {
-    background-color: #e1f0ff;
-    color: #0d6efd;
-}
-
-.btn-light-warning {
-    background-color: #fff8dd;
-    color: #ffc700;
-
-    &:hover {
-        background-color: #ffc700;
-        color: #fff;
-    }
-}
-
-.btn-light-danger {
-    background-color: #fff5f8;
-    color: #f1416c;
-
-    &:hover {
-        background-color: #f1416c;
-        color: #fff;
-    }
-}
-
-.form-control-solid {
-    background-color: #f5f8fa;
-    border-color: #f5f8fa;
-    color: #5e6278;
-    transition: color 0.2s ease, background-color 0.2s ease;
-
-    &:focus {
-        background-color: #eef3f7;
-        border-color: #eef3f7;
-    }
-}
-
-.py-20 {
-    padding-top: 5rem !important;
-    padding-bottom: 5rem !important;
-}
-
-.border-dashed {
-    border-style: dashed !important;
-}
-
-.border-2 {
-    border-width: 2px !important;
-}
-
 .tree-row {
     &:hover {
         background-color: #f8fbfd !important;
-        
+
         .row-actions {
             opacity: 1 !important;
         }
     }
-}
-
-.letter-spacing-1 {
-    letter-spacing: 0.5px;
 }
 
 // Tree view lines styling
@@ -73,7 +13,9 @@
     position: relative;
 
     &.child-node {
-        &::before, &::after {
+
+        &::before,
+        &::after {
             content: '';
             position: absolute;
             border-color: #d1d5db;
@@ -102,8 +44,5 @@
             bottom: auto;
             height: 46px; // Adjust so it stops exactly at the horizontal line (26 + 20)
         }
-        
-        // Adjust left positions based on depth (this is handled smoothly via indentation helper in HTML)
-        // Actually, the left rule needs to match the parent's expand-icon vertical center.
     }
 }
