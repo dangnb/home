@@ -44,3 +44,327 @@
 2026-06-27 12:42:26.237 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
 2026-06-27 12:42:26.237 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
 2026-06-27 12:42:26.305 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 12:53:08.432 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 2.1133 ms
+2026-06-27 12:53:08.822 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 12:53:08.832 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 12:53:09.232 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 731.7079 ms
+2026-06-27 12:53:09.427 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 41.7425 ms
+2026-06-27 12:53:09.857 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 19.0144 ms
+2026-06-27 12:53:10.084 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.2757 ms
+2026-06-27 12:53:26.679 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1433 ms
+2026-06-27 12:53:27.354 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 12:53:27.355 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 12:53:27.355 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 12:53:27.355 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 12:53:27.481 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 12:53:28.077 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-27 12:53:28.077 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-27 12:53:28.077 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-27 12:53:28.077 +07:00 [INF] Audit Logged: Create by admin - CreateCategoryCommand
+2026-06-27 12:53:28.308 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 678.5692 ms
+2026-06-27 12:53:28.308 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 288.9079 ms
+2026-06-27 12:53:28.308 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 1626.5283 ms
+2026-06-27 12:53:28.308 +07:00 [INF] HTTP POST /api/v1/categories responded 201 in 468.3916 ms
+2026-06-27 12:53:28.316 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.3069 ms
+2026-06-27 12:53:28.319 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.6147 ms
+2026-06-27 12:53:28.322 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.7184 ms
+2026-06-27 12:53:28.326 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.3882 ms
+2026-06-27 12:53:36.500 +07:00 [INF] HTTP OPTIONS /api/v1/categories/019f07a3-e020-78fd-a7ca-3df72fd25a92 responded 204 in 0.2023 ms
+2026-06-27 12:53:36.517 +07:00 [INF] Audit Logged: Delete by admin - DeleteCategoryCommand
+2026-06-27 12:53:36.907 +07:00 [INF] HTTP DELETE /api/v1/categories/019f07a3-e020-78fd-a7ca-3df72fd25a92 responded 204 in 404.1073 ms
+2026-06-27 12:53:36.910 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0518 ms
+2026-06-27 12:53:36.913 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8605 ms
+2026-06-27 12:53:40.863 +07:00 [INF] HTTP OPTIONS /api/v1/categories/019f07a3-e020-70b8-8b46-671469bbb3f2 responded 204 in 0.1346 ms
+2026-06-27 12:53:40.871 +07:00 [INF] Audit Logged: Delete by admin - DeleteCategoryCommand
+2026-06-27 12:53:40.882 +07:00 [INF] HTTP DELETE /api/v1/categories/019f07a3-e020-70b8-8b46-671469bbb3f2 responded 204 in 17.6198 ms
+2026-06-27 12:53:40.888 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.3725 ms
+2026-06-27 12:53:43.592 +07:00 [INF] HTTP OPTIONS /api/v1/categories/019f07a3-e020-7b67-873b-88e88fed6f5a responded 204 in 0.0721 ms
+2026-06-27 12:53:43.600 +07:00 [INF] Audit Logged: Delete by admin - DeleteCategoryCommand
+2026-06-27 12:53:43.607 +07:00 [INF] HTTP DELETE /api/v1/categories/019f07a3-e020-7b67-873b-88e88fed6f5a responded 204 in 13.5857 ms
+2026-06-27 12:53:43.610 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0605 ms
+2026-06-27 12:53:43.613 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.9437 ms
+2026-06-27 12:54:40.159 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0834 ms
+2026-06-27 12:54:40.164 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.5929 ms
+2026-06-27 12:54:44.657 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.1370 ms
+2026-06-27 12:54:44.723 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 62.8791 ms
+2026-06-27 12:54:46.224 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0528 ms
+2026-06-27 12:54:46.308 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 83.0182 ms
+2026-06-27 12:54:47.896 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0540 ms
+2026-06-27 12:54:47.918 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 20.4134 ms
+2026-06-27 12:54:53.088 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0559 ms
+2026-06-27 12:54:53.090 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0391 ms
+2026-06-27 12:54:53.091 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.9725 ms
+2026-06-27 12:54:53.116 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 23.1379 ms
+2026-06-27 12:54:56.520 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5974 ms
+2026-06-27 12:54:56.521 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.9539 ms
+2026-06-27 12:55:19.165 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0397 ms
+2026-06-27 12:55:19.165 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0199 ms
+2026-06-27 12:55:19.169 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5452 ms
+2026-06-27 12:55:19.170 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2797 ms
+2026-06-27 12:55:36.108 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0401 ms
+2026-06-27 12:55:36.108 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1105 ms
+2026-06-27 12:55:36.111 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1485 ms
+2026-06-27 12:55:36.112 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6937 ms
+2026-06-27 12:56:08.457 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0318 ms
+2026-06-27 12:56:08.457 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0317 ms
+2026-06-27 12:56:08.461 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8054 ms
+2026-06-27 12:56:08.461 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.1401 ms
+2026-06-27 12:58:09.191 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0238 ms
+2026-06-27 12:58:09.191 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0590 ms
+2026-06-27 12:58:09.196 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.7516 ms
+2026-06-27 12:58:09.196 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2132 ms
+2026-06-27 12:58:50.245 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0251 ms
+2026-06-27 12:58:50.245 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0252 ms
+2026-06-27 12:58:50.248 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2586 ms
+2026-06-27 12:58:50.249 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7558 ms
+2026-06-27 12:59:00.047 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0282 ms
+2026-06-27 12:59:00.047 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0212 ms
+2026-06-27 12:59:00.050 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1702 ms
+2026-06-27 12:59:00.050 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7353 ms
+2026-06-27 12:59:00.352 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3694 ms
+2026-06-27 12:59:00.352 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.9588 ms
+2026-06-27 12:59:00.610 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0582 ms
+2026-06-27 12:59:00.611 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4759 ms
+2026-06-27 12:59:00.792 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0921 ms
+2026-06-27 12:59:00.792 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5158 ms
+2026-06-27 12:59:00.988 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1044 ms
+2026-06-27 12:59:00.988 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5631 ms
+2026-06-27 12:59:01.156 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1570 ms
+2026-06-27 12:59:01.157 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6743 ms
+2026-06-27 12:59:01.322 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1931 ms
+2026-06-27 12:59:01.323 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6828 ms
+2026-06-27 12:59:02.727 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/product/01950000-0000-7000-8000-000000002002 responded 204 in 0.0236 ms
+2026-06-27 12:59:02.811 +07:00 [INF] HTTP GET /api/v1/transactions/product/01950000-0000-7000-8000-000000002002 responded 200 in 82.5722 ms
+2026-06-27 13:00:46.228 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0213 ms
+2026-06-27 13:00:46.228 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0086 ms
+2026-06-27 13:00:46.231 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3043 ms
+2026-06-27 13:00:46.232 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7529 ms
+2026-06-27 13:03:16.768 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0233 ms
+2026-06-27 13:03:16.769 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0176 ms
+2026-06-27 13:03:16.772 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2968 ms
+2026-06-27 13:03:16.772 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7246 ms
+2026-06-27 13:03:17.271 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8837 ms
+2026-06-27 13:03:17.272 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2831 ms
+2026-06-27 13:03:17.518 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3171 ms
+2026-06-27 13:03:17.519 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5974 ms
+2026-06-27 13:03:17.687 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9231 ms
+2026-06-27 13:03:17.688 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3455 ms
+2026-06-27 13:03:17.867 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9600 ms
+2026-06-27 13:03:17.867 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2680 ms
+2026-06-27 13:03:18.040 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1817 ms
+2026-06-27 13:03:18.040 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6650 ms
+2026-06-27 13:03:22.440 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1247 ms
+2026-06-27 13:03:22.445 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.8858 ms
+2026-06-27 13:03:25.599 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0262 ms
+2026-06-27 13:03:25.605 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 4.0112 ms
+2026-06-27 13:03:26.429 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.7582 ms
+2026-06-27 13:03:29.143 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0160 ms
+2026-06-27 13:03:29.145 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9284 ms
+2026-06-27 13:03:30.189 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0213 ms
+2026-06-27 13:03:30.190 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0634 ms
+2026-06-27 13:03:30.191 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3991 ms
+2026-06-27 13:03:31.173 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0530 ms
+2026-06-27 13:03:32.154 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9256 ms
+2026-06-27 13:03:32.154 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3626 ms
+2026-06-27 13:03:33.338 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8441 ms
+2026-06-27 13:03:33.361 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 24.2140 ms
+2026-06-27 13:03:34.931 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0227 ms
+2026-06-27 13:03:34.934 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.5819 ms
+2026-06-27 13:03:35.621 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0186 ms
+2026-06-27 13:03:35.625 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.9720 ms
+2026-06-27 13:03:37.179 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0158 ms
+2026-06-27 13:03:37.179 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0161 ms
+2026-06-27 13:03:37.182 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7044 ms
+2026-06-27 13:03:37.182 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1462 ms
+2026-06-27 13:04:05.309 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0207 ms
+2026-06-27 13:04:05.310 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0091 ms
+2026-06-27 13:04:05.312 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6988 ms
+2026-06-27 13:04:05.312 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3978 ms
+2026-06-27 13:04:05.516 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0161 ms
+2026-06-27 13:04:05.517 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0069 ms
+2026-06-27 13:04:05.520 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8392 ms
+2026-06-27 13:04:05.520 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2582 ms
+2026-06-27 13:04:05.711 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0180 ms
+2026-06-27 13:04:05.711 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0051 ms
+2026-06-27 13:04:05.714 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8327 ms
+2026-06-27 13:04:05.714 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1943 ms
+2026-06-27 13:04:07.532 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0168 ms
+2026-06-27 13:04:07.535 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6956 ms
+2026-06-27 13:04:07.867 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0178 ms
+2026-06-27 13:04:07.870 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.9676 ms
+2026-06-27 13:05:01.161 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0266 ms
+2026-06-27 13:05:01.164 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.7696 ms
+2026-06-27 13:05:01.719 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.8624 ms
+2026-06-27 13:05:01.992 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.9190 ms
+2026-06-27 13:05:02.236 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.7994 ms
+2026-06-27 13:05:02.662 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 3.0896 ms
+2026-06-27 13:05:02.838 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.2440 ms
+2026-06-27 13:05:06.430 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0162 ms
+2026-06-27 13:05:06.434 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8881 ms
+2026-06-27 13:05:08.922 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0205 ms
+2026-06-27 13:05:08.923 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0166 ms
+2026-06-27 13:05:08.925 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0065 ms
+2026-06-27 13:05:08.925 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4462 ms
+2026-06-27 13:05:56.573 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0228 ms
+2026-06-27 13:05:56.574 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0120 ms
+2026-06-27 13:05:56.576 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8889 ms
+2026-06-27 13:05:56.576 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6879 ms
+2026-06-27 13:06:32.118 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0181 ms
+2026-06-27 13:06:32.119 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0077 ms
+2026-06-27 13:06:32.121 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8135 ms
+2026-06-27 13:06:32.121 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4260 ms
+2026-06-27 13:06:32.683 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8826 ms
+2026-06-27 13:06:32.683 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2418 ms
+2026-06-27 13:06:32.885 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7887 ms
+2026-06-27 13:06:32.886 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.2849 ms
+2026-06-27 13:06:33.072 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6833 ms
+2026-06-27 13:06:33.072 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1069 ms
+2026-06-27 13:06:33.247 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9324 ms
+2026-06-27 13:06:33.248 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4597 ms
+2026-06-27 13:06:33.453 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9171 ms
+2026-06-27 13:06:33.453 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.1809 ms
+2026-06-27 13:06:35.192 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0186 ms
+2026-06-27 13:06:35.195 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8107 ms
+2026-06-27 13:06:36.665 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0189 ms
+2026-06-27 13:06:36.677 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 9.6675 ms
+2026-06-27 13:06:39.491 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0190 ms
+2026-06-27 13:06:39.491 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0116 ms
+2026-06-27 13:06:39.492 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0147 ms
+2026-06-27 13:06:39.496 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.0131 ms
+2026-06-27 13:06:39.502 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 7.3372 ms
+2026-06-27 13:06:39.504 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 8.8306 ms
+2026-06-27 13:06:40.638 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.2455 ms
+2026-06-27 13:06:42.808 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0187 ms
+2026-06-27 13:06:42.811 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.8717 ms
+2026-06-27 13:06:45.262 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0309 ms
+2026-06-27 13:06:45.266 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 2.6535 ms
+2026-06-27 13:06:46.002 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9590 ms
+2026-06-27 13:06:48.075 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0250 ms
+2026-06-27 13:06:48.075 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0085 ms
+2026-06-27 13:06:48.076 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0060 ms
+2026-06-27 13:06:48.079 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.1350 ms
+2026-06-27 13:06:48.080 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 2.3135 ms
+2026-06-27 13:06:48.080 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 2.4564 ms
+2026-06-27 13:06:48.546 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0272 ms
+2026-06-27 13:06:48.549 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.1159 ms
+2026-06-27 13:06:51.809 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0152 ms
+2026-06-27 13:06:51.814 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 3.6900 ms
+2026-06-27 13:07:18.577 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0163 ms
+2026-06-27 13:07:18.580 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.5622 ms
+2026-06-27 13:07:25.526 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0213 ms
+2026-06-27 13:07:25.528 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.0670 ms
+2026-06-27 13:07:33.445 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0220 ms
+2026-06-27 13:07:33.447 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.1052 ms
+2026-06-27 13:07:50.975 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0208 ms
+2026-06-27 13:07:50.978 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 0.8478 ms
+2026-06-27 13:07:51.412 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 0.8944 ms
+2026-06-27 13:07:51.746 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.0212 ms
+2026-06-27 13:07:52.066 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.1048 ms
+2026-06-27 13:07:53.052 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 0.9311 ms
+2026-06-27 13:10:34.297 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 13:10:34.320 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 13:10:34.320 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 13:10:34.320 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 13:10:34.384 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 13:15:53.014 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 1.6729 ms
+2026-06-27 13:15:53.199 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 13:15:53.205 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 13:15:53.381 +07:00 [ERR] HTTP GET /api/v1/customers responded 500 in 329.6764 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.customers' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Customers.Queries.GetCustomersQueryHandler.Handle(GetCustomersQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Customers\Queries\GetCustomersQuery.cs:line 29
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CustomersEndpoints.<>c.<<MapCustomersEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CustomersEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 13:15:53.405 +07:00 [ERR] An exception occurred: Table 'taphoawms.customers' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.customers' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Customers.Queries.GetCustomersQueryHandler.Handle(GetCustomersQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Customers\Queries\GetCustomersQuery.cs:line 29
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CustomersEndpoints.<>c.<<MapCustomersEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CustomersEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 13:16:11.406 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.4465 ms
+2026-06-27 13:16:11.432 +07:00 [ERR] HTTP GET /api/v1/customers responded 500 in 23.8432 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.customers' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Customers.Queries.GetCustomersQueryHandler.Handle(GetCustomersQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Customers\Queries\GetCustomersQuery.cs:line 29
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CustomersEndpoints.<>c.<<MapCustomersEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CustomersEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 13:16:11.446 +07:00 [ERR] An exception occurred: Table 'taphoawms.customers' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.customers' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Customers.Queries.GetCustomersQueryHandler.Handle(GetCustomersQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Customers\Queries\GetCustomersQuery.cs:line 29
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.CustomersEndpoints.<>c.<<MapCustomersEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\CustomersEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23

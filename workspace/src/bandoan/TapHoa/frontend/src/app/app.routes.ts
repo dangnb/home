@@ -37,6 +37,18 @@ export const routes: Routes = [
             { path: 'transactions/:id', loadComponent: () => import('./admin/transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) },
             { path: 'roles', component: RolesComponent },
             { path: 'users', component: UsersComponent },
+            {
+                path: 'customers',
+                loadComponent: () => import('./admin/customers/customers.component').then(m => m.CustomersComponent)
+            },
+            {
+                path: 'customer-debts',
+                loadComponent: () => import('./admin/customer-debts/customer-debts.component').then(m => m.CustomerDebtsComponent)
+            },
+            {
+                path: 'suppliers',
+                loadComponent: () => import('./admin/suppliers/suppliers.component').then(m => m.SuppliersComponent)
+            },
             { path: 'audits', loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) }
         ]
     }

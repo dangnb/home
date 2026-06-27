@@ -19,10 +19,29 @@ export class InventoryComponent implements OnInit {
     private cdr = inject(ChangeDetectorRef);
 
     inventories: any[] = [];
+    lowStockProducts: any[] = [];
+    expiringBatches: any[] = [];
     isLoading = true;
 
     ngOnInit() {
         this.fetchStock();
+        this.fetchAlerts();
+    }
+
+    fetchAlerts() {
+        this.http.get<any[]>(`${environment.apiUrl}/transactions/low-stock`).subscribe({
+            next: (data) => {
+                this.lowStockProducts = data;
+                this.cdr.markForCheck();
+            }
+        });
+
+        this.http.get<any[]>(`${environment.apiUrl}/transactions/expiring-batches?days=30`).subscribe({
+            next: (data) => {
+                this.expiringBatches = data;
+                this.cdr.markForCheck();
+            }
+        });
     }
 
     fetchStock() {

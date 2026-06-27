@@ -1,0 +1,89 @@
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+    <h5 class="mb-0 fw-bold text-primary">
+      <span class="me-2">👥</span>Danh Mục Khách Hàng
+    </h5>
+    <button class="btn btn-primary px-4 shadow-sm" (click)="openCreateModal()">
+      <span class="me-1">➕</span> Thêm khách hàng
+    </button>
+  </div>
+  <div class="card-body p-0">
+    @if (isLoading) {
+      <div class="p-5 text-center text-muted">
+        <div class="spinner-border spinner-border-sm me-2"></div> Đang tải dữ liệu...
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Khách hàng</th>
+              <th>SĐT</th>
+              <th>Địa chỉ</th>
+              <th>Ghi chú</th>
+              <th class="text-end pe-4">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (customer of customers; track customer.id) {
+              <tr>
+                <td class="ps-4 fw-medium text-dark">{{ customer.fullName }}</td>
+                <td>{{ customer.phoneNumber || '-' }}</td>
+                <td>{{ customer.address || '-' }}</td>
+                <td class="text-muted text-truncate" style="max-width: 200px;">{{ customer.notes || '-' }}</td>
+                <td class="text-end pe-4">
+                  <button class="btn btn-sm btn-light text-primary me-2 shadow-sm" (click)="openEditModal(customer)" title="Sửa">
+                    ✏️
+                  </button>
+                  <button class="btn btn-sm btn-light text-danger shadow-sm" (click)="deleteCustomer(customer.id)" title="Xóa">
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (customers.length === 0) {
+              <tr>
+                <td colspan="5" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có dữ liệu khách hàng nào
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showModal) {
+<app-modal
+  [title]="editingCustomer ? 'Sửa thông tin khách hàng' : 'Thêm khách hàng mới'"
+  (closeDialog)="closeModal()">
+  <div class="mb-3">
+    <label class="form-label fw-medium">Tên khách hàng <span class="text-danger">*</span></label>
+    <input type="text" class="form-control" [(ngModel)]="formData.fullName" placeholder="Nhập họ tên...">
+  </div>
+  <div class="mb-3">
+    <label class="form-label fw-medium">Số điện thoại</label>
+    <input type="text" class="form-control" [(ngModel)]="formData.phoneNumber" placeholder="Nhập SĐT...">
+  </div>
+  <div class="mb-3">
+    <label class="form-label fw-medium">Địa chỉ</label>
+    <input type="text" class="form-control" [(ngModel)]="formData.address" placeholder="Nhập địa chỉ...">
+  </div>
+  <div class="mb-4">
+    <label class="form-label fw-medium">Ghi chú</label>
+    <textarea class="form-control" rows="2" [(ngModel)]="formData.notes" placeholder="Ghi chú thêm..."></textarea>
+  </div>
+  <div class="d-flex justify-content-end gap-2">
+    <button class="btn btn-light" (click)="closeModal()">Hủy</button>
+    <button class="btn btn-primary px-4" (click)="saveCustomer()" [disabled]="isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      }
+      Lưu thay đổi
+    </button>
+  </div>
+</app-modal>
+}

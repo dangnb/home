@@ -25,6 +25,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<ProductUnit> ProductUnits => Set<ProductUnit>();
     public DbSet<CustomerDebt> CustomerDebts => Set<CustomerDebt>();
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
     
     // Warehouse
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();

@@ -5,8 +5,9 @@ namespace TapHoa.Domain.Entities;
 public class CustomerDebt : BaseAuditableEntity<Guid>
 {
     public Guid CustomerId { get; private set; }
-    // In a real system, we might have a Customer entity. For now, we can link it or just keep it simple.
-    // If Customer doesn't exist, we can use a string CustomerName/PhoneNumber or create a Customer entity.
+    public virtual Customer? Customer { get; private set; }
+    
+    // Legacy support fields, or could be replaced by Customer entity entirely
     public string CustomerName { get; private set; }
     public string? PhoneNumber { get; private set; }
     

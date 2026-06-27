@@ -12,6 +12,53 @@
       Nhập/Xuất/Kiểm kê.</p>
   </div>
 
+  @if (lowStockProducts.length > 0 || expiringBatches.length > 0) {
+  <div class="card-body bg-light border-bottom border-warning">
+    <div class="row g-4">
+      @if (lowStockProducts.length > 0) {
+      <div class="col-md-6">
+        <div class="alert alert-warning border-0 shadow-sm h-100 mb-0 d-flex flex-column">
+          <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
+            <span class="fs-4 me-2">⚠️</span> Cảnh báo Tồn kho thấp
+          </h5>
+          <ul class="list-group list-group-flush bg-transparent rounded-3 border">
+            @for (ls of lowStockProducts; track ls.productId) {
+            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+              <span class="fw-medium text-dark">{{ ls.productName }}</span>
+              <span class="badge bg-danger rounded-pill px-3">{{ ls.quantityOnHand }} / {{ ls.reorderPoint }}</span>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+
+      @if (expiringBatches.length > 0) {
+      <div class="col-md-6">
+        <div class="alert alert-danger border-0 shadow-sm h-100 mb-0 d-flex flex-column">
+          <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
+            <span class="fs-4 me-2">⏳</span> Lô hàng sắp hết hạn (FEFO)
+          </h5>
+          <ul class="list-group list-group-flush bg-transparent rounded-3 border">
+            @for (exp of expiringBatches; track exp.batchId) {
+            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+              <div>
+                <span class="fw-medium text-dark d-block">{{ exp.productName }}</span>
+                <small class="text-muted">Lô: {{ exp.batchNumber }} - Tồn: <b class="text-danger">{{ exp.quantityOnHand }}</b></small>
+              </div>
+              <span class="badge bg-danger rounded-pill px-3 py-2">
+                HSD: {{ exp.expiryDate | date:'dd/MM/yyyy' }}
+              </span>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-hover align-middle custom-table">
