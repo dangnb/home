@@ -17,7 +17,17 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
     public async Task<ProductDto?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
-        const string sql = "SELECT * FROM Products WHERE Id = @Id";
-        return await connection.QuerySingleOrDefaultAsync<ProductDto>(sql, new { request.Id });
+        const string sql = @"
+            SELECT * FROM Products WHERE Id = @Id;
+            SELECT * FROM ProductUnits WHERE ProductId = @Id;
+        ";
+        using var multi = await connection.QueryMultipleAsync(sql, new { request.Id });
+        var product = await multi.ReadSingleOrDefaultAsync<ProductDto>();
+        if (product != null)
+        {
+            var units = await multi.ReadAsync<ProductUnitDto>();
+            product.Units = units.ToList();
+        }
+        return product;
     }
 }

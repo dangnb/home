@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapHoa.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using TapHoa.Infrastructure.Data;
 namespace TapHoa.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260627053133_AddUserTokens")]
+    partial class AddUserTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,54 +161,6 @@ namespace TapHoa.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TapHoa.Domain.Entities.CustomerDebt", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("TotalDebt")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerDebts");
-                });
-
             modelBuilder.Entity("TapHoa.Domain.Entities.Identity.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -348,9 +303,6 @@ namespace TapHoa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Barcode")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -447,35 +399,6 @@ namespace TapHoa.Infrastructure.Migrations
                             StockQuantity = 5,
                             Unit = "kg"
                         });
-                });
-
-            modelBuilder.Entity("TapHoa.Domain.Entities.ProductUnit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Barcode")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("ConversionFactor")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("UnitName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductUnits");
                 });
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Warehouse.InventoryTransaction", b =>
@@ -743,17 +666,6 @@ namespace TapHoa.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TapHoa.Domain.Entities.ProductUnit", b =>
-                {
-                    b.HasOne("TapHoa.Domain.Entities.Product", "Product")
-                        .WithMany("Units")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("TapHoa.Domain.Entities.Warehouse.InventoryTransactionLine", b =>
                 {
                     b.HasOne("TapHoa.Domain.Entities.Product", "Product")
@@ -810,11 +722,6 @@ namespace TapHoa.Infrastructure.Migrations
             modelBuilder.Entity("TapHoa.Domain.Entities.Category", b =>
                 {
                     b.Navigation("SubCategories");
-                });
-
-            modelBuilder.Entity("TapHoa.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Warehouse.InventoryTransaction", b =>

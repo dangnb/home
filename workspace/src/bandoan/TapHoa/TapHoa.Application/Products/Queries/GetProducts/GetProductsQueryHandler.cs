@@ -21,8 +21,37 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumer
         var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
         
         using var connection = _sqlConnectionFactory.CreateConnection();
-        const string sql = "SELECT * FROM Products WHERE IsDeleted = 0 AND CompanyId = @CompanyId";
+        const string sql = @"
+            SELECT p.*, pu.* 
+            FROM Products p
+            LEFT JOIN ProductUnits pu ON p.Id = pu.ProductId
+            WHERE p.IsDeleted = 0 AND p.CompanyId = @CompanyId
+        ";
         
-        return await connection.QueryAsync<ProductDto>(sql, new { CompanyId = companyId.ToString() });
+        var productDictionary = new Dictionary<Guid, ProductDto>();
+
+        var products = await connection.QueryAsync<ProductDto, ProductUnitDto, ProductDto>(
+            sql,
+            (product, unit) =>
+            {
+                if (!productDictionary.TryGetValue(product.Id, out var currentProduct))
+                {
+                    currentProduct = product;
+                    currentProduct.Units = new List<ProductUnitDto>();
+                    productDictionary.Add(currentProduct.Id, currentProduct);
+                }
+
+                if (unit != null)
+                {
+                    currentProduct.Units.Add(unit);
+                }
+
+                return currentProduct;
+            },
+            new { CompanyId = companyId.ToString() },
+            splitOn: "Id"
+        );
+
+        return productDictionary.Values;
     }
 }

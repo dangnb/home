@@ -19,6 +19,7 @@ export class RolesComponent implements OnInit {
 
   showModal = false;
   isEditMode = false;
+  isSubmitting = false;
   editingRole: Role = { id: "", name: '', description: '', permissions: 0 };
 
   // Temporary mock data since we haven't implemented full backend GET /roles yet
@@ -53,21 +54,28 @@ export class RolesComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.isSubmitting = false;
   }
 
   saveRole() {
-    if (this.isEditMode) {
-      const index = this.roles.findIndex(r => r.id === this.editingRole.id);
-      if (index !== -1) {
-        this.roles[index] = { ...this.editingRole };
-        this.mockRoles[index] = { ...this.editingRole };
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
+
+    // Simulate API delay
+    setTimeout(() => {
+      if (this.isEditMode) {
+        const index = this.roles.findIndex(r => r.id === this.editingRole.id);
+        if (index !== -1) {
+          this.roles[index] = { ...this.editingRole };
+          this.mockRoles[index] = { ...this.editingRole };
+        }
+      } else {
+        this.editingRole.id = Date.now().toString();
+        this.roles.push({ ...this.editingRole });
+        this.mockRoles.push({ ...this.editingRole });
       }
-    } else {
-      this.editingRole.id = Date.now().toString();
-      this.roles.push({ ...this.editingRole });
-      this.mockRoles.push({ ...this.editingRole });
-    }
-    this.closeModal();
+      this.closeModal();
+    }, 300);
   }
 
   deleteRole(id: string) {

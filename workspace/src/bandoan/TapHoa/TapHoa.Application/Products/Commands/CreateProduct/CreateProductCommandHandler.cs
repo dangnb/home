@@ -26,8 +26,14 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             request.Unit,
             request.MainImageUrl,
             request.AdditionalImages,
-            request.Status
+            request.Status,
+            request.Barcode
         );
+
+        foreach (var unit in request.Units)
+        {
+            product.AddUnit(unit.UnitName, unit.ConversionFactor, unit.Price, unit.Barcode);
+        }
 
         await _repository.AddAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -42,7 +48,16 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Price = product.Price,
             StockQuantity = product.StockQuantity,
             Unit = product.Unit,
-            Status = product.Status
+            Barcode = product.Barcode,
+            Status = product.Status,
+            Units = product.Units.Select(u => new ProductUnitDto
+            {
+                Id = u.Id,
+                UnitName = u.UnitName,
+                ConversionFactor = u.ConversionFactor,
+                Barcode = u.Barcode,
+                Price = u.Price
+            }).ToList()
         };
     }
 }

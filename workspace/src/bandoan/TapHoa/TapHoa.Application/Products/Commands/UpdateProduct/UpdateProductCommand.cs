@@ -1,6 +1,7 @@
 using MediatR;
 using TapHoa.Domain.Interfaces;
 using TapHoa.Domain.Entities;
+using TapHoa.Application.Products.DTOs;
 
 namespace TapHoa.Application.Products.Commands.UpdateProduct;
 
@@ -14,7 +15,9 @@ public class UpdateProductCommand : IRequest<bool>
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = string.Empty;
+    public string? Barcode { get; set; }
     public string Status { get; set; } = string.Empty;
+    public List<CreateProductUnitDto> Units { get; set; } = new();
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>
@@ -41,8 +44,15 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             request.Unit,
             request.MainImageUrl,
             request.AdditionalImages,
-            request.Status
+            request.Status,
+            request.Barcode
         );
+
+        entity.ClearUnits();
+        foreach (var unit in request.Units)
+        {
+            entity.AddUnit(unit.UnitName, unit.ConversionFactor, unit.Price, unit.Barcode);
+        }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return true;

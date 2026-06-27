@@ -136,8 +136,8 @@
     </div>
     <div class="mt-5 pt-4 d-flex justify-content-end gap-3">
       <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Thoát</button>
-      <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm" [disabled]="!userForm.form.valid">
-        {{ isEditMode ? 'Cập nhật' : 'Khởi tạo' }}
+      <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm" [disabled]="!userForm.form.valid || isSubmitting">
+        {{ isSubmitting ? 'Đang lưu...' : (isEditMode ? 'Cập nhật' : 'Khởi tạo') }}
       </button>
     </div>
   </form>

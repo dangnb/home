@@ -28,6 +28,7 @@ export class CategoriesComponent implements OnInit {
 
     showModal = false;
     isEditMode = false;
+    isSubmitting = false;
     editingCategory: Category = this.getEmptyCategory();
 
     constructor(private categoryService: CategoryService, private alertService: AlertService) { }
@@ -101,23 +102,38 @@ export class CategoriesComponent implements OnInit {
 
     closeModal() {
         this.showModal = false;
+        this.isSubmitting = false;
     }
 
     saveCategory() {
+        if (this.isSubmitting) return;
+        
         const payload = { ...this.editingCategory };
         if (!payload.parentId || payload.parentId === "") {
             payload.parentId = undefined;
         }
 
+        this.isSubmitting = true;
+
         if (this.isEditMode) {
-            this.categoryService.updateCategory(payload.id, payload).subscribe(() => {
-                this.loadCategories();
-                this.closeModal();
+            this.categoryService.updateCategory(payload.id, payload).subscribe({
+                next: () => {
+                    this.loadCategories();
+                    this.closeModal();
+                },
+                error: () => {
+                    this.isSubmitting = false;
+                }
             });
         } else {
-            this.categoryService.createCategory(payload).subscribe(() => {
-                this.loadCategories();
-                this.closeModal();
+            this.categoryService.createCategory(payload).subscribe({
+                next: () => {
+                    this.loadCategories();
+                    this.closeModal();
+                },
+                error: () => {
+                    this.isSubmitting = false;
+                }
             });
         }
     }

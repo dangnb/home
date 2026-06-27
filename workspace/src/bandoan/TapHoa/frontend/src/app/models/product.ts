@@ -8,4 +8,13 @@ export interface Product {
     stockQuantity: number;
     unit: string;
     status: string;
+    units?: ProductUnit[];
+}
+
+export interface ProductUnit {
+    id?: string;
+    unitName: string;
+    conversionFactor: number;
+    barcode?: string;
+    price: number;
 }

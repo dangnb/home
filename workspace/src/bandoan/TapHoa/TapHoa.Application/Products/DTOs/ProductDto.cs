@@ -10,5 +10,7 @@ public class ProductDto
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = string.Empty;
+    public string? Barcode { get; set; }
     public string Status { get; set; } = string.Empty;
+    public List<ProductUnitDto> Units { get; set; } = new();
 }

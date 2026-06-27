@@ -109,6 +109,22 @@ public static class TransactionsEndpoints
         .WithName("GetStockLevels")
         .RequireAuthorization();
 
+        group.MapGet("/low-stock", async ([FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetLowStockProductsQuery());
+            return Results.Ok(result);
+        })
+        .WithName("GetLowStockProducts")
+        .RequireAuthorization();
+
+        group.MapGet("/expiring-batches", async ([FromQuery] int? days, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetExpiringBatchesQuery { DaysThreshold = days ?? 30 });
+            return Results.Ok(result);
+        })
+        .WithName("GetExpiringBatches")
+        .RequireAuthorization();
+
         return group;
     }
 }

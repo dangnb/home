@@ -44,6 +44,7 @@ export class ProductsComponent implements OnInit {
   // Modal State
   showModal = false;
   isEditMode = false;
+  isSubmitting = false;
   editingProduct: Product = this.getEmptyProduct();
 
   // Categories Tree state
@@ -153,6 +154,7 @@ export class ProductsComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.isSubmitting = false;
   }
 
   openHistoryModal(product: Product) {
@@ -180,16 +182,29 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct() {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
+
     if (this.isEditMode) {
-      this.productService.updateProduct(this.editingProduct.id, this.editingProduct).subscribe(() => {
-        this.loadProducts();
-        this.closeModal();
+      this.productService.updateProduct(this.editingProduct.id, this.editingProduct).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.closeModal();
+        },
+        error: () => {
+          this.isSubmitting = false;
+        }
       });
     } else {
-      this.productService.createProduct(this.editingProduct).subscribe(() => {
-        this.currentPage = 1; // Reset to page 1 to see the newly added product
-        this.loadProducts();
-        this.closeModal();
+      this.productService.createProduct(this.editingProduct).subscribe({
+        next: () => {
+          this.currentPage = 1; // Reset to page 1 to see the newly added product
+          this.loadProducts();
+          this.closeModal();
+        },
+        error: () => {
+          this.isSubmitting = false;
+        }
       });
     }
   }
@@ -237,6 +252,23 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  addUnit() {
+    if (!this.editingProduct.units) {
+      this.editingProduct.units = [];
+    }
+    this.editingProduct.units.push({
+      unitName: '',
+      conversionFactor: 1,
+      price: 0
+    });
+  }
+
+  removeUnit(index: number) {
+    if (this.editingProduct.units) {
+      this.editingProduct.units.splice(index, 1);
+    }
+  }
+
   private getEmptyProduct(): Product {
     return {
       id: "",
@@ -247,7 +279,8 @@ export class ProductsComponent implements OnInit {
       unit: 'kg',
       status: 'Đang bán',
       mainImageUrl: '',
-      additionalImages: []
+      additionalImages: [],
+      units: []
     };
   }
 }

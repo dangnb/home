@@ -12,5 +12,7 @@ public class CreateProductCommand : IRequest<ProductDto>
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = "kg";
+    public string? Barcode { get; set; }
     public string Status { get; set; } = "Đang bán";
+    public List<CreateProductUnitDto> Units { get; set; } = new();
 }

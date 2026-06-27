@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
 
   showModal = false;
   isEditMode = false;
+  isSubmitting = false;
   editingUser: any = { id: 0, username: '', fullName: '', email: '', roleId: 0, isActive: true, phoneNumber: '', citizenId: '', address: '' };
 
   // Pagination state
@@ -84,21 +85,28 @@ export class UsersComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.isSubmitting = false;
   }
 
   saveUser() {
-    if (this.isEditMode) {
-      const index = this.mockUsers.findIndex(u => u.id === this.editingUser.id);
-      if (index > -1) {
-        this.mockUsers[index] = { ...this.editingUser };
-      }
-    } else {
-      this.editingUser.id = Math.max(0, ...this.mockUsers.map(u => u.id)) + 1;
-      this.mockUsers.unshift({ ...this.editingUser }); // add to top
-    }
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
 
-    this.updatePaginatedUsers();
-    this.closeModal();
+    // Simulate API delay
+    setTimeout(() => {
+      if (this.isEditMode) {
+        const index = this.mockUsers.findIndex(u => u.id === this.editingUser.id);
+        if (index > -1) {
+          this.mockUsers[index] = { ...this.editingUser };
+        }
+      } else {
+        this.editingUser.id = Math.max(0, ...this.mockUsers.map(u => u.id)) + 1;
+        this.mockUsers.unshift({ ...this.editingUser }); // add to top
+      }
+
+      this.updatePaginatedUsers();
+      this.closeModal();
+    }, 300);
   }
 
   deleteUser(id: string) {

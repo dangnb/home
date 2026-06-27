@@ -23,6 +23,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<UserToken> UserTokens => Set<UserToken>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<ProductUnit> ProductUnits => Set<ProductUnit>();
+    public DbSet<CustomerDebt> CustomerDebts => Set<CustomerDebt>();
     
     // Warehouse
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
@@ -77,6 +79,14 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
                 v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
                 v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
             );
+
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Units)
+            .WithOne(u => u.Product)
+            .HasForeignKey(u => u.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CustomerDebt>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         // WMS StockLevel keys
         modelBuilder.Entity<StockLevel>().HasKey(x => x.Id);
