@@ -726,3 +726,159 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'p.Category' 
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
    at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 21:37:02.629 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 401 in 114.5811 ms
+2026-06-27 21:42:50.442 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 4.0837 ms
+2026-06-27 21:42:50.702 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 21:42:50.714 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 21:42:51.234 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 772.3178 ms
+2026-06-27 21:44:20.274 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 401 in 4.3476 ms
+2026-06-27 21:45:40.872 +07:00 [ERR] HTTP POST /api/v1/auth/login responded 500 in 17.2911 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "LoginCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: '\' is an invalid start of a property name. Expected a '"'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+ ---> System.Text.Json.JsonReaderException: '\' is an invalid start of a property name. Expected a '"'. LineNumber: 0 | BytePositionInLine: 1.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 21:45:40.890 +07:00 [ERR] An exception occurred: Failed to read parameter "LoginCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "LoginCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: '\' is an invalid start of a property name. Expected a '"'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+ ---> System.Text.Json.JsonReaderException: '\' is an invalid start of a property name. Expected a '"'. LineNumber: 0 | BytePositionInLine: 1.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 21:46:04.866 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 21:46:04.867 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 21:46:04.867 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductBatch'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 21:46:04.868 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 21:46:05.033 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 21:46:05.881 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:46:07.385 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 3518.9816 ms
+2026-06-27 21:46:07.394 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 401 in 3.1025 ms
+2026-06-27 21:51:43.657 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.2477 ms
+2026-06-27 21:51:43.696 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 36.7846 ms
+2026-06-27 21:51:44.196 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 25.1938 ms
+2026-06-27 21:51:45.060 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 23.9982 ms
+2026-06-27 21:52:29.849 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0781 ms
+2026-06-27 21:52:29.983 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:52:30.714 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 861.5431 ms
+2026-06-27 21:52:58.216 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0654 ms
+2026-06-27 21:52:58.256 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:52:58.517 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 299.8535 ms
+2026-06-27 21:53:52.873 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0908 ms
+2026-06-27 21:53:52.885 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:53:53.166 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 289.6284 ms
+2026-06-27 21:54:12.305 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1015 ms
+2026-06-27 21:54:12.314 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:12.582 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 275.7900 ms
+2026-06-27 21:54:19.945 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0908 ms
+2026-06-27 21:54:20.026 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:20.331 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 383.0972 ms
+2026-06-27 21:54:20.410 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:20.672 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 336.9379 ms
+2026-06-27 21:54:20.683 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:20.919 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 242.5710 ms
+2026-06-27 21:54:20.934 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:21.173 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 247.6065 ms
+2026-06-27 21:54:25.465 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1072 ms
+2026-06-27 21:54:25.476 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:25.636 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 169.7167 ms
+2026-06-27 21:54:25.645 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:25.931 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 292.2957 ms
+2026-06-27 21:54:25.940 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:26.067 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 131.5236 ms
+2026-06-27 21:54:26.074 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:26.224 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 154.7682 ms
+2026-06-27 21:54:26.232 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:26.361 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 133.6840 ms
+2026-06-27 21:54:26.372 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:26.385 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 19.4289 ms
+2026-06-27 21:54:26.393 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:26.530 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 142.2730 ms
+2026-06-27 21:54:37.197 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1280 ms
+2026-06-27 21:54:37.206 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-06-27 21:54:37.387 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 187.3842 ms
+2026-06-27 21:54:37.421 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0581 ms
+2026-06-27 21:54:37.442 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 20.0505 ms
+2026-06-27 21:55:04.979 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.2000 ms
+2026-06-27 21:55:05.008 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 25.9646 ms
+2026-06-27 21:55:15.166 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.3981 ms
+2026-06-27 21:55:15.183 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 15.0544 ms
+2026-06-27 21:57:30.739 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0707 ms
+2026-06-27 21:57:30.748 +07:00 [INF] Audit Logged: Unknown by admin - LoginCommand
+2026-06-27 21:57:31.022 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 281.4295 ms
+2026-06-27 21:57:31.041 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0780 ms
+2026-06-27 21:57:31.062 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 19.0530 ms
+2026-06-27 21:59:01.872 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0401 ms
+2026-06-27 21:59:01.872 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0549 ms
+2026-06-27 21:59:01.912 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 38.0553 ms
+2026-06-27 21:59:01.932 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 58.5668 ms
+2026-06-27 21:59:27.641 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.1566 ms
+2026-06-27 21:59:27.665 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 22.3348 ms
+2026-06-27 22:00:16.682 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.1644 ms
+2026-06-27 22:00:16.703 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 19.8891 ms
+2026-06-27 22:00:16.842 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0313 ms
+2026-06-27 22:00:16.851 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 6.8065 ms
+2026-06-27 22:06:26.135 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 1.3784 ms
+2026-06-27 22:06:26.321 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 22:06:26.327 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 22:06:26.736 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:06:26.737 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:06:26.737 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:06:26.805 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 22:06:27.552 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 1380.9818 ms
+2026-06-27 22:06:27.555 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 1166.4662 ms
+2026-06-27 22:06:31.194 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.2123 ms
+2026-06-27 22:06:31.344 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 148.0934 ms
+2026-06-27 22:06:32.126 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 25.0824 ms
+2026-06-27 22:06:32.635 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 13.3567 ms
+2026-06-27 22:06:32.880 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 10.4321 ms
+2026-06-27 22:06:36.679 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0651 ms
+2026-06-27 22:06:36.805 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 125.6385 ms
+2026-06-27 22:06:42.304 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0663 ms
+2026-06-27 22:06:42.398 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 92.8852 ms
+2026-06-27 22:06:46.254 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1233 ms
+2026-06-27 22:06:46.260 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 4.6963 ms
+2026-06-27 22:19:32.948 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0862 ms
+2026-06-27 22:19:33.020 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 69.4458 ms
+2026-06-27 22:19:33.953 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 10.3720 ms

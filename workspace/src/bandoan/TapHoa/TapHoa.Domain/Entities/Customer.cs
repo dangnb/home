@@ -13,7 +13,7 @@ public class Customer : BaseAuditableEntity<Guid>
 
     public Customer(string fullName, string? phoneNumber, string? address, string? notes)
     {
-        Id = Guid.NewGuid();
+
         FullName = fullName;
         PhoneNumber = phoneNumber;
         Address = address;

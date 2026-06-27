@@ -74,6 +74,10 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         // Global query filters for soft delete and multi-tenancy
         modelBuilder.Entity<Product>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<Category>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<Customer>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<Supplier>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<ProductBatch>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<WarehouseLocation>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.AdditionalImages)

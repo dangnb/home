@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService, DashboardSummaryDto } from '../../core/services/dashboard.service';
 
@@ -13,7 +13,10 @@ export class DashboardComponent implements OnInit {
   summary: DashboardSummaryDto | null = null;
   isLoading = true;
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.loadSummary();
@@ -25,10 +28,12 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.summary = data;
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load dashboard summary', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

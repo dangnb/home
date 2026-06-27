@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using TapHoa.Domain.Entities.Warehouse;
-using System;
 using Dapper;
 
 namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
@@ -26,15 +24,17 @@ namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
             using var connection = _sqlConnectionFactory.CreateConnection();
 
             // 1. Basic Counts
-            summary.TotalProducts = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Products WHERE IsDeleted = 0");
-            summary.TotalCustomers = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Customers WHERE IsDeleted = 0");
-            summary.TotalSuppliers = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Suppliers WHERE IsDeleted = 0");
+            summary.TotalProducts = await connection.ExecuteScalarAsync<int>(WithSoftDelete("SELECT COUNT(1) FROM Products"));
+            summary.TotalCustomers = await connection.ExecuteScalarAsync<int>(WithSoftDelete("SELECT COUNT(1) FROM Customers"));
+            summary.TotalSuppliers = await connection.ExecuteScalarAsync<int>(WithSoftDelete("SELECT COUNT(1) FROM Suppliers"));
 
             // 2. Low Stock Count
-            summary.LowStockCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Products WHERE IsDeleted = 0 AND StockQuantity <= 10 AND Status != 'Ngừng kinh doanh'");
+            summary.LowStockCount = await connection.ExecuteScalarAsync<int>(
+                WithSoftDelete("SELECT COUNT(1) FROM Products WHERE StockQuantity <= 10 AND Status != 'Ngừng kinh doanh'"));
 
             // 3. Total Stock Value
-            summary.TotalStockValue = await connection.ExecuteScalarAsync<decimal>("SELECT COALESCE(SUM(StockQuantity * Price), 0) FROM Products WHERE IsDeleted = 0");
+            summary.TotalStockValue = await connection.ExecuteScalarAsync<decimal>(
+                WithSoftDelete("SELECT COALESCE(SUM(StockQuantity * Price), 0) FROM Products"));
 
             // 4. Recent Transactions (Top 5)
             var recentTxSql = @"
@@ -47,8 +47,7 @@ namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
                 FROM InventoryTransactions t
                 ORDER BY CreatedAt DESC
                 LIMIT 5";
-            
-            var recentTx = await connection.QueryAsync<DashboardRecentTransactionDto>(recentTxSql);
+            var recentTx = await connection.QueryAsync<DashboardRecentTransactionDto>(WithSoftDelete(recentTxSql));
             summary.RecentTransactions = recentTx.ToList();
 
             // 5. Top Products (By Export Volume)
@@ -64,15 +63,46 @@ namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
                 INNER JOIN InventoryTransactions t ON l.TransactionId = t.Id
                 INNER JOIN Products p ON l.ProductId = p.Id
                 LEFT JOIN Categories c ON p.CategoryId = c.Id
-                WHERE t.Type = 1 -- Export
+                WHERE t.Type = 2 AND t.Status = 3 -- Outbound (2) and Completed (3)
                 GROUP BY p.Id, p.Name, c.Name, p.Unit
                 ORDER BY TotalExportQuantity DESC
                 LIMIT 5";
-
-            var topProducts = await connection.QueryAsync<DashboardTopProductDto>(topProductsSql);
+            var topProducts = await connection.QueryAsync<DashboardTopProductDto>(WithSoftDelete(topProductsSql));
             summary.TopProducts = topProducts.ToList();
 
             return summary;
+        }
+
+        // Helper to ensure soft‑delete filter is applied to any raw SQL.
+        private static string WithSoftDelete(string sql)
+        {
+            const string softClause = "IsDeleted = 0";
+            // Trim any trailing whitespace for reliable processing
+            var trimmed = sql.TrimEnd();
+            // Check if there is already a WHERE clause (case‑insensitive)
+            var whereIndex = trimmed.IndexOf("WHERE", System.StringComparison.OrdinalIgnoreCase);
+            if (whereIndex >= 0)
+            {
+                // Insert the soft‑delete condition after existing WHERE
+                var insertPos = whereIndex + 5; // length of "WHERE"
+                return trimmed.Insert(insertPos, $" {softClause} AND");
+            }
+            else
+            {
+                // No WHERE – add one before ORDER BY / GROUP BY / LIMIT if present
+                var lower = trimmed.ToLowerInvariant();
+                var pos = lower.IndexOf("order by");
+                if (pos < 0) pos = lower.IndexOf("group by");
+                if (pos < 0) pos = lower.IndexOf("limit");
+                if (pos < 0)
+                {
+                    return $"{trimmed} WHERE {softClause}";
+                }
+                else
+                {
+                    return trimmed.Insert(pos, $" WHERE {softClause}");
+                }
+            }
         }
     }
 }
