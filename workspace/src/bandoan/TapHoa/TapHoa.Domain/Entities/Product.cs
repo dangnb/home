@@ -1,5 +1,6 @@
 using TapHoa.Domain.Common;
 using TapHoa.Domain.Exceptions;
+using TapHoa.Domain.Enums;
 
 namespace TapHoa.Domain.Entities;
 
@@ -16,7 +17,7 @@ public class Product : BaseAuditableEntity<Guid>
     public int StockQuantity { get; private set; }
     public string Unit { get; private set; }
     public string? Barcode { get; private set; }
-    public string Status { get; private set; }
+    public ProductStatus Status { get; private set; }
 
     private readonly List<ProductUnit> _units = new();
     public IReadOnlyCollection<ProductUnit> Units => _units.AsReadOnly();
@@ -24,7 +25,7 @@ public class Product : BaseAuditableEntity<Guid>
     // Private parameterless constructor for EF Core
     private Product() { }
 
-    private Product(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    private Product(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
     {
         Name = name;
         CategoryId = categoryId;
@@ -39,7 +40,7 @@ public class Product : BaseAuditableEntity<Guid>
         Status = status;
     }
 
-    public static Product Create(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    public static Product Create(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -53,7 +54,7 @@ public class Product : BaseAuditableEntity<Guid>
         return new Product(name, categoryId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode);
     }
 
-    public void Update(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    public void Update(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -77,7 +78,7 @@ public class Product : BaseAuditableEntity<Guid>
         Status = status;
     }
 
-    public void UpdateStatus(string status)
+    public void UpdateStatus(ProductStatus status)
     {
         Status = status;
     }

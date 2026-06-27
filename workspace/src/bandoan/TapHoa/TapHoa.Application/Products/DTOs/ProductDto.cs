@@ -14,6 +14,7 @@ public class ProductDto
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = string.Empty;
     public string? Barcode { get; set; }
-    public string Status { get; set; } = string.Empty;
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+    public TapHoa.Domain.Enums.ProductStatus Status { get; set; } = TapHoa.Domain.Enums.ProductStatus.Active;
     public List<ProductUnitDto> Units { get; set; } = new();
 }

@@ -882,3 +882,647 @@ Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "Log
 2026-06-27 22:19:32.948 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0862 ms
 2026-06-27 22:19:33.020 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 69.4458 ms
 2026-06-27 22:19:33.953 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 10.3720 ms
+2026-06-27 22:49:57.678 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 2.8878 ms
+2026-06-27 22:49:58.185 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 22:49:58.200 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 22:49:58.700 +07:00 [ERR] HTTP GET /api/v1/dashboard/summary responded 500 in 954.9789 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:49:58.746 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:50:00.488 +07:00 [ERR] HTTP GET /api/v1/dashboard/summary responded 500 in 23.6629 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:50:00.494 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:50:00.931 +07:00 [ERR] HTTP GET /api/v1/dashboard/summary responded 500 in 23.6673 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:50:00.935 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Dashboard.Queries.GetDashboardSummary.GetDashboardSummaryQueryHandler.Handle(GetDashboardSummaryQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Dashboard\Queries\GetDashboardSummary\GetDashboardSummaryQueryHandler.cs:line 50
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.DashboardEndpoints.<>c.<<MapDashboardEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\DashboardEndpoints.cs:line 15
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:53:54.017 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 2.6088 ms
+2026-06-27 22:53:54.389 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-27 22:53:54.399 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-27 22:53:54.811 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 730.2414 ms
+2026-06-27 22:53:59.164 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.5268 ms
+2026-06-27 22:53:59.169 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0967 ms
+2026-06-27 22:53:59.248 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 82.0925 ms
+2026-06-27 22:53:59.251 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 79.4638 ms
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:53:59.284 +07:00 [ERR] An exception occurred: Error parsing column 11 (Status=Đang bán - String)
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:22.399 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0186 ms
+2026-06-27 22:57:22.399 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0694 ms
+2026-06-27 22:57:22.428 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 26.7298 ms
+2026-06-27 22:57:22.429 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 28.0263 ms
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:57:22.430 +07:00 [ERR] An exception occurred: Error parsing column 11 (Status=Đang bán - String)
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:23.024 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.9513 ms
+2026-06-27 22:57:23.024 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 3.6486 ms
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:57:23.025 +07:00 [ERR] An exception occurred: Error parsing column 11 (Status=Đang bán - String)
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:43.575 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0635 ms
+2026-06-27 22:57:43.594 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 17.0835 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:57:43.597 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:44.212 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 1.0220 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:57:44.212 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:49.465 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0681 ms
+2026-06-27 22:57:49.482 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 0.7048 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:57:49.483 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 182.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:57:57.661 +07:00 [INF] HTTP GET /api/v1/products responded 401 in 3.7363 ms
+2026-06-27 22:58:49.191 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0473 ms
+2026-06-27 22:58:49.433 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0617 ms
+2026-06-27 22:58:49.434 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0725 ms
+2026-06-27 22:58:49.437 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6345 ms
+2026-06-27 22:58:49.438 +07:00 [ERR] HTTP GET /api/v1/products/paged responded 500 in 3.2983 ms
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 22:58:49.440 +07:00 [ERR] An exception occurred: Error parsing column 11 (Status=Đang bán - String)
+System.Data.DataException: Error parsing column 11 (Status=Đang bán - String)
+ ---> System.ArgumentException: Requested value 'Đang bán' was not found.
+   at System.Enum.TryParseByName[TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TStorage& result)
+   at System.Enum.TryParseByValueOrName[TUnderlying,TStorage](RuntimeType enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, TUnderlying& result)
+   at System.Enum.TryParse(Type enumType, ReadOnlySpan`1 value, Boolean ignoreCase, Boolean throwOnFailure, Object& result)
+   at System.Enum.Parse(Type enumType, String value, Boolean ignoreCase)
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserialize4cb1ba1e-015f-4e4c-b64b-5acb03c1d2ea(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Common.Extensions.DapperPaginationExtensions.QueryPagedAsync[T](IDbConnection connection, String countSql, String dataSql, Object parameters, Int32 pageIndex, Int32 pageSize) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Common\Extensions\DapperPaginationExtensions.cs:line 19
+   at TapHoa.Application.Products.Queries.GetPagedProducts.GetPagedProductsQueryHandler.Handle(GetPagedProductsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Products\Queries\GetPagedProducts\GetPagedProductsQueryHandler.cs:line 59
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.ProductsEndpoints.<>c.<<MapProductsEndpoints>b__0_1>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Endpoints\ProductsEndpoints.cs:line 37
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 22:58:50.164 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:58:50.165 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:58:50.165 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-27 22:58:50.327 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-27 22:58:51.206 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2013.3109 ms
+2026-06-27 23:00:32.336 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.1219 ms
+2026-06-27 23:00:32.339 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 0.9064 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 23:00:32.339 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 23:00:33.097 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 0.9416 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 23:00:33.098 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-06-27 23:00:33.288 +07:00 [ERR] HTTP POST /api/v1/products responded 500 in 0.7693 ms
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-27 23:00:33.289 +07:00 [ERR] An exception occurred: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "CreateProductCommand command" from the request body as JSON.
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to TapHoa.Domain.Enums.ProductStatus. Path: $.status | LineNumber: 0 | BytePositionInLine: 181.
+   at System.Text.Json.ThrowHelper.ThrowJsonException(String message)
+   at System.Text.Json.Serialization.Converters.EnumConverter`1.Read(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.Metadata.JsonPropertyInfo`1.ReadJsonAndSetMember(Object obj, ReadStack& state, Utf8JsonReader& reader)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.ContinueDeserialize[TReadBufferState,TStream](TReadBufferState& bufferState, JsonReaderState& jsonReaderState, ReadStack& readStack, T& value)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsync[TReadBufferState,TStream](TStream utf8Json, TReadBufferState bufferState, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.DeserializeAsObjectAsync(PipeReader utf8Json, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpRequestJsonExtensions.ReadFromJsonAsync(HttpRequest request, JsonTypeInfo jsonTypeInfo, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.Log.InvalidJsonRequestBody(HttpContext httpContext, String parameterTypeName, String parameterName, Exception exception, Boolean shouldThrow)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<HandleRequestBodyAndCompileRequestDelegateForJson>g__TryReadBodyAsync|102_0(HttpContext httpContext, Type bodyType, String parameterTypeName, String parameterName, Boolean allowEmptyRequestBody, Boolean throwOnBadRequest, JsonTypeInfo jsonTypeInfo)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 23

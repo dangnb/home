@@ -26,6 +26,9 @@ export class UsersComponent implements OnInit {
   isSubmitting = false;
   editingUser: any = { id: 0, username: '', fullName: '', email: '', roleId: 0, isActive: true, phoneNumber: '', citizenId: '', address: '' };
 
+  searchTerm: string = '';
+  activeDropdownRowId: number | null = null;
+
   // Pagination state
   currentPage = 1;
   pageSize = 5;
@@ -50,10 +53,25 @@ export class UsersComponent implements OnInit {
   }
 
   updatePaginatedUsers() {
+    let filtered = this.mockUsers;
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = this.mockUsers.filter(u => 
+        u.fullName.toLowerCase().includes(term) || 
+        u.username.toLowerCase().includes(term) || 
+        u.email.toLowerCase().includes(term)
+      );
+    }
+    
+    this.totalUsers = filtered.length;
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    this.users = this.mockUsers.slice(start, end);
-    this.totalUsers = this.mockUsers.length;
+    this.users = filtered.slice(start, end);
+  }
+
+  onSearchChange() {
+    this.currentPage = 1;
+    this.updatePaginatedUsers();
   }
 
   onPageChange(page: number) {
@@ -65,6 +83,15 @@ export class UsersComponent implements OnInit {
     this.pageSize = size;
     this.currentPage = 1;
     this.updatePaginatedUsers();
+  }
+
+  toggleDropdown(id: number, event: Event) {
+    event.stopPropagation();
+    if (this.activeDropdownRowId === id) {
+      this.activeDropdownRowId = null;
+    } else {
+      this.activeDropdownRowId = id;
+    }
   }
 
   getRoleName(roleId: string) {

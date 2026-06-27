@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Dapper;
+using TapHoa.Domain.Enums;
 
 namespace TapHoa.Infrastructure.Data;
 
@@ -17,6 +18,7 @@ public static class DapperConfiguration
         SqlMapper.RemoveTypeMap(typeof(Guid?));
         SqlMapper.AddTypeHandler(new GuidTypeHandler());
         SqlMapper.AddTypeHandler(new NullableGuidTypeHandler());
+        SqlMapper.AddTypeHandler(new ProductStatusHandler());
     }
 }
 
@@ -76,5 +78,48 @@ public class NullableGuidTypeHandler : SqlMapper.TypeHandler<Guid?>
             return new Guid(bytes);
             
         return null;
+    }
+}
+
+public class ProductStatusHandler : SqlMapper.TypeHandler<ProductStatus>
+{
+    public override void SetValue(System.Data.IDbDataParameter parameter, ProductStatus value)
+    {
+        parameter.Value = (int)value;
+    }
+
+    public override ProductStatus Parse(object value)
+    {
+        if (value == null || value is DBNull) return ProductStatus.Draft;
+        
+        if (value is int intValue && Enum.IsDefined(typeof(ProductStatus), intValue))
+        {
+            return (ProductStatus)intValue;
+        }
+
+        if (value is string strValue)
+        {
+            return strValue switch
+            {
+                "Đang bán" => ProductStatus.Active,
+                "Ngừng bán" => ProductStatus.Discontinued,
+                "Sắp hết" => ProductStatus.OutOfStock,
+                "Lưu nháp" => ProductStatus.Draft,
+                "Chờ duyệt" => ProductStatus.Pending,
+                _ => Enum.TryParse<ProductStatus>(strValue, true, out var parsedStatus) ? parsedStatus : ProductStatus.Draft
+            };
+        }
+
+        if (value is short shortValue && Enum.IsDefined(typeof(ProductStatus), (int)shortValue))
+        {
+            return (ProductStatus)shortValue;
+        }
+        
+        if (value is byte byteValue && Enum.IsDefined(typeof(ProductStatus), (int)byteValue))
+        {
+            return (ProductStatus)byteValue;
+        }
+
+        return ProductStatus.Draft;
     }
 }

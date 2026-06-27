@@ -47,7 +47,7 @@ namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
                 FROM InventoryTransactions t
                 ORDER BY CreatedAt DESC
                 LIMIT 5";
-            var recentTx = await connection.QueryAsync<DashboardRecentTransactionDto>(WithSoftDelete(recentTxSql));
+            var recentTx = await connection.QueryAsync<DashboardRecentTransactionDto>(recentTxSql);
             summary.RecentTransactions = recentTx.ToList();
 
             // 5. Top Products (By Export Volume)
@@ -63,11 +63,11 @@ namespace TapHoa.Application.Dashboard.Queries.GetDashboardSummary
                 INNER JOIN InventoryTransactions t ON l.TransactionId = t.Id
                 INNER JOIN Products p ON l.ProductId = p.Id
                 LEFT JOIN Categories c ON p.CategoryId = c.Id
-                WHERE t.Type = 2 AND t.Status = 3 -- Outbound (2) and Completed (3)
+                WHERE t.Type = 2 AND t.Status = 3 AND p.IsDeleted = 0 AND (c.Id IS NULL OR c.IsDeleted = 0) -- Outbound (2) and Completed (3)
                 GROUP BY p.Id, p.Name, c.Name, p.Unit
                 ORDER BY TotalExportQuantity DESC
                 LIMIT 5";
-            var topProducts = await connection.QueryAsync<DashboardTopProductDto>(WithSoftDelete(topProductsSql));
+            var topProducts = await connection.QueryAsync<DashboardTopProductDto>(topProductsSql);
             summary.TopProducts = topProducts.ToList();
 
             return summary;

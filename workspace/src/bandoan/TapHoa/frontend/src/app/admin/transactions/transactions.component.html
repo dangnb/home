@@ -3,7 +3,7 @@
     <h2 class="mb-1 fw-bold fs-4" style="color: var(--dark);">Sổ Cái Giao Dịch Kho</h2>
     <p class="text-muted mb-0 view-subtitle">Theo dõi và quản lý toàn bộ biến động xuất nhập kho trong hệ thống.</p>
   </div>
-  <button class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2" routerLink="/admin/transactions/create">
+  <button class="btn-primary-gradient d-flex align-items-center gap-2 px-4 py-2" routerLink="/admin/transactions/create">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
@@ -118,22 +118,22 @@
 </div>
 
 <!-- Main Data Table -->
-<div class="premium-card mb-4">
+<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
   <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
     <div class="d-flex align-items-center gap-3">
       <h4 class="mb-0 fw-bold fs-5 text-dark">Lịch sử giao dịch</h4>
       <span class="badge bg-light text-muted border px-2 py-1" style="font-weight: 500; font-size: 0.85rem;">{{
-        transactions.length }} bản ghi</span>
+        filteredTransactions.length }} bản ghi</span>
     </div>
-    <div class="d-flex gap-2">
-      <button class="btn btn-light d-flex align-items-center gap-2 fw-bold border">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+    <div class="d-flex align-items-center gap-3">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        Lọc
-      </button>
-      <button class="btn btn-light d-flex align-items-center gap-2 fw-bold border">
+        <input type="text" class="w-100" placeholder="Tìm kiếm phiếu..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      <button class="btn btn-light d-flex align-items-center gap-2 fw-bold border text-nowrap">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -155,7 +155,7 @@
     @if (!isLoading) {
     <div class="table-responsive">
       <table class="table custom-table mb-0 align-middle">
-        <thead>
+        <thead class="table-light">
           <tr>
             <th class="ps-4">MÃ PHIẾU</th>
             <th>LOẠI GIAO DỊCH</th>
@@ -164,7 +164,7 @@
             <th>TỔNG TIỀN</th>
             <th>THỜI GIAN</th>
             <th>TRẠNG THÁI</th>
-            <th class="text-center pe-4">THAO TÁC</th>
+            <th class="text-end pe-4">THAO TÁC</th>
           </tr>
         </thead>
         <tbody>
@@ -207,45 +207,67 @@
                 Đang xử lý
               </span>
             </td>
-            <td class="text-center pe-4">
-              <div class="action-icons d-flex justify-content-center gap-3 text-muted align-items-center">
-                @if (tx.status === 0 || tx.status === 1) {
-                <a href="javascript:void(0)" class="text-success" (click)="approveTransaction(tx.id, tx.type)"
-                  title="Duyệt phiếu">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
+            <td class="text-end pe-4">
+              <div class="dropdown" [class.show]="activeDropdownRowId === tx.id">
+                <button
+                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
+                  type="button" (click)="toggleDropdown(tx.id, $event)" style="width:32px; height:32px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="12" cy="5" r="1"></circle>
+                    <circle cx="12" cy="19" r="1"></circle>
                   </svg>
-                </a>
-                <a href="javascript:void(0)" class="text-warning" [routerLink]="['/admin/transactions/edit', tx.id]"
-                  title="Sửa phiếu">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                  </svg>
-                </a>
-                }
-                <a href="javascript:void(0)" class="text-primary" [routerLink]="['/admin/transactions', tx.id]"
-                  title="Xem chi tiết">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </a>
-                <a href="javascript:void(0)" class="text-danger" title="Xóa" (click)="deleteTransaction(tx.id)">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                  </svg>
-                </a>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === tx.id"
+                  style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
+                  @if (tx.status === 0 || tx.status === 1) {
+                  <li>
+                    <button class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-success border-0 bg-transparent w-100 text-start"
+                      (click)="approveTransaction(tx.id, tx.type)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      Duyệt phiếu
+                    </button>
+                  </li>
+                  <li>
+                    <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-warning" [routerLink]="['/admin/transactions/edit', tx.id]">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                      Sửa phiếu
+                    </a>
+                  </li>
+                  }
+                  <li>
+                    <a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-primary" [routerLink]="['/admin/transactions', tx.id]">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      Xem chi tiết
+                    </a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li>
+                    <button class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-danger border-0 bg-transparent w-100 text-start"
+                      (click)="deleteTransaction(tx.id)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                      Xóa
+                    </button>
+                  </li>
+                </ul>
               </div>
             </td>
           </tr>
           }
-          @if (transactions.length === 0 && !isLoading) {
+          @if (filteredTransactions.length === 0 && !isLoading) {
           <tr class="text-center">
             <td colspan="8" class="py-5 text-muted">Chưa có giao dịch kho nào.</td>
           </tr>
@@ -258,7 +280,7 @@
   <div class="card-footer bg-light-surface border-0 py-3 px-4 d-flex justify-content-between align-items-center"
     style="border-top: 1px solid var(--border-color) !important;">
     <span class="text-muted" style="font-size: 0.85rem;">
-      Hiển thị <strong>{{ paginatedTransactions.length }}</strong> trong tổng số <strong>{{ transactions.length
+      Hiển thị <strong>{{ paginatedTransactions.length }}</strong> trong tổng số <strong>{{ filteredTransactions.length
         }}</strong> giao dịch
     </span>
     @if (totalPages >= 1) {

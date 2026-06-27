@@ -62,9 +62,9 @@ public class CheckoutRetailOrderCommandHandler : IRequestHandler<CheckoutRetailO
             if (product != null)
             {
                 product.UpdateStockCache(stock.QuantityOnHand);
-                if (stock.IsLowStock()) product.UpdateStatus("Sắp hết");
-                else if (stock.QuantityOnHand == 0) product.UpdateStatus("Hết hàng");
-                else product.UpdateStatus("Đang bán");
+                if (stock.IsLowStock()) product.UpdateStatus(TapHoa.Domain.Enums.ProductStatus.OutOfStock);
+                else if (stock.QuantityOnHand == 0) product.UpdateStatus(TapHoa.Domain.Enums.ProductStatus.OutOfStock);
+                else product.UpdateStatus(TapHoa.Domain.Enums.ProductStatus.Active);
             }
         }
 

@@ -1,16 +1,28 @@
-<div class="premium-card">
-  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white">
+<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
     <h5 class="mb-0 fw-bold text-dark fs-5">
       <span class="me-2 fs-5">👥</span>Danh Mục Khách Hàng
     </h5>
-    <button class="btn-primary-gradient d-flex align-items-center gap-2" (click)="openCreateModal()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      Thêm khách hàng
-    </button>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="w-100" placeholder="Tìm kiếm SĐT, khách hàng..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      
+      <button class="btn-primary-gradient d-flex align-items-center gap-2 text-nowrap" (click)="openCreateModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Thêm khách hàng
+      </button>
+    </div>
   </div>
+
   <div class="bg-white p-3">
     @if (isLoading) {
       <div class="p-5 text-center text-muted">
@@ -29,35 +41,56 @@
             </tr>
           </thead>
           <tbody>
-            @for (customer of customers; track customer.id) {
+            @for (customer of filteredCustomers; track customer.id) {
               <tr>
                 <td class="ps-4 fw-medium text-dark">{{ customer.fullName }}</td>
-                <td>{{ customer.phoneNumber || '-' }}</td>
+                <td class="text-primary fw-medium">{{ customer.phoneNumber || '-' }}</td>
                 <td>{{ customer.address || '-' }}</td>
-                <td class="text-muted text-truncate" style="max-width: 200px;">{{ customer.notes || '-' }}</td>
-                <td class="text-end pe-4 row-actions d-flex justify-content-end gap-2" style="opacity: 1; transform: none;">
-                  <button class="btn-edit" (click)="openEditModal(customer)" title="Sửa">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                  </button>
-                  <button class="btn-delete" (click)="deleteCustomer(customer.id)" title="Xóa">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      <line x1="10" y1="11" x2="10" y2="17"></line>
-                      <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                  </button>
+                <td class="text-muted text-truncate" style="max-width: 250px;">{{ customer.notes || '-' }}</td>
+                <td class="text-end pe-4">
+                  <div class="dropdown" [class.show]="activeDropdownRowId === customer.id">
+                    <button
+                      class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
+                      type="button" (click)="toggleDropdown(customer.id, $event)" style="width:32px; height:32px;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                      </svg>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === customer.id"
+                      style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
+                      <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
+                          (click)="openEditModal(customer)">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                          </svg>
+                          Sửa thông tin
+                        </a></li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-danger fw-medium" href="javascript:void(0)"
+                          (click)="deleteCustomer(customer.id)">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                          Xóa
+                        </a></li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             }
-            @if (customers.length === 0) {
+            @if (filteredCustomers.length === 0) {
               <tr>
                 <td colspan="5" class="text-center py-5 text-muted">
                   <span class="fs-1 d-block mb-3">📭</span>
-                  Chưa có dữ liệu khách hàng nào
+                  Không có dữ liệu khách hàng nào.
                 </td>
               </tr>
             }
@@ -69,36 +102,39 @@
 </div>
 
 @if (showModal) {
-<app-modal
-  [title]="editingCustomer ? 'Sửa thông tin khách hàng' : 'Thêm khách hàng mới'" size="md"
-  (closeDialog)="closeModal()">
-  <form (ngSubmit)="saveCustomer()" #customerForm="ngForm">
-    <div class="mb-4">
-      <label class="premium-label">Tên khách hàng <span class="text-danger">*</span></label>
-      <input type="text" class="premium-input" name="fullName" [(ngModel)]="formData.fullName" required placeholder="Nhập họ tên...">
-    </div>
-    <div class="mb-4">
-      <label class="premium-label">Số điện thoại</label>
-      <input type="text" class="premium-input" name="phoneNumber" [(ngModel)]="formData.phoneNumber" placeholder="Nhập SĐT...">
-    </div>
-    <div class="mb-4">
-      <label class="premium-label">Địa chỉ</label>
-      <input type="text" class="premium-input" name="address" [(ngModel)]="formData.address" placeholder="Nhập địa chỉ...">
-    </div>
-    <div class="mb-5">
-      <label class="premium-label">Ghi chú</label>
-      <textarea class="premium-textarea" name="notes" rows="3" [(ngModel)]="formData.notes" placeholder="Ghi chú thêm..."></textarea>
-    </div>
-    
-    <div class="d-flex justify-content-center gap-4 mt-2">
-      <button type="button" class="btn-premium-cancel" (click)="closeModal()">Hủy</button>
-      <button type="submit" class="btn-premium-danger" [style.background]="'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'" [style.boxShadow]="'0 4px 12px rgba(59, 130, 246, 0.2)'" [disabled]="!customerForm.form.valid || isSubmitting">
-        @if (isSubmitting) {
-          <span class="spinner-border spinner-border-sm me-2"></span>
-        }
-        {{ editingCustomer ? 'Lưu thay đổi' : 'Thêm mới' }}
-      </button>
+<app-modal [title]="editingCustomer ? 'Sửa thông tin khách hàng' : 'Thêm khách hàng mới'" size="md" (closeDialog)="closeModal()">
+  <form (ngSubmit)="saveCustomer()" #customerForm="ngForm" id="customerNgForm">
+    <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
+      <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Thông tin khách hàng</h6>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Tên khách hàng <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-solid rounded-3 py-2" name="fullName" [(ngModel)]="formData.fullName" required placeholder="Nhập họ tên...">
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Số điện thoại</label>
+          <input type="text" class="form-control form-control-solid rounded-3 py-2" name="phoneNumber" [(ngModel)]="formData.phoneNumber" placeholder="Nhập SĐT...">
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Địa chỉ</label>
+          <input type="text" class="form-control form-control-solid rounded-3 py-2" name="address" [(ngModel)]="formData.address" placeholder="Nhập địa chỉ...">
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Ghi chú</label>
+          <textarea class="form-control form-control-solid rounded-3 py-2" name="notes" rows="3" [(ngModel)]="formData.notes" placeholder="Ghi chú thêm..."></textarea>
+        </div>
+      </div>
     </div>
   </form>
+  
+  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+    <button type="submit" form="customerNgForm" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!customerForm.form.valid || isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      }
+      {{ editingCustomer ? 'Lưu thay đổi' : 'Thêm mới' }}
+    </button>
+  </div>
 </app-modal>
 }

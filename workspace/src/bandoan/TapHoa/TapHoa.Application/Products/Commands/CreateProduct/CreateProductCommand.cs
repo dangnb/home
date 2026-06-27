@@ -15,6 +15,7 @@ public class CreateProductCommand : IRequest<ProductDto>
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = "kg";
     public string? Barcode { get; set; }
-    public string Status { get; set; } = "Đang bán";
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+    public TapHoa.Domain.Enums.ProductStatus Status { get; set; } = TapHoa.Domain.Enums.ProductStatus.Active;
     public List<CreateProductUnitDto> Units { get; set; } = new();
 }

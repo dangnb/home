@@ -64,8 +64,8 @@
             <td class="fw-bold text-primary">{{p.price | number:'1.0-0'}} ₫</td>
             <td>{{p.stockQuantity}} <span class="text-muted">{{p.unit}}</span></td>
             <td>
-              <span class="badge rounded-pill px-3 py-2" [ngClass]="p.status === 'Đang bán' ? 'bg-success bg-opacity-10 text-success' : 'bg-warning bg-opacity-10 text-warning'">
-                {{p.status}}
+              <span class="badge rounded-pill px-3 py-2" [ngClass]="p.status === 'Active' ? 'bg-success bg-opacity-10 text-success' : (p.status === 'OutOfStock' ? 'bg-warning bg-opacity-10 text-warning' : 'bg-secondary bg-opacity-10 text-secondary')">
+                {{ p.status === 'Active' ? 'Đang bán' : (p.status === 'OutOfStock' ? 'Sắp hết' : (p.status === 'Discontinued' ? 'Ngừng bán' : (p.status === 'Draft' ? 'Lưu nháp' : p.status))) }}
               </span>
             </td>
             <td class="text-end pe-4">
@@ -140,8 +140,8 @@
 
 @if (showModal) {
 <app-modal [title]="isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'" size="xl" (closeDialog)="closeModal()">
-  <form (ngSubmit)="saveProduct()" #productForm="ngForm">
-    <div class="row g-4">
+  <form (ngSubmit)="saveProduct()" #productForm="ngForm" id="productNgForm">
+    <div class="row g-4 mb-4">
       <!-- Cột trái: Thông tin chính -->
       <div class="col-12 col-lg-8">
         <!-- Panel Thông tin cơ bản -->
@@ -230,9 +230,10 @@
           <div>
             <label class="form-label fw-bold text-dark fs-7">Trạng thái kinh doanh</label>
             <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-control-solid rounded-3 py-2">
-              <option value="Đang bán">Đang bán</option>
-              <option value="Sắp hết">Sắp hết</option>
-              <option value="Ngừng kinh doanh">Ngừng bán (Ẩn)</option>
+              <option value="Active">Đang bán</option>
+              <option value="OutOfStock">Sắp hết / Hết hàng</option>
+              <option value="Discontinued">Ngừng bán (Ẩn)</option>
+              <option value="Draft">Lưu nháp</option>
             </select>
           </div>
         </div>
@@ -279,17 +280,16 @@
         </div>
       </div>
     </div>
-    
-    <div modal-footer>
-      <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
-      <button type="submit" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!productForm.form.valid || isSubmitting">
-        @if (isSubmitting) {
-          <span class="spinner-border spinner-border-sm me-2"></span>
-        }
-        {{ isEditMode ? 'Lưu Thay Đổi' : 'Tạo Sản Phẩm' }}
-      </button>
-    </div>
   </form>
+  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+    <button type="submit" form="productNgForm" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!productForm.form.valid || isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      }
+      {{ isEditMode ? 'Lưu Thay Đổi' : 'Tạo Sản Phẩm' }}
+    </button>
+  </div>
 </app-modal>
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerLedgerService, CustomerDebt } from '../../services/customer-ledger.service';
@@ -17,14 +17,18 @@ export class CustomerDebtsComponent implements OnInit {
   private ledgerService = inject(CustomerLedgerService);
   private customerService = inject(CustomerService);
   private alertService = inject(AlertService);
+  private cdr = inject(ChangeDetectorRef);
 
   debts: CustomerDebt[] = [];
+  filteredDebts: CustomerDebt[] = [];
+  searchTerm: string = '';
   customers: Customer[] = [];
   isLoading = true;
 
   showModal = false;
   isSubmitting = false;
   modalMode: 'record' | 'pay' = 'record';
+  activeDropdownRowId: string | null = null;
   
   formData = {
     customerId: '',
@@ -52,14 +56,39 @@ export class CustomerDebtsComponent implements OnInit {
     this.isLoading = true;
     this.ledgerService.getDebts().subscribe({
       next: (data) => {
-        this.debts = data;
+        this.debts = data || [];
+        this.filteredDebts = [...this.debts];
+        this.onSearchChange();
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
+  }
+
+  onSearchChange() {
+    if (!this.searchTerm) {
+      this.filteredDebts = [...this.debts];
+    } else {
+      const term = this.searchTerm.toLowerCase();
+      this.filteredDebts = this.debts.filter(d => {
+        const name = this.getCustomerName(d.customerId).toLowerCase();
+        return name.includes(term);
+      });
+    }
+  }
+
+  toggleDropdown(id: string, event: Event) {
+    event.stopPropagation();
+    if (this.activeDropdownRowId === id) {
+      this.activeDropdownRowId = null;
+    } else {
+      this.activeDropdownRowId = id;
+    }
   }
 
   openRecordModal(customerId?: string) {
@@ -105,10 +134,12 @@ export class CustomerDebtsComponent implements OnInit {
         this.alertService.success('Thành công', 'Đã lưu giao dịch sổ nợ!');
         this.loadDebts();
         this.closeModal();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.alertService.error('Lỗi', err.error?.title || 'Không thể lưu giao dịch');
         this.isSubmitting = false;
+        this.cdr.detectChanges();
       }
     });
   }

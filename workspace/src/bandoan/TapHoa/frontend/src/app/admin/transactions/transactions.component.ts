@@ -1,12 +1,13 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'app-transactions',
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, FormsModule],
     templateUrl: './transactions.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transactions.component.scss'
@@ -23,6 +24,9 @@ export class TransactionsComponent implements OnInit {
     currentPage = 1;
     pageSize = 10;
     totalPages = 1;
+
+    searchTerm = '';
+    filteredTransactions: any[] = [];
 
     activeDropdownRowId: string | null = null;
 
@@ -58,8 +62,8 @@ export class TransactionsComponent implements OnInit {
     fetchTransactions() {
         this.transactionService.getTransactions().subscribe({
             next: (data) => {
-                this.transactions = data;
-                this.updatePagination();
+                this.transactions = data || [];
+                this.onSearchChange();
                 this.isLoading = false;
             },
             error: (err) => {
@@ -70,11 +74,25 @@ export class TransactionsComponent implements OnInit {
         });
     }
 
+    onSearchChange() {
+        if (!this.searchTerm) {
+            this.filteredTransactions = [...this.transactions];
+        } else {
+            const term = this.searchTerm.toLowerCase();
+            this.filteredTransactions = this.transactions.filter(t => 
+                (t.code && t.code.toLowerCase().includes(term)) ||
+                (t.createdBy && t.createdBy.toLowerCase().includes(term))
+            );
+        }
+        this.currentPage = 1;
+        this.updatePagination();
+    }
+
     updatePagination() {
-        this.totalPages = Math.ceil(this.transactions.length / this.pageSize) || 1;
+        this.totalPages = Math.ceil(this.filteredTransactions.length / this.pageSize) || 1;
         if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
         const startIndex = (this.currentPage - 1) * this.pageSize;
-        this.paginatedTransactions = this.transactions.slice(startIndex, startIndex + this.pageSize);
+        this.paginatedTransactions = this.filteredTransactions.slice(startIndex, startIndex + this.pageSize);
     }
 
     goToPage(page: number) {

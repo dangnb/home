@@ -19,6 +19,9 @@ export class InventoryComponent implements OnInit {
     private cdr = inject(ChangeDetectorRef);
 
     inventories: any[] = [];
+    filteredInventories: any[] = [];
+    searchTerm: string = '';
+    activeDropdownRowId: string | null = null;
     lowStockProducts: any[] = [];
     expiringBatches: any[] = [];
     isLoading = true;
@@ -48,7 +51,9 @@ export class InventoryComponent implements OnInit {
         this.isLoading = true;
         this.http.get<any[]>(`${environment.apiUrl}/transactions/stock`).subscribe({
             next: (data) => {
-                this.inventories = data;
+                this.inventories = data || [];
+                this.filteredInventories = [...this.inventories];
+                this.onSearchChange();
                 this.isLoading = false;
                 this.cdr.markForCheck();
             },
@@ -58,6 +63,27 @@ export class InventoryComponent implements OnInit {
                 this.cdr.markForCheck();
             }
         });
+    }
+
+    onSearchChange() {
+        if (!this.searchTerm) {
+            this.filteredInventories = [...this.inventories];
+        } else {
+            const term = this.searchTerm.toLowerCase();
+            this.filteredInventories = this.inventories.filter(i => 
+                i.productName?.toLowerCase().includes(term) || 
+                i.barcode?.toLowerCase().includes(term)
+            );
+        }
+    }
+
+    toggleDropdown(id: string, event: Event) {
+        event.stopPropagation();
+        if (this.activeDropdownRowId === id) {
+            this.activeDropdownRowId = null;
+        } else {
+            this.activeDropdownRowId = id;
+        }
     }
 
     async adjustStock(item: any) {

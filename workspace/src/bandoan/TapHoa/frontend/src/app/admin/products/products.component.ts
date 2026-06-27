@@ -280,7 +280,7 @@ export class ProductsComponent implements OnInit {
       price: 0,
       stockQuantity: 0,
       unit: 'kg',
-      status: 'Đang bán',
+      status: 'Active',
       mainImageUrl: '',
       additionalImages: [],
       units: []
