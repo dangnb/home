@@ -1,97 +1,104 @@
-<div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Nhà Cung Cấp</h2>
-    <button (click)="openAddModal()"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
-        <span class="mr-2">+</span> Thêm Nhà Cung Cấp
+<div class="premium-card">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white">
+    <h5 class="mb-0 fw-bold text-dark fs-5">
+      <span class="me-2 fs-5">🚚</span>Danh Mục Nhà Cung Cấp
+    </h5>
+    <button class="btn-primary-gradient d-flex align-items-center gap-2" (click)="openCreateModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Thêm nhà cung cấp
     </button>
-</div>
-
-<div class="bg-white rounded-lg shadow-sm border border-gray-200">
-    <div class="p-4 border-b border-gray-200">
-        <input type="text"
-               [(ngModel)]="searchTerm"
-               (input)="filterSuppliers()"
-               placeholder="Tìm kiếm nhà cung cấp..."
-               class="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
-    </div>
-
-    <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
-                    <th class="p-4 font-semibold">Tên Nhà Cung Cấp</th>
-                    <th class="p-4 font-semibold">SĐT</th>
-                    <th class="p-4 font-semibold">Địa chỉ</th>
-                    <th class="p-4 font-semibold text-right">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                <tr *ngFor="let supplier of filteredSuppliers" class="hover:bg-gray-50 transition-colors cursor-pointer" (dblclick)="openEditModal(supplier)">
-                    <td class="p-4 font-medium text-gray-900">{{ supplier.fullName }}</td>
-                    <td class="p-4 text-gray-600">{{ supplier.phoneNumber || '-' }}</td>
-                    <td class="p-4 text-gray-600">{{ supplier.address || '-' }}</td>
-                    <td class="p-4 text-right">
-                        <button (click)="openEditModal(supplier)" class="text-indigo-600 hover:text-indigo-800 mr-3 transition-colors">Sửa</button>
-                        <button (click)="deleteSupplier(supplier.id)" class="text-red-600 hover:text-red-800 transition-colors">Xóa</button>
-                    </td>
-                </tr>
-                <tr *ngIf="filteredSuppliers.length === 0">
-                    <td colspan="4" class="p-8 text-center text-gray-500">
-                        Chưa có nhà cung cấp nào.
-                    </td>
-                </tr>
-            </tbody>
+  </div>
+  <div class="bg-white p-3">
+    @if (isLoading) {
+      <div class="p-5 text-center text-muted">
+        <div class="spinner-border spinner-border-sm me-2"></div> Đang tải dữ liệu...
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Nhà cung cấp</th>
+              <th>SĐT</th>
+              <th>Địa chỉ</th>
+              <th>Ghi chú</th>
+              <th class="text-end pe-4">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (supplier of suppliers; track supplier.id) {
+              <tr>
+                <td class="ps-4 fw-medium text-dark">{{ supplier.fullName }}</td>
+                <td>{{ supplier.phoneNumber || '-' }}</td>
+                <td>{{ supplier.address || '-' }}</td>
+                <td class="text-muted text-truncate" style="max-width: 200px;">{{ supplier.notes || '-' }}</td>
+                <td class="text-end pe-4 row-actions d-flex justify-content-end gap-2" style="opacity: 1; transform: none;">
+                  <button class="btn-edit" (click)="openEditModal(supplier)" title="Sửa">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button class="btn-delete" (click)="deleteSupplier(supplier.id)" title="Xóa">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      <line x1="10" y1="11" x2="10" y2="17"></line>
+                      <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (suppliers.length === 0) {
+              <tr>
+                <td colspan="5" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có dữ liệu nhà cung cấp nào
+                </td>
+              </tr>
+            }
+          </tbody>
         </table>
-    </div>
+      </div>
+    }
+  </div>
 </div>
 
-<!-- Modal Thêm/Sửa Nhà Cung Cấp -->
-<div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
-    <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 md:mx-0">
-        <div class="flex justify-between items-center p-4 border-b">
-            <h3 class="text-lg font-semibold text-gray-900">
-                {{ isEditMode ? 'Cập Nhật Nhà Cung Cấp' : 'Thêm Nhà Cung Cấp Mới' }}
-            </h3>
-            <button (click)="closeModal()" class="text-gray-400 hover:text-gray-500 transition-colors">
-                <span class="text-2xl">&times;</span>
-            </button>
-        </div>
-
-        <form (ngSubmit)="saveSupplier()" class="p-4 space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Tên Nhà Cung Cấp *</label>
-                <input type="text" [(ngModel)]="currentSupplier.fullName" name="fullName" required
-                       class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
-                <input type="text" [(ngModel)]="currentSupplier.phoneNumber" name="phoneNumber"
-                       class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
-                <input type="text" [(ngModel)]="currentSupplier.address" name="address"
-                       class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
-                <textarea [(ngModel)]="currentSupplier.notes" name="notes" rows="3"
-                          class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-            </div>
-
-            <div class="mt-6 flex justify-end space-x-3">
-                <button type="button" (click)="closeModal()"
-                        class="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
-                    Hủy
-                </button>
-                <button type="submit" [disabled]="!currentSupplier.fullName"
-                        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 transition-colors">
-                    Lưu
-                </button>
-            </div>
-        </form>
+@if (showModal) {
+<app-modal
+  [title]="editingSupplier ? 'Sửa thông tin nhà cung cấp' : 'Thêm nhà cung cấp mới'" size="md"
+  (closeDialog)="closeModal()">
+  <form (ngSubmit)="saveSupplier()" #supplierForm="ngForm">
+    <div class="mb-4">
+      <label class="premium-label">Tên nhà cung cấp <span class="text-danger">*</span></label>
+      <input type="text" class="premium-input" name="fullName" [(ngModel)]="formData.fullName" required placeholder="Nhập tên nhà cung cấp...">
     </div>
-</div>
+    <div class="mb-4">
+      <label class="premium-label">Số điện thoại</label>
+      <input type="text" class="premium-input" name="phoneNumber" [(ngModel)]="formData.phoneNumber" placeholder="Nhập số điện thoại liên hệ...">
+    </div>
+    <div class="mb-4">
+      <label class="premium-label">Địa chỉ</label>
+      <input type="text" class="premium-input" name="address" [(ngModel)]="formData.address" placeholder="Nhập địa chỉ cụ thể...">
+    </div>
+    <div class="mb-5">
+      <label class="premium-label">Ghi chú thêm</label>
+      <textarea class="premium-textarea" name="notes" rows="3" [(ngModel)]="formData.notes" placeholder="Các thông tin khác..."></textarea>
+    </div>
+    
+    <div class="d-flex justify-content-center gap-4 mt-2">
+      <button type="button" class="btn-premium-cancel" (click)="closeModal()">Hủy</button>
+      <button type="submit" class="btn-premium-danger" [style.background]="'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'" [style.boxShadow]="'0 4px 12px rgba(59, 130, 246, 0.2)'" [disabled]="!supplierForm.form.valid || isSubmitting">
+        @if (isSubmitting) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+        }
+        {{ editingSupplier ? 'Lưu cập nhật' : 'Thêm mới' }}
+      </button>
+    </div>
+  </form>
+</app-modal>
+}

@@ -1,308 +1,288 @@
-<div class="page-header">
-  <h2>Quản lý sản phẩm</h2>
-  <button class="btn btn-primary" (click)="openAddModal()">+ Thêm sản phẩm mới</button>
-</div>
-
-<div class="card">
-  <div class="card-header">
-    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" class="search-input"
-      placeholder="Tìm kiếm tên, ID sản phẩm..." />
-    <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="filter-select">
-      <option value="">Tất cả danh mục</option>
-      @for (cat of flatCategories; track cat.id) {
-      <option [value]="cat.pureName">{{ cat.name }}</option>
-      }
-    </select>
-  </div>
-
-  <div class="table-responsive">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Hình ảnh</th>
-          <th>Tên sản phẩm</th>
-          <th>Danh mục</th>
-          <th>Giá bán</th>
-          <th>Tồn kho</th>
-          <th>Trạng thái</th>
-          <th>Thao tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (p of products; track p) {
-        <tr>
-          <td>#SP00{{p.id}}</td>
-          <td>
-            @if (p.mainImageUrl) {
-            <img [src]="fileUrl + p.mainImageUrl"
-              style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb;" />
-            }
-            @if (!p.mainImageUrl) {
-            <div class="img-thumb" style="background: #f3f4f6;">📦</div>
-            }
-          </td>
-          <td>{{p.name}}</td>
-          <td>{{p.category}}</td>
-          <td>{{p.price | number:'1.0-0'}} ₫</td>
-          <td>{{p.stockQuantity}} {{p.unit}}</td>
-          <td>
-            <span class="badge" [ngClass]="p.status === 'Đang bán' ? 'badge-success' : 'badge-warning'">
-              {{p.status}}
-            </span>
-          </td>
-          <td>
-            <div class="dropdown" [class.show]="activeDropdownRowId === p.id">
-              <button
-                class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center"
-                type="button" (click)="toggleDropdown(p.id, $event)" style="width:32px; height:32px;">
-                ⋮
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === p.id"
-                style="border-radius: 8px; position: absolute; right: 0;">
-                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="javascript:void(0)"
-                    (click)="openHistoryModal(p)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                      <line x1="16" y1="2" x2="16" y2="6"></line>
-                      <line x1="8" y1="2" x2="8" y2="6"></line>
-                      <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    Thẻ kho
-                  </a></li>
-                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="javascript:void(0)"
-                    (click)="openEditModal(p)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                    Sửa sản phẩm
-                  </a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-danger" href="javascript:void(0)"
-                    (click)="deleteProduct(p.id)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                    Xóa
-                  </a></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
+<div class="premium-card mb-4">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
+    <h5 class="mb-0 fw-bold text-dark fs-5">
+      <span class="me-2 fs-5">📦</span>Quản lý sản phẩm
+    </h5>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="w-100" placeholder="Tìm kiếm tên, ID sản phẩm..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      
+      <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="form-select form-control-solid rounded-3" style="width: 200px;">
+        <option value="">Tất cả danh mục</option>
+        @for (cat of flatCategories; track cat.id) {
+        <option [value]="cat.pureName">{{ cat.name }}</option>
         }
-        @if (products.length === 0) {
-        <tr>
-          <td colspan="8" style="text-align:center; padding:2rem;">Không có sản phẩm nào phù hợp.</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <app-pagination [totalItems]="totalCount" [pageSize]="pageSize" [currentPage]="currentPage"
-    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
-  </app-pagination>
-</div>
-
-<!-- Modal Form -->
-@if (showModal) {
-<div class="modal-overlay" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      @if (!isEditMode) {
-      <h3>Thêm sản phẩm mới</h3>
-      }
-      @if (isEditMode) {
-      <h3>Chỉnh sửa sản phẩm</h3>
-      }
-      <button class="close-btn" (click)="closeModal()">&times;</button>
+      </select>
+      
+      <button class="btn-primary-gradient d-flex align-items-center gap-2 text-nowrap" (click)="openAddModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Thêm sản phẩm
+      </button>
     </div>
-    <div class="modal-body form-classic">
-      <div class="grid-layout">
-        <!-- Cột trái: Thông tin chính -->
-        <div class="left-column">
-          <div class="classic-panel">
-            <div class="panel-header">Thông tin sản phẩm</div>
-            <div class="panel-body">
-              <div class="form-row-classic">
-                <label>Tên sản phẩm <span class="required">(*)</span></label>
-                <div class="flex-grow-1">
-                  <input type="text" [(ngModel)]="editingProduct.name" class="form-control">
-                </div>
+  </div>
+
+  <div class="bg-white p-3">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">ID</th>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Giá bán</th>
+            <th>Tồn kho</th>
+            <th>Trạng thái</th>
+            <th class="text-end pe-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of products; track p) {
+          <tr>
+            <td class="ps-4 text-muted fw-bold">#SP00{{p.id}}</td>
+            <td>
+              @if (p.mainImageUrl) {
+              <img [src]="fileUrl + p.mainImageUrl"
+                style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb;" />
+              } @else {
+              <div class="d-flex align-items-center justify-content-center bg-light rounded" style="width: 40px; height: 40px;">
+                <span class="fs-6">📦</span>
               </div>
-              <div class="form-row-classic">
-                <label>Liên kết tĩnh</label>
-                <div class="flex-grow-1">
-                  <input type="text" disabled placeholder="Tự động tạo từ tên sản phẩm..." class="form-control"
-                    style="background:#f8f9fa;">
-                </div>
+              }
+            </td>
+            <td class="fw-medium text-dark">{{p.name}}</td>
+            <td><span class="badge bg-light text-dark border">{{p.category}}</span></td>
+            <td class="fw-bold text-primary">{{p.price | number:'1.0-0'}} ₫</td>
+            <td>{{p.stockQuantity}} <span class="text-muted">{{p.unit}}</span></td>
+            <td>
+              <span class="badge rounded-pill px-3 py-2" [ngClass]="p.status === 'Đang bán' ? 'bg-success bg-opacity-10 text-success' : 'bg-warning bg-opacity-10 text-warning'">
+                {{p.status}}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <div class="dropdown" [class.show]="activeDropdownRowId === p.id">
+                <button
+                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
+                  type="button" (click)="toggleDropdown(p.id, $event)" style="width:32px; height:32px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="12" cy="5" r="1"></circle>
+                    <circle cx="12" cy="19" r="1"></circle>
+                  </svg>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === p.id"
+                  style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
+                      (click)="openHistoryModal(p)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                      Thẻ kho
+                    </a></li>
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
+                      (click)="openEditModal(p)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                      Sửa sản phẩm
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-danger fw-medium" href="javascript:void(0)"
+                      (click)="deleteProduct(p.id)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                      Xóa
+                    </a></li>
+                </ul>
               </div>
-              <div class="form-row-classic">
-                <label>Loại sản phẩm</label>
-                <div class="flex-grow-1">
-                  <select [(ngModel)]="editingProduct.category" class="form-select">
-                    @for (cat of flatCategories; track cat.id) {
-                    <option [value]="cat.pureName">{{ cat.name }}</option>
-                    }
-                  </select>
-                </div>
-              </div>
-              <div class="form-row-classic">
-                <label>Mã sản phẩm</label>
-                <div class="flex-grow-1">
-                  <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control" disabled
-                    style="background:#f8f9fa;">
-                  <span style="display:inline-block; width: 120px; text-align: center; font-weight: 500;">Đơn
-                    vị tính</span>
-                  <select [(ngModel)]="editingProduct.unit" class="form-select" style="width: 120px;">
-                    <option value="kg">kg</option>
-                    <option value="bó">Bó</option>
-                    <option value="hộp">Hộp</option>
-                    <option value="chai">Chai</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row-classic">
-                <label>Giá sản phẩm</label>
-                <div class="flex-grow-1">
-                  <input type="number" [(ngModel)]="editingProduct.price" class="form-control">
-                  <select disabled class="form-select" style="max-width: 150px; background:#f8f9fa;">
-                    <option>Vietnam Dong</option>
-                  </select>
-                </div>
-              </div>
+            </td>
+          </tr>
+          }
+          @if (products.length === 0) {
+          <tr>
+            <td colspan="8" class="text-center py-5 text-muted">
+              <span class="fs-1 d-block mb-3">📭</span>
+              Không có sản phẩm nào phù hợp.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4">
+      <app-pagination [totalItems]="totalCount" [pageSize]="pageSize" [currentPage]="currentPage"
+        (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+@if (showModal) {
+<app-modal [title]="isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'" size="xl" (closeDialog)="closeModal()">
+  <form (ngSubmit)="saveProduct()" #productForm="ngForm">
+    <div class="row g-4">
+      <!-- Cột trái: Thông tin chính -->
+      <div class="col-12 col-lg-8">
+        <!-- Panel Thông tin cơ bản -->
+        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Thông tin cơ bản</h6>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-bold text-dark fs-7">Tên sản phẩm <span class="text-danger">*</span></label>
+              <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid rounded-3 py-2" required placeholder="Nhập tên sản phẩm...">
             </div>
-          </div>
-          <div class="classic-panel">
-            <div class="panel-header">Hình minh họa</div>
-            <div class="panel-body">
-              <div class="form-row-classic mb-2">
-                <label>Ảnh chính</label>
-                <div class="flex-grow-1">
-                  <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control">
-                </div>
-              </div>
-              @if (editingProduct.mainImageUrl) {
-              <div class="form-row-classic mb-3">
-                <label></label>
-                <div class="flex-grow-1">
-                  <img [src]="fileUrl + editingProduct.mainImageUrl" height="80"
-                    style="border: 1px solid #ddd; border-radius: 4px; object-fit: contain;">
-                </div>
-              </div>
-              }
-              <div class="form-row-classic mb-2 mt-4">
-                <label>Ảnh phụ đính kèm</label>
-                <div class="flex-grow-1">
-                  <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*"
-                    class="form-control">
-                </div>
-              </div>
-              @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
-              <div class="form-row-classic mb-0">
-                <label></label>
-                <div class="flex-grow-1" style="display: flex; gap: 8px; flex-wrap: wrap;">
-                  @for (url of editingProduct.additionalImages; track url; let i = $index) {
-                  <div style="position: relative;">
-                    <img [src]="fileUrl + url" width="60" height="60"
-                      style="object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-                    <button class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                      style="padding: 0px 4px; font-size: 10px; margin: 2px;"
-                      (click)="removeAdditionalImage(i)">&times;</button>
-                  </div>
-                  }
-                </div>
-              </div>
-              }
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-bold text-dark fs-7">Danh mục</label>
+              <select [(ngModel)]="editingProduct.category" name="category" class="form-select form-control-solid rounded-3 py-2">
+                @for (cat of flatCategories; track cat.id) {
+                <option [value]="cat.pureName">{{ cat.name }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-bold text-dark fs-7">Đơn vị tính gốc</label>
+              <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-control-solid rounded-3 py-2">
+                <option value="kg">kg</option>
+                <option value="bó">Bó</option>
+                <option value="hộp">Hộp</option>
+                <option value="chai">Chai</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-bold text-dark fs-7">Mã hệ thống</label>
+              <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid rounded-3 py-2 bg-light text-muted" disabled>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-bold text-dark fs-7">Giá bán (₫)</label>
+              <input type="number" [(ngModel)]="editingProduct.price" name="price" class="form-control form-control-solid rounded-3 py-2" required>
             </div>
           </div>
         </div>
-        <!-- Cột phải: Thuộc tính mở rộng -->
-        <div class="right-column">
-          <div class="classic-panel">
-            <div class="panel-header">Trạng thái cấu hình & Tồn kho</div>
-            <div class="panel-body">
-              <div class="form-group mb-3">
-                <label style="display:block; margin-bottom: 5px; font-weight: 500;">Số lượng tồn kho
-                  (hiện tại)</label>
-                <input type="number" [(ngModel)]="editingProduct.stockQuantity" class="form-control">
-              </div>
-              <hr style="border-color:#e5e7eb; margin: 15px 0;">
-              <div class="form-group">
-                <label style="display:block; margin-bottom: 5px; font-weight: 500;">Trạng thái kinh
-                  doanh</label>
-                <select [(ngModel)]="editingProduct.status" class="form-select">
-                  <option value="Đang bán">Đang bán</option>
-                  <option value="Sắp hết">Sắp hết</option>
-                  <option value="Ngừng kinh doanh">Ngừng bán (Ẩn)</option>
-                </select>
-              </div>
+
+        <!-- Panel Hình ảnh -->
+        <div class="border rounded-4 p-4 bg-white shadow-sm">
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Hình ảnh sản phẩm</h6>
+          <div class="mb-4">
+            <label class="form-label fw-bold text-dark fs-7">Ảnh chính</label>
+            <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
+            @if (editingProduct.mainImageUrl) {
+            <div class="mt-3">
+              <img [src]="fileUrl + editingProduct.mainImageUrl" height="100" class="rounded-3 border shadow-sm" style="object-fit: cover;">
             </div>
+            }
           </div>
-          <div class="classic-panel">
-            <div class="panel-header d-flex justify-content-between align-items-center">
-              <span>Đơn vị tính phụ quy đổi</span>
-              <button class="btn btn-sm btn-outline-primary" style="padding: 2px 8px; font-size: 12px;" (click)="addUnit()">+ Thêm</button>
-            </div>
-            <div class="panel-body">
-              @if (!editingProduct.units || editingProduct.units.length === 0) {
-                <p class="text-muted small mb-0 text-center">Chưa có đơn vị tính phụ nào.</p>
+          <div>
+            <label class="form-label fw-bold text-dark fs-7">Ảnh phụ đính kèm</label>
+            <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
+            @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
+            <div class="d-flex gap-2 flex-wrap mt-3">
+              @for (url of editingProduct.additionalImages; track url; let i = $index) {
+              <div class="position-relative">
+                <img [src]="fileUrl + url" width="80" height="80" class="rounded-3 border shadow-sm" style="object-fit: cover;">
+                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-0 d-flex align-items-center justify-content-center shadow" style="width: 20px; height: 20px; transform: translate(30%, -30%);" (click)="removeAdditionalImage(i)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
               }
-              @for (u of editingProduct.units; track u; let i = $index) {
-                <div class="border rounded p-2 mb-2 bg-light position-relative">
-                  <button class="btn btn-sm btn-danger position-absolute top-0 end-0" style="padding: 0 4px; font-size: 10px; margin: 4px;" (click)="removeUnit(i)">&times;</button>
-                  <div class="row g-2 align-items-center mb-2">
-                    <div class="col-7">
-                      <label class="small text-muted mb-1">Tên ĐVT phụ</label>
-                      <input type="text" [(ngModel)]="u.unitName" class="form-control form-control-sm" placeholder="VD: Thùng, Lốc">
-                    </div>
-                    <div class="col-5">
-                      <label class="small text-muted mb-1">Quy đổi =</label>
-                      <div class="input-group input-group-sm">
-                        <input type="number" [(ngModel)]="u.conversionFactor" class="form-control" placeholder="Số lượng">
-                        <span class="input-group-text">{{ editingProduct.unit || 'gốc' }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row g-2 align-items-center">
-                    <div class="col-12">
-                      <label class="small text-muted mb-1">Giá bán riêng (ĐVT phụ)</label>
-                      <div class="input-group input-group-sm">
-                        <input type="number" [(ngModel)]="u.price" class="form-control" placeholder="Nhập giá">
-                        <span class="input-group-text">₫</span>
-                      </div>
-                    </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột phải: Thuộc tính mở rộng -->
+      <div class="col-12 col-lg-4">
+        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Trạng thái & Tồn kho</h6>
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark fs-7">Tồn kho hiện tại</label>
+            <input type="number" [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
+          </div>
+          <div>
+            <label class="form-label fw-bold text-dark fs-7">Trạng thái kinh doanh</label>
+            <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-control-solid rounded-3 py-2">
+              <option value="Đang bán">Đang bán</option>
+              <option value="Sắp hết">Sắp hết</option>
+              <option value="Ngừng kinh doanh">Ngừng bán (Ẩn)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+            <h6 class="fw-bold mb-0 text-primary">Đơn vị quy đổi</h6>
+            <button type="button" class="btn btn-sm btn-light fw-bold text-primary rounded-pill px-3" (click)="addUnit()">+ Thêm</button>
+          </div>
+          
+          @if (!editingProduct.units || editingProduct.units.length === 0) {
+            <div class="text-center py-3 bg-light rounded-3">
+              <span class="text-muted small">Chưa có đơn vị tính phụ</span>
+            </div>
+          }
+          
+          <div class="d-flex flex-column gap-3">
+            @for (u of editingProduct.units; track u; let i = $index) {
+              <div class="position-relative bg-light p-3 rounded-4 border">
+                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-0 d-flex align-items-center justify-content-center shadow" style="width: 20px; height: 20px; transform: translate(30%, -30%);" (click)="removeUnit(i)">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold text-dark mb-1">Tên ĐVT phụ</label>
+                  <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid rounded-3" placeholder="VD: Thùng, Lốc">
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold text-dark mb-1">Quy đổi</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid border-end-0">
+                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">{{ editingProduct.unit || 'gốc' }}</span>
                   </div>
                 </div>
-              }
-            </div>
-          </div>
-          <div class="classic-panel">
-            <div class="panel-header">Phân quyền block</div>
-            <div class="panel-body">
-              <label style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" checked /> Hiển thị ghim Sản phẩm mới
-              </label>
-            </div>
+                <div>
+                  <label class="form-label small fw-bold text-dark mb-1">Giá bán riêng</label>
+                  <div class="input-group input-group-sm">
+                    <input type="number" [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid border-end-0">
+                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">₫</span>
+                  </div>
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" (click)="closeModal()">Hủy</button>
-      <button class="btn btn-primary" [disabled]="isSubmitting" (click)="saveProduct()">
-        {{ isSubmitting ? 'Đang lưu...' : 'Lưu sản phẩm' }}
+    
+    <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-3">
+      <button type="button" class="btn btn-light fw-bold rounded-3 px-4 py-2" (click)="closeModal()">Hủy</button>
+      <button type="submit" class="btn-primary-gradient px-4 py-2" [disabled]="!productForm.form.valid || isSubmitting">
+        @if (isSubmitting) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+        }
+        {{ isEditMode ? 'Lưu thay đổi' : 'Tạo sản phẩm' }}
       </button>
     </div>
-  </div>
-</div>
+  </form>
+</app-modal>
 }
 
 <!-- History Modal -->

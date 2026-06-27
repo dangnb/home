@@ -1,85 +1,116 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Supplier, SupplierService } from '../../services/supplier.service';
+import { SupplierService, Supplier } from '../../services/supplier.service';
+import { AlertService } from '../../services/alert.service';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-suppliers',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './suppliers.component.html',
-  styleUrls: ['./suppliers.component.scss']
+  imports: [CommonModule, FormsModule, ModalComponent],
+  templateUrl: './suppliers.component.html'
 })
 export class SuppliersComponent implements OnInit {
-  suppliers: Supplier[] = [];
-  filteredSuppliers: Supplier[] = [];
-  searchTerm: string = '';
-  
-  isModalOpen = false;
-  isEditMode = false;
-  currentSupplier: Partial<Supplier> = {};
+  private supplierService = inject(SupplierService);
+  private alertService = inject(AlertService);
 
-  constructor(private supplierService: SupplierService) {}
+  suppliers: Supplier[] = [];
+  isLoading = false;
+  isSubmitting = false;
+
+  showModal = false;
+  editingSupplier: Supplier | null = null;
+  
+  formData: Partial<Supplier> = {
+    fullName: '',
+    phoneNumber: '',
+    address: '',
+    notes: ''
+  };
 
   ngOnInit(): void {
     this.loadSuppliers();
   }
 
   loadSuppliers() {
-    this.supplierService.getSuppliers().subscribe((data) => {
-      this.suppliers = data;
-      this.filterSuppliers();
+    this.isLoading = true;
+    this.supplierService.getSuppliers().subscribe({
+      next: (data) => {
+        this.suppliers = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.alertService.error('Lỗi', 'Không thể tải danh sách nhà cung cấp');
+        this.isLoading = false;
+      }
     });
   }
 
-  filterSuppliers() {
-    if (!this.searchTerm) {
-      this.filteredSuppliers = this.suppliers;
-    } else {
-      const lowerTerm = this.searchTerm.toLowerCase();
-      this.filteredSuppliers = this.suppliers.filter(
-        (s) =>
-          s.fullName.toLowerCase().includes(lowerTerm) ||
-          s.phoneNumber?.toLowerCase().includes(lowerTerm)
-      );
-    }
-  }
-
-  openAddModal() {
-    this.isEditMode = false;
-    this.currentSupplier = { fullName: '', phoneNumber: '', address: '', notes: '' };
-    this.isModalOpen = true;
+  openCreateModal() {
+    this.editingSupplier = null;
+    this.formData = { fullName: '', phoneNumber: '', address: '', notes: '' };
+    this.showModal = true;
   }
 
   openEditModal(supplier: Supplier) {
-    this.isEditMode = true;
-    this.currentSupplier = { ...supplier };
-    this.isModalOpen = true;
+    this.editingSupplier = supplier;
+    this.formData = { ...supplier };
+    this.showModal = true;
   }
 
   closeModal() {
-    this.isModalOpen = false;
-    this.currentSupplier = {};
+    this.showModal = false;
   }
 
   saveSupplier() {
-    if (this.isEditMode && this.currentSupplier.id) {
-      this.supplierService.updateSupplier(this.currentSupplier.id, this.currentSupplier).subscribe(() => {
-        this.loadSuppliers();
-        this.closeModal();
+    if (!this.formData.fullName?.trim()) {
+      this.alertService.error('Lỗi', 'Vui lòng nhập tên nhà cung cấp');
+      return;
+    }
+    
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
+
+    if (this.editingSupplier) {
+      this.supplierService.updateSupplier(this.editingSupplier.id, this.formData).subscribe({
+        next: () => {
+          this.alertService.success('Thành công', 'Đã cập nhật thông tin nhà cung cấp');
+          this.loadSuppliers();
+          this.closeModal();
+          this.isSubmitting = false;
+        },
+        error: (err) => {
+          this.alertService.error('Lỗi', err.error?.title || 'Không thể cập nhật nhà cung cấp');
+          this.isSubmitting = false;
+        }
       });
     } else {
-      this.supplierService.createSupplier(this.currentSupplier).subscribe(() => {
-        this.loadSuppliers();
-        this.closeModal();
+      this.supplierService.createSupplier(this.formData).subscribe({
+        next: () => {
+          this.alertService.success('Thành công', 'Đã thêm nhà cung cấp mới');
+          this.loadSuppliers();
+          this.closeModal();
+          this.isSubmitting = false;
+        },
+        error: (err) => {
+          this.alertService.error('Lỗi', err.error?.title || 'Không thể tạo nhà cung cấp');
+          this.isSubmitting = false;
+        }
       });
     }
   }
 
   deleteSupplier(id: string) {
-    if (confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này?')) {
-      this.supplierService.deleteSupplier(id).subscribe(() => {
-        this.loadSuppliers();
+    if (confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này không?')) {
+      this.supplierService.deleteSupplier(id).subscribe({
+        next: () => {
+          this.alertService.success('Thành công', 'Đã xóa nhà cung cấp');
+          this.loadSuppliers();
+        },
+        error: (err) => {
+          this.alertService.error('Lỗi', 'Không thể xóa nhà cung cấp này');
+        }
       });
     }
   }

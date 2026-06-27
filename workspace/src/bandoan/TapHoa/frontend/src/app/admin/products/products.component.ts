@@ -5,13 +5,14 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
 import { CategoryService } from '../../services/category.service';
 import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, PaginationComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent],
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
   styleUrl: './products.component.scss'

@@ -1,15 +1,18 @@
-<div class="container-fluid py-5">
-  <div class="row mb-5">
-    <div class="col-12 d-flex justify-content-between align-items-center">
-      <div>
-        <h2 class="fw-bold text-dark fs-2 mb-1">Quản lý Vai trò & Phân quyền</h2>
-        <span class="text-muted fw-semibold">Thiết lập ma trận phân quyền Binary (Bitwise) tốc độ cao</span>
-      </div>
-      <button class="btn btn-primary px-4 py-2 fw-semibold rounded-pill shadow-sm d-flex align-items-center gap-2"
-        (click)="openAddModal()">
-        <span>🔐</span> Thêm vai trò mới
-      </button>
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h5 class="mb-1 fw-bold text-dark fs-5">
+        <span class="me-2 fs-5">🛡️</span>Quản lý Vai trò & Phân quyền
+      </h5>
+      <span class="text-muted fw-semibold fs-7">Thiết lập ma trận phân quyền Binary (Bitwise) tốc độ cao</span>
     </div>
+    <button class="btn-primary-gradient d-flex align-items-center gap-2" (click)="openAddModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Thêm vai trò mới
+    </button>
   </div>
 
   <!-- Roles Grid -->

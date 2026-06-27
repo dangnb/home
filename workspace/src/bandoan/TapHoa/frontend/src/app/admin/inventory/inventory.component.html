@@ -1,23 +1,30 @@
-<div class="card shadow-sm border-0 rounded-4">
-  <div class="card-header bg-white border-0 pt-4 pb-0">
-    <div class="d-flex justify-content-between align-items-center">
-      <h3 class="mb-0 fw-bold text-dark">📦 Tồn Kho Tức Thời (Real-time WMS)</h3>
-      <div class="header-actions">
-        <button class="btn btn-primary rounded-pills px-4" (click)="fetchStock()">
-          <span>🔄</span> Làm mới
-        </button>
-      </div>
+<div class="premium-card">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
+    <div>
+      <h5 class="mb-1 fw-bold text-dark fs-5">
+        <span class="me-2 fs-5">📦</span>Tồn Kho Tức Thời (Real-time WMS)
+      </h5>
+      <p class="text-muted mb-0 fs-7">Dữ liệu lấy trực tiếp từ StockLevel, đồng bộ liên tục với toàn bộ sổ cái nghiệp vụ Nhập/Xuất/Kiểm kê.</p>
     </div>
-    <p class="text-muted mt-2">Dữ liệu lấy trực tiếp từ StockLevel, đồng bộ liên tục với toàn bộ sổ cái nghiệp vụ
-      Nhập/Xuất/Kiểm kê.</p>
+    <div class="header-actions">
+      <button class="btn btn-light d-flex align-items-center gap-2 fw-bold" (click)="fetchStock()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 2v6h-6"></path>
+          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+          <path d="M3 22v-6h6"></path>
+          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+        </svg>
+        Làm mới
+      </button>
+    </div>
   </div>
 
   @if (lowStockProducts.length > 0 || expiringBatches.length > 0) {
-  <div class="card-body bg-light border-bottom border-warning">
+  <div class="p-4 bg-light border-bottom border-warning">
     <div class="row g-4">
       @if (lowStockProducts.length > 0) {
       <div class="col-md-6">
-        <div class="alert alert-warning border-0 shadow-sm h-100 mb-0 d-flex flex-column">
+        <div class="alert alert-warning border-0 shadow-sm h-100 mb-0 d-flex flex-column rounded-4">
           <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
             <span class="fs-4 me-2">⚠️</span> Cảnh báo Tồn kho thấp
           </h5>
@@ -35,7 +42,7 @@
 
       @if (expiringBatches.length > 0) {
       <div class="col-md-6">
-        <div class="alert alert-danger border-0 shadow-sm h-100 mb-0 d-flex flex-column">
+        <div class="alert alert-danger border-0 shadow-sm h-100 mb-0 d-flex flex-column rounded-4">
           <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
             <span class="fs-4 me-2">⏳</span> Lô hàng sắp hết hạn (FEFO)
           </h5>
@@ -59,7 +66,7 @@
   </div>
   }
 
-  <div class="card-body">
+  <div class="bg-white p-3">
     <div class="table-responsive">
       <table class="table table-hover align-middle custom-table">
         <thead class="table-light">
