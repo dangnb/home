@@ -1,9 +1,12 @@
 export interface Product {
     id: string;
     name: string;
-    category: string;
+    categoryId?: string;
+    categoryName?: string;
     mainImageUrl?: string;
     additionalImages?: string[];
+    costPrice: number;
+    wholesalePrice: number;
     price: number;
     stockQuantity: number;
     unit: string;

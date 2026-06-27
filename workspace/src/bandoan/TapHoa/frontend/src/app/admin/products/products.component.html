@@ -16,7 +16,7 @@
       <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="form-select form-control-solid rounded-3" style="width: 200px;">
         <option value="">Tất cả danh mục</option>
         @for (cat of flatCategories; track cat.id) {
-        <option [value]="cat.pureName">{{ cat.name }}</option>
+        <option [value]="cat.id">{{ cat.name }}</option>
         }
       </select>
       
@@ -60,7 +60,7 @@
               }
             </td>
             <td class="fw-medium text-dark">{{p.name}}</td>
-            <td><span class="badge bg-light text-dark border">{{p.category}}</span></td>
+            <td><span class="badge bg-light text-dark border">{{p.categoryName || 'Không có'}}</span></td>
             <td class="fw-bold text-primary">{{p.price | number:'1.0-0'}} ₫</td>
             <td>{{p.stockQuantity}} <span class="text-muted">{{p.unit}}</span></td>
             <td>
@@ -153,10 +153,10 @@
               <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid rounded-3 py-2" required placeholder="Nhập tên sản phẩm...">
             </div>
             <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">Danh mục</label>
-              <select [(ngModel)]="editingProduct.category" name="category" class="form-select form-control-solid rounded-3 py-2">
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Danh mục <span class="text-danger">*</span></label>
+              <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select bg-light border-0 rounded-3 py-2" required>
                 @for (cat of flatCategories; track cat.id) {
-                <option [value]="cat.pureName">{{ cat.name }}</option>
+                <option [value]="cat.id">{{ cat.name }}</option>
                 }
               </select>
             </div>
@@ -173,9 +173,17 @@
               <label class="form-label fw-bold text-dark fs-7">Mã hệ thống</label>
               <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid rounded-3 py-2 bg-light text-muted" disabled>
             </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">Giá bán (₫)</label>
-              <input type="number" [(ngModel)]="editingProduct.price" name="price" class="form-control form-control-solid rounded-3 py-2" required>
+            <div class="col-12 col-md-4">
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá vốn (₫)</label>
+              <input type="number" [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control bg-light border-0 rounded-3 py-2" required>
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá sỉ (₫)</label>
+              <input type="number" [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control bg-light border-0 rounded-3 py-2" required>
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá bán (₫) <span class="text-danger">*</span></label>
+              <input type="number" [(ngModel)]="editingProduct.price" name="price" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
           </div>
         </div>
@@ -272,13 +280,13 @@
       </div>
     </div>
     
-    <div class="mt-4 pt-4 border-top d-flex justify-content-end gap-3">
-      <button type="button" class="btn btn-light fw-bold rounded-3 px-4 py-2" (click)="closeModal()">Hủy</button>
-      <button type="submit" class="btn-primary-gradient px-4 py-2" [disabled]="!productForm.form.valid || isSubmitting">
+    <div modal-footer>
+      <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+      <button type="submit" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!productForm.form.valid || isSubmitting">
         @if (isSubmitting) {
           <span class="spinner-border spinner-border-sm me-2"></span>
         }
-        {{ isEditMode ? 'Lưu thay đổi' : 'Tạo sản phẩm' }}
+        {{ isEditMode ? 'Lưu Thay Đổi' : 'Tạo Sản Phẩm' }}
       </button>
     </div>
   </form>

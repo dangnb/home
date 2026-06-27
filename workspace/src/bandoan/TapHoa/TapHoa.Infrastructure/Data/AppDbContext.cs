@@ -123,6 +123,12 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
             .HasForeignKey(l => l.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<InventoryTransactionLine>()
+            .HasOne(l => l.ProductBatch)
+            .WithMany()
+            .HasForeignKey(l => l.ProductBatchId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Seed Roles with Bitwise Permissions
         var allPermissions = (long)TapHoa.Domain.Enums.AppPermissions.All;
         var managerPermissions = (long)(TapHoa.Domain.Enums.AppPermissions.ViewProducts | TapHoa.Domain.Enums.AppPermissions.CreateProducts | TapHoa.Domain.Enums.AppPermissions.UpdateProducts | TapHoa.Domain.Enums.AppPermissions.ViewCategories | TapHoa.Domain.Enums.AppPermissions.ViewUsers);
@@ -149,9 +155,9 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         );
 
         modelBuilder.Entity<Product>().HasData(
-            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002001"), Name = "Táo New Zealand size to", Category = "Trái cây", Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002002"), Name = "Rau cải thìa hữu cơ", Category = "Rau củ", Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
-            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002003"), Name = "Thịt bò thăn Úc tươi sạch", Category = "Thịt cá", Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002001"), Name = "Táo New Zealand size to", CategoryId = Guid.Parse("01950000-0000-7000-8000-000000001001"), CostPrice = 50000m, WholesalePrice = 70000m, Price = 75000m, StockQuantity = 150, Unit = "kg", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002002"), Name = "Rau cải thìa hữu cơ", CategoryId = Guid.Parse("01950000-0000-7000-8000-000000001002"), CostPrice = 8000m, WholesalePrice = 12000m, Price = 15000m, StockQuantity = 30, Unit = "bó", Status = "Đang bán", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId },
+            new { Id = Guid.Parse("01950000-0000-7000-8000-000000002003"), Name = "Thịt bò thăn Úc tươi sạch", CategoryId = Guid.Parse("01950000-0000-7000-8000-000000001003"), CostPrice = 250000m, WholesalePrice = 330000m, Price = 350000m, StockQuantity = 5, Unit = "kg", Status = "Sắp hết", MainImageUrl = (string?)null, AdditionalImages = new List<string>(), CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), IsDeleted = false, CompanyId = companyId }
         );
     }
 }

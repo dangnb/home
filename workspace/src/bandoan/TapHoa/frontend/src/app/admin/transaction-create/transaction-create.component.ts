@@ -42,6 +42,7 @@ export class TransactionCreateComponent implements OnInit {
     // WMS
     selectedLocationCode: string = '';
     selectedBatchNumber: string = '';
+    selectedMfgDate: string = '';
     selectedExpiryDate: string = '';
 
     isSubmitting = false;
@@ -147,6 +148,7 @@ export class TransactionCreateComponent implements OnInit {
             unitCost: this.selectedCost,
             locationCode: this.selectedLocationCode || undefined,
             batchNumber: this.selectedBatchNumber || undefined,
+            mfgDate: this.selectedMfgDate || undefined,
             expiryDate: this.selectedExpiryDate || undefined
         });
 
@@ -157,6 +159,7 @@ export class TransactionCreateComponent implements OnInit {
         this.selectedCost = 0;
         this.selectedLocationCode = '';
         this.selectedBatchNumber = '';
+        this.selectedMfgDate = '';
         this.selectedExpiryDate = '';
     }
 
@@ -186,6 +189,7 @@ export class TransactionCreateComponent implements OnInit {
                 unitCost: l.unitCost,
                 locationCode: l.locationCode,
                 batchNumber: l.batchNumber,
+                mfgDate: l.mfgDate,
                 expiryDate: l.expiryDate
             }))
         };

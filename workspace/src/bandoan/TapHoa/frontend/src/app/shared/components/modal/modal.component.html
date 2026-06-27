@@ -6,8 +6,11 @@
                 <h5 class="modal-title fw-bold text-dark mb-0 fs-5">{{ title }}</h5>
                 <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="closeDialog.emit()" style="font-size: 0.8rem; opacity: 0.5;"></button>
             </div>
-            <div class="modal-body px-4 py-4 bg-white" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-body px-4 py-4 bg-white" style="max-height: 75vh; overflow-y: auto;">
                 <ng-content></ng-content>
+            </div>
+            <div class="modal-footer bg-white border-top-0 px-4 py-3 d-flex justify-content-end gap-2" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+                <ng-content select="[modal-footer]"></ng-content>
             </div>
         </div>
     </div>

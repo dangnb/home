@@ -27,7 +27,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: ProductsComponent }, // Temp dashboard
+            { path: 'dashboard', loadComponent: () => import('./admin/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'products', component: ProductsComponent },
             { path: 'categories', component: CategoriesComponent },
             { path: 'inventory', loadComponent: () => import('./admin/inventory/inventory.component').then(m => m.InventoryComponent) },

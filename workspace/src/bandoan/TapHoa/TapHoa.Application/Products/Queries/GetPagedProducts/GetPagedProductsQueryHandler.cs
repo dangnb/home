@@ -26,29 +26,34 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
 
         var countSql = @"
             SELECT COUNT(*) 
-            FROM Products 
-            WHERE IsDeleted = 0 
-              AND CompanyId = @CompanyId
-              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS CHAR) LIKE @SearchPattern)
-              AND (@Category IS NULL OR @Category = '' OR Category = @Category);";
+            FROM Products p
+            WHERE p.IsDeleted = 0 
+              AND p.CompanyId = @CompanyId
+              AND (@SearchPattern IS NULL OR p.Name LIKE @SearchPattern OR CAST(p.Id AS CHAR) LIKE @SearchPattern)
+              AND (@CategoryId IS NULL OR p.CategoryId = @CategoryId);";
 
         var parameters = new
         {
             CompanyId = companyId.ToString(),
             SearchPattern = searchPattern,
-            Category = request.Category,
+            CategoryId = request.CategoryId,
             PageSize = request.PageSize,
             Offset = (request.PageIndex - 1) * request.PageSize
         };
 
         var dataSql = @"
-            SELECT * 
-            FROM Products 
-            WHERE IsDeleted = 0 
-              AND CompanyId = @CompanyId
-              AND (@SearchPattern IS NULL OR Name LIKE @SearchPattern OR CAST(Id AS CHAR) LIKE @SearchPattern)
-              AND (@Category IS NULL OR @Category = '' OR Category = @Category)
-            ORDER BY CreatedDate DESC, Name ASC
+            SELECT 
+                p.Id, p.Name, p.CategoryId, c.Name AS CategoryName,
+                p.MainImageUrl, p.CostPrice, p.WholesalePrice, p.Price, 
+                p.StockQuantity, p.Unit, p.Barcode, p.Status,
+                p.AdditionalImages
+            FROM Products p
+            LEFT JOIN Categories c ON p.CategoryId = c.Id
+            WHERE p.IsDeleted = 0 
+              AND p.CompanyId = @CompanyId
+              AND (@SearchPattern IS NULL OR p.Name LIKE @SearchPattern OR CAST(p.Id AS CHAR) LIKE @SearchPattern)
+              AND (@CategoryId IS NULL OR p.CategoryId = @CategoryId)
+            ORDER BY p.CreatedDate DESC, p.Name ASC
             LIMIT @PageSize OFFSET @Offset;";
 
         return await connection.QueryPagedAsync<ProductDto>(

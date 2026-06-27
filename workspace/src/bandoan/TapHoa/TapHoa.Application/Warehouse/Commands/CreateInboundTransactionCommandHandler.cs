@@ -45,7 +45,23 @@ public class CreateInboundTransactionCommandHandler : IRequestHandler<CreateInbo
             if (line.Quantity <= 0)
                 throw new ArgumentException("Inbound quantity must be > 0.");
 
-            transaction.AddLine(product.Id, line.Quantity, line.UnitCost);
+            Guid? batchId = line.ProductBatchId;
+            if (string.IsNullOrWhiteSpace(line.BatchNumber) == false && line.MfgDate.HasValue && line.ExpiryDate.HasValue)
+            {
+                var dbContext = _unitOfWork as TapHoa.Application.Interfaces.IApplicationDbContext;
+                if (dbContext != null)
+                {
+                    var existingBatch = dbContext.ProductBatches.FirstOrDefault(b => b.ProductId == line.ProductId && b.BatchNumber == line.BatchNumber);
+                    if (existingBatch == null)
+                    {
+                        existingBatch = new ProductBatch(line.ProductId, line.BatchNumber, line.MfgDate.Value, line.ExpiryDate.Value);
+                        dbContext.ProductBatches.Add(existingBatch);
+                    }
+                    batchId = existingBatch.Id;
+                }
+            }
+
+            transaction.AddLine(product.Id, line.Quantity, line.UnitCost, batchId);
         }
 
         // Transactions are created in Draft mode. They must be submitted/approved later.

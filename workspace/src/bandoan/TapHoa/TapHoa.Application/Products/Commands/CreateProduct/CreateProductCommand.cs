@@ -6,9 +6,11 @@ namespace TapHoa.Application.Products.Commands.CreateProduct;
 public class CreateProductCommand : IRequest<ProductDto>
 {
     public string Name { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
+    public Guid? CategoryId { get; set; }
     public string? MainImageUrl { get; set; }
     public List<string> AdditionalImages { get; set; } = new();
+    public decimal CostPrice { get; set; }
+    public decimal WholesalePrice { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public string Unit { get; set; } = "kg";

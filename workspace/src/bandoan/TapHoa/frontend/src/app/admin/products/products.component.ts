@@ -127,7 +127,7 @@ export class ProductsComponent implements OnInit {
   loadProducts() {
     this.productService.getPaged(this.currentPage, this.pageSize, {
       searchTerm: this.searchTerm,
-      category: this.selectedCategory
+      categoryId: this.selectedCategory || undefined
     }).subscribe(res => {
       this.products = res.items;
       this.totalCount = res.totalCount;
@@ -274,7 +274,9 @@ export class ProductsComponent implements OnInit {
     return {
       id: "",
       name: '',
-      category: 'Trái cây',
+      categoryId: '',
+      costPrice: 0,
+      wholesalePrice: 0,
       price: 0,
       stockQuantity: 0,
       unit: 'kg',

@@ -6,9 +6,12 @@ namespace TapHoa.Domain.Entities;
 public class Product : BaseAuditableEntity<Guid>
 {
     public string Name { get; private set; }
-    public string Category { get; private set; }
+    public Guid? CategoryId { get; private set; }
+    public virtual Category? CategoryObj { get; private set; }
     public string? MainImageUrl { get; private set; }
     public List<string> AdditionalImages { get; private set; } = new();
+    public decimal CostPrice { get; private set; }
+    public decimal WholesalePrice { get; private set; }
     public decimal Price { get; private set; }
     public int StockQuantity { get; private set; }
     public string Unit { get; private set; }
@@ -21,10 +24,12 @@ public class Product : BaseAuditableEntity<Guid>
     // Private parameterless constructor for EF Core
     private Product() { }
 
-    private Product(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    private Product(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
     {
         Name = name;
-        Category = category;
+        CategoryId = categoryId;
+        CostPrice = costPrice;
+        WholesalePrice = wholesalePrice;
         Price = price;
         StockQuantity = stockQuantity;
         Unit = unit;
@@ -34,33 +39,35 @@ public class Product : BaseAuditableEntity<Guid>
         Status = status;
     }
 
-    public static Product Create(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    public static Product Create(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
 
-        if (price < 0)
-            throw new DomainException("Giá bán không thể là số âm.");
+        if (price < 0 || costPrice < 0 || wholesalePrice < 0)
+            throw new DomainException("Giá trị không thể là số âm.");
 
         if (stockQuantity < 0)
             throw new DomainException("Số lượng tồn kho không thể là số âm.");
 
-        return new Product(name, category, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode);
+        return new Product(name, categoryId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode);
     }
 
-    public void Update(string name, string category, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
+    public void Update(string name, Guid? categoryId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, string status, string? barcode = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
 
-        if (price < 0)
-            throw new DomainException("Giá bán không thể là số âm.");
+        if (price < 0 || costPrice < 0 || wholesalePrice < 0)
+            throw new DomainException("Giá trị không thể là số âm.");
 
         if (stockQuantity < 0)
             throw new DomainException("Số lượng tồn kho không thể là số âm.");
 
         Name = name;
-        Category = category;
+        CategoryId = categoryId;
+        CostPrice = costPrice;
+        WholesalePrice = wholesalePrice;
         Price = price;
         StockQuantity = stockQuantity;
         Unit = unit;

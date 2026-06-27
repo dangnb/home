@@ -45,28 +45,34 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
             // Find existing stock level for this Product + Location + Batch
             var stockLevel = await _context.StockLevels
                 .FirstOrDefaultAsync(s => s.ProductId == line.ProductId 
-                                     && s.StoreId == currentCompanyId, cancellationToken);
+                                     && s.StoreId == currentCompanyId
+                                     && s.BatchId == line.ProductBatchId, cancellationToken);
 
             var product = await _context.Products.FindAsync(new object[] { line.ProductId }, cancellationToken);
+            var batch = line.ProductBatchId.HasValue 
+                ? await _context.ProductBatches.FindAsync(new object[] { line.ProductBatchId.Value }, cancellationToken) 
+                : null;
 
             if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Inbound)
             {
                 if (stockLevel == null)
                 {
-                    stockLevel = new StockLevel(line.ProductId, currentCompanyId);
+                    stockLevel = new StockLevel(line.ProductId, currentCompanyId, null, line.ProductBatchId);
                     _context.StockLevels.Add(stockLevel);
                 }
 
                 stockLevel.IncreaseStock(line.Quantity, line.UnitCost);
                 if (product != null) product.UpdateStockCache(product.StockQuantity + line.Quantity);
+                if (batch != null) batch.AddStock(line.Quantity);
             }
             else if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Outbound)
             {
                 if (stockLevel == null)
-                    throw new DomainException($"Vật tư {product?.Name ?? line.ProductId.ToString()} chưa có trong kho.");
+                    throw new DomainException($"Vật tư {product?.Name ?? line.ProductId.ToString()} chưa có trong kho hoặc lô không hợp lệ.");
 
                 stockLevel.DecreaseStock(line.Quantity);
                 if (product != null) product.UpdateStockCache(product.StockQuantity - line.Quantity);
+                if (batch != null) batch.RemoveStock(line.Quantity);
             }
         }
 

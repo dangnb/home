@@ -9,6 +9,7 @@ export interface TransactionLineDto {
     unitCost: number;
     locationCode?: string;
     batchNumber?: string;
+    mfgDate?: string;
     expiryDate?: string;
 }
 

@@ -8,5 +8,5 @@ public record GetPagedProductsQuery(
     int PageIndex,
     int PageSize,
     string? SearchTerm,
-    string? Category
+    Guid? CategoryId
 ) : IRequest<PagedResult<ProductDto>>;

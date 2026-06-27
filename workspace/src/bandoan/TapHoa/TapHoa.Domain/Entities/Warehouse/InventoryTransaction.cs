@@ -34,12 +34,12 @@ public class InventoryTransaction : BaseEntity<Guid>
         Lines = new List<InventoryTransactionLine>();
     }
 
-    public void AddLine(Guid productId, int quantity, decimal unitCost)
+    public void AddLine(Guid productId, int quantity, decimal unitCost, Guid? productBatchId = null)
     {
         if (Status == TransactionStatus.Completed || Status == TransactionStatus.Cancelled)
             throw new InvalidOperationException("Cannot add lines to a completed or cancelled transaction.");
             
-        Lines.Add(new InventoryTransactionLine(this, productId, quantity, unitCost));
+        Lines.Add(new InventoryTransactionLine(this, productId, quantity, unitCost, productBatchId));
     }
 
     public void ClearLines()

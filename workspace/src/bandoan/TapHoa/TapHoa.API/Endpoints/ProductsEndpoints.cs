@@ -30,10 +30,10 @@ public static class ProductsEndpoints
             [FromQuery] int pageIndex,
             [FromQuery] int pageSize,
             [FromQuery] string? searchTerm,
-            [FromQuery] string? category,
+            [FromQuery] Guid? categoryId,
             [FromServices] ISender sender) =>
         {
-            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, category);
+            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, categoryId);
             var result = await sender.Send(query);
             return Results.Ok(result);
         })

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TapHoa.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using TapHoa.Infrastructure.Data;
 namespace TapHoa.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260627104033_UpdateProductCategoryAndPrice")]
+    partial class UpdateProductCategoryAndPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -637,9 +640,6 @@ namespace TapHoa.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ProductBatchId")
-                        .HasColumnType("char(36)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
@@ -653,8 +653,6 @@ namespace TapHoa.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductBatchId");
 
                     b.HasIndex("ProductId");
 
@@ -691,9 +689,6 @@ namespace TapHoa.Infrastructure.Migrations
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -708,9 +703,6 @@ namespace TapHoa.Infrastructure.Migrations
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
-
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -898,11 +890,6 @@ namespace TapHoa.Infrastructure.Migrations
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Warehouse.InventoryTransactionLine", b =>
                 {
-                    b.HasOne("TapHoa.Domain.Entities.Warehouse.ProductBatch", "ProductBatch")
-                        .WithMany()
-                        .HasForeignKey("ProductBatchId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("TapHoa.Domain.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -916,8 +903,6 @@ namespace TapHoa.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-
-                    b.Navigation("ProductBatch");
 
                     b.Navigation("Transaction");
                 });

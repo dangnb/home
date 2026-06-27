@@ -16,7 +16,8 @@ public record OutboundTransactionLineDto(
     int Quantity,
     decimal UnitPrice,
     string? LocationCode = null,
-    string? BatchNumber = null);
+    string? BatchNumber = null,
+    Guid? ProductBatchId = null);
 
 public class CreateOutboundTransactionCommandHandler : IRequestHandler<CreateOutboundTransactionCommand, Guid>
 {
@@ -55,7 +56,18 @@ public class CreateOutboundTransactionCommandHandler : IRequestHandler<CreateOut
             if (line.Quantity <= 0)
                 throw new ArgumentException("Outbound quantity must be > 0.");
 
-            transaction.AddLine(product.Id, line.Quantity, line.UnitPrice);
+            Guid? batchId = line.ProductBatchId;
+            if (batchId == null && !string.IsNullOrWhiteSpace(line.BatchNumber))
+            {
+                var dbContext = _unitOfWork as TapHoa.Application.Interfaces.IApplicationDbContext;
+                if (dbContext != null)
+                {
+                    var existingBatch = dbContext.ProductBatches.FirstOrDefault(b => b.ProductId == line.ProductId && b.BatchNumber == line.BatchNumber);
+                    if (existingBatch != null) batchId = existingBatch.Id;
+                }
+            }
+
+            transaction.AddLine(product.Id, line.Quantity, line.UnitPrice, batchId);
         }
 
         await _transactionRepository.AddAsync(transaction, cancellationToken);

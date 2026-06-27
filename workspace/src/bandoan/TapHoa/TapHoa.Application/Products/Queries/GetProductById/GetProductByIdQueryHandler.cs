@@ -18,7 +18,7 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
         const string sql = @"
-            SELECT * FROM Products WHERE Id = @Id;
+            SELECT p.*, c.Name AS CategoryName FROM Products p LEFT JOIN Categories c ON p.CategoryId = c.Id WHERE p.Id = @Id;
             SELECT * FROM ProductUnits WHERE ProductId = @Id;
         ";
         using var multi = await connection.QueryMultipleAsync(sql, new { request.Id });
