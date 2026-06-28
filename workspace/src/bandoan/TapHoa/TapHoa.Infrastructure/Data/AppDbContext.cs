@@ -27,6 +27,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<ProductUnit> ProductUnits => Set<ProductUnit>();
     public DbSet<CustomerDebt> CustomerDebts => Set<CustomerDebt>();
     public DbSet<CustomerDebtTransaction> CustomerDebtTransactions => Set<CustomerDebtTransaction>();
+    public DbSet<SupplierDebtTransaction> SupplierDebtTransactions => Set<SupplierDebtTransaction>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     
@@ -96,6 +97,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
 
         modelBuilder.Entity<CustomerDebt>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<CustomerDebtTransaction>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<SupplierDebtTransaction>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         // WMS StockLevel keys
         modelBuilder.Entity<StockLevel>().HasKey(x => x.Id);

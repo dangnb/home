@@ -17,6 +17,7 @@ public interface IApplicationDbContext
     DbSet<CustomerDebt> CustomerDebts { get; }
     DbSet<CustomerDebtTransaction> CustomerDebtTransactions { get; }
     DbSet<Supplier> Suppliers { get; }
+    DbSet<SupplierDebtTransaction> SupplierDebtTransactions { get; }
     DbSet<InventoryTransaction> InventoryTransactions { get; }
     DbSet<InventoryTransactionLine> InventoryTransactionLines { get; }
     DbSet<StockLevel> StockLevels { get; }
