@@ -1,0 +1,245 @@
+<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
+    <div>
+      <h5 class="mb-1 fw-bold text-dark fs-5">
+        <span class="me-2 fs-5">💸</span>Sổ Nợ Khách Hàng (Supplier Ledger)
+      </h5>
+      <span class="text-muted fw-semibold fs-7">Quản lý công nợ khách hàng (mua nợ, trả nợ)</span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="w-100" placeholder="Tìm kiếm tên khách hàng..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      <button class="btn-primary-gradient d-flex align-items-center gap-2 text-nowrap" (click)="openRecordModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Ghi Nợ Mới
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-white p-3">
+    @if (isLoading) {
+      <div class="p-5 text-center text-muted">
+        <div class="spinner-border spinner-border-sm me-2"></div> Đang tải dữ liệu sổ nợ...
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Khách Hàng (Tên/SĐT)</th>
+              <th class="text-end">Tổng Nợ Hiện Tại</th>
+              <th class="text-center">Trạng Thái</th>
+              <th class="text-end pe-4">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (debt of filteredDebts; track debt.supplierId) {
+              <tr>
+                <td class="ps-4 fw-bold text-dark">{{ getSupplierName(debt.supplierId) }}</td>
+                <td class="text-end fw-bolder fs-5 text-danger">{{ debt.totalDebt | number:'1.0-0' }} ₫</td>
+                <td class="text-center">
+                  <span class="badge" [ngClass]="debt.totalDebt > 0 ? 'bg-danger' : 'bg-success'">
+                    {{ debt.totalDebt > 0 ? 'Đang Nợ' : 'Đã Trả Hết' }}
+                  </span>
+                </td>
+                <td class="text-end pe-4">
+                  <div class="dropdown" [class.show]="activeDropdownRowId === debt.supplierId">
+                    <button
+                      class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
+                      type="button" (click)="toggleDropdown(debt.supplierId, $event)" style="width:32px; height:32px;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                      </svg>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === debt.supplierId"
+                      [style.top]="activeDropdownRowId === debt.supplierId ? dropdownPositions[debt.supplierId]?.top : 'auto'"
+                      [style.left]="activeDropdownRowId === debt.supplierId ? dropdownPositions[debt.supplierId]?.left : 'auto'"
+                      style="border-radius: 12px; position: fixed; right: auto; min-width: 160px; z-index: 1050;">
+                      <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
+                          (click)="openRecordModal(debt.supplierId)">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                          Ghi Nợ Thêm
+                        </a></li>
+                      <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
+                          (click)="openDetailModal(debt.supplierId)">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                          Xem Chi Tiết
+                        </a></li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li>
+                        <button class="dropdown-item py-2 d-flex align-items-center gap-2 text-success fw-medium border-0 bg-transparent w-100 text-start"
+                          (click)="openPayModal(debt.supplierId)" [disabled]="debt.totalDebt <= 0">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                          </svg>
+                          Thu Tiền
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            }
+            @if (filteredDebts.length === 0) {
+              <tr>
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có dữ liệu công nợ.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showDetailModal) {
+<app-modal [title]="'Chi tiết công nợ: ' + getSupplierName(selectedSupplierForDetail || '')" size="lg" (closeDialog)="showDetailModal = false">
+  <div class="bg-white rounded-3">
+    @if (isLoadingTransactions) {
+      <div class="p-5 text-center text-muted">
+        <div class="spinner-border spinner-border-sm me-2"></div> Đang tải chi tiết...
+      </div>
+    } @else {
+      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover table-sm align-middle mb-0">
+          <thead class="table-light sticky-top">
+            <tr>
+              <th>Ngày</th>
+              <th>Hạn Trả</th>
+              <th>Loại GD</th>
+              <th class="text-end">Số Tiền (₫)</th>
+              <th class="text-end">Đã Trả (₫)</th>
+              <th class="text-end">Còn Lại (₫)</th>
+              <th>Ghi Chú</th>
+              <th class="text-center">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (tx of supplierTransactions; track tx.id) {
+              <tr>
+                <td class="text-nowrap">{{ tx.createdDate | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td class="text-nowrap" [class.text-danger]="isOverdue(tx.dueDate)">
+                  {{ tx.dueDate ? (tx.dueDate | date:'dd/MM/yyyy') : '-' }}
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="tx.type === 0 ? 'bg-danger' : 'bg-success'">
+                    {{ tx.type === 0 ? 'Ghi Nợ' : 'Thanh Toán' }}
+                  </span>
+                </td>
+                <td class="text-end fw-bold" [ngClass]="tx.type === 0 ? 'text-danger' : 'text-success'">
+                  {{ tx.amount | number:'1.0-0' }}
+                </td>
+                <td class="text-end">
+                  @if (tx.type === 0) {
+                    {{ tx.paidAmount | number:'1.0-0' }}
+                  } @else {
+                    -
+                  }
+                </td>
+                <td class="text-end fw-bold">
+                  @if (tx.type === 0) {
+                    {{ (tx.amount - tx.paidAmount) | number:'1.0-0' }}
+                  } @else {
+                    -
+                  }
+                </td>
+                <td class="text-muted small" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="tx.note || ''">
+                  {{ tx.note || '-' }}
+                </td>
+                <td class="text-center">
+                  @if (tx.type === 0 && tx.amount - tx.paidAmount > 0) {
+                    <button class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fs-8 fw-bold" (click)="openPaySpecificModal(tx)">
+                      Thanh toán
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+            @if (supplierTransactions.length === 0) {
+              <tr>
+                <td colspan="8" class="text-center py-4 text-muted">Chưa có giao dịch nào.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+  <div modal-footer class="w-100 d-flex justify-content-end">
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="showDetailModal = false">Đóng</button>
+  </div>
+</app-modal>
+}
+
+@if (showModal) {
+<app-modal [title]="modalMode === 'record' ? 'Ghi Nợ Khách Hàng' : (modalMode === 'paySpecific' ? 'Thanh Toán Khoản Nợ Riêng Lẻ' : 'Thu Tiền Trả Nợ Chung')" size="md" (closeDialog)="closeModal()">
+  <form (ngSubmit)="submitForm()" #debtForm="ngForm" id="debtNgForm">
+    <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
+      <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Thông tin giao dịch</h6>
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Khách hàng <span class="text-danger">*</span></label>
+          @if (modalMode === 'record') {
+            <select class="form-select form-control-solid rounded-3 py-2" name="supplierId" [(ngModel)]="formData.supplierId" required>
+              <option value="" disabled>-- Chọn khách hàng --</option>
+              @for (supplier of suppliers; track supplier.id) {
+                <option [value]="supplier.id">{{ supplier.fullName }} {{ supplier.phoneNumber ? ' - ' + supplier.phoneNumber : '' }}</option>
+              }
+            </select>
+          } @else {
+            <input type="text" class="form-control form-control-solid rounded-3 py-2" [value]="getSupplierName(formData.supplierId)" disabled>
+          }
+        </div>
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Số tiền (VNĐ) <span class="text-danger">*</span></label>
+          <div class="input-group input-group-solid">
+            <input type="text" appNumberFormat class="form-control form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
+            <span class="input-group-text bg-light border-0 rounded-end-3">đ</span>
+          </div>
+        </div>
+        @if (modalMode === 'record') {
+          <div class="col-12">
+            <label class="form-label small fw-bold text-dark mb-1">Hạn trả (Tùy chọn)</label>
+            <input type="date" class="form-control form-control-solid rounded-3 py-2" name="dueDate" [(ngModel)]="formData.dueDate">
+          </div>
+        }
+        <div class="col-12">
+          <label class="form-label small fw-bold text-dark mb-1">Ghi chú (Tùy chọn)</label>
+          <textarea class="form-control form-control-solid rounded-3 py-2" rows="3" name="note" [(ngModel)]="formData.note"
+            placeholder="Ghi chú về khoản vay hoặc trả này..."></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+    <button type="submit" form="debtNgForm" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!debtForm.form.valid || isSubmitting">
+      {{ isSubmitting ? 'Đang lưu...' : (modalMode === 'record' ? 'Ghi Nợ' : 'Xác Nhận') }}
+    </button>
+  </div>
+</app-modal>
+}
+
