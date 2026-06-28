@@ -223,3 +223,47 @@
 2026-06-28 21:54:20.604 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.1386 ms
 2026-06-28 21:54:20.607 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.4985 ms
 2026-06-28 21:54:20.611 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 4.8127 ms
+2026-06-28 21:57:51.743 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 3.2174 ms
+2026-06-28 21:57:51.743 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 3.2173 ms
+2026-06-28 21:57:52.121 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-28 21:57:52.134 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-28 21:57:52.134 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-28 21:57:52.554 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 744.4793 ms
+2026-06-28 21:57:52.556 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 746.1793 ms
+2026-06-28 21:59:14.399 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.2630 ms
+2026-06-28 21:59:14.399 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.5837 ms
+2026-06-28 21:59:14.454 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 51.2217 ms
+2026-06-28 21:59:14.454 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 51.2217 ms
+2026-06-28 21:59:14.785 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 5.3910 ms
+2026-06-28 21:59:14.785 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 5.5972 ms
+2026-06-28 21:59:15.051 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.6013 ms
+2026-06-28 21:59:15.051 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 2.6012 ms
+2026-06-28 21:59:28.201 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0758 ms
+2026-06-28 21:59:29.032 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 21:59:29.033 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 21:59:29.034 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 21:59:29.174 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-28 21:59:29.825 +07:00 [INF] Audit Logged: Unknown by admin - RecordDebtCommand
+2026-06-28 21:59:30.429 +07:00 [INF] HTTP POST /api/v1/customer-ledger responded 200 in 2225.7242 ms
+2026-06-28 21:59:30.444 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 2.6749 ms
+2026-06-28 21:59:34.984 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 204 in 0.1677 ms
+2026-06-28 21:59:35.102 +07:00 [INF] HTTP GET /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 200 in 114.7774 ms
+2026-06-28 21:59:59.026 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0890 ms
+2026-06-28 21:59:59.150 +07:00 [INF] Audit Logged: Unknown by admin - RecordDebtCommand
+2026-06-28 21:59:59.170 +07:00 [INF] HTTP POST /api/v1/customer-ledger responded 200 in 141.4782 ms
+2026-06-28 21:59:59.184 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 3.3176 ms
+2026-06-28 22:00:04.385 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 204 in 0.1460 ms
+2026-06-28 22:00:04.393 +07:00 [INF] HTTP GET /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 200 in 6.1870 ms
+2026-06-28 22:00:42.358 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 204 in 0.0854 ms
+2026-06-28 22:00:42.363 +07:00 [INF] HTTP GET /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 200 in 3.4936 ms
+2026-06-28 22:00:49.309 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger/transactions/260bff97-5973-4f14-9dbb-6b14de860274/pay responded 204 in 0.0977 ms
+2026-06-28 22:00:49.382 +07:00 [INF] Audit Logged: Unknown by admin - PaySpecificDebtCommand
+2026-06-28 22:00:49.476 +07:00 [INF] HTTP POST /api/v1/customer-ledger/transactions/260bff97-5973-4f14-9dbb-6b14de860274/pay responded 200 in 165.5759 ms
+2026-06-28 22:00:49.490 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0877 ms
+2026-06-28 22:00:49.498 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 5.2792 ms
+2026-06-28 22:00:53.145 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 204 in 0.1813 ms
+2026-06-28 22:00:53.151 +07:00 [INF] HTTP GET /api/v1/customer-ledger/019f0eac-bc14-78eb-9e39-b35ed87d4c6b/transactions responded 200 in 3.5619 ms
+2026-06-28 22:01:49.325 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.1075 ms
+2026-06-28 22:01:49.328 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0922 ms
+2026-06-28 22:01:49.332 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 3.2306 ms
+2026-06-28 22:01:49.332 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.8572 ms

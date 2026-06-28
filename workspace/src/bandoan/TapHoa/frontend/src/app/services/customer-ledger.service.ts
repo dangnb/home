@@ -27,8 +27,8 @@ export class CustomerLedgerService {
     return this.http.post(`${this.apiUrl}/transactions/${transactionId}/pay`, { transactionId, amount, note });
   }
 
-  recordDebt(customerId: string, amount: number, note: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, { customerId, amount, note });
+  recordDebt(customerId: string, amount: number, note: string, dueDate?: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, { customerId, amount, note, dueDate });
   }
 
   recordPayment(customerId: string, amount: number, note: string): Observable<any> {

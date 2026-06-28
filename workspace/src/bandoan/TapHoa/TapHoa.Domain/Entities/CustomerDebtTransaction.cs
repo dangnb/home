@@ -17,12 +17,13 @@ public class CustomerDebtTransaction : BaseAuditableEntity<Guid>
     public decimal PaidAmount { get; private set; }
     public string? Note { get; private set; }
     public Guid? RelatedDebtId { get; private set; }
+    public DateTime? DueDate { get; private set; }
 
     public virtual Customer? Customer { get; private set; }
 
     private CustomerDebtTransaction() { }
 
-    public static CustomerDebtTransaction CreateDebt(Guid customerId, decimal amount, string? note)
+    public static CustomerDebtTransaction CreateDebt(Guid customerId, decimal amount, string? note, DateTime? dueDate = null)
     {
         return new CustomerDebtTransaction
         {
@@ -31,7 +32,8 @@ public class CustomerDebtTransaction : BaseAuditableEntity<Guid>
             Type = CustomerDebtTransactionType.Debt,
             Amount = amount,
             PaidAmount = 0,
-            Note = note
+            Note = note,
+            DueDate = dueDate
         };
     }
 

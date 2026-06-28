@@ -17,7 +17,8 @@ public record CustomerDebtTransactionDto(
     decimal PaidAmount, 
     string? Note, 
     Guid? RelatedDebtId,
-    DateTime CreatedDate);
+    DateTime CreatedDate,
+    DateTime? DueDate);
 
 public class GetCustomerDebtTransactionsQuery : IRequest<IEnumerable<CustomerDebtTransactionDto>>
 {
@@ -42,7 +43,7 @@ public class GetCustomerDebtTransactionsQueryHandler : IRequestHandler<GetCustom
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
         const string sql = @"
-            SELECT Id, CustomerId, Type, Amount, PaidAmount, Note, RelatedDebtId, CreatedDate
+            SELECT Id, CustomerId, Type, Amount, PaidAmount, Note, RelatedDebtId, CreatedDate, DueDate
             FROM CustomerDebtTransactions
             WHERE CustomerId = @CustomerId AND IsDeleted = 0
             ORDER BY CreatedDate DESC

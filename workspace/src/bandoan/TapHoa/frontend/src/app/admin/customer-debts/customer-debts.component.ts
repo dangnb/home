@@ -27,14 +27,22 @@ export class CustomerDebtsComponent implements OnInit {
   isLoading = true;
 
   showModal = false;
+  showDetailModal = false;
   isSubmitting = false;
-  modalMode: 'record' | 'pay' = 'record';
+  isLoadingTransactions = false;
+  modalMode: 'record' | 'pay' | 'paySpecific' = 'record';
   activeDropdownRowId: string | null = null;
   
+  customerTransactions: any[] = [];
+  selectedCustomerForDetail: string | null = null;
+  selectedTransactionToPay: any = null;
+
   formData = {
     customerId: '',
+    transactionId: '',
     amount: 0,
-    note: ''
+    note: '',
+    dueDate: ''
   };
 
   ngOnInit(): void {
@@ -96,8 +104,10 @@ export class CustomerDebtsComponent implements OnInit {
     this.modalMode = 'record';
     this.formData = {
       customerId: customerId || '',
+      transactionId: '',
       amount: 0,
-      note: ''
+      note: '',
+      dueDate: ''
     };
     this.showModal = true;
   }
@@ -106,8 +116,45 @@ export class CustomerDebtsComponent implements OnInit {
     this.modalMode = 'pay';
     this.formData = {
       customerId: customerId,
+      transactionId: '',
       amount: 0,
-      note: ''
+      note: '',
+      dueDate: ''
+    };
+    this.showModal = true;
+  }
+
+  openDetailModal(customerId: string) {
+    this.selectedCustomerForDetail = customerId;
+    this.showDetailModal = true;
+    this.loadTransactions(customerId);
+  }
+
+  loadTransactions(customerId: string) {
+    this.isLoadingTransactions = true;
+    this.ledgerService.getTransactions(customerId).subscribe({
+      next: (data) => {
+        this.customerTransactions = data || [];
+        this.isLoadingTransactions = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoadingTransactions = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  openPaySpecificModal(transaction: any) {
+    this.modalMode = 'paySpecific';
+    this.selectedTransactionToPay = transaction;
+    this.formData = {
+      customerId: transaction.customerId,
+      transactionId: transaction.id,
+      amount: transaction.amount - transaction.paidAmount,
+      note: '',
+      dueDate: ''
     };
     this.showModal = true;
   }
@@ -126,22 +173,36 @@ export class CustomerDebtsComponent implements OnInit {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
 
-    const request = this.modalMode === 'record' 
-      ? this.ledgerService.recordDebt(this.formData.customerId, this.formData.amount, this.formData.note)
-      : this.ledgerService.recordPayment(this.formData.customerId, this.formData.amount, this.formData.note);
+    let request;
+    if (this.modalMode === 'record') {
+      const due = this.formData.dueDate ? new Date(this.formData.dueDate).toISOString() : undefined;
+      request = this.ledgerService.recordDebt(this.formData.customerId, this.formData.amount, this.formData.note, due);
+    } else if (this.modalMode === 'paySpecific') {
+      request = this.ledgerService.paySpecificDebt(this.formData.transactionId, this.formData.amount, this.formData.note);
+    } else {
+      request = this.ledgerService.recordPayment(this.formData.customerId, this.formData.amount, this.formData.note);
+    }
 
     request.subscribe({
       next: () => {
         this.alertService.success('Thành công', 'Đã lưu giao dịch sổ nợ!');
         this.loadDebts();
         this.closeModal();
+        if (this.showDetailModal && this.selectedCustomerForDetail) {
+          this.loadTransactions(this.selectedCustomerForDetail);
+        }
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.alertService.error('Lỗi', err.error?.title || 'Không thể lưu giao dịch');
+        this.alertService.error('Lỗi', err.error?.title || err.error?.message || 'Không thể lưu giao dịch');
         this.isSubmitting = false;
         this.cdr.detectChanges();
       }
     });
+  }
+
+  isOverdue(dueDate: string | null): boolean {
+    if (!dueDate) return false;
+    return new Date(dueDate) < new Date();
   }
 }

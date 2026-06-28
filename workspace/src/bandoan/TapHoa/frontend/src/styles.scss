@@ -3,3 +3,8 @@
 
 @import "./assets/css/global";
 @import "./assets/css/shared-wms";
+
+/* Ensure tables have enough height to show dropdown menus without clipping */
+.table-responsive {
+  min-height: 250px;
+}

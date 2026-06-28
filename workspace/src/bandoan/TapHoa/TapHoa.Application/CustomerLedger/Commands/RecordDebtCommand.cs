@@ -10,7 +10,8 @@ public class RecordDebtCommand : IRequest<Guid>
 {
     public Guid CustomerId { get; set; }
     public decimal Amount { get; set; }
-    public string Note { get; set; } = string.Empty;
+    public string? Note { get; set; }
+    public DateTime? DueDate { get; set; }
 }
 
 public class RecordDebtCommandHandler : IRequestHandler<RecordDebtCommand, Guid>
@@ -33,7 +34,7 @@ public class RecordDebtCommandHandler : IRequestHandler<RecordDebtCommand, Guid>
         
         debt.AddDebt(request.Amount);
 
-        var transaction = CustomerDebtTransaction.CreateDebt(request.CustomerId, request.Amount, request.Note);
+        var transaction = CustomerDebtTransaction.CreateDebt(request.CustomerId, request.Amount, request.Note, request.DueDate);
         _context.CustomerDebtTransactions.Add(transaction);
 
         await _context.SaveChangesAsync(cancellationToken);
