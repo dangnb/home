@@ -15,15 +15,23 @@ export class CustomerLedgerService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/customer-ledger`;
 
-  getDebts(): Observable<CustomerDebt[]> {
-    return this.http.get<CustomerDebt[]>(this.apiUrl);
+  getDebts(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  getTransactions(customerId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${customerId}/transactions`);
+  }
+
+  paySpecificDebt(transactionId: string, amount: number, note: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/transactions/${transactionId}/pay`, { transactionId, amount, note });
   }
 
   recordDebt(customerId: string, amount: number, note: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/record`, { customerId, amount, note });
+    return this.http.post(`${this.apiUrl}`, { customerId, amount, note });
   }
 
   recordPayment(customerId: string, amount: number, note: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/pay`, { customerId, amount, note });
+    return this.http.post(`${this.apiUrl}/${customerId}/pay`, { debtId: customerId, amount, note });
   }
 }

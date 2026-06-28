@@ -9,10 +9,11 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
 import { CategoryService } from '../../services/category.service';
 import { TransactionService } from '../../services/transaction.service';
+import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, NumberFormatDirective],
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
   styleUrl: './products.component.scss'

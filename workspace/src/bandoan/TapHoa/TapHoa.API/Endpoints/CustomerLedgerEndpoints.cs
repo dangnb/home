@@ -36,6 +36,23 @@ public static class CustomerLedgerEndpoints
         })
         .WithName("GetCustomerDebts")
         .WithDescription("Lấy danh sách nợ của tất cả khách hàng");
+        group.MapGet("/{customerId:guid}/transactions", async (Guid customerId, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new GetCustomerDebtTransactionsQuery(customerId));
+            return Results.Ok(result);
+        })
+        .WithName("GetCustomerDebtTransactions")
+        .WithDescription("Lấy danh sách lịch sử nợ và thanh toán của khách hàng");
+
+        group.MapPost("/transactions/{transactionId:guid}/pay", async (Guid transactionId, [FromBody] PaySpecificDebtCommand command, [FromServices] ISender sender) =>
+        {
+            if (transactionId != command.TransactionId) return Results.BadRequest("ID mismatch");
+
+            var result = await sender.Send(command);
+            return result ? Results.Ok(new { Message = "Thanh toán thành công khoản nợ." }) : Results.NotFound();
+        })
+        .WithName("PaySpecificDebt")
+        .WithDescription("Thanh toán cho một khoản nợ cụ thể");
 
         return group;
     }

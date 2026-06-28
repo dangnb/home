@@ -11,6 +11,9 @@ public class CreateCustomerCommand : IRequest<CustomerDto>
     public string? PhoneNumber { get; set; }
     public string? Address { get; set; }
     public string? Notes { get; set; }
+    public string? Email { get; set; }
+    public string? BankAccountNumber { get; set; }
+    public string? BankName { get; set; }
 }
 
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CustomerDto>
@@ -26,7 +29,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
     public async Task<CustomerDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        var customer = Customer.Create(request.FullName, request.PhoneNumber, request.Address, request.Notes);
+        var customer = Customer.Create(request.FullName, request.PhoneNumber, request.Address, request.Notes, request.Email, request.BankAccountNumber, request.BankName);
         
         await _repository.AddAsync(customer, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -37,7 +40,10 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             FullName = customer.FullName,
             PhoneNumber = customer.PhoneNumber,
             Address = customer.Address,
-            Notes = customer.Notes
+            Notes = customer.Notes,
+            Email = customer.Email,
+            BankAccountNumber = customer.BankAccountNumber,
+            BankName = customer.BankName
         };
     }
 }

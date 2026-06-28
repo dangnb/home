@@ -30,7 +30,10 @@ export class CustomersComponent implements OnInit {
     fullName: '',
     phoneNumber: '',
     address: '',
-    notes: ''
+    notes: '',
+    email: '',
+    bankAccountNumber: '',
+    bankName: ''
   };
 
   ngOnInit(): void {
@@ -78,7 +81,7 @@ export class CustomersComponent implements OnInit {
 
   openCreateModal() {
     this.editingCustomer = null;
-    this.formData = { fullName: '', phoneNumber: '', address: '', notes: '' };
+    this.formData = { fullName: '', phoneNumber: '', address: '', notes: '', email: '', bankAccountNumber: '', bankName: '' };
     this.showModal = true;
   }
 

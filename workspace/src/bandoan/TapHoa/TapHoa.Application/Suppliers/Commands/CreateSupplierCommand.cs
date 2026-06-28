@@ -11,6 +11,9 @@ public class CreateSupplierCommand : IRequest<SupplierDto>
     public string? PhoneNumber { get; set; }
     public string? Address { get; set; }
     public string? Notes { get; set; }
+    public string? Email { get; set; }
+    public string? BankAccountNumber { get; set; }
+    public string? BankName { get; set; }
 }
 
 public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, SupplierDto>
@@ -26,7 +29,7 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
 
     public async Task<SupplierDto> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
     {
-        var supplier = new Supplier(request.FullName, request.PhoneNumber, request.Address, request.Notes);
+        var supplier = new Supplier(request.FullName, request.PhoneNumber, request.Address, request.Notes, request.Email, request.BankAccountNumber, request.BankName);
 
         await _repository.AddAsync(supplier, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -37,7 +40,10 @@ public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierComman
             FullName = supplier.FullName,
             PhoneNumber = supplier.PhoneNumber,
             Address = supplier.Address,
-            Notes = supplier.Notes
+            Notes = supplier.Notes,
+            Email = supplier.Email,
+            BankAccountNumber = supplier.BankAccountNumber,
+            BankName = supplier.BankName
         };
     }
 }

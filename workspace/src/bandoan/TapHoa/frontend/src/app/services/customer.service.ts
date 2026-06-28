@@ -9,6 +9,9 @@ export interface Customer {
   phoneNumber?: string;
   address?: string;
   notes?: string;
+  email?: string;
+  bankAccountNumber?: string;
+  bankName?: string;
   totalDebt?: number;
 }
 

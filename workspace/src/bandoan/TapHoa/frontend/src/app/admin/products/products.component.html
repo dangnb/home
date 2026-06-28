@@ -175,15 +175,15 @@
             </div>
             <div class="col-12 col-md-4">
               <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá vốn (₫)</label>
-              <input type="number" [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control bg-light border-0 rounded-3 py-2" required>
+              <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
             <div class="col-12 col-md-4">
               <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá sỉ (₫)</label>
-              <input type="number" [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control bg-light border-0 rounded-3 py-2" required>
+              <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
             <div class="col-12 col-md-4">
               <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá bán (₫) <span class="text-danger">*</span></label>
-              <input type="number" [(ngModel)]="editingProduct.price" name="price" class="form-control bg-light border-0 rounded-3 py-2" required>
+              <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@
           <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Trạng thái & Tồn kho</h6>
           <div class="mb-3">
             <label class="form-label fw-bold text-dark fs-7">Tồn kho hiện tại</label>
-            <input type="number" [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
+            <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
           </div>
           <div>
             <label class="form-label fw-bold text-dark fs-7">Trạng thái kinh doanh</label>
@@ -263,14 +263,14 @@
                 <div class="mb-2">
                   <label class="form-label small fw-bold text-dark mb-1">Quy đổi</label>
                   <div class="input-group input-group-sm">
-                    <input type="number" [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid border-end-0">
+                    <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid border-end-0">
                     <span class="input-group-text bg-white border-start-0 text-muted fw-bold">{{ editingProduct.unit || 'gốc' }}</span>
                   </div>
                 </div>
                 <div>
                   <label class="form-label small fw-bold text-dark mb-1">Giá bán riêng</label>
                   <div class="input-group input-group-sm">
-                    <input type="number" [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid border-end-0">
+                    <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid border-end-0">
                     <span class="input-group-text bg-white border-start-0 text-muted fw-bold">₫</span>
                   </div>
                 </div>

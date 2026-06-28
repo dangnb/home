@@ -6,10 +6,11 @@ import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto
 import { AlertService } from '../../services/alert.service';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
+import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
 @Component({
     selector: 'app-transaction-create',
-    imports: [CommonModule, FormsModule, RouterModule],
+    imports: [CommonModule, FormsModule, RouterModule, NumberFormatDirective],
     templateUrl: './transaction-create.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transaction-create.component.scss'

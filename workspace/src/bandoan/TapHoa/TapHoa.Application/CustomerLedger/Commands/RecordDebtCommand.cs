@@ -1,4 +1,6 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Interfaces;
 using TapHoa.Domain.Entities;
 
@@ -13,27 +15,28 @@ public class RecordDebtCommand : IRequest<Guid>
 
 public class RecordDebtCommandHandler : IRequestHandler<RecordDebtCommand, Guid>
 {
-    private readonly IBaseRepository<CustomerDebt> _repository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IApplicationDbContext _context;
 
-    public RecordDebtCommandHandler(IBaseRepository<CustomerDebt> repository, IUnitOfWork unitOfWork)
+    public RecordDebtCommandHandler(IApplicationDbContext context)
     {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
+        _context = context;
     }
 
     public async Task<Guid> Handle(RecordDebtCommand request, CancellationToken cancellationToken)
     {
-        // For simplicity, assuming CustomerId is the debt ID if it's 1:1, or we look it up
-        var debt = await _repository.GetByIdAsync(request.CustomerId, cancellationToken);
+        var debt = await _context.CustomerDebts.FirstOrDefaultAsync(x => x.CustomerId == request.CustomerId, cancellationToken);
         if (debt == null)
         {
             debt = CustomerDebt.Create(request.CustomerId, "Unknown Customer", null);
-            await _repository.AddAsync(debt, cancellationToken);
+            _context.CustomerDebts.Add(debt);
         }
         
         debt.AddDebt(request.Amount);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var transaction = CustomerDebtTransaction.CreateDebt(request.CustomerId, request.Amount, request.Note);
+        _context.CustomerDebtTransactions.Add(transaction);
+
+        await _context.SaveChangesAsync(cancellationToken);
         return debt.Id;
     }
 }

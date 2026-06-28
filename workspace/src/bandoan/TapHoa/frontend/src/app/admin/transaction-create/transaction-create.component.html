@@ -122,13 +122,11 @@
           </div>
           <div class="col-md-2">
             <label class="form-label text-muted fw-bold small text-uppercase">Số lượng</label>
-            <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity"
-              min="1">
+            <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity">
           </div>
           <div class="col-md-2">
             <label class="form-label text-muted fw-bold small text-uppercase">Giá vốn</label>
-            <input type="number" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost"
-              min="0">
+            <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost">
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted fw-bold small text-uppercase">Vị trí kho (Ví dụ A-01-02)</label>

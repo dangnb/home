@@ -127,7 +127,7 @@
         <div class="col-12">
           <label class="form-label small fw-bold text-dark mb-1">Số tiền (VNĐ) <span class="text-danger">*</span></label>
           <div class="input-group input-group-solid">
-            <input type="number" class="form-control form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" min="1" required>
+            <input type="text" appNumberFormat class="form-control form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
             <span class="input-group-text bg-light border-0 rounded-end-3">đ</span>
           </div>
         </div>

@@ -14,6 +14,8 @@ public interface IApplicationDbContext
     DbSet<UserToken> UserTokens { get; }
     DbSet<AuditLog> AuditLogs { get; }
     DbSet<Customer> Customers { get; }
+    DbSet<CustomerDebt> CustomerDebts { get; }
+    DbSet<CustomerDebtTransaction> CustomerDebtTransactions { get; }
     DbSet<Supplier> Suppliers { get; }
     DbSet<InventoryTransaction> InventoryTransactions { get; }
     DbSet<InventoryTransactionLine> InventoryTransactionLines { get; }

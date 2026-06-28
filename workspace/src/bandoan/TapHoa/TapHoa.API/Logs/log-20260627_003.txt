@@ -375,3 +375,24 @@ Microsoft.AspNetCore.Http.BadHttpRequestException: Failed to read parameter "Cre
 2026-06-27 23:36:30.923 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.3710 ms
 2026-06-27 23:36:31.590 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.2558 ms
 2026-06-27 23:36:31.829 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.4107 ms
+2026-06-27 23:37:14.914 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0222 ms
+2026-06-27 23:37:14.916 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.4282 ms
+2026-06-27 23:37:15.389 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0418 ms
+2026-06-27 23:37:15.391 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.0660 ms
+2026-06-27 23:38:25.732 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0190 ms
+2026-06-27 23:38:25.735 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.1579 ms
+2026-06-27 23:38:26.246 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8319 ms
+2026-06-27 23:38:26.684 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8494 ms
+2026-06-27 23:38:26.889 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.9556 ms
+2026-06-27 23:38:27.102 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.7981 ms
+2026-06-27 23:38:30.351 +07:00 [INF] HTTP OPTIONS /api/v1/customers/019f09e8-595e-73ae-b2e6-00804d4f919d responded 204 in 0.0152 ms
+2026-06-27 23:38:30.365 +07:00 [INF] Audit Logged: Delete by admin - DeleteCustomerCommand
+2026-06-27 23:38:30.435 +07:00 [INF] HTTP DELETE /api/v1/customers/019f09e8-595e-73ae-b2e6-00804d4f919d responded 204 in 81.1806 ms
+2026-06-27 23:38:30.443 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.0846 ms
+2026-06-27 23:38:35.537 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0153 ms
+2026-06-27 23:38:35.539 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.0408 ms
+2026-06-27 23:38:42.729 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers/bb20c0a6-7a59-498d-91ac-4e002829f4de responded 204 in 0.0290 ms
+2026-06-27 23:38:42.743 +07:00 [INF] Audit Logged: Delete by admin - DeleteSupplierCommand
+2026-06-27 23:38:42.755 +07:00 [INF] HTTP DELETE /api/v1/suppliers/bb20c0a6-7a59-498d-91ac-4e002829f4de responded 204 in 24.7120 ms
+2026-06-27 23:38:42.761 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0179 ms
+2026-06-27 23:38:42.764 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.4548 ms

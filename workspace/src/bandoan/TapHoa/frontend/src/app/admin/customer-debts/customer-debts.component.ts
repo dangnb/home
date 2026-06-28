@@ -5,11 +5,12 @@ import { CustomerLedgerService, CustomerDebt } from '../../services/customer-led
 import { CustomerService, Customer } from '../../services/customer.service';
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
 @Component({
   selector: 'app-customer-debts',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent, NumberFormatDirective],
   templateUrl: './customer-debts.component.html',
   styleUrls: ['./customer-debts.component.scss']
 })

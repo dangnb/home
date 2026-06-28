@@ -11,6 +11,9 @@ public class UpdateSupplierCommand : IRequest<bool>
     public string? PhoneNumber { get; set; }
     public string? Address { get; set; }
     public string? Notes { get; set; }
+    public string? Email { get; set; }
+    public string? BankAccountNumber { get; set; }
+    public string? BankName { get; set; }
 }
 
 public class UpdateSupplierCommandHandler : IRequestHandler<UpdateSupplierCommand, bool>
@@ -31,7 +34,7 @@ public class UpdateSupplierCommandHandler : IRequestHandler<UpdateSupplierComman
         if (supplier == null)
             return false;
 
-        supplier.Update(request.FullName, request.PhoneNumber, request.Address, request.Notes);
+        supplier.Update(request.FullName, request.PhoneNumber, request.Address, request.Notes, request.Email, request.BankAccountNumber, request.BankName);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

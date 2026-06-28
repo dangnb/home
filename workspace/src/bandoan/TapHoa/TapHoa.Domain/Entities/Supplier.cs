@@ -8,24 +8,33 @@ public class Supplier : BaseAuditableEntity<Guid>
     public string? PhoneNumber { get; private set; }
     public string? Address { get; private set; }
     public string? Notes { get; private set; }
+    public string? Email { get; private set; }
+    public string? BankAccountNumber { get; private set; }
+    public string? BankName { get; private set; }
 
     // Constructor required by EF Core
     private Supplier() { }
 
-    public Supplier(string fullName, string? phoneNumber, string? address, string? notes)
+    public Supplier(string fullName, string? phoneNumber, string? address, string? notes, string? email = null, string? bankAccountNumber = null, string? bankName = null)
     {
         Id = Guid.NewGuid();
         FullName = fullName;
         PhoneNumber = phoneNumber;
         Address = address;
         Notes = notes;
+        Email = email;
+        BankAccountNumber = bankAccountNumber;
+        BankName = bankName;
     }
 
-    public void Update(string fullName, string? phoneNumber, string? address, string? notes)
+    public void Update(string fullName, string? phoneNumber, string? address, string? notes, string? email = null, string? bankAccountNumber = null, string? bankName = null)
     {
         FullName = fullName;
         PhoneNumber = phoneNumber;
         Address = address;
         Notes = notes;
+        Email = email;
+        BankAccountNumber = bankAccountNumber;
+        BankName = bankName;
     }
 }
