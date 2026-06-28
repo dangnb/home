@@ -6,6 +6,8 @@ public class ProductDto
     public string Name { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
+    public Guid? SupplierId { get; set; }
+    public string SupplierName { get; set; } = string.Empty;
     public string? MainImageUrl { get; set; }
     public List<string> AdditionalImages { get; set; } = new();
     public decimal CostPrice { get; set; }

@@ -7,6 +7,7 @@ public class CreateProductCommand : IRequest<ProductDto>
 {
     public string Name { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; }
+    public Guid? SupplierId { get; set; }
     public string? MainImageUrl { get; set; }
     public List<string> AdditionalImages { get; set; } = new();
     public decimal CostPrice { get; set; }

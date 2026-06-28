@@ -3,6 +3,8 @@ export interface Product {
     name: string;
     categoryId?: string;
     categoryName?: string;
+    supplierId?: string;
+    supplierName?: string;
     mainImageUrl?: string;
     additionalImages?: string[];
     costPrice: number;

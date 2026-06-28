@@ -44,11 +44,13 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
         var dataSql = @"
             SELECT 
                 p.Id, p.Name, p.CategoryId, c.Name AS CategoryName,
+                p.SupplierId, s.FullName AS SupplierName,
                 p.MainImageUrl, p.CostPrice, p.WholesalePrice, p.Price, 
                 p.StockQuantity, p.Unit, p.Barcode, p.Status,
                 p.AdditionalImages
             FROM Products p
             LEFT JOIN Categories c ON p.CategoryId = c.Id
+            LEFT JOIN Suppliers s ON p.SupplierId = s.Id
             WHERE p.IsDeleted = 0 
               AND p.CompanyId = @CompanyId
               AND (@SearchPattern IS NULL OR p.Name LIKE @SearchPattern OR CAST(p.Id AS CHAR) LIKE @SearchPattern)

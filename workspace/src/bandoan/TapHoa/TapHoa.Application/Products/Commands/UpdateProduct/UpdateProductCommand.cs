@@ -10,6 +10,7 @@ public class UpdateProductCommand : IRequest<bool>
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; }
+    public Guid? SupplierId { get; set; }
     public string? MainImageUrl { get; set; }
     public List<string> AdditionalImages { get; set; } = new();
     public decimal CostPrice { get; set; }
@@ -42,6 +43,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         entity.Update(
             request.Name,
             request.CategoryId,
+            request.SupplierId,
             request.CostPrice,
             request.WholesalePrice,
             request.Price,

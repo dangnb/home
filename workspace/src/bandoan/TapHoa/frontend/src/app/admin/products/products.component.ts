@@ -8,6 +8,7 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
 import { CategoryService } from '../../services/category.service';
+import { SupplierService } from '../../services/supplier.service';
 import { TransactionService } from '../../services/transaction.service';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
@@ -43,6 +44,24 @@ export class ProductsComponent implements OnInit {
     this.activeDropdownRowId = null;
   }
 
+
+  // Pagination State
+  currentPage = 1;
+  pageSize = 5;
+  totalCount = 0;
+
+  activeDropdownRowId: string | null = null;
+
+  toggleDropdown(id: string, event: Event) {
+    event.stopPropagation();
+    this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;
+  }
+
+  @HostListener('document:click')
+  closeDropdown() {
+    this.activeDropdownRowId = null;
+  }
+
   // Modal State
   showModal = false;
   isEditMode = false;
@@ -52,6 +71,9 @@ export class ProductsComponent implements OnInit {
   // Categories Tree state
   categories: any[] = [];
   flatCategories: { id: string, name: string, pureName: string }[] = [];
+
+  // Suppliers state
+  suppliers: any[] = [];
 
   // History State
   showHistoryModal = false;
@@ -79,6 +101,7 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService,
     private alertService: AlertService,
     private categoryService: CategoryService,
+    private supplierService: SupplierService,
     private transactionService: TransactionService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -86,6 +109,13 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.loadProducts();
     this.loadCategoriesTree();
+    this.loadSuppliers();
+  }
+
+  loadSuppliers() {
+    this.supplierService.getSuppliers().subscribe(data => {
+      this.suppliers = data;
+    });
   }
 
   loadCategoriesTree() {
@@ -282,6 +312,7 @@ export class ProductsComponent implements OnInit {
       stockQuantity: 0,
       unit: 'kg',
       status: 'Active',
+      supplierId: undefined,
       mainImageUrl: '',
       additionalImages: [],
       units: []

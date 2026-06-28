@@ -392,3 +392,63 @@
 2026-06-28 22:45:46.992 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0441 ms
 2026-06-28 22:45:47.035 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 40.3582 ms
 2026-06-28 22:45:47.035 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 40.3584 ms
+2026-06-28 23:09:52.498 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 1.8683 ms
+2026-06-28 23:09:52.498 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 1.8678 ms
+2026-06-28 23:09:52.698 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-28 23:09:52.704 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-28 23:09:52.704 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-28 23:09:52.923 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 388.2185 ms
+2026-06-28 23:09:52.925 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 389.8228 ms
+2026-06-28 23:10:17.748 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0989 ms
+2026-06-28 23:10:17.748 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0976 ms
+2026-06-28 23:10:17.766 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 16.6124 ms
+2026-06-28 23:10:17.766 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 16.6115 ms
+2026-06-28 23:11:00.902 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0649 ms
+2026-06-28 23:11:00.902 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0465 ms
+2026-06-28 23:11:00.908 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 3.9940 ms
+2026-06-28 23:11:00.908 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 4.2324 ms
+2026-06-28 23:11:01.133 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 2.0119 ms
+2026-06-28 23:11:01.133 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.0118 ms
+2026-06-28 23:11:01.359 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.4096 ms
+2026-06-28 23:11:01.359 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.4101 ms
+2026-06-28 23:11:02.846 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0518 ms
+2026-06-28 23:11:02.846 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0530 ms
+2026-06-28 23:11:02.855 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 6.4754 ms
+2026-06-28 23:11:02.855 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 6.5451 ms
+2026-06-28 23:11:17.804 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger/record responded 204 in 0.0651 ms
+2026-06-28 23:11:18.505 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:11:18.506 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:11:18.506 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:11:18.650 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-28 23:11:19.175 +07:00 [INF] Audit Logged: Unknown by admin - RecordSupplierDebtCommand
+2026-06-28 23:11:19.791 +07:00 [INF] HTTP POST /api/v1/supplier-ledger/record responded 200 in 1983.6627 ms
+2026-06-28 23:11:19.805 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0628 ms
+2026-06-28 23:11:19.811 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 5.1733 ms
+2026-06-28 23:11:24.136 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.1170 ms
+2026-06-28 23:11:24.141 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 3.4154 ms
+2026-06-28 23:11:29.214 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.2000 ms
+2026-06-28 23:11:29.494 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 278.8106 ms
+2026-06-28 23:11:29.783 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0421 ms
+2026-06-28 23:11:29.786 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.8496 ms
+2026-06-28 23:14:32.422 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0434 ms
+2026-06-28 23:14:32.422 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0355 ms
+2026-06-28 23:14:32.426 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.6197 ms
+2026-06-28 23:14:32.426 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.6446 ms
+2026-06-28 23:14:32.773 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0637 ms
+2026-06-28 23:14:32.776 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 2.2192 ms
+2026-06-28 23:14:33.132 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0526 ms
+2026-06-28 23:14:33.133 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.6449 ms
+2026-06-28 23:14:33.135 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 2.5223 ms
+2026-06-28 23:14:38.008 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0349 ms
+2026-06-28 23:14:38.046 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 37.7287 ms
+2026-06-28 23:14:38.492 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0359 ms
+2026-06-28 23:14:38.493 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.0715 ms
+2026-06-28 23:14:38.532 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 37.2366 ms
+2026-06-28 23:14:39.131 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0377 ms
+2026-06-28 23:14:39.133 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0389 ms
+2026-06-28 23:14:39.133 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0389 ms
+2026-06-28 23:14:39.141 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 6.3966 ms
+2026-06-28 23:14:39.142 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 6.5123 ms
+2026-06-28 23:14:39.267 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 133.5400 ms
+2026-06-28 23:14:39.562 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0293 ms
+2026-06-28 23:14:39.572 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 8.5394 ms
