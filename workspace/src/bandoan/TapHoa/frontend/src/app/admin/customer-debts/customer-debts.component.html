@@ -63,7 +63,9 @@
                       </svg>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === debt.customerId"
-                      style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
+                      [style.top]="activeDropdownRowId === debt.customerId ? dropdownPositions[debt.customerId]?.top : 'auto'"
+                      [style.left]="activeDropdownRowId === debt.customerId ? dropdownPositions[debt.customerId]?.left : 'auto'"
+                      style="border-radius: 12px; position: fixed; right: auto; min-width: 160px; z-index: 1050;">
                       <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
                           (click)="openRecordModal(debt.customerId)">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

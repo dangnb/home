@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomerLedgerService, CustomerDebt } from '../../services/customer-ledger.service';
@@ -32,6 +32,7 @@ export class CustomerDebtsComponent implements OnInit {
   isLoadingTransactions = false;
   modalMode: 'record' | 'pay' | 'paySpecific' = 'record';
   activeDropdownRowId: string | null = null;
+  dropdownPositions: { [key: string]: { top: string, left: string } } = {};
   
   customerTransactions: any[] = [];
   selectedCustomerForDetail: string | null = null;
@@ -97,7 +98,19 @@ export class CustomerDebtsComponent implements OnInit {
       this.activeDropdownRowId = null;
     } else {
       this.activeDropdownRowId = id;
+      const target = event.currentTarget as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      this.dropdownPositions[id] = {
+        top: `${rect.bottom + 4}px`,
+        left: `${rect.right - 160}px`
+      };
     }
+  }
+
+  @HostListener('document:click')
+  @HostListener('window:scroll')
+  closeDropdowns() {
+    this.activeDropdownRowId = null;
   }
 
   openRecordModal(customerId?: string) {
