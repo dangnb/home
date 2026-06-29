@@ -30,6 +30,12 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     });
     const settingsArray = await prisma.setting.findMany();
 
+    // Fetch dynamic slides
+    const dbSlides = await prisma.slide.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' }
+    });
+
     const settings = settingsArray.reduce((acc: Record<string, string>, current: { key: string; value: string }) => {
         acc[current.key] = current.value;
         return acc;
@@ -38,7 +44,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     return (
         <main>
             <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
-            <Hero settings={settings} lang={lang} />
+            <Hero settings={settings} slides={dbSlides} lang={lang} />
             <Services services={services} settings={settings} lang={lang} />
             <Footer settings={settings} lang={lang} />
         </main>

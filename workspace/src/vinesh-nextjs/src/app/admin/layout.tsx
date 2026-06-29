@@ -39,6 +39,9 @@ export default async function AdminLayout({
                     <Link href="/admin/categories" className="admin-nav-item">
                         <i className="ph ph-list-dashes" style={{ fontSize: "20px" }}></i> Quản lý Danh mục
                     </Link>
+                    <Link href="/admin/slides" className="admin-nav-item">
+                        <i className="ph ph-images" style={{ fontSize: "20px" }}></i> Quản lý Slider / Băng rôn
+                    </Link>
 
                     {role === "ADMIN" && (
                         <>

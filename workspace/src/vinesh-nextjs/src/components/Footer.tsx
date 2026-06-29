@@ -8,12 +8,18 @@ interface FooterProps {
 export default function Footer({ settings, lang }: FooterProps) {
   const phone = settings?.phone || "0984 929 693";
   const siteName = settings?.siteName || "VINESH";
+  const email = settings?.email || `contact@${siteName.toLowerCase()}.vn`;
 
   const isVi = lang === "vi";
 
-  const desc = !isVi ?
+  // Dynamic Content with Fallbacks
+  const footerDescRaw = isVi ? settings?.footerDesc : settings?.[`footerDesc_${lang}`];
+  const desc = footerDescRaw || (!isVi ?
     `${siteName} Vietnam provides comprehensive solutions for Health, Safety & Environment for your enterprise.` :
-    `Công ty TNHH ${siteName} Việt Nam cung cấp giải pháp tổng thể về An Toàn, Sức Khỏe & Môi Trường cho doanh nghiệp của bạn.`;
+    `Công ty TNHH ${siteName} Việt Nam cung cấp giải pháp tổng thể về An Toàn, Sức Khỏe & Môi Trường cho doanh nghiệp của bạn.`);
+
+  const addressRaw = isVi ? settings?.address : settings?.[`address_${lang}`];
+  const address = addressRaw || (!isVi ? "123 ABC Street, XYZ District, Hanoi" : "Số 123, Đường ABC, Quận XYZ, Hà Nội");
 
   const linksTitle = !isVi ? "Quick Links" : "Liên kết nhanh";
   const aboutStr = !isVi ? "About Us" : "Về chúng tôi";
@@ -51,9 +57,9 @@ export default function Footer({ settings, lang }: FooterProps) {
           <div className="footer-col contact-col">
             <h4>{infoTitle}</h4>
             <ul>
-              <li><i className="ph ph-map-pin"></i> {!isVi ? "123 ABC Street, XYZ District, Hanoi" : "Số 123, Đường ABC, Quận XYZ, Hà Nội"}</li>
+              <li><i className="ph ph-map-pin"></i> {address}</li>
               <li><i className="ph ph-phone"></i> {phone}</li>
-              <li><i className="ph ph-envelope"></i> contact@{siteName.toLowerCase()}.vn</li>
+              <li><i className="ph ph-envelope"></i> {email}</li>
             </ul>
           </div>
         </div>
