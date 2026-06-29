@@ -93,7 +93,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ lang:
             <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
 
             {/* Minimal Inner Hero */}
-            <div style={{ padding: "120px 20px 60px", backgroundColor: "#0f172a", color: "#fff", textAlign: "center" }}>
+            <div style={{ paddingTop: "180px", paddingBottom: "60px", paddingLeft: "20px", paddingRight: "20px", backgroundColor: "#0f172a", color: "#fff", textAlign: "center" }}>
                 <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
                     <div style={{ marginBottom: "15px", color: "#8cc63f", fontWeight: "bold", fontSize: "14px", textTransform: "uppercase", letterSpacing: "1px" }}>
                         <Link href={`/${lang}`} style={{ color: "#8cc63f", textDecoration: "none" }}>{fallback("Trang chủ", "Home")}</Link>
