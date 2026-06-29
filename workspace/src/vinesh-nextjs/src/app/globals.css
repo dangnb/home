@@ -1,16 +1,18 @@
 /* DESIGN SYSTEM & VARIABLES */
 :root {
-    --primary-color: #0c4a85; /* Deep corporate blue */
-    --secondary-color: #f39c12; /* Warning orange/gold */
+    --primary-color: #0c4a85;
+    /* Deep corporate blue */
+    --secondary-color: #f39c12;
+    /* Warning orange/gold */
     --text-color: #333333;
     --text-light: #666666;
     --bg-light: #f8f9fa;
     --white: #ffffff;
     --font-primary: 'Inter', sans-serif;
     --transition: all 0.3s ease;
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-    --shadow-hover: 0 10px 25px rgba(0,0,0,0.15);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* RESET & BASE */
@@ -117,7 +119,8 @@ img {
     color: var(--white);
     font-size: 13px;
     padding: 8px 0;
-    display: none; /* Hide on mobile by default */
+    display: none;
+    /* Hide on mobile by default */
 }
 
 @media (min-width: 768px) {
@@ -160,6 +163,7 @@ img {
     border-radius: 20px;
     font-weight: bold;
 }
+
 .hotline-btn:hover {
     background-color: #e67e22;
     color: var(--white);
@@ -304,8 +308,7 @@ img {
 /* HERO SECTION */
 .hero {
     position: relative;
-    height: 85vh;
-    min-height: 600px;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,8 +332,13 @@ img {
 }
 
 @keyframes zoomOut {
-    0% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .hero-overlay {
@@ -364,7 +372,7 @@ img {
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 24px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-desc {
@@ -384,6 +392,7 @@ img {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -549,7 +558,8 @@ img {
     margin-bottom: 60px;
 }
 
-.footer-col h3, .footer-col h4 {
+.footer-col h3,
+.footer-col h4 {
     color: var(--white);
     margin-bottom: 25px;
     position: relative;
@@ -581,7 +591,7 @@ img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -627,6 +637,7 @@ img {
     .hero-title {
         font-size: 42px;
     }
+
     .cta-inner {
         flex-direction: column;
         text-align: center;
@@ -635,17 +646,18 @@ img {
 
 @media (max-width: 768px) {
     .main-nav {
-        display: none; /* Hide for mobile initially, would need JS toggle */
+        display: none;
+        /* Hide for mobile initially, would need JS toggle */
     }
-    
+
     .hero-title {
         font-size: 32px;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
     }
-    
+
     .section-padding {
         padding: 50px 0;
     }

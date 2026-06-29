@@ -1,61 +1,83 @@
 import Link from "next/link";
+import { Service } from "@prisma/client";
 
-export default function Services() {
+interface ServicesProps {
+  services: Service[];
+  settings?: Record<string, string>;
+  lang: string;
+}
+
+export default function Services({ services, settings, lang }: ServicesProps) {
+  const phone = settings?.phone || "0984 929 693";
+
+  // Custom text for hardcoded sections
+  const fallback = (viText: string, enText: string) => lang === "vi" ? viText : enText;
+  const sectionTitle = fallback("Dịch Vụ Của Chúng Tôi", "Our Services");
+  const sectionSubtitle = fallback("Cung cấp các giải pháp chuyên nghiệp, đáp ứng các tiêu chuẩn khắt khe nhất.", "Providing professional solutions, meeting the strictest standards.");
+  const ctaTitle = fallback("Bạn cần tư vấn chi tiết về dịch vụ?", "Need detailed consultation on services?");
+  const ctaDesc = fallback("Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7.", "Our team of experts is always ready to assist you 24/7.");
+  const ctaCall = fallback("Gọi Ngay", "Call Now");
+
   return (
     <>
       <section id="services" className="services section-padding">
         <div className="container">
           <div className="section-header text-center">
-            <h2 className="section-title">Dịch Vụ Của Chúng Tôi</h2>
+            <h2 className="section-title">{sectionTitle}</h2>
             <div className="divider"></div>
-            <p className="section-subtitle">Cung cấp các giải pháp chuyên nghiệp, đáp ứng các tiêu chuẩn khắt khe nhất.</p>
+            <p className="section-subtitle">{sectionSubtitle}</p>
           </div>
 
-          <div className="services-grid">
-            {/* Service 1 */}
-            <div className="service-card">
-              <div className="service-image" style={{ backgroundImage: "url('/assets/service1.png')" }}>
-                <div className="service-overlay"></div>
-              </div>
-              <div className="service-content">
-                <h3 className="service-title"><Link href="#">Quan trắc môi trường lao động</Link></h3>
-                <div className="service-divider"></div>
-              </div>
-            </div>
+          {Object.entries(
+            services.reduce((acc, service) => {
+              let catTitle = (service as any).category?.slug || fallback("Bài viết khác", "Other Posts");
+              if ((service as any).category && (service as any).category.translations) {
+                try {
+                  const t = JSON.parse((service as any).category.translations);
+                  if (t[lang] && t[lang].title) catTitle = t[lang].title;
+                  else if (t['vi'] && t['vi'].title) catTitle = t['vi'].title;
+                } catch (e) { }
+              }
+              const key = (service as any).categoryId || 'default';
+              if (!acc[key]) acc[key] = { title: catTitle, items: [] };
+              acc[key].items.push(service);
+              return acc;
+            }, {} as Record<string, { title: string; items: Service[] }>)
+          ).map(([catId, group]: any) => (
+            <div key={catId} style={{ marginBottom: "60px" }}>
+              <h3 style={{ fontSize: "1.8rem", color: "#1e293b", marginBottom: "30px", borderLeft: "4px solid #8cc63f", paddingLeft: "15px" }}>
+                {group.title}
+              </h3>
+              <div className="services-grid">
+                {group.items.map((service) => {
+                  let displayTitle = service.title;
+                  if (lang !== "vi" && service.translations) {
+                    try {
+                      const t = JSON.parse(service.translations);
+                      if (t[lang] && t[lang].title) {
+                        displayTitle = t[lang].title;
+                      }
+                    } catch (e) { }
+                  }
 
-            {/* Service 2 */}
-            <div className="service-card">
-              <div className="service-image" style={{ backgroundImage: "url('/assets/service2.png')" }}>
-                <div className="service-overlay"></div>
-              </div>
-              <div className="service-content">
-                <h3 className="service-title"><Link href="#">Phân loại lao động</Link></h3>
-                <div className="service-divider"></div>
+                  return (
+                    <div className="service-card" key={service.id}>
+                      <div className="service-image" style={{ backgroundImage: `url('${service.imageUrl}')` }}>
+                        <div className="service-overlay"></div>
+                      </div>
+                      <div className="service-content">
+                        <h4 className="service-title" style={{ margin: 0, fontSize: "1.25rem" }}>
+                          <Link href={service.linkUrl || "#"}>{displayTitle}</Link>
+                        </h4>
+                        <div className="service-divider"></div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+          ))}
 
-            {/* Service 3 */}
-            <div className="service-card">
-              <div className="service-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1470&auto=format&fit=crop')" }}>
-                <div className="service-overlay"></div>
-              </div>
-              <div className="service-content">
-                <h3 className="service-title"><Link href="#">Hợp chuẩn – hợp quy</Link></h3>
-                <div className="service-divider"></div>
-              </div>
-            </div>
-
-            {/* Service 4 */}
-            <div className="service-card">
-              <div className="service-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1470&auto=format&fit=crop')" }}>
-                <div className="service-overlay"></div>
-              </div>
-              <div className="service-content">
-                <h3 className="service-title"><Link href="#">Huấn luyện an toàn, vệ sinh</Link></h3>
-                <div className="service-divider"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -63,12 +85,12 @@ export default function Services() {
       <section className="cta-section">
         <div className="container cta-inner">
           <div className="cta-text">
-            <h2>Bạn cần tư vấn chi tiết về dịch vụ?</h2>
-            <p>Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7.</p>
+            <h2>{ctaTitle}</h2>
+            <p>{ctaDesc}</p>
           </div>
           <div className="cta-action">
-            <a href="tel:0984929693" className="btn btn-light btn-large">
-              <i className="ph ph-phone"></i> Gọi Ngay: 0984 929 693
+            <a href={`tel:${phone.replace(/\s+/g, '')}`} className="btn btn-light btn-large">
+              <i className="ph ph-phone"></i> {ctaCall}: {phone}
             </a>
           </div>
         </div>
