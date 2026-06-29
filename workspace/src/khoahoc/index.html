@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdsMastery - Đột Phá Doanh Số Với Facebook Ads</title>
+    
+    <!-- Tối ưu SEO Meta Tags -->
+    <meta name="description" content="Khóa học Facebook Ads thực chiến, giúp bạn làm chủ kỹ thuật tối ưu quảng cáo, bùng nổ doanh số chỉ sau 30 ngày.">
+    <meta property="og:title" content="AdsMastery - Đột Phá Doanh Số Với Facebook Ads">
+    <meta property="og:description" content="Học kỹ thuật chạy ads từ con số 0 đến chuyên gia. Cam kết hiệu quả sau 30 ngày.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop">
+    <meta property="og:type" content="website">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <span><i class="fa-solid fa-bolt"></i> Flash Sale Ưu đãi 50% học phí sẽ kết thúc sau: </span>
+            <span id="countdown" class="countdown-timer">23:59:59</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bullseye"></i></div>
+                AdsMastery
+            </a>
+            <nav class="nav-menu" data-aos="fade-down" data-aos-delay="100">
+                <a href="index.html#lo-trinh">Lộ trình</a>
+                <a href="courses.html">Khóa học</a>
+                <a href="instructors.html">Giảng viên</a>
+                <a href="pricing.html">Học phí</a>
+            </nav>
+            <div class="header-actions" data-aos="fade-down" data-aos-delay="200">
+                <a href="#dang-ky" class="btn btn-primary hidden-mobile">Đăng ký ngay <i class="fa-solid fa-arrow-right"></i></a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html#lo-trinh" class="mobile-link">Lộ trình</a>
+            <a href="courses.html" class="mobile-link">Khóa học</a>
+            <a href="instructors.html" class="mobile-link">Giảng viên</a>
+            <a href="pricing.html" class="mobile-link">Học phí</a>
+            <a href="#dang-ky" class="btn btn-primary mobile-link-btn" style="margin-top: 20px;">Đăng ký ngay</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div data-aos="fade-up">
+                    <span class="badge"><i class="fa-solid fa-bolt"></i> Phiên bản hoàn thiện 2024</span>
+                </div>
+                <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Đột Phá <span class="highlight-blue">Doanh Số</span> Với Facebook Ads</h1>
+                <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">Làm chủ kỹ thuật quảng cáo tối ưu sâu, tư duy marketing thực chiến từ con số 0 đến chuyên gia. Cam kết hiệu quả sau 30 ngày.</p>
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#dang-ky" class="btn btn-primary btn-pulse">Đăng ký nhận ưu đãi <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#lo-trinh" class="btn btn-secondary">Xem lộ trình học</a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left" data-aos-delay="200" data-aos-duration="1000">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop" alt="Dashboard" class="main-img floating-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof bg-light">
+        <div class="container">
+            <p class="social-proof-text" data-aos="fade-up">Đã giúp hơn <strong>5.000+</strong> học viên và doanh nghiệp tối ưu quảng cáo trên các nền tảng</p>
+            <div class="partner-logos" data-aos="fade-up" data-aos-delay="100">
+                <div class="logo-item"><i class="fa-brands fa-meta"></i> Meta Partners</div>
+                <div class="logo-item"><i class="fa-brands fa-google"></i> Google Ads</div>
+                <div class="logo-item"><i class="fa-brands fa-tiktok"></i> TikTok For Business</div>
+                <div class="logo-item"><i class="fa-solid fa-bag-shopping"></i> Shopee Partners</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Tại sao chọn <span class="highlight-blue">Ads</span>Mastery?</h2>
+            <div class="divider" data-aos="zoom-in"></div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon bg-blue-light">
+                        <i class="fa-solid fa-rocket text-blue"></i>
+                    </div>
+                    <h3>Tư duy thực chiến</h3>
+                    <p>Học từ những case study thực tế, không lý thuyết suông. Hiểu bản chất thuật toán để tự tin triển khai mọi dự án.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon bg-orange-light">
+                        <i class="fa-solid fa-chart-pie text-orange"></i>
+                    </div>
+                    <h3>Tối ưu sâu</h3>
+                    <p>Nắm vững kỹ thuật đọc chỉ số, A/B testing và Scale ngân sách, tìm ra vít quảng cáo tối ưu nhất cho bạn.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon bg-purple-light">
+                        <i class="fa-solid fa-headset text-purple"></i>
+                    </div>
+                    <h3>Hỗ trợ trọn đời</h3>
+                    <p>Tham gia cộng đồng học viên kín, được giảng viên và đội ngũ support giải đáp thắc mắc 24/7!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="lo-trinh" class="roadmap bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Lộ Trình Học Chuyên Sâu</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Từ cơ bản đến nâng cao, chúng tôi trang bị cho bạn mọi vũ khí cần thiết</p>
+            
+            <div class="roadmap-grid">
+                <div class="roadmap-card card-blue module-1-2 hover-lift" data-aos="fade-right" data-aos-delay="100">
+                    <div class="card-content">
+                        <span class="module-label">MODULE 01 &bull; 02</span>
+                        <h3>Nền tảng & Kỹ thuật Setup</h3>
+                        <p>Làm chủ Business Manager, Page chuẩn SEO và các hình thức quảng cáo cơ bản hiệu quả nhất hiện nay.</p>
+                    </div>
+                    <div class="card-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                </div>
+                
+                <div class="roadmap-card card-light module-3 hover-lift" data-aos="fade-left" data-aos-delay="200">
+                    <div class="card-content">
+                        <span class="module-label">MODULE 03</span>
+                        <h3>Content Thôi Miên</h3>
+                        <p>Bí mật viết copy và thiết kế hình ảnh khiến khách hàng dừng chân ngay lập tức.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-card card-orange module-4 hover-lift" data-aos="fade-right" data-aos-delay="300">
+                    <div class="card-content">
+                        <span class="module-label">MODULE 04</span>
+                        <h3>Targeting Chuyên Sâu</h3>
+                        <p>Kỹ thuật nhắm mục tiêu chuẩn xác, thấu hiểu tệp khách hàng tiềm năng bằng Big Data.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-card card-light module-5-6 hover-lift" data-aos="fade-left" data-aos-delay="400">
+                    <div class="card-content">
+                        <span class="module-label">MODULE 05 &bull; 06</span>
+                        <h3>Phân Tích & Scale Up</h3>
+                        <p>Cách đọc báo cáo, tối ưu chi phí và nhân bản chiến dịch lên ngân sách khủng trơn tru.</p>
+                    </div>
+                    <div class="card-icon-small">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Thành Công Từ Học Viên</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Những con số biết nói là những người đã tin tưởng chúng tôi.</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="student-img-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Student 1" class="student-img" loading="lazy">
+                    </div>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <h3>Nguyễn Văn A</h3>
+                    <p class="student-role">Digital Marketer</p>
+                    <p class="student-quote">"Khóa học có bài giảng rất logic và những chiêu mà mình chưa từng xài bao giờ. Rất hài lòng."</p>
+                </div>
+                
+                <div class="testimonial-card active-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="student-img-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="Student 2" class="student-img" loading="lazy">
+                    </div>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <h3>Trần Thị B</h3>
+                    <p class="student-role">Chủ doanh nghiệp nhỏ</p>
+                    <p class="student-quote">"Khóa học mang lại giá trị thực tiễn. Mình đã áp dụng và tiết kiệm không ít chi phí cho doanh nghiệp."</p>
+                </div>
+                
+                <div class="testimonial-card" data-aos="flip-right" data-aos-delay="200">
+                    <div class="student-img-wrapper">
+                        <img src="https://i.pravatar.cc/150?img=8" alt="Student 3" class="student-img" loading="lazy">
+                    </div>
+                    <div class="stars">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <h3>Lê Văn C</h3>
+                    <p class="student-role">Freelancer</p>
+                    <p class="student-quote">"Khóa học rất chi tiết và giải đáp nhiều thắc mắc mà mình đã lấn cấn bấy lâu. Nội dung rất tốt."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <span class="faq-label" data-aos="fade-up">FAQ</span>
+            <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Câu Hỏi Thường Gặp</h2>
+            <div class="divider" data-aos="zoom-in" data-aos-delay="150"></div>
+            
+            <div class="accordion" data-aos="fade-up" data-aos-delay="200">
+                <div class="accordion-item active">
+                    <div class="accordion-header bg-blue text-white">
+                        <h3>Tôi chưa biết gì có học được không?</h3>
+                        <div class="icon"><i class="fa-solid fa-chevron-up"></i></div>
+                    </div>
+                    <div class="accordion-content" style="display: block;">
+                        <p>Làm chủ kỹ thuật quảng cáo tối ưu sâu, chiến lược bài bản để đăng bài một cách dễ dàng và được chuyên gia hỗ trợ sau 30 ngày.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Khóa học có hỗ trợ sau khi học xong không?</h3>
+                        <div class="icon bg-orange text-white"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Chúng tôi có cộng đồng kín và đội ngũ support 24/7 luôn sẵn sàng hỗ trợ bạn bất cứ lúc nào.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header bg-blue text-white">
+                        <h3>Hình thức học như thế nào?</h3>
+                        <div class="icon"><i class="fa-solid fa-chevron-up"></i></div>
+                    </div>
+                    <div class="accordion-content" style="display: block;">
+                        <p>Hình thức học qua video quay sẵn chất lượng cao kèm các buổi zoom Q&A trực tiếp hàng tuần.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <div class="cta-box" data-aos="zoom-in" data-aos-offset="0">
+                <h2>Bạn Đã Sẵn Sàng Bùng Nổ Doanh Số?</h2>
+                <p>Đừng để đối thủ vượt lên chỉ vì bạn chưa biết cách tối ưu quảng cáo. Đăng ký ngay hôm nay để nhận ưu đãi 50% học phí và bộ quà tặng trị giá 5 triệu đồng.</p>
+                <a href="#dang-ky" class="btn btn-primary btn-lg btn-pulse">Giữ Chỗ Trở Thành Chuyên Gia <i class="fa-solid fa-rocket"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col" data-aos="fade-up">
+                    <a href="index.html" class="logo text-white">AdsMastery</a>
+                    <p class="footer-desc">Nền tảng đào tạo Marketing Thực Chiến hàng đầu, giúp bạn đột phá doanh số và tối ưu chi phí quảng cáo.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Khóa học</h3>
+                    <ul class="footer-links">
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Facebook Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Google Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> TikTok Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Content Marketing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Liên kết</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Trang chủ</a></li>
+                        <li><a href="index.html#lo-trinh"><i class="fa-solid fa-chevron-right"></i> Lộ trình</a></li>
+                        <li><a href="instructors.html"><i class="fa-solid fa-chevron-right"></i> Giảng viên</a></li>
+                        <li><a href="pricing.html"><i class="fa-solid fa-chevron-right"></i> Học phí</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Liên hệ</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fa-solid fa-location-dot"></i> Tầng 5, Tòa nhà X, Cầu Giấy, Hà Nội</li>
+                        <li><i class="fa-solid fa-envelope"></i> info@adsmastery.vn</li>
+                        <li><i class="fa-solid fa-phone"></i> 090-123-4567</li>
+                    </ul>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Nhập email của bạn..." class="newsletter-input">
+                        <button class="newsletter-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AdsMastery. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Điều khoản sử dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+
+        // Sticky Header Logic
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+                backToTop.classList.add('visible');
+            } else {
+                header.classList.remove('scrolled');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Back to Top Logic
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Logic
+        const mobileToggle = document.getElementById('mobileToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Countdown Logic
+        function startCountdown() {
+            let hours = 23;
+            let minutes = 59;
+            let seconds = 59;
+            const display = document.getElementById('countdown');
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) { seconds = 59; minutes--; }
+                if (minutes < 0) { minutes = 59; hours--; }
+                
+                const h = hours < 10 ? '0' + hours : hours;
+                const m = minutes < 10 ? '0' + minutes : minutes;
+                const s = seconds < 10 ? '0' + seconds : seconds;
+                
+                display.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        startCountdown();
+
+        // FAQ Accordion logic
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all
+                document.querySelectorAll('.accordion-item').forEach(accItem => {
+                    accItem.classList.remove('active');
+                    accItem.querySelector('.accordion-content').style.display = 'none';
+                    const icon = accItem.querySelector('.icon i');
+                    icon.className = 'fa-solid fa-chevron-down';
+                });
+
+                // Toggle clicked
+                if (!isActive) {
+                    item.classList.add('active');
+                    item.querySelector('.accordion-content').style.display = 'block';
+                    const icon = item.querySelector('.icon i');
+                    icon.className = 'fa-solid fa-chevron-up';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

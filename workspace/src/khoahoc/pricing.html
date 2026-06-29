@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học phí & Ưu đãi - AdsMastery</title>
+    
+    <meta name="description" content="Khám phá các gói học phí ưu đãi của AdsMastery. Cam kết đầu ra, hỗ trợ trọn đời.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <span><i class="fa-solid fa-bolt"></i> Flash Sale Ưu đãi 50% học phí sẽ kết thúc sau: </span>
+            <span id="countdown" class="countdown-timer">23:59:59</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bullseye"></i></div>
+                AdsMastery
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#lo-trinh">Lộ trình</a>
+                <a href="courses.html">Khóa học</a>
+                <a href="instructors.html">Giảng viên</a>
+                <a href="pricing.html" class="active">Học phí</a>
+            </nav>
+            <div class="header-actions">
+                <a href="index.html#dang-ky" class="btn btn-primary hidden-mobile">Đăng ký ngay <i class="fa-solid fa-arrow-right"></i></a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html#lo-trinh" class="mobile-link">Lộ trình</a>
+            <a href="courses.html" class="mobile-link">Khóa học</a>
+            <a href="instructors.html" class="mobile-link">Giảng viên</a>
+            <a href="pricing.html" class="mobile-link active">Học phí</a>
+            <a href="index.html#dang-ky" class="btn btn-primary mobile-link-btn" style="margin-top: 20px;">Đăng ký ngay</a>
+        </div>
+    </div>
+
+    <!-- Pricing Banner -->
+    <section class="pricing-banner">
+        <div class="container">
+            <h1 data-aos="fade-up">Đầu Tư <span class="highlight-blue">Cho Tương Lai</span> -<br>Học Phí Ưu Đãi</h1>
+            <p data-aos="fade-up" data-aos-delay="100" style="font-size: 16px; opacity: 0.9;">Thông điệp về giá trị nhận được sau khóa học.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="pricing-section bg-light" style="padding-bottom: 80px;">
+        <div class="container">
+            <div class="pricing-grid">
+                
+                <!-- Basic Plan -->
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-header">
+                        <h3>Gói Cơ Bản</h3>
+                        <p>(Standard)</p>
+                    </div>
+                    <div class="pricing-price">
+                        1.990.000đ
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>Truy cập khóa học 6 tháng</li>
+                            <li>Hỗ trợ qua group</li>
+                            <li class="disabled">Bộ tài liệu độc quyền</li>
+                            <li class="disabled">Học trực tiếp với giảng viên</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="#" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 14px;">Đăng ký ngay</a>
+                    </div>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card pro" data-aos="fade-up" data-aos-delay="200">
+                    <div class="ribbon">Khuyên dùng</div>
+                    <div class="pricing-header">
+                        <h3>Gói Chuyên Nghiệp</h3>
+                        <p>(Pro - Highlighted)</p>
+                    </div>
+                    <div class="pricing-price" style="color: var(--primary-blue);">
+                        3.490.000đ
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>Truy cập <strong>trọn đời</strong></li>
+                            <li>Hỗ trợ 1-1</li>
+                            <li>Bộ tài liệu độc quyền</li>
+                            <li>Cấp chứng chỉ</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="#" class="btn btn-primary btn-pulse" style="width: 100%; font-size: 16px; padding: 14px;">Đăng ký ngay</a>
+                    </div>
+                </div>
+
+                <!-- VIP Plan -->
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="pricing-header">
+                        <h3>Gói Coaching</h3>
+                        <p>(VIP)</p>
+                    </div>
+                    <div class="pricing-price">
+                        Liên hệ
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li>Học trực tiếp với giảng viên</li>
+                            <li>Hỗ trợ setup dự án thực tế</li>
+                            <li><strong>Cam kết đầu ra</strong></li>
+                        </ul>
+                    </div>
+                    <div class="pricing-action">
+                        <a href="#" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 14px; background-color: var(--primary-orange);">Liên hệ ngay</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="offers-section">
+        <div class="container" style="max-width: 900px;">
+            <h2 class="section-title" data-aos="fade-up">Ưu đãi đặc biệt</h2>
+            <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 15px; max-width: 700px; margin-left: auto; margin-right: auto;" data-aos="fade-up" data-aos-delay="100">Ưu đãi đặc biệt từ AdsMastery: Đăng ký nhóm hoặc thanh toán sớm để nhận được mức học phí vô cùng hấp dẫn cùng các phần quà giá trị.</p>
+            
+            <div class="offers-grid">
+                <div class="offer-item" data-aos="fade-right">
+                    <div class="offer-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="offer-content">
+                        <h3>Giảm hộ nhóm</h3>
+                        <p>Đăng ký nhóm từ 3 người trở lên sẽ được giảm ngay 20% học phí và hỗ trợ group riêng tư.</p>
+                    </div>
+                </div>
+                
+                <div class="offer-item" data-aos="fade-left">
+                    <div class="offer-icon"><i class="fa-solid fa-tag"></i></div>
+                    <div class="offer-content">
+                        <h3>Giảm thanh toán sớm</h3>
+                        <p>Giảm trừ trực tiếp 500k khi thanh toán đủ học phí trước ngày khai giảng kèm bộ tài liệu VIP.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Methods -->
+    <section class="payment-section bg-light">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Phương thức thanh toán</h2>
+            
+            <div class="payment-card" data-aos="zoom-in" data-aos-delay="100">
+                <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 10px;">Phương thức thanh toán</h3>
+                <div style="width: 40px; height: 3px; background: var(--primary-orange); margin: 0 auto;"></div>
+                
+                <div class="payment-logos">
+                    <!-- Placeholder using icons for banks since no direct images -->
+                    <div style="text-align: center; color: var(--primary-blue);">
+                        <i class="fa-solid fa-building-columns" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 700;">CHUYỂN KHOẢN</div>
+                    </div>
+                    <div style="text-align: center; color: #a50064;">
+                        <i class="fa-solid fa-wallet" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 700;">MOMO</div>
+                    </div>
+                    <div style="text-align: center; color: #004d9c;">
+                        <i class="fa-solid fa-credit-card" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 700;">VNPAY</div>
+                    </div>
+                </div>
+                
+                <div class="payment-secure">
+                    <div style="background: #e8f5e9; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div style="text-align: left;">
+                        <div style="color: var(--text-main); font-weight: 700;">Chấp nhận thanh toán an toàn</div>
+                        <div style="color: var(--text-muted); font-size: 13px; font-weight: 400;">Bảo mật thông tin giao dịch tuyệt đối</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Commitment -->
+    <section class="team-commitment">
+        <div class="container">
+            <h2 data-aos="fade-up">Cam kết từ đội ngũ</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Chúng tôi cam kết hỗ trợ 24/7, giải đáp mọi thắc mắc và đồng hành cùng học viên trong suốt quá trình học tập và ứng dụng thực tế. Thành công của bạn là sứ mệnh của AdsMastery.</p>
+            
+            <div data-aos="fade-up" data-aos-delay="200" style="display: flex; justify-content: center; gap: -20px; align-items: flex-end; margin-top: 40px;">
+                <!-- Just using placeholders representing the 5 instructors overlapping -->
+                <img src="https://i.pravatar.cc/300?img=11" style="width: 150px; height: 180px; object-fit: cover; border-radius: 20px 20px 0 0; margin-right: -30px; position: relative; z-index: 1;">
+                <img src="https://i.pravatar.cc/300?img=33" style="width: 160px; height: 200px; object-fit: cover; border-radius: 20px 20px 0 0; margin-right: -30px; position: relative; z-index: 2;">
+                <img src="https://i.pravatar.cc/300?img=60" style="width: 180px; height: 220px; object-fit: cover; border-radius: 20px 20px 0 0; position: relative; z-index: 3; box-shadow: 0 -10px 20px rgba(0,0,0,0.3);">
+                <img src="https://i.pravatar.cc/300?img=68" style="width: 160px; height: 200px; object-fit: cover; border-radius: 20px 20px 0 0; margin-left: -30px; position: relative; z-index: 2;">
+                <img src="https://i.pravatar.cc/300?img=59" style="width: 150px; height: 180px; object-fit: cover; border-radius: 20px 20px 0 0; margin-left: -30px; position: relative; z-index: 1;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col" data-aos="fade-up">
+                    <a href="index.html" class="logo text-white">AdsMastery</a>
+                    <p class="footer-desc">Nền tảng đào tạo Marketing Thực Chiến hàng đầu, giúp bạn đột phá doanh số và tối ưu chi phí quảng cáo.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Khóa học</h3>
+                    <ul class="footer-links">
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Facebook Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Google Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> TikTok Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Content Marketing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Liên kết</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Trang chủ</a></li>
+                        <li><a href="index.html#lo-trinh"><i class="fa-solid fa-chevron-right"></i> Lộ trình</a></li>
+                        <li><a href="instructors.html"><i class="fa-solid fa-chevron-right"></i> Giảng viên</a></li>
+                        <li><a href="pricing.html"><i class="fa-solid fa-chevron-right"></i> Học phí</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Liên hệ</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fa-solid fa-location-dot"></i> Tầng 5, Tòa nhà X, Cầu Giấy, Hà Nội</li>
+                        <li><i class="fa-solid fa-envelope"></i> info@adsmastery.vn</li>
+                        <li><i class="fa-solid fa-phone"></i> 090-123-4567</li>
+                    </ul>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Nhập email của bạn..." class="newsletter-input">
+                        <button class="newsletter-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AdsMastery. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Điều khoản sử dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+
+        // Sticky Header Logic
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+                backToTop.classList.add('visible');
+            } else {
+                header.classList.remove('scrolled');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Back to Top Logic
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Logic
+        const mobileToggle = document.getElementById('mobileToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Countdown Logic
+        function startCountdown() {
+            let hours = 23;
+            let minutes = 59;
+            let seconds = 59;
+            const display = document.getElementById('countdown');
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) { seconds = 59; minutes--; }
+                if (minutes < 0) { minutes = 59; hours--; }
+                
+                const h = hours < 10 ? '0' + hours : hours;
+                const m = minutes < 10 ? '0' + minutes : minutes;
+                const s = seconds < 10 ? '0' + seconds : seconds;
+                
+                if(display) display.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        startCountdown();
+    </script>
+</body>
+</html>

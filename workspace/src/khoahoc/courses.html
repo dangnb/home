@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách khóa học - AdsMastery</title>
+    
+    <meta name="description" content="Khám phá danh sách các khóa học Marketing thực chiến từ AdsMastery.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <span><i class="fa-solid fa-bolt"></i> Flash Sale Ưu đãi 50% học phí sẽ kết thúc sau: </span>
+            <span id="countdown" class="countdown-timer">23:59:59</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bullseye"></i></div>
+                AdsMastery
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#lo-trinh">Lộ trình</a>
+                <a href="courses.html" class="active">Khóa học</a>
+                <a href="instructors.html">Giảng viên</a>
+                <a href="pricing.html">Học phí</a>
+            </nav>
+            <div class="header-actions">
+                <a href="index.html#dang-ky" class="btn btn-primary hidden-mobile">Đăng ký ngay <i class="fa-solid fa-arrow-right"></i></a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html#lo-trinh" class="mobile-link">Lộ trình</a>
+            <a href="courses.html" class="mobile-link active">Khóa học</a>
+            <a href="instructors.html" class="mobile-link">Giảng viên</a>
+            <a href="pricing.html" class="mobile-link">Học phí</a>
+            <a href="index.html#dang-ky" class="btn btn-primary mobile-link-btn" style="margin-top: 20px;">Đăng ký ngay</a>
+        </div>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 data-aos="fade-up">Danh Sách <span class="highlight-blue">Khóa Học</span><br>Marketing Thực Chiến</h1>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses-container bg-light">
+        <div class="container">
+            
+            <!-- Search Bar -->
+            <div class="search-bar-wrapper" data-aos="fade-up" data-aos-delay="100">
+                <input type="text" class="search-input" placeholder="Tìm kiếm khóa học...">
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-chips" data-aos="fade-up" data-aos-delay="200">
+                <span class="chip active">Tất cả</span>
+                <span class="chip">Facebook Ads</span>
+                <span class="chip">Google Ads</span>
+                <span class="chip">Content Marketing</span>
+                <span class="chip">TikTok Ads</span>
+            </div>
+
+            <!-- Grid -->
+            <div class="course-grid">
+                
+                <!-- Course 1 -->
+                <div class="course-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="course-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1557425955-df376b5903c8?q=80&w=800&auto=format&fit=crop" alt="Sale Ads">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-badge badge-orange">Bán chạy</span>
+                        <h3 class="course-title">Sale Ads & Facebook Marketing Thực Chiến</h3>
+                        <div class="course-meta">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <span class="rating-score">4.8/5</span>
+                            <span class="students"><i class="fa-solid fa-user-group text-muted"></i> 1500+ học viên</span>
+                        </div>
+                        <div class="course-price-wrap">
+                            <span class="price-old">5.000.000đ</span>
+                            <span class="price-new">2.499.000đ</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-block">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-img-wrapper" style="background-color: #e8f0fe; display:flex; align-items:center; justify-content:center;">
+                        <img src="https://images.unsplash.com/photo-1572506456076-1e967a5b3a62?q=80&w=800&auto=format&fit=crop" alt="Google Ads" style="object-fit: contain; padding: 20px;">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-badge badge-blue">Mới</span>
+                        <h3 class="course-title">Google Ads Search - Chinh phục khách hàng mục tiêu</h3>
+                        <div class="course-meta">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <span class="rating-score">4.8/5</span>
+                            <span class="students"><i class="fa-solid fa-user-group text-muted"></i> 900+ học viên</span>
+                        </div>
+                        <div class="course-price-wrap">
+                            <span class="price-old">5.000.000đ</span>
+                            <span class="price-new">1.899.000đ</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-block">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="course-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="course-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop" alt="Content Marketing">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-badge badge-blue">Mới</span>
+                        <h3 class="course-title">Content Marketing & Storytelling đỉnh cao</h3>
+                        <div class="course-meta">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <span class="rating-score">4.8/5</span>
+                            <span class="students"><i class="fa-solid fa-user-group text-muted"></i> 1500+ học viên</span>
+                        </div>
+                        <div class="course-price-wrap">
+                            <span class="price-old">5.000.000đ</span>
+                            <span class="price-new">2.399.000đ</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-block">Xem chi tiết</a>
+                    </div>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-img-wrapper" style="background-color: #111;">
+                        <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=800&auto=format&fit=crop" alt="TikTok Ads" style="opacity: 0.9;">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-badge badge-blue">Mới</span>
+                        <h3 class="course-title">TikTok Ads từ A-Z cho người mới</h3>
+                        <div class="course-meta">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <span class="rating-score">4.8/5</span>
+                            <span class="students"><i class="fa-solid fa-user-group text-muted"></i> 1500+ học viên</span>
+                        </div>
+                        <div class="course-price-wrap">
+                            <span class="price-old">5.000.000đ</span>
+                            <span class="price-new">2.499.000đ</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-block">Xem chi tiết</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col" data-aos="fade-up">
+                    <a href="index.html" class="logo text-white">AdsMastery</a>
+                    <p class="footer-desc">Nền tảng đào tạo Marketing Thực Chiến hàng đầu, giúp bạn đột phá doanh số và tối ưu chi phí quảng cáo.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Khóa học</h3>
+                    <ul class="footer-links">
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Facebook Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Google Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> TikTok Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Content Marketing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Liên kết</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Trang chủ</a></li>
+                        <li><a href="index.html#lo-trinh"><i class="fa-solid fa-chevron-right"></i> Lộ trình</a></li>
+                        <li><a href="instructors.html"><i class="fa-solid fa-chevron-right"></i> Giảng viên</a></li>
+                        <li><a href="pricing.html"><i class="fa-solid fa-chevron-right"></i> Học phí</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Liên hệ</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fa-solid fa-location-dot"></i> Tầng 5, Tòa nhà X, Cầu Giấy, Hà Nội</li>
+                        <li><i class="fa-solid fa-envelope"></i> info@adsmastery.vn</li>
+                        <li><i class="fa-solid fa-phone"></i> 090-123-4567</li>
+                    </ul>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Nhập email của bạn..." class="newsletter-input">
+                        <button class="newsletter-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AdsMastery. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Điều khoản sử dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+
+        // Sticky Header Logic
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+                backToTop.classList.add('visible');
+            } else {
+                header.classList.remove('scrolled');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Back to Top Logic
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Logic
+        const mobileToggle = document.getElementById('mobileToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Countdown Logic
+        function startCountdown() {
+            let hours = 23;
+            let minutes = 59;
+            let seconds = 59;
+            const display = document.getElementById('countdown');
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) { seconds = 59; minutes--; }
+                if (minutes < 0) { minutes = 59; hours--; }
+                
+                const h = hours < 10 ? '0' + hours : hours;
+                const m = minutes < 10 ? '0' + minutes : minutes;
+                const s = seconds < 10 ? '0' + seconds : seconds;
+                
+                if(display) display.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        startCountdown();
+        
+        // Filter Chips Interaction (Visual only)
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

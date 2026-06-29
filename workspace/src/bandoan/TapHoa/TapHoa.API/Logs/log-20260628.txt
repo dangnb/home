@@ -452,3 +452,21 @@
 2026-06-28 23:14:39.267 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 133.5400 ms
 2026-06-28 23:14:39.562 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0293 ms
 2026-06-28 23:14:39.572 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 8.5394 ms
+2026-06-28 23:16:47.813 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 1.3789 ms
+2026-06-28 23:16:47.990 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-06-28 23:16:47.996 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-28 23:16:48.399 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:16:48.399 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:16:48.399 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-06-28 23:16:48.474 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-06-28 23:16:49.121 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1274.5957 ms
+2026-06-28 23:17:27.697 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.5522 ms
+2026-06-28 23:17:27.811 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 111.3891 ms
+2026-06-28 23:17:28.338 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 55.2462 ms
+2026-06-28 23:17:28.462 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.6059 ms
+2026-06-28 23:17:30.900 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0609 ms
+2026-06-28 23:17:30.900 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0609 ms
+2026-06-28 23:17:30.903 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0575 ms
+2026-06-28 23:17:30.969 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 68.3706 ms
+2026-06-28 23:17:30.994 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 92.9559 ms
+2026-06-28 23:17:31.009 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 103.5637 ms

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đội ngũ giảng viên - AdsMastery</title>
+    
+    <meta name="description" content="Đội ngũ giảng viên chuyên gia hàng đầu về Marketing tại AdsMastery.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <span><i class="fa-solid fa-bolt"></i> Flash Sale Ưu đãi 50% học phí sẽ kết thúc sau: </span>
+            <span id="countdown" class="countdown-timer">23:59:59</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bullseye"></i></div>
+                AdsMastery
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html#lo-trinh">Lộ trình</a>
+                <a href="courses.html">Khóa học</a>
+                <a href="instructors.html" class="active">Giảng viên</a>
+                <a href="pricing.html">Học phí</a>
+            </nav>
+            <div class="header-actions">
+                <a href="index.html#dang-ky" class="btn btn-primary hidden-mobile">Đăng ký ngay <i class="fa-solid fa-arrow-right"></i></a>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu-content">
+            <button class="close-menu" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+            <a href="index.html#lo-trinh" class="mobile-link">Lộ trình</a>
+            <a href="courses.html" class="mobile-link">Khóa học</a>
+            <a href="instructors.html" class="mobile-link active">Giảng viên</a>
+            <a href="pricing.html" class="mobile-link">Học phí</a>
+            <a href="index.html#dang-ky" class="btn btn-primary mobile-link-btn" style="margin-top: 20px;">Đăng ký ngay</a>
+        </div>
+    </div>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 data-aos="fade-up">Đội Ngũ <span class="highlight-blue">Giảng Viên</span><br>Chuyên Gia Hàng Đầu</h1>
+        </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section class="instructors-container bg-light" style="padding: 80px 0;">
+        <div class="container">
+            <div class="instructor-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+                
+                <!-- Instructor 1 -->
+                <div class="instructor-card hover-lift" data-aos="fade-up" data-aos-delay="100" style="background: var(--white); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
+                    <div class="instructor-img" style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 25px; border: 5px solid #e8f0fe;">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop" alt="Giảng viên" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">Lê Minh Tùng</h3>
+                    <p style="color: var(--primary-blue); font-weight: 600; font-size: 14px; margin-bottom: 15px;">Chuyên gia Facebook Ads</p>
+                    <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">Hơn 8 năm kinh nghiệm triển khai chiến dịch quảng cáo cho hàng trăm doanh nghiệp vừa và nhỏ, ngân sách tiêu hàng chục tỷ đồng.</p>
+                    <div class="instructor-socials" style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Instructor 2 -->
+                <div class="instructor-card hover-lift" data-aos="fade-up" data-aos-delay="200" style="background: var(--white); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.05); transform: translateY(-10px);">
+                    <div class="instructor-img" style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 25px; border: 5px solid #fcece3;">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="Giảng viên" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">Nguyễn Thu Hà</h3>
+                    <p style="color: var(--primary-orange); font-weight: 600; font-size: 14px; margin-bottom: 15px;">Google Ads & SEO Expert</p>
+                    <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">Top 1% chuyên gia tối ưu hóa công cụ tìm kiếm tại Việt Nam. Giúp tăng 300% lượng truy cập tự nhiên cho các tập đoàn lớn.</p>
+                    <div class="instructor-socials" style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-solid fa-globe"></i></a>
+                    </div>
+                </div>
+
+                <!-- Instructor 3 -->
+                <div class="instructor-card hover-lift" data-aos="fade-up" data-aos-delay="300" style="background: var(--white); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
+                    <div class="instructor-img" style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 25px; border: 5px solid #f3e8fd;">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" alt="Giảng viên" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">Phạm Tuấn Anh</h3>
+                    <p style="color: var(--text-purple); font-weight: 600; font-size: 14px; margin-bottom: 15px;">TikTok Master / Content Creator</p>
+                    <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 25px; line-height: 1.6;">Đứng sau hàng loạt video viral triệu view. Chuyên gia tư vấn chiến lược xây dựng kênh TikTok từ con số 0 đến 1M followers.</p>
+                    <div class="instructor-socials" style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--text-main);"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <div class="cta-box" data-aos="zoom-in" data-aos-offset="0">
+                <h2>Bạn Muốn Học Cùng Các Chuyên Gia?</h2>
+                <p>Cơ hội vàng để được dẫn dắt bởi những chuyên gia hàng đầu. Đăng ký ngay hôm nay để nhận ưu đãi 50% học phí.</p>
+                <a href="index.html#dang-ky" class="btn btn-primary btn-lg btn-pulse">Giữ Chỗ Trở Thành Chuyên Gia <i class="fa-solid fa-rocket"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col" data-aos="fade-up">
+                    <a href="index.html" class="logo text-white">AdsMastery</a>
+                    <p class="footer-desc">Nền tảng đào tạo Marketing Thực Chiến hàng đầu, giúp bạn đột phá doanh số và tối ưu chi phí quảng cáo.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Khóa học</h3>
+                    <ul class="footer-links">
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Facebook Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Google Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> TikTok Ads</a></li>
+                        <li><a href="courses.html"><i class="fa-solid fa-chevron-right"></i> Content Marketing</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Liên kết</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fa-solid fa-chevron-right"></i> Trang chủ</a></li>
+                        <li><a href="index.html#lo-trinh"><i class="fa-solid fa-chevron-right"></i> Lộ trình</a></li>
+                        <li><a href="instructors.html"><i class="fa-solid fa-chevron-right"></i> Giảng viên</a></li>
+                        <li><a href="pricing.html"><i class="fa-solid fa-chevron-right"></i> Học phí</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Liên hệ</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fa-solid fa-location-dot"></i> Tầng 5, Tòa nhà X, Cầu Giấy, Hà Nội</li>
+                        <li><i class="fa-solid fa-envelope"></i> info@adsmastery.vn</li>
+                        <li><i class="fa-solid fa-phone"></i> 090-123-4567</li>
+                    </ul>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Nhập email của bạn..." class="newsletter-input">
+                        <button class="newsletter-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 AdsMastery. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Điều khoản sử dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            easing: 'ease-out-cubic'
+        });
+
+        // Sticky Header Logic
+        const header = document.getElementById('header');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+                backToTop.classList.add('visible');
+            } else {
+                header.classList.remove('scrolled');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Back to Top Logic
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Menu Logic
+        const mobileToggle = document.getElementById('mobileToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenuOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Countdown Logic
+        function startCountdown() {
+            let hours = 23;
+            let minutes = 59;
+            let seconds = 59;
+            const display = document.getElementById('countdown');
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) { seconds = 59; minutes--; }
+                if (minutes < 0) { minutes = 59; hours--; }
+                
+                const h = hours < 10 ? '0' + hours : hours;
+                const m = minutes < 10 ? '0' + minutes : minutes;
+                const s = seconds < 10 ? '0' + seconds : seconds;
+                
+                if(display) display.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        startCountdown();
+    </script>
+    
+    <style>
+        /* CSS inlined for Instructor grid responsive */
+        @media (max-width: 992px) {
+            .instructor-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .instructor-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .instructor-card[style*="transform"] {
+                transform: none !important;
+            }
+        }
+        .instructor-socials a:hover {
+            background: var(--primary-blue) !important;
+            color: white !important;
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</body>
+</html>
