@@ -71,7 +71,7 @@ export default async function SlidesList() {
                                     <Link href={`/admin/slides/${slide.id}`} className="admin-action-btn action-edit" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "4px", padding: "6px 12px", borderRadius: "6px" }}>
                                         <i className="ph ph-pencil-simple"></i> Sửa
                                     </Link>
-                                    <DeleteButton id={slide.id} action={deleteSlide} confirmString="Bạn có chắc chắn muốn xoá Slide này?" />
+                                    <DeleteButton action={deleteSlide.bind(null, slide.id)} />
                                 </div>
                             </div>
                         </div>

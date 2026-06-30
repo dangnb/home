@@ -43,7 +43,7 @@ export default function Services({ services, settings, lang }: ServicesProps) {
               acc[key].items.push(service);
               return acc;
             }, {} as Record<string, { title: string; items: Service[] }>)
-          ).map(([catId, group]: any) => (
+          ).map(([catId, group]: [string, { title: string; items: Service[] }]) => (
             <div key={catId} style={{ marginBottom: "60px" }}>
               <h3 style={{ fontSize: "1.8rem", color: "#1e293b", marginBottom: "30px", borderLeft: "4px solid #8cc63f", paddingLeft: "15px" }}>
                 {group.title}
