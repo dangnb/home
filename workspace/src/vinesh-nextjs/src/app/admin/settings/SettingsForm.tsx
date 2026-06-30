@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import FormInput from "@/components/ui/FormInput";
+import FormTextarea from "@/components/ui/FormTextarea";
+import LanguageTabs from "@/components/ui/LanguageTabs";
 
 interface SettingsFormProps {
     settings: Record<string, string>;
@@ -16,44 +19,40 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
             <form action={action}>
                 <h3 style={{ marginTop: 0, marginBottom: 15, color: "#0f172a", fontSize: "1.2rem" }}>Thông tin Chung</h3>
                 <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr 1fr 1fr" }}>
-                    <div className="admin-form-group">
-                        <label className="admin-label">Tên công ty / Thương hiệu</label>
-                        <input type="text" name="siteName" className="admin-input" defaultValue={settings.siteName} required minLength={2} />
-                    </div>
+                    <FormInput
+                        label="Tên công ty / Thương hiệu"
+                        type="text"
+                        name="siteName"
+                        defaultValue={settings.siteName}
+                        required
+                        minLength={2}
+                    />
 
-                    <div className="admin-form-group">
-                        <label className="admin-label">Số điện thoại Hotline</label>
-                        <input type="tel" name="phone" className="admin-input" defaultValue={settings.phone} required />
-                    </div>
+                    <FormInput
+                        label="Số điện thoại Hotline"
+                        type="tel"
+                        name="phone"
+                        defaultValue={settings.phone}
+                        required
+                    />
 
-                    <div className="admin-form-group">
-                        <label className="admin-label">Email liên hệ</label>
-                        <input type="email" name="email" className="admin-input" defaultValue={settings.email} />
-                    </div>
+                    <FormInput
+                        label="Email liên hệ"
+                        type="email"
+                        name="email"
+                        defaultValue={settings.email}
+                    />
                 </div>
 
-                <div style={{ display: "flex", borderBottom: "2px solid #e2e8f0", marginBottom: "20px", marginTop: "20px", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
                     <span style={{ marginRight: "20px", fontWeight: "bold", color: "#334155" }}><i className="ph ph-translate"></i> Nội dung Đa Ngôn Ngữ:</span>
-                    {languages.map(lang => (
-                        <button
-                            type="button"
-                            key={lang}
-                            onClick={() => setActiveLang(lang)}
-                            style={{
-                                padding: "10px 20px",
-                                border: "none",
-                                backgroundColor: "transparent",
-                                borderBottom: activeLang === lang ? "2px solid #3b82f6" : "2px solid transparent",
-                                color: activeLang === lang ? "#3b82f6" : "#64748b",
-                                fontWeight: "bold",
-                                cursor: "pointer",
-                                marginBottom: "-2px"
-                            }}
-                        >
-                            {lang.toUpperCase()}
-                        </button>
-                    ))}
                 </div>
+
+                <LanguageTabs
+                    languages={languages}
+                    activeLang={activeLang}
+                    onTabChange={setActiveLang}
+                />
 
                 {languages.map((lang) => {
                     const isVi = lang === "vi";
@@ -64,14 +63,19 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                         <div key={lang} style={{ display: activeLang === lang ? "block" : "none" }}>
 
                             <h4 style={{ color: "#38bdf8", borderBottom: "1px dashed #e2e8f0", paddingBottom: "10px" }}>1. Thông tin chân trang (Footer)</h4>
-                            <div className="admin-form-group">
-                                <label className="admin-label">Địa chỉ Công ty ({lang.toUpperCase()})</label>
-                                <input type="text" name={n("address")} className="admin-input" defaultValue={s("address")} />
-                            </div>
-                            <div className="admin-form-group">
-                                <label className="admin-label">Mô tả Công ty ở Footer ({lang.toUpperCase()})</label>
-                                <textarea name={n("footerDesc")} className="admin-textarea" defaultValue={s("footerDesc")} rows={2}></textarea>
-                            </div>
+                            <FormInput
+                                label={`Địa chỉ Công ty (${lang.toUpperCase()})`}
+                                type="text"
+                                name={n("address")}
+                                defaultValue={s("address")}
+                            />
+
+                            <FormTextarea
+                                label={`Mô tả Công ty ở Footer (${lang.toUpperCase()})`}
+                                name={n("footerDesc")}
+                                defaultValue={s("footerDesc")}
+                                rows={2}
+                            />
 
                             <h4 style={{ color: "#38bdf8", borderBottom: "1px dashed #e2e8f0", paddingBottom: "10px", marginTop: "30px" }}>2. Slider Băng rôn (Hero section)</h4>
 
@@ -90,19 +94,26 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                                 )}
 
                                 <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr 1fr" }}>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề chính (H1)</label>
-                                        <input type="text" name={n("heroTitle")} className="admin-input" defaultValue={s("heroTitle")} />
-                                    </div>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề phụ</label>
-                                        <input type="text" name={n("heroSubtitle")} className="admin-input" defaultValue={s("heroSubtitle")} />
-                                    </div>
+                                    <FormInput
+                                        label="Tiêu đề chính (H1)"
+                                        type="text"
+                                        name={n("heroTitle")}
+                                        defaultValue={s("heroTitle")}
+                                    />
+                                    <FormInput
+                                        label="Tiêu đề phụ"
+                                        type="text"
+                                        name={n("heroSubtitle")}
+                                        defaultValue={s("heroSubtitle")}
+                                    />
                                 </div>
-                                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                                    <label className="admin-label">Mô tả Meta / Hero</label>
-                                    <textarea name={n("heroDesc")} className="admin-textarea" defaultValue={s("heroDesc")} rows={2}></textarea>
-                                </div>
+
+                                <FormTextarea
+                                    label="Mô tả Meta / Hero"
+                                    name={n("heroDesc")}
+                                    defaultValue={s("heroDesc")}
+                                    rows={2}
+                                />
                             </div>
 
                             {/* Slide 2 */}
@@ -120,19 +131,25 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                                 )}
 
                                 <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr 1fr" }}>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề chính (H1)</label>
-                                        <input type="text" name={n("heroTitle2")} className="admin-input" defaultValue={s("heroTitle2")} />
-                                    </div>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề phụ</label>
-                                        <input type="text" name={n("heroSubtitle2")} className="admin-input" defaultValue={s("heroSubtitle2")} />
-                                    </div>
+                                    <FormInput
+                                        label="Tiêu đề chính (H1)"
+                                        type="text"
+                                        name={n("heroTitle2")}
+                                        defaultValue={s("heroTitle2")}
+                                    />
+                                    <FormInput
+                                        label="Tiêu đề phụ"
+                                        type="text"
+                                        name={n("heroSubtitle2")}
+                                        defaultValue={s("heroSubtitle2")}
+                                    />
                                 </div>
-                                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                                    <label className="admin-label">Mô tả Meta / Hero</label>
-                                    <textarea name={n("heroDesc2")} className="admin-textarea" defaultValue={s("heroDesc2")} rows={2}></textarea>
-                                </div>
+                                <FormTextarea
+                                    label="Mô tả Meta / Hero"
+                                    name={n("heroDesc2")}
+                                    defaultValue={s("heroDesc2")}
+                                    rows={2}
+                                />
                             </div>
 
                             {/* Slide 3 */}
@@ -150,19 +167,25 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                                 )}
 
                                 <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr 1fr" }}>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề chính (H1)</label>
-                                        <input type="text" name={n("heroTitle3")} className="admin-input" defaultValue={s("heroTitle3")} />
-                                    </div>
-                                    <div className="admin-form-group">
-                                        <label className="admin-label">Tiêu đề phụ</label>
-                                        <input type="text" name={n("heroSubtitle3")} className="admin-input" defaultValue={s("heroSubtitle3")} />
-                                    </div>
+                                    <FormInput
+                                        label="Tiêu đề chính (H1)"
+                                        type="text"
+                                        name={n("heroTitle3")}
+                                        defaultValue={s("heroTitle3")}
+                                    />
+                                    <FormInput
+                                        label="Tiêu đề phụ"
+                                        type="text"
+                                        name={n("heroSubtitle3")}
+                                        defaultValue={s("heroSubtitle3")}
+                                    />
                                 </div>
-                                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                                    <label className="admin-label">Mô tả Meta / Hero</label>
-                                    <textarea name={n("heroDesc3")} className="admin-textarea" defaultValue={s("heroDesc3")} rows={2}></textarea>
-                                </div>
+                                <FormTextarea
+                                    label="Mô tả Meta / Hero"
+                                    name={n("heroDesc3")}
+                                    defaultValue={s("heroDesc3")}
+                                    rows={2}
+                                />
                             </div>
 
                         </div>

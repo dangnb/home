@@ -6,12 +6,31 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import crypto from "crypto";
+
+async function requireAdmin() {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+        throw new Error("Unauthorized: Bạn chưa đăng nhập");
+    }
+    const role = (session.user as any).role;
+    if (role !== "ADMIN" && role !== "EDITOR") {
+        throw new Error("Forbidden: Bạn không có quyền thực hiện hành động này");
+    }
+    return session;
+}
 
 export async function updateSettings(formData: FormData) {
+    await requireAdmin();
     const entries = Array.from(formData.entries());
 
     for (const [key, value] of entries) {
         if (typeof value === "object" && value !== null && "size" in value && value.size > 0) {
+            // Validate File Size (Max 5MB)
+            if (value.size > 5 * 1024 * 1024) throw new Error("File quá lớn, yêu cầu < 5MB");
+
             // It's a file
             const file = value as any;
             const bytes = await file.arrayBuffer();
@@ -20,11 +39,13 @@ export async function updateSettings(formData: FormData) {
             const uploadDir = join(process.cwd(), 'public', 'uploads');
             await mkdir(uploadDir, { recursive: true }).catch(() => null);
 
-            const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-            const filePath = join(uploadDir, fileName);
+            // Secure filename
+            const ext = file.name.split('.').pop();
+            const secureFileName = `${crypto.randomUUID()}.${ext}`;
+            const filePath = join(uploadDir, secureFileName);
             await writeFile(filePath, buffer);
 
-            const publicUrl = `/uploads/${fileName}`;
+            const publicUrl = `/uploads/${secureFileName}`;
             await prisma.setting.upsert({
                 where: { key: key },
                 update: { value: publicUrl },
@@ -46,12 +67,14 @@ export async function updateSettings(formData: FormData) {
 }
 
 export async function deleteService(id: string) {
+    await requireAdmin();
     await prisma.service.delete({ where: { id } });
     revalidatePath("/", "layout");
     revalidatePath("/admin/services");
 }
 
 export async function saveService(id: string | undefined, formData: FormData) {
+    await requireAdmin();
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const imageUrl = formData.get("imageUrl") as string;
@@ -97,6 +120,7 @@ export async function saveService(id: string | undefined, formData: FormData) {
 }
 
 export async function saveLanguage(formData: FormData) {
+    await requireAdmin();
     const code = formData.get("code") as string;
     const name = formData.get("name") as string;
     await prisma.language.upsert({
@@ -108,16 +132,19 @@ export async function saveLanguage(formData: FormData) {
 }
 
 export async function toggleLanguage(code: string, isActive: boolean) {
+    await requireAdmin();
     await prisma.language.update({ where: { code }, data: { isActive: !isActive } });
     revalidatePath("/", "layout");
 }
 
 export async function deleteLanguage(code: string) {
+    await requireAdmin();
     await prisma.language.delete({ where: { code } });
     revalidatePath("/", "layout");
 }
 
 export async function updateUserRole(userId: string, role: string) {
+    await requireAdmin();
     await prisma.user.update({
         where: { id: userId },
         data: { role },
@@ -126,6 +153,7 @@ export async function updateUserRole(userId: string, role: string) {
 }
 
 export async function deleteUser(userId: string) {
+    await requireAdmin();
     await prisma.user.delete({
         where: { id: userId },
     });
@@ -133,12 +161,19 @@ export async function deleteUser(userId: string) {
 }
 
 export async function createUser(formData: FormData) {
-    const email = formData.get("email") as string;
-    const name = formData.get("name") as string;
+    // Only full admin can create users
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any).role !== "ADMIN") {
+        return { success: false, error: "Bạn phải là Quản trị viên (ADMIN) mới có quyền tạo User" };
+    }
+
+    const email = (formData.get("email") as string)?.trim();
+    const name = (formData.get("name") as string)?.trim();
     const password = formData.get("password") as string;
     const role = formData.get("role") as string;
 
     if (!email || !password) return { success: false, error: "Thiếu email hoặc mật khẩu" };
+    if (password.length < 6) return { success: false, error: "Mật khẩu phải từ 6 ký tự trở lên" };
 
     try {
         const existing = await prisma.user.findUnique({ where: { email } });
@@ -157,13 +192,13 @@ export async function createUser(formData: FormData) {
 }
 
 export async function saveCategory(id: string | undefined, formData: FormData) {
+    await requireAdmin();
     const slug = formData.get("slug") as string;
     const orderStr = formData.get("order") as string;
     const order = orderStr ? parseInt(orderStr, 10) : 0;
     const isActiveStr = formData.get("isActive") as string;
     const isActive = isActiveStr === "true";
 
-    // Parse translations (just title)
     const translations: Record<string, { title: string }> = {};
     const entries = Array.from(formData.entries());
     entries.forEach(([key, value]) => {
@@ -190,33 +225,48 @@ export async function saveCategory(id: string | undefined, formData: FormData) {
 }
 
 export async function deleteCategory(id: string) {
+    await requireAdmin();
     await prisma.category.delete({ where: { id } });
     revalidatePath("/", "layout");
     revalidatePath("/admin/categories");
 }
 
 export async function deleteSlide(id: string) {
+    await requireAdmin();
     await prisma.slide.delete({ where: { id } });
     revalidatePath("/", "layout");
     revalidatePath("/admin/slides");
 }
 
 export async function saveSlide(id: string | undefined, formData: FormData) {
+    await requireAdmin();
     const orderStr = formData.get("order") as string;
     const order = orderStr ? parseInt(orderStr, 10) : 0;
     const isActive = formData.get("isActive") === "on";
     const linkUrl = formData.get("linkUrl") as string;
 
-    // Handle File Upload
+    // Handle Secure File Upload
     let imageUrl = formData.get("existingImageUrl") as string;
     const imageFile = formData.get("imageFile") as any;
+
     if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
+        if (imageFile.size > 5 * 1024 * 1024) {
+            throw new Error("Kích thước file ảnh Slide vượt quá 5MB");
+        }
+
         const bytes = await imageFile.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        const fileName = `${Date.now()}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-        const filePath = join(process.cwd(), 'public', 'uploads', fileName);
+
+        // Random UUID filename to prevent directory traversal and name clash
+        const ext = imageFile.name.split('.').pop() || 'png';
+        const secureFileName = `${crypto.randomUUID()}.${ext}`;
+
+        const uploadDir = join(process.cwd(), 'public', 'uploads');
+        await mkdir(uploadDir, { recursive: true }).catch(() => null);
+        const filePath = join(uploadDir, secureFileName);
+
         await writeFile(filePath, buffer);
-        imageUrl = `/uploads/${fileName}`;
+        imageUrl = `/uploads/${secureFileName}`;
     }
 
     if (!imageUrl) imageUrl = "";
@@ -257,3 +307,33 @@ export async function saveSlide(id: string | undefined, formData: FormData) {
     revalidatePath("/", "layout");
     redirect("/admin/slides");
 }
+
+export async function deletePage(id: string) {
+    await requireAdmin();
+    await prisma.page.delete({ where: { id } });
+    revalidatePath("/", "layout");
+    revalidatePath("/admin/pages");
+}
+
+export async function savePage(id: string | undefined, formData: FormData) {
+    await requireAdmin();
+    const slug = formData.get("slug") as string;
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const isActiveStr = formData.get("isActive") as string;
+    const isActive = isActiveStr === "true";
+
+    if (id && id !== "new") {
+        await prisma.page.update({
+            where: { id },
+            data: { slug, title, content, isActive }
+        });
+    } else {
+        await prisma.page.create({
+            data: { slug, title, content, isActive }
+        });
+    }
+    revalidatePath("/", "layout");
+    redirect("/admin/pages");
+}
+

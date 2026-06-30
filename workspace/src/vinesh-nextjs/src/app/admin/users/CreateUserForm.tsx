@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createUser } from "../actions";
+import FormInput from "@/components/ui/FormInput";
 
 export default function CreateUserForm() {
     const [open, setOpen] = useState(false);
@@ -38,19 +39,32 @@ export default function CreateUserForm() {
             {error && <div style={{ color: "#ef4444", marginBottom: "15px", fontWeight: "bold" }}>{error}</div>}
 
             <form onSubmit={handleSubmit} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-                <div>
-                    <label className="admin-label">Email đăng nhập</label>
-                    <input type="email" name="email" className="admin-input" required placeholder="vidu@vinesh.com" />
-                </div>
-                <div>
-                    <label className="admin-label">Tên hiển thị</label>
-                    <input type="text" name="name" className="admin-input" required placeholder="Nguyễn Văn A" />
-                </div>
-                <div>
-                    <label className="admin-label">Mật khẩu</label>
-                    <input type="password" name="password" className="admin-input" required placeholder="********" minLength={6} />
-                </div>
-                <div>
+                <FormInput
+                    label="Email đăng nhập"
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="vidu@vinesh.com"
+                />
+
+                <FormInput
+                    label="Tên hiển thị"
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Nguyễn Văn A"
+                />
+
+                <FormInput
+                    label="Mật khẩu"
+                    type="password"
+                    name="password"
+                    required
+                    placeholder="********"
+                    minLength={6}
+                />
+
+                <div className="admin-form-group">
                     <label className="admin-label">Quyền hạn (Role)</label>
                     <select name="role" className="admin-input" defaultValue="USER">
                         <option value="USER">USER (Chỉ xem)</option>

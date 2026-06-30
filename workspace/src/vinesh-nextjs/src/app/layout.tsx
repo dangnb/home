@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Trang chủ - VINESH Next.js Clone",
@@ -22,6 +23,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

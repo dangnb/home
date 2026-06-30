@@ -1,6 +1,10 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
+import AboutUs from "@/components/AboutUs";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import Partners from "@/components/Partners";
+import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -45,7 +49,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <main>
             <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
             <Hero settings={settings} slides={dbSlides} lang={lang} />
+            <AboutUs settings={settings} lang={lang} />
             <Services services={services} settings={settings} lang={lang} />
+            <WhyChooseUs lang={lang} />
+            <Partners lang={lang} />
+            <Testimonials lang={lang} />
             <Footer settings={settings} lang={lang} />
         </main>
     );

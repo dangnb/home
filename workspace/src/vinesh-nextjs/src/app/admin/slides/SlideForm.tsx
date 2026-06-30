@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { saveSlide } from "../actions";
+import FormInput from "@/components/ui/FormInput";
+import FormTextarea from "@/components/ui/FormTextarea";
+import LanguageTabs from "@/components/ui/LanguageTabs";
+import { getTranslation } from "@/lib/utils";
 
 interface SlideFormProps {
     slide?: any;
@@ -12,12 +16,6 @@ interface SlideFormProps {
 export default function SlideForm({ slide, languages }: SlideFormProps) {
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [previewImage, setPreviewImage] = useState<string | null>(slide?.imageUrl || null);
-
-    // Process Translations
-    let t: Record<string, any> = {};
-    if (slide?.translations) {
-        try { t = JSON.parse(slide.translations); } catch (e) { }
-    }
 
     const saveAction = saveSlide.bind(null, slide?.id);
 
@@ -33,16 +31,21 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
                         </select>
                     </div>
 
-                    <div className="admin-form-group">
-                        <label className="admin-label">Thứ tự hiển thị (Số nhỏ xếp trước)</label>
-                        <input type="number" name="order" className="admin-input" defaultValue={slide?.order || 0} required />
-                    </div>
+                    <FormInput
+                        label="Thứ tự hiển thị (Số nhỏ xếp trước)"
+                        type="number"
+                        name="order"
+                        defaultValue={slide?.order || 0}
+                        required
+                    />
                 </div>
 
-                <div className="admin-form-group">
-                    <label className="admin-label">Đường dẫn khi click (Tùy chọn)</label>
-                    <input type="text" name="linkUrl" className="admin-input" defaultValue={slide?.linkUrl || "#"} />
-                </div>
+                <FormInput
+                    label="Đường dẫn khi click (Tùy chọn)"
+                    type="text"
+                    name="linkUrl"
+                    defaultValue={slide?.linkUrl || "#"}
+                />
 
                 <div className="admin-form-group">
                     <label className="admin-label">Ảnh Banner (Sẽ áp dụng chung cho tất cả ngôn ngữ)</label>
@@ -66,41 +69,40 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
                     />
                 </div>
 
-                <div style={{ display: "flex", borderBottom: "2px solid #e2e8f0", marginBottom: "20px", marginTop: "20px", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
                     <span style={{ marginRight: "20px", fontWeight: "bold", color: "#334155" }}><i className="ph ph-translate"></i> Nội dung Đa Ngôn Ngữ:</span>
-                    {languages.map(lang => (
-                        <button
-                            type="button"
-                            key={lang}
-                            onClick={() => setActiveLang(lang)}
-                            style={{
-                                padding: "10px 20px", border: "none", backgroundColor: "transparent",
-                                borderBottom: activeLang === lang ? "2px solid #3b82f6" : "2px solid transparent",
-                                color: activeLang === lang ? "#3b82f6" : "#64748b", fontWeight: "bold", cursor: "pointer", marginBottom: "-2px"
-                            }}
-                        >
-                            {lang.toUpperCase()}
-                        </button>
-                    ))}
                 </div>
+
+                <LanguageTabs
+                    languages={languages}
+                    activeLang={activeLang}
+                    onTabChange={setActiveLang}
+                />
 
                 {languages.map((lang) => {
                     return (
                         <div key={lang} style={{ display: activeLang === lang ? "block" : "none" }}>
-                            <div className="admin-form-group">
-                                <label className="admin-label">Tiêu đề chính (H1 - {lang.toUpperCase()})</label>
-                                <input type="text" name={`title_${lang}`} className="admin-input" defaultValue={t[lang]?.title || ""} required={lang === "vi"} />
-                            </div>
+                            <FormInput
+                                label={`Tiêu đề chính (H1 - ${lang.toUpperCase()})`}
+                                type="text"
+                                name={`title_${lang}`}
+                                defaultValue={getTranslation(slide?.translations, lang, 'title')}
+                                required={lang === "vi"}
+                            />
 
-                            <div className="admin-form-group">
-                                <label className="admin-label">Tiêu đề phụ ({lang.toUpperCase()})</label>
-                                <input type="text" name={`subtitle_${lang}`} className="admin-input" defaultValue={t[lang]?.subtitle || ""} />
-                            </div>
+                            <FormInput
+                                label={`Tiêu đề phụ (${lang.toUpperCase()})`}
+                                type="text"
+                                name={`subtitle_${lang}`}
+                                defaultValue={getTranslation(slide?.translations, lang, 'subtitle')}
+                            />
 
-                            <div className="admin-form-group">
-                                <label className="admin-label">Mô tả ngắn ({lang.toUpperCase()})</label>
-                                <textarea name={`desc_${lang}`} className="admin-textarea" defaultValue={t[lang]?.desc || ""} rows={3}></textarea>
-                            </div>
+                            <FormTextarea
+                                label={`Mô tả ngắn (${lang.toUpperCase()})`}
+                                name={`desc_${lang}`}
+                                defaultValue={getTranslation(slide?.translations, lang, 'desc')}
+                                rows={3}
+                            />
                         </div>
                     )
                 })}

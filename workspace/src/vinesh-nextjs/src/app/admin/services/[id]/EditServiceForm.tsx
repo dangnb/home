@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Service } from "@prisma/client";
+import FormInput from "@/components/ui/FormInput";
+import FormTextarea from "@/components/ui/FormTextarea";
+import LanguageTabs from "@/components/ui/LanguageTabs";
+import { getTranslation } from "@/lib/utils";
 
 interface EditServiceFormProps {
     service: Service;
@@ -23,53 +27,43 @@ export default function EditServiceForm({ service, languages, categories, transl
                     <label className="admin-label">Chuyên mục (Danh mục bài viết)</label>
                     <select name="categoryId" className="admin-input" defaultValue={(service as any).categoryId || ""} required>
                         <option value="">-- Chọn danh mục --</option>
-                        {categories.map(cat => {
-                            let title = cat.slug;
-                            try {
-                                const trans = JSON.parse(cat.translations || "{}");
-                                if (trans["vi"]?.title) title = trans["vi"].title;
-                            } catch (e) { }
-                            return <option key={cat.id} value={cat.id}>{title}</option>
-                        })}
+                        {categories.map(cat => (
+                            <option key={cat.id} value={cat.id}>
+                                {getTranslation(cat.translations, "vi", "title") || cat.slug}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
-                <div className="admin-form-group">
-                    <label className="admin-label">Hình ảnh (Image URL)</label>
-                    <input type="url" name="imageUrl" className="admin-input" defaultValue={service.imageUrl} required />
-                </div>
+                <FormInput
+                    label="Hình ảnh (Image URL)"
+                    type="url"
+                    name="imageUrl"
+                    defaultValue={service.imageUrl}
+                    required
+                />
 
-                <div className="admin-form-group">
-                    <label className="admin-label">Đường dẫn Click (Link URL)</label>
-                    <input type="text" name="linkUrl" className="admin-input" defaultValue={service.linkUrl || "#"} />
-                </div>
+                <FormInput
+                    label="Đường dẫn Click (Link URL)"
+                    type="text"
+                    name="linkUrl"
+                    defaultValue={service.linkUrl || "#"}
+                />
 
-                <div className="admin-form-group">
-                    <label className="admin-label">Thứ tự hiển thị (Order)</label>
-                    <input type="number" name="order" className="admin-input" defaultValue={service.order} required min={0} />
-                </div>
+                <FormInput
+                    label="Thứ tự hiển thị (Order)"
+                    type="number"
+                    name="order"
+                    defaultValue={service.order}
+                    required
+                    min={0}
+                />
 
-                <div style={{ display: "flex", borderBottom: "2px solid #e2e8f0", marginBottom: "20px", marginTop: "30px" }}>
-                    {languages.map(lang => (
-                        <button
-                            type="button"
-                            key={lang}
-                            onClick={() => setActiveLang(lang)}
-                            style={{
-                                padding: "10px 20px",
-                                border: "none",
-                                backgroundColor: "transparent",
-                                borderBottom: activeLang === lang ? "2px solid #3b82f6" : "2px solid transparent",
-                                color: activeLang === lang ? "#3b82f6" : "#64748b",
-                                fontWeight: "bold",
-                                cursor: "pointer",
-                                marginBottom: "-2px"
-                            }}
-                        >
-                            <i className="ph ph-translate"></i> {lang.toUpperCase()}
-                        </button>
-                    ))}
-                </div>
+                <LanguageTabs
+                    languages={languages}
+                    activeLang={activeLang}
+                    onTabChange={setActiveLang}
+                />
 
                 {languages.map((lang) => {
                     const isVi = lang === "vi";
@@ -78,15 +72,22 @@ export default function EditServiceForm({ service, languages, categories, transl
 
                     return (
                         <div key={lang} style={{ display: activeLang === lang ? "block" : "none" }}>
-                            <div className="admin-form-group">
-                                <label className="admin-label">Tên Dịch vụ ({lang.toUpperCase()})</label>
-                                <input type="text" name={isVi ? "title" : `title_${lang}`} className="admin-input" defaultValue={defaultTitle} required={isVi} maxLength={80} />
-                            </div>
+                            <FormInput
+                                label={`Tên Dịch vụ (${lang.toUpperCase()})`}
+                                type="text"
+                                name={isVi ? "title" : `title_${lang}`}
+                                defaultValue={defaultTitle}
+                                required={isVi}
+                                maxLength={80}
+                            />
 
-                            <div className="admin-form-group">
-                                <label className="admin-label">Mô tả ngắn ({lang.toUpperCase()})</label>
-                                <textarea name={isVi ? "description" : `desc_${lang}`} className="admin-textarea" defaultValue={defaultDesc} rows={3} maxLength={200}></textarea>
-                            </div>
+                            <FormTextarea
+                                label={`Mô tả ngắn (${lang.toUpperCase()})`}
+                                name={isVi ? "description" : `desc_${lang}`}
+                                defaultValue={defaultDesc}
+                                rows={3}
+                                maxLength={200}
+                            />
                         </div>
                     );
                 })}

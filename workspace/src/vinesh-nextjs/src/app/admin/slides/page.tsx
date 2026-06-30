@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import DeleteButton from "../services/DeleteButton";
 import { deleteSlide } from "../actions";
+import { getTranslation } from "@/lib/utils";
 
 export default async function SlidesList() {
     const slides = await prisma.slide.findMany({
@@ -22,15 +23,8 @@ export default async function SlidesList() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "24px", paddingBottom: "40px" }}>
                 {slides.map(slide => {
-                    let title = "Không có Tiêu đề";
-                    let desc = "";
-                    try {
-                        if (slide.translations) {
-                            const t = JSON.parse(slide.translations);
-                            title = t['vi']?.title || "Slide (Chưa có tiếng Việt)";
-                            desc = t['vi']?.desc || "";
-                        }
-                    } catch (e) { }
+                    const title = getTranslation(slide.translations, 'vi', 'title') || "Không có Tiêu đề";
+                    const desc = getTranslation(slide.translations, 'vi', 'desc') || "";
 
                     return (
                         <div key={slide.id} className="admin-card" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column", border: "1px solid #e2e8f0", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)", borderRadius: "12px", transition: "transform 0.2s" }}>

@@ -2,44 +2,42 @@
 
 import { useState } from "react";
 import { saveCategory } from "../actions";
+import FormInput from "@/components/ui/FormInput";
+import { getTranslation } from "@/lib/utils";
 
 export default function CategoryForm({ languages, category, allCategories = [] }: { languages: any[], category?: any, allCategories?: any[] }) {
     const [activeLang, setActiveLang] = useState(languages.find(l => l.isDefault)?.code || "vi");
-
-    // Parse translations if editing
-    let initialTranslations: Record<string, { title: string }> = {};
-    if (category && category.translations) {
-        try {
-            initialTranslations = JSON.parse(category.translations);
-        } catch (e) { }
-    }
 
     const saveAction = saveCategory.bind(null, category?.id || "new");
 
     return (
         <form action={saveAction} className="admin-card">
-            <div className="admin-form-group">
-                <label className="admin-label">Đường dẫn tĩnh (Slug URL)</label>
-                <input type="text" name="slug" className="admin-input" defaultValue={category?.slug || ""} required placeholder="thu-nghiem, tin-tuc..." />
-            </div>
+            <FormInput
+                label="Đường dẫn tĩnh (Slug URL)"
+                type="text"
+                name="slug"
+                defaultValue={category?.slug || ""}
+                required
+                placeholder="thu-nghiem, tin-tuc..."
+            />
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-                <div className="admin-form-group">
-                    <label className="admin-label">Số thứ tự ưu tiên hiển thị</label>
-                    <input type="number" name="order" className="admin-input" defaultValue={category?.order || 0} />
-                </div>
+                <FormInput
+                    label="Số thứ tự ưu tiên hiển thị"
+                    type="number"
+                    name="order"
+                    defaultValue={category?.order || 0}
+                />
+
                 <div className="admin-form-group">
                     <label className="admin-label">Danh mục cha (nhóm vào)</label>
                     <select name="parentId" className="admin-input" defaultValue={category?.parentId || ""}>
                         <option value="">-- Trống (Đây là danh mục lớn nhất) --</option>
-                        {allCategories.map(cat => {
-                            let title = cat.slug;
-                            try {
-                                const trans = JSON.parse(cat.translations || "{}");
-                                if (trans["vi"]?.title) title = trans["vi"].title;
-                            } catch (e) { }
-                            return <option key={cat.id} value={cat.id}>{title}</option>
-                        })}
+                        {allCategories.map(cat => (
+                            <option key={cat.id} value={cat.id}>
+                                {getTranslation(cat.translations, "vi", "title") || cat.slug}
+                            </option>
+                        ))}
                     </select>
                 </div>
             </div>
@@ -87,16 +85,13 @@ export default function CategoryForm({ languages, category, allCategories = [] }
             <div className="admin-tab-content">
                 {languages.map(lang => (
                     <div key={lang.code} style={{ display: activeLang === lang.code ? "block" : "none" }}>
-                        <div className="admin-form-group">
-                            <label className="admin-label">Tên Danh mục ({lang.name})</label>
-                            <input
-                                type="text"
-                                name={`title_${lang.code}`}
-                                className="admin-input"
-                                defaultValue={initialTranslations[lang.code]?.title || ""}
-                                required={lang.isDefault}
-                            />
-                        </div>
+                        <FormInput
+                            label={`Tên Danh mục (${lang.name})`}
+                            type="text"
+                            name={`title_${lang.code}`}
+                            defaultValue={getTranslation(category?.translations, lang.code, 'title')}
+                            required={lang.isDefault}
+                        />
                     </div>
                 ))}
             </div>
