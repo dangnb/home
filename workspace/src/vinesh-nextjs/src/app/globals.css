@@ -846,6 +846,18 @@ img {
     color: var(--secondary-color);
 }
 
+/* ANIMATIONS & UTILITIES */
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.ph-spin {
+    animation: spin 1s infinite linear;
+    display: inline-block;
+}
+
 /* RESPONSIVE OVERRIDES FOR NEW SECTIONS */
 @media (max-width: 992px) {
     .about-grid {
