@@ -17,7 +17,7 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [previewImage, setPreviewImage] = useState<string | null>(slide?.imageUrl || null);
 
-    const saveAction = saveSlide.bind(null, slide?.id);
+    const saveAction = saveSlide.bind(null, slide?.id || "new");
 
     return (
         <div className="admin-card">

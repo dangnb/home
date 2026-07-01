@@ -4,11 +4,22 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import crypto from "crypto";
+import cloudinary from "@/lib/cloudinary";
+
+const uploadImageToCloudinary = (buffer: Buffer, folderName: string = "nextjs_uploads"): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: folderName },
+            (error, result) => {
+                if (error) return reject(error);
+                resolve(result);
+            }
+        );
+        uploadStream.end(buffer);
+    });
+};
 
 async function requireAdmin() {
     const session = await getServerSession(authOptions);
@@ -36,16 +47,8 @@ export async function updateSettings(formData: FormData) {
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
 
-            const uploadDir = join(process.cwd(), 'public', 'uploads');
-            await mkdir(uploadDir, { recursive: true }).catch(() => null);
-
-            // Secure filename
-            const ext = file.name.split('.').pop();
-            const secureFileName = `${crypto.randomUUID()}.${ext}`;
-            const filePath = join(uploadDir, secureFileName);
-            await writeFile(filePath, buffer);
-
-            const publicUrl = `/uploads/${secureFileName}`;
+            const cloudinaryResult = await uploadImageToCloudinary(buffer, "settings");
+            const publicUrl = cloudinaryResult.secure_url;
             await prisma.setting.upsert({
                 where: { key: key },
                 update: { value: publicUrl },
@@ -257,16 +260,8 @@ export async function saveSlide(id: string | undefined, formData: FormData) {
         const bytes = await imageFile.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Random UUID filename to prevent directory traversal and name clash
-        const ext = imageFile.name.split('.').pop() || 'png';
-        const secureFileName = `${crypto.randomUUID()}.${ext}`;
-
-        const uploadDir = join(process.cwd(), 'public', 'uploads');
-        await mkdir(uploadDir, { recursive: true }).catch(() => null);
-        const filePath = join(uploadDir, secureFileName);
-
-        await writeFile(filePath, buffer);
-        imageUrl = `/uploads/${secureFileName}`;
+        const cloudinaryResult = await uploadImageToCloudinary(buffer, "slides");
+        imageUrl = cloudinaryResult.secure_url;
     }
 
     if (!imageUrl) imageUrl = "";
