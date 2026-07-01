@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import "./Hero.css";
 
 interface HeroProps {
@@ -74,7 +75,16 @@ export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
       {slides.map((slide, index) => (
         <div key={index} className={`hero-slide ${index === currentSlide ? "active" : ""}`}>
           <div className="hero-slider-overlay"></div>
-          <div className="hero-bg-div" style={{ backgroundImage: `url('${slide.bgImage}')` }}></div>
+          <div className="hero-bg-div">
+            <Image
+              src={slide.bgImage}
+              alt="Hero background"
+              fill
+              priority={index === 0}
+              style={{ objectFit: "cover" }}
+              sizes="100vw"
+            />
+          </div>
           <div className="container hero-slider-content">
             <h2 className="hero-slider-subtitle">{slide.subtitle}</h2>
             <h1 className="hero-slider-title">{slide.title}</h1>

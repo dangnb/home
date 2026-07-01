@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Service } from "@prisma/client";
 
 interface ServicesProps {
@@ -62,7 +63,14 @@ export default function Services({ services, settings, lang }: ServicesProps) {
 
                   return (
                     <div className="service-card" key={service.id}>
-                      <div className="service-image" style={{ backgroundImage: `url('${service.imageUrl}')` }}>
+                      <div className="service-image" style={{ position: "relative", overflow: "hidden" }}>
+                        <Image
+                          src={service.imageUrl}
+                          alt={displayTitle}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                        />
                         <div className="service-overlay"></div>
                       </div>
                       <div className="service-content">
