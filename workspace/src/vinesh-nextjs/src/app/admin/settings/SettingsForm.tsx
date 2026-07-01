@@ -4,6 +4,7 @@ import { useState } from "react";
 import FormInput from "@/components/ui/FormInput";
 import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
+import SubmitButton from "@/components/ui/SubmitButton";
 
 interface SettingsFormProps {
     settings: Record<string, string>;
@@ -193,9 +194,9 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                 })}
 
                 <div style={{ marginTop: "30px", display: "flex", justifyContent: "flex-end" }}>
-                    <button type="submit" className="admin-btn btn-primary">
-                        <i className="ph ph-floppy-disk"></i> Lưu cấu hình toàn bộ
-                    </button>
+                    <SubmitButton className="admin-btn btn-primary" icon={<i className="ph ph-floppy-disk"></i>}>
+                        Lưu cấu hình toàn bộ
+                    </SubmitButton>
                 </div>
             </form>
         </div>

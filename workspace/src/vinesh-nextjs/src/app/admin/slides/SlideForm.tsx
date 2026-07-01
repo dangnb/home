@@ -6,6 +6,7 @@ import { saveSlide } from "../actions";
 import FormInput from "@/components/ui/FormInput";
 import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
+import SubmitButton from "@/components/ui/SubmitButton";
 import { getTranslation } from "@/lib/utils";
 
 interface SlideFormProps {
@@ -111,9 +112,9 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
                     <Link href="/admin/slides" className="admin-btn btn-outline">
                         <i className="ph ph-x"></i> Hủy & Quay lại
                     </Link>
-                    <button type="submit" className="admin-btn btn-primary">
-                        <i className="ph ph-floppy-disk"></i> {slide ? "Cập nhật Slide" : "Thêm Slide mới"}
-                    </button>
+                    <SubmitButton className="admin-btn btn-primary" icon={<i className="ph ph-floppy-disk"></i>}>
+                        {slide ? "Cập nhật Slide" : "Thêm Slide mới"}
+                    </SubmitButton>
                 </div>
             </form>
         </div>
