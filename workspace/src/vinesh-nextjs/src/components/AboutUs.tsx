@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Service } from "@prisma/client";
 
 interface AboutUsProps {
@@ -24,9 +25,14 @@ export default function AboutUs({ settings, lang }: AboutUsProps) {
         <section id="about" className="about-section section-padding">
             <div className="container">
                 <div className="about-grid">
-                    <div className="about-image-wrapper">
-                        {/* You can replace this src with your real company image */}
-                        <div className="about-image" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&auto=format&fit=crop')" }}></div>
+                    <div className="about-image-wrapper" style={{ position: "relative" }}>
+                        <Image
+                            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&auto=format&fit=crop"
+                            alt="About us"
+                            fill
+                            style={{ objectFit: "cover", borderRadius: "10px" }}
+                            loading="lazy"
+                        />
                         <div className="about-experience">
                             <div className="exp-years">10+</div>
                             <div>{fallback("Năm Kinh Nghiệm", "Years Exp")}</div>

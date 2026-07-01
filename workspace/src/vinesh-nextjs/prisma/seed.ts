@@ -14,6 +14,7 @@ async function main() {
                 name: 'Admin',
                 email: adminEmail,
                 password,
+                role: 'ADMIN',
             },
         });
         console.log('Admin user created: admin@example.com / password123');
