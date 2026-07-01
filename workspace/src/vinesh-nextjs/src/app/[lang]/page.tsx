@@ -1,5 +1,15 @@
 export const revalidate = 60;
 
+export async function generateStaticParams() {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
+    await prisma.$disconnect();
+    
+    // Always include vi and en as fallbacks in case DB is empty
+    const langs = activeLangs.length > 0 ? activeLangs.map(l => ({ lang: l.code })) : [{ lang: 'vi' }, { lang: 'en' }];
+    return langs;
+}
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";

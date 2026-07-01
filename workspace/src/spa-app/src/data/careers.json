@@ -1,0 +1,50 @@
+[
+  {
+    "id": "therapist",
+    "slug": "therapist",
+    "type": "Full-time",
+    "location": "Chi nhánh Quận 10",
+    "vi": {
+      "title": "Kỹ Thuật Viên Spa",
+      "excerpt": "Thực hiện các liệu trình chăm sóc da mặt và massage body cho khách hàng.",
+      "content": "<p>Thực hiện các liệu trình chăm sóc da mặt và massage body cho khách hàng theo đúng quy chuẩn.</p>"
+    },
+    "en": {
+      "title": "Spa Therapist",
+      "excerpt": "Perform facial and body massage treatments for clients.",
+      "content": "<p>Perform facial and body massage treatments for clients according to standard procedures.</p>"
+    }
+  },
+  {
+    "id": "consultant",
+    "slug": "consultant",
+    "type": "Full-time",
+    "location": "Chi nhánh Quận 10",
+    "vi": {
+      "title": "Chuyên Viên Tư Vấn",
+      "excerpt": "Tư vấn các liệu trình và sản phẩm phù hợp với tình trạng da của khách.",
+      "content": "<p>Tư vấn các liệu trình và sản phẩm phù hợp với tình trạng da của khách.</p>"
+    },
+    "en": {
+      "title": "Beauty Consultant",
+      "excerpt": "Consult treatments and products suitable for clients' skin conditions.",
+      "content": "<p>Consult treatments and products suitable for clients' skin conditions.</p>"
+    }
+  },
+  {
+    "id": "manager",
+    "slug": "manager",
+    "type": "Full-time",
+    "location": "Trụ sở chính",
+    "vi": {
+      "title": "Quản Lý Cửa Hàng",
+      "excerpt": "Quản lý nhân sự, giám sát chất lượng dịch vụ và chịu trách nhiệm doanh thu.",
+      "content": "<p>Quản lý nhân sự, giám sát chất lượng dịch vụ và chịu trách nhiệm doanh thu.</p>"
+    },
+    "en": {
+      "title": "Store Manager",
+      "excerpt": "Manage staff, oversee service quality, and take responsibility for revenue.",
+      "content": "<p>Manage staff, oversee service quality, and take responsibility for revenue.</p>"
+    }
+  }
+]

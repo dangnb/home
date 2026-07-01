@@ -27,6 +27,10 @@
     "gallery": {
       "heading": "Hình Ảnh Thực Tế"
     },
+    "video": {
+      "heading": "Trải Nghiệm Trị Liệu Tại Spa",
+      "description": "Cùng xem qua không gian thư giãn và quy trình chăm sóc chuyên nghiệp của đội ngũ Ngọc Hương Spa."
+    },
     "testimonials": {
       "heading": "Khách Hàng Nói Gì Về Chúng Tôi",
       "items": {
@@ -45,7 +49,8 @@
       }
     },
     "news": {
-      "heading": "Tin Tức & Cẩm Nang Làm Đẹp",
+      "heading": "TIN TỨC NỔI BẬT",
+      "subheading": "Dưới đây là những bài viết chia sẻ bí quyết và kiến thức làm đẹp mới nhất.",
       "readMore": "Đọc Tiếp",
       "items": {
         "post1": {
@@ -62,6 +67,11 @@
           "title": "Tìm Hiểu Về Các Phương Pháp Làm Đẹp Bằng Laser",
           "date": "28 Tháng 4, 2026",
           "excerpt": "Hướng dẫn toàn diện về các phương pháp điều trị bằng laser khác nhau và cách chúng có thể giải quyết các vấn đề về da như sắc tố và lão hóa."
+        },
+        "post4": {
+          "title": "Meso Căng Bóng Da - Giải Pháp Từ Bên Trong",
+          "date": "21 Tháng 12, 2026",
+          "excerpt": "Meso căng bóng da là phương pháp đưa dưỡng chất siêu nhỏ (Hyaluronic Acid, peptide, vitamin...) vào trực tiếp tầng trung bì của da bằng kỹ thuật tiêm vi điểm."
         }
       }
     },
@@ -241,11 +251,155 @@
   "Navigation": {
     "home": "Trang chủ",
     "services": "Dịch vụ",
+    "products": "Sản phẩm",
+    "careers": "Tuyển dụng",
+    "training": "Đào tạo",
     "about": "Giới thiệu",
     "gallery": "Thư viện",
     "testimonials": "Khách hàng",
     "news": "Tin tức",
     "contact": "Liên hệ"
+  },
+  "Products": {
+    "heading": "Sản Phẩm Mỹ Phẩm Cao Cấp",
+    "description": "Khám phá các dòng mỹ phẩm chính hãng, được tuyển chọn kỹ lưỡng để chăm sóc làn da của bạn.",
+    "items": {
+      "serum": {
+        "name": "Serum Phục Hồi Da Chuyên Sâu",
+        "desc": "Cung cấp độ ẩm và dưỡng chất giúp tái tạo làn da, giảm thiểu nếp nhăn và đốm nâu.",
+        "price": "1.200.000 VNĐ"
+      },
+      "cream": {
+        "name": "Kem Dưỡng Ẩm Trắng Da Ban Đêm",
+        "desc": "Khóa ẩm vượt trội, làm sáng da tự nhiên và nuôi dưỡng tế bào trong lúc bạn ngủ.",
+        "price": "850.000 VNĐ"
+      },
+      "sunscreen": {
+        "name": "Kem Chống Nắng Phổ Rộng SPF 50+",
+        "desc": "Bảo vệ làn da tối ưu khỏi tác hại của tia UV và ánh sáng xanh, kết cấu mỏng nhẹ.",
+        "price": "600.000 VNĐ"
+      },
+      "cleanser": {
+        "name": "Sữa Rửa Mặt Tạo Bọt Dịu Nhẹ",
+        "desc": "Làm sạch sâu bụi bẩn và bã nhờn mà không làm mất đi độ ẩm tự nhiên của da.",
+        "price": "450.000 VNĐ"
+      }
+    },
+    "cta": {
+      "title": "Bạn cần tư vấn sản phẩm phù hợp?",
+      "description": "Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng hỗ trợ bạn lựa chọn những sản phẩm tốt nhất cho làn da của mình.",
+      "button": "Liên hệ ngay"
+    }
+  },
+  "Careers": {
+    "heading": "Tuyển Dụng",
+    "description": "Gia nhập đội ngũ chuyên nghiệp tại Ngọc Hương Spa & Clinic và cùng chúng tôi mang lại vẻ đẹp, sự tự tin cho khách hàng.",
+    "openings": "Vị trí đang tuyển",
+    "applyNow": "Ứng tuyển ngay",
+    "jobs": {
+      "therapist": {
+        "title": "Kỹ Thuật Viên Spa",
+        "type": "Toàn thời gian",
+        "location": "Chi nhánh 1",
+        "desc": "Thực hiện các liệu trình chăm sóc da, massage trị liệu và tư vấn mỹ phẩm cho khách hàng."
+      },
+      "receptionist": {
+        "title": "Lễ Tân Spa",
+        "type": "Bán thời gian",
+        "location": "Chi nhánh 2",
+        "desc": "Đón tiếp khách hàng, sắp xếp lịch hẹn và giải đáp các thắc mắc về dịch vụ."
+      },
+      "manager": {
+        "title": "Quản Lý Cửa Hàng",
+        "type": "Toàn thời gian",
+        "location": "Trụ sở chính",
+        "desc": "Quản lý nhân sự, giám sát chất lượng dịch vụ và chịu trách nhiệm về doanh thu."
+      }
+    }
+  },
+  "Training": {
+    "heading": "Khóa Học Đào Tạo",
+    "description": "Trung tâm đào tạo nghề Spa chuyên nghiệp. Nơi chắp cánh ước mơ và xây dựng nền tảng vững chắc cho sự nghiệp của bạn.",
+    "coursesTitle": "Các Khóa Đào Tạo Nổi Bật",
+    "enrollNow": "Đăng ký ngay",
+    "courses": {
+      "basic": {
+        "title": "Chăm Sóc Da Cơ Bản",
+        "duration": "1 Tháng",
+        "level": "Cơ bản",
+        "price": "5.000.000 VNĐ",
+        "desc": "Nắm vững kiến thức nền tảng về da, kỹ thuật massage mặt cơ bản và quy trình chăm sóc da chuẩn Spa.",
+        "benefits": [
+          "Nắm vững lý thuyết cơ bản về các loại da",
+          "Thực hành thành thạo các bước làm sạch và massage mặt",
+          "Được cấp chứng chỉ sau khóa học"
+        ],
+        "curriculum": [
+          { "title": "Tuần 1: Lý thuyết Da liễu cơ bản", "desc": "Cấu tạo da, phân biệt các loại da và các vấn đề thường gặp." },
+          { "title": "Tuần 2: Kỹ thuật làm sạch", "desc": "Tẩy trang, rửa mặt, tẩy tế bào chết chuẩn y khoa." },
+          { "title": "Tuần 3: Kỹ thuật massage", "desc": "Các bài massage nâng cơ, ấn huyệt trên khuôn mặt." },
+          { "title": "Tuần 4: Thực hành tổng hợp", "desc": "Thực hành trên mẫu thật và thi cấp chứng chỉ." }
+        ]
+      },
+      "advanced": {
+        "title": "Trị Liệu Da Chuyên Sâu",
+        "duration": "3 Tháng",
+        "level": "Nâng cao",
+        "price": "15.000.000 VNĐ",
+        "desc": "Ứng dụng máy móc công nghệ cao trong điều trị mụn, nám, sẹo rỗ và các vấn đề phức tạp về da.",
+        "benefits": [
+          "Sử dụng thành thạo các loại máy móc thẩm mỹ công nghệ cao (Laser, Hifu...)",
+          "Xây dựng phác đồ điều trị chuẩn y khoa cho từng tình trạng da",
+          "Cơ hội làm việc tại các Clinic & Thẩm mỹ viện lớn"
+        ],
+        "curriculum": [
+          { "title": "Tháng 1: Điều trị mụn chuyên sâu", "desc": "Phân loại mụn, kỹ thuật lấy nhân mụn chuẩn y khoa, peel da trị mụn." },
+          { "title": "Tháng 2: Điều trị nám và sắc tố", "desc": "Cơ chế hình thành sắc tố, ứng dụng Laser Toning trong điều trị nám, tàn nhang." },
+          { "title": "Tháng 3: Trị sẹo và trẻ hóa", "desc": "Kỹ thuật lăn kim, phi kim, ứng dụng tế bào gốc và PRP." }
+        ]
+      },
+      "body": {
+        "title": "Kỹ Thuật Massage Body",
+        "duration": "2 Tháng",
+        "level": "Trung cấp",
+        "price": "8.000.000 VNĐ",
+        "desc": "Học các bài massage thư giãn, ấn huyệt trị liệu chuẩn Đông Y giúp giải tỏa căng thẳng toàn thân.",
+        "benefits": [
+          "Thành thạo các kỹ thuật massage thư giãn và trị liệu",
+          "Nắm bắt được hệ thống kinh lạc và huyệt đạo cơ bản",
+          "Nâng cao sức khỏe và giảm đau nhức cho khách hàng"
+        ],
+        "curriculum": [
+          { "title": "Tuần 1-3: Massage Thụy Điển", "desc": "Các kỹ thuật xoa bóp, vuốt, nhào cơ bản giúp thư giãn toàn thân." },
+          { "title": "Tuần 4-6: Massage Thái và Đá nóng", "desc": "Kỹ thuật kéo giãn cơ, bấm huyệt kiểu Thái và sử dụng đá nóng." },
+          { "title": "Tuần 7-8: Massage trị liệu Đông Y", "desc": "Ấn huyệt đả thông kinh lạc, trị liệu đau cổ vai gáy." }
+        ]
+      },
+      "management": {
+        "title": "Quản Lý & Vận Hành Spa",
+        "duration": "1 Tháng",
+        "level": "Chuyên gia",
+        "price": "12.000.000 VNĐ",
+        "desc": "Đào tạo kỹ năng setup spa, quản lý nhân sự, marketing và chăm sóc khách hàng hiệu quả.",
+        "benefits": [
+          "Tự tin setup và vận hành một Spa chuyên nghiệp",
+          "Biết cách thu hút và giữ chân khách hàng (Marketing Spa)",
+          "Tối ưu hóa doanh thu và chi phí hoạt động"
+        ],
+        "curriculum": [
+          { "title": "Phần 1: Setup Spa", "desc": "Lựa chọn mặt bằng, thiết kế không gian, xin giấy phép kinh doanh." },
+          { "title": "Phần 2: Quản lý nhân sự", "desc": "Tuyển dụng, đào tạo, xây dựng KPIs và chính sách lương thưởng." },
+          { "title": "Phần 3: Marketing & Sales", "desc": "Chiến lược Marketing đa kênh, kỹ năng chốt sale và tư vấn khách hàng." },
+          { "title": "Phần 4: Chăm sóc khách hàng", "desc": "Quy trình chăm sóc trước, trong và sau khi sử dụng dịch vụ." }
+        ]
+      }
+    },
+    "common": {
+      "courseInfo": "Thông tin khóa học",
+      "curriculum": "Chương trình học",
+      "benefits": "Bạn sẽ học được gì?",
+      "viewDetails": "Xem chi tiết"
+    }
   },
   "ServiceCategories": {
     "body-care": "Tẩy Da Chết Và Dưỡng Thể Body",

@@ -27,6 +27,10 @@
     "gallery": {
       "heading": "Procedures Gallery"
     },
+    "video": {
+      "heading": "Spa Therapy Experience",
+      "description": "Take a look at the relaxing atmosphere and professional care process by the Ngoc Huong Spa team."
+    },
     "testimonials": {
       "heading": "What Our Clients Say",
       "items": {
@@ -45,7 +49,8 @@
       }
     },
     "news": {
-      "heading": "Beauty Blog & News",
+      "heading": "FEATURED NEWS",
+      "subheading": "Below are articles sharing our latest beauty secrets and knowledge.",
       "readMore": "Read Full Article",
       "items": {
         "post1": {
@@ -62,6 +67,11 @@
           "title": "Understanding Laser Skin Treatments",
           "date": "April 28, 2026",
           "excerpt": "A comprehensive guide to different laser treatments and how they can address various skin concerns like pigmentation and aging."
+        },
+        "post4": {
+          "title": "Meso Skin Rejuvenation - Solution From Within",
+          "date": "December 21, 2026",
+          "excerpt": "Meso skin rejuvenation is a method of delivering micro-nutrients (Hyaluronic Acid, peptides, vitamins...) directly into the dermis layer."
         }
       }
     },
@@ -241,11 +251,155 @@
   "Navigation": {
     "home": "Home",
     "services": "Services",
+    "products": "Products",
+    "careers": "Careers",
+    "training": "Training",
     "about": "About Us",
     "gallery": "Gallery",
     "testimonials": "Testimonials",
     "news": "News",
     "contact": "Contact"
+  },
+  "Products": {
+    "heading": "Premium Cosmetics",
+    "description": "Discover our curated collection of authentic, high-end cosmetic products to care for your skin.",
+    "items": {
+      "serum": {
+        "name": "Intensive Recovery Serum",
+        "desc": "Provides moisture and nutrients to regenerate the skin, reducing fine lines and dark spots.",
+        "price": "$50"
+      },
+      "cream": {
+        "name": "Whitening Night Cream",
+        "desc": "Superior moisture lock, naturally brightens skin and nourishes cells while you sleep.",
+        "price": "$35"
+      },
+      "sunscreen": {
+        "name": "Broad Spectrum Sunscreen SPF 50+",
+        "desc": "Optimal protection against UV rays and blue light, with a lightweight texture.",
+        "price": "$25"
+      },
+      "cleanser": {
+        "name": "Gentle Foaming Cleanser",
+        "desc": "Deeply cleanses dirt and sebum without stripping the skin's natural moisture.",
+        "price": "$20"
+      }
+    },
+    "cta": {
+      "title": "Need help finding the right product?",
+      "description": "Our team of experts is always ready to help you choose the best products for your skin.",
+      "button": "Contact Us Now"
+    }
+  },
+  "Careers": {
+    "heading": "Careers",
+    "description": "Join our professional team at Ngoc Huong Spa & Clinic and help us bring beauty and confidence to our clients.",
+    "openings": "Current Openings",
+    "applyNow": "Apply Now",
+    "jobs": {
+      "therapist": {
+        "title": "Spa Therapist",
+        "type": "Full-time",
+        "location": "Branch 1",
+        "desc": "Perform skin care treatments, therapeutic massage, and provide cosmetic advice to clients."
+      },
+      "receptionist": {
+        "title": "Spa Receptionist",
+        "type": "Part-time",
+        "location": "Branch 2",
+        "desc": "Welcome clients, schedule appointments, and answer inquiries about our services."
+      },
+      "manager": {
+        "title": "Store Manager",
+        "type": "Full-time",
+        "location": "Headquarters",
+        "desc": "Manage staff, oversee service quality, and take responsibility for revenue."
+      }
+    }
+  },
+  "Training": {
+    "heading": "Training Courses",
+    "description": "Professional Spa Training Center. Where we nurture your dreams and build a solid foundation for your career.",
+    "coursesTitle": "Featured Training Courses",
+    "enrollNow": "Enroll Now",
+    "courses": {
+      "basic": {
+        "title": "Basic Skin Care",
+        "duration": "1 Month",
+        "level": "Beginner",
+        "price": "$200",
+        "desc": "Master basic skin knowledge, facial massage techniques, and standard Spa skin care procedures.",
+        "benefits": [
+          "Master basic theory about different skin types",
+          "Proficiently practice cleansing and facial massage steps",
+          "Receive a certificate upon course completion"
+        ],
+        "curriculum": [
+          { "title": "Week 1: Basic Dermatology Theory", "desc": "Skin structure, distinguishing skin types and common problems." },
+          { "title": "Week 2: Cleansing Techniques", "desc": "Makeup removal, face washing, medical-standard exfoliation." },
+          { "title": "Week 3: Massage Techniques", "desc": "Facial lifting massage and acupressure." },
+          { "title": "Week 4: Comprehensive Practice", "desc": "Practice on real models and certification exam." }
+        ]
+      },
+      "advanced": {
+        "title": "Advanced Skin Therapy",
+        "duration": "3 Months",
+        "level": "Advanced",
+        "price": "$600",
+        "desc": "Application of high-tech machinery in the treatment of acne, melasma, pitted scars, and complex skin issues.",
+        "benefits": [
+          "Proficiently use high-tech aesthetic machines (Laser, Hifu...)",
+          "Build medical-standard treatment protocols for each skin condition",
+          "Opportunities to work at major Clinics & Beauty Salons"
+        ],
+        "curriculum": [
+          { "title": "Month 1: Intensive Acne Treatment", "desc": "Acne classification, medical standard extraction techniques, acne peeling." },
+          { "title": "Month 2: Melasma and Pigmentation Treatment", "desc": "Pigmentation mechanism, application of Laser Toning in melasma treatment." },
+          { "title": "Month 3: Scar Treatment and Rejuvenation", "desc": "Microneedling techniques, application of stem cells and PRP." }
+        ]
+      },
+      "body": {
+        "title": "Body Massage Techniques",
+        "duration": "2 Months",
+        "level": "Intermediate",
+        "price": "$350",
+        "desc": "Learn relaxing massage routines and traditional acupressure therapy to relieve full-body tension.",
+        "benefits": [
+          "Master relaxing and therapeutic massage techniques",
+          "Understand the meridian system and basic acupressure points",
+          "Improve health and reduce pain for clients"
+        ],
+        "curriculum": [
+          { "title": "Week 1-3: Swedish Massage", "desc": "Basic rubbing, stroking, and kneading techniques for full body relaxation." },
+          { "title": "Week 4-6: Thai Massage and Hot Stone", "desc": "Muscle stretching techniques, Thai-style acupressure, and using hot stones." },
+          { "title": "Week 7-8: Traditional Therapy Massage", "desc": "Acupressure to clear meridians, treating neck and shoulder pain." }
+        ]
+      },
+      "management": {
+        "title": "Spa Management & Operation",
+        "duration": "1 Month",
+        "level": "Expert",
+        "price": "$500",
+        "desc": "Training in spa setup skills, personnel management, marketing, and effective customer service.",
+        "benefits": [
+          "Confidently setup and operate a professional Spa",
+          "Know how to attract and retain customers (Spa Marketing)",
+          "Optimize revenue and operating costs"
+        ],
+        "curriculum": [
+          { "title": "Part 1: Spa Setup", "desc": "Choosing location, space design, applying for business licenses." },
+          { "title": "Part 2: Human Resource Management", "desc": "Recruitment, training, building KPIs and salary policies." },
+          { "title": "Part 3: Marketing & Sales", "desc": "Multi-channel marketing strategy, sales closing skills and customer consulting." },
+          { "title": "Part 4: Customer Care", "desc": "Care process before, during, and after using the service." }
+        ]
+      }
+    },
+    "common": {
+      "courseInfo": "Course Information",
+      "curriculum": "Curriculum",
+      "benefits": "What you will learn",
+      "viewDetails": "View Details"
+    }
   },
   "ServiceCategories": {
     "body-care": "Body Exfoliation & Care",

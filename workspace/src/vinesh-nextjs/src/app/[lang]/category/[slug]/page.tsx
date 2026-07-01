@@ -1,3 +1,24 @@
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
+    const categories = await prisma.category.findMany({ where: { isActive: true }, select: { slug: true } });
+    await prisma.$disconnect();
+
+    const langs = activeLangs.length > 0 ? activeLangs.map(l => l.code) : ['vi', 'en'];
+    const slugs = categories.length > 0 ? categories.map(c => c.slug) : [];
+
+    const params: { lang: string, slug: string }[] = [];
+    for (const lang of langs) {
+        for (const slug of slugs) {
+            params.push({ lang, slug });
+        }
+    }
+    return params;
+}
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Services from "@/components/Services";

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "post1",
+    "slug": "post1",
+    "image": "/spa_gallery.png",
+    "date": "2026-04-24T00:00:00.000Z",
+    "vi": {
+      "title": "Bí Quyết Chăm Sóc Da Mùa Hè Cho Làn Da Dầu",
+      "excerpt": "Khám phá những mẹo chăm sóc da hiệu quả nhất để giữ cho làn da dầu của bạn luôn tươi trẻ và không bị mụn trong những tháng hè nóng bức.",
+      "content": "<p>Khám phá những mẹo chăm sóc da hiệu quả nhất để giữ cho làn da dầu của bạn luôn tươi trẻ và không bị mụn trong những tháng hè nóng bức.</p>"
+    },
+    "en": {
+      "title": "Summer Skincare Secrets for Oily Skin",
+      "excerpt": "Discover the most effective skincare tips to keep your oily skin fresh and acne-free during the hot summer months.",
+      "content": "<p>Discover the most effective skincare tips to keep your oily skin fresh and acne-free during the hot summer months.</p>"
+    }
+  },
+  {
+    "id": "post2",
+    "slug": "post2",
+    "image": "/spa_gallery.png",
+    "date": "2026-04-26T00:00:00.000Z",
+    "vi": {
+      "title": "5 Lợi Ích Tuyệt Vời Của Massage Đá Nóng",
+      "excerpt": "Tìm hiểu xem massage đá nóng không chỉ giúp thư giãn mà còn cải thiện tuần hoàn máu và giảm căng thẳng cơ bắp như thế nào.",
+      "content": "<p>Tìm hiểu xem massage đá nóng không chỉ giúp thư giãn mà còn cải thiện tuần hoàn máu và giảm căng thẳng cơ bắp như thế nào.</p>"
+    },
+    "en": {
+      "title": "5 Amazing Benefits of Hot Stone Massage",
+      "excerpt": "Learn how hot stone massage goes beyond relaxation to improve blood circulation and relieve muscle tension.",
+      "content": "<p>Learn how hot stone massage goes beyond relaxation to improve blood circulation and relieve muscle tension.</p>"
+    }
+  },
+  {
+    "id": "post3",
+    "slug": "post3",
+    "image": "/spa_gallery.png",
+    "date": "2026-04-28T00:00:00.000Z",
+    "vi": {
+      "title": "Tìm Hiểu Về Các Phương Pháp Làm Đẹp Bằng Laser",
+      "excerpt": "Hướng dẫn toàn diện về các phương pháp điều trị bằng laser khác nhau và cách chúng có thể giải quyết các vấn đề về da như sắc tố và lão hóa.",
+      "content": "<p>Hướng dẫn toàn diện về các phương pháp điều trị bằng laser khác nhau và cách chúng có thể giải quyết các vấn đề về da như sắc tố và lão hóa.</p>"
+    },
+    "en": {
+      "title": "Understanding Laser Skin Treatments",
+      "excerpt": "A comprehensive guide to different laser treatments and how they can address various skin concerns like pigmentation and aging.",
+      "content": "<p>A comprehensive guide to different laser treatments and how they can address various skin concerns like pigmentation and aging.</p>"
+    }
+  },
+  {
+    "id": "post4",
+    "slug": "post4",
+    "image": "/spa_gallery.png",
+    "date": "2026-12-21T00:00:00.000Z",
+    "vi": {
+      "title": "Meso Căng Bóng Da - Giải Pháp Từ Bên Trong",
+      "excerpt": "Meso căng bóng da là phương pháp đưa dưỡng chất siêu nhỏ vào trực tiếp tầng trung bì của da bằng kỹ thuật tiêm vi điểm.",
+      "content": "<p>Meso căng bóng da là phương pháp đưa dưỡng chất siêu nhỏ vào trực tiếp tầng trung bì của da bằng kỹ thuật tiêm vi điểm.</p>"
+    },
+    "en": {
+      "title": "Meso Skin Rejuvenation - Solution From Within",
+      "excerpt": "Meso skin rejuvenation is a method of delivering micro-nutrients directly into the dermis layer.",
+      "content": "<p>Meso skin rejuvenation is a method of delivering micro-nutrients directly into the dermis layer.</p>"
+    }
+  }
+]

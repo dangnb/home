@@ -48,6 +48,9 @@ export default function Header() {
               </div>
             </div>
           </div>
+          <Link href="/products" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('products')}</Link>
+          <Link href="/careers" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('careers')}</Link>
+          <Link href="/training" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('training')}</Link>
           <Link href="/#about" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('about')}</Link>
           <Link href="/#gallery" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('gallery')}</Link>
           <Link href="/#contact" className="text-gray-700 hover:text-primary transition-colors font-semibold">{t('contact')}</Link>

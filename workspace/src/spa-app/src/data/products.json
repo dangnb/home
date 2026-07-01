@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cleanser",
+    "slug": "cleanser",
+    "image": "/spa_service.png",
+    "price": "500.000 VNĐ",
+    "vi": {
+      "title": "Sữa Rửa Mặt Thảo Dược",
+      "excerpt": "Làm sạch sâu, dịu nhẹ cho mọi loại da với chiết xuất 100% từ thiên nhiên.",
+      "content": "<p>Làm sạch sâu, dịu nhẹ cho mọi loại da với chiết xuất 100% từ thiên nhiên.</p>"
+    },
+    "en": {
+      "title": "Herbal Cleanser",
+      "excerpt": "Deep cleansing, gentle for all skin types with 100% natural extracts.",
+      "content": "<p>Deep cleansing, gentle for all skin types with 100% natural extracts.</p>"
+    }
+  },
+  {
+    "id": "serum",
+    "slug": "serum",
+    "image": "/spa_service.png",
+    "price": "1.200.000 VNĐ",
+    "vi": {
+      "title": "Serum Phục Hồi Chuyên Sâu",
+      "excerpt": "Tái tạo làn da hư tổn, giảm thâm nám và chống lão hóa hiệu quả.",
+      "content": "<p>Tái tạo làn da hư tổn, giảm thâm nám và chống lão hóa hiệu quả.</p>"
+    },
+    "en": {
+      "title": "Intensive Recovery Serum",
+      "excerpt": "Regenerate damaged skin, reduce pigmentation and effective anti-aging.",
+      "content": "<p>Regenerate damaged skin, reduce pigmentation and effective anti-aging.</p>"
+    }
+  },
+  {
+    "id": "cream",
+    "slug": "cream",
+    "image": "/spa_service.png",
+    "price": "850.000 VNĐ",
+    "vi": {
+      "title": "Kem Dưỡng Cấp Ẩm",
+      "excerpt": "Khóa ẩm 24h, mang lại làn da căng bóng mịn màng chuẩn Hàn Quốc.",
+      "content": "<p>Khóa ẩm 24h, mang lại làn da căng bóng mịn màng chuẩn Hàn Quốc.</p>"
+    },
+    "en": {
+      "title": "Moisturizing Cream",
+      "excerpt": "24h moisture lock, bringing smooth and glowing skin.",
+      "content": "<p>24h moisture lock, bringing smooth and glowing skin.</p>"
+    }
+  }
+]
