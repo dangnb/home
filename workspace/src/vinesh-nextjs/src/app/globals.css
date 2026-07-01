@@ -643,6 +643,7 @@ img {
 .about-image-wrapper {
     position: relative;
     padding: 20px 0 0 20px;
+    height: 450px;
 }
 
 .about-image {
