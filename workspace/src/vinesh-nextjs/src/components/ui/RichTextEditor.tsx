@@ -10,6 +10,7 @@ const ReactQuill = dynamic(
     async () => {
         const { default: RQ, Quill } = await import("react-quill-new");
         const { default: BlotFormatter } = await import("quill-blot-formatter");
+        const { default: ImageDropAndPaste } = await import("quill-image-drop-and-paste");
 
         // Register custom image blot to preserve inline styles (like float, display, margin, width, height)
         const BaseImageFormat = Quill.import("formats/image") as any;
@@ -36,6 +37,7 @@ const ReactQuill = dynamic(
         }
         Quill.register(ImageFormat, true);
         Quill.register("modules/blotFormatter", BlotFormatter);
+        Quill.register("modules/imageDropAndPaste", ImageDropAndPaste);
 
         const ForwardedQuill = React.forwardRef((props, ref) => <RQ ref={ref as any} {...(props as any)} />);
         ForwardedQuill.displayName = "ForwardedQuill";
@@ -89,6 +91,33 @@ export default function RichTextEditor({ value, onChange, placeholder, label, na
         };
     }, []);
 
+    const imageDropHandler = useCallback((imageDataUrl: string, type: string, imageData: any) => {
+        const file = imageData.toFile();
+        if (!file) return;
+
+        const upload = async () => {
+            try {
+                const formData = new FormData();
+                formData.append("file", file);
+                const res = await uploadEditorImage(formData);
+
+                if (res && res.success && res.url) {
+                    const quill = quillRef.current?.getEditor();
+                    if (quill) {
+                        const range = quill.getSelection(true);
+                        quill.insertEmbed(range?.index || 0, "image", res.url);
+                    }
+                } else {
+                    alert("Lỗi khi tải ảnh copy/paste lên!");
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+                alert("Đã xảy ra lỗi khi tải ảnh copy/paste.");
+            }
+        };
+        upload();
+    }, []);
+
     const modules = useMemo(() => ({
         toolbar: {
             container: [
@@ -107,8 +136,11 @@ export default function RichTextEditor({ value, onChange, placeholder, label, na
                 image: imageHandler
             }
         },
-        blotFormatter: {}
-    }), [imageHandler]);
+        blotFormatter: {},
+        imageDropAndPaste: {
+            handler: imageDropHandler
+        }
+    }), [imageHandler, imageDropHandler]);
 
     return (
         <div className="admin-form-group" style={{ marginBottom: "20px" }}>
