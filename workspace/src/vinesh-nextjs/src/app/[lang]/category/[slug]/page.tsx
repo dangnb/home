@@ -114,14 +114,22 @@ export default async function CategoryPage({ params }: { params: Promise<{ lang:
             <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
 
             {/* Minimal Inner Hero */}
-            <div style={{ paddingTop: "180px", paddingBottom: "60px", paddingLeft: "20px", paddingRight: "20px", backgroundColor: "#0f172a", color: "#fff", textAlign: "center" }}>
+            <div style={{ 
+                paddingTop: "180px", 
+                paddingBottom: "80px", 
+                paddingLeft: "20px", 
+                paddingRight: "20px", 
+                background: "linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.75)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat", 
+                color: "#fff", 
+                textAlign: "center" 
+            }}>
                 <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-                    <div style={{ marginBottom: "15px", color: "#8cc63f", fontWeight: "bold", fontSize: "14px", textTransform: "uppercase", letterSpacing: "1px" }}>
+                    <div style={{ marginBottom: "20px", color: "#8cc63f", fontWeight: "bold", fontSize: "14px", textTransform: "uppercase", letterSpacing: "2px" }}>
                         <Link href={`/${lang}`} style={{ color: "#8cc63f", textDecoration: "none" }}>{fallback("Trang chủ", "Home")}</Link>
                         <span style={{ margin: "0 10px", color: "#475569" }}>/</span>
                         <span style={{ color: "#cbd5e1" }}>{categoryTitle}</span>
                     </div>
-                    <h1 style={{ fontSize: "2.5rem", fontWeight: "800", margin: "0", letterSpacing: "-0.5px" }}>{categoryTitle}</h1>
+                    <h1 style={{ fontSize: "3rem", fontWeight: "800", margin: "0", letterSpacing: "-0.5px", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>{categoryTitle}</h1>
                 </div>
             </div>
 
