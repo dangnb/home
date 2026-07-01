@@ -113,7 +113,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                     else if (t['vi']?.title) displayTitle = t['vi'].title;
                   } catch (e) { }
                 }
-                const hasChildren = cat.children && cat.children.length > 0;
+                const hasChildren = (cat.children && cat.children.length > 0) || (cat.services && cat.services.length > 0);
 
                 return (
                   <li key={cat.id}>
@@ -122,7 +122,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                     </Link>
                     {hasChildren && (
                       <ul className="sub-menu" style={{ position: "absolute", top: "100%", left: 0, backgroundColor: "#fff", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", listStyle: "none", padding: "10px", margin: 0, minWidth: "200px" }}>
-                        {cat.children.map((child: any) => {
+                        {cat.children && cat.children.map((child: any) => {
                           let childTitle = child.slug;
                           if (child.translations) {
                             try {
@@ -134,6 +134,20 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                           return (
                             <li key={child.id} style={{ padding: "8px 12px" }}>
                               <Link href={`/${lang}/category/${child.slug}`} style={{ color: "#333", textDecoration: "none", display: "block" }}>{childTitle}</Link>
+                            </li>
+                          )
+                        })}
+                        {cat.services && cat.services.map((svc: any) => {
+                          let svcTitle = svc.title;
+                          if (svc.translations) {
+                            try {
+                              const t2 = JSON.parse(svc.translations);
+                              if (t2[lang]?.title) svcTitle = t2[lang].title;
+                            } catch (e) { }
+                          }
+                          return (
+                            <li key={`svc-${svc.id}`} style={{ padding: "8px 12px" }}>
+                              <Link href={svc.linkUrl || "#"} style={{ color: "#333", textDecoration: "none", display: "block" }}>{svcTitle}</Link>
                             </li>
                           )
                         })}
@@ -173,7 +187,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 else if (t['vi']?.title) displayTitle = t['vi'].title;
               } catch (e) { }
             }
-            const hasChildren = cat.children && cat.children.length > 0;
+            const hasChildren = (cat.children && cat.children.length > 0) || (cat.services && cat.services.length > 0);
 
             return (
               <li key={cat.id} style={{ paddingBottom: hasChildren ? "10px" : "0" }}>
@@ -182,7 +196,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 </Link>
                 {hasChildren && (
                   <ul style={{ listStyle: "none", paddingLeft: "15px", marginTop: "15px", display: "flex", flexDirection: "column", gap: "15px" }}>
-                    {cat.children.map((child: any) => {
+                    {cat.children && cat.children.map((child: any) => {
                       let childTitle = child.slug;
                       if (child.translations) {
                         try {
@@ -194,6 +208,20 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                       return (
                         <li key={child.id}>
                           <Link href={`/${lang}/category/${child.slug}`} style={{ color: "#eee", fontSize: "15px" }} onClick={() => setMobileMenuOpen(false)}>- {childTitle}</Link>
+                        </li>
+                      )
+                    })}
+                    {cat.services && cat.services.map((svc: any) => {
+                      let svcTitle = svc.title;
+                      if (svc.translations) {
+                        try {
+                          const t2 = JSON.parse(svc.translations);
+                          if (t2[lang]?.title) svcTitle = t2[lang].title;
+                        } catch (e) { }
+                      }
+                      return (
+                        <li key={`svc-${svc.id}`}>
+                          <Link href={svc.linkUrl || "#"} style={{ color: "#eee", fontSize: "15px" }} onClick={() => setMobileMenuOpen(false)}>- {svcTitle}</Link>
                         </li>
                       )
                     })}

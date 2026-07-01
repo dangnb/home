@@ -43,7 +43,11 @@ export default async function ServicesPage() {
                                         </td>
                                         <td>
                                             <strong style={{ display: "block", fontSize: "1rem" }}>{svc.title}</strong>
-                                            <span style={{ fontSize: "0.85rem", color: "#64748b" }}>{svc.description || "Không có mô tả"}</span>
+                                            <span style={{ fontSize: "0.85rem", color: "#64748b" }}>
+                                                {svc.description
+                                                    ? (svc.description.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim().substring(0, 80) + (svc.description.length > 80 ? '...' : ''))
+                                                    : "Không có mô tả"}
+                                            </span>
                                         </td>
                                         <td>
                                             <a href={svc.linkUrl || "#"} target="_blank" rel="noreferrer" style={{ color: "#3b82f6", textDecoration: "underline" }}>

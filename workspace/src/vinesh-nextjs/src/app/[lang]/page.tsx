@@ -22,7 +22,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         prisma.category.findMany({
             where: { isActive: true, isMenu: true, parentId: null },
             orderBy: { order: 'asc' },
-            include: { children: { where: { isActive: true }, orderBy: { order: 'asc' } } }
+            include: {
+                children: { where: { isActive: true }, orderBy: { order: 'asc' } },
+                services: { orderBy: { order: 'asc' } }
+            }
         }),
         prisma.setting.findMany(),
         prisma.slide.findMany({ where: { isActive: true }, orderBy: { order: 'asc' } })

@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+
+const inter = Inter({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Trang chủ - VINESH Next.js Clone",
+  title: "Trang chủ",
   description: "Giải pháp tổng thể An Toàn, Sức Khỏe & Môi Trường",
 };
 
@@ -15,12 +23,9 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
         <Script src="https://unpkg.com/@phosphor-icons/web" />
       </head>
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className={inter.className}>
         {children}
         <ScrollToTop />
       </body>

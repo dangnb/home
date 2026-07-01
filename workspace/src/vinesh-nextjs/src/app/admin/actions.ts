@@ -80,10 +80,26 @@ export async function saveService(id: string | undefined, formData: FormData) {
     await requireAdmin();
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
-    const imageUrl = formData.get("imageUrl") as string;
     const linkUrl = formData.get("linkUrl") as string;
     const orderStr = formData.get("order") as string;
     const order = orderStr ? parseInt(orderStr, 10) : 0;
+
+    let imageUrl = formData.get("existingImageUrl") as string;
+    const imageFile = formData.get("imageFile") as any;
+
+    if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
+        if (imageFile.size > 5 * 1024 * 1024) {
+            throw new Error("Kích thước file ảnh Dịch vụ vượt quá 5MB");
+        }
+        const bytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const cloudinaryResult = await uploadImageToCloudinary(buffer, "services");
+        imageUrl = cloudinaryResult.secure_url;
+    }
+
+    if (!imageUrl) {
+        imageUrl = (formData.get("imageUrl") as string) || "/assets/service1.png";
+    }
 
     let categoryId = formData.get("categoryId") as string;
     if (categoryId === "") categoryId = null as any;
@@ -330,5 +346,24 @@ export async function savePage(id: string | undefined, formData: FormData) {
     }
     revalidatePath("/", "layout");
     redirect("/admin/pages");
+}
+
+export async function uploadEditorImage(formData: FormData) {
+    await requireAdmin();
+    const imageFile = formData.get("file") as any;
+
+    if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
+        if (imageFile.size > 5 * 1024 * 1024) {
+            throw new Error("Kích thước file ảnh vượt quá 5MB");
+        }
+
+        const bytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        const cloudinaryResult = await uploadImageToCloudinary(buffer, "editor");
+        return { success: true, url: cloudinaryResult.secure_url };
+    }
+
+    return { success: false, error: "Upload failed" };
 }
 
