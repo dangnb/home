@@ -23,7 +23,7 @@ export default function Services({ services, settings, lang }: ServicesProps) {
     <>
       <section id="services" className="services section-padding">
         <div className="container">
-          <div className="section-header text-center">
+          <div className="section-header text-center" data-aos="fade-up">
             <h2 className="section-title">{sectionTitle}</h2>
             <div className="divider"></div>
             <p className="section-subtitle">{sectionSubtitle}</p>
@@ -62,7 +62,7 @@ export default function Services({ services, settings, lang }: ServicesProps) {
                   }
 
                   return (
-                    <div className="service-card" key={service.id}>
+                    <div className="service-card" key={service.id} data-aos="fade-up">
                       <div className="service-image" style={{ position: "relative", overflow: "hidden" }}>
                         <Image
                           src={service.imageUrl}
@@ -91,7 +91,7 @@ export default function Services({ services, settings, lang }: ServicesProps) {
 
       {/* Call to action */}
       <section className="cta-section">
-        <div className="container cta-inner">
+        <div className="container cta-inner" data-aos="zoom-in">
           <div className="cta-text">
             <h2>{ctaTitle}</h2>
             <p>{ctaDesc}</p>

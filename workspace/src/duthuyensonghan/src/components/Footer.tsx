@@ -1,5 +1,7 @@
 import styles from "./Footer.module.css";
 import type { SiteSettings } from "@/lib/db";
+import { FaPhoneAlt, FaFacebookF, FaTiktok, FaYoutube, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 export default function Footer({ settings }: { settings: SiteSettings }) {
   const s = settings;
@@ -14,20 +16,28 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           <div className={styles.topContact}>
             <div className={styles.topContactItem}>
               <span className={styles.topLabel}>Hotline ({s.workingHours})</span>
-              <a href={`tel:${s.hotline}`} className={styles.topValue}>{hotlineDisplay}</a>
+              <a href={`tel:${s.hotline}`} className={styles.topValue}>
+                <FaPhoneAlt style={{ marginRight: '8px' }} />
+                {hotlineDisplay}
+              </a>
             </div>
             {s.hotline2 && (
               <div className={styles.topContactItem}>
                 <span className={styles.topLabel}>Hotline 2</span>
-                <a href={`tel:${s.hotline2}`} className={styles.topValue}>{s.hotline2}</a>
+                <a href={`tel:${s.hotline2}`} className={styles.topValue}>
+                  <FaPhoneAlt style={{ marginRight: '8px' }} />
+                  {s.hotline2}
+                </a>
               </div>
             )}
             <div className={styles.topContactItem}>
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style={{opacity: 0.8}}>
-                <rect width="36" height="36" rx="18" fill="rgba(255,255,255,0.1)"/>
-                <path d="M9 12h18v12H9z" stroke="white" strokeWidth="1.5" fill="none"/>
-                <path d="M9 13l9 7 9-7" stroke="white" strokeWidth="1.5" fill="none"/>
-              </svg>
+              <div style={{
+                background: 'rgba(255,255,255,0.1)',
+                width: 36, height: 36, borderRadius: 18,
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}>
+                <MdEmail size={20} color="white" />
+              </div>
               <div>
                 <span className={styles.topLabel}>Email</span>
                 <a href={`mailto:${s.email}`} className={styles.topValue}>{s.email}</a>
@@ -35,10 +45,10 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             </div>
           </div>
           <div className={styles.socialIcons}>
-            {s.facebook  && <a href={s.facebook}  target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="Facebook">f</a>}
-            {s.tiktok    && <a href={s.tiktok}    target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="TikTok">♪</a>}
-            {s.youtube   && <a href={s.youtube}   target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="YouTube">▶</a>}
-            {s.instagram && <a href={s.instagram} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="Instagram">📷</a>}
+            {s.facebook && <a href={s.facebook} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="Facebook"><FaFacebookF /></a>}
+            {s.tiktok && <a href={s.tiktok} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="TikTok"><FaTiktok /></a>}
+            {s.youtube && <a href={s.youtube} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="YouTube"><FaYoutube /></a>}
+            {s.instagram && <a href={s.instagram} target="_blank" rel="noopener noreferrer" className={styles.socialIcon} aria-label="Instagram"><FaInstagram /></a>}
           </div>
         </div>
       </div>
@@ -55,8 +65,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             ))}
           </ul>
           {s.address && (
-            <p style={{ fontSize: "0.82rem", color: "#aaa", marginTop: "0.5rem", lineHeight: 1.5 }}>
-              📍 {s.address}
+            <p style={{ display: 'flex', gap: '0.5rem', fontSize: "0.82rem", color: "#aaa", marginTop: "0.5rem", lineHeight: 1.5 }}>
+              <FaMapMarkerAlt style={{ alignSelf: 'flex-start', marginTop: '3px', flexShrink: 0 }} />
+              <span>{s.address}</span>
             </p>
           )}
         </div>

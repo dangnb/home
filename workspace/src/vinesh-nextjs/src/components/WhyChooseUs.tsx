@@ -31,7 +31,7 @@ export default function WhyChooseUs({ lang }: WhyChooseUsProps) {
     return (
         <section className="why-choose-us section-padding" style={{ backgroundColor: "var(--bg-light)" }}>
             <div className="container">
-                <div className="section-header text-center">
+                <div className="section-header text-center" data-aos="fade-up">
                     <h2 className="section-title">{fallback("Tại Sao Chọn Chúng Tôi?", "Why Choose Us?")}</h2>
                     <div className="divider"></div>
                     <p className="section-subtitle">
@@ -41,7 +41,7 @@ export default function WhyChooseUs({ lang }: WhyChooseUsProps) {
 
                 <div className="features-grid">
                     {features.map((feature, idx) => (
-                        <div className="feature-card" key={idx}>
+                        <div className="feature-card" key={idx} data-aos="fade-up" data-aos-delay={idx * 150}>
                             <div className="feature-icon">
                                 <i className={`ph ${feature.icon}`}></i>
                             </div>

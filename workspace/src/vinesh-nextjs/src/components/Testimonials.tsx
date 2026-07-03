@@ -37,7 +37,7 @@ export default function Testimonials({ lang, settings }: TestimonialsProps) {
     return (
         <section className="testimonials-section section-padding">
             <div className="container">
-                <div className="section-header text-center">
+                <div className="section-header text-center" data-aos="fade-up">
                     <h2 className="section-title">{fallback("Khách Hàng Nói Gì Về Chúng Tôi", "Client Testimonials")}</h2>
                     <div className="divider"></div>
                     <p className="section-subtitle">
@@ -47,7 +47,7 @@ export default function Testimonials({ lang, settings }: TestimonialsProps) {
 
                 <div className="testimonials-grid">
                     {testimonials.map((item, idx) => (
-                        <div className="testimonial-card" key={idx}>
+                        <div className="testimonial-card" key={idx} data-aos="fade-up" data-aos-delay={idx * 150}>
                             <div className="testi-stars">
                                 <i className="ph-fill ph-star"></i>
                                 <i className="ph-fill ph-star"></i>

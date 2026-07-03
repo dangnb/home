@@ -6,6 +6,7 @@ import "@phosphor-icons/web/fill";
 import "@phosphor-icons/web/bold";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import NextTopLoader from 'nextjs-toploader';
+import AosInitializer from "@/components/ui/AosInitializer";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -80,6 +81,7 @@ export default function RootLayout({
           crawlSpeed={250}
         />
         {children}
+        <AosInitializer />
         <ScrollToTop />
       </body>
     </html>

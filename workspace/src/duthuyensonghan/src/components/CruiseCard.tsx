@@ -1,7 +1,7 @@
 import styles from "./CruiseCard.module.css";
 import Link from "next/link";
-
 import Image from "next/image";
+import { FaTags, FaArrowRight } from "react-icons/fa";
 
 interface CruiseCardProps {
   image: string;
@@ -17,9 +17,9 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
   return (
     <Link href={link} className={styles.card}>
       <div className={styles.imageContainer}>
-        {isSale && <span className={styles.saleBadge}>🏷️ Sale</span>}
+        {isSale && <span className={styles.saleBadge}><FaTags style={{ marginRight: '4px' }} /> Sale</span>}
         <Image src={image || "/images/banner_desktop.webp"} alt={title} fill className={styles.image} sizes="(max-width: 768px) 100vw, 33vw" />
-        <div className={styles.imageOverlayBtn}>Xem Chi Tiết →</div>
+        <div className={styles.imageOverlayBtn}>Xem Chi Tiết <FaArrowRight style={{ marginLeft: '4px' }} /></div>
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>

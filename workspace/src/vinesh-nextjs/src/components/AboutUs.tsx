@@ -25,7 +25,7 @@ export default function AboutUs({ settings, lang }: AboutUsProps) {
         <section id="about" className="about-section section-padding">
             <div className="container">
                 <div className="about-grid">
-                    <div className="about-image-wrapper" style={{ position: "relative" }}>
+                    <div className="about-image-wrapper" style={{ position: "relative" }} data-aos="fade-right">
                         <Image
                             src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&auto=format&fit=crop"
                             alt="About us"
@@ -38,7 +38,7 @@ export default function AboutUs({ settings, lang }: AboutUsProps) {
                             <div>{fallback("Năm Kinh Nghiệm", "Years Exp")}</div>
                         </div>
                     </div>
-                    <div className="about-content">
+                    <div className="about-content" data-aos="fade-left">
                         <h4 className="about-subtitle-top">{fallback("Giới thiệu", "Introduction")}</h4>
                         <h2 className="section-title" style={{ marginBottom: "20px", textAlign: "left" }}>{aboutTitle}</h2>
                         <div className="divider" style={{ margin: "0 0 20px 0" }}></div>

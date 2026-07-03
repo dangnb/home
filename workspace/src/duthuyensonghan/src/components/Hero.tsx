@@ -2,15 +2,16 @@
 import styles from "./Hero.module.css";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { FaPhoneAlt, FaStar, FaArrowDown } from "react-icons/fa";
 
 interface HeroProps {
   image?: string;
-  badge?: string;
+  badge?: React.ReactNode;
   title?: string;
   subtitle?: string;
-  cta1Text?: string;
+  cta1Text?: React.ReactNode;
   cta1Link?: string;
-  cta2Text?: string;
+  cta2Text?: React.ReactNode;
   cta2Link?: string;
   stats?: { value: string; label: string }[];
   hotline?: string;
@@ -18,12 +19,12 @@ interface HeroProps {
 
 export default function Hero({
   image = "/images/banner_desktop.webp",
-  badge = "⭐ Hơn 1000 đánh giá 5 sao trên Google",
+  badge = <><FaStar style={{ color: "#fbbf24" }} /> Hơn 1000 đánh giá 5 sao trên Google</>,
   title = "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
   subtitle,
-  cta1Text = "📞 Đặt Vé Ngay",
+  cta1Text = <><FaPhoneAlt /> Đặt Vé Ngay</>,
   cta1Link = "tel:0796768636",
-  cta2Text = "Xem Du Thuyền ↓",
+  cta2Text = <>Xem Du Thuyền <FaArrowDown /></>,
   cta2Link = "#khong-an-toi",
   stats = [
     { value: "10+", label: "Du Thuyền" },
@@ -37,8 +38,9 @@ export default function Hero({
   const resolvedCta1Link = (cta1Link.startsWith("tel:") && hotline)
     ? `tel:${hotline}`
     : cta1Link;
-  const resolvedCta1Text = (cta1Link.startsWith("tel:") && hotline)
-    ? `📞 Đặt Vé Ngay: ${hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3")}`
+
+  const resolvedCta1Text = (typeof cta1Text === "string" && cta1Link.startsWith("tel:") && hotline)
+    ? <><FaPhoneAlt /> Đặt Vé Ngay: {hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3")}</>
     : cta1Text;
 
   // Split title by \n for line breaks

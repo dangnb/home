@@ -22,11 +22,11 @@ export default function Partners({ lang, settings }: PartnersProps) {
 
     return (
         <section className="partners-section" style={{ padding: "40px 0", borderTop: "1px solid #eee" }}>
-            <div className="container">
+            <div className="container" data-aos="fade-up">
                 <h3 className="text-center" style={{ marginBottom: "30px", color: "var(--text-light)", fontSize: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>
                     {fallback("Đối tác & Khách hàng tiêu biểu", "Our Trusted Partners & Clients")}
                 </h3>
-                <div className="partners-flex">
+                <div className="partners-flex" data-aos="fade-up" data-aos-delay="200">
                     {partners.map((partner, idx) => (
                         <div className="partner-logo" key={idx}>
                             <img src={partner.url} alt={partner.name} width={150} height={40} loading="lazy" decoding="async" style={{ height: "40px", objectFit: "contain", filter: "grayscale(100%)", opacity: 0.6, transition: "var(--transition)" }} />
