@@ -1,38 +1,132 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Technologies Used (Công nghệ sử dụng)
 
-First, run the development server:
+*   **Framework:** [Next.js](https://nextjs.org/) (App Router) with React
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Database ORM:** [Prisma](https://www.prisma.io/)
+*   **Authentication:** [NextAuth.js](https://next-auth.js.org/)
+*   **Media Storage:** [Cloudinary](https://cloudinary.com/)
+*   **Rich Text Editor:** react-quill-new
+*   **Alerts/Popups:** SweetAlert2
+*   **UI/UX:** nextjs-toploader
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Setup & Configuration (Cài đặt & Cấu hình dự án)
+
+### 1. Database & Lưu trữ (Database & Storage)
+*   **Database:** Dự án sử dụng **PostgreSQL** (cụ thể đang kết nối với Supabase thông qua Prisma ORM).
+*   **Lưu trữ file/hình ảnh:** Dự án sử dụng **Cloudinary** để upload và lưu trữ hình ảnh (ví dụ như bài đăng, slide, service).
+
+### 2. Các biến môi trường cần cấu hình (Environment Variables)
+Tạo một file `.env` tại thư mục root của dự án và cấu hình các thông số sau:
+
+```env
+# URL kết nối Database (PostgreSQL)
+DATABASE_URL="postgresql://<user>:<password>@<host>:<port>/<db>?pgbouncer=true"
+
+# NextAuth.js Configuration
+NEXTAUTH_SECRET="your-super-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+
+# Cloudinary Configuration (để lưu trữ ảnh)
+CLOUDINARY_CLOUD_NAME="your_cloud_name"
+CLOUDINARY_API_KEY="your_api_key"
+CLOUDINARY_API_SECRET="your_api_secret"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Hướng dẫn chạy dự án (How to run locally)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Cài đặt các dependencies:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Generate Prisma Client:
+   ```bash
+   npx prisma generate
+   ```
 
-## Learn More
+3. Push schema lên Database (nếu là Db mới):
+   ```bash
+   npx prisma db push
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Chạy chế độ development:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Dự án sẽ khởi chạy tại [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
+
+## Project Structure (Cấu trúc thư mục)
+
+```
+vinesh-nextjs/
+├── prisma/                 # Prisma schema & seed data
+│   ├── schema.prisma       # Database models
+│   └── seed.ts             # Dữ liệu mẫu (admin, settings, services)
+├── public/                 # Static assets (images, icons)
+├── src/
+│   ├── app/
+│   │   ├── [lang]/         # Trang công khai, hỗ trợ đa ngôn ngữ (i18n)
+│   │   │   ├── category/   # Trang danh mục
+│   │   │   └── lien-he/    # Trang liên hệ
+│   │   ├── admin/          # Trang quản trị (CMS)
+│   │   │   ├── categories/ # Quản lý danh mục
+│   │   │   ├── services/   # Quản lý dịch vụ
+│   │   │   ├── slides/     # Quản lý slide banner
+│   │   │   ├── pages/      # Quản lý trang nội dung
+│   │   │   ├── users/      # Quản lý người dùng
+│   │   │   ├── settings/   # Cài đặt hệ thống
+│   │   │   └── languages/  # Quản lý ngôn ngữ
+│   │   ├── api/            # API Routes
+│   │   │   ├── auth/       # NextAuth.js authentication
+│   │   │   ├── contact/    # API liên hệ
+│   │   │   ├── seed/       # API seed data
+│   │   │   └── setup/      # API setup ban đầu
+│   │   └── login/          # Trang đăng nhập
+│   ├── components/         # Shared React components
+│   └── lib/                # Utilities, Prisma client, helpers
+├── .env                    # Biến môi trường (không commit lên git)
+└── package.json
+```
+
+## Features (Tính năng chính)
+
+*   🔐 **Xác thực & Phân quyền:** Đăng nhập bảo mật với NextAuth.js, phân quyền Admin/User.
+*   📝 **Quản lý nội dung (CMS):** Admin dashboard quản lý dịch vụ, danh mục, slide, trang nội dung.
+*   🌐 **Đa ngôn ngữ (i18n):** Hỗ trợ nhiều ngôn ngữ cho nội dung trang công khai.
+*   🖼️ **Upload ảnh lên Cloudinary:** Tích hợp upload ảnh trực tiếp lên Cloudinary.
+*   ✏️ **Rich Text Editor:** Soạn thảo nội dung phong phú với react-quill-new (hỗ trợ chèn ảnh, định dạng văn bản).
+*   📬 **Form liên hệ:** Khách hàng gửi liên hệ trực tiếp từ website.
+*   ⚙️ **Cài đặt hệ thống:** Tuỳ chỉnh tên site, số điện thoại, hero section...
+
+## Seed Data (Dữ liệu mẫu)
+
+Sau khi cấu hình Database, bạn có thể chạy seed để tạo dữ liệu mẫu (admin user, settings, services):
+
+```bash
+npx ts-node prisma/seed.ts
+```
+
+## Default Admin Account (Tài khoản Admin mặc định)
+
+| Field    | Value                |
+|----------|----------------------|
+| Email    | `admin@example.com`  |
+| Password | `password123`        |
+
+> ⚠️ **Lưu ý:** Hãy đổi mật khẩu admin ngay sau khi deploy lên production!
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cách đơn giản nhất để deploy dự án là sử dụng [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
- username: admin@example.com
- password: password123
+Lưu ý khi deploy:
+1. Thêm tất cả biến môi trường (`.env`) vào **Vercel > Settings > Environment Variables**.
+2. Đảm bảo `DATABASE_URL` trỏ đến PostgreSQL production (ví dụ: Supabase).
+3. Cấu hình `NEXTAUTH_URL` thành domain production thực tế.
+
+Xem thêm: [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
