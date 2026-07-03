@@ -6,8 +6,12 @@ import styles from "./login.module.css";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(
+    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
+  );
+  const [password, setPassword] = useState(
+    process.env.NODE_ENV === "development" ? "admin123456" : ""
+  );
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +70,7 @@ export default function AdminLogin() {
           </button>
         </form>
         <p className={styles.hint}>
-          Default: admin / admin123 – Đổi trong <code>.env.local</code>
+          Default: admin@duthuyensonghan.vn / admin123456 – Đổi trong <code>.env</code>
         </p>
       </div>
     </div>

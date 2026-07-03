@@ -25,6 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "vi_VN",
       type: "website",
     },
+    icons: {
+      icon: "/images/logopng-1.png",
+      apple: "/images/logopng-1.png",
+    }
   };
 }
 
