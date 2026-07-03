@@ -8,6 +8,8 @@ import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { getTranslation } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface SlideFormProps {
     slide?: any;
@@ -17,12 +19,25 @@ interface SlideFormProps {
 export default function SlideForm({ slide, languages }: SlideFormProps) {
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [previewImage, setPreviewImage] = useState<string | null>(slide?.imageUrl || null);
+    const router = useRouter();
 
-    const saveAction = saveSlide.bind(null, slide?.id || "new");
+    const handleSubmit = async (formData: FormData) => {
+        try {
+            const saveAction = saveSlide.bind(null, slide?.id || "new");
+            const res = await saveAction(formData);
+            if (res?.success) {
+                toastSuccess("Lưu Slide thành công!");
+                router.push("/admin/slides");
+                router.refresh();
+            }
+        } catch (e: any) {
+            toastError(e.message || "Lỗi lưu Slide!");
+        }
+    };
 
     return (
         <div className="admin-card">
-            <form action={saveAction}>
+            <form action={handleSubmit}>
                 <div className="admin-stat-grid" style={{ marginBottom: 0, gridTemplateColumns: "1fr 1fr" }}>
                     <div className="admin-form-group">
                         <label className="admin-label">Trạng thái hiển thị</label>

@@ -6,6 +6,7 @@ import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
 import SubmitButton from "@/components/ui/SubmitButton";
 import { uploadEditorImage } from "@/app/admin/actions";
+import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface SettingsFormProps {
     settings: Record<string, string>;
@@ -61,9 +62,18 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
         }
     };
 
+    const handleSubmit = async (formData: FormData) => {
+        try {
+            await action(formData);
+            toastSuccess("Lưu cấu hình thành công!");
+        } catch (error: any) {
+            toastError(error.message || "Lỗi khi lưu cấu hình!");
+        }
+    };
+
     return (
         <div className="admin-card">
-            <form action={action}>
+            <form action={handleSubmit}>
                 <h3 style={{ marginTop: 0, marginBottom: 15, color: "#0f172a", fontSize: "1.2rem" }}>Thông tin Chung</h3>
                 <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr 1fr 1fr" }}>
                     <FormInput

@@ -8,21 +8,37 @@ import LanguageTabs from "@/components/ui/LanguageTabs";
 import SubmitButton from "@/components/ui/SubmitButton";
 import RichTextEditor from "@/components/ui/RichTextEditor";
 import { getTranslation } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface NewServiceFormProps {
     languages: string[];
     categories: any[];
-    action: (payload: FormData) => void;
+    action: (payload: FormData) => Promise<any>;
 }
 
 export default function NewServiceForm({ languages, categories, action }: NewServiceFormProps) {
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [descContent, setDescContent] = useState<Record<string, string>>({});
+    const router = useRouter();
+
+    const handleSubmit = async (formData: FormData) => {
+        try {
+            const res = await action(formData);
+            if (res?.success) {
+                toastSuccess("Tạo mới thành công!");
+                router.push("/admin/services");
+                router.refresh();
+            }
+        } catch (e: any) {
+            toastError(e.message || "Tạo mới thất bại!");
+        }
+    };
 
     return (
         <div className="admin-card">
-            <form action={action}>
+            <form action={handleSubmit}>
 
                 <div className="admin-form-group">
                     <label className="admin-label">Chuyên mục (Danh mục bài viết)</label>

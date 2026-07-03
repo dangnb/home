@@ -135,7 +135,7 @@ export async function saveService(id: string | undefined, formData: FormData) {
 
     revalidatePath("/", "layout");
     revalidatePath("/admin/services");
-    redirect("/admin/services");
+    return { success: true };
 }
 
 export async function saveLanguage(formData: FormData) {
@@ -240,7 +240,7 @@ export async function saveCategory(id: string | undefined, formData: FormData) {
         });
     }
     revalidatePath("/", "layout");
-    redirect("/admin/categories");
+    return { success: true };
 }
 
 export async function deleteCategory(id: string) {
@@ -316,7 +316,7 @@ export async function saveSlide(id: string | undefined, formData: FormData) {
     }
 
     revalidatePath("/", "layout");
-    redirect("/admin/slides");
+    return { success: true };
 }
 
 export async function deletePage(id: string) {
@@ -345,7 +345,7 @@ export async function savePage(id: string | undefined, formData: FormData) {
         });
     }
     revalidatePath("/", "layout");
-    redirect("/admin/pages");
+    return { success: true };
 }
 
 export async function uploadEditorImage(formData: FormData) {

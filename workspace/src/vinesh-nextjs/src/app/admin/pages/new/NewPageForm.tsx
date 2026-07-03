@@ -4,10 +4,13 @@ import { useState } from "react";
 import FormInput from "@/components/ui/FormInput";
 import RichTextEditor from "@/components/ui/RichTextEditor";
 import { savePage } from "../../actions";
+import { useRouter } from "next/navigation";
+import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 export default function NewPageForm() {
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -16,9 +19,14 @@ export default function NewPageForm() {
         fd.append("content", content); // Add the Rich Text HTML
 
         try {
-            await savePage("new", fd);
+            const res = await savePage("new", fd);
+            if (res?.success) {
+                toastSuccess("Trang mới đã được khởi tạo!");
+                router.push("/admin/pages");
+                router.refresh();
+            }
         } catch (error: any) {
-            alert(error.message || "Đã xảy ra lỗi");
+            toastError(error.message || "Đã xảy ra lỗi");
             setLoading(false);
         }
     }

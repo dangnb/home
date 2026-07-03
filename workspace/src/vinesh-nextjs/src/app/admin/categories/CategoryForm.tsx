@@ -2,16 +2,31 @@
 
 import { useState } from "react";
 import { saveCategory } from "../actions";
-import FormInput from "@/components/ui/FormInput";
 import { getTranslation } from "@/lib/utils";
+import FormInput from "@/components/ui/FormInput";
+import { useRouter } from "next/navigation";
+import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 export default function CategoryForm({ languages, category, allCategories = [] }: { languages: any[], category?: any, allCategories?: any[] }) {
     const [activeLang, setActiveLang] = useState(languages.find(l => l.isDefault)?.code || "vi");
+    const router = useRouter();
 
-    const saveAction = saveCategory.bind(null, category?.id || "new");
+    const handleSubmit = async (formData: FormData) => {
+        try {
+            const saveAction = saveCategory.bind(null, category?.id || "new");
+            const res = await saveAction(formData);
+            if (res?.success) {
+                toastSuccess("Đã lưu danh mục!");
+                router.push("/admin/categories");
+                router.refresh();
+            }
+        } catch (e: any) {
+            toastError(e.message || "Lỗi lưu danh mục!");
+        }
+    };
 
     return (
-        <form action={saveAction} className="admin-card">
+        <form action={handleSubmit} className="admin-card">
             <FormInput
                 label="Đường dẫn tĩnh (Slug URL)"
                 type="text"
