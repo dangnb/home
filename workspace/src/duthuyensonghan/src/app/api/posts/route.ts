@@ -1,40 +1,46 @@
-import type { NextRequest } from "next/server";
-import { getPosts, createPost, type Post } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
-  const category = searchParams.get("category");
 
-  let posts = getPosts();
-
-  if (status && status !== "all") {
-    posts = posts.filter((p) => p.status === status);
-  }
-  if (category) {
-    posts = posts.filter((p) => p.categoryId === category);
+  let where = {};
+  if (status) {
+    where = { status };
   }
 
-  return Response.json(posts);
+  const posts = await prisma.post.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+  });
+  return NextResponse.json(posts);
 }
 
-export async function POST(request: Request) {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const body = await req.json();
+  try {
+    const p = await prisma.post.create({
+      data: {
+        title: body.title,
+        slug: body.slug,
+        excerpt: body.excerpt ?? "",
+        content: body.content ?? "",
+        thumbnail: body.thumbnail ?? "",
+        categoryId: body.categoryId ?? "",
+        status: body.status ?? "draft",
+      },
+    });
+    return NextResponse.json({ success: true, post: p });
+  } catch (e: any) {
+    if (e.code === "P2002") {
+      return NextResponse.json({ error: "Slug already exists" }, { status: 400 });
+    }
+    return NextResponse.json({ error: "Create failed" }, { status: 500 });
   }
-
-  const body: Omit<Post, "id" | "createdAt" | "updatedAt"> = await request.json();
-
-  if (!body.title || !body.slug) {
-    return Response.json({ error: "Tiêu đề và slug là bắt buộc" }, { status: 400 });
-  }
-
-  const existing = getPosts().find((p) => p.slug === body.slug);
-  if (existing) {
-    return Response.json({ error: "Slug đã tồn tại" }, { status: 400 });
-  }
-
-  const newPost = createPost(body);
-  return Response.json(newPost, { status: 201 });
 }

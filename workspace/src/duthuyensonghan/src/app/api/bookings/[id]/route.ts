@@ -1,37 +1,40 @@
-import { updateBookingStatus, deleteBooking, type BookingStatus } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
-// PATCH /api/bookings/[id] — update status (admin only)
-export async function PATCH(
-  request: Request,
+export async function PUT(
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const { status } = await request.json() as { status: BookingStatus };
-
-  const validStatuses: BookingStatus[] = ["new", "confirmed", "cancelled"];
-  if (!validStatuses.includes(status)) {
-    return Response.json({ error: "Trạng thái không hợp lệ" }, { status: 400 });
+  const body = await req.json();
+  try {
+    const booking = await prisma.booking.update({
+      where: { id },
+      data: { status: body.status },
+    });
+    return NextResponse.json({ success: true, booking });
+  } catch {
+    return NextResponse.json({ error: "Update failed" }, { status: 500 });
   }
-
-  const ok = updateBookingStatus(id, status);
-  if (!ok) return Response.json({ error: "Không tìm thấy booking" }, { status: 404 });
-  return Response.json({ success: true });
 }
 
-// DELETE /api/bookings/[id] — admin only
 export async function DELETE(
-  _request: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const ok = deleteBooking(id);
-  if (!ok) return Response.json({ error: "Không tìm thấy booking" }, { status: 404 });
-  return Response.json({ success: true });
+  try {
+    await prisma.booking.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 }

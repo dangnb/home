@@ -4,9 +4,9 @@ import CruiseSection from "@/components/CruiseSection";
 import FireworksBanner from "@/components/FireworksBanner";
 import { getCruises, getSettings } from "@/lib/db";
 
-export default function Home() {
-  const allCruises = getCruises();
-  const s = getSettings();
+export default async function Home() {
+  const allCruises = await getCruises();
+  const s = await getSettings();
 
   const regularCruises = allCruises
     .filter(c => c.categoryId === "regular")

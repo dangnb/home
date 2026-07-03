@@ -1,39 +1,48 @@
-import { getPosts, updatePost, deletePost } from "@/lib/db";
-import { getSession } from "@/lib/auth";
-
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  const post = getPosts().find((p) => p.id === id);
-  if (!post) return Response.json({ error: "Không tìm thấy" }, { status: 404 });
-  return Response.json(post);
-}
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
 export async function PUT(
-  request: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const body = await request.json();
-  const ok = updatePost(id, body);
-  if (!ok) return Response.json({ error: "Không tìm thấy" }, { status: 404 });
-  return Response.json({ success: true });
+  const body = await req.json();
+  try {
+    await prisma.post.update({
+      where: { id },
+      data: {
+        title: body.title,
+        slug: body.slug,
+        excerpt: body.excerpt,
+        content: body.content,
+        thumbnail: body.thumbnail,
+        categoryId: body.categoryId,
+        status: body.status,
+      },
+    });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 }
 
 export async function DELETE(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const ok = deletePost(id);
-  if (!ok) return Response.json({ error: "Không tìm thấy" }, { status: 404 });
-  return Response.json({ success: true });
+  try {
+    await prisma.post.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 }

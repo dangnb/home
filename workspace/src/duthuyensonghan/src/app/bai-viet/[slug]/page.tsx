@@ -25,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return { title: "Không tìm thấy bài viết" };
   return {
     title: `${post.title} – Du Thuyền Sông Hàn | 2Da Tickets`,
@@ -44,14 +44,14 @@ export default async function PostDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post || post.status !== "published") {
     notFound();
   }
 
-  const allCruises = getCruises();
-  const allPosts = getPosts().filter((p) => p.status === "published");
+  const allCruises = await getCruises();
+  const allPosts = (await getPosts()).filter((p) => p.status === "published");
 
   // Related posts: same category, excluding current
   const relatedPosts = allPosts
@@ -64,7 +64,7 @@ export default async function PostDetailPage({
   // Featured cruises for sidebar
   const featuredCruises = allCruises.slice(0, 4);
 
-  const s = getSettings();
+  const s = await getSettings();
   const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
 
   return (

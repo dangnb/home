@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   description: "Xem pháo hoa quốc tế DIFF Đà Nẵng 2026 trên du thuyền sông Hàn. Đặt vé sớm để nhận ưu đãi tốt nhất.",
 };
 
-export default function PhaoHoaPage() {
-  const pricing = getPricing();
-  const recentPosts = getPosts()
+export default async function PhaoHoaPage() {
+  const pricing = await getPricing();
+  const recentPosts = (await getPosts())
     .filter(p => p.status === "published")
     .slice(0, 5);
-  const s = getSettings();
+  const s = await getSettings();
 
   return (
     <PhaoHoaClient

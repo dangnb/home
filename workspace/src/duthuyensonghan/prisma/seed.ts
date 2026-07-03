@@ -1,5 +1,4 @@
 // prisma/seed.ts – Seed dữ liệu mẫu từ JSON files hiện tại
-import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import * as fs from "fs";

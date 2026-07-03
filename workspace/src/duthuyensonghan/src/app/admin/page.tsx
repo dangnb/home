@@ -2,10 +2,10 @@ import { getCruises, getCategories } from "@/lib/db";
 import Link from "next/link";
 import styles from "./admin.module.css";
 
-export default function AdminDashboard() {
-  const cruises = getCruises();
-  const cats = getCategories();
-  const minPrice = cruises.length ? Math.min(...cruises.map(c => parseInt(c.salePrice.replace(/\D/g,"")))) : 0;
+export default async function AdminDashboard() {
+  const cruises = await getCruises();
+  const cats = await getCategories();
+  const minPrice = cruises.length ? Math.min(...cruises.map(c => parseInt(c.salePrice.replace(/\D/g, "")))) : 0;
 
   const stats = [
     {
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Dashboard</h1>
-          <p style={{fontSize:'0.875rem',color:'#64748b',marginTop:'0.25rem'}}>Chào mừng trở lại, Admin 👋</p>
+          <p style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.25rem' }}>Chào mừng trở lại, Admin 👋</p>
         </div>
         <div className={styles.pageActions}>
           <Link href="/admin/cruises/new" className={styles.btnPrimary}>+ Thêm Du Thuyền</Link>
@@ -81,17 +81,17 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {cruises.slice(0,5).map(c => (
+            {cruises.slice(0, 5).map(c => (
               <tr key={c.slug}>
                 <td>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.mainImage} alt={c.name} className={styles.thumb} />
                 </td>
-                <td><strong style={{color:'#0f172a'}}>{c.name}</strong></td>
+                <td><strong style={{ color: '#0f172a' }}>{c.name}</strong></td>
                 <td><span className={styles.badge}>{c.categoryId}</span></td>
-                <td style={{textDecoration:'line-through',color:'#94a3b8'}}>{c.originalPrice}</td>
-                <td style={{color:'#ef4444',fontWeight:700}}>{c.salePrice}</td>
-                <td style={{color:'#64748b'}}>{c.capacity} người</td>
+                <td style={{ textDecoration: 'line-through', color: '#94a3b8' }}>{c.originalPrice}</td>
+                <td style={{ color: '#ef4444', fontWeight: 700 }}>{c.salePrice}</td>
+                <td style={{ color: '#64748b' }}>{c.capacity} người</td>
                 <td>
                   <Link href={`/admin/cruises/${c.slug}`} className={styles.btnEdit}>✏️ Sửa</Link>
                 </td>
@@ -99,10 +99,10 @@ export default function AdminDashboard() {
             ))}
             {cruises.length === 0 && (
               <tr>
-                <td colSpan={7} style={{textAlign:'center',color:'#94a3b8',padding:'3rem'}}>
-                  <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🚢</div>
+                <td colSpan={7} style={{ textAlign: 'center', color: '#94a3b8', padding: '3rem' }}>
+                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🚢</div>
                   Chưa có du thuyền nào.{" "}
-                  <Link href="/admin/cruises/new" style={{color:'#01bf93',fontWeight:600}}>Thêm ngay →</Link>
+                  <Link href="/admin/cruises/new" style={{ color: '#01bf93', fontWeight: 600 }}>Thêm ngay →</Link>
                 </td>
               </tr>
             )}

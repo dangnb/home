@@ -1,10 +1,10 @@
-import { getCruises, getCruiseBySlug, type Cruise, getSettings } from "@/lib/db";
+import { getCruises, getCruiseBySlug, type CruiseData, getSettings } from "@/lib/db";
 import { notFound } from "next/navigation";
 import CruiseDetailClient from "./CruiseDetailClient";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
-  return getCruises().map(c => ({ slug: c.slug }));
+  return (await getCruises()).map(c => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const cruise = getCruiseBySlug(slug);
+  const cruise = await getCruiseBySlug(slug);
   if (!cruise) return {};
   return {
     title: `${cruise.name} – Du Thuyền Sông Hàn Đà Nẵng`,
@@ -27,16 +27,16 @@ export default async function CruiseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const cruise = getCruiseBySlug(slug);
+  const cruise = await getCruiseBySlug(slug);
   if (!cruise) notFound();
 
   // Resolve related cruises with full data on the server
-  const allCruises = getCruises();
-  const relatedCruises: Cruise[] = cruise.relatedSlugs
+  const allCruises = await getCruises();
+  const relatedCruises: CruiseData[] = cruise.relatedSlugs
     .map(s => allCruises.find(c => c.slug === s))
-    .filter((c): c is Cruise => !!c);
+    .filter((c): c is CruiseData => !!c);
 
-  const settings = getSettings();
+  const settings = await getSettings();
 
   return <CruiseDetailClient cruise={cruise} relatedCruises={relatedCruises} timeSlots={settings.departureSlots} />;
 }

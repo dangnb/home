@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: "Đặt lịch du thuyền sông Hàn Đà Nẵng nhanh chóng. Xác nhận trong 30 phút, giữ chỗ miễn phí.",
 };
 
-export default function DatLichPage() {
-  const s = getSettings();
+export default async function DatLichPage() {
+  const s = await getSettings();
   const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
   return (
     <main className={styles.page}>
@@ -79,7 +79,7 @@ export default function DatLichPage() {
             <div className={styles.infoCard}>
               <h3 className={styles.infoTitle}>📍 Địa điểm đón khách</h3>
               <p className={styles.infoDesc}>{s.address}</p>
-              <p className={styles.infoDesc} style={{marginTop:'0.5rem'}}>
+              <p className={styles.infoDesc} style={{ marginTop: '0.5rem' }}>
                 Nhân viên sẽ trực tiếp đón và dẫn quý khách lên du thuyền.
               </p>
             </div>

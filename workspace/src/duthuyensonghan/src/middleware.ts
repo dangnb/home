@@ -1,17 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-import { validateToken, SESSION_COOKIE } from "@/lib/auth";
+import { withAuth } from "next-auth/middleware";
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  if (!pathname.startsWith("/admin")) return NextResponse.next();
-  if (pathname === "/admin/login") return NextResponse.next();
-
-  const token = request.cookies.get(SESSION_COOKIE)?.value;
-  if (!token || !validateToken(token)) {
-    return NextResponse.redirect(new URL("/admin/login", request.url));
-  }
-  return NextResponse.next();
-}
+export default withAuth({
+  pages: {
+    signIn: "/admin/login",
+  },
+});
 
 export const config = {
   matcher: ["/admin/:path*"],

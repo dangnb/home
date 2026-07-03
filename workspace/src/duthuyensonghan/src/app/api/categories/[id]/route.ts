@@ -1,30 +1,44 @@
-import { getCategories, saveCategories } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
 export async function PUT(
-  request: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const body = await request.json();
-  const all = getCategories();
-  const idx = all.findIndex((c) => c.id === id);
-  if (idx === -1) return Response.json({ error: "Không tìm thấy" }, { status: 404 });
-  all[idx] = { ...all[idx], ...body };
-  saveCategories(all);
-  return Response.json(all[idx]);
+  const body = await req.json();
+  try {
+    const cat = await prisma.category.update({
+      where: { id },
+      data: {
+        label: body.label,
+        slug: body.slug,
+        description: body.description,
+      },
+    });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 }
 
 export async function DELETE(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await getSession())) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { id } = await params;
-  const all = getCategories();
-  const filtered = all.filter((c) => c.id !== id);
-  if (filtered.length === all.length) return Response.json({ error: "Không tìm thấy" }, { status: 404 });
-  saveCategories(filtered);
-  return Response.json({ success: true });
+  try {
+    await prisma.category.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 }

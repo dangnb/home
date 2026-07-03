@@ -6,8 +6,10 @@ import { getSettings, getCruises } from "@/lib/db";
 
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
+import NextTopLoader from "nextjs-toploader";
+
 export async function generateMetadata(): Promise<Metadata> {
-  const s = getSettings();
+  const s = await getSettings();
   return {
     title: s.seoTitle,
     description: s.seoDescription,
@@ -23,18 +25,20 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const s = getSettings();
-  const allCruises = getCruises();
-  const regularCruises = allCruises.filter(c => c.categoryId === "regular");
-  const dinnerCruises = allCruises.filter(c => c.categoryId === "dinner" || c.categoryId === "vip");
+  const s = await getSettings();
+  const allCruises = await getCruises();
+  const regularCruises = allCruises.filter(c => c.categoryId === "regular" || c.categoryId.includes("khong-an"));
+  const dinnerCruises = allCruises.filter(c => c.categoryId === "dinner" || c.categoryId === "vip" || c.categoryId.includes("nha-hang"));
+
   return (
     <html lang="vi">
       <body className={inter.className} suppressHydrationWarning>
+        <NextTopLoader color="#01bf93" height={3} showSpinner={false} />
         <PublicShell settings={s} regularCruises={regularCruises} dinnerCruises={dinnerCruises}>
           {children}
         </PublicShell>

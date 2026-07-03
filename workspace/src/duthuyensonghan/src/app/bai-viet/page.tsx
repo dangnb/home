@@ -24,10 +24,10 @@ function formatDate(iso: string) {
   });
 }
 
-export default function BaiVietPage() {
-  const allCruises = getCruises();
-  const allPosts = getPosts().filter((p) => p.status === "published");
-  const s = getSettings();
+export default async function BaiVietPage() {
+  const allCruises = await getCruises();
+  const allPosts = (await getPosts()).filter((p) => p.status === "published");
+  const s = await getSettings();
   const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
 
   // Featured cruises for sidebar

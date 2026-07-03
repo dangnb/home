@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "@phosphor-icons/web/regular";
+import "@phosphor-icons/web/fill";
+import "@phosphor-icons/web/bold";
+import "@phosphor-icons/web/light";
+import "@phosphor-icons/web/thin";
+import "@phosphor-icons/web/duotone";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import NextTopLoader from 'nextjs-toploader';
 
@@ -24,7 +29,6 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
-        <Script src="https://unpkg.com/@phosphor-icons/web" />
       </head>
       <body suppressHydrationWarning className={inter.className}>
         <NextTopLoader

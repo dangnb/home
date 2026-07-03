@@ -8,18 +8,18 @@ export const metadata: Metadata = {
   description: "Bảng giá vé du thuyền sông Hàn Đà Nẵng cập nhật mới nhất. Giảm ngay 30% khi đặt tại 2Da Tickets.",
 };
 
-export default function GiaVePage() {
-  const allCruises = getCruises();
-  const pricing = getPricing();
-  const s = getSettings();
+export default async function GiaVePage() {
+  const allCruises = await getCruises();
+  const pricing = await getPricing();
+  const s = await getSettings();
   const phoneDisplay = s.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3");
 
   const regular = allCruises.filter(c => c.categoryId === "regular");
-  const dinner  = allCruises.filter(c => c.categoryId === "dinner");
-  const vip     = allCruises.filter(c => c.categoryId === "vip");
+  const dinner = allCruises.filter(c => c.categoryId === "dinner");
+  const vip = allCruises.filter(c => c.categoryId === "vip");
 
   // 5 bài viết mới nhất đã xuất bản
-  const recentPosts = getPosts()
+  const recentPosts = (await getPosts())
     .filter(p => p.status === "published")
     .slice(0, 5);
 
@@ -43,10 +43,10 @@ export default function GiaVePage() {
       <div className={styles.benefitsBar}>
         <div className={`container ${styles.benefitsGrid}`}>
           {[
-            { icon: "🏷️", title: "Giảm Ngay 30%",        desc: "So với giá niêm yết tại bến" },
-            { icon: "🎟️", title: "Giữ chỗ Miễn Phí",     desc: "Không cần cọc trước" },
+            { icon: "🏷️", title: "Giảm Ngay 30%", desc: "So với giá niêm yết tại bến" },
+            { icon: "🎟️", title: "Giữ chỗ Miễn Phí", desc: "Không cần cọc trước" },
             { icon: "🔄", title: "Đổi / Hoàn Linh Hoạt", desc: "Đổi chuyến trước 60 phút" },
-            { icon: "🚢", title: "Đón Tận Nơi",           desc: "Trực tiếp dẫn lên thuyền" },
+            { icon: "🚢", title: "Đón Tận Nơi", desc: "Trực tiếp dẫn lên thuyền" },
           ].map(b => (
             <div key={b.title} className={styles.benefit}>
               <span className={styles.benefitIcon}>{b.icon}</span>

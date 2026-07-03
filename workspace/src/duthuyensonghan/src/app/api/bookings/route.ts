@@ -1,39 +1,35 @@
-import { getBookings, createBooking } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
-// GET /api/bookings — admin only
 export async function GET() {
-  if (!(await getSession())) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  return Response.json(getBookings());
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const bookings = await prisma.booking.findMany({ orderBy: { createdAt: "desc" } });
+  return NextResponse.json(bookings);
 }
 
-// POST /api/bookings — public (customer submits booking)
-export async function POST(request: Request) {
-  const body = await request.json();
-
-  const { cruiseSlug, cruiseName, customerName, phone, email, date, time, guests, note } = body;
-
-  if (!customerName || !phone || !date || !time || !guests) {
-    return Response.json({ error: "Vui lòng điền đầy đủ thông tin bắt buộc" }, { status: 400 });
+export async function POST(req: Request) {
+  const body = await req.json();
+  try {
+    const booking = await prisma.booking.create({
+      data: {
+        cruiseSlug: body.cruiseSlug,
+        cruiseName: body.cruiseName,
+        customerName: body.customerName,
+        phone: body.phone,
+        email: body.email ?? "",
+        date: body.date,
+        time: body.time,
+        guests: body.guests,
+        note: body.note ?? "",
+        status: "pending",
+      },
+    });
+    return NextResponse.json({ success: true, booking });
+  } catch (e: any) {
+    return NextResponse.json({ error: "Booking failed" }, { status: 500 });
   }
-
-  if (!/^[0-9]{9,11}$/.test(phone.replace(/\s/g, ""))) {
-    return Response.json({ error: "Số điện thoại không hợp lệ" }, { status: 400 });
-  }
-
-  const booking = createBooking({
-    cruiseSlug: cruiseSlug ?? "",
-    cruiseName: cruiseName ?? "Chưa xác định",
-    customerName,
-    phone,
-    email: email ?? "",
-    date,
-    time,
-    guests: Number(guests),
-    note: note ?? "",
-  });
-
-  return Response.json(booking, { status: 201 });
 }
