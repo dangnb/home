@@ -38,19 +38,19 @@ export default function Footer({ settings, lang }: FooterProps) {
             <h3 className="footer-logo">{siteName}</h3>
             <p>{desc}</p>
             <div className="social-links">
-              <Link href="#"><i className="ph ph-facebook-logo"></i></Link>
-              <Link href="#"><i className="ph ph-youtube-logo"></i></Link>
-              <Link href="#"><i className="ph ph-linkedin-logo"></i></Link>
+              {settings?.facebook && <a href={settings.facebook} target="_blank" rel="noopener noreferrer"><i className="ph ph-facebook-logo"></i></a>}
+              {settings?.youtube && <a href={settings.youtube} target="_blank" rel="noopener noreferrer"><i className="ph ph-youtube-logo"></i></a>}
+              {settings?.linkedin && <a href={settings.linkedin} target="_blank" rel="noopener noreferrer"><i className="ph ph-linkedin-logo"></i></a>}
             </div>
           </div>
 
           <div className="footer-col links-col">
             <h4>{linksTitle}</h4>
             <ul>
-              <li><Link href="#">{aboutStr}</Link></li>
-              <li><Link href="#">{serviceStr}</Link></li>
-              <li><Link href="#">{newsStr}</Link></li>
-              <li><Link href="#">{contactStr}</Link></li>
+              <li><Link href={`/${lang}#about`}>{aboutStr}</Link></li>
+              <li><Link href={`/${lang}#services`}>{serviceStr}</Link></li>
+              <li><Link href={`/${lang}#news`}>{newsStr}</Link></li>
+              <li><Link href={`/${lang}/lien-he`}>{contactStr}</Link></li>
             </ul>
           </div>
 

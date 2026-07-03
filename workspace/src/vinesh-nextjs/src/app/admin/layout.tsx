@@ -43,13 +43,17 @@ export default async function AdminLayout({
                         <i className="ph ph-images" style={{ fontSize: "20px" }}></i> Quản lý Slider / Băng rôn
                     </Link>
 
+                    {/* Visible to Both ADMIN and EDITOR */}
+                    {(role === "ADMIN" || role === "EDITOR") && (
+                        <Link href="/admin/settings" className="admin-nav-item">
+                            <i className="ph ph-gear" style={{ fontSize: "20px" }}></i> Cấu hình Website
+                        </Link>
+                    )}
+
                     {role === "ADMIN" && (
                         <>
                             <Link href="/admin/languages" className="admin-nav-item">
                                 <i className="ph ph-translate" style={{ fontSize: "20px" }}></i> Quản lý Ngôn ngữ
-                            </Link>
-                            <Link href="/admin/settings" className="admin-nav-item">
-                                <i className="ph ph-gear" style={{ fontSize: "20px" }}></i> Cấu hình Website
                             </Link>
                             <Link href="/admin/users" className="admin-nav-item">
                                 <i className="ph ph-users" style={{ fontSize: "20px" }}></i> Quản lý Người dùng

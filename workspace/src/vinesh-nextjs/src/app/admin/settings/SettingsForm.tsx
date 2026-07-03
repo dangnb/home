@@ -16,8 +16,23 @@ interface SettingsFormProps {
 export default function SettingsForm({ settings, languages, action }: SettingsFormProps) {
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [partnerLogosText, setPartnerLogosText] = useState(settings.partnerLogos || "");
+
+    let initialTestimonials = [];
+    try {
+        initialTestimonials = settings.testimonialsData ? JSON.parse(settings.testimonialsData) : [];
+    } catch {
+        initialTestimonials = [];
+    }
+    const [testimonials, setTestimonials] = useState<any[]>(initialTestimonials);
+
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleUpdateTestimonial = (index: number, key: string, value: string) => {
+        const next = [...testimonials];
+        next[index][key] = value;
+        setTestimonials(next);
+    };
 
     const handleUploadLogos = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) return;
@@ -73,6 +88,40 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                         type="email"
                         name="email"
                         defaultValue={settings.email}
+                    />
+
+                    <FormInput
+                        label="Facebook URL"
+                        type="url"
+                        name="facebook"
+                        defaultValue={settings.facebook}
+                        placeholder="https://facebook.com/..."
+                    />
+
+                    <FormInput
+                        label="YouTube URL"
+                        type="url"
+                        name="youtube"
+                        defaultValue={settings.youtube}
+                        placeholder="https://youtube.com/..."
+                    />
+
+                    <FormInput
+                        label="LinkedIn URL"
+                        type="url"
+                        name="linkedin"
+                        defaultValue={settings.linkedin}
+                        placeholder="https://linkedin.com/..."
+                    />
+                </div>
+
+                <div className="admin-stat-grid" style={{ marginBottom: "0", gridTemplateColumns: "1fr" }}>
+                    <FormTextarea
+                        label="Mã nhúng Google Maps (Iframe src)"
+                        name="mapIframe"
+                        defaultValue={settings.mapIframe}
+                        rows={2}
+                        placeholder="https://www.google.com/maps/embed?pb=..."
                     />
                 </div>
 
@@ -147,6 +196,58 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                         </div>
                     )
                 })}
+
+                {/* --- TESTIMONIALS SECTION --- */}
+                <div style={{ marginTop: "30px", padding: "20px", background: "#f8fafc", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
+                        <h4 style={{ margin: 0, color: "#0f172a" }}>Khách Hàng Nói Gì Về Chúng Tôi</h4>
+                        <button type="button" className="admin-btn btn-secondary" onClick={() => setTestimonials([...testimonials, { name: "", avatar: "", role_vi: "", role_en: "", content_vi: "", content_en: "" }])}>
+                            <i className="ph ph-plus"></i> Thêm đánh giá
+                        </button>
+                    </div>
+
+                    {/* Hidden JSON input to submit data */}
+                    <input type="hidden" name="testimonialsData" value={JSON.stringify(testimonials)} />
+
+                    {testimonials.map((t, index) => (
+                        <div key={index} style={{ background: "#fff", padding: "15px", marginBottom: "15px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                                <strong># {index + 1}</strong>
+                                <button type="button" onClick={() => {
+                                    const next = [...testimonials];
+                                    next.splice(index, 1);
+                                    setTestimonials(next);
+                                }} style={{ color: "red", background: "none", border: "none", cursor: "pointer" }}>
+                                    <i className="ph ph-trash"></i> Xóa
+                                </button>
+                            </div>
+                            <div className="admin-stat-grid" style={{ gridTemplateColumns: "1fr 1fr", marginBottom: "10px" }}>
+                                <div className="admin-form-group">
+                                    <label className="admin-label">Tên khách hàng / Đối tác</label>
+                                    <input className="admin-input" value={t.name || ""} onChange={e => handleUpdateTestimonial(index, "name", e.target.value)} />
+                                </div>
+                                <div className="admin-form-group">
+                                    <label className="admin-label">URL Ảnh đại diện (Avatar)</label>
+                                    <input className="admin-input" value={t.avatar || ""} onChange={e => handleUpdateTestimonial(index, "avatar", e.target.value)} />
+                                </div>
+                            </div>
+
+                            {languages.map(lang => (
+                                <div key={lang} style={{ display: activeLang === lang ? "block" : "none" }}>
+                                    <div className="admin-form-group">
+                                        <label className="admin-label">Chức vụ ({lang.toUpperCase()})</label>
+                                        <input className="admin-input" value={t[`role_${lang}`] || ""} onChange={e => handleUpdateTestimonial(index, `role_${lang}`, e.target.value)} />
+                                    </div>
+                                    <div className="admin-form-group">
+                                        <label className="admin-label">Nội dung đánh giá ({lang.toUpperCase()})</label>
+                                        <textarea className="admin-input" rows={2} value={t[`content_${lang}`] || ""} onChange={e => handleUpdateTestimonial(index, `content_${lang}`, e.target.value)} />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                    {testimonials.length === 0 && <p style={{ color: "#64748b", fontStyle: "italic", textAlign: "center" }}>Chưa có đánh giá nào. Bấm "Thêm đánh giá" để bắt đầu.</p>}
+                </div>
 
                 <div style={{ marginTop: "30px", display: "flex", justifyContent: "flex-end" }}>
                     <SubmitButton className="admin-btn btn-primary" icon={<i className="ph ph-floppy-disk"></i>}>

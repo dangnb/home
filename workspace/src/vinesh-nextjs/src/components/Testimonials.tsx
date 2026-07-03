@@ -1,30 +1,38 @@
 interface TestimonialsProps {
     lang: string;
+    settings?: Record<string, string>;
 }
 
-export default function Testimonials({ lang }: TestimonialsProps) {
+export default function Testimonials({ lang, settings }: TestimonialsProps) {
     const fallback = (vi: string, en: string) => lang === "vi" ? vi : en;
 
-    const testimonials = [
-        {
-            name: "Nguyễn Văn A",
-            role: fallback("Giám đốc Cty ABC", "CEO of ABC Corp"),
-            content: fallback("Chất lượng dịch vụ tuyệt vời, đội ngũ hỗ trợ nhiệt tình. Chúng tôi rất hài lòng khi hợp tác.", "Excellent service quality, enthusiastic support team. We are very satisfied with our partnership."),
-            avatar: "https://randomuser.me/api/portraits/men/32.jpg"
-        },
-        {
-            name: "Trần Thị B",
-            role: fallback("Trưởng phòng Marketing", "Marketing Manager"),
-            content: fallback("Giải pháp công nghệ mà công ty cung cấp đã giúp chúng tôi tối ưu 30% chi phí vận hành.", "The technology solution provided by the company helped us optimize operating costs by 30%."),
-            avatar: "https://randomuser.me/api/portraits/women/44.jpg"
-        },
-        {
-            name: "Lê Hoàng C",
-            role: fallback("Founder Startup XYZ", "Founder of XYZ"),
-            content: fallback("Tiến độ công việc luôn được đảm bảo, thậm chí là hoàn thành trước thời hạn. Rất đáng tin cậy!", "Work progress is always guaranteed, even completed ahead of schedule. Very reliable!"),
-            avatar: "https://randomuser.me/api/portraits/men/68.jpg"
+    let testimonials: any[] = [];
+    try {
+        if (settings?.testimonialsData) {
+            testimonials = JSON.parse(settings.testimonialsData);
         }
-    ];
+    } catch (e) { }
+
+    if (testimonials.length === 0) {
+        testimonials = [
+            {
+                name: "Nguyễn Văn A",
+                role_vi: "Giám đốc Cty ABC",
+                role_en: "CEO of ABC Corp",
+                content_vi: "Chất lượng dịch vụ tuyệt vời, đội ngũ hỗ trợ nhiệt tình. Chúng tôi rất hài lòng khi hợp tác.",
+                content_en: "Excellent service quality, enthusiastic support team. We are very satisfied with our partnership.",
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+            },
+            {
+                name: "Trần Thị B",
+                role_vi: "Trưởng phòng Marketing",
+                role_en: "Marketing Manager",
+                content_vi: "Giải pháp công nghệ mà công ty cung cấp đã giúp chúng tôi tối ưu 30% chi phí vận hành.",
+                content_en: "The technology solution provided by the company helped us optimize operating costs by 30%.",
+                avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+            }
+        ];
+    }
 
     return (
         <section className="testimonials-section section-padding">
@@ -47,12 +55,12 @@ export default function Testimonials({ lang }: TestimonialsProps) {
                                 <i className="ph-fill ph-star"></i>
                                 <i className="ph-fill ph-star"></i>
                             </div>
-                            <p className="testi-content">"{item.content}"</p>
+                            <p className="testi-content">"{lang === 'vi' ? item.content_vi : (item[`content_${lang}`] || item.content_en)}"</p>
                             <div className="testi-author">
                                 <img src={item.avatar} alt={item.name} className="testi-avatar" width={60} height={60} loading="lazy" decoding="async" />
                                 <div className="testi-info">
                                     <h4>{item.name}</h4>
-                                    <span>{item.role}</span>
+                                    <span>{lang === 'vi' ? item.role_vi : (item[`role_${lang}`] || item.role_en)}</span>
                                 </div>
                             </div>
                         </div>
