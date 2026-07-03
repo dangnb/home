@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./BookingForm.module.css";
+import Swal from "sweetalert2";
 
 interface BookingFormProps {
   cruiseSlug?: string;
@@ -60,58 +61,20 @@ export default function BookingForm({
         setStatus("error");
       } else {
         setStatus("success");
+        Swal.fire({
+          title: "Đặt lịch thành công!",
+          text: `Cảm ơn ${form.customerName}! Chúng tôi đã nhận được yêu cầu đặt lịch của bạn. Nhân viên 2Da Tickets sẽ liên hệ xác nhận qua số ${form.phone} trong vòng 30 phút.`,
+          icon: "success",
+          confirmButtonText: "Đóng",
+          confirmButtonColor: "#01bf93",
+        });
+        setForm({ customerName: "", phone: "", email: "", date: "", time: TIME_SLOTS[0], guests: 2, note: "" });
+        setTimeout(() => setStatus("idle"), 2000);
       }
     } catch {
       setErrorMsg("Không thể kết nối máy chủ. Vui lòng thử lại.");
       setStatus("error");
     }
-  }
-
-  if (status === "success") {
-    return (
-      <motion.div
-        className={styles.successBox}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className={styles.successIcon}>✅</div>
-        <h3 className={styles.successTitle}>Đặt lịch thành công!</h3>
-        <p className={styles.successDesc}>
-          Cảm ơn <strong>{form.customerName}</strong>! Chúng tôi đã nhận được yêu cầu đặt lịch của bạn.
-          <br />Nhân viên 2Da Tickets sẽ liên hệ xác nhận qua số <strong>{form.phone}</strong> trong vòng 30 phút.
-        </p>
-        <div className={styles.successInfo}>
-          <div className={styles.successInfoItem}>
-            <span>🚢 Du thuyền</span>
-            <strong>{cruiseName || "Chưa chọn"}</strong>
-          </div>
-          <div className={styles.successInfoItem}>
-            <span>📅 Ngày</span>
-            <strong>{(() => { const d = new Date(form.date); return `${d.getDate().toString().padStart(2,"0")}/${(d.getMonth()+1).toString().padStart(2,"0")}/${d.getFullYear()}`; })()}</strong>
-          </div>
-          <div className={styles.successInfoItem}>
-            <span>🕐 Giờ</span>
-            <strong>{form.time}</strong>
-          </div>
-          <div className={styles.successInfoItem}>
-            <span>👥 Số người</span>
-            <strong>{form.guests} người</strong>
-          </div>
-        </div>
-        <div className={styles.successActions}>
-          <a href="tel:0796768636" className={styles.successCallBtn}>
-            📞 Gọi ngay: 0796.768.636
-          </a>
-          <button
-            className={styles.successResetBtn}
-            onClick={() => { setStatus("idle"); setForm({ customerName:"", phone:"", email:"", date:"", time:TIME_SLOTS[0], guests:2, note:"" }); }}
-          >
-            Đặt lịch khác
-          </button>
-        </div>
-      </motion.div>
-    );
   }
 
   return (

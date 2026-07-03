@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import styles from "../admin.module.css";
 import sStyles from "./settings.module.css";
 
@@ -50,10 +51,19 @@ export default function SettingsPage() {
     });
     setLoading(false);
     if (res.ok) {
-      setMsg({ type: "success", text: "Đã lưu cấu hình thành công!" });
-      setTimeout(() => setMsg({ type: "", text: "" }), 3000);
+      Swal.fire({
+        title: "Thành công!",
+        text: "Đã lưu cấu hình hệ thống",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false
+      });
     } else {
-      setMsg({ type: "error", text: "Lỗi khi lưu!" });
+      Swal.fire({
+        title: "Lỗi!",
+        text: "Đã xảy ra lỗi khi lưu cấu hình",
+        icon: "error"
+      });
     }
   }
 
@@ -65,13 +75,13 @@ export default function SettingsPage() {
   );
 
   const tabs = [
-    { id: "contact", label: "📞 Liên hệ",    icon: "📞" },
-    { id: "social",  label: "🌐 Mạng xã hội", icon: "🌐" },
-    { id: "map",     label: "📍 Bản đồ",       icon: "📍" },
-    { id: "seo",     label: "🔍 SEO",          icon: "🔍" },
-    { id: "footer",  label: "📄 Footer",       icon: "📄" },
-    { id: "slots",   label: "🕐 Giờ xuất bến", icon: "🕐" },
-    { id: "banner",  label: "🖼️ Banner",       icon: "🖼️" },
+    { id: "contact", label: "📞 Liên hệ", icon: "📞" },
+    { id: "social", label: "🌐 Mạng xã hội", icon: "🌐" },
+    { id: "map", label: "📍 Bản đồ", icon: "📍" },
+    { id: "seo", label: "🔍 SEO", icon: "🔍" },
+    { id: "footer", label: "📄 Footer", icon: "📄" },
+    { id: "slots", label: "🕐 Giờ xuất bến", icon: "🕐" },
+    { id: "banner", label: "🖼️ Banner", icon: "🖼️" },
   ] as const;
 
   return (
@@ -206,10 +216,10 @@ export default function SettingsPage() {
             <h3 className={styles.cardSectionTitle}>🌐 Mạng Xã Hội</h3>
             <div className={styles.formGrid}>
               {[
-                { key: "facebook",  icon: "🔵", label: "Facebook",  placeholder: "https://www.facebook.com/2datickets" },
-                { key: "tiktok",    icon: "⚫", label: "TikTok",    placeholder: "https://www.tiktok.com/@duthuyensonghan.danang" },
-                { key: "youtube",   icon: "🔴", label: "YouTube",   placeholder: "https://www.youtube.com/@2datickets" },
-                { key: "zalo",      icon: "🔷", label: "Zalo",      placeholder: "https://zalo.me/0796768636" },
+                { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://www.facebook.com/2datickets" },
+                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@duthuyensonghan.danang" },
+                { key: "youtube", icon: "🔴", label: "YouTube", placeholder: "https://www.youtube.com/@2datickets" },
+                { key: "zalo", icon: "🔷", label: "Zalo", placeholder: "https://zalo.me/0796768636" },
                 { key: "instagram", icon: "🟣", label: "Instagram", placeholder: "https://www.instagram.com/..." },
               ].map(s => (
                 <div key={s.key} className={styles.formField}>
@@ -238,10 +248,10 @@ export default function SettingsPage() {
             <div className={sStyles.preview}>
               <div className={sStyles.previewTitle}>Xem trước icon mạng xã hội</div>
               <div className={sStyles.socialPreview}>
-                {form.facebook  && <a href={form.facebook}  target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#1877f2" }}>f Facebook</a>}
-                {form.tiktok    && <a href={form.tiktok}    target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#000" }}>♪ TikTok</a>}
-                {form.youtube   && <a href={form.youtube}   target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#ff0000" }}>▶ YouTube</a>}
-                {form.zalo      && <a href={form.zalo}      target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#0068ff" }}>Z Zalo</a>}
+                {form.facebook && <a href={form.facebook} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#1877f2" }}>f Facebook</a>}
+                {form.tiktok && <a href={form.tiktok} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#000" }}>♪ TikTok</a>}
+                {form.youtube && <a href={form.youtube} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#ff0000" }}>▶ YouTube</a>}
+                {form.zalo && <a href={form.zalo} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#0068ff" }}>Z Zalo</a>}
                 {form.instagram && <a href={form.instagram} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#e1306c" }}>📷 Instagram</a>}
               </div>
             </div>

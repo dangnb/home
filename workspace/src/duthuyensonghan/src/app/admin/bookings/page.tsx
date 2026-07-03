@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import styles from "../admin.module.css";
 import bStyles from "./bookings.module.css";
 
@@ -21,9 +22,9 @@ interface Booking {
 }
 
 const STATUS_LABELS: Record<BookingStatus, { label: string; color: string; bg: string }> = {
-  new:       { label: "Mới",       color: "#1d4ed8", bg: "#dbeafe" },
+  new: { label: "Mới", color: "#1d4ed8", bg: "#dbeafe" },
   confirmed: { label: "Xác nhận", color: "#065f46", bg: "#d1fae5" },
-  cancelled: { label: "Đã hủy",   color: "#991b1b", bg: "#fee2e2" },
+  cancelled: { label: "Đã hủy", color: "#991b1b", bg: "#fee2e2" },
 };
 
 export default function BookingsPage() {
@@ -59,11 +60,22 @@ export default function BookingsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Xóa booking này?")) return;
+    const result = await Swal.fire({
+      title: "Xóa booking này?",
+      text: "Hành động này không thể hoàn tác!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#94a3b8",
+      confirmButtonText: "Đồng ý xóa",
+      cancelButtonText: "Hủy",
+    });
+    if (!result.isConfirmed) return;
+
     const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
     if (res.ok) {
       setBookings(prev => prev.filter(b => b.id !== id));
-      flash("success", "Đã xóa!");
+      Swal.fire("Đã xóa!", "Booking đã được xóa thành công.", "success");
     }
   }
 
@@ -103,16 +115,18 @@ export default function BookingsPage() {
       {/* Stats */}
       <div className={styles.statsGrid} style={{ marginBottom: "1.5rem" }}>
         {[
-          { key: "new",       icon: "🆕", label: "Mới",       color: "#1d4ed8", bg: "#eff6ff" },
+          { key: "new", icon: "🆕", label: "Mới", color: "#1d4ed8", bg: "#eff6ff" },
           { key: "confirmed", icon: "✅", label: "Xác nhận", color: "#065f46", bg: "#f0fdf4" },
-          { key: "cancelled", icon: "❌", label: "Đã hủy",   color: "#991b1b", bg: "#fef2f2" },
-          { key: "all",       icon: "📋", label: "Tổng",     color: "#374151", bg: "#f8fafc" },
+          { key: "cancelled", icon: "❌", label: "Đã hủy", color: "#991b1b", bg: "#fef2f2" },
+          { key: "all", icon: "📋", label: "Tổng", color: "#374151", bg: "#f8fafc" },
         ].map(s => (
           <div
             key={s.key}
             className={styles.statCard}
-            style={{ "--stat-color": s.color, "--stat-bg": s.bg, cursor: "pointer",
-              outline: filter === s.key ? `2px solid ${s.color}` : "none" } as React.CSSProperties}
+            style={{
+              "--stat-color": s.color, "--stat-bg": s.bg, cursor: "pointer",
+              outline: filter === s.key ? `2px solid ${s.color}` : "none"
+            } as React.CSSProperties}
             onClick={() => setFilter(s.key as typeof filter)}
           >
             <div className={styles.statIconWrap}>
@@ -186,9 +200,9 @@ export default function BookingsPage() {
                   const st = STATUS_LABELS[b.status];
                   // Format date without locale to avoid hydration mismatch
                   const d = new Date(b.date);
-                  const dateStr = `${d.getDate().toString().padStart(2,"0")}/${(d.getMonth()+1).toString().padStart(2,"0")}/${d.getFullYear()}`;
+                  const dateStr = `${d.getDate().toString().padStart(2, "0")}/${(d.getMonth() + 1).toString().padStart(2, "0")}/${d.getFullYear()}`;
                   const createdD = new Date(b.createdAt);
-                  const createdStr = `${createdD.getDate().toString().padStart(2,"0")}/${(createdD.getMonth()+1).toString().padStart(2,"0")}/${createdD.getFullYear()} ${createdD.getHours().toString().padStart(2,"0")}:${createdD.getMinutes().toString().padStart(2,"0")}`;
+                  const createdStr = `${createdD.getDate().toString().padStart(2, "0")}/${(createdD.getMonth() + 1).toString().padStart(2, "0")}/${createdD.getFullYear()} ${createdD.getHours().toString().padStart(2, "0")}:${createdD.getMinutes().toString().padStart(2, "0")}`;
                   return (
                     <tr key={b.id}>
                       <td>
@@ -226,8 +240,10 @@ export default function BookingsPage() {
                         </span>
                       </td>
                       <td style={{ maxWidth: "160px" }}>
-                        <span style={{ fontSize: "0.82rem", color: "#64748b", display: "block",
-                          overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <span style={{
+                          fontSize: "0.82rem", color: "#64748b", display: "block",
+                          overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"
+                        }}>
                           {b.note || "—"}
                         </span>
                       </td>

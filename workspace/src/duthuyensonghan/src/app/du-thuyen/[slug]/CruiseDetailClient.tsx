@@ -1,14 +1,14 @@
 "use client";
 import styles from "./page.module.css";
-import type { Cruise } from "@/lib/db";
+import type { CruiseData } from "@/lib/db";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import BookingForm from "@/components/BookingForm";
 
 interface Props {
-  cruise: Cruise;
-  relatedCruises: Cruise[];
+  cruise: CruiseData;
+  relatedCruises: CruiseData[];
   timeSlots?: string[];
 }
 
@@ -52,7 +52,7 @@ export default function CruiseDetailClient({ cruise, relatedCruises, timeSlots }
             </div>
             {cruise.gallery.length > 1 && (
               <div className={styles.thumbs}>
-                {cruise.gallery.map((img, i) => (
+                {cruise.gallery.map((img: string, i: number) => (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     key={i}
@@ -78,7 +78,7 @@ export default function CruiseDetailClient({ cruise, relatedCruises, timeSlots }
             </h2>
 
             {/* Highlights — only show if not embedded in HTML description */}
-            {!isHtmlDescription && cruise.highlights.map((h, i) => (
+            {!isHtmlDescription && cruise.highlights.map((h: string, i: number) => (
               <p key={i} className={styles.highlightItem}>• {h}</p>
             ))}
           </motion.div>
@@ -102,7 +102,7 @@ export default function CruiseDetailClient({ cruise, relatedCruises, timeSlots }
                 viewport={{ once: true }}
               >
                 <h3 className={styles.sectionTitle}>1. Giới thiệu tổng quan:</h3>
-                {cruise.description.split("\n\n").map((p, i) => (
+                {cruise.description.split("\n\n").map((p: string, i: number) => (
                   <p key={i} className={styles.para}>{p}</p>
                 ))}
               </motion.div>
@@ -117,7 +117,7 @@ export default function CruiseDetailClient({ cruise, relatedCruises, timeSlots }
                 >
                   <h3 className={styles.sectionTitle}>Dịch vụ bao gồm trong giá vé</h3>
                   <ul className={styles.includeList}>
-                    {cruise.includes.map((item, i) => (
+                    {cruise.includes.map((item: string, i: number) => (
                       <li key={i}>✅ {item}</li>
                     ))}
                   </ul>

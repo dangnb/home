@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import dynamic from "next/dynamic";
 import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
@@ -10,9 +11,11 @@ import GalleryUpload from "@/components/GalleryUpload";
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
   loading: () => (
-    <div style={{ border: "1.5px solid #e2e8f0", borderRadius: "12px", minHeight: "400px",
+    <div style={{
+      border: "1.5px solid #e2e8f0", borderRadius: "12px", minHeight: "400px",
       display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8",
-      fontSize: "0.875rem", background: "#fafafa" }}>
+      fontSize: "0.875rem", background: "#fafafa"
+    }}>
       Đang tải trình soạn thảo...
     </div>
   ),
@@ -147,11 +150,17 @@ export default function CruiseFormPage({ params }: { params: Promise<{ slug: str
     setLoading(false);
 
     if (res.ok) {
-      flash("success", isNew ? "Đã tạo mới du thuyền!" : "Đã cập nhật!");
+      Swal.fire({
+        title: "Thành công!",
+        text: isNew ? "Đã tạo mới du thuyền!" : "Đã cập nhật!",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+      });
       if (isNew) setTimeout(() => router.push("/admin/cruises"), 1200);
     } else {
       const d = await res.json();
-      flash("error", d.error ?? "Lỗi!");
+      Swal.fire("Lỗi!", d.error ?? "Đã xảy ra lỗi!", "error");
     }
   }
 

@@ -3,13 +3,13 @@ import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingButtons from "./FloatingButtons";
-import type { SiteSettings, Cruise } from "@/lib/db";
+import type { SiteSettings, CruiseData } from "@/lib/db";
 
 interface Props {
   children: React.ReactNode;
   settings: SiteSettings;
-  regularCruises: Pick<Cruise, "name" | "slug">[];
-  dinnerCruises: Pick<Cruise, "name" | "slug">[];
+  regularCruises: Pick<CruiseData, "name" | "slug">[];
+  dinnerCruises: Pick<CruiseData, "name" | "slug">[];
 }
 
 export default function PublicShell({ children, settings, regularCruises, dinnerCruises }: Props) {
