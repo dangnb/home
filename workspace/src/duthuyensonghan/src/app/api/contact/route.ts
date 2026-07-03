@@ -1,8 +1,14 @@
 // src/app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { createContact } from "@/lib/db";
+import { contactRateLimiter } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    if (!contactRateLimiter.check(ip)) {
+        return NextResponse.json({ error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau 15 phút." }, { status: 429 });
+    }
+
     try {
         const body = await req.json();
         const { name, email, phone, subject, message } = body;

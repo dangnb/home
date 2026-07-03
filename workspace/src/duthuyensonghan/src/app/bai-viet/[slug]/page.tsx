@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { getCruises, getPosts, getPostBySlug, getSettings } from "@/lib/db";
 import { notFound } from "next/navigation";
+import DOMPurify from "isomorphic-dompurify";
 
 const CATEGORY_LABELS: Record<string, string> = {
   "tin-tuc": "Tin Tức",
@@ -129,7 +130,7 @@ export default async function PostDetailPage({
 
             <div
               className={styles.articleContent}
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }}
             />
 
             <div className={styles.articleFooter}>

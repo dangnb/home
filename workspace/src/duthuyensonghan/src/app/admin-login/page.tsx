@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import styles from "./login.module.css";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,17 +14,17 @@ export default function AdminLogin() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true); setError("");
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
     });
-    if (res.ok) {
+
+    if (res?.ok) {
       router.push("/admin");
       router.refresh();
     } else {
-      const data = await res.json();
-      setError(data.error ?? "Đăng nhập thất bại");
+      setError(res?.error ?? "Đăng nhập thất bại");
     }
     setLoading(false);
   }
@@ -39,12 +40,12 @@ export default function AdminLogin() {
         <p className={styles.sub}>Du Thuyền Sông Hàn – 2Da Tickets</p>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
-            <label>Tên đăng nhập</label>
+            <label>Email đăng nhập</label>
             <input
-              type="text"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              placeholder="admin"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="admin@example.com"
               required
               autoFocus
             />

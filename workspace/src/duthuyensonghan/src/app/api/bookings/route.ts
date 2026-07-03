@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { bookingRateLimiter } from "@/lib/rate-limit";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -12,6 +13,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
+  if (!bookingRateLimiter.check(ip)) {
+    return NextResponse.json({ error: "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau 15 phút." }, { status: 429 });
+  }
+
   const body = await req.json();
   try {
     const booking = await prisma.booking.create({
