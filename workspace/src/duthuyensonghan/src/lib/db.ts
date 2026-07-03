@@ -1,44 +1,18 @@
-import fs from "fs";
-import path from "path";
+// src/lib/db.ts - Database operations using Prisma
+import prisma from "./prisma";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+// Re-export prisma for direct access
+export { prisma };
 
-function readJSON<T>(filename: string): T {
-  const filePath = path.join(DATA_DIR, filename);
-  if (!fs.existsSync(filePath)) return [] as unknown as T;
-  const raw = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(raw) as T;
-}
-
-function writeJSON(filename: string, data: unknown): void {
-  const filePath = path.join(DATA_DIR, filename);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-}
-
-// ── Categories ──────────────────────────────────────
-export interface Category {
-  id: string;
-  label: string;
-  slug: string;
-  description: string;
-}
-
-export function getCategories(): Category[] {
-  return readJSON<Category[]>("categories.json");
-}
-
-export function saveCategories(data: Category[]): void {
-  writeJSON("categories.json", data);
-}
-
-// ── Cruises ─────────────────────────────────────────
+// ── Types (giữ tương thích ngược) ──────────────────
 export interface Tour {
   name: string;
   icon: string;
   schedule: string[];
 }
 
-export interface Cruise {
+export interface CruiseData {
+  id: string;
   slug: string;
   name: string;
   categoryId: string;
@@ -55,50 +29,52 @@ export interface Cruise {
   tours: Tour[];
   includes: string[];
   relatedSlugs: string[];
+  isActive: boolean;
 }
 
-export function getCruises(): Cruise[] {
-  return readJSON<Cruise[]>("cruises.json");
+export interface CategoryData {
+  id: string;
+  label: string;
+  slug: string;
+  description: string;
 }
 
-export function getCruiseBySlug(slug: string): Cruise | undefined {
-  return getCruises().find((c) => c.slug === slug);
+export type BookingStatus = "new" | "confirmed" | "cancelled";
+
+export interface BookingData {
+  id: string;
+  cruiseSlug: string;
+  cruiseName: string;
+  customerName: string;
+  phone: string;
+  email: string;
+  date: string;
+  time: string;
+  guests: number;
+  note: string;
+  status: BookingStatus;
+  createdAt: string;
 }
 
-export function saveCruises(data: Cruise[]): void {
-  writeJSON("cruises.json", data);
+export interface PostData {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  thumbnail: string;
+  categoryId: string;
+  status: "published" | "draft";
+  createdAt: string;
+  updatedAt: string;
 }
 
-export function createCruise(cruise: Cruise): void {
-  const all = getCruises();
-  all.push(cruise);
-  saveCruises(all);
-}
-
-export function updateCruise(slug: string, update: Partial<Cruise>): boolean {
-  const all = getCruises();
-  const idx = all.findIndex((c) => c.slug === slug);
-  if (idx === -1) return false;
-  all[idx] = { ...all[idx], ...update };
-  saveCruises(all);
-  return true;
-}
-
-export function deleteCruise(slug: string): boolean {
-  const all = getCruises();
-  const filtered = all.filter((c) => c.slug !== slug);
-  if (filtered.length === all.length) return false;
-  saveCruises(filtered);
-  return true;
-}
-
-// ── Pricing ─────────────────────────────────────────
 export interface PriceItem {
   label: string;
   price: string;
 }
 
-export interface Pricing {
+export interface PricingData {
   regularNote: string;
   regularPrices: PriceItem[];
   dinnerNote: string;
@@ -107,130 +83,7 @@ export interface Pricing {
   fireworksPrices: PriceItem[];
 }
 
-export function getPricing(): Pricing {
-  return readJSON<Pricing>("pricing.json");
-}
-
-export function savePricing(data: Pricing): void {
-  writeJSON("pricing.json", data);
-}
-
-// ── Bookings ─────────────────────────────────────────
-export type BookingStatus = "new" | "confirmed" | "cancelled";
-
-export interface Booking {
-  id: string;
-  cruiseSlug: string;
-  cruiseName: string;
-  customerName: string;
-  phone: string;
-  email: string;
-  date: string;        // ISO date string YYYY-MM-DD
-  time: string;        // e.g. "17:30"
-  guests: number;
-  note: string;
-  status: BookingStatus;
-  createdAt: string;   // ISO datetime
-}
-
-export function getBookings(): Booking[] {
-  return readJSON<Booking[]>("bookings.json");
-}
-
-export function saveBookings(data: Booking[]): void {
-  writeJSON("bookings.json", data);
-}
-
-export function createBooking(booking: Omit<Booking, "id" | "createdAt" | "status">): Booking {
-  const all = getBookings();
-  const newBooking: Booking = {
-    ...booking,
-    id: `BK${Date.now()}`,
-    status: "new",
-    createdAt: new Date().toISOString(),
-  };
-  all.unshift(newBooking); // newest first
-  saveBookings(all);
-  return newBooking;
-}
-
-export function updateBookingStatus(id: string, status: BookingStatus): boolean {
-  const all = getBookings();
-  const idx = all.findIndex(b => b.id === id);
-  if (idx === -1) return false;
-  all[idx].status = status;
-  saveBookings(all);
-  return true;
-}
-
-export function deleteBooking(id: string): boolean {
-  const all = getBookings();
-  const filtered = all.filter(b => b.id !== id);
-  if (filtered.length === all.length) return false;
-  saveBookings(filtered);
-  return true;
-}
-
-// ── Posts ─────────────────────────────────────────
-export interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;        // short description
-  content: string;        // HTML from rich editor
-  thumbnail: string;      // image URL
-  categoryId: string;     // e.g. "tin-tuc", "kinh-nghiem", "gia-ve"
-  status: "published" | "draft";
-  createdAt: string;      // ISO datetime
-  updatedAt: string;
-}
-
-export function getPosts(): Post[] {
-  return readJSON<Post[]>("posts.json");
-}
-
-export function getPostBySlug(slug: string): Post | undefined {
-  return getPosts().find((p) => p.slug === slug);
-}
-
-export function savePosts(data: Post[]): void {
-  writeJSON("posts.json", data);
-}
-
-export function createPost(post: Omit<Post, "id" | "createdAt" | "updatedAt">): Post {
-  const all = getPosts();
-  const now = new Date().toISOString();
-  const newPost: Post = {
-    ...post,
-    id: `POST${Date.now()}`,
-    createdAt: now,
-    updatedAt: now,
-  };
-  all.unshift(newPost);
-  savePosts(all);
-  return newPost;
-}
-
-export function updatePost(id: string, update: Partial<Omit<Post, "id" | "createdAt">>): boolean {
-  const all = getPosts();
-  const idx = all.findIndex((p) => p.id === id);
-  if (idx === -1) return false;
-  all[idx] = { ...all[idx], ...update, updatedAt: new Date().toISOString() };
-  savePosts(all);
-  return true;
-}
-
-export function deletePost(id: string): boolean {
-  const all = getPosts();
-  const filtered = all.filter((p) => p.id !== id);
-  if (filtered.length === all.length) return false;
-  savePosts(filtered);
-  return true;
-}
-
-// ── Site Settings ─────────────────────────────────────
 export interface SiteSettings {
-  // Thông tin liên hệ
   siteName: string;
   tagline: string;
   hotline: string;
@@ -238,32 +91,20 @@ export interface SiteSettings {
   email: string;
   address: string;
   workingHours: string;
-
-  // Mạng xã hội
   facebook: string;
   tiktok: string;
   youtube: string;
   zalo: string;
   instagram: string;
-
-  // Bản đồ
   mapEmbedUrl: string;
   mapLat: string;
   mapLng: string;
-
-  // SEO
   seoTitle: string;
   seoDescription: string;
   seoKeywords: string;
-
-  // Nội dung footer
   footerTaglines: string[];
   copyright: string;
-
-  // Giờ xuất bến
   departureSlots: string[];
-
-  // Banner trang chủ
   bannerImage: string;
   bannerBadge: string;
   bannerTitle: string;
@@ -275,6 +116,7 @@ export interface SiteSettings {
   bannerStats: { value: string; label: string }[];
 }
 
+// ── Default Settings ─────────────────────────────
 const DEFAULT_SETTINGS: SiteSettings = {
   siteName: "Du Thuyền Sông Hàn – 2Da Tickets",
   tagline: "Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín",
@@ -288,7 +130,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   youtube: "https://www.youtube.com/@2datickets",
   zalo: "https://zalo.me/0796768636",
   instagram: "",
-  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0!2d108.2270!3d16.0600!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142195d3a6e8c0f%3A0x2d0d6e31f24c8b4!2zRHUgdGh1eeG7gW4gU8O0bmcgSMOgbg!5e0!3m2!1svi!2svn!4v1234567890",
+  mapEmbedUrl: "",
   mapLat: "16.0600",
   mapLng: "108.2270",
   seoTitle: "Du thuyền Sông Hàn – Đặt Vé Uy Tín, Giá Tốt",
@@ -315,25 +157,303 @@ const DEFAULT_SETTINGS: SiteSettings = {
   bannerCta2Text: "Xem Du Thuyền ↓",
   bannerCta2Link: "#khong-an-toi",
   bannerStats: [
-    { value: "10+",   label: "Du Thuyền" },
+    { value: "10+", label: "Du Thuyền" },
     { value: "1000+", label: "Đánh Giá 5★" },
-    { value: "24/7",  label: "Hỗ Trợ" },
-    { value: "0đ",    label: "Phí Giữ Chỗ" },
+    { value: "24/7", label: "Hỗ Trợ" },
+    { value: "0đ", label: "Phí Giữ Chỗ" },
   ],
 };
 
-export function getSettings(): SiteSettings {
-  const filePath = path.join(DATA_DIR, "settings.json");
-  if (!fs.existsSync(filePath)) return DEFAULT_SETTINGS;
+// ── Helper: parse JSON safely ─────────────────────
+function parseJSON<T>(str: string | null | undefined, fallback: T): T {
+  if (!str) return fallback;
+  try { return JSON.parse(str); } catch { return fallback; }
+}
+
+// ── Categories ──────────────────────────────────────
+export async function getCategories(): Promise<CategoryData[]> {
+  const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
+  return cats.map(c => ({
+    id: c.id,
+    label: c.label,
+    slug: c.slug,
+    description: c.description ?? "",
+  }));
+}
+
+export async function saveCategory(data: { label: string; slug: string; description?: string }) {
+  return prisma.category.upsert({
+    where: { slug: data.slug },
+    create: data,
+    update: data,
+  });
+}
+
+// ── Cruises ─────────────────────────────────────────
+function mapCruise(c: {
+  id: string; slug: string; name: string; categoryId: string;
+  badge: string | null; tagline: string | null; originalPrice: string | null;
+  salePrice: string; floors: number; capacity: number;
+  mainImage: string | null; gallery: string | null;
+  highlights: string | null; description: string | null;
+  tours: string | null; includes: string | null;
+  relatedSlugs: string | null; isActive: boolean;
+}): CruiseData {
+  return {
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    categoryId: c.categoryId,
+    badge: c.badge ?? "",
+    tagline: c.tagline ?? "",
+    originalPrice: c.originalPrice ?? "",
+    salePrice: c.salePrice,
+    floors: c.floors,
+    capacity: c.capacity,
+    mainImage: c.mainImage ?? "",
+    gallery: parseJSON(c.gallery, []),
+    highlights: parseJSON(c.highlights, []),
+    description: c.description ?? "",
+    tours: parseJSON(c.tours, []),
+    includes: parseJSON(c.includes, []),
+    relatedSlugs: parseJSON(c.relatedSlugs, []),
+    isActive: c.isActive,
+  };
+}
+
+export async function getCruises(): Promise<CruiseData[]> {
+  const cruises = await prisma.cruise.findMany({
+    where: { isActive: true },
+    orderBy: { order: "asc" },
+  });
+  return cruises.map(mapCruise);
+}
+
+export async function getAllCruises(): Promise<CruiseData[]> {
+  const cruises = await prisma.cruise.findMany({ orderBy: { order: "asc" } });
+  return cruises.map(mapCruise);
+}
+
+export async function getCruiseBySlug(slug: string): Promise<CruiseData | null> {
+  const c = await prisma.cruise.findUnique({ where: { slug } });
+  return c ? mapCruise(c) : null;
+}
+
+export async function createCruise(data: Omit<CruiseData, "id" | "isActive">): Promise<CruiseData> {
+  const c = await prisma.cruise.create({
+    data: {
+      slug: data.slug,
+      name: data.name,
+      categoryId: data.categoryId,
+      badge: data.badge,
+      tagline: data.tagline,
+      originalPrice: data.originalPrice,
+      salePrice: data.salePrice,
+      floors: data.floors,
+      capacity: data.capacity,
+      mainImage: data.mainImage,
+      gallery: JSON.stringify(data.gallery),
+      highlights: JSON.stringify(data.highlights),
+      description: data.description,
+      tours: JSON.stringify(data.tours),
+      includes: JSON.stringify(data.includes),
+      relatedSlugs: JSON.stringify(data.relatedSlugs),
+    },
+  });
+  return mapCruise(c);
+}
+
+export async function updateCruise(slug: string, data: Partial<CruiseData>): Promise<boolean> {
   try {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
-  } catch {
-    return DEFAULT_SETTINGS;
+    const updateData: Record<string, unknown> = {};
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.categoryId !== undefined) updateData.categoryId = data.categoryId;
+    if (data.badge !== undefined) updateData.badge = data.badge;
+    if (data.tagline !== undefined) updateData.tagline = data.tagline;
+    if (data.originalPrice !== undefined) updateData.originalPrice = data.originalPrice;
+    if (data.salePrice !== undefined) updateData.salePrice = data.salePrice;
+    if (data.floors !== undefined) updateData.floors = data.floors;
+    if (data.capacity !== undefined) updateData.capacity = data.capacity;
+    if (data.mainImage !== undefined) updateData.mainImage = data.mainImage;
+    if (data.gallery !== undefined) updateData.gallery = JSON.stringify(data.gallery);
+    if (data.highlights !== undefined) updateData.highlights = JSON.stringify(data.highlights);
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.tours !== undefined) updateData.tours = JSON.stringify(data.tours);
+    if (data.includes !== undefined) updateData.includes = JSON.stringify(data.includes);
+    if (data.relatedSlugs !== undefined) updateData.relatedSlugs = JSON.stringify(data.relatedSlugs);
+    if (data.slug !== undefined) updateData.slug = data.slug;
+
+    await prisma.cruise.update({ where: { slug }, data: updateData });
+    return true;
+  } catch { return false; }
+}
+
+export async function deleteCruise(slug: string): Promise<boolean> {
+  try {
+    await prisma.cruise.delete({ where: { slug } });
+    return true;
+  } catch { return false; }
+}
+
+// ── Bookings ─────────────────────────────────────────
+export async function getBookings(): Promise<BookingData[]> {
+  const bookings = await prisma.booking.findMany({ orderBy: { createdAt: "desc" } });
+  return bookings.map(b => ({
+    id: b.id,
+    cruiseSlug: b.cruiseSlug,
+    cruiseName: b.cruiseName,
+    customerName: b.customerName,
+    phone: b.phone,
+    email: b.email ?? "",
+    date: b.date,
+    time: b.time,
+    guests: b.guests,
+    note: b.note ?? "",
+    status: b.status as BookingStatus,
+    createdAt: b.createdAt.toISOString(),
+  }));
+}
+
+export async function createBooking(data: Omit<BookingData, "id" | "createdAt" | "status">): Promise<BookingData> {
+  const b = await prisma.booking.create({ data: { ...data, status: "new" } });
+  return {
+    id: b.id, cruiseSlug: b.cruiseSlug, cruiseName: b.cruiseName,
+    customerName: b.customerName, phone: b.phone, email: b.email ?? "",
+    date: b.date, time: b.time, guests: b.guests, note: b.note ?? "",
+    status: b.status as BookingStatus, createdAt: b.createdAt.toISOString(),
+  };
+}
+
+export async function updateBookingStatus(id: string, status: BookingStatus): Promise<boolean> {
+  try {
+    await prisma.booking.update({ where: { id }, data: { status } });
+    return true;
+  } catch { return false; }
+}
+
+export async function deleteBooking(id: string): Promise<boolean> {
+  try {
+    await prisma.booking.delete({ where: { id } });
+    return true;
+  } catch { return false; }
+}
+
+// ── Posts ─────────────────────────────────────────
+export async function getPosts(): Promise<PostData[]> {
+  const posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+  return posts.map(p => ({
+    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+  }));
+}
+
+export async function getPostBySlug(slug: string): Promise<PostData | null> {
+  const p = await prisma.post.findUnique({ where: { slug } });
+  if (!p) return null;
+  return {
+    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+  };
+}
+
+export async function createPost(data: Omit<PostData, "id" | "createdAt" | "updatedAt">): Promise<PostData> {
+  const p = await prisma.post.create({ data });
+  return {
+    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+  };
+}
+
+export async function updatePost(id: string, data: Partial<PostData>): Promise<boolean> {
+  try {
+    await prisma.post.update({ where: { id }, data });
+    return true;
+  } catch { return false; }
+}
+
+export async function deletePost(id: string): Promise<boolean> {
+  try {
+    await prisma.post.delete({ where: { id } });
+    return true;
+  } catch { return false; }
+}
+
+// ── Pricing ─────────────────────────────────────────
+export async function getPricing(): Promise<PricingData> {
+  const rows = await prisma.pricing.findMany({ orderBy: { order: "asc" } });
+  const result: PricingData = {
+    regularNote: "", regularPrices: [],
+    dinnerNote: "", dinnerPrices: [],
+    fireworksNote: "", fireworksPrices: [],
+  };
+  for (const r of rows) {
+    const prices = parseJSON<PriceItem[]>(r.prices, []);
+    if (r.key === "regular") { result.regularNote = r.note ?? ""; result.regularPrices = prices; }
+    if (r.key === "dinner") { result.dinnerNote = r.note ?? ""; result.dinnerPrices = prices; }
+    if (r.key === "fireworks") { result.fireworksNote = r.note ?? ""; result.fireworksPrices = prices; }
+  }
+  return result;
+}
+
+export async function savePricing(data: PricingData): Promise<void> {
+  await prisma.pricing.upsert({
+    where: { key: "regular" },
+    create: { key: "regular", note: data.regularNote, prices: JSON.stringify(data.regularPrices) },
+    update: { note: data.regularNote, prices: JSON.stringify(data.regularPrices) },
+  });
+  await prisma.pricing.upsert({
+    where: { key: "dinner" },
+    create: { key: "dinner", note: data.dinnerNote, prices: JSON.stringify(data.dinnerPrices) },
+    update: { note: data.dinnerNote, prices: JSON.stringify(data.dinnerPrices) },
+  });
+  await prisma.pricing.upsert({
+    where: { key: "fireworks" },
+    create: { key: "fireworks", note: data.fireworksNote, prices: JSON.stringify(data.fireworksPrices) },
+    update: { note: data.fireworksNote, prices: JSON.stringify(data.fireworksPrices) },
+  });
+}
+
+// ── Settings ─────────────────────────────────────────
+export async function getSettings(): Promise<SiteSettings> {
+  const rows = await prisma.setting.findMany();
+  const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
+
+  const settings = { ...DEFAULT_SETTINGS };
+  for (const [key, value] of Object.entries(map)) {
+    if (key in settings) {
+      const defaultVal = (settings as Record<string, unknown>)[key];
+      if (Array.isArray(defaultVal)) {
+        (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);
+      } else {
+        (settings as Record<string, unknown>)[key] = value;
+      }
+    }
+  }
+  return settings;
+}
+
+export async function saveSettings(data: Partial<SiteSettings>): Promise<void> {
+  for (const [key, value] of Object.entries(data)) {
+    const strValue = typeof value === "string" ? value : JSON.stringify(value);
+    await prisma.setting.upsert({
+      where: { key },
+      create: { key, value: strValue },
+      update: { value: strValue },
+    });
   }
 }
 
-export function saveSettings(data: Partial<SiteSettings>): void {
-  const current = getSettings();
-  writeJSON("settings.json", { ...current, ...data });
+// ── Contacts ─────────────────────────────────────────
+export async function getContacts() {
+  return prisma.contact.findMany({ orderBy: { createdAt: "desc" } });
+}
+
+export async function createContact(data: { name: string; email?: string; phone?: string; subject?: string; message: string }) {
+  return prisma.contact.create({ data });
 }

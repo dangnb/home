@@ -1,41 +1,42 @@
+// src/app/api/upload/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { uploadImage } from "@/lib/cloudinary";
 
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+export async function POST(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-export async function POST(request: NextRequest) {
-  if (!(await getSession())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const formData = await req.formData();
+    const file = formData.get("file") as File;
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Check if Cloudinary is configured
+    if (!process.env.CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME === "your_cloud_name") {
+      // Fallback: save to local /public/images/uploads/
+      const fs = await import("fs");
+      const path = await import("path");
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const ext = file.name.split(".").pop() || "jpg";
+      const filename = `upload_${Date.now()}.${ext}`;
+      const uploadDir = path.join(process.cwd(), "public", "images", "uploads");
+      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+      fs.writeFileSync(path.join(uploadDir, filename), buffer);
+      return NextResponse.json({ url: `/images/uploads/${filename}` });
+    }
+
+    // Upload to Cloudinary
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const url = await uploadImage(buffer);
+    return NextResponse.json({ url });
+  } catch (error) {
+    console.error("Upload error:", error);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
-
-  const formData = await request.formData();
-  const file = formData.get("file") as File | null;
-
-  if (!file) {
-    return NextResponse.json({ error: "Không có file" }, { status: 400 });
-  }
-
-  if (!ALLOWED_TYPES.includes(file.type)) {
-    return NextResponse.json({ error: "Chỉ chấp nhận ảnh JPG, PNG, WEBP, GIF, SVG" }, { status: 400 });
-  }
-
-  if (file.size > MAX_SIZE) {
-    return NextResponse.json({ error: "File quá lớn (tối đa 5MB)" }, { status: 400 });
-  }
-
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  // Sanitize filename
-  const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-  const safeName = `upload_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const uploadDir = path.join(process.cwd(), "public", "images", "uploads");
-
-  await mkdir(uploadDir, { recursive: true });
-  await writeFile(path.join(uploadDir, safeName), buffer);
-
-  return NextResponse.json({ url: `/images/uploads/${safeName}` });
 }

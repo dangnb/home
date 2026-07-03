@@ -1,27 +1,59 @@
-// src/lib/auth.ts
-import { cookies } from "next/headers";
+// src/lib/auth.ts - NextAuth.js Configuration
+import type { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
+import prisma from "./prisma";
 
-const SESSION_COOKIE = "admin_session";
-const SECRET = process.env.ADMIN_SECRET ?? "duthuyensonghan_secret_2025";
+export const authOptions: NextAuthOptions = {
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
 
-export function generateToken(): string {
-  return Buffer.from(`${SECRET}:${Date.now()}`).toString("base64");
-}
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-export function validateToken(token: string): boolean {
-  try {
-    const decoded = Buffer.from(token, "base64").toString("utf-8");
-    return decoded.startsWith(`${SECRET}:`);
-  } catch {
-    return false;
-  }
-}
+        if (!user) return null;
 
-export async function getSession(): Promise<boolean> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE)?.value;
-  if (!token) return false;
-  return validateToken(token);
-}
+        const isValid = await compare(credentials.password, user.password);
+        if (!isValid) return null;
 
-export { SESSION_COOKIE };
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
+      },
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = (user as { role: string }).role;
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as { role?: string }).role = token.role as string;
+        (session.user as { id?: string }).id = token.id as string;
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/admin/login",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};
