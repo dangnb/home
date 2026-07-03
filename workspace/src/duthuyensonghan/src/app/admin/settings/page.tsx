@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import styles from "../admin.module.css";
 import sStyles from "./settings.module.css";
+import { FormInput } from "@/components/Admin/FormComponents";
 
 interface SiteSettings {
   siteName: string; tagline: string;
@@ -122,62 +123,57 @@ export default function SettingsPage() {
           <div className={styles.formCard}>
             <h3 className={styles.cardSectionTitle}>📞 Thông Tin Liên Hệ</h3>
             <div className={styles.formGrid}>
-              <div className={styles.formField}>
-                <label>Tên đơn vị</label>
-                <input value={form.siteName} onChange={e => set("siteName", e.target.value)}
-                  placeholder="Du Thuyền Sông Hàn – 2Da Tickets" />
-              </div>
-              <div className={styles.formField}>
-                <label>Slogan / Tagline</label>
-                <input value={form.tagline} onChange={e => set("tagline", e.target.value)}
-                  placeholder="Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín" />
-              </div>
-
-              <div className={styles.formField}>
-                <label>Hotline chính *</label>
-                <div className={sStyles.inputWithIcon}>
-                  <span className={sStyles.inputIcon}>📞</span>
-                  <input value={form.hotline} onChange={e => set("hotline", e.target.value)}
-                    placeholder="0796768636" />
-                </div>
-                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                  Hiển thị: {form.hotline ? form.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3") : "—"}
-                </span>
-              </div>
-              <div className={styles.formField}>
-                <label>Hotline phụ (tuỳ chọn)</label>
-                <div className={sStyles.inputWithIcon}>
-                  <span className={sStyles.inputIcon}>📞</span>
-                  <input value={form.hotline2} onChange={e => set("hotline2", e.target.value)}
-                    placeholder="0900000000" />
-                </div>
-              </div>
-
-              <div className={styles.formField}>
-                <label>Email</label>
-                <div className={sStyles.inputWithIcon}>
-                  <span className={sStyles.inputIcon}>✉️</span>
-                  <input type="email" value={form.email} onChange={e => set("email", e.target.value)}
-                    placeholder="support@duthuyensonghan.vn" />
-                </div>
-              </div>
-              <div className={styles.formField}>
-                <label>Giờ làm việc</label>
-                <div className={sStyles.inputWithIcon}>
-                  <span className={sStyles.inputIcon}>🕐</span>
-                  <input value={form.workingHours} onChange={e => set("workingHours", e.target.value)}
-                    placeholder="24/7" />
-                </div>
-              </div>
-
-              <div className={`${styles.formField} ${styles.fullWidth}`}>
-                <label>Địa chỉ</label>
-                <div className={sStyles.inputWithIcon}>
-                  <span className={sStyles.inputIcon}>📍</span>
-                  <input value={form.address} onChange={e => set("address", e.target.value)}
-                    placeholder="Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng" />
-                </div>
-              </div>
+              <FormInput
+                label="Tên đơn vị"
+                value={form.siteName}
+                onChange={(e) => set("siteName", e.target.value)}
+                placeholder="Du Thuyền Sông Hàn – 2Da Tickets"
+              />
+              <FormInput
+                label="Slogan / Tagline"
+                value={form.tagline}
+                onChange={(e) => set("tagline", e.target.value)}
+                placeholder="Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín"
+              />
+              <FormInput
+                label="Hotline chính"
+                required
+                icon="📞"
+                value={form.hotline}
+                onChange={(e) => set("hotline", e.target.value)}
+                placeholder="0796768636"
+                helpText={`Hiển thị: ${form.hotline ? form.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3") : "—"}`}
+              />
+              <FormInput
+                label="Hotline phụ (tuỳ chọn)"
+                icon="📞"
+                value={form.hotline2}
+                onChange={(e) => set("hotline2", e.target.value)}
+                placeholder="0900000000"
+              />
+              <FormInput
+                label="Email"
+                type="email"
+                icon="✉️"
+                value={form.email}
+                onChange={(e) => set("email", e.target.value)}
+                placeholder="support@duthuyensonghan.vn"
+              />
+              <FormInput
+                label="Giờ làm việc"
+                icon="🕐"
+                value={form.workingHours}
+                onChange={(e) => set("workingHours", e.target.value)}
+                placeholder="24/7"
+              />
+              <FormInput
+                label="Địa chỉ"
+                icon="📍"
+                value={form.address}
+                onChange={(e) => set("address", e.target.value)}
+                placeholder="Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng"
+                className={styles.fullWidth}
+              />
             </div>
 
             {/* Preview */}

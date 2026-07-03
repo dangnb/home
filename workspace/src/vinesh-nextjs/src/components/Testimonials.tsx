@@ -49,7 +49,7 @@ export default function Testimonials({ lang }: TestimonialsProps) {
                             </div>
                             <p className="testi-content">"{item.content}"</p>
                             <div className="testi-author">
-                                <img src={item.avatar} alt={item.name} className="testi-avatar" />
+                                <img src={item.avatar} alt={item.name} className="testi-avatar" width={60} height={60} loading="lazy" decoding="async" />
                                 <div className="testi-info">
                                     <h4>{item.name}</h4>
                                     <span>{item.role}</span>

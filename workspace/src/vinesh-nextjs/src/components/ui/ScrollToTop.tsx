@@ -7,15 +7,20 @@ export default function ScrollToTop() {
 
     // Xử lý sự kiện scroll để hiện/ẩn nút
     useEffect(() => {
+        let timeoutId: any = null;
         const toggleVisibility = () => {
-            if (window.scrollY > 300) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
+            if (timeoutId) return;
+            timeoutId = setTimeout(() => {
+                if (window.scrollY > 300) {
+                    setIsVisible(true);
+                } else {
+                    setIsVisible(false);
+                }
+                timeoutId = null;
+            }, 100); // Throttle scroll event to run at most once every 100ms
         };
 
-        window.addEventListener("scroll", toggleVisibility);
+        window.addEventListener("scroll", toggleVisibility, { passive: true });
         return () => window.removeEventListener("scroll", toggleVisibility);
     }, []);
 

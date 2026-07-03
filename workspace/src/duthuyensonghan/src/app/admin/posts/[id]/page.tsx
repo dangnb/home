@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
+import { FormInput, FormSelect, FormTextarea } from "@/components/Admin/FormComponents";
 
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
@@ -205,52 +206,36 @@ export default function PostFormPage({
         <div className={styles.formCard}>
           <h3 className={styles.cardSectionTitle}>📋 Thông tin cơ bản</h3>
           <div className={styles.formGrid}>
-            <div className={`${styles.formField} ${styles.fullWidth}`}>
-              <label>Tiêu Đề *</label>
-              <input
-                value={form.title}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                placeholder="Nhập tiêu đề bài viết..."
-                required
-              />
-            </div>
-
-            <div className={styles.formField}>
-              <label>Slug (URL) *</label>
-              <input
-                value={form.slug}
-                onChange={(e) => handleSlugChange(e.target.value)}
-                placeholder="slug-bai-viet"
-                required
-              />
-              <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>
-                URL: /bai-viet/{form.slug || "slug-bai-viet"}
-              </span>
-            </div>
-
-            <div className={styles.formField}>
-              <label>Danh Mục</label>
-              <select
-                value={form.categoryId}
-                onChange={(e) => set("categoryId", e.target.value)}
-              >
-                {CATEGORIES.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className={`${styles.formField} ${styles.fullWidth}`}>
-              <label>Mô Tả Ngắn (Excerpt)</label>
-              <textarea
-                value={form.excerpt}
-                onChange={(e) => set("excerpt", e.target.value)}
-                placeholder="Mô tả ngắn về bài viết, hiển thị ở trang danh sách..."
-                rows={3}
-              />
-            </div>
+            <FormInput
+              label="Tiêu Đề"
+              value={form.title}
+              onChange={(e) => handleTitleChange(e.target.value)}
+              placeholder="Nhập tiêu đề bài viết..."
+              required
+              className={styles.fullWidth}
+            />
+            <FormInput
+              label="Slug (URL)"
+              value={form.slug}
+              onChange={(e) => handleSlugChange(e.target.value)}
+              placeholder="slug-bai-viet"
+              required
+              helpText={`URL: /bai-viet/${form.slug || "slug-bai-viet"}`}
+            />
+            <FormSelect
+              label="Danh Mục"
+              value={form.categoryId}
+              onChange={(e) => set("categoryId", e.target.value)}
+              options={CATEGORIES.map((c) => ({ label: c.label, value: c.id }))}
+            />
+            <FormTextarea
+              label="Mô Tả Ngắn (Excerpt)"
+              value={form.excerpt}
+              onChange={(e) => set("excerpt", e.target.value)}
+              placeholder="Mô tả ngắn về bài viết, hiển thị ở trang danh sách..."
+              rows={3}
+              className={styles.fullWidth}
+            />
           </div>
         </div>
 

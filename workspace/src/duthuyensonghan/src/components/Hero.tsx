@@ -1,6 +1,7 @@
 "use client";
 import styles from "./Hero.module.css";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface HeroProps {
   image?: string;
@@ -25,10 +26,10 @@ export default function Hero({
   cta2Text = "Xem Du Thuyền ↓",
   cta2Link = "#khong-an-toi",
   stats = [
-    { value: "10+",   label: "Du Thuyền" },
+    { value: "10+", label: "Du Thuyền" },
     { value: "1000+", label: "Đánh Giá 5★" },
-    { value: "24/7",  label: "Hỗ Trợ" },
-    { value: "0đ",    label: "Phí Giữ Chỗ" },
+    { value: "24/7", label: "Hỗ Trợ" },
+    { value: "0đ", label: "Phí Giữ Chỗ" },
   ],
   hotline,
 }: HeroProps) {
@@ -45,15 +46,22 @@ export default function Hero({
 
   return (
     <section className={styles.hero}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <motion.img
-        src={image}
-        alt="Banner Du Thuyền Sông Hàn"
+      <motion.div
         className={styles.heroImage}
         initial={{ scale: 1.06 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.5, ease: "easeOut" }}
-      />
+      >
+        <Image
+          src={image}
+          alt="Banner Du Thuyền Sông Hàn"
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover" }}
+          quality={85}
+        />
+      </motion.div>
       <div className={styles.overlay} />
 
       {/* Scroll indicator */}
@@ -136,6 +144,6 @@ export default function Hero({
           </motion.div>
         )}
       </div>
-    </section>
+    </section >
   );
 }

@@ -8,9 +8,12 @@ const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
 import NextTopLoader from "nextjs-toploader";
 
+export const revalidate = 300; // Khách xem web sẽ tải bản cache tĩnh (siêu nhanh), định kỳ 5 phút (300s) tự động update ngầm dữ liệu mới nhất từ Admin
+
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   return {
+    metadataBase: new URL("https://duthuyensonghan.vn"),
     title: s.seoTitle,
     description: s.seoDescription,
     keywords: s.seoKeywords,

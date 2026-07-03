@@ -108,6 +108,33 @@ export default async function PostDetailPage({
 
           {/* Article */}
           <article className={styles.article}>
+            {/* JSON-LD Article Schema for SEO Rich Data */}
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Article",
+                  headline: post.title,
+                  image: [post.thumbnail || "https://duthuyensonghan.vn/images/banner_desktop.webp"],
+                  datePublished: new Date(post.createdAt).toISOString(),
+                  dateModified: new Date(post.updatedAt || post.createdAt).toISOString(),
+                  author: {
+                    "@type": "Organization",
+                    name: "Du Thuyền Sông Hàn"
+                  },
+                  publisher: {
+                    "@type": "Organization",
+                    name: s.siteName,
+                    logo: {
+                      "@type": "ImageObject",
+                      url: "https://duthuyensonghan.vn/images/logopng-1.png"
+                    }
+                  },
+                  description: post.excerpt
+                })
+              }}
+            />
             <div className={styles.articleHeader}>
               <div className={styles.articleMeta}>
                 <span className={styles.articleCategoryBadge}>

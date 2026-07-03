@@ -1,6 +1,8 @@
 import styles from "./CruiseCard.module.css";
 import Link from "next/link";
 
+import Image from "next/image";
+
 interface CruiseCardProps {
   image: string;
   title: string;
@@ -16,8 +18,7 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
     <Link href={link} className={styles.card}>
       <div className={styles.imageContainer}>
         {isSale && <span className={styles.saleBadge}>🏷️ Sale</span>}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image} alt={title} className={styles.image} />
+        <Image src={image || "/images/banner_desktop.webp"} alt={title} fill className={styles.image} sizes="(max-width: 768px) 100vw, 33vw" />
         <div className={styles.imageOverlayBtn}>Xem Chi Tiết →</div>
       </div>
       <div className={styles.content}>
@@ -25,12 +26,12 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
         <div className={styles.features}>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/dien-tich.png" alt="Tầng" style={{width: 14, height: 14}} />
+            <img src="/images/dien-tich.png" alt="Tầng" style={{ width: 14, height: 14 }} />
             {floors} Tầng
           </div>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/phong-ngu.png" alt="Người" style={{width: 14, height: 14}} />
+            <img src="/images/phong-ngu.png" alt="Người" style={{ width: 14, height: 14 }} />
             {capacity} Người
           </div>
         </div>

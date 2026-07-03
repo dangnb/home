@@ -1,18 +1,24 @@
 interface PartnersProps {
     lang: string;
+    settings?: Record<string, string>;
 }
 
-export default function Partners({ lang }: PartnersProps) {
+export default function Partners({ lang, settings }: PartnersProps) {
     const fallback = (vi: string, en: string) => lang === "vi" ? vi : en;
 
-    // Placeholder partners
-    const partners = [
-        { name: "Partner 1", url: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
-        { name: "Partner 2", url: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
-        { name: "Partner 3", url: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%(2012%).svg" },
-        { name: "Partner 4", url: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
-        { name: "Partner 5", url: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg" },
-    ];
+    // Parse dynmic partners from settings
+    let partners: { url: string; name: string }[] = [];
+    if (settings?.partnerLogos && settings.partnerLogos.trim() !== '') {
+        const urls = settings.partnerLogos.split('\n').map(u => u.trim()).filter(u => u !== '');
+        partners = urls.map((url, i) => ({ url, name: `Partner ${i + 1}` }));
+    } else {
+        // Fallback placeholders if not configured
+        partners = [
+            { name: "Placeholder 1", url: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=300&h=150&fit=crop" },
+            { name: "Placeholder 2", url: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=300&h=150&fit=crop" },
+            { name: "Placeholder 3", url: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=300&h=150&fit=crop" },
+        ];
+    }
 
     return (
         <section className="partners-section" style={{ padding: "40px 0", borderTop: "1px solid #eee" }}>
@@ -23,7 +29,7 @@ export default function Partners({ lang }: PartnersProps) {
                 <div className="partners-flex">
                     {partners.map((partner, idx) => (
                         <div className="partner-logo" key={idx}>
-                            <img src={partner.url} alt={partner.name} style={{ height: "40px", objectFit: "contain", filter: "grayscale(100%)", opacity: 0.6, transition: "var(--transition)" }} />
+                            <img src={partner.url} alt={partner.name} width={150} height={40} loading="lazy" decoding="async" style={{ height: "40px", objectFit: "contain", filter: "grayscale(100%)", opacity: 0.6, transition: "var(--transition)" }} />
                         </div>
                     ))}
                 </div>

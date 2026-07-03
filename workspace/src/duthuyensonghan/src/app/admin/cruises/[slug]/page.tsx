@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
 import GalleryUpload from "@/components/GalleryUpload";
+import { FormInput, FormSelect, FormTextarea } from "@/components/Admin/FormComponents";
 
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
@@ -196,33 +197,41 @@ export default function CruiseFormPage({ params }: { params: Promise<{ slug: str
         <div className={styles.formCard}>
           <h3 className={styles.cardSectionTitle}>📋 Thông tin cơ bản</h3>
           <div className={styles.formGrid}>
-            <div className={styles.formField}>
-              <label>Slug (URL duy nhất) *</label>
-              <input value={form.slug} onChange={e => set("slug", e.target.value)}
-                placeholder="thao-nhi-yatch" required disabled={!isNew} />
-              {!isNew && <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Không thể đổi slug sau khi tạo</span>}
-            </div>
-            <div className={styles.formField}>
-              <label>Tên Du Thuyền *</label>
-              <input value={form.name} onChange={e => set("name", e.target.value)}
-                placeholder="Du Thuyền Thảo Nhi Yatch" required />
-            </div>
-            <div className={styles.formField}>
-              <label>Danh Mục</label>
-              <select value={form.categoryId} onChange={e => set("categoryId", e.target.value)}>
-                {cats.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-              </select>
-            </div>
-            <div className={styles.formField}>
-              <label>Badge (nhãn nhỏ)</label>
-              <input value={form.badge} onChange={e => set("badge", e.target.value)}
-                placeholder="Du thuyền nhà hàng" />
-            </div>
-            <div className={`${styles.formField} ${styles.fullWidth}`}>
-              <label>Tagline (khẩu hiệu)</label>
-              <input value={form.tagline} onChange={e => set("tagline", e.target.value)}
-                placeholder="Biệt Thự Di Động – Đẳng Cấp 5 Sao" />
-            </div>
+            <FormInput
+              label="Slug (URL duy nhất)"
+              value={form.slug}
+              onChange={(e) => set("slug", e.target.value)}
+              placeholder="thao-nhi-yatch"
+              required
+              disabled={!isNew}
+              helpText={!isNew ? "Không thể đổi slug sau khi tạo" : undefined}
+            />
+            <FormInput
+              label="Tên Du Thuyền"
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+              placeholder="Du Thuyền Thảo Nhi Yatch"
+              required
+            />
+            <FormSelect
+              label="Danh Mục"
+              value={form.categoryId}
+              onChange={(e) => set("categoryId", e.target.value)}
+              options={cats.map((c) => ({ label: c.label, value: c.id }))}
+            />
+            <FormInput
+              label="Badge (nhãn nhỏ)"
+              value={form.badge}
+              onChange={(e) => set("badge", e.target.value)}
+              placeholder="Du thuyền nhà hàng"
+            />
+            <FormInput
+              label="Tagline (khẩu hiệu)"
+              value={form.tagline}
+              onChange={(e) => set("tagline", e.target.value)}
+              placeholder="Biệt Thự Di Động – Đẳng Cấp 5 Sao"
+              className={styles.fullWidth}
+            />
           </div>
         </div>
 
@@ -230,24 +239,33 @@ export default function CruiseFormPage({ params }: { params: Promise<{ slug: str
         <div className={styles.formCard}>
           <h3 className={styles.cardSectionTitle}>💰 Giá & Thông số</h3>
           <div className={styles.formGrid}>
-            <div className={styles.formField}>
-              <label>Giá Gốc</label>
-              <input value={form.originalPrice} onChange={e => set("originalPrice", e.target.value)}
-                placeholder="1.500.000 ₫" />
-            </div>
-            <div className={styles.formField}>
-              <label>Giá Sale *</label>
-              <input value={form.salePrice} onChange={e => set("salePrice", e.target.value)}
-                placeholder="900.000 ₫" required />
-            </div>
-            <div className={styles.formField}>
-              <label>Số Tầng</label>
-              <input type="number" value={form.floors} onChange={e => set("floors", +e.target.value)} min={1} />
-            </div>
-            <div className={styles.formField}>
-              <label>Sức Chứa (người)</label>
-              <input type="number" value={form.capacity} onChange={e => set("capacity", +e.target.value)} min={1} />
-            </div>
+            <FormInput
+              label="Giá Gốc"
+              value={form.originalPrice}
+              onChange={(e) => set("originalPrice", e.target.value)}
+              placeholder="1.500.000 ₫"
+            />
+            <FormInput
+              label="Giá Sale"
+              value={form.salePrice}
+              onChange={(e) => set("salePrice", e.target.value)}
+              placeholder="900.000 ₫"
+              required
+            />
+            <FormInput
+              label="Số Tầng"
+              type="number"
+              value={form.floors}
+              onChange={(e) => set("floors", +e.target.value)}
+              min={1}
+            />
+            <FormInput
+              label="Sức Chứa (người)"
+              type="number"
+              value={form.capacity}
+              onChange={(e) => set("capacity", +e.target.value)}
+              min={1}
+            />
           </div>
         </div>
 
@@ -286,11 +304,14 @@ export default function CruiseFormPage({ params }: { params: Promise<{ slug: str
         {/* ── Liên kết ── */}
         <div className={styles.formCard}>
           <h3 className={styles.cardSectionTitle}>🔗 Du thuyền liên quan</h3>
-          <div className={styles.formField}>
-            <label>Slug du thuyền liên quan <span style={{ fontWeight: 400, color: "#94a3b8" }}>(mỗi slug một dòng)</span></label>
-            <textarea value={relInput} onChange={e => setRelInput(e.target.value)} rows={3}
-              placeholder={"du-thuyen-poseidon-cruise\ntau-rong-song-han"} />
-          </div>
+          <FormTextarea
+            label="Slug du thuyền liên quan"
+            helpText="Mỗi slug một dòng"
+            value={relInput}
+            onChange={e => setRelInput(e.target.value)}
+            rows={3}
+            placeholder={"du-thuyen-poseidon-cruise\ntau-rong-song-han"}
+          />
         </div>
 
         {/* ── Actions ── */}
