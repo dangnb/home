@@ -122,11 +122,18 @@ npx ts-node prisma/seed.ts
 
 ## Deploy on Vercel
 
-Cách đơn giản nhất để deploy dự án là sử dụng [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+Cách đơn giản nhất để deploy dự án là sử dụng [Vercel](https://vercel.com).
 
-Lưu ý khi deploy:
-1. Thêm tất cả biến môi trường (`.env`) vào **Vercel > Settings > Environment Variables**.
-2. Đảm bảo `DATABASE_URL` trỏ đến PostgreSQL production (ví dụ: Supabase).
-3. Cấu hình `NEXTAUTH_URL` thành domain production thực tế.
+### Hướng dẫn Cấu hình Biến môi trường (Environment Variables) trên Vercel:
+Để tránh lỗi `NO_SECRET` do thiếu cấu hình bảo mật `NEXTAUTH_SECRET` khi deploy, bạn cần làm theo các bước sau:
+
+1. Đăng nhập vào [Vercel Dashboard](https://vercel.com/dashboard).
+2. Chọn project của bạn -> Chuyển sang tab **Settings** -> **Environment Variables**.
+3. Thêm TẤT CẢ các biến từ file `.env` local của bạn lên đây. Các biến quan trọng nhất cần chú ý:
+   - `NEXTAUTH_SECRET`: Nhập `super-secret-vinesh-nextjs-key` (hoặc tạo một chuỗi ngẫu nhiên bảo mật).
+   - `NEXTAUTH_URL`: Phải là domain production của bạn trên Vercel (ví dụ: `https://home-theta-blue.vercel.app`), tuyệt đối **KHÔNG** dùng `http://localhost:3000`.
+   - `DATABASE_URL`: Trỏ đến PostgreSQL server thực tế của bạn.
+   - `CLOUDINARY_...`: Các biến kết nối thư viện ảnh.
+4. Sau khi Add đầy đủ, chuyển sang tab **Deployments** -> Bấm dấu 3 chấm -> Chọn **Redeploy** để Vercel nhận cấu hình mới.
 
 Xem thêm: [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
