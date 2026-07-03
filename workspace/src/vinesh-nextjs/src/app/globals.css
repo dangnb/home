@@ -865,7 +865,7 @@ img {
     .about-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .about-image-wrapper {
         max-width: 500px;
         margin: 0 auto 40px;
@@ -906,4 +906,262 @@ img {
     .section-padding {
         padding: 50px 0;
     }
+}
+
+/* ============================================
+   SWEETALERT2 PREMIUM THEME
+   Glassmorphism + Smooth Animations
+   ============================================ */
+
+/* --- POPUP (Dialog) --- */
+.swal-popup-custom {
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
+    padding: 32px 28px 24px !important;
+}
+
+.swal-title-custom {
+    color: #1e293b !important;
+    font-weight: 700 !important;
+    font-size: 1.4rem !important;
+    padding: 0 0 8px !important;
+}
+
+.swal-text-custom {
+    color: #64748b !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+}
+
+.swal-icon-custom {
+    border-width: 3px !important;
+    margin: 0 auto 16px !important;
+    width: 64px !important;
+    height: 64px !important;
+}
+
+/* --- BUTTONS --- */
+.swal-actions-custom {
+    gap: 12px !important;
+    margin-top: 24px !important;
+}
+
+.swal-confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swal-confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+}
+
+.swal-confirm-btn:active {
+    transform: translateY(0);
+}
+
+.swal-confirm-danger {
+    background: linear-gradient(135deg, #f43f5e, #e11d48) !important;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35) !important;
+}
+
+.swal-confirm-danger:hover {
+    box-shadow: 0 6px 20px rgba(225, 29, 72, 0.45) !important;
+}
+
+.swal-cancel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1.5px solid #e2e8f0;
+    color: #64748b;
+    background: #f8fafc;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swal-cancel-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.swal-cancel-btn:active {
+    transform: translateY(0);
+}
+
+/* --- POPUP ANIMATIONS --- */
+@keyframes swalPopupShow {
+    0% {
+        opacity: 0;
+        transform: scale(0.85) translateY(20px);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.02) translateY(-4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes swalPopupHide {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.9) translateY(15px);
+    }
+}
+
+@keyframes swalBackdropShow {
+    from {
+        background-color: rgba(15, 23, 42, 0);
+    }
+
+    to {
+        background-color: rgba(15, 23, 42, 0.45);
+    }
+}
+
+@keyframes swalBackdropHide {
+    from {
+        background-color: rgba(15, 23, 42, 0.45);
+    }
+
+    to {
+        background-color: rgba(15, 23, 42, 0);
+    }
+}
+
+.swal-popup-show {
+    animation: swalPopupShow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.swal-popup-hide {
+    animation: swalPopupHide 0.25s ease-in !important;
+}
+
+.swal-backdrop-show {
+    animation: swalBackdropShow 0.35s ease-out !important;
+}
+
+.swal-backdrop-hide {
+    animation: swalBackdropHide 0.25s ease-in !important;
+}
+
+/* --- TOAST --- */
+.swal-toast-custom {
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(16px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    padding: 12px 20px !important;
+}
+
+@keyframes swalToastShow {
+    from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes swalToastHide {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
+    }
+}
+
+.swal-toast-show {
+    animation: swalToastShow 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.swal-toast-hide {
+    animation: swalToastHide 0.3s ease-in !important;
+}
+
+.swal-timer-bar {
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #f39c12) !important;
+    height: 3px !important;
+    border-radius: 0 0 14px 14px !important;
+}
+
+/* --- LOADING POPUP --- */
+.swal-loading-popup {
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12) !important;
+    padding: 40px 36px !important;
+}
+
+.swal-loading-title {
+    color: #475569 !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+}
+
+.swal-loading-popup .swal2-loader {
+    border-color: #3b82f6 transparent #3b82f6 transparent !important;
+}
+
+/* --- BUTTON LOADING SPINNER (inline) --- */
+@keyframes btnSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2.5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btnSpin 0.65s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
 }

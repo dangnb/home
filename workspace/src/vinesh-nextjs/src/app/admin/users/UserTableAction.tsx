@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateUserRole, deleteUser } from "../actions";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
+import { confirmDelete, toastSuccess } from "@/lib/swalTheme";
 
 interface User {
     id: string;
@@ -20,34 +20,21 @@ export default function UserTableAction({ users }: { users: User[] }) {
         setLoadingId(userId);
         await updateUserRole(userId, newRole);
         setLoadingId(null);
-        Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: 'Cập nhật phân quyền thành công!',
-            showConfirmButton: false,
-            timer: 1500
-        });
+        toastSuccess("Cập nhật phân quyền thành công!");
         router.refresh();
     };
 
     const handleDelete = async (userId: string) => {
-        const result = await Swal.fire({
-            title: 'Khóa / Xóa Tài Khoản?',
-            text: "Xóa xong là mất tích luôn không cứu được đâu nha!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            cancelButtonColor: '#64748b',
-            confirmButtonText: 'Đúng, tiễn đi!',
-            cancelButtonText: 'Giữ lại'
-        });
+        const result = await confirmDelete(
+            "Khóa / Xóa Tài Khoản?",
+            "Xóa xong là mất tích luôn không cứu được đâu nha!"
+        );
 
         if (result.isConfirmed) {
             setLoadingId(userId);
             await deleteUser(userId);
             setLoadingId(null);
-            Swal.fire({ title: 'Đã xóa!', text: 'Thành viên này đã bị trục xuất khỏi máy chủ.', icon: 'success', timer: 1500, showConfirmButton: false });
+            toastSuccess("Thành viên này đã bị trục xuất khỏi máy chủ.");
             router.refresh();
         }
     };
@@ -88,7 +75,10 @@ export default function UserTableAction({ users }: { users: User[] }) {
                                     style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "20px" }}
                                     title="Xóa User"
                                 >
-                                    <i className="ph ph-trash"></i>
+                                    {loadingId === u.id
+                                        ? <span className="btn-spinner" style={{ borderTopColor: "#ef4444", borderColor: "rgba(239,68,68,0.2)" }}></span>
+                                        : <i className="ph ph-trash"></i>
+                                    }
                                 </button>
                             </td>
                         </tr>

@@ -30,23 +30,18 @@ export const authOptions: NextAuthOptions = {
                     throw new Error("Invalid credentials");
                 }
 
-                // Auto-upgrade admin@example.com to ADMIN (if not already)
-                if (user.email === "admin@example.com" && user.role !== "ADMIN") {
-                    const updated = await prisma.user.update({
-                        where: { id: user.id },
-                        data: { role: "ADMIN" }
-                    });
-                    user.role = updated.role;
-                }
+                // Trả về user (không auto-upgrade hardcoded nữa → bảo mật)
 
                 return user;
             }
         })
     ],
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
+        maxAge: 24 * 60 * 60, // 24 giờ — tự động hết hạn session
     },
-    secret: process.env.NEXTAUTH_SECRET || "fallback_secret_key_change_me_in_production",
+    // BẮT BUỘC phải có NEXTAUTH_SECRET trong .env (không có fallback)
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",
     },

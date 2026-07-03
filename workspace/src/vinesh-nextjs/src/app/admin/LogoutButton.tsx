@@ -1,20 +1,15 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import Swal from "sweetalert2";
+import { confirmAction } from "@/lib/swalTheme";
 
 export default function LogoutButton() {
     const handleLogout = async () => {
-        const result = await Swal.fire({
-            title: 'Đăng xuất?',
-            text: "Bạn có chắc chắn muốn thoát phiên làm việc?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3b82f6',
-            cancelButtonColor: '#94a3b8',
-            confirmButtonText: 'Đúng, Thoát',
-            cancelButtonText: 'Hủy'
-        });
+        const result = await confirmAction(
+            "Đăng xuất?",
+            "Bạn có chắc chắn muốn thoát phiên làm việc?",
+            "Đúng, Thoát"
+        );
 
         if (result.isConfirmed) {
             await signOut({ callbackUrl: "/login" });

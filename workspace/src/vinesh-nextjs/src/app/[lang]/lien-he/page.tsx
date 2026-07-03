@@ -59,7 +59,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
   const address = settings.address || "Khu Công nghiệp VSIP, Thuận An, Bình Dương";
   const phone = settings.phone || "0984 929 693";
   const email = settings.email || "info@vinesh.com.vn";
-  
+
   // Default map to a central location if not provided
   const mapIframe = settings.mapIframe || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.427618995574!2d106.70295191533423!3d10.855047292268482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528e1d5a7d5b1%3A0x6e9f9024f0e5b7b0!2sVSIP%20I!5e0!3m2!1sen!2svn!4v1622616854992!5m2!1sen!2svn";
 
@@ -89,7 +89,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               <p>{address}</p>
             </div>
           </div>
-          
+
           <div className="info-card">
             <div className="info-icon">
               <i className="ph-fill ph-phone"></i>
@@ -99,7 +99,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               <a href={`tel:${phone.replace(/\s+/g, '')}`}>{phone}</a>
             </div>
           </div>
-          
+
           <div className="info-card">
             <div className="info-icon">
               <i className="ph-fill ph-envelope"></i>
@@ -116,11 +116,21 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
 
       <section className="map-section" style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px" }}>
         <div className="map-wrapper">
-          {mapIframe.trim().startsWith("<iframe") ? (
-             <div dangerouslySetInnerHTML={{ __html: mapIframe }} style={{ width: "100%", height: "100%" }}></div>
-          ) : (
-             <iframe src={mapIframe} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"></iframe>
-          )}
+          {/* Bảo mật: Chỉ render iframe với src URL, KHÔNG dùng dangerouslySetInnerHTML */}
+          <iframe
+            src={
+              mapIframe.trim().startsWith("<iframe")
+                ? (mapIframe.match(/src="([^"]+)"/)?.[1] || "")
+                : mapIframe
+            }
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
         </div>
       </section>
 

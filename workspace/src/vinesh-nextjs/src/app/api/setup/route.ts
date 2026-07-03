@@ -1,9 +1,25 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import bcrypt from 'bcrypt';
 
+/**
+ * API Setup — BỊ VÔ HIỆU HÓA TRÊN PRODUCTION
+ * 
+ * API này tạo admin user + settings mặc định.
+ * Chỉ chạy được ở môi trường development.
+ */
 export async function GET() {
+    // Double-check: chặn trên production
+    if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+            { error: "API này bị vô hiệu hóa trên production." },
+            { status: 403 }
+        );
+    }
+
     try {
+        const { PrismaClient } = await import('@prisma/client');
+        const bcrypt = await import('bcrypt');
+        const prisma = new PrismaClient();
+
         const adminEmail = 'admin@example.com';
         const existingUser = await prisma.user.findUnique({ where: { email: adminEmail } });
         if (!existingUser) {
@@ -13,6 +29,7 @@ export async function GET() {
                     name: 'Admin',
                     email: adminEmail,
                     password,
+                    role: 'ADMIN',
                 },
             });
         }
@@ -46,6 +63,8 @@ export async function GET() {
                 await prisma.service.create({ data: s });
             }
         }
+
+        await prisma.$disconnect();
 
         return NextResponse.json({ message: 'Seeding completed!' });
     } catch (err: any) {

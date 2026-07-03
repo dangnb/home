@@ -77,7 +77,10 @@ export default function LoginPage() {
                             fontSize: "1.1rem"
                         }}
                     >
-                        {loading ? "Đang xử lý..." : "Đăng nhập ngay"}
+                        {loading
+                            ? <><span className="btn-spinner"></span> Đang xử lý...</>
+                            : "Đăng nhập ngay"
+                        }
                     </button>
                 </form>
             </div>

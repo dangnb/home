@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
 
+/**
+ * API Seed — BỊ VÔ HIỆU HÓA
+ * 
+ * API này chỉ dùng trong quá trình phát triển (development).
+ * Trên production, middleware.ts sẽ chặn truy cập tới endpoint này.
+ * Ngoài ra, bản thân route cũng tự chặn nếu không phải dev mode.
+ */
 export async function GET() {
+    // Double-check: chặn trên production ngay ở đây
+    if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+            { error: "API này bị vô hiệu hóa trên production." },
+            { status: 403 }
+        );
+    }
+
+    // Development only
     try {
-        // Clear all categories first if needed, but let's just create new ones cautiously
+        const { PrismaClient } = await import('@prisma/client');
+        const prisma = new PrismaClient();
+
         const c1 = await prisma.category.create({
             data: {
                 slug: 've-vinesh',
@@ -72,7 +89,7 @@ export async function GET() {
             }
         });
 
-        const c3 = await prisma.category.create({
+        await prisma.category.create({
             data: {
                 slug: 'tin-tuc',
                 order: 3,
@@ -84,6 +101,8 @@ export async function GET() {
                 })
             }
         });
+
+        await prisma.$disconnect();
 
         return NextResponse.json({ success: true, message: "Đã tạo dữ liệu mẫu thành công!" });
     } catch (e: any) {

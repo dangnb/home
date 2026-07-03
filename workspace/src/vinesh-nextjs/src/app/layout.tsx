@@ -27,7 +27,14 @@ export default function RootLayout({
         <Script src="https://unpkg.com/@phosphor-icons/web" />
       </head>
       <body suppressHydrationWarning className={inter.className}>
-        <NextTopLoader color="#f39c12" height={3} showSpinner={true} />
+        <NextTopLoader
+          color="#3b82f6"
+          height={2}
+          showSpinner={false}
+          shadow="0 0 10px #3b82f6, 0 0 5px #3b82f6"
+          speed={300}
+          crawlSpeed={250}
+        />
         {children}
         <ScrollToTop />
       </body>
