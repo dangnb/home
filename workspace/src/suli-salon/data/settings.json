@@ -1,0 +1,47 @@
+{
+  "siteName": "Du Thuyền Sông Hàn – 2Da Tickets",
+  "tagline": "Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín",
+  "hotline": "0796768636",
+  "hotline2": "",
+  "email": "support@duthuyensonghan.vn",
+  "address": "Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng",
+  "workingHours": "24/7",
+  "facebook": "https://www.facebook.com/2datickets",
+  "tiktok": "https://www.tiktok.com/@duthuyensonghan.danang",
+  "youtube": "https://www.youtube.com/@2datickets",
+  "zalo": "https://zalo.me/0796768636",
+  "instagram": "",
+  "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.0!2d108.2270!3d16.0600!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3142195d3a6e8c0f%3A0x2d0d6e31f24c8b4!2zRHUgdGh1eeG7gW4gU8O0bmcgSMOgbg!5e0!3m2!1svi!2svn!4v1234567890",
+  "mapLat": "16.0600",
+  "mapLng": "108.2270",
+  "seoTitle": "Du thuyền Sông Hàn – Đặt Vé Uy Tín, Giá Tốt",
+  "seoDescription": "Top Du thuyền Sông Hàn Đà Nẵng Đẹp - Ưu tiên view đẹp, trực tiếp đón và dẫn lên du thuyền. Đặt vé nhanh, an toàn.",
+  "seoKeywords": "du thuyền sông hàn, du thuyen song han, vé du thuyền đà nẵng",
+  "footerTaglines": [
+    "✅ Ưu tiên view đẹp.",
+    "✅ Trực tiếp đón tại bến.",
+    "✅ Trực tiếp dẫn lên du thuyền.",
+    ""
+  ],
+  "copyright": "© Copyright 2Da Tickets Du Thuyền Sông Hàn Đà Nẵng",
+  "departureSlots": [
+    "17:00 – Chuyến chiều",
+    "17:30 – Chuyến chiều tối",
+    "19:00 – Chuyến tối",
+    "19:30 – Chuyến tối muộn"
+  ],
+  "bannerImage": "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg",
+  "bannerBadge": "⭐ Hơn 1000 đánh giá 5 sao trên Google",
+  "bannerTitle": "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
+  "bannerSubtitle": "",
+  "bannerCta1Text": "📞 Đặt Vé Ngay",
+  "bannerCta1Link": "tel:0796768636",
+  "bannerCta2Text": "Xem Du Thuyền ↓",
+  "bannerCta2Link": "#khong-an-toi",
+  "bannerStats": [
+    { "value": "10+",   "label": "Du Thuyền" },
+    { "value": "1000+", "label": "Đánh Giá 5★" },
+    { "value": "24/7",  "label": "Hỗ Trợ" },
+    { "value": "0đ",    "label": "Phí Giữ Chỗ" }
+  ]
+}

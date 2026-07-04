@@ -1,0 +1,159 @@
+// Prisma Schema – Du Thuyền Sông Hàn
+// Hiện tại dùng SQLite cho development
+// Để chuyển sang PostgreSQL (production), đổi provider & DATABASE_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ── User ──────────────────────────────────────
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("user") // "admin" | "user"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ── Category ──────────────────────────────────
+model Category {
+  id          String   @id @default(cuid())
+  label       String
+  slug        String   @unique
+  description String?
+  cruises     Cruise[]
+  posts       Post[]
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ── Cruise (Service/Du Thuyền) ────────────────
+model Cruise {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id])
+  badge         String?
+  tagline       String?
+  originalPrice String?
+  salePrice     String
+  floors        Int      @default(1)
+  capacity      Int      @default(0)
+  mainImage     String?
+  gallery       String?  // JSON array string
+  highlights    String?  // JSON array string
+  description   String?  // HTML content
+  tours         String?  // JSON string
+  includes      String?  // JSON array string
+  relatedSlugs  String?  // JSON array string
+  order         Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// ── Booking ───────────────────────────────────
+model Booking {
+  id           String   @id @default(cuid())
+  cruiseSlug   String
+  cruiseName   String
+  customerName String
+  phone        String
+  email        String?
+  date         String
+  time         String
+  guests       Int      @default(1)
+  note         String?
+  status       String   @default("new") // "new" | "confirmed" | "cancelled"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ── Post (Bài viết) ──────────────────────────
+model Post {
+  id         String    @id @default(cuid())
+  title      String
+  slug       String    @unique
+  excerpt    String?
+  content    String?   // HTML from rich editor
+  thumbnail  String?
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  status     String    @default("draft") // "published" | "draft"
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+// ── Setting (Cài đặt hệ thống) ──────────────
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+// ── Slide (Banner slider) ────────────────────
+model Slide {
+  id        String   @id @default(cuid())
+  title     String?
+  subtitle  String?
+  image     String
+  link      String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ── Page (Trang nội dung tĩnh) ───────────────
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ── Contact (Liên hệ) ───────────────────────
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// ── Language (Ngôn ngữ) ──────────────────────
+model Language {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  isDefault Boolean  @default(false)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+// ── Pricing (Bảng giá) ──────────────────────
+model Pricing {
+  id        String   @id @default(cuid())
+  key       String   @unique // "regular", "dinner", "fireworks"
+  note      String?
+  prices    String   // JSON array string [{label, price}]
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

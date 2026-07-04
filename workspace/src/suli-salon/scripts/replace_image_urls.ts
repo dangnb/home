@@ -62,7 +62,7 @@ async function main() {
   for (const setting of settings) {
     let newVal = setting.value;
     for (const [oldUrl, newUrl] of Object.entries(map)) {
-      newVal = newVal.split(oldUrl).join(newUrl as string);
+      newVal = newVal.split(oldUrl).join(newUrl);
     }
     if (newVal !== setting.value) {
       await prisma.setting.update({ where: { key: setting.key }, data: { value: newVal } });

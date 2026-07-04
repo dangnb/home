@@ -1,0 +1,155 @@
+.section {
+  padding: 6rem 0;
+  background-color: var(--bg-color);
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.imageCol {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+  aspect-ratio: 4/5;
+}
+
+.badge {
+  position: absolute;
+  bottom: -30px;
+  left: -30px;
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(197, 168, 89, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.badgeNumber {
+  font-family: var(--font-playfair), serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.badgeText {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contentCol {
+  flex: 1;
+}
+
+.subtitle {
+  color: var(--primary);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.desc {
+  font-size: 1.15rem;
+  color: var(--text-gray);
+  margin-bottom: 2rem;
+}
+
+.featureList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(197, 168, 89, 0.15);
+  color: var(--primary);
+  border-radius: 50%;
+}
+
+.exploreBtn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.exploreBtn:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 4rem;
+  }
+  
+  .imageCol {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .badge {
+    left: 20px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+}

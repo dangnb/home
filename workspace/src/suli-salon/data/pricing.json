@@ -1,0 +1,18 @@
+{
+  "regularNote": "Giá niêm yết tại bến: 150.000đ. Đặt tại 2Da Tickets:",
+  "regularPrices": [
+    { "label": "Chuyến thường (không xem Cầu Rồng phun lửa)", "price": "99.000đ" },
+    { "label": "Chuyến xem Cầu Rồng phun lửa", "price": "120.000đ" }
+  ],
+  "dinnerNote": "Du Thuyền Ăn tối được chia ra làm 2 loại:",
+  "dinnerPrices": [
+    { "label": "Ăn tối theo suất menu", "price": "300.000đ – 600.000đ" },
+    { "label": "Ăn Buffet", "price": "600.000đ – 1.000.000đ" }
+  ],
+  "fireworksNote": "Lễ hội pháo hoa quốc tế Đà Nẵng tổ chức vào đầu hè mỗi năm. Đặt vé sớm để nhận ưu đãi tốt nhất!",
+  "fireworksPrices": [
+    { "label": "KHÔNG NHÀ HÀNG", "price": "Từ 800.000đ - 1.500.000đ" },
+    { "label": "NHÀ HÀNG", "price": "Từ 1.700.000đ - 3.000.000đ" },
+    { "label": "NHÀ HÀNG VIP", "price": "Từ 2.500.000đ - 5.000.000đ" }
+  ]
+}

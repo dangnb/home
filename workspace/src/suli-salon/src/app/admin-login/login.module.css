@@ -1,0 +1,46 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0a2a1e 100%);
+}
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  width: 100%; max-width: 420px;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+.logo img { height: 50px; margin-bottom: 1.5rem; filter: brightness(0) invert(1); }
+.title { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem; }
+.sub { font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+.form { display: flex; flex-direction: column; gap: 1.2rem; text-align: left; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.06em; }
+.field input {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  color: #fff; font-size: 1rem;
+  outline: none; transition: border 0.2s;
+}
+.field input:focus { border-color: #01bf93; }
+.field input::placeholder { color: rgba(255,255,255,0.25); }
+.error {
+  background: rgba(255,59,48,0.15); border: 1px solid rgba(255,59,48,0.3);
+  color: #ff6b6b; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.88rem;
+}
+.btn {
+  background: linear-gradient(135deg, #01bf93, #00a87c);
+  color: #fff; font-weight: 700; font-size: 1rem;
+  padding: 0.9rem; border-radius: 10px; border: none;
+  cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 16px rgba(1,191,147,0.4);
+}
+.btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(1,191,147,0.5); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.hint { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 1.5rem; }
+.hint code { background: rgba(255,255,255,0.08); padding: 0.1rem 0.3rem; border-radius: 4px; }

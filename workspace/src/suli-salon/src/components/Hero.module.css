@@ -1,0 +1,147 @@
+.heroSection {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-color);
+  padding-top: 80px; /* Space for navbar */
+  position: relative;
+  overflow: hidden;
+}
+
+.heroSection::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle at 10% 20%, rgba(197, 168, 89, 0.05) 0%, transparent 20%),
+                    radial-gradient(circle at 90% 80%, rgba(197, 168, 89, 0.05) 0%, transparent 20%);
+  z-index: 0;
+}
+
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.contentArea {
+  flex: 1;
+  max-width: 600px;
+}
+
+.title {
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: var(--text-gray);
+  margin-bottom: 3rem;
+  max-width: 450px;
+}
+
+.heroButton {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.heroButton:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.imageArea {
+  flex: 1;
+  position: relative;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper1 {
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 300px;
+  height: 450px;
+  border-radius: 100px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+.imageWrapper1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageWrapper2 {
+  position: absolute;
+  right: 0;
+  top: 5%;
+  width: 350px;
+  height: 500px;
+  border-radius: 120px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+
+.imageWrapper2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .heroContainer {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 4rem;
+  }
+  
+  .subtitle {
+    margin: 0 auto 3rem auto;
+  }
+  
+  .imageArea {
+    width: 100%;
+    height: 500px;
+  }
+  
+  .title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .imageWrapper1 {
+    width: 200px;
+    height: 300px;
+  }
+  
+  .imageWrapper2 {
+    width: 250px;
+    height: 350px;
+  }
+}

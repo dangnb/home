@@ -1,0 +1,133 @@
+.page { background: var(--bg-color); min-height: 100vh; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+}
+.heroBg { width: 100%; height: 100%; object-fit: cover; }
+.heroOverlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,60,40,0.75) 100%);
+}
+.heroContent {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: 0.75rem;
+}
+.heroBadge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 0.3rem 1rem; border-radius: 100px;
+}
+.heroTitle {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900; color: #fff;
+  line-height: 1.2; letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.heroSub { font-size: 1rem; color: rgba(255,255,255,0.85); font-weight: 500; }
+
+/* ── CONTENT ── */
+.content { padding: 3rem 1rem 4rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ── INFO COL ── */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 90px;
+}
+
+.infoCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.infoTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #f0fdf9;
+}
+
+.infoDesc { font-size: 0.9rem; color: #475569; line-height: 1.6; }
+
+.infoCallBtn {
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, #01bf93, #00a87c);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 16px rgba(1,191,147,0.3);
+  transition: transform 0.2s;
+}
+.infoCallBtn:hover { transform: translateY(-2px); }
+
+.infoZaloBtn {
+  display: block;
+  text-align: center;
+  background: #0068FF;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.infoZaloBtn:hover { background: #0052cc; }
+
+/* Steps */
+.stepList { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.stepItem { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: #374151; }
+.stepNum {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: linear-gradient(135deg, #01bf93, #00a87c);
+  color: #fff; font-weight: 800; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Times */
+.timeList { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.timeItem { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: #374151; }
+.timeBadge {
+  background: #f0fdf9; color: #065f46;
+  border: 1px solid #a7f3d0;
+  font-weight: 700; font-size: 0.82rem;
+  padding: 0.2rem 0.6rem; border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: 1fr; }
+  .infoCol { position: static; }
+}
+@media (max-width: 640px) {
+  .hero { height: 260px; }
+}

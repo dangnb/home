@@ -1,0 +1,205 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0.01em;
+}
+
+/* ── DROP ZONE ── */
+.dropZone {
+  position: relative;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropZone:hover {
+  border-color: #01bf93;
+  background: #f0fdf9;
+}
+
+.dragOver {
+  border-color: #01bf93 !important;
+  background: #e6f7f2 !important;
+  box-shadow: 0 0 0 3px rgba(1, 191, 147, 0.15);
+}
+
+.hasImage {
+  border-style: solid;
+  border-color: #e2e8f0;
+  min-height: 200px;
+}
+
+/* Preview */
+.preview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+.previewOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  border-radius: 10px;
+}
+
+.dropZone:hover .previewOverlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.previewOverlay span {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: rgba(1, 191, 147, 0.9);
+  padding: 0.5rem 1.25rem;
+  border-radius: 100px;
+}
+
+.dropZone:hover .previewOverlay span {
+  opacity: 1;
+}
+
+/* Placeholder */
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.placeholderText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+.placeholderSub {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.placeholderBtn {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.45rem 1.1rem;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropZone:hover .placeholderBtn {
+  border-color: #01bf93;
+  color: #01bf93;
+  background: #f0fdf9;
+}
+
+/* Uploading overlay */
+.uploadingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+/* Spinner */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #01bf93;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── URL ROW ── */
+.urlRow {
+  display: flex;
+  gap: 0;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.urlRow:focus-within {
+  border-color: #01bf93;
+}
+
+.urlInput {
+  flex: 1;
+  padding: 0.6rem 0.85rem;
+  border: none;
+  outline: none;
+  font-size: 0.82rem;
+  color: #374151;
+  background: transparent;
+  font-family: inherit;
+}
+
+.urlInput::placeholder {
+  color: #94a3b8;
+}
+
+.clearBtn {
+  padding: 0 0.75rem;
+  border: none;
+  background: #fef2f2;
+  color: #ef4444;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-weight: 600;
+}
+
+.clearBtn:hover {
+  background: #fecaca;
+}
+
+/* ── ERROR ── */
+.error {
+  font-size: 0.78rem;
+  color: #ef4444;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+}

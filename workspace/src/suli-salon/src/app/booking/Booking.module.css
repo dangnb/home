@@ -1,0 +1,295 @@
+.bookingWrapper {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: var(--shadow);
+  min-height: 500px;
+  position: relative;
+}
+
+.progressContainer {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.progressBar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 2px;
+  background-color: var(--primary);
+  z-index: 1;
+  transition: width 0.4s ease;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.stepIndicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  border: 2px solid var(--border-color);
+  color: var(--text-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.activeStep {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+  box-shadow: 0 0 0 4px rgba(197, 168, 89, 0.2);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.backBtn:hover {
+  color: var(--primary);
+}
+
+.stepTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 2rem;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.selectCard {
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.selectCard:hover {
+  border-color: var(--primary);
+  background-color: #fdfcf9;
+}
+
+.selectedCard {
+  border-color: var(--primary);
+  background-color: #fdfcf9;
+  box-shadow: 0 10px 25px rgba(197, 168, 89, 0.1);
+}
+
+.selectCard h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.selectCard p {
+  font-size: 0.9rem;
+}
+
+.checkIcon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.listSelection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.25rem 2rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.listItem:hover {
+  border-color: var(--primary);
+}
+
+.serviceInfo h4 {
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.serviceInfo p {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.servicePrice {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-right: 2rem;
+}
+
+.subLabel {
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+}
+
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.timeSlot {
+  border: 1px solid var(--border-color);
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.timeSlot:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.selectedTime {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.selectedTime:hover {
+  color: var(--white);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+  border-color: var(--primary);
+}
+
+.summaryBox {
+  background-color: var(--bg-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2.5rem;
+}
+
+.summaryBox h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.summaryBox p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.nextBtn, .confirmBtn {
+  display: block;
+  width: 100%;
+  padding: 1.1rem;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nextBtn:disabled, .confirmBtn:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.nextBtn:not(:disabled):hover, .confirmBtn:not(:disabled):hover {
+  background-color: var(--primary-hover);
+}
+
+.successState {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.successIcon {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.successState h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.successState p {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .bookingWrapper {
+    padding: 1.5rem;
+  }
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+}

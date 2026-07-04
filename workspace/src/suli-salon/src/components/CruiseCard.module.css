@@ -1,0 +1,172 @@
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Image */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+/* Gradient overlay at bottom of image */
+.imageContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Sale badge */
+.saleBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: linear-gradient(135deg, #ff3b30, #ff6b35);
+  color: #fff;
+  padding: 0.22rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 59, 48, 0.4);
+}
+
+/* Content */
+.content {
+  padding: 1.25rem 1.5rem 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.4;
+  margin: 0;
+  transition: color 0.3s ease;
+  letter-spacing: -0.01em;
+}
+
+.card:hover .title {
+  color: var(--primary);
+}
+
+/* Features chips */
+.features {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555;
+  background: #f4fdf9;
+  border: 1px solid #d0f0e6;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.priceLabel {
+  font-size: 0.72rem;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.01em;
+}
+
+/* Book CTA button */
+.bookBtn {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--primary);
+  padding: 0.4rem 0.9rem;
+  border-radius: 100px;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(1,191,147,0.3);
+}
+
+.bookBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Image overlay CTA */
+.imageOverlayBtn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(1,191,147,0.92) 0%, transparent 100%);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 1.5rem 1rem 0.75rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  letter-spacing: 0.03em;
+}
+
+.card:hover .imageOverlayBtn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
