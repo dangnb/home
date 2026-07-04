@@ -19,7 +19,7 @@ export async function uploadImage(
                 {
                     folder,
                     resource_type: "image",
-                    transformation: [{ quality: "auto", fetch_format: "auto" }],
+                    transformation: [{ width: 1920, crop: "limit", quality: "auto", fetch_format: "auto" }],
                 },
                 (error, result) => {
                     if (error) reject(error);

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { uploadImage } from "@/lib/cloudinary";
+import sharp from "sharp";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,13 +18,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
+    // Optimize image before upload
+    let buffer = Buffer.from(await file.arrayBuffer());
+    if (file.type.startsWith("image/")) {
+      buffer = await sharp(buffer)
+        .resize({ width: 1920, withoutEnlargement: true })
+        .webp({ quality: 80 })
+        .toBuffer();
+    }
+
     // Check if Cloudinary is configured
     if (!process.env.CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME === "your_cloud_name") {
       // Fallback: save to local /public/images/uploads/
       const fs = await import("fs");
       const path = await import("path");
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const ext = file.name.split(".").pop() || "jpg";
+      const ext = "webp"; // Since we converted to webp
       const filename = `upload_${Date.now()}.${ext}`;
       const uploadDir = path.join(process.cwd(), "public", "images", "uploads");
       if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
@@ -32,7 +41,6 @@ export async function POST(req: NextRequest) {
     }
 
     // Upload to Cloudinary
-    const buffer = Buffer.from(await file.arrayBuffer());
     const url = await uploadImage(buffer);
     return NextResponse.json({ url });
   } catch (error) {
