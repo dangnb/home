@@ -8,7 +8,7 @@ export default function FireworksBanner() {
     <section className={styles.section}>
       {/* Background image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/images/phaohoatuocte.jpg" alt="Pháo Hoa Đà Nẵng" className={styles.bg} />
+      <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152885/duthuyensonghan/bjb9dmp42m8rmgxkzbvr.jpg" alt="Pháo Hoa Đà Nẵng" className={styles.bg} />
       <div className={styles.overlay} />
 
       <div className={`container ${styles.inner}`}>

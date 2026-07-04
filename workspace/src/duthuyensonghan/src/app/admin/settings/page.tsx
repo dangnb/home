@@ -478,7 +478,7 @@ export default function SettingsPage() {
                 <div className={sStyles.inputWithIcon}>
                   <span className={sStyles.inputIcon}>🖼️</span>
                   <input value={form.bannerImage ?? ""} onChange={e => set("bannerImage", e.target.value)}
-                    placeholder="/images/banner_desktop.webp" />
+                    placeholder="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg" />
                 </div>
                 {form.bannerImage && (
                   // eslint-disable-next-line @next/next/no-img-element

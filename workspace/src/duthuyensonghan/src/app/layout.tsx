@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
     },
     icons: {
-      icon: "/images/logopng-1.png",
-      apple: "/images/logopng-1.png",
+      icon: "https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png",
+      apple: "https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png",
     }
   };
 }

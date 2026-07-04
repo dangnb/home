@@ -24,7 +24,7 @@ export default function PhaoHoaClient({ fireworksPrices, fireworksNote, recentPo
       <section className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/phaohoatuocte.jpg"
+          src="https://res.cloudinary.com/jawkxked/image/upload/v1783152885/duthuyensonghan/bjb9dmp42m8rmgxkzbvr.jpg"
           alt="Lễ hội pháo hoa quốc tế Đà Nẵng"
           className={styles.heroImage}
         />
@@ -63,7 +63,7 @@ export default function PhaoHoaClient({ fireworksPrices, fireworksNote, recentPo
           </motion.h2>
 
           <motion.img
-            src="/images/phaohoatuocte.jpg"
+            src="https://res.cloudinary.com/jawkxked/image/upload/v1783152885/duthuyensonghan/bjb9dmp42m8rmgxkzbvr.jpg"
             alt="DIFF Poster"
             className={styles.posterImage}
             initial={{ opacity: 0, y: 20 }}

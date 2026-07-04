@@ -29,3 +29,40 @@ export async function uploadImage(
             .end(fileBuffer);
     });
 }
+
+export async function deleteImage(url: string): Promise<boolean> {
+    if (!url || !url.includes("cloudinary.com")) return false;
+    
+    try {
+        const parts = url.split("/upload/");
+        if (parts.length !== 2) return false;
+        
+        let path = parts[1];
+        if (path.match(/^v\d+\//)) {
+            path = path.replace(/^v\d+\//, "");
+        }
+        
+        const lastDotIndex = path.lastIndexOf(".");
+        const publicId = lastDotIndex !== -1 ? path.substring(0, lastDotIndex) : path;
+        
+        const result = await cloudinary.uploader.destroy(publicId);
+        console.log("Deleted Cloudinary image:", publicId, result);
+        return result.result === "ok";
+    } catch (error) {
+        console.error("Cloudinary delete error:", error);
+        return false;
+    }
+}
+
+export async function deleteImages(urls: string[]): Promise<void> {
+    const uniqueUrls = Array.from(new Set(urls.filter(url => url && url.includes("cloudinary.com"))));
+    await Promise.all(uniqueUrls.map(url => deleteImage(url)));
+}
+
+export function extractCloudinaryUrls(text?: string | null): string[] {
+    if (!text) return [];
+    const regex = /https?:\/\/res\.cloudinary\.com\/[^\s"'<>]+/g;
+    const matches = text.match(regex);
+    return matches ? Array.from(new Set(matches)) : [];
+}
+

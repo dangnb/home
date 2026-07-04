@@ -58,7 +58,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
         {/* Col 1: Logo + taglines */}
         <div className={styles.brandCol}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logopng-1.png" alt={s.siteName} className={styles.logo} />
+          <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png" alt={s.siteName} className={styles.logo} />
           <ul className={styles.bulletList}>
             {s.footerTaglines.map((line, i) => (
               <li key={i}>{line}</li>
@@ -73,20 +73,22 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
         </div>
 
         {/* Col 2: Google Map */}
-        <div className={styles.widgetCol}>
-          <h4 className={styles.widgetTitle}>{s.siteName} Google Map</h4>
-          <div className={styles.mapEmbed}>
-            <iframe
-              src={s.mapEmbedUrl}
-              width="100%"
-              height="220"
-              style={{ border: 0, borderRadius: "8px" }}
-              allowFullScreen
-              loading="lazy"
-              title="Google Map"
-            />
+        {s.mapEmbedUrl && (
+          <div className={styles.widgetCol}>
+            <h4 className={styles.widgetTitle}>{s.siteName} Google Map</h4>
+            <div className={styles.mapEmbed}>
+              <iframe
+                src={s.mapEmbedUrl}
+                width="100%"
+                height="220"
+                style={{ border: 0, borderRadius: "8px" }}
+                allowFullScreen
+                loading="lazy"
+                title="Google Map"
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Col 3: TikTok */}
         {s.tiktok && (

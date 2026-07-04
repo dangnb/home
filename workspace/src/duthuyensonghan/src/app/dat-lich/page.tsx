@@ -16,7 +16,7 @@ export default async function DatLichPage() {
       {/* Hero */}
       <div className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/banner_desktop.webp" alt="Đặt lịch du thuyền" className={styles.heroBg} />
+        <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg" alt="Đặt lịch du thuyền" className={styles.heroBg} />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
           <span className={styles.heroBadge}>🎟️ Đặt lịch trực tuyến</span>

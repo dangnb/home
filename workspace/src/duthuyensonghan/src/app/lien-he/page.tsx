@@ -56,7 +56,7 @@ export default function LiênHệPage() {
     return (
         <main className={styles.page}>
             <div className={styles.hero}>
-                <img src="/images/banner_desktop.webp" alt="Liên hệ" className={styles.heroBg} />
+                <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg" alt="Liên hệ" className={styles.heroBg} />
                 <div className={styles.heroOverlay} />
                 <div className={`container ${styles.heroContent}`}>
                     <h1 className={styles.title}>Liên Hệ Với Chúng Tôi</h1>

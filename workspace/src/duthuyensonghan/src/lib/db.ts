@@ -148,7 +148,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     "19:00 – Chuyến tối",
     "19:30 – Chuyến tối muộn",
   ],
-  bannerImage: "/images/banner_desktop.webp",
+  bannerImage: "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg",
   bannerBadge: "⭐ Hơn 1000 đánh giá 5 sao trên Google",
   bannerTitle: "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
   bannerSubtitle: "",

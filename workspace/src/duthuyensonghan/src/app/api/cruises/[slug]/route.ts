@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { deleteImages, extractCloudinaryUrls } from "@/lib/cloudinary";
 
 export async function PUT(
   req: Request,
@@ -13,6 +14,28 @@ export async function PUT(
   const { slug } = await params;
   const body = await req.json();
   try {
+    const existingCruise = await prisma.cruise.findUnique({ where: { slug } });
+    if (existingCruise) {
+      const oldGallery = existingCruise.gallery ? JSON.parse(existingCruise.gallery) : [];
+      const oldUrls = [
+        existingCruise.mainImage,
+        ...oldGallery,
+        ...extractCloudinaryUrls(existingCruise.description)
+      ].filter(Boolean) as string[];
+
+      const newGallery = typeof body.gallery === 'string' ? JSON.parse(body.gallery) : (body.gallery || []);
+      const newUrls = [
+        body.mainImage,
+        ...newGallery,
+        ...extractCloudinaryUrls(body.description)
+      ].filter(Boolean) as string[];
+
+      const urlsToDelete = oldUrls.filter(url => !newUrls.includes(url));
+      if (urlsToDelete.length > 0) {
+        await deleteImages(urlsToDelete);
+      }
+    }
+
     // If slug is changed, we update by the original slug in URL
     await prisma.cruise.update({
       where: { slug },
@@ -42,6 +65,35 @@ export async function PUT(
   }
 }
 
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+  try {
+    const cruise = await prisma.cruise.findUnique({
+      where: { slug },
+    });
+    if (!cruise) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    // Parse stringified JSON fields
+    const parsedCruise = {
+      ...cruise,
+      gallery: cruise.gallery ? JSON.parse(cruise.gallery) : [],
+      highlights: cruise.highlights ? JSON.parse(cruise.highlights) : [],
+      tours: cruise.tours ? JSON.parse(cruise.tours) : [],
+      includes: cruise.includes ? JSON.parse(cruise.includes) : [],
+      relatedSlugs: cruise.relatedSlugs ? JSON.parse(cruise.relatedSlugs) : [],
+    };
+
+    return NextResponse.json(parsedCruise);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message || "Fetch failed" }, { status: 500 });
+  }
+}
+
 export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ slug: string }> }
@@ -51,6 +103,20 @@ export async function DELETE(
 
   const { slug } = await params;
   try {
+    const existingCruise = await prisma.cruise.findUnique({ where: { slug } });
+    if (existingCruise) {
+      const gallery = existingCruise.gallery ? JSON.parse(existingCruise.gallery) : [];
+      const urlsToDelete = [
+        existingCruise.mainImage,
+        ...gallery,
+        ...extractCloudinaryUrls(existingCruise.description)
+      ].filter(Boolean) as string[];
+
+      if (urlsToDelete.length > 0) {
+        await deleteImages(urlsToDelete);
+      }
+    }
+
     await prisma.cruise.delete({ where: { slug } });
     return NextResponse.json({ success: true });
   } catch {

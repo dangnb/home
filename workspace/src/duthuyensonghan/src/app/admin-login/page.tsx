@@ -38,7 +38,7 @@ export default function AdminLogin() {
       <div className={styles.card}>
         <div className={styles.logo}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logopng-1.png" alt="Logo" />
+          <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png" alt="Logo" />
         </div>
         <h1 className={styles.title}>Admin Panel</h1>
         <p className={styles.sub}>Du Thuyền Sông Hàn – 2Da Tickets</p>

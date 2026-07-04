@@ -21,10 +21,10 @@ export function FormInput({ label, required, helpText, icon, className = "", ...
             {icon ? (
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
                     <span style={{ position: "absolute", left: "0.85rem", fontSize: "1rem" }}>{icon}</span>
-                    <input {...props} style={{ ...props.style, paddingLeft: "2.4rem" }} />
+                    <input {...props} value={props.value ?? ""} style={{ ...props.style, paddingLeft: "2.4rem" }} />
                 </div>
             ) : (
-                <input {...props} />
+                <input {...props} value={props.value ?? ""} />
             )}
             {helpText && <span style={{ fontSize: "0.75rem", color: "#94a3b8", display: "block" }}>{helpText}</span>}
         </div>
@@ -39,7 +39,7 @@ export function FormTextarea({ label, required, helpText, className = "", ...pro
             <label>
                 {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
             </label>
-            <textarea {...props} />
+            <textarea {...props} value={props.value ?? ""} />
             {helpText && <span style={{ fontSize: "0.75rem", color: "#94a3b8", display: "block" }}>{helpText}</span>}
         </div>
     );
@@ -55,7 +55,7 @@ export function FormSelect({ label, required, helpText, options, className = "",
             <label>
                 {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
             </label>
-            <select {...props}>
+            <select {...props} value={props.value ?? ""}>
                 {options.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                         {opt.label}

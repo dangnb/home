@@ -82,7 +82,8 @@ export default function RichEditor({
     "bold", "italic", "underline", "strike",
     "color", "background",
     "align",
-    "list", "bullet",
+    "list",
+
     "blockquote", "code-block",
     "link", "image", "video"
   ];

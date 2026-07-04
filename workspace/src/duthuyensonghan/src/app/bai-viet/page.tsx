@@ -48,7 +48,7 @@ export default async function BaiVietPage() {
       <div className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/banner_desktop.webp"
+          src="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg"
           alt="Bài viết du thuyền sông Hàn"
           className={styles.heroBg}
         />

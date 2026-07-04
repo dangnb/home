@@ -18,7 +18,7 @@ interface HeroProps {
 }
 
 export default function Hero({
-  image = "/images/banner_desktop.webp",
+  image = "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg",
   badge = <><FaStar style={{ color: "#fbbf24" }} /> Hơn 1000 đánh giá 5 sao trên Google</>,
   title = "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
   subtitle,

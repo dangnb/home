@@ -18,7 +18,7 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
     <Link href={link} className={styles.card}>
       <div className={styles.imageContainer}>
         {isSale && <span className={styles.saleBadge}><FaTags style={{ marginRight: '4px' }} /> Sale</span>}
-        <Image src={image || "/images/banner_desktop.webp"} alt={title} fill className={styles.image} sizes="(max-width: 768px) 100vw, 33vw" />
+        <Image src={image || "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg"} alt={title} fill className={styles.image} sizes="(max-width: 768px) 100vw, 33vw" />
         <div className={styles.imageOverlayBtn}>Xem Chi Tiết <FaArrowRight style={{ marginLeft: '4px' }} /></div>
       </div>
       <div className={styles.content}>
@@ -26,12 +26,12 @@ export default function CruiseCard({ image, title, floors, capacity, isSale, pri
         <div className={styles.features}>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/dien-tich.png" alt="Tầng" style={{ width: 14, height: 14 }} />
+            <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152876/duthuyensonghan/evsgye46pigtlwohn6ix.png" alt="Tầng" style={{ width: 14, height: 14 }} />
             {floors} Tầng
           </div>
           <div className={styles.feature}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/phong-ngu.png" alt="Người" style={{ width: 14, height: 14 }} />
+            <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152887/duthuyensonghan/rqvpmw9zenvhpts8aahw.png" alt="Người" style={{ width: 14, height: 14 }} />
             {capacity} Người
           </div>
         </div>

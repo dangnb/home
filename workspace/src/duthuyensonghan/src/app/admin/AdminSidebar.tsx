@@ -26,7 +26,7 @@ export default function AdminSidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.sidebarLogo}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/logopng-1.png" alt="Logo" className={styles.logoImg} />
+        <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png" alt="Logo" className={styles.logoImg} />
         <span className={styles.logoText}>Admin Panel</span>
       </div>
 

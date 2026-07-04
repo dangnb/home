@@ -48,7 +48,7 @@ export default function Navbar({
       <div className={`container ${styles.navContainer}`}>
         <Link href="/" className={styles.logo}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/logopng-1.png" alt="Logo" style={{ height: "40px" }} />
+          <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png" alt="Logo" style={{ height: "40px" }} />
         </Link>
 
         <div className={styles.navLinks}>

@@ -1,0 +1,144 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1cb6a6, #2dd6a6);
+  border-radius: 20px;
+  padding: 40px;
+  color: white;
+  min-height: 250px;
+}
+
+.heroContent {
+  flex: 1;
+  max-width: 50%;
+}
+
+.heroTitle {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.heroDesc {
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.heroBtn {
+  background-color: white;
+  color: #1cb6a6;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 20px;
+  transition: transform 0.2s;
+}
+
+.heroBtn:hover {
+  transform: scale(1.05);
+}
+
+.heroImage {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.heroImagePlaceholder {
+  width: 250px;
+  height: 180px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text-color);
+}
+
+.sectionLink {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.courseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.courseImage {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--hover-color);
+  border-radius: 16px;
+  transition: transform 0.3s;
+}
+
+.courseCard:hover .courseImage {
+  transform: scale(1.02);
+}
+
+.courseName {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.4;
+}
+
+.coursePrice {
+  font-size: 1.4rem;
+  color: var(--gray-color);
+}
+
+@media (max-width: 1200px) {
+  .courseGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .courseGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+  }
+  .heroContent {
+    max-width: 100%;
+  }
+  .heroImage {
+    justify-content: center;
+  }
+}

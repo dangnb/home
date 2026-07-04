@@ -35,7 +35,7 @@ export default function OfficialTicketCounter() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src="/images/Screenshot-2025-03-08-at-10.33.57 AM-1.webp" 
+            src="https://res.cloudinary.com/jawkxked/image/upload/v1783152887/duthuyensonghan/xthvrz8p2fbn1cdfslh8.jpg" 
             alt="Bản đồ 2Da Tickets" 
             className={styles.mapImage} 
           />

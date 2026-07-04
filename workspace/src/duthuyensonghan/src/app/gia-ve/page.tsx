@@ -30,7 +30,7 @@ export default async function GiaVePage() {
       {/* ── HERO ── */}
       <div className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/banner_desktop.webp" alt="Giá vé" className={styles.heroBg} />
+        <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg" alt="Giá vé" className={styles.heroBg} />
         <div className={styles.heroOverlay} />
         <div className={`container ${styles.heroContent}`}>
           <span className={styles.heroBadge}>Cập nhật 2025</span>
@@ -144,7 +144,7 @@ export default async function GiaVePage() {
           <section className={styles.fireworksSection}>
             <div className={styles.fireworksBg}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/phaohoatuocte.jpg" alt="Pháo hoa" className={styles.fireworksBgImg} />
+              <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152885/duthuyensonghan/bjb9dmp42m8rmgxkzbvr.jpg" alt="Pháo hoa" className={styles.fireworksBgImg} />
               <div className={styles.fireworksOverlay} />
             </div>
             <div className={styles.fireworksContent}>

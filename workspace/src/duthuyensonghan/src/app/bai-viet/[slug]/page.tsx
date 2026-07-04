@@ -74,7 +74,7 @@ export default async function PostDetailPage({
       <div className={styles.hero}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={post.thumbnail || "/images/banner_desktop.webp"}
+          src={post.thumbnail || "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg"}
           alt={post.title}
           className={styles.heroBg}
         />
@@ -116,7 +116,7 @@ export default async function PostDetailPage({
                   "@context": "https://schema.org",
                   "@type": "Article",
                   headline: post.title,
-                  image: [post.thumbnail || "https://duthuyensonghan.vn/images/banner_desktop.webp"],
+                  image: [post.thumbnail || "https://duthuyensonghan.vnhttps://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg"],
                   datePublished: new Date(post.createdAt).toISOString(),
                   dateModified: new Date(post.updatedAt || post.createdAt).toISOString(),
                   author: {
@@ -128,7 +128,7 @@ export default async function PostDetailPage({
                     name: s.siteName,
                     logo: {
                       "@type": "ImageObject",
-                      url: "https://duthuyensonghan.vn/images/logopng-1.png"
+                      url: "https://duthuyensonghan.vnhttps://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png"
                     }
                   },
                   description: post.excerpt
