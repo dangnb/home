@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import PublicShell from "@/components/PublicShell";
 import { getSettings, getCruises } from "@/lib/db";
 
-const inter = Inter({ subsets: ["latin", "vietnamese"] });
+const inter = Inter({ subsets: ["latin", "vietnamese"], variable: "--font-inter" });
+const playfair = Playfair_Display({ subsets: ["latin", "vietnamese"], variable: "--font-playfair" });
 
 import NextTopLoader from "nextjs-toploader";
 
@@ -44,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang="vi">
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.variable} ${playfair.variable} font-sans`} suppressHydrationWarning>
         <NextTopLoader color="#01bf93" height={3} showSpinner={false} />
         <PublicShell settings={s} regularCruises={regularCruises} dinnerCruises={dinnerCruises}>
           {children}
