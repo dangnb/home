@@ -1,40 +1,53 @@
-.section {
+.parallaxSection {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
   padding: 6rem 0;
-  background-color: var(--bg-color);
   overflow: hidden;
 }
 
+.parallaxBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("https://res.cloudinary.com/jawkxked/image/upload/v1783152857/duthuyensonghan/oowp2ebixow5w4cnh1e6.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+
+.parallaxBg::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(16, 16, 16, 0.7); /* Dark overlay */
+  z-index: 1;
+}
+
 .container {
-  display: flex;
-  align-items: center;
-  gap: 5rem;
-}
-
-.imageCol {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.imageWrapper {
   position: relative;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end; /* Align card to right */
 }
 
-.image {
-  width: 100%;
-  height: auto;
+.contentCard {
+  background-color: var(--bg-color);
+  padding: 4rem;
   border-radius: 20px;
-  box-shadow: var(--shadow);
-  object-fit: cover;
-  aspect-ratio: 4/5;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
 .badge {
   position: absolute;
-  bottom: -30px;
+  top: -30px;
   left: -30px;
   background-color: var(--primary);
   color: var(--white);
@@ -46,10 +59,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 10;
 }
 
 .badgeNumber {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-marcellus), serif;
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1;
@@ -61,10 +75,6 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.contentCol {
-  flex: 1;
 }
 
 .subtitle {
@@ -136,13 +146,11 @@
 
 @media (max-width: 1024px) {
   .container {
-    flex-direction: column;
-    gap: 4rem;
+    justify-content: center;
   }
   
-  .imageCol {
-    justify-content: center;
-    width: 100%;
+  .contentCard {
+    padding: 3rem 2rem;
   }
   
   .badge {

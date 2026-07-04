@@ -8,6 +8,7 @@ const montserrat = Montserrat({ subsets: ["latin", "vietnamese"], variable: '--f
 const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: '--font-marcellus' });
 
 import NextTopLoader from "nextjs-toploader";
+import Preloader from "@/components/Preloader";
 
 export const revalidate = 300; // Khách xem web sẽ tải bản cache tĩnh (siêu nhanh), định kỳ 5 phút (300s) tự động update ngầm dữ liệu mới nhất từ Admin
 
@@ -44,12 +45,14 @@ export default async function RootLayout({
   const dinnerCruises = allCruises.filter(c => c.categoryId === "dinner" || c.categoryId === "vip" || c.categoryId.includes("nha-hang"));
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} ${marcellus.variable} font-sans`} suppressHydrationWarning>
         <NextTopLoader color="var(--primary)" height={3} showSpinner={false} />
-        <PublicShell settings={s} regularCruises={regularCruises} dinnerCruises={dinnerCruises}>
-          {children}
-        </PublicShell>
+        <Preloader>
+          <PublicShell settings={s} regularCruises={regularCruises} dinnerCruises={dinnerCruises}>
+            {children}
+          </PublicShell>
+        </Preloader>
       </body>
     </html>
   );
