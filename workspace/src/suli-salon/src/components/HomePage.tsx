@@ -251,8 +251,8 @@ function Hero() {
     }, []);
 
     return (
-        <section style={{ minHeight: "91vh", display: "flex", alignItems: "center", overflow: "hidden", background: "#FDFBF7", paddingTop: 96 }}>
-            <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", width: "100%" }}>
+        <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", overflow: "visible", background: "#FDFBF7", paddingTop: 120, paddingBottom: 60 }}>
+            <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", width: "100%" }}>
 
                 {/* Left */}
                 <div className="reveal is-visible" style={{ zIndex: 2 }}>
@@ -282,18 +282,60 @@ function Hero() {
                     </a>
                 </div>
 
-                {/* Right – image with decorative bg */}
-                <div className="reveal is-visible" data-delay="200" style={{ position: "relative", height: "min(700px,80vh)" }}>
-                    <div style={{ position: "absolute", inset: 0, background: "#F0E8D8", transform: "translate(20px,20px)", zIndex: 0, borderRadius: 2 }} />
-                    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.18)", zIndex: 1 }}>
+                {/* Right – two images side by side */}
+                <div className="reveal is-visible" data-delay="200" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
+                    {/* Image 1 – taller, left */}
+                    <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.18)", aspectRatio: "3/4", borderRadius: "80px 12px 80px 12px" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src="https://lh3.googleusercontent.com/aida/AP1WRLsm6Y9PCPUQl-URvdmq5ipK4EWJgMerQplUGJpnUqfwUmdKZRgeTY-PusEHITIrVYSm44lOFG5kEuwNblC5Hb-qn672agc4hpRPvoI6iweYZfZc_Z4kuwqXIYJtvS5DDRoa8QxYsHjPxzYMVv7cQSrDW0wO-hKW53g2Cezuw8TWWKJgQHZQKS8gQX0n8SC9uIPHBWzqiZVp0GzXIsr729zAX3ptZz36EFl8FkN4JaP0JZ3vbp2RnyqEGhAm"
-                            alt="Hero nail art"
+                            alt="Nail artistry showcase"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                         />
+                        {/* Badge overlay */}
+                        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 80px 0" }}>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>NAIL ART</div>
+                        </div>
+                    </div>
+
+                    {/* Image 2 – shorter, right, offset down */}
+                    <div style={{ marginTop: 60, position: "relative" }}>
+                        <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="https://lh3.googleusercontent.com/aida/AP1WRLu1fGVg4xRMJDSvETLQP7xkqNrrWb1SvWN05-GieM3-R4fn_j1oClLTAzxsH81AiQvqB4_lLqajZIcRoqXKqZpdfUakgj5EGdbv5GyFllvotmZN0P8SsLWvJM2xZtv629BoNbVytQOLYnK-HvrNkCJ0Owbf-Qivxi_7a4TqndmgAb-fnMaZgh_ljcR4lCUbwC2vLs5mfUma1CTC_CevlyAmxVc-cPlO47W3yk8Xb7KdaGR2j6f2r7Cf3o1j"
+                                alt="Precision nail care detail"
+                                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
+                                onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
+                                onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                            />
+                            {/* Badge overlay */}
+                            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 0 80px" }}>
+                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>DETAIL</div>
+                            </div>
+                        </div>
+                        {/* Experience badge */}
+                        <div style={{
+                            marginTop: 20,
+                            background: "linear-gradient(135deg,#C2A979,#a08040)",
+                            padding: "20px 24px",
+                            color: "#fff",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 16,
+                            boxShadow: "0 8px 32px rgba(194,169,121,.4)",
+                            transition: "transform .3s",
+                            cursor: "default",
+                            borderRadius: "12px 80px 12px 80px",
+                        }}
+                            onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(-4px)")}
+                            onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(0)")}
+                        >
+                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 700, lineHeight: 1 }}>10+</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.4 }}>Years of<br />Experience</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -306,7 +348,7 @@ function Hero() {
 /* ─────────────────────────────────────────────────────── */
 function About() {
     return (
-        <section style={{ background: "#F4F1EA", padding: "120px 0", overflow: "hidden" }}>
+        <section style={{ background: "#F4F1EA", padding: "160px 0", overflow: "hidden" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "5fr 7fr", gap: 80, alignItems: "center" }}>
 
                 {/* Images side */}
@@ -389,7 +431,7 @@ function About() {
 /* ─────────────────────────────────────────────────────── */
 function Services() {
     return (
-        <section style={{ background: "#FDFBF7", padding: "120px 0" }}>
+        <section style={{ background: "#FDFBF7", padding: "160px 0" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ marginBottom: 56 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 12 }}>
@@ -462,7 +504,7 @@ function ServiceCard({ title, img }: { title: string; img: string }) {
 /* ─────────────────────────────────────────────────────── */
 function Gallery() {
     return (
-        <section style={{ background: "#F9F9F9", padding: "120px 0" }}>
+        <section style={{ background: "#F9F9F9", padding: "160px 0" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ textAlign: "center", marginBottom: 64 }}>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(36px,4vw,54px)", fontWeight: 700, color: "#C2A979", fontStyle: "italic", margin: "0 0 8px" }}>

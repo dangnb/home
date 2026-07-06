@@ -1,46 +1,316 @@
+/* ── Wrapper ──────────────────────────────────── */
 .wrapper {
   min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0a2a1e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 20%, #1a1714 0%, #0d0c0a 50%, #050504 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  font-family: 'Montserrat', sans-serif;
 }
+
+/* ── Background pattern ──────────────────────── */
+.bgPattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(194, 169, 121, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(194, 169, 121, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.bgGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(194, 169, 121, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ── Corner decorations ──────────────────────── */
+.corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+.corner::before,
+.corner::after {
+  content: '';
+  position: absolute;
+  background: #C2A979;
+}
+
+.cornerTL {
+  top: 40px;
+  left: 40px;
+}
+
+.cornerTL::before {
+  top: 0; left: 0; width: 30px; height: 1px;
+}
+
+.cornerTL::after {
+  top: 0; left: 0; width: 1px; height: 30px;
+}
+
+.cornerBR {
+  bottom: 40px;
+  right: 40px;
+}
+
+.cornerBR::before {
+  bottom: 0; right: 0; width: 30px; height: 1px;
+}
+
+.cornerBR::after {
+  bottom: 0; right: 0; width: 1px; height: 30px;
+}
+
+/* ── Card ─────────────────────────────────────── */
 .card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(16px);
-  border-radius: 20px;
-  padding: 3rem 2.5rem;
-  width: 100%; max-width: 420px;
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(194, 169, 121, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 2px;
+  padding: 0 3rem 2.5rem;
+  width: 100%;
+  max-width: 440px;
   text-align: center;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(194, 169, 121, 0.08);
 }
-.logo img { height: 50px; margin-bottom: 1.5rem; filter: brightness(0) invert(1); }
-.title { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem; }
-.sub { font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
-.form { display: flex; flex-direction: column; gap: 1.2rem; text-align: left; }
-.field { display: flex; flex-direction: column; gap: 0.4rem; }
-.field label { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ── Top accent line ──────────────────────────── */
+.topAccent {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C2A979, transparent);
+  margin: 0 -3rem 2rem;
+}
+
+/* ── Logo section ─────────────────────────────── */
+.logoSection {
+  margin-bottom: 20px;
+}
+
+.logoLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(194, 169, 121, 0.5);
+  margin-bottom: 12px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  font-style: italic;
+  font-weight: 700;
+  color: #C2A979;
+  margin: 0 0 8px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+/* ── Divider ──────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(194, 169, 121, 0.2), transparent);
+}
+
+.dividerIcon {
+  color: rgba(194, 169, 121, 0.4);
+  font-size: 8px;
+}
+
+/* ── Form ─────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+
+/* ── Field ────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease;
+}
+
+.field label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(194, 169, 121, 0.5);
+  transition: color 0.3s;
+}
+
+.fieldFocused label {
+  color: rgba(194, 169, 121, 0.9);
+}
+
 .field input {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
-  color: #fff; font-size: 1rem;
-  outline: none; transition: border 0.2s;
+  background: rgba(194, 169, 121, 0.04);
+  border: 1px solid rgba(194, 169, 121, 0.12);
+  border-radius: 2px;
+  padding: 14px 16px;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
-.field input:focus { border-color: #01bf93; }
-.field input::placeholder { color: rgba(255,255,255,0.25); }
+
+.field input:focus {
+  border-color: rgba(194, 169, 121, 0.5);
+  background: rgba(194, 169, 121, 0.06);
+  box-shadow: 0 0 0 3px rgba(194, 169, 121, 0.08);
+}
+
+.field input::placeholder {
+  color: rgba(255, 255, 255, 0.18);
+  font-weight: 300;
+}
+
+/* ── Error ────────────────────────────────────── */
 .error {
-  background: rgba(255,59,48,0.15); border: 1px solid rgba(255,59,48,0.3);
-  color: #ff6b6b; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(186, 26, 26, 0.1);
+  border: 1px solid rgba(186, 26, 26, 0.25);
+  color: #ff8a80;
+  border-radius: 2px;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 500;
 }
+
+/* ── Button ───────────────────────────────────── */
 .btn {
-  background: linear-gradient(135deg, #01bf93, #00a87c);
-  color: #fff; font-weight: 700; font-size: 1rem;
-  padding: 0.9rem; border-radius: 10px; border: none;
-  cursor: pointer; transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 16px rgba(1,191,147,0.4);
+  position: relative;
+  background: linear-gradient(135deg, #C2A979 0%, #a08040 100%);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 16px 24px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(194, 169, 121, 0.3);
+  margin-top: 6px;
+  overflow: hidden;
 }
-.btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(1,191,147,0.5); }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.hint { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 1.5rem; }
-.hint code { background: rgba(255,255,255,0.08); padding: 0.1rem 0.3rem; border-radius: 4px; }
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(194, 169, 121, 0.45);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btnLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ── Spinner ──────────────────────────────────── */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Hint ─────────────────────────────────────── */
+.hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 24px;
+  letter-spacing: 0.04em;
+}
