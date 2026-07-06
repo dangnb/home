@@ -1,59 +1,45 @@
-.parallaxSection {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 6rem 0;
+.section {
+  padding: 8rem 0;
+  background-color: var(--bg-color);
   overflow: hidden;
 }
 
-.parallaxBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("https://res.cloudinary.com/jawkxked/image/upload/v1783152857/duthuyensonghan/oowp2ebixow5w4cnh1e6.jpg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: 0;
-}
-
-.parallaxBg::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(16, 16, 16, 0.7); /* Dark overlay */
-  z-index: 1;
-}
-
 .container {
-  position: relative;
-  z-index: 2;
   display: flex;
-  justify-content: flex-end; /* Align card to right */
+  align-items: center;
+  gap: 6rem;
 }
 
-.contentCard {
-  background-color: var(--bg-color);
-  padding: 4rem;
-  border-radius: 20px;
-  max-width: 600px;
+.imageColumn {
+  flex: 1;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.mainImage {
+  width: 80%;
+  height: 500px;
+  object-fit: cover;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.subImage {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  width: 55%;
+  height: 300px;
+  object-fit: cover;
+  border: 12px solid var(--bg-color);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
 }
 
 .badge {
   position: absolute;
-  top: -30px;
-  left: -30px;
-  background-color: var(--primary);
+  top: -20px;
+  left: -20px;
+  background-color: #7b6a48;
   color: var(--white);
   padding: 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(197, 168, 89, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,100 +50,96 @@
 
 .badgeNumber {
   font-family: var(--font-marcellus), serif;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 600;
   line-height: 1;
   margin-bottom: 0.25rem;
 }
 
 .badgeText {
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.contentColumn {
+  flex: 1.2;
 }
 
 .subtitle {
-  color: var(--primary);
-  font-family: var(--font-inter), sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: var(--text-gray);
+  font-size: 0.75rem;
   letter-spacing: 0.15em;
   margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
 .title {
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 3.5rem;
+  line-height: 1.1;
   margin-bottom: 1.5rem;
   color: var(--text-dark);
+  font-style: italic;
 }
 
 .desc {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: var(--text-gray);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  max-width: 500px;
 }
 
 .featureList {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin-bottom: 3rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
 }
 
 .featureItem {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1rem;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
   color: var(--text-dark);
-  font-weight: 500;
 }
 
 .iconWrapper {
+  margin-top: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  background-color: rgba(197, 168, 89, 0.15);
-  color: var(--primary);
+  width: 18px;
+  height: 18px;
+  background-color: transparent;
+  border: 1px solid #7b6a48;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .exploreBtn {
   display: inline-block;
-  padding: 1rem 2rem;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border: 1px solid #7b6a48;
+  color: var(--text-dark);
+  font-size: 0.8rem;
+  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: all 0.3s ease;
 }
 
 .exploreBtn:hover {
-  background-color: var(--primary);
+  background-color: #7b6a48;
   color: var(--white);
 }
 
 @media (max-width: 1024px) {
   .container {
-    justify-content: center;
+    flex-direction: column;
+    gap: 4rem;
   }
-  
-  .contentCard {
-    padding: 3rem 2rem;
-  }
-  
-  .badge {
-    left: 20px;
-  }
-  
-  .title {
-    font-size: 2.5rem;
+
+  .mainImage {
+    width: 90%;
   }
 }
