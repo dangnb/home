@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
-export async function PUT(
+export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -13,11 +13,11 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
   try {
-    const booking = await prisma.booking.update({
+    const appointment = await prisma.appointment.update({
       where: { id },
       data: { status: body.status },
     });
-    return NextResponse.json({ success: true, booking });
+    return NextResponse.json({ success: true, appointment });
   } catch {
     return NextResponse.json({ error: "Update failed" }, { status: 500 });
   }
@@ -32,7 +32,7 @@ export async function DELETE(
 
   const { id } = await params;
   try {
-    await prisma.booking.delete({ where: { id } });
+    await prisma.appointment.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

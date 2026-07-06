@@ -7,7 +7,7 @@ import styles from "./login.module.css";
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState(
-    process.env.NODE_ENV === "development" ? "admin@sulisalon.com" : ""
+    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
   );
   const [password, setPassword] = useState(
     process.env.NODE_ENV === "development" ? "admin123456" : ""

@@ -16,7 +16,7 @@ export function FormInput({ label, required, helpText, icon, className = "", ...
     return (
         <div className={`${styles.formField} ${className}`}>
             <label>
-                {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
+                {label} {required && <span style={{ color: "#c0392b" }}>*</span>}
             </label>
             {icon ? (
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
@@ -26,7 +26,7 @@ export function FormInput({ label, required, helpText, icon, className = "", ...
             ) : (
                 <input {...props} value={props.value ?? ""} />
             )}
-            {helpText && <span style={{ fontSize: "0.75rem", color: "#94a3b8", display: "block" }}>{helpText}</span>}
+            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
         </div>
     );
 }
@@ -37,10 +37,10 @@ export function FormTextarea({ label, required, helpText, className = "", ...pro
     return (
         <div className={`${styles.formField} ${className}`}>
             <label>
-                {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
+                {label} {required && <span style={{ color: "#c0392b" }}>*</span>}
             </label>
             <textarea {...props} value={props.value ?? ""} />
-            {helpText && <span style={{ fontSize: "0.75rem", color: "#94a3b8", display: "block" }}>{helpText}</span>}
+            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
         </div>
     );
 }
@@ -53,7 +53,7 @@ export function FormSelect({ label, required, helpText, options, className = "",
     return (
         <div className={`${styles.formField} ${className}`}>
             <label>
-                {label} {required && <span style={{ color: "#ef4444" }}>*</span>}
+                {label} {required && <span style={{ color: "#c0392b" }}>*</span>}
             </label>
             <select {...props} value={props.value ?? ""}>
                 {options.map((opt) => (
@@ -62,7 +62,7 @@ export function FormSelect({ label, required, helpText, options, className = "",
                     </option>
                 ))}
             </select>
-            {helpText && <span style={{ fontSize: "0.75rem", color: "#94a3b8", display: "block" }}>{helpText}</span>}
+            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
         </div>
     );
 }

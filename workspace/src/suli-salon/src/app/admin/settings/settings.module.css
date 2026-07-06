@@ -2,8 +2,8 @@
 .tabs {
   display: flex;
   gap: 0.25rem;
-  background: #f1f5f9;
-  border-radius: 12px;
+  background: rgba(194, 169, 121, 0.08);
+  border-radius: 2px;
   padding: 4px;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
@@ -15,48 +15,49 @@
   padding: 0.6rem 1rem;
   border: none;
   background: transparent;
-  border-radius: 9px;
-  font-size: 0.82rem;
+  border-radius: 2px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
   font-weight: 600;
-  color: #64748b;
+  color: #888;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
   white-space: nowrap;
 }
 
 .tab:hover {
   background: rgba(255,255,255,0.7);
-  color: #0f172a;
+  color: #2E2E2E;
 }
 
 .tabActive {
   background: #fff !important;
-  color: #0f172a !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  color: #2E2E2E !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 /* ── INPUT WITH ICON ── */
 .inputWithIcon {
   display: flex;
   align-items: center;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid rgba(194, 169, 121, 0.2);
+  border-radius: 2px;
   overflow: hidden;
   background: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 
 .inputWithIcon:focus-within {
-  border-color: #01bf93;
-  box-shadow: 0 0 0 3px rgba(1, 191, 147, 0.12);
+  border-color: #C2A979;
+  box-shadow: 0 0 0 3px rgba(194, 169, 121, 0.1);
 }
 
 .inputIcon {
   padding: 0 0.75rem;
   font-size: 1rem;
   flex-shrink: 0;
-  border-right: 1px solid #f1f5f9;
-  background: #f8fafc;
+  border-right: 1px solid rgba(194, 169, 121, 0.1);
+  background: #FDFBF7;
   height: 100%;
   display: flex;
   align-items: center;
@@ -68,30 +69,29 @@
   padding: 0.65rem 0.85rem;
   border: none !important;
   outline: none !important;
-  font-size: 0.875rem;
-  color: #0f172a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #2E2E2E;
   background: transparent;
   box-shadow: none !important;
-  font-family: inherit;
 }
 
 /* ── PREVIEW BOX ── */
 .preview {
   margin-top: 1.5rem;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
+  border: 1px solid rgba(194, 169, 121, 0.15);
   overflow: hidden;
 }
 
 .previewTitle {
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
+  background: #FDFBF7;
+  border-bottom: 1px solid rgba(194, 169, 121, 0.1);
   padding: 0.6rem 1rem;
-  font-size: 0.75rem;
+  font-size: 10px;
   font-weight: 700;
-  color: #64748b;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
 }
 
 /* Contact preview */
@@ -106,24 +106,24 @@
   align-items: flex-start;
   gap: 0.75rem;
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid #f1f5f9;
-  font-size: 0.875rem;
+  border-bottom: 1px solid rgba(194, 169, 121, 0.06);
+  font-size: 14px;
 }
 
 .previewItem:last-child { border-bottom: none; }
 
 .previewLabel {
-  font-size: 0.72rem;
-  color: #94a3b8;
+  font-size: 10px;
+  color: #aaa;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-bottom: 0.15rem;
 }
 
 .previewValue {
   font-weight: 700;
-  color: #0f172a;
-  font-size: 0.9rem;
+  color: #2E2E2E;
+  font-size: 14px;
 }
 
 /* Social preview */
@@ -139,12 +139,12 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.4rem 0.9rem;
-  border-radius: 100px;
+  border-radius: 2px;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 12px;
   font-weight: 700;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.25s;
 }
 
 .socialChip:hover { opacity: 0.85; }
@@ -161,7 +161,7 @@
 }
 
 .seoUrl {
-  font-size: 0.78rem;
+  font-size: 12px;
   color: #188038;
   margin-bottom: 0.2rem;
 }
@@ -178,7 +178,7 @@
 .seoTitle:hover { text-decoration: underline; }
 
 .seoDesc {
-  font-size: 0.82rem;
+  font-size: 13px;
   color: #4d5156;
   line-height: 1.5;
 }

@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { getPricing } from "@/lib/db";
 
 export async function GET() {
-  const p = await getPricing();
-  return NextResponse.json(p);
+  const lists = await prisma.priceList.findMany({ orderBy: { order: "asc" } });
+  return NextResponse.json(lists.map(p => ({
+    ...p,
+    items: p.items ? JSON.parse(p.items) : [],
+  })));
 }
 
 export async function POST(req: Request) {
@@ -14,24 +16,24 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
+  // body = { categories: [{ category: "Manicure", items: [...] }, ...] }
   try {
-    await prisma.pricing.upsert({
-      where: { key: "regular" },
-      create: { key: "regular", note: body.regularNote ?? "", prices: JSON.stringify(body.regularPrices ?? []) },
-      update: { note: body.regularNote ?? "", prices: JSON.stringify(body.regularPrices ?? []) },
-    });
-    await prisma.pricing.upsert({
-      where: { key: "dinner" },
-      create: { key: "dinner", note: body.dinnerNote ?? "", prices: JSON.stringify(body.dinnerPrices ?? []) },
-      update: { note: body.dinnerNote ?? "", prices: JSON.stringify(body.dinnerPrices ?? []) },
-    });
-    await prisma.pricing.upsert({
-      where: { key: "fireworks" },
-      create: { key: "fireworks", note: body.fireworksNote ?? "", prices: JSON.stringify(body.fireworksPrices ?? []) },
-      update: { note: body.fireworksNote ?? "", prices: JSON.stringify(body.fireworksPrices ?? []) },
-    });
+    for (const cat of body.categories) {
+      await prisma.priceList.upsert({
+        where: { category: cat.category },
+        create: {
+          category: cat.category,
+          items: JSON.stringify(cat.items),
+          order: cat.order ?? 0,
+        },
+        update: {
+          items: JSON.stringify(cat.items),
+          order: cat.order ?? 0,
+        },
+      });
+    }
     return NextResponse.json({ success: true });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: "Save failed" }, { status: 500 });
   }
 }
