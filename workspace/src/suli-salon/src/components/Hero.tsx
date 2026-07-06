@@ -1,111 +1,52 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import styles from "./Hero.module.css";
-import { motion, AnimatePresence } from "framer-motion";
-
-const slides = [
-  {
-    title: "Beauty That Boosts Your Confidence",
-    subtitle: "More than beautiful nails — a moment of comfort and relaxation.",
-    btnText: "VIEW GALLERY",
-    btnLink: "/gallery",
-    img1: "https://res.cloudinary.com/jawkxked/image/upload/v1783152865/duthuyensonghan/edv09upalfsx87hfxf55.jpg",
-    img2: "https://res.cloudinary.com/jawkxked/image/upload/v1783152875/duthuyensonghan/yfyodulioxuhyus9hwbs.jpg",
-  },
-  {
-    title: "Precision Nail Care",
-    subtitle: "High-quality products, skilled technicians, and attention to detail.",
-    btnText: "OUR SERVICES",
-    btnLink: "/services",
-    img1: "https://res.cloudinary.com/jawkxked/image/upload/v1783152857/duthuyensonghan/oowp2ebixow5w4cnh1e6.jpg",
-    img2: "https://res.cloudinary.com/jawkxked/image/upload/v1783152865/duthuyensonghan/edv09upalfsx87hfxf55.jpg",
-  },
-  {
-    title: "Luxury & Comfort",
-    subtitle: "Experience the ultimate pampering in a serene environment.",
-    btnText: "BOOK APPOINTMENT",
-    btnLink: "/booking",
-    img1: "https://res.cloudinary.com/jawkxked/image/upload/v1783152875/duthuyensonghan/yfyodulioxuhyus9hwbs.jpg",
-    img2: "https://res.cloudinary.com/jawkxked/image/upload/v1783152857/duthuyensonghan/oowp2ebixow5w4cnh1e6.jpg",
-  }
-];
 
 export default function Hero() {
-  const [current, setCurrent] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    // Parallax logic from original snippet
+    const handleMouseMove = (e: MouseEvent) => {
+      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+        const heroTitle = document.getElementById('hero-title');
+        const heroDesc = document.getElementById('hero-desc');
+
+        if (heroTitle) heroTitle.style.transform = `translate(${moveX * -1}px, ${moveY * -1}px)`;
+        if (heroDesc) heroDesc.style.transform = `translate(${moveX * -0.5}px, ${moveY * -0.5}px)`;
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const slide = slides[current];
-
   return (
-    <section className={styles.heroSection}>
-      <div className={`container ${styles.heroContainer}`}>
-        
-        <div className={styles.contentArea}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`text-${current}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className={styles.textContent}
-            >
-              <h1 className={styles.title}>{slide.title}</h1>
-              <p className={styles.subtitle}>{slide.subtitle}</p>
-              <Link href={slide.btnLink} className={styles.heroButton}>
-                {slide.btnText}
-              </Link>
-            </motion.div>
-          </AnimatePresence>
+    <section ref={containerRef} className="relative min-h-[90vh] flex items-center overflow-hidden px-margin-desktop pt-24">
+      <div className="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center w-full">
+        <div className="z-10 reveal active" data-delay="0">
+          <span className="font-label-caps text-label-caps text-primary mb-4 block">PREMIUM EXPERIENCE</span>
+          <h1 className="font-display-lg text-display-lg lg:text-[72px] leading-tight mb-6 hero-parallax" id="hero-title">Precision Nail Care</h1>
+          <p className="font-body-lg text-body-lg text-secondary max-w-lg mb-10 hero-parallax" id="hero-desc">
+            High-quality products, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/services">
+              <button className="bg-on-background text-background px-10 py-5 font-button-text text-button-text uppercase tracking-widest hover:bg-primary hover:scale-105 transition-all duration-300">
+                Our Services <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
+              </button>
+            </Link>
+          </div>
         </div>
-
-        <div className={styles.imageArea}>
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={`img1-${current}`}
-              className={styles.imageWrapper1}
-              initial={{ opacity: 0, scale: 0.95, rotate: -5, y: 20 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, rotate: -5, y: 20 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={slide.img1} alt="Pedicure" />
-            </motion.div>
-          </AnimatePresence>
-          
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={`img2-${current}`}
-              className={styles.imageWrapper2}
-              initial={{ opacity: 0, scale: 0.95, y: 50 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 50 }}
-              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={slide.img2} alt="Manicure" />
-            </motion.div>
-          </AnimatePresence>
+        <div className="relative h-[600px] lg:h-[800px] reveal active" data-delay="200">
+          <div className="absolute inset-0 bg-warm-sand -z-10 translate-x-12 translate-y-12"></div>
+          <div className="w-full h-full overflow-hidden shadow-2xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img alt="Precision Nail Care Hero" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 hover:scale-105 transition-all duration-700" src="https://lh3.googleusercontent.com/aida/AP1WRLsm6Y9PCPUQl-URvdmq5ipK4EWJgMerQplUGJpnUqfwUmdKZRgeTY-PusEHITIrVYSm44lOFG5kEuwNblC5Hb-qn672agc4hpRPvoI6iweYZfZc_Z4kuwqXIYJtvS5DDRoa8QxYsHjPxzYMVv7cQSrDW0wO-hKW53g2Cezuw8TWWKJgQHZQKS8gQX0n8SC9uIPHBWzqiZVp0GzXIsr729zAX3ptZz36EFl8FkN4JaP0JZ3vbp2RnyqEGhAm" />
+          </div>
         </div>
-
-        <div className={styles.indicators}>
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              className={`${styles.dot} ${i === current ? styles.activeDot : ''}`}
-              onClick={() => setCurrent(i)}
-            />
-          ))}
-        </div>
-        
       </div>
     </section>
   );

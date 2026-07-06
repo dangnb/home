@@ -1,15 +1,11 @@
-import Hero from "@/components/Hero";
-import AboutSection from "@/components/AboutSection";
-import ServicesPreview from "@/components/ServicesPreview";
-import GalleryPreview from "@/components/GalleryPreview";
+import HomePage from "@/components/HomePage";
 
-export default async function Home() {
-  return (
-    <main>
-      <Hero />
-      <AboutSection />
-      <ServicesPreview />
-      <GalleryPreview />
-    </main>
-  );
+export const metadata = {
+  title: "Suli Salon | Luxury Nail Gallery in Prague",
+  description:
+    "High-quality nail care, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague.",
+};
+
+export default function Home() {
+  return <HomePage />;
 }

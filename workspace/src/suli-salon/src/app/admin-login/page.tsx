@@ -7,7 +7,7 @@ import styles from "./login.module.css";
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState(
-    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
+    process.env.NODE_ENV === "development" ? "admin@sulisalon.com" : ""
   );
   const [password, setPassword] = useState(
     process.env.NODE_ENV === "development" ? "admin123456" : ""
@@ -37,11 +37,12 @@ export default function AdminLogin() {
     <div className={styles.wrapper}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png" alt="Logo" />
+          <h1 style={{ color: "#C2A979", fontStyle: "italic", fontFamily: "serif", fontSize: "2rem", marginBottom: "1rem" }}>
+            Suli Salon
+          </h1>
         </div>
         <h1 className={styles.title}>Admin Panel</h1>
-        <p className={styles.sub}>Du Thuyền Sông Hàn – 2Da Tickets</p>
+        <p className={styles.sub}>Luxury Nail Gallery in Prague</p>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
             <label>Email đăng nhập</label>
@@ -70,7 +71,7 @@ export default function AdminLogin() {
           </button>
         </form>
         <p className={styles.hint}>
-          Default: admin@duthuyensonghan.vn / admin123456 – Đổi trong <code>.env</code>
+          Default: admin@sulisalon.com / admin123456 – Đổi trong <code>.env</code>
         </p>
       </div>
     </div>
