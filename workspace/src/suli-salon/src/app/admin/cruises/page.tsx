@@ -3,57 +3,74 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../admin.module.css";
 
-interface Cruise { slug: string; name: string; categoryId: string; salePrice: string; originalPrice: string; capacity: number; mainImage: string; }
+interface Service { slug: string; name: string; categoryId: string; price: string; promoPrice: string; duration: number; image: string; isActive: boolean; }
 
-export default function CruisesListPage() {
-  const [cruises, setCruises] = useState<Cruise[]>([]);
+export default function ServicesListPage() {
+  const [services, setServices] = useState<Service[]>([]);
 
-  useEffect(() => { fetch("/api/cruises").then(r => r.json()).then(setCruises); }, []);
+  useEffect(() => { fetch("/api/cruises").then(r => r.json()).then(setServices); }, []);
 
   async function handleDelete(slug: string, name: string) {
-    if (!confirm(`Xóa "${name}"?`)) return;
+    if (!confirm(`Delete "${name}"?`)) return;
     await fetch(`/api/cruises/${slug}`, { method: "DELETE" });
-    setCruises(prev => prev.filter(c => c.slug !== slug));
+    setServices(prev => prev.filter(s => s.slug !== slug));
   }
 
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>🚢 Quản Lý Du Thuyền</h1>
-        <Link href="/admin/cruises/new" className={styles.btnPrimary}>+ Thêm Mới</Link>
+        <div>
+          <h1 className={styles.pageTitle}>Nail Services</h1>
+          <p style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>
+            Manage your salon services
+          </p>
+        </div>
+        <Link href="/admin/cruises/new" className={styles.btnPrimary}>+ Add Service</Link>
       </div>
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
-          <span className={styles.tableTitle}>Danh sách ({cruises.length} thuyền)</span>
+          <span className={styles.tableTitle}>All Services ({services.length})</span>
         </div>
         <table className={styles.dataTable}>
           <thead>
-            <tr><th>Ảnh</th><th>Tên Du Thuyền</th><th>Danh Mục</th><th>Giá Gốc</th><th>Giá Sale</th><th>Sức Chứa</th><th>Thao Tác</th></tr>
+            <tr><th>Image</th><th>Service Name</th><th>Category</th><th>Duration</th><th>Price</th><th>Status</th><th>Actions</th></tr>
           </thead>
           <tbody>
-            {cruises.map(c => (
-              <tr key={c.slug}>
-                <td>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={c.mainImage} alt={c.name} className={styles.thumb} /></td>
+            {services.map(s => (
+              <tr key={s.slug}>
                 <td>
-                  <strong>{c.name}</strong><br/>
-                  <code style={{fontSize:'0.75rem',color:'#94a3b8'}}>/du-thuyen/{c.slug}</code>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {s.image ? <img src={s.image} alt={s.name} className={styles.thumb} /> : <div className={styles.thumb} style={{background:'#f4f1ea',display:'flex',alignItems:'center',justifyContent:'center'}}>💅</div>}
                 </td>
-                <td><span className={styles.badge}>{c.categoryId}</span></td>
-                <td style={{color:'#94a3b8',textDecoration:'line-through'}}>{c.originalPrice}</td>
-                <td style={{color:'#ff3b30',fontWeight:700}}>{c.salePrice}</td>
-                <td>{c.capacity} người</td>
+                <td>
+                  <strong>{s.name}</strong><br/>
+                  <code style={{fontSize:'11px',color:'#aaa'}}>{s.slug}</code>
+                </td>
+                <td><span className={styles.badge}>{s.categoryId}</span></td>
+                <td style={{color:'#888'}}>{s.duration} min</td>
+                <td>
+                  <span style={{color:'#C2A979',fontWeight:700}}>{s.price}</span>
+                  {s.promoPrice && <><br/><span style={{textDecoration:'line-through',color:'#aaa',fontSize:12}}>{s.promoPrice}</span></>}
+                </td>
+                <td>
+                  <span className={styles.badge} style={{
+                    background: s.isActive ? '#d1fae5' : '#fee2e2',
+                    color: s.isActive ? '#065f46' : '#991b1b',
+                    border: 'none',
+                  }}>{s.isActive ? 'Active' : 'Inactive'}</span>
+                </td>
                 <td>
                   <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap'}}>
-                    <Link href={`/admin/cruises/${c.slug}`} className={styles.btnEdit}>✏️ Sửa</Link>
-                    <a href={`/du-thuyen/${c.slug}`} target="_blank" rel="noreferrer" className={styles.btnSecondary} style={{fontSize:'0.78rem',padding:'0.4rem 0.7rem'}}>👁️</a>
-                    <button onClick={() => handleDelete(c.slug, c.name)} className={styles.btnDanger}>🗑️</button>
+                    <Link href={`/admin/cruises/${s.slug}`} className={styles.btnEdit}>✏️ Edit</Link>
+                    <button onClick={() => handleDelete(s.slug, s.name)} className={styles.btnDanger}>🗑️</button>
                   </div>
                 </td>
               </tr>
             ))}
-            {cruises.length === 0 && (
-              <tr><td colSpan={7} style={{textAlign:'center',padding:'3rem',color:'#94a3b8'}}>
-                Chưa có du thuyền nào. <Link href="/admin/cruises/new" style={{color:'#01bf93'}}>Thêm ngay →</Link>
+            {services.length === 0 && (
+              <tr><td colSpan={7} style={{textAlign:'center',padding:'3rem',color:'#aaa'}}>
+                <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>💅</div>
+                No services yet. <Link href="/admin/cruises/new" style={{color:'#C2A979'}}>Add one →</Link>
               </td></tr>
             )}
           </tbody>

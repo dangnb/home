@@ -12,13 +12,13 @@ const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   loading: () => (
     <div
       style={{
-        border: "1.5px solid #e2e8f0",
+        border: "1.5px solid rgba(194,169,121,0.15)",
         borderRadius: "12px",
         minHeight: "400px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "#94a3b8",
+        color: "#aaa",
         fontSize: "0.875rem",
         background: "#fafafa",
       }}
@@ -42,10 +42,10 @@ interface Post {
 }
 
 const CATEGORIES = [
-  { id: "tin-tuc", label: "Tin Tức" },
-  { id: "kinh-nghiem", label: "Kinh Nghiệm" },
-  { id: "gia-ve", label: "Giá Vé" },
-  { id: "phao-hoa", label: "Pháo Hoa" },
+  { id: "tin-tuc", label: "News" },
+  { id: "kinh-nghiem", label: "Tips & Guides" },
+  { id: "gia-ve", label: "Pricing" },
+  { id: "phao-hoa", label: "Promotions" },
 ];
 
 interface PostForm {
@@ -148,7 +148,7 @@ export default function PostFormPage({
     setLoading(false);
 
     if (res.ok) {
-      setMsg({ type: "success", text: isNew ? "Đã tạo bài viết mới!" : "Đã cập nhật bài viết!" });
+      setMsg({ type: "success", text: isNew ? "Đã tạo post mới!" : "Đã cập nhật post!" });
       if (isNew) {
         setTimeout(() => router.push("/admin/posts"), 1200);
       }
@@ -163,11 +163,11 @@ export default function PostFormPage({
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>
-            {isNew ? "✍️ Thêm Bài Viết" : "✏️ Sửa Bài Viết"}
+            {isNew ? "✍️ Thêm Posts" : "✏️ Edit Posts"}
           </h1>
-          <p style={{ fontSize: "0.875rem", color: "#64748b", marginTop: "0.25rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "#888", marginTop: "0.25rem" }}>
             {isNew
-              ? "Điền thông tin để tạo bài viết mới"
+              ? "Điền thông tin để tạo post mới"
               : `Đang chỉnh sửa: ${form.title}`}
           </p>
         </div>
@@ -179,7 +179,7 @@ export default function PostFormPage({
               rel="noreferrer"
               className={styles.btnSecondary}
             >
-              👁️ Xem trang
+              👁️ View page
             </a>
           )}
           <Link href="/admin/posts" className={styles.btnSecondary}>
@@ -210,7 +210,7 @@ export default function PostFormPage({
               label="Tiêu Đề"
               value={form.title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="Nhập tiêu đề bài viết..."
+              placeholder="Nhập tiêu đề post..."
               required
               className={styles.fullWidth}
             />
@@ -223,7 +223,7 @@ export default function PostFormPage({
               helpText={`URL: /bai-viet/${form.slug || "slug-bai-viet"}`}
             />
             <FormSelect
-              label="Danh Mục"
+              label="Categories"
               value={form.categoryId}
               onChange={(e) => set("categoryId", e.target.value)}
               options={CATEGORIES.map((c) => ({ label: c.label, value: c.id }))}
@@ -232,7 +232,7 @@ export default function PostFormPage({
               label="Mô Tả Ngắn (Excerpt)"
               value={form.excerpt}
               onChange={(e) => set("excerpt", e.target.value)}
-              placeholder="Mô tả ngắn về bài viết, hiển thị ở trang danh sách..."
+              placeholder="Mô tả ngắn về post, hiển thị ở trang danh sách..."
               rows={3}
               className={styles.fullWidth}
             />
@@ -243,7 +243,7 @@ export default function PostFormPage({
         <div className={styles.formCard}>
           <h3 className={styles.cardSectionTitle}>🖼️ Ảnh Đại Diện</h3>
           <ImageUpload
-            label="Ảnh thumbnail bài viết"
+            label="Ảnh thumbnail post"
             value={form.thumbnail}
             onChange={(url) => set("thumbnail", url)}
           />
@@ -251,28 +251,28 @@ export default function PostFormPage({
 
         {/* ── Nội dung ── */}
         <div className={styles.formCard}>
-          <h3 className={styles.cardSectionTitle}>✍️ Nội Dung Bài Viết</h3>
+          <h3 className={styles.cardSectionTitle}>✍️ Nội Dung Posts</h3>
           <p
             style={{
               fontSize: "0.82rem",
-              color: "#64748b",
+              color: "#888",
               marginBottom: "1rem",
               lineHeight: 1.6,
             }}
           >
-            Soạn thảo nội dung bài viết. Có thể kéo thả ảnh hoặc dán ảnh trực tiếp vào editor.
+            Soạn thảo nội dung post. Có thể kéo thả ảnh hoặc dán ảnh trực tiếp vào editor.
           </p>
           <RichEditor
             value={content}
             onChange={setContent}
-            placeholder="Bắt đầu soạn thảo nội dung bài viết..."
+            placeholder="Bắt đầu soạn thảo nội dung post..."
             minHeight={500}
           />
         </div>
 
-        {/* ── Trạng thái ── */}
+        {/* ── Status ── */}
         <div className={styles.formCard}>
-          <h3 className={styles.cardSectionTitle}>⚙️ Trạng Thái Xuất Bản</h3>
+          <h3 className={styles.cardSectionTitle}>⚙️ Status Xuất Bản</h3>
           <div style={{ display: "flex", gap: "1rem" }}>
             <label
               style={{
@@ -282,12 +282,12 @@ export default function PostFormPage({
                 cursor: "pointer",
                 padding: "0.75rem 1.25rem",
                 borderRadius: "10px",
-                border: `2px solid ${form.status === "published" ? "#01bf93" : "#e2e8f0"}`,
-                background: form.status === "published" ? "#f0fdf9" : "#fff",
+                border: `2px solid ${form.status === "published" ? "#C2A979" : "rgba(194,169,121,0.15)"}`,
+                background: form.status === "published" ? "#faf6ef" : "#fff",
                 transition: "all 0.2s",
                 fontWeight: 600,
                 fontSize: "0.875rem",
-                color: form.status === "published" ? "#065f46" : "#64748b",
+                color: form.status === "published" ? "#065f46" : "#888",
               }}
             >
               <input
@@ -308,12 +308,12 @@ export default function PostFormPage({
                 cursor: "pointer",
                 padding: "0.75rem 1.25rem",
                 borderRadius: "10px",
-                border: `2px solid ${form.status === "draft" ? "#f59e0b" : "#e2e8f0"}`,
-                background: form.status === "draft" ? "#fffbeb" : "#fff",
+                border: `2px solid ${form.status === "draft" ? "#f59e0b" : "rgba(194,169,121,0.15)"}`,
+                background: form.status === "draft" ? "#faf6ef" : "#fff",
                 transition: "all 0.2s",
                 fontWeight: 600,
                 fontSize: "0.875rem",
-                color: form.status === "draft" ? "#92400e" : "#64748b",
+                color: form.status === "draft" ? "#92400e" : "#888",
               }}
             >
               <input
@@ -337,14 +337,14 @@ export default function PostFormPage({
             disabled={loading}
             style={{ padding: "0.7rem 1.75rem", fontSize: "0.95rem" }}
           >
-            {loading ? "Đang lưu..." : isNew ? "➕ Tạo Bài Viết" : "💾 Lưu Thay Đổi"}
+            {loading ? "Đang lưu..." : isNew ? "➕ Tạo Posts" : "💾 Lưu Thay Đổi"}
           </button>
           <Link
             href="/admin/posts"
             className={styles.btnSecondary}
             style={{ padding: "0.7rem 1.25rem" }}
           >
-            Hủy
+            Cancel
           </Link>
         </div>
       </form>

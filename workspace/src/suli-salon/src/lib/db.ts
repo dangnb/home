@@ -1,35 +1,24 @@
-// src/lib/db.ts - Database operations using Prisma
+// src/lib/db.ts - Database operations for Suli Salon
 import prisma from "./prisma";
 
 // Re-export prisma for direct access
 export { prisma };
 
-// ── Types (giữ tương thích ngược) ──────────────────
-export interface Tour {
-  name: string;
-  icon: string;
-  schedule: string[];
-}
+// ── Types ──────────────────────────────────────────
 
-export interface CruiseData {
+export interface ServiceData {
   id: string;
   slug: string;
   name: string;
   categoryId: string;
-  badge: string;
-  tagline: string;
-  originalPrice: string;
-  salePrice: string;
-  floors: number;
-  capacity: number;
-  mainImage: string;
-  gallery: string[];
-  highlights: string[];
   description: string;
-  tours: Tour[];
-  includes: string[];
-  relatedSlugs: string[];
+  duration: number;
+  price: string;
+  promoPrice: string;
+  image: string;
+  gallery: string[];
   isActive: boolean;
+  order: number;
 }
 
 export interface CategoryData {
@@ -39,20 +28,18 @@ export interface CategoryData {
   description: string;
 }
 
-export type BookingStatus = "new" | "confirmed" | "cancelled";
+export type AppointmentStatus = "new" | "confirmed" | "cancelled" | "completed";
 
-export interface BookingData {
+export interface AppointmentData {
   id: string;
-  cruiseSlug: string;
-  cruiseName: string;
   customerName: string;
   phone: string;
   email: string;
+  serviceName: string;
   date: string;
   time: string;
-  guests: number;
   note: string;
-  status: BookingStatus;
+  status: AppointmentStatus;
   createdAt: string;
 }
 
@@ -69,18 +56,26 @@ export interface PostData {
   updatedAt: string;
 }
 
-export interface PriceItem {
-  label: string;
+export interface PriceListItem {
+  name: string;
+  duration: string;
   price: string;
 }
 
-export interface PricingData {
-  regularNote: string;
-  regularPrices: PriceItem[];
-  dinnerNote: string;
-  dinnerPrices: PriceItem[];
-  fireworksNote: string;
-  fireworksPrices: PriceItem[];
+export interface PriceListData {
+  id: string;
+  category: string;
+  items: PriceListItem[];
+  order: number;
+}
+
+export interface GalleryItemData {
+  id: string;
+  title: string;
+  image: string;
+  category: string;
+  order: number;
+  isActive: boolean;
 }
 
 export interface SiteSettings {
@@ -118,53 +113,51 @@ export interface SiteSettings {
 
 // ── Default Settings ─────────────────────────────
 const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: "Du Thuyền Sông Hàn – 2Da Tickets",
-  tagline: "Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín",
-  hotline: "0796768636",
+  siteName: "Suli Salon – Luxury Nail Gallery",
+  tagline: "Premium Nail Care in Prague",
+  hotline: "+420 123 456 789",
   hotline2: "",
-  email: "support@duthuyensonghan.vn",
-  address: "Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng",
-  workingHours: "24/7",
-  facebook: "https://www.facebook.com/2datickets",
-  tiktok: "https://www.tiktok.com/@duthuyensonghan.danang",
-  youtube: "https://www.youtube.com/@2datickets",
-  zalo: "https://zalo.me/0796768636",
-  instagram: "",
+  email: "info@sulisalon.com",
+  address: "Náměstí Míru 12, Prague 2, Czech Republic",
+  workingHours: "Mon–Sat: 9:00–20:00, Sun: 10:00–18:00",
+  facebook: "https://facebook.com/sulisalon",
+  tiktok: "",
+  youtube: "",
+  zalo: "",
+  instagram: "https://instagram.com/sulisalon",
   mapEmbedUrl: "",
-  mapLat: "16.0600",
-  mapLng: "108.2270",
-  seoTitle: "Du thuyền Sông Hàn – Đặt Vé Uy Tín, Giá Tốt",
-  seoDescription: "Top Du thuyền Sông Hàn Đà Nẵng Đẹp - Ưu tiên view đẹp, trực tiếp đón và dẫn lên du thuyền. Đặt vé nhanh, an toàn.",
-  seoKeywords: "du thuyền sông hàn, du thuyen song han, vé du thuyền đà nẵng",
+  mapLat: "50.0755",
+  mapLng: "14.4378",
+  seoTitle: "Suli Salon – Luxury Nail Gallery in Prague",
+  seoDescription: "Premium nail care, gel manicures, nail art, and pedicures in the heart of Prague. Book your appointment today.",
+  seoKeywords: "nail salon prague, gel nails, manicure, pedicure, nail art",
   footerTaglines: [
-    "✅ Ưu tiên view đẹp.",
-    "✅ Trực tiếp đón tại bến.",
-    "✅ Trực tiếp dẫn lên du thuyền.",
+    "✨ Premium nail care experience",
+    "💅 Skilled nail artists",
+    "🌟 Quality products only",
   ],
-  copyright: "© Copyright 2Da Tickets Du Thuyền Sông Hàn Đà Nẵng",
+  copyright: "© 2025 Suli Salon – All rights reserved",
   departureSlots: [
-    "17:00 – Chuyến chiều",
-    "17:30 – Chuyến chiều tối",
-    "19:00 – Chuyến tối",
-    "19:30 – Chuyến tối muộn",
+    "09:00", "10:00", "11:00", "13:00",
+    "14:00", "15:00", "16:00", "17:00", "18:00",
   ],
-  bannerImage: "https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg",
-  bannerBadge: "⭐ Hơn 1000 đánh giá 5 sao trên Google",
-  bannerTitle: "Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách",
-  bannerSubtitle: "",
-  bannerCta1Text: "📞 Đặt Vé Ngay",
-  bannerCta1Link: "tel:0796768636",
-  bannerCta2Text: "Xem Du Thuyền ↓",
-  bannerCta2Link: "#khong-an-toi",
+  bannerImage: "",
+  bannerBadge: "⭐ 5-star rated on Google",
+  bannerTitle: "Suli Salon\nLuxury Nail Gallery",
+  bannerSubtitle: "Premium nail care in Prague",
+  bannerCta1Text: "Book Now",
+  bannerCta1Link: "/booking",
+  bannerCta2Text: "Our Services ↓",
+  bannerCta2Link: "#services",
   bannerStats: [
-    { value: "10+", label: "Du Thuyền" },
-    { value: "1000+", label: "Đánh Giá 5★" },
-    { value: "24/7", label: "Hỗ Trợ" },
-    { value: "0đ", label: "Phí Giữ Chỗ" },
+    { value: "10+", label: "Services" },
+    { value: "500+", label: "Happy Clients" },
+    { value: "5★", label: "Rating" },
+    { value: "7", label: "Days Open" },
   ],
 };
 
-// ── Helper: parse JSON safely ─────────────────────
+// ── Helper ────────────────────────────────────────
 function parseJSON<T>(str: string | null | undefined, fallback: T): T {
   if (!str) return fallback;
   try { return JSON.parse(str); } catch { return fallback; }
@@ -174,10 +167,7 @@ function parseJSON<T>(str: string | null | undefined, fallback: T): T {
 export async function getCategories(): Promise<CategoryData[]> {
   const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
   return cats.map(c => ({
-    id: c.id,
-    label: c.label,
-    slug: c.slug,
-    description: c.description ?? "",
+    id: c.id, label: c.label, slug: c.slug, description: c.description ?? "",
   }));
 }
 
@@ -189,153 +179,199 @@ export async function saveCategory(data: { label: string; slug: string; descript
   });
 }
 
-// ── Cruises ─────────────────────────────────────────
-function mapCruise(c: {
-  id: string; slug: string; name: string; categoryId: string;
-  badge: string | null; tagline: string | null; originalPrice: string | null;
-  salePrice: string; floors: number; capacity: number;
-  mainImage: string | null; gallery: string | null;
-  highlights: string | null; description: string | null;
-  tours: string | null; includes: string | null;
-  relatedSlugs: string | null; isActive: boolean;
-}): CruiseData {
-  return {
-    id: c.id,
-    slug: c.slug,
-    name: c.name,
-    categoryId: c.categoryId,
-    badge: c.badge ?? "",
-    tagline: c.tagline ?? "",
-    originalPrice: c.originalPrice ?? "",
-    salePrice: c.salePrice,
-    floors: c.floors,
-    capacity: c.capacity,
-    mainImage: c.mainImage ?? "",
-    gallery: parseJSON(c.gallery, []),
-    highlights: parseJSON(c.highlights, []),
-    description: c.description ?? "",
-    tours: parseJSON(c.tours, []),
-    includes: parseJSON(c.includes, []),
-    relatedSlugs: parseJSON(c.relatedSlugs, []),
-    isActive: c.isActive,
-  };
-}
-
-export async function getCruises(): Promise<CruiseData[]> {
-  const cruises = await prisma.cruise.findMany({
+// ── Services ────────────────────────────────────────
+export async function getServices(): Promise<ServiceData[]> {
+  const services = await prisma.service.findMany({
     where: { isActive: true },
     orderBy: { order: "asc" },
   });
-  return cruises.map(mapCruise);
+  return services.map(s => ({
+    id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+    description: s.description ?? "", duration: s.duration,
+    price: s.price, promoPrice: s.promoPrice ?? "",
+    image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+    isActive: s.isActive, order: s.order,
+  }));
 }
 
-export async function getAllCruises(): Promise<CruiseData[]> {
-  const cruises = await prisma.cruise.findMany({ orderBy: { order: "asc" } });
-  return cruises.map(mapCruise);
+export async function getAllServices(): Promise<ServiceData[]> {
+  const services = await prisma.service.findMany({ orderBy: { order: "asc" } });
+  return services.map(s => ({
+    id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+    description: s.description ?? "", duration: s.duration,
+    price: s.price, promoPrice: s.promoPrice ?? "",
+    image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+    isActive: s.isActive, order: s.order,
+  }));
 }
 
-export async function getCruiseBySlug(slug: string): Promise<CruiseData | null> {
-  const c = await prisma.cruise.findUnique({ where: { slug } });
-  return c ? mapCruise(c) : null;
+export async function getServiceBySlug(slug: string): Promise<ServiceData | null> {
+  const s = await prisma.service.findUnique({ where: { slug } });
+  if (!s) return null;
+  return {
+    id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+    description: s.description ?? "", duration: s.duration,
+    price: s.price, promoPrice: s.promoPrice ?? "",
+    image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+    isActive: s.isActive, order: s.order,
+  };
 }
 
-export async function createCruise(data: Omit<CruiseData, "id" | "isActive">): Promise<CruiseData> {
-  const c = await prisma.cruise.create({
+export async function createService(data: Omit<ServiceData, "id" | "isActive" | "order">): Promise<ServiceData> {
+  const s = await prisma.service.create({
     data: {
-      slug: data.slug,
-      name: data.name,
-      categoryId: data.categoryId,
-      badge: data.badge,
-      tagline: data.tagline,
-      originalPrice: data.originalPrice,
-      salePrice: data.salePrice,
-      floors: data.floors,
-      capacity: data.capacity,
-      mainImage: data.mainImage,
-      gallery: JSON.stringify(data.gallery),
-      highlights: JSON.stringify(data.highlights),
-      description: data.description,
-      tours: JSON.stringify(data.tours),
-      includes: JSON.stringify(data.includes),
-      relatedSlugs: JSON.stringify(data.relatedSlugs),
+      slug: data.slug, name: data.name, categoryId: data.categoryId,
+      description: data.description, duration: data.duration,
+      price: data.price, promoPrice: data.promoPrice || null,
+      image: data.image, gallery: JSON.stringify(data.gallery),
     },
   });
-  return mapCruise(c);
+  return {
+    id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+    description: s.description ?? "", duration: s.duration,
+    price: s.price, promoPrice: s.promoPrice ?? "",
+    image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+    isActive: s.isActive, order: s.order,
+  };
 }
 
-export async function updateCruise(slug: string, data: Partial<CruiseData>): Promise<boolean> {
+export async function updateService(slug: string, data: Partial<ServiceData>): Promise<boolean> {
   try {
     const updateData: Record<string, unknown> = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.categoryId !== undefined) updateData.categoryId = data.categoryId;
-    if (data.badge !== undefined) updateData.badge = data.badge;
-    if (data.tagline !== undefined) updateData.tagline = data.tagline;
-    if (data.originalPrice !== undefined) updateData.originalPrice = data.originalPrice;
-    if (data.salePrice !== undefined) updateData.salePrice = data.salePrice;
-    if (data.floors !== undefined) updateData.floors = data.floors;
-    if (data.capacity !== undefined) updateData.capacity = data.capacity;
-    if (data.mainImage !== undefined) updateData.mainImage = data.mainImage;
-    if (data.gallery !== undefined) updateData.gallery = JSON.stringify(data.gallery);
-    if (data.highlights !== undefined) updateData.highlights = JSON.stringify(data.highlights);
     if (data.description !== undefined) updateData.description = data.description;
-    if (data.tours !== undefined) updateData.tours = JSON.stringify(data.tours);
-    if (data.includes !== undefined) updateData.includes = JSON.stringify(data.includes);
-    if (data.relatedSlugs !== undefined) updateData.relatedSlugs = JSON.stringify(data.relatedSlugs);
+    if (data.duration !== undefined) updateData.duration = data.duration;
+    if (data.price !== undefined) updateData.price = data.price;
+    if (data.promoPrice !== undefined) updateData.promoPrice = data.promoPrice || null;
+    if (data.image !== undefined) updateData.image = data.image;
+    if (data.gallery !== undefined) updateData.gallery = JSON.stringify(data.gallery);
     if (data.slug !== undefined) updateData.slug = data.slug;
+    if (data.isActive !== undefined) updateData.isActive = data.isActive;
 
-    await prisma.cruise.update({ where: { slug }, data: updateData });
+    await prisma.service.update({ where: { slug }, data: updateData });
     return true;
   } catch { return false; }
 }
 
-export async function deleteCruise(slug: string): Promise<boolean> {
+export async function deleteService(slug: string): Promise<boolean> {
   try {
-    await prisma.cruise.delete({ where: { slug } });
+    await prisma.service.delete({ where: { slug } });
     return true;
   } catch { return false; }
 }
 
-// ── Bookings ─────────────────────────────────────────
-export async function getBookings(): Promise<BookingData[]> {
-  const bookings = await prisma.booking.findMany({ orderBy: { createdAt: "desc" } });
-  return bookings.map(b => ({
-    id: b.id,
-    cruiseSlug: b.cruiseSlug,
-    cruiseName: b.cruiseName,
-    customerName: b.customerName,
-    phone: b.phone,
-    email: b.email ?? "",
-    date: b.date,
-    time: b.time,
-    guests: b.guests,
-    note: b.note ?? "",
-    status: b.status as BookingStatus,
-    createdAt: b.createdAt.toISOString(),
-  }));
+// ── Backward Compatibility ──────────────────────────
+// These aliases keep old public pages working without changes
+export const getCruises = getServices;
+export const getCruiseBySlug = getServiceBySlug;
+export type CruiseData = ServiceData & {
+  badge: string; tagline: string; originalPrice: string; salePrice: string;
+  floors: number; capacity: number; mainImage: string; highlights: string[];
+  tours: { name: string; icon: string; schedule: string[] }[];
+  includes: string[]; relatedSlugs: string[];
+};
+
+export interface PriceItem { label: string; price: string; }
+export interface PricingData {
+  regularNote: string; regularPrices: PriceItem[];
+  dinnerNote: string; dinnerPrices: PriceItem[];
+  fireworksNote: string; fireworksPrices: PriceItem[];
 }
 
-export async function createBooking(data: Omit<BookingData, "id" | "createdAt" | "status">): Promise<BookingData> {
-  const b = await prisma.booking.create({ data: { ...data, status: "new" } });
+export async function getPricing(): Promise<PricingData> {
+  // Map new PriceList data to old PricingData format for backward compat
+  const lists = await getPriceLists();
+  const manicure = lists.find(l => l.category === "Manicure");
+  const pedicure = lists.find(l => l.category === "Pedicure");
+  const nailArt = lists.find(l => l.category === "Nail Art");
   return {
-    id: b.id, cruiseSlug: b.cruiseSlug, cruiseName: b.cruiseName,
-    customerName: b.customerName, phone: b.phone, email: b.email ?? "",
-    date: b.date, time: b.time, guests: b.guests, note: b.note ?? "",
-    status: b.status as BookingStatus, createdAt: b.createdAt.toISOString(),
+    regularNote: "Manicure Services",
+    regularPrices: (manicure?.items ?? []).map(i => ({ label: `${i.name} (${i.duration})`, price: i.price })),
+    dinnerNote: "Pedicure Services",
+    dinnerPrices: (pedicure?.items ?? []).map(i => ({ label: `${i.name} (${i.duration})`, price: i.price })),
+    fireworksNote: "Nail Art & Extensions",
+    fireworksPrices: (nailArt?.items ?? []).map(i => ({ label: `${i.name} (${i.duration})`, price: i.price })),
   };
 }
 
-export async function updateBookingStatus(id: string, status: BookingStatus): Promise<boolean> {
+// ── Appointments ─────────────────────────────────────
+export async function getAppointments(): Promise<AppointmentData[]> {
+  const appointments = await prisma.appointment.findMany({ orderBy: { createdAt: "desc" } });
+  return appointments.map(a => ({
+    id: a.id, customerName: a.customerName, phone: a.phone,
+    email: a.email ?? "", serviceName: a.serviceName,
+    date: a.date, time: a.time, note: a.note ?? "",
+    status: a.status as AppointmentStatus,
+    createdAt: a.createdAt.toISOString(),
+  }));
+}
+
+export async function createAppointment(data: Omit<AppointmentData, "id" | "createdAt" | "status">): Promise<AppointmentData> {
+  const a = await prisma.appointment.create({ data: { ...data, status: "new" } });
+  return {
+    id: a.id, customerName: a.customerName, phone: a.phone,
+    email: a.email ?? "", serviceName: a.serviceName,
+    date: a.date, time: a.time, note: a.note ?? "",
+    status: a.status as AppointmentStatus,
+    createdAt: a.createdAt.toISOString(),
+  };
+}
+
+export async function updateAppointmentStatus(id: string, status: AppointmentStatus): Promise<boolean> {
   try {
-    await prisma.booking.update({ where: { id }, data: { status } });
+    await prisma.appointment.update({ where: { id }, data: { status } });
     return true;
   } catch { return false; }
 }
 
-export async function deleteBooking(id: string): Promise<boolean> {
+export async function deleteAppointment(id: string): Promise<boolean> {
   try {
-    await prisma.booking.delete({ where: { id } });
+    await prisma.appointment.delete({ where: { id } });
     return true;
   } catch { return false; }
+}
+
+// ── Gallery ─────────────────────────────────────────
+export async function getGalleryItems(): Promise<GalleryItemData[]> {
+  const items = await prisma.galleryItem.findMany({ orderBy: { order: "asc" } });
+  return items.map(g => ({
+    id: g.id, title: g.title ?? "", image: g.image,
+    category: g.category ?? "", order: g.order, isActive: g.isActive,
+  }));
+}
+
+export async function createGalleryItem(data: { title?: string; image: string; category?: string }): Promise<GalleryItemData> {
+  const g = await prisma.galleryItem.create({ data });
+  return {
+    id: g.id, title: g.title ?? "", image: g.image,
+    category: g.category ?? "", order: g.order, isActive: g.isActive,
+  };
+}
+
+export async function deleteGalleryItem(id: string): Promise<boolean> {
+  try {
+    await prisma.galleryItem.delete({ where: { id } });
+    return true;
+  } catch { return false; }
+}
+
+// ── Price List ──────────────────────────────────────
+export async function getPriceLists(): Promise<PriceListData[]> {
+  const lists = await prisma.priceList.findMany({ orderBy: { order: "asc" } });
+  return lists.map(p => ({
+    id: p.id, category: p.category,
+    items: parseJSON<PriceListItem[]>(p.items, []),
+    order: p.order,
+  }));
+}
+
+export async function savePriceList(category: string, items: PriceListItem[]): Promise<void> {
+  await prisma.priceList.upsert({
+    where: { category },
+    create: { category, items: JSON.stringify(items) },
+    update: { items: JSON.stringify(items) },
+  });
 }
 
 // ── Posts ─────────────────────────────────────────
@@ -382,41 +418,6 @@ export async function deletePost(id: string): Promise<boolean> {
     await prisma.post.delete({ where: { id } });
     return true;
   } catch { return false; }
-}
-
-// ── Pricing ─────────────────────────────────────────
-export async function getPricing(): Promise<PricingData> {
-  const rows = await prisma.pricing.findMany({ orderBy: { order: "asc" } });
-  const result: PricingData = {
-    regularNote: "", regularPrices: [],
-    dinnerNote: "", dinnerPrices: [],
-    fireworksNote: "", fireworksPrices: [],
-  };
-  for (const r of rows) {
-    const prices = parseJSON<PriceItem[]>(r.prices, []);
-    if (r.key === "regular") { result.regularNote = r.note ?? ""; result.regularPrices = prices; }
-    if (r.key === "dinner") { result.dinnerNote = r.note ?? ""; result.dinnerPrices = prices; }
-    if (r.key === "fireworks") { result.fireworksNote = r.note ?? ""; result.fireworksPrices = prices; }
-  }
-  return result;
-}
-
-export async function savePricing(data: PricingData): Promise<void> {
-  await prisma.pricing.upsert({
-    where: { key: "regular" },
-    create: { key: "regular", note: data.regularNote, prices: JSON.stringify(data.regularPrices) },
-    update: { note: data.regularNote, prices: JSON.stringify(data.regularPrices) },
-  });
-  await prisma.pricing.upsert({
-    where: { key: "dinner" },
-    create: { key: "dinner", note: data.dinnerNote, prices: JSON.stringify(data.dinnerPrices) },
-    update: { note: data.dinnerNote, prices: JSON.stringify(data.dinnerPrices) },
-  });
-  await prisma.pricing.upsert({
-    where: { key: "fireworks" },
-    create: { key: "fireworks", note: data.fireworksNote, prices: JSON.stringify(data.fireworksPrices) },
-    update: { note: data.fireworksNote, prices: JSON.stringify(data.fireworksPrices) },
-  });
 }
 
 // ── Settings ─────────────────────────────────────────

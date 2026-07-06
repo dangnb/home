@@ -69,7 +69,7 @@ export default function SettingsPage() {
   }
 
   if (!form) return (
-    <div style={{ padding: "3rem", textAlign: "center", color: "#94a3b8" }}>
+    <div style={{ padding: "3rem", textAlign: "center", color: "#aaa" }}>
       <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>⚙️</div>
       Đang tải cấu hình...
     </div>
@@ -90,7 +90,7 @@ export default function SettingsPage() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Cấu Hình Hệ Thống</h1>
-          <p style={{ fontSize: "0.875rem", color: "#64748b", marginTop: "0.25rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "#888", marginTop: "0.25rem" }}>
             Quản lý thông tin liên hệ, mạng xã hội, bản đồ và SEO
           </p>
         </div>
@@ -121,19 +121,19 @@ export default function SettingsPage() {
         {/* ── Tab: Liên hệ ── */}
         {activeTab === "contact" && (
           <div className={styles.formCard}>
-            <h3 className={styles.cardSectionTitle}>📞 Thông Tin Liên Hệ</h3>
+            <h3 className={styles.cardSectionTitle}>📞 Contact Info</h3>
             <div className={styles.formGrid}>
               <FormInput
                 label="Tên đơn vị"
                 value={form.siteName}
                 onChange={(e) => set("siteName", e.target.value)}
-                placeholder="Du Thuyền Sông Hàn – 2Da Tickets"
+                placeholder="Nail Services Sông Hàn – 2Da Tickets"
               />
               <FormInput
                 label="Slogan / Tagline"
                 value={form.tagline}
                 onChange={(e) => set("tagline", e.target.value)}
-                placeholder="Quầy Vé Du Thuyền Sông Hàn Đà Nẵng Uy Tín"
+                placeholder="Quầy Vé Nail Services Sông Hàn Đà Nẵng Uy Tín"
               />
               <FormInput
                 label="Hotline chính"
@@ -167,7 +167,7 @@ export default function SettingsPage() {
                 placeholder="24/7"
               />
               <FormInput
-                label="Địa chỉ"
+                label="Address"
                 icon="📍"
                 value={form.address}
                 onChange={(e) => set("address", e.target.value)}
@@ -178,7 +178,7 @@ export default function SettingsPage() {
 
             {/* Preview */}
             <div className={sStyles.preview}>
-              <div className={sStyles.previewTitle}>Xem trước</div>
+              <div className={sStyles.previewTitle}>Preview</div>
               <div className={sStyles.previewContact}>
                 <div className={sStyles.previewItem}>
                   <span>📞</span>
@@ -197,7 +197,7 @@ export default function SettingsPage() {
                 <div className={sStyles.previewItem}>
                   <span>📍</span>
                   <div>
-                    <div className={sStyles.previewLabel}>Địa chỉ</div>
+                    <div className={sStyles.previewLabel}>Address</div>
                     <div className={sStyles.previewValue}>{form.address || "—"}</div>
                   </div>
                 </div>
@@ -209,7 +209,7 @@ export default function SettingsPage() {
         {/* ── Tab: Mạng xã hội ── */}
         {activeTab === "social" && (
           <div className={styles.formCard}>
-            <h3 className={styles.cardSectionTitle}>🌐 Mạng Xã Hội</h3>
+            <h3 className={styles.cardSectionTitle}>🌐 Social Media</h3>
             <div className={styles.formGrid}>
               {[
                 { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://www.facebook.com/2datickets" },
@@ -232,7 +232,7 @@ export default function SettingsPage() {
                   {(form[s.key as keyof SiteSettings] as string) && (
                     <a href={form[s.key as keyof SiteSettings] as string}
                       target="_blank" rel="noreferrer"
-                      style={{ fontSize: "0.75rem", color: "#01bf93" }}>
+                      style={{ fontSize: "0.75rem", color: "#C2A979" }}>
                       Kiểm tra link ↗
                     </a>
                   )}
@@ -242,7 +242,7 @@ export default function SettingsPage() {
 
             {/* Social preview */}
             <div className={sStyles.preview}>
-              <div className={sStyles.previewTitle}>Xem trước icon mạng xã hội</div>
+              <div className={sStyles.previewTitle}>Preview icon mạng xã hội</div>
               <div className={sStyles.socialPreview}>
                 {form.facebook && <a href={form.facebook} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#1877f2" }}>f Facebook</a>}
                 {form.tiktok && <a href={form.tiktok} target="_blank" rel="noreferrer" className={sStyles.socialChip} style={{ background: "#000" }}>♪ TikTok</a>}
@@ -257,7 +257,7 @@ export default function SettingsPage() {
         {/* ── Tab: Bản đồ ── */}
         {activeTab === "map" && (
           <div className={styles.formCard}>
-            <h3 className={styles.cardSectionTitle}>📍 Cấu Hình Bản Đồ</h3>
+            <h3 className={styles.cardSectionTitle}>📍 Cấu Hình Map</h3>
             <div className={styles.formGrid}>
               <div className={styles.formField}>
                 <label>Vĩ độ (Latitude)</label>
@@ -277,7 +277,7 @@ export default function SettingsPage() {
                   rows={4}
                   placeholder="https://www.google.com/maps/embed?pb=..."
                 />
-                <span style={{ fontSize: "0.75rem", color: "#94a3b8", lineHeight: 1.5 }}>
+                <span style={{ fontSize: "0.75rem", color: "#aaa", lineHeight: 1.5 }}>
                   Vào Google Maps → Chia sẻ → Nhúng bản đồ → Sao chép URL trong thẻ src=""
                 </span>
               </div>
@@ -286,7 +286,7 @@ export default function SettingsPage() {
             {/* Map preview */}
             {form.mapEmbedUrl && (
               <div className={sStyles.preview}>
-                <div className={sStyles.previewTitle}>Xem trước bản đồ</div>
+                <div className={sStyles.previewTitle}>Preview bản đồ</div>
                 <div className={sStyles.mapPreview}>
                   <iframe
                     src={form.mapEmbedUrl}
@@ -309,8 +309,8 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề trang (SEO Title)</label>
                 <input value={form.seoTitle} onChange={e => set("seoTitle", e.target.value)}
-                  placeholder="Du thuyền Sông Hàn – Đặt Vé Uy Tín, Giá Tốt" />
-                <span style={{ fontSize: "0.75rem", color: form.seoTitle.length > 60 ? "#ef4444" : "#94a3b8" }}>
+                  placeholder="Nail service Sông Hàn – Đặt Vé Uy Tín, Giá Tốt" />
+                <span style={{ fontSize: "0.75rem", color: form.seoTitle.length > 60 ? "#ef4444" : "#aaa" }}>
                   {form.seoTitle.length}/60 ký tự {form.seoTitle.length > 60 ? "⚠️ Quá dài" : "✓"}
                 </span>
               </div>
@@ -319,21 +319,21 @@ export default function SettingsPage() {
                 <textarea value={form.seoDescription}
                   onChange={e => set("seoDescription", e.target.value)}
                   rows={3} placeholder="Mô tả ngắn về website..." />
-                <span style={{ fontSize: "0.75rem", color: form.seoDescription.length > 160 ? "#ef4444" : "#94a3b8" }}>
+                <span style={{ fontSize: "0.75rem", color: form.seoDescription.length > 160 ? "#ef4444" : "#aaa" }}>
                   {form.seoDescription.length}/160 ký tự {form.seoDescription.length > 160 ? "⚠️ Quá dài" : "✓"}
                 </span>
               </div>
               <div className={`${styles.formField} ${styles.fullWidth}`}>
-                <label>Từ khóa (Keywords)</label>
+                <label>Keywords</label>
                 <input value={form.seoKeywords} onChange={e => set("seoKeywords", e.target.value)}
-                  placeholder="du thuyền sông hàn, du thuyen song han, vé du thuyền đà nẵng" />
-                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Phân cách bằng dấu phẩy</span>
+                  placeholder="nail salon prague, gel nails, manicure, pedicure, nail art" />
+                <span style={{ fontSize: "0.75rem", color: "#aaa" }}>Separate with commas</span>
               </div>
             </div>
 
             {/* SEO preview */}
             <div className={sStyles.preview}>
-              <div className={sStyles.previewTitle}>Xem trước kết quả Google</div>
+              <div className={sStyles.previewTitle}>Preview kết quả Google</div>
               <div className={sStyles.seoPreview}>
                 <div className={sStyles.seoUrl}>duthuyensonghan.vn</div>
                 <div className={sStyles.seoTitle}>{form.seoTitle || "Tiêu đề trang"}</div>
@@ -351,13 +351,13 @@ export default function SettingsPage() {
               <div className={styles.formField}>
                 <label>Dòng bản quyền</label>
                 <input value={form.copyright} onChange={e => set("copyright", e.target.value)}
-                  placeholder="© Copyright 2Da Tickets Du Thuyền Sông Hàn Đà Nẵng" />
+                  placeholder="© Copyright 2Da Tickets Nail Services Sông Hàn Đà Nẵng" />
               </div>
 
               <div className={styles.formField}>
                 <label style={{ marginBottom: "0.5rem", display: "block" }}>
                   Taglines footer
-                  <span style={{ fontWeight: 400, color: "#94a3b8", marginLeft: "0.5rem", fontSize: "0.78rem" }}>
+                  <span style={{ fontWeight: 400, color: "#aaa", marginLeft: "0.5rem", fontSize: "0.78rem" }}>
                     (hiển thị dưới logo)
                   </span>
                 </label>
@@ -371,11 +371,11 @@ export default function SettingsPage() {
                         set("footerTaglines", arr);
                       }}
                       placeholder="✅ Ưu tiên view đẹp."
-                      style={{ flex: 1, padding: "0.6rem 0.85rem", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
+                      style={{ flex: 1, padding: "0.6rem 0.85rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
                     />
                     <button type="button"
                       onClick={() => set("footerTaglines", form.footerTaglines.filter((_, idx) => idx !== i))}
-                      style={{ width: "34px", height: "34px", border: "1px solid #fecaca", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0 }}>
+                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0 }}>
                       ✕
                     </button>
                   </div>
@@ -395,8 +395,8 @@ export default function SettingsPage() {
         {activeTab === "slots" && (
           <div className={styles.formCard}>
             <h3 className={styles.cardSectionTitle}>🕐 Cấu Hình Giờ Xuất Bến</h3>
-            <p style={{ fontSize: "0.82rem", color: "#64748b", marginBottom: "1.25rem", lineHeight: 1.6 }}>
-              Danh sách các chuyến xuất bến hiển thị trong form đặt lịch. Mỗi dòng là một lựa chọn.
+            <p style={{ fontSize: "0.82rem", color: "#888", marginBottom: "1.25rem", lineHeight: 1.6 }}>
+              All items các chuyến xuất bến hiển thị trong form appointment. Mỗi dòng là một lựa chọn.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -404,7 +404,7 @@ export default function SettingsPage() {
                 <div key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                   <span style={{
                     width: "26px", height: "26px", borderRadius: "50%",
-                    background: "#01bf93", color: "#fff", fontSize: "0.72rem",
+                    background: "#C2A979", color: "#fff", fontSize: "0.72rem",
                     fontWeight: 800, display: "flex", alignItems: "center",
                     justifyContent: "center", flexShrink: 0,
                   }}>{i + 1}</span>
@@ -418,7 +418,7 @@ export default function SettingsPage() {
                     placeholder="17:00 – Chuyến chiều"
                     style={{
                       flex: 1, padding: "0.65rem 0.85rem",
-                      border: "1.5px solid #e2e8f0", borderRadius: "8px",
+                      border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px",
                       fontSize: "0.875rem", outline: "none", fontFamily: "inherit",
                     }}
                   />
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                     type="button"
                     onClick={() => set("departureSlots", (form.departureSlots ?? []).filter((_, idx) => idx !== i))}
                     style={{
-                      width: "34px", height: "34px", border: "1px solid #fecaca",
+                      width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)",
                       borderRadius: "8px", background: "#fff", color: "#ef4444",
                       cursor: "pointer", flexShrink: 0, fontSize: "0.9rem",
                       display: "flex", alignItems: "center", justifyContent: "center",
@@ -447,11 +447,11 @@ export default function SettingsPage() {
 
             {/* Preview */}
             <div className={sStyles.preview} style={{ marginTop: "1.5rem" }}>
-              <div className={sStyles.previewTitle}>Xem trước trong form đặt lịch</div>
+              <div className={sStyles.previewTitle}>Preview trong form appointment</div>
               <div style={{ padding: "1rem" }}>
                 <select style={{
                   width: "100%", padding: "0.65rem 0.85rem",
-                  border: "1.5px solid #e2e8f0", borderRadius: "8px",
+                  border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px",
                   fontSize: "0.875rem", background: "#fff",
                 }}>
                   {(form.departureSlots ?? []).map((slot, i) => (
@@ -467,7 +467,7 @@ export default function SettingsPage() {
         {activeTab === "banner" && (
           <div className={styles.formCard}>
             <h3 className={styles.cardSectionTitle}>🖼️ Cấu Hình Banner Trang Chủ</h3>
-            <p style={{ fontSize: "0.82rem", color: "#64748b", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+            <p style={{ fontSize: "0.82rem", color: "#888", marginBottom: "1.5rem", lineHeight: 1.6 }}>
               Banner chiếm toàn màn hình trang chủ. Thay đổi ảnh, tiêu đề, nút CTA và các chỉ số thống kê.
             </p>
 
@@ -484,7 +484,7 @@ export default function SettingsPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={form.bannerImage} alt="preview" style={{
                     marginTop: "0.5rem", height: "120px", width: "100%",
-                    objectFit: "cover", borderRadius: "10px", border: "1px solid #e2e8f0",
+                    objectFit: "cover", borderRadius: "10px", border: "1px solid rgba(194,169,121,0.15)",
                   }} />
                 )}
               </div>
@@ -500,15 +500,15 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề chính</label>
                 <textarea value={form.bannerTitle ?? ""} onChange={e => set("bannerTitle", e.target.value)}
-                  rows={3} placeholder={"Du Thuyền Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách"} />
-                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Dùng Enter để xuống dòng trong tiêu đề</span>
+                  rows={3} placeholder={"Nail Services Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách"} />
+                <span style={{ fontSize: "0.75rem", color: "#aaa" }}>Dùng Enter để xuống dòng trong tiêu đề</span>
               </div>
 
               {/* Subtitle */}
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Mô tả phụ (tuỳ chọn)</label>
                 <input value={form.bannerSubtitle ?? ""} onChange={e => set("bannerSubtitle", e.target.value)}
-                  placeholder="Trực tiếp đón và dẫn lên du thuyền..." />
+                  placeholder="Trực tiếp đón và dẫn lên nail service..." />
               </div>
 
               {/* CTA 1 */}
@@ -527,7 +527,7 @@ export default function SettingsPage() {
               <div className={styles.formField}>
                 <label>Nút CTA 2 – Text</label>
                 <input value={form.bannerCta2Text ?? ""} onChange={e => set("bannerCta2Text", e.target.value)}
-                  placeholder="Xem Du Thuyền ↓" />
+                  placeholder="Xem Nail Services ↓" />
               </div>
               <div className={styles.formField}>
                 <label>Nút CTA 2 – Link</label>
@@ -552,7 +552,7 @@ export default function SettingsPage() {
                         set("bannerStats", arr);
                       }}
                       placeholder="10+"
-                      style={{ width: "90px", padding: "0.6rem 0.75rem", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit", fontWeight: 700 }}
+                      style={{ width: "90px", padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit", fontWeight: 700 }}
                     />
                     <input
                       value={stat.label}
@@ -561,12 +561,12 @@ export default function SettingsPage() {
                         arr[i] = { ...arr[i], label: e.target.value };
                         set("bannerStats", arr);
                       }}
-                      placeholder="Du Thuyền"
-                      style={{ flex: 1, padding: "0.6rem 0.75rem", border: "1.5px solid #e2e8f0", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
+                      placeholder="Nail Services"
+                      style={{ flex: 1, padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
                     />
                     <button type="button"
                       onClick={() => set("bannerStats", (form.bannerStats ?? []).filter((_, idx) => idx !== i))}
-                      style={{ width: "34px", height: "34px", border: "1px solid #fecaca", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       ✕
                     </button>
                   </div>
@@ -581,7 +581,7 @@ export default function SettingsPage() {
 
             {/* Preview */}
             <div className={sStyles.preview} style={{ marginTop: "1.5rem" }}>
-              <div className={sStyles.previewTitle}>Xem trước banner</div>
+              <div className={sStyles.previewTitle}>Preview banner</div>
               <div style={{
                 position: "relative", height: "220px", borderRadius: "0 0 10px 10px",
                 overflow: "hidden", background: "#0d1f3c",
@@ -632,7 +632,7 @@ export default function SettingsPage() {
         <div style={{ display: "flex", gap: "0.75rem", paddingBottom: "2rem", marginTop: "0.5rem" }}>
           <button type="submit" className={styles.btnPrimary} disabled={loading}
             style={{ padding: "0.7rem 2rem", fontSize: "0.95rem" }}>
-            {loading ? "Đang lưu..." : "💾 Lưu Cấu Hình"}
+            {loading ? "Saving..." : "💾 Lưu Cấu Hình"}
           </button>
         </div>
       </form>

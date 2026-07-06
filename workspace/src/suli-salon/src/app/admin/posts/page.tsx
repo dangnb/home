@@ -15,10 +15,10 @@ interface Post {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  "tin-tuc": "Tin Tức",
-  "kinh-nghiem": "Kinh Nghiệm",
-  "gia-ve": "Giá Vé",
-  "phao-hoa": "Pháo Hoa",
+  "tin-tuc": "News",
+  "kinh-nghiem": "Tips & Guides",
+  "gia-ve": "Pricing",
+  "phao-hoa": "Promotions",
 };
 
 function formatDate(iso: string) {
@@ -41,7 +41,7 @@ export default function PostsListPage() {
   }, []);
 
   async function handleDelete(id: string, title: string) {
-    if (!confirm(`Xóa bài viết "${title}"?`)) return;
+    if (!confirm(`Delete post "${title}"?`)) return;
     const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
     if (res.ok) {
       setPosts((prev) => prev.filter((p) => p.id !== id));
@@ -60,29 +60,29 @@ export default function PostsListPage() {
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>📝 Quản Lý Bài Viết</h1>
+        <h1 className={styles.pageTitle}>📝 Blog Posts</h1>
         <Link href="/admin/posts/new" className={styles.btnPrimary}>
-          + Thêm Bài Viết
+          + Thêm Posts
         </Link>
       </div>
 
       {/* Stats */}
       <div className={styles.statsGrid} style={{ marginBottom: "1.5rem" }}>
-        <div className={styles.statCard} style={{ "--stat-color": "#01bf93", "--stat-bg": "#f0fdf9" } as React.CSSProperties}>
+        <div className={styles.statCard} style={{ "--stat-color": "#C2A979", "--stat-bg": "#faf6ef" } as React.CSSProperties}>
           <div className={styles.statIconWrap}><span className={styles.statIcon}>📝</span></div>
           <div>
-            <span className={styles.statLabel}>Tổng Bài Viết</span>
+            <span className={styles.statLabel}>Tổng Posts</span>
             <span className={styles.statValue}>{posts.length}</span>
           </div>
         </div>
-        <div className={styles.statCard} style={{ "--stat-color": "#3b82f6", "--stat-bg": "#eff6ff" } as React.CSSProperties}>
+        <div className={styles.statCard} style={{ "--stat-color": "#a08040", "--stat-bg": "#f8f3e8" } as React.CSSProperties}>
           <div className={styles.statIconWrap}><span className={styles.statIcon}>🌐</span></div>
           <div>
             <span className={styles.statLabel}>Đã Xuất Bản</span>
             <span className={styles.statValue}>{publishedCount}</span>
           </div>
         </div>
-        <div className={styles.statCard} style={{ "--stat-color": "#f59e0b", "--stat-bg": "#fffbeb" } as React.CSSProperties}>
+        <div className={styles.statCard} style={{ "--stat-color": "#f59e0b", "--stat-bg": "#faf6ef" } as React.CSSProperties}>
           <div className={styles.statIconWrap}><span className={styles.statIcon}>📋</span></div>
           <div>
             <span className={styles.statLabel}>Bản Nháp</span>
@@ -93,7 +93,7 @@ export default function PostsListPage() {
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
-          <span className={styles.tableTitle}>Danh sách ({filtered.length} bài)</span>
+          <span className={styles.tableTitle}>All items ({filtered.length} bài)</span>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             {/* Search */}
             <input
@@ -103,7 +103,7 @@ export default function PostsListPage() {
               onChange={(e) => setSearch(e.target.value)}
               style={{
                 padding: "0.45rem 0.85rem",
-                border: "1.5px solid #e2e8f0",
+                border: "1.5px solid rgba(194,169,121,0.15)",
                 borderRadius: "8px",
                 fontSize: "0.875rem",
                 outline: "none",
@@ -116,7 +116,7 @@ export default function PostsListPage() {
               onChange={(e) => setStatusFilter(e.target.value)}
               style={{
                 padding: "0.45rem 0.85rem",
-                border: "1.5px solid #e2e8f0",
+                border: "1.5px solid rgba(194,169,121,0.15)",
                 borderRadius: "8px",
                 fontSize: "0.875rem",
                 outline: "none",
@@ -124,7 +124,7 @@ export default function PostsListPage() {
                 cursor: "pointer",
               }}
             >
-              <option value="all">Tất cả trạng thái</option>
+              <option value="all">All trạng thái</option>
               <option value="published">Đã xuất bản</option>
               <option value="draft">Bản nháp</option>
             </select>
@@ -136,10 +136,10 @@ export default function PostsListPage() {
             <tr>
               <th>Ảnh</th>
               <th>Tiêu Đề</th>
-              <th>Danh Mục</th>
-              <th>Trạng Thái</th>
+              <th>Categories</th>
+              <th>Status</th>
               <th>Ngày Tạo</th>
-              <th>Thao Tác</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -168,7 +168,7 @@ export default function PostsListPage() {
                 </td>
                 <td>
                   <strong style={{ display: "block", marginBottom: "0.2rem" }}>{p.title}</strong>
-                  <code style={{ fontSize: "0.75rem", color: "#94a3b8" }}>/bai-viet/{p.slug}</code>
+                  <code style={{ fontSize: "0.75rem", color: "#aaa" }}>/bai-viet/{p.slug}</code>
                 </td>
                 <td>
                   <span className={styles.badge}>
@@ -212,13 +212,13 @@ export default function PostsListPage() {
                     </span>
                   )}
                 </td>
-                <td style={{ color: "#64748b", fontSize: "0.82rem" }}>
+                <td style={{ color: "#888", fontSize: "0.82rem" }}>
                   {formatDate(p.createdAt)}
                 </td>
                 <td>
                   <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                     <Link href={`/admin/posts/${p.id}`} className={styles.btnEdit}>
-                      ✏️ Sửa
+                      ✏️ Edit
                     </Link>
                     {p.status === "published" && (
                       <a
@@ -245,11 +245,11 @@ export default function PostsListPage() {
               <tr>
                 <td
                   colSpan={6}
-                  style={{ textAlign: "center", padding: "3rem", color: "#94a3b8" }}
+                  style={{ textAlign: "center", padding: "3rem", color: "#aaa" }}
                 >
                   {search || statusFilter !== "all"
-                    ? "Không tìm thấy bài viết phù hợp."
-                    : <>Chưa có bài viết nào. <Link href="/admin/posts/new" style={{ color: "#01bf93" }}>Thêm ngay →</Link></>}
+                    ? "Không tìm thấy post phù hợp."
+                    : <>No posts yet. <Link href="/admin/posts/new" style={{ color: "#C2A979" }}>Add now →</Link></>}
                 </td>
               </tr>
             )}
