@@ -106,7 +106,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                     position: "relative",
                     height: "82vh",
                     minHeight: 560,
-                    backgroundImage: `url('${settings.bannerImage || "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=1600&auto=format&fit=crop"}')`,
+                    backgroundImage: `url('${settings.bannerImage || "/uploads/banner.png"}')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center top",
                     display: "flex",
@@ -175,7 +175,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             <div style={{ height: 280, overflow: "hidden" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src={settings.aboutImage1 || "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=800&auto=format&fit=crop"}
+                                    src={settings.aboutImage1 || "/uploads/pedicure.png"}
                                     alt="Salon tools"
                                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
                                     onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
@@ -185,7 +185,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             <div style={{ height: 280, overflow: "hidden" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src={settings.aboutImage2 || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"}
+                                    src={settings.aboutImage2 || "/uploads/nails_art.png"}
                                     alt="Eyelash care"
                                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
                                     onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
@@ -213,7 +213,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                     <div className="reveal reveal-left" style={{ position: "relative", height: 520, overflow: "hidden" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={settings.bannerImage || "https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?q=80&w=1200&auto=format&fit=crop"}
+                            src={settings.bannerImage || "/uploads/banner.png"}
                             alt="Salon interior"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(20%)", transition: "filter .7s, transform .7s" }}
                             onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}

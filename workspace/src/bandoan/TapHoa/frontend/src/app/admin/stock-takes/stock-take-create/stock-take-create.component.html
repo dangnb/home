@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card glass-panel border-0 shadow-sm">
+      <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
+        <div class="d-flex align-items-center">
+          <a routerLink="/admin/stock-takes" class="btn btn-icon btn-light rounded-circle me-3">
+            <i class="bi bi-arrow-left"></i>
+          </a>
+          <h4 class="mb-0 fw-bold">Tạo Phiếu Kiểm Kê</h4>
+        </div>
+      </div>
+      <div class="card-body p-4">
+        <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+          
+          <div class="mb-4">
+            <label class="form-label fw-medium">Số phiếu <span class="text-danger">*</span></label>
+            <input type="text" class="form-control form-control-lg bg-light" formControlName="documentNo" readonly>
+            <div class="form-text">Số phiếu được tạo tự động.</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-medium">Phạm vi kiểm kê</label>
+            <select class="form-select form-select-lg" formControlName="categoryId">
+              <option [ngValue]="null">Kiểm kê toàn bộ cửa hàng</option>
+              <option *ngFor="let cat of categories" [value]="cat.id">
+                Chỉ kiểm kê danh mục: {{ cat.name }}
+              </option>
+            </select>
+            <div class="form-text">Nếu không chọn danh mục, hệ thống sẽ đưa toàn bộ sản phẩm vào phiếu kiểm kê.</div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-medium">Ghi chú</label>
+            <textarea class="form-control" formControlName="notes" rows="3" placeholder="Nhập ghi chú cho phiếu kiểm kê này (không bắt buộc)"></textarea>
+          </div>
+
+          <div class="d-grid mt-5">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill" [disabled]="createForm.invalid || isSubmitting">
+              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Tạo phiếu & Bắt đầu đếm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
