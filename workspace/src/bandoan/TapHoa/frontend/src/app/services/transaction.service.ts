@@ -35,11 +35,11 @@ export interface CreateWastageTransactionRequest {
 export interface TransactionDetailDto {
     id: string;
     code: string;
-    type: number; // 0=Inbound, 1=Outbound, 2=Adjustment
+    type: number; // 1=Inbound, 2=Outbound, 3=Adjustment, 4=Transfer, 5=Wastage
     referenceId: string;
     createdBy: string;
     notes: string;
-    status: number; // 0=Draft, 1=PendingApproval, 2=Completed
+    status: number; // 1=Draft, 2=PendingApproval, 3=Completed, 4=Cancelled
     createdAt: string;
     lines: {
         productId: string;

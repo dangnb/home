@@ -39,6 +39,7 @@ export const routes: Routes = [
             { path: 'products/low-stock', loadComponent: () => import('./admin/products/low-stock/low-stock.component').then(m => m.LowStockComponent) },
             { path: 'transactions', loadComponent: () => import('./admin/transactions/transactions.component').then(m => m.TransactionsComponent) },
             { path: 'transactions/create', loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) },
+            { path: 'transactions/edit/:id', loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) },
             { path: 'transactions/:id', loadComponent: () => import('./admin/transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) },
             { path: 'roles', component: RolesComponent },
             { path: 'users', component: UsersComponent },

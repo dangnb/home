@@ -5,12 +5,14 @@ import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/ht
 import { routes } from './app.routes';
 import { jwtInterceptor } from './interceptors/jwt.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withXhr(), withInterceptors([jwtInterceptor, errorInterceptor]))
+    provideHttpClient(withXhr(), withInterceptors([jwtInterceptor, errorInterceptor])),
+    provideCharts(withDefaultRegisterables())
   ]
 };
 

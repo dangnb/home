@@ -25,3 +25,344 @@
 2026-07-11 00:14:41.083 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 19.1937 ms
 2026-07-11 00:17:21.219 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0641 ms
 2026-07-11 00:17:21.279 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 54.5691 ms
+2026-07-11 00:17:35.548 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0397 ms
+2026-07-11 00:17:35.554 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.6649 ms
+2026-07-11 00:20:01.465 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0745 ms
+2026-07-11 00:20:01.465 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0744 ms
+2026-07-11 00:20:01.474 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 7.4250 ms
+2026-07-11 00:20:01.474 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 7.7083 ms
+2026-07-11 00:20:09.759 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1717 ms
+2026-07-11 00:20:09.764 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.9048 ms
+2026-07-11 00:20:11.173 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0620 ms
+2026-07-11 00:20:11.175 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.1308 ms
+2026-07-11 00:20:11.176 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0523 ms
+2026-07-11 00:20:11.180 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 5.3558 ms
+2026-07-11 00:20:11.180 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 3.7981 ms
+2026-07-11 00:20:11.203 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 25.6898 ms
+2026-07-11 00:20:18.470 +07:00 [INF] HTTP OPTIONS /api/v1/audits responded 204 in 0.0745 ms
+2026-07-11 00:20:18.477 +07:00 [ERR] HTTP GET /api/v1/audits responded 500 in 5.6532 ms
+System.InvalidOperationException: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.<>c__DisplayClass1_0.<Handle>g__Handler|0(CancellationToken t)
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuditsEndpoints.<>c.<<MapAuditsEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs:line 41
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-11 00:20:18.501 +07:00 [ERR] An exception occurred: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+System.InvalidOperationException: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.<>c__DisplayClass1_0.<Handle>g__Handler|0(CancellationToken t)
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuditsEndpoints.<>c.<<MapAuditsEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs:line 41
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-11 00:20:22.242 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0457 ms
+2026-07-11 00:20:22.285 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 42.1101 ms
+2026-07-11 00:20:24.598 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0288 ms
+2026-07-11 00:20:24.603 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.6065 ms
+2026-07-11 00:20:31.505 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0283 ms
+2026-07-11 00:20:31.509 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.9965 ms
+2026-07-11 00:20:32.277 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0262 ms
+2026-07-11 00:20:32.283 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.3474 ms
+2026-07-11 00:20:32.520 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0235 ms
+2026-07-11 00:20:32.523 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.6719 ms
+2026-07-11 00:20:32.722 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0264 ms
+2026-07-11 00:20:32.726 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.3391 ms
+2026-07-11 00:21:26.662 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0291 ms
+2026-07-11 00:21:26.666 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.2176 ms
+2026-07-11 00:21:43.392 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0279 ms
+2026-07-11 00:21:43.398 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.6027 ms
+2026-07-11 00:22:31.846 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0249 ms
+2026-07-11 00:22:31.963 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-11 00:22:32.269 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 421.6687 ms
+2026-07-11 00:22:41.844 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0228 ms
+2026-07-11 00:22:41.851 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-11 00:22:42.093 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 246.9994 ms
+2026-07-11 00:23:00.880 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0309 ms
+2026-07-11 00:23:00.884 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-11 00:23:01.044 +07:00 [INF] HTTP POST /api/v1/auth/login responded 400 in 163.6975 ms
+2026-07-11 00:23:18.153 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.0351 ms
+2026-07-11 00:23:18.161 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-11 00:23:18.398 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 242.6740 ms
+2026-07-11 00:23:18.431 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0189 ms
+2026-07-11 00:23:18.466 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 33.9438 ms
+2026-07-11 00:23:24.206 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1023 ms
+2026-07-11 00:23:24.213 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.5699 ms
+2026-07-11 00:23:40.437 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0356 ms
+2026-07-11 00:23:40.441 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.1073 ms
+2026-07-11 00:24:56.915 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0230 ms
+2026-07-11 00:24:56.920 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.2030 ms
+2026-07-11 00:24:57.516 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0127 ms
+2026-07-11 00:24:57.520 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.7673 ms
+2026-07-11 00:25:06.385 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0240 ms
+2026-07-11 00:25:06.390 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.8195 ms
+2026-07-11 00:25:07.428 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0121 ms
+2026-07-11 00:25:07.432 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.4215 ms
+2026-07-11 00:25:26.838 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 0.0196 ms
+2026-07-11 00:25:26.863 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 23.5074 ms
+2026-07-11 00:25:34.722 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 0.0268 ms
+2026-07-11 00:25:34.772 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 47.0595 ms
+2026-07-11 00:25:35.835 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 30.7295 ms
+2026-07-11 00:25:46.307 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0115 ms
+2026-07-11 00:25:46.311 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.6569 ms
+2026-07-11 00:25:46.760 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0211 ms
+2026-07-11 00:25:46.761 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0344 ms
+2026-07-11 00:25:46.762 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0166 ms
+2026-07-11 00:25:46.765 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.9398 ms
+2026-07-11 00:25:46.765 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.9974 ms
+2026-07-11 00:25:46.766 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 3.4878 ms
+2026-07-11 00:25:47.989 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.4792 ms
+2026-07-11 00:25:51.121 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0150 ms
+2026-07-11 00:25:51.126 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.4374 ms
+2026-07-11 00:25:51.650 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0173 ms
+2026-07-11 00:25:51.652 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3676 ms
+2026-07-11 00:25:53.571 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.7254 ms
+2026-07-11 00:25:54.603 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.6567 ms
+2026-07-11 00:26:49.613 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0139 ms
+2026-07-11 00:26:49.619 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.5549 ms
+2026-07-11 00:26:49.738 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0220 ms
+2026-07-11 00:26:49.740 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4699 ms
+2026-07-11 00:26:55.524 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0128 ms
+2026-07-11 00:26:55.528 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.5865 ms
+2026-07-11 00:26:56.387 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0121 ms
+2026-07-11 00:26:56.390 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4860 ms
+2026-07-11 00:27:04.141 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0122 ms
+2026-07-11 00:27:04.145 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.5211 ms
+2026-07-11 00:27:04.380 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0205 ms
+2026-07-11 00:27:04.382 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2668 ms
+2026-07-11 00:27:14.092 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0128 ms
+2026-07-11 00:27:14.096 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.4456 ms
+2026-07-11 00:27:14.364 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0107 ms
+2026-07-11 00:27:14.366 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.5258 ms
+2026-07-11 00:27:27.836 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0250 ms
+2026-07-11 00:27:27.840 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.5766 ms
+2026-07-11 00:27:28.406 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0209 ms
+2026-07-11 00:27:28.408 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6184 ms
+2026-07-11 00:27:35.400 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0115 ms
+2026-07-11 00:27:35.404 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.4415 ms
+2026-07-11 00:27:36.414 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0160 ms
+2026-07-11 00:27:36.417 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4880 ms
+2026-07-11 00:28:07.913 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0151 ms
+2026-07-11 00:28:07.916 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.1852 ms
+2026-07-11 00:28:07.967 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0118 ms
+2026-07-11 00:28:07.969 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1072 ms
+2026-07-11 00:28:21.539 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0174 ms
+2026-07-11 00:28:21.546 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 5.8583 ms
+2026-07-11 00:28:23.885 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0257 ms
+2026-07-11 00:28:23.906 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 20.1194 ms
+2026-07-11 00:28:28.776 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1468 ms
+2026-07-11 00:28:28.784 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 6.9888 ms
+2026-07-11 00:28:29.483 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0142 ms
+2026-07-11 00:28:29.485 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.0621 ms
+2026-07-11 00:28:33.564 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0125 ms
+2026-07-11 00:28:33.567 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6731 ms
+2026-07-11 00:28:38.003 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0141 ms
+2026-07-11 00:28:38.005 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0261 ms
+2026-07-11 00:28:38.007 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0108 ms
+2026-07-11 00:28:38.009 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 3.8410 ms
+2026-07-11 00:28:38.009 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.8834 ms
+2026-07-11 00:28:38.011 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 2.0927 ms
+2026-07-11 00:28:38.705 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0196 ms
+2026-07-11 00:28:38.707 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4176 ms
+2026-07-11 00:29:22.194 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0185 ms
+2026-07-11 00:29:22.199 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.2683 ms
+2026-07-11 00:29:22.405 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0118 ms
+2026-07-11 00:29:22.408 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3198 ms
+2026-07-11 00:30:15.285 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0277 ms
+2026-07-11 00:30:15.288 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.9099 ms
+2026-07-11 00:30:15.923 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3392 ms
+2026-07-11 00:30:16.149 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.7608 ms
+2026-07-11 00:30:16.403 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3038 ms
+2026-07-11 00:30:16.878 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0261 ms
+2026-07-11 00:30:16.885 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 5.5417 ms
+2026-07-11 00:30:18.341 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.4787 ms
+2026-07-11 00:30:18.627 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.7857 ms
+2026-07-11 00:30:18.855 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3015 ms
+2026-07-11 00:30:19.077 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.0831 ms
+2026-07-11 00:30:19.307 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.1124 ms
+2026-07-11 00:30:19.761 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4596 ms
+2026-07-11 00:30:20.321 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0268 ms
+2026-07-11 00:30:20.323 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2501 ms
+2026-07-11 00:30:20.537 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6376 ms
+2026-07-11 00:30:20.784 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6688 ms
+2026-07-11 00:30:21.967 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0160 ms
+2026-07-11 00:30:21.971 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 2.3319 ms
+2026-07-11 00:30:22.313 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2668 ms
+2026-07-11 00:30:23.440 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0229 ms
+2026-07-11 00:30:23.456 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 15.4801 ms
+2026-07-11 00:30:24.751 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3474 ms
+2026-07-11 00:30:26.103 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0150 ms
+2026-07-11 00:30:26.106 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2289 ms
+2026-07-11 00:30:26.924 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2966 ms
+2026-07-11 00:30:31.104 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/create responded 204 in 0.0194 ms
+2026-07-11 00:30:31.106 +07:00 [INF] HTTP GET /api/v1/transactions/create responded 404 in 0.2410 ms
+2026-07-11 00:30:32.950 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0111 ms
+2026-07-11 00:30:32.952 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3013 ms
+2026-07-11 00:30:33.850 +07:00 [INF] HTTP GET /api/v1/transactions/create responded 404 in 0.1855 ms
+2026-07-11 00:30:35.685 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2482 ms
+2026-07-11 00:30:37.000 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/create responded 204 in 0.0138 ms
+2026-07-11 00:30:37.003 +07:00 [INF] HTTP GET /api/v1/transactions/create responded 404 in 0.3625 ms
+2026-07-11 00:31:04.110 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0534 ms
+2026-07-11 00:31:04.112 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3541 ms
+2026-07-11 00:31:04.447 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0128 ms
+2026-07-11 00:31:04.450 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.4037 ms
+2026-07-11 00:31:17.723 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0133 ms
+2026-07-11 00:31:17.725 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3445 ms
+2026-07-11 00:31:18.279 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3203 ms
+2026-07-11 00:31:18.570 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1738 ms
+2026-07-11 00:31:18.832 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2488 ms
+2026-07-11 00:31:19.142 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2167 ms
+2026-07-11 00:31:19.773 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3515 ms
+2026-07-11 00:31:20.725 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1492 ms
+2026-07-11 00:31:21.001 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.5081 ms
+2026-07-11 00:31:21.389 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3124 ms
+2026-07-11 00:31:21.655 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.2469 ms
+2026-07-11 00:31:22.087 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.5763 ms
+2026-07-11 00:31:22.494 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.1379 ms
+2026-07-11 00:31:23.286 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0272 ms
+2026-07-11 00:31:23.288 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.8636 ms
+2026-07-11 00:31:27.445 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0157 ms
+2026-07-11 00:31:27.449 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.0564 ms
+2026-07-11 00:31:27.920 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0241 ms
+2026-07-11 00:31:27.922 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.6861 ms
+2026-07-11 00:31:28.976 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0162 ms
+2026-07-11 00:31:28.978 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 1.2323 ms
+2026-07-11 00:31:32.866 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 6.3769 ms
+2026-07-11 00:31:33.945 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 2.0534 ms
+2026-07-11 00:31:41.821 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0625 ms
+2026-07-11 00:31:41.826 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 3.5967 ms
+2026-07-11 00:31:42.339 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0171 ms
+2026-07-11 00:31:42.341 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.5554 ms
+2026-07-11 00:31:43.793 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0150 ms
+2026-07-11 00:31:43.795 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3465 ms
+2026-07-11 00:32:08.090 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0134 ms
+2026-07-11 00:32:08.091 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0109 ms
+2026-07-11 00:32:08.092 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0093 ms
+2026-07-11 00:32:08.095 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 2.4617 ms
+2026-07-11 00:32:08.095 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.1365 ms
+2026-07-11 00:32:08.102 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 10.5358 ms
+2026-07-11 00:32:11.634 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0209 ms
+2026-07-11 00:32:11.636 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.8963 ms
+2026-07-11 00:32:11.637 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 1.7769 ms
+2026-07-11 00:32:12.787 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.0140 ms
+2026-07-11 00:32:13.258 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0139 ms
+2026-07-11 00:32:13.259 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0141 ms
+2026-07-11 00:32:13.299 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 38.9525 ms
+2026-07-11 00:32:13.299 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 40.9132 ms
+2026-07-11 00:32:13.596 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.0612 ms
+2026-07-11 00:32:15.787 +07:00 [INF] HTTP OPTIONS /api/v1/audits responded 204 in 0.0210 ms
+2026-07-11 00:32:15.789 +07:00 [ERR] HTTP GET /api/v1/audits responded 500 in 1.2011 ms
+System.InvalidOperationException: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.<>c__DisplayClass1_0.<Handle>g__Handler|0(CancellationToken t)
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuditsEndpoints.<>c.<<MapAuditsEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs:line 41
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-11 00:32:15.790 +07:00 [ERR] An exception occurred: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+System.InvalidOperationException: No service for type 'MediatR.IRequestHandler`2[TapHoa.API.Endpoints.GetAuditLogsQuery,System.Collections.Generic.List`1[TapHoa.API.Endpoints.AuditLogDto]]' has been registered.
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.<>c__DisplayClass1_0.<Handle>g__Handler|0(CancellationToken t)
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.AuditsEndpoints.<>c.<<MapAuditsEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\AuditsEndpoints.cs:line 41
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-11 00:32:18.006 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0146 ms
+2026-07-11 00:32:18.007 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0159 ms
+2026-07-11 00:32:18.008 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0106 ms
+2026-07-11 00:32:18.009 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.8886 ms
+2026-07-11 00:32:18.010 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8631 ms
+2026-07-11 00:32:18.010 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.9921 ms
+2026-07-11 00:32:18.315 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0176 ms
+2026-07-11 00:32:18.318 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6710 ms
+2026-07-11 00:33:27.951 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0227 ms
+2026-07-11 00:33:27.954 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6472 ms
+2026-07-11 00:33:30.424 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0117 ms
+2026-07-11 00:33:30.426 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0144 ms
+2026-07-11 00:33:30.427 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0098 ms
+2026-07-11 00:33:30.429 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.6831 ms
+2026-07-11 00:33:30.429 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.6438 ms
+2026-07-11 00:33:30.429 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.0242 ms
+2026-07-11 00:33:31.050 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6988 ms
+2026-07-11 00:33:32.424 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.7297 ms
+2026-07-11 00:33:32.424 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9160 ms
+2026-07-11 00:33:32.424 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5333 ms
+2026-07-11 00:33:32.767 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.0338 ms
+2026-07-11 00:33:33.309 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3248 ms
+2026-07-11 00:33:34.236 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0117 ms
+2026-07-11 00:33:34.239 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.8201 ms
+2026-07-11 00:33:34.940 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.9734 ms
+2026-07-11 00:33:34.940 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3275 ms
+2026-07-11 00:33:34.941 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.9602 ms
+2026-07-11 00:33:35.565 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6990 ms
+2026-07-11 00:33:36.162 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0197 ms
+2026-07-11 00:33:36.163 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0126 ms
+2026-07-11 00:33:36.164 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0088 ms
+2026-07-11 00:33:36.165 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0070 ms
+2026-07-11 00:33:36.165 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7552 ms
+2026-07-11 00:33:36.165 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.8716 ms
+2026-07-11 00:33:36.936 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0141 ms
+2026-07-11 00:33:36.950 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 13.4692 ms
+2026-07-11 01:10:06.069 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0331 ms
+2026-07-11 01:10:06.095 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 24.5063 ms
+2026-07-11 01:11:30.896 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0204 ms
+2026-07-11 01:11:30.899 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6484 ms
+2026-07-11 01:11:58.401 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0152 ms
+2026-07-11 01:11:58.403 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.2200 ms
+2026-07-11 01:12:15.686 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0155 ms
+2026-07-11 01:12:15.689 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3328 ms
+2026-07-11 01:19:13.672 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 2.2327 ms
+2026-07-11 01:19:13.867 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-11 01:19:13.873 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 01:19:14.092 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 383.6359 ms
+2026-07-11 01:19:20.124 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.2897 ms
+2026-07-11 01:19:20.146 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 20.9775 ms
+2026-07-11 01:19:20.702 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 13.8858 ms
+2026-07-11 01:19:20.972 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.9641 ms
+2026-07-11 01:19:21.205 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.4123 ms
+2026-07-11 01:19:24.730 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1744 ms
+2026-07-11 01:19:25.173 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 01:19:25.174 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 01:19:25.174 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 01:19:25.174 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 01:19:25.247 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-11 01:19:25.669 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 938.3727 ms
+2026-07-11 01:19:27.295 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1139 ms
+2026-07-11 01:19:27.460 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 163.3831 ms
+2026-07-11 01:19:28.621 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 25.8615 ms
+2026-07-11 01:19:31.594 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0744 ms
+2026-07-11 01:19:31.597 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0487 ms
+2026-07-11 01:19:31.597 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0488 ms
+2026-07-11 01:19:31.610 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 11.3832 ms
+2026-07-11 01:19:31.619 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 20.3321 ms
+2026-07-11 01:19:31.641 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 44.3599 ms
+2026-07-11 01:19:32.652 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1482 ms
+2026-07-11 01:19:32.661 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 7.9368 ms
+2026-07-11 01:19:33.334 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0671 ms
+2026-07-11 01:19:33.339 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.1775 ms
+2026-07-11 01:19:34.197 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0533 ms
+2026-07-11 01:19:34.233 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 34.1099 ms
+2026-07-11 01:19:40.419 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.1505 ms
+2026-07-11 01:19:40.436 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 16.1135 ms
+2026-07-11 01:19:51.601 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0464 ms
+2026-07-11 01:19:51.616 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 12.6358 ms
