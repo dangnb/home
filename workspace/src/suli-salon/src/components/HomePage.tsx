@@ -289,7 +289,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={settings.aboutImage1 || "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=800&auto=format&fit=crop"}
+                                src={settings.aboutImage1 || "/uploads/pedicure.png"}
                                 alt="Precision nail care detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
                                 onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
@@ -340,7 +340,7 @@ function About({ settings }: { settings: SiteSettings }) {
                     <div style={{ position: "relative", width: "80%", aspectRatio: "3/4", boxShadow: "0 20px 60px rgba(0,0,0,.1)" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={settings.aboutImage2 || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"}
+                            src={settings.aboutImage2 || "/uploads/nails_art.png"}
                             alt="Salon"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease" }}
                             onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}
@@ -361,7 +361,7 @@ function About({ settings }: { settings: SiteSettings }) {
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={settings.aboutImage1 || "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=800&auto=format&fit=crop"}
+                                src={settings.aboutImage1 || "/uploads/pedicure.png"}
                                 alt="Detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             />

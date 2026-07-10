@@ -1,0 +1,65 @@
+<div class="card glass-panel border-0 shadow-sm">
+  <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
+    <h5 class="mb-0 fw-bold"><i class="bi bi-clipboard-check text-primary me-2"></i> Phiếu kiểm kê kho</h5>
+    <button class="btn btn-primary btn-sm rounded-pill px-3" routerLink="/admin/stock-takes/create">
+      <i class="bi bi-plus-lg me-1"></i> Tạo phiếu kiểm kê
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-muted">
+          <tr>
+            <th class="ps-4 fw-semibold border-0">Số phiếu</th>
+            <th class="fw-semibold border-0">Ngày tạo</th>
+            <th class="fw-semibold border-0">Trạng thái</th>
+            <th class="fw-semibold border-0">Số sản phẩm</th>
+            <th class="fw-semibold border-0">Ghi chú</th>
+            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="isLoading">
+            <td colspan="6" class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!isLoading && stockTakes.length === 0">
+            <td colspan="6" class="text-center py-4 text-muted">
+              Chưa có phiếu kiểm kê nào
+            </td>
+          </tr>
+          <tr *ngFor="let item of stockTakes" class="border-bottom">
+            <td class="ps-4 fw-medium text-primary">#{{ item.documentNo }}</td>
+            <td>{{ item.createdDate | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <span class="badge rounded-pill fw-normal" [ngClass]="getStatusClass(item.status)">
+                {{ getStatusText(item.status) }}
+              </span>
+            </td>
+            <td>{{ item.totalLines }}</td>
+            <td class="text-muted small text-truncate" style="max-width: 200px;" [title]="item.notes || ''">
+              {{ item.notes || '-' }}
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/stock-takes', item.id]" title="Chi tiết">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer bg-transparent border-top-0 py-3" *ngIf="totalPages > 1">
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="text-muted small">Hiển thị trang {{ pageIndex }} / {{ totalPages }} (Tổng {{ totalCount }})</span>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-outline-secondary" (click)="previousPage()" [disabled]="pageIndex === 1">Trước</button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="nextPage()" [disabled]="pageIndex === totalPages">Sau</button>
+      </div>
+    </div>
+  </div>
+</div>
