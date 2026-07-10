@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideRouter } from '@angular/router';
 import { StoreLayoutComponent } from './store-layout.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('StoreLayoutComponent', () => {
   let component: StoreLayoutComponent;
@@ -8,7 +9,11 @@ describe('StoreLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StoreLayoutComponent]
+      imports: [StoreLayoutComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient()
+      ]
     })
     .compileComponents();
 
