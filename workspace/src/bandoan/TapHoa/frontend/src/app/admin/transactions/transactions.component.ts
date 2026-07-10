@@ -111,6 +111,7 @@ export class TransactionsComponent implements OnInit {
         if (type === 2) return 'Xuất kho bán hàng';
         if (type === 3) return 'Điều chỉnh tồn';
         if (type === 4) return 'Luân chuyển nội bộ';
+        if (type === 5) return 'Xuất hủy hàng (Wastage)';
         return 'Khác';
     }
 
@@ -132,14 +133,14 @@ export class TransactionsComponent implements OnInit {
     }
 
     getStatusPillClass(status: number): string {
-        if (status === 0) return 'status-draft'; // Draft
-        if (status === 1) return 'status-pending'; // PendingApproval
+        if (status === 1) return 'status-draft'; // Draft
+        if (status === 2) return 'status-pending'; // PendingApproval
         return 'status-success'; // Completed
     }
 
     getStatusLabel(status: number): string {
-        if (status === 0) return 'Đã lưu nháp';
-        if (status === 1) return 'Đang xử lý';
+        if (status === 1) return 'Đã lưu nháp';
+        if (status === 2) return 'Đang xử lý';
         return 'Hoàn thành';
     }
 

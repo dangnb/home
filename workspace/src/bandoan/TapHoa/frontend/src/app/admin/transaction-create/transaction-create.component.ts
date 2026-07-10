@@ -56,7 +56,7 @@ export class TransactionCreateComponent implements OnInit {
 
             this.route.paramMap.subscribe(params => {
                 const id = params.get('id');
-                if (id) {
+                if (id && id !== 'create') {
                     this.isEditMode = true;
                     this.editTransactionId = id;
                     this.loadTransactionForEditing(id);
@@ -72,8 +72,8 @@ export class TransactionCreateComponent implements OnInit {
                 this.notes = dto.notes;
 
                 // Set transaction type based on DTO
-                if (dto.type === 0) this.transactionType = 'inbound';
-                else if (dto.type === 1) this.transactionType = 'outbound';
+                if (dto.type === 1) this.transactionType = 'inbound';
+                else if (dto.type === 2) this.transactionType = 'outbound';
 
                 // Map lines
                 this.lines = dto.lines.map(l => ({

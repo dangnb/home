@@ -20,7 +20,7 @@ export class TransactionDetailComponent implements OnInit {
 
     ngOnInit() {
         const idParam = this.route.snapshot.paramMap.get('id');
-        if (idParam) {
+        if (idParam && idParam !== 'create' && idParam !== 'edit') {
             this.fetchDetail(idParam);
         }
     }
@@ -40,20 +40,22 @@ export class TransactionDetailComponent implements OnInit {
     }
 
     getTypeLabel(type: number) {
-        if (type === 0) return 'Phiếu Nhập (Inbound)';
-        if (type === 1) return 'Phiếu Xuất (Outbound)';
-        return 'Phiếu Điều Chỉnh (Adjustment)';
+        if (type === 1) return 'Phiếu Nhập (Inbound)';
+        if (type === 2) return 'Phiếu Xuất (Outbound)';
+        if (type === 3) return 'Phiếu Điều Chỉnh (Adjustment)';
+        if (type === 5) return 'Phiếu Hủy (Wastage)';
+        return 'Khác';
     }
 
     getStatusLabel(status: number) {
-        if (status === 0) return 'Bản Nháp';
-        if (status === 1) return 'Chờ Duyệt';
+        if (status === 1) return 'Bản Nháp';
+        if (status === 2) return 'Chờ Duyệt';
         return 'Hoàn Thành';
     }
 
     getStatusBadgeClass(status: number) {
-        if (status === 0) return 'bg-secondary';
-        if (status === 1) return 'bg-warning text-dark';
+        if (status === 1) return 'bg-secondary';
+        if (status === 2) return 'bg-warning text-dark';
         return 'bg-success';
     }
 
