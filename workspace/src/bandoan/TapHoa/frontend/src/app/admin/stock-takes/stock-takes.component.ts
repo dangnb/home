@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StockTakeService, StockTakeDto, StockTakeStatus } from '../../core/services/stock-take.service';
 
+import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-stock-takes',
   standalone: true,
@@ -19,7 +21,10 @@ export class StockTakesComponent implements OnInit {
   isLoading = false;
   StockTakeStatus = StockTakeStatus;
 
-  constructor(private stockTakeService: StockTakeService) {}
+  constructor(
+    private stockTakeService: StockTakeService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadStockTakes();
@@ -34,10 +39,12 @@ export class StockTakesComponent implements OnInit {
         this.totalCount = res.totalCount || res.TotalCount || 0;
         this.totalPages = res.totalPages || res.TotalPages || 0;
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Error loading stock takes', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

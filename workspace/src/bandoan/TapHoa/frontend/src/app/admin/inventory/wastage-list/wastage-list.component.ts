@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TransactionService, TransactionDetailDto } from '../../../services/transaction.service';
@@ -14,7 +14,10 @@ export class WastageListComponent implements OnInit {
   transactions: TransactionDetailDto[] = [];
   isLoading = false;
 
-  constructor(private transactionService: TransactionService) {}
+  constructor(
+    private transactionService: TransactionService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadTransactions();
@@ -30,10 +33,12 @@ export class WastageListComponent implements OnInit {
         // Let's assume Wastage is 3.
         this.transactions = res.filter(t => t.type === 3 || t.type === 4); // We will refine this later if needed.
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching transactions', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
