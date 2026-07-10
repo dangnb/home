@@ -55,11 +55,11 @@ export default function CategoriesPage() {
           </div>
           <div className={styles.formField}>
             <label>Tên Categories</label>
-            <input value={form.label} onChange={e => setForm(p => ({...p, label: e.target.value}))} placeholder="Nail Services Không Ăn Tối" />
+            <input value={form.label} onChange={e => setForm(p => ({...p, label: e.target.value}))} placeholder="e.g. Nail Art" />
           </div>
           <div className={styles.formField}>
             <label>Slug (URL)</label>
-            <input value={form.slug} onChange={e => setForm(p => ({...p, slug: e.target.value}))} placeholder="du-thuyen-khong-an-toi" />
+            <input value={form.slug} onChange={e => setForm(p => ({...p, slug: e.target.value}))} placeholder="nail-art" />
           </div>
           <div className={styles.formField}>
             <label>Mô tả ngắn</label>

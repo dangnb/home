@@ -1,0 +1,234 @@
+2026-07-10 22:26:32.670 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:26:32.691 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:26:32.691 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:26:32.747 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:27:55.623 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:27:55.647 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:27:55.647 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:27:55.705 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:32:56.019 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:32:56.038 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:32:56.038 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:32:56.093 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:33:50.265 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 1.4202 ms
+2026-07-10 22:33:50.321 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-10 22:33:50.346 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 22:33:50.831 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:33:50.831 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:33:50.831 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:33:50.908 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:33:51.399 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-10 22:33:52.203 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1900.9222 ms
+2026-07-10 22:33:52.262 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 1.5377 ms
+2026-07-10 22:33:52.390 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 122.6285 ms
+2026-07-10 22:33:56.426 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0782 ms
+2026-07-10 22:33:56.426 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0747 ms
+2026-07-10 22:33:56.429 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0631 ms
+2026-07-10 22:33:56.441 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 14.2845 ms
+2026-07-10 22:33:56.497 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 69.6260 ms
+2026-07-10 22:33:56.505 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 73.9119 ms
+2026-07-10 22:33:57.141 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0457 ms
+2026-07-10 22:33:57.141 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0450 ms
+2026-07-10 22:33:57.141 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0446 ms
+2026-07-10 22:33:57.153 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 9.0491 ms
+2026-07-10 22:33:57.154 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 10.1036 ms
+2026-07-10 22:33:57.245 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 101.3988 ms
+2026-07-10 22:33:58.487 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1121 ms
+2026-07-10 22:33:58.543 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 52.8889 ms
+2026-07-10 22:33:59.276 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 2.5058 ms
+2026-07-10 22:33:59.276 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 2.5253 ms
+2026-07-10 22:33:59.280 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 6.9830 ms
+2026-07-10 22:34:03.521 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0593 ms
+2026-07-10 22:34:03.527 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 4.1879 ms
+2026-07-10 22:34:04.138 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.6735 ms
+2026-07-10 22:34:04.333 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.9542 ms
+2026-07-10 22:34:05.519 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0488 ms
+2026-07-10 22:34:05.524 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.9790 ms
+2026-07-10 22:35:30.509 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0846 ms
+2026-07-10 22:35:30.513 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.4851 ms
+2026-07-10 22:35:31.216 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3124 ms
+2026-07-10 22:35:31.433 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.4750 ms
+2026-07-10 22:35:31.631 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6782 ms
+2026-07-10 22:36:29.643 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0618 ms
+2026-07-10 22:36:29.646 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6874 ms
+2026-07-10 22:36:30.322 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3180 ms
+2026-07-10 22:36:30.607 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2204 ms
+2026-07-10 22:36:30.801 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1855 ms
+2026-07-10 22:36:31.019 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3385 ms
+2026-07-10 22:36:31.229 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2499 ms
+2026-07-10 22:36:31.551 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2874 ms
+2026-07-10 22:36:38.620 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0571 ms
+2026-07-10 22:36:38.625 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 3.1179 ms
+2026-07-10 22:36:39.365 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0267 ms
+2026-07-10 22:36:39.366 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0234 ms
+2026-07-10 22:36:39.371 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 3.8735 ms
+2026-07-10 22:36:39.372 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 5.7108 ms
+2026-07-10 22:36:40.334 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0390 ms
+2026-07-10 22:36:40.340 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 4.5089 ms
+2026-07-10 22:36:40.799 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0471 ms
+2026-07-10 22:36:40.799 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0251 ms
+2026-07-10 22:36:40.802 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0346 ms
+2026-07-10 22:36:40.805 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 2.7753 ms
+2026-07-10 22:36:40.806 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 3.2999 ms
+2026-07-10 22:36:40.806 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 2.1401 ms
+2026-07-10 22:38:33.613 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0259 ms
+2026-07-10 22:38:33.613 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0369 ms
+2026-07-10 22:38:33.613 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0107 ms
+2026-07-10 22:38:33.617 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 2.1581 ms
+2026-07-10 22:38:33.617 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 2.1788 ms
+2026-07-10 22:38:33.617 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.5463 ms
+2026-07-10 22:38:55.498 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0214 ms
+2026-07-10 22:38:55.498 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0196 ms
+2026-07-10 22:38:55.499 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0106 ms
+2026-07-10 22:38:55.501 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.3903 ms
+2026-07-10 22:38:55.501 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.4274 ms
+2026-07-10 22:38:55.502 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.1700 ms
+2026-07-10 22:39:20.126 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0232 ms
+2026-07-10 22:39:20.126 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0135 ms
+2026-07-10 22:39:20.127 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0104 ms
+2026-07-10 22:39:20.129 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0440 ms
+2026-07-10 22:39:20.129 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.9213 ms
+2026-07-10 22:39:20.129 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.8154 ms
+2026-07-10 22:39:40.912 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0204 ms
+2026-07-10 22:39:40.912 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0968 ms
+2026-07-10 22:39:40.912 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0083 ms
+2026-07-10 22:39:40.915 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.1917 ms
+2026-07-10 22:39:40.915 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.1934 ms
+2026-07-10 22:39:40.916 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.0987 ms
+2026-07-10 22:39:44.809 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 0.9769 ms
+2026-07-10 22:39:44.809 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.9089 ms
+2026-07-10 22:39:44.810 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.9769 ms
+2026-07-10 22:39:47.652 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0221 ms
+2026-07-10 22:39:47.652 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0104 ms
+2026-07-10 22:39:47.652 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0156 ms
+2026-07-10 22:39:47.656 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.6614 ms
+2026-07-10 22:39:47.656 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.6729 ms
+2026-07-10 22:39:47.657 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.9317 ms
+2026-07-10 22:39:48.329 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.9084 ms
+2026-07-10 22:39:48.329 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.8277 ms
+2026-07-10 22:39:48.330 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.6402 ms
+2026-07-10 22:39:48.533 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0044 ms
+2026-07-10 22:39:48.533 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.8396 ms
+2026-07-10 22:39:48.533 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.6478 ms
+2026-07-10 22:39:48.732 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.9094 ms
+2026-07-10 22:39:48.732 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0051 ms
+2026-07-10 22:39:48.733 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.8710 ms
+2026-07-10 22:39:48.942 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0145 ms
+2026-07-10 22:39:48.945 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3565 ms
+2026-07-10 22:39:50.051 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0134 ms
+2026-07-10 22:39:50.051 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0103 ms
+2026-07-10 22:39:50.055 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.2193 ms
+2026-07-10 22:39:50.055 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 2.2776 ms
+2026-07-10 22:39:50.057 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.7227 ms
+2026-07-10 22:39:50.544 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.0453 ms
+2026-07-10 22:39:50.544 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0744 ms
+2026-07-10 22:39:50.545 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2675 ms
+2026-07-10 22:39:50.797 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0068 ms
+2026-07-10 22:39:51.281 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.3423 ms
+2026-07-10 22:39:51.283 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 4.5595 ms
+2026-07-10 22:39:51.283 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 4.9717 ms
+2026-07-10 22:39:51.697 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0189 ms
+2026-07-10 22:39:51.702 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.6401 ms
+2026-07-10 22:39:52.762 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0179 ms
+2026-07-10 22:39:52.780 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 17.5045 ms
+2026-07-10 22:40:37.795 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0176 ms
+2026-07-10 22:40:37.809 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 13.3042 ms
+2026-07-10 22:40:38.432 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 11.6373 ms
+2026-07-10 22:41:05.384 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0194 ms
+2026-07-10 22:41:05.399 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 13.8364 ms
+2026-07-10 22:41:22.886 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0166 ms
+2026-07-10 22:41:22.887 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0161 ms
+2026-07-10 22:41:22.888 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0433 ms
+2026-07-10 22:41:22.891 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.7369 ms
+2026-07-10 22:41:22.895 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 6.8796 ms
+2026-07-10 22:41:22.895 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 5.0410 ms
+2026-07-10 22:41:30.053 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0078 ms
+2026-07-10 22:41:30.053 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0151 ms
+2026-07-10 22:41:30.053 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0111 ms
+2026-07-10 22:41:30.056 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.9446 ms
+2026-07-10 22:41:30.056 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1692 ms
+2026-07-10 22:41:30.057 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7641 ms
+2026-07-10 22:41:33.194 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0288 ms
+2026-07-10 22:41:33.195 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0601 ms
+2026-07-10 22:41:33.196 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0102 ms
+2026-07-10 22:41:33.198 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0742 ms
+2026-07-10 22:41:33.198 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.8012 ms
+2026-07-10 22:41:33.199 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.2039 ms
+2026-07-10 22:41:33.650 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0190 ms
+2026-07-10 22:41:33.653 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 2.0638 ms
+2026-07-10 22:46:11.976 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0331 ms
+2026-07-10 22:46:12.037 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 60.1689 ms
+2026-07-10 22:46:12.672 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.3859 ms
+2026-07-10 22:46:13.077 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 1.4206 ms
+2026-07-10 22:46:14.118 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0182 ms
+2026-07-10 22:46:14.120 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0182 ms
+2026-07-10 22:46:14.121 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0181 ms
+2026-07-10 22:46:14.125 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.5825 ms
+2026-07-10 22:46:14.137 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 13.3005 ms
+2026-07-10 22:46:14.138 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 15.6933 ms
+2026-07-10 22:46:15.160 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0850 ms
+2026-07-10 22:46:15.160 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 0.7287 ms
+2026-07-10 22:46:15.161 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1.8743 ms
+2026-07-10 22:46:15.767 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.0154 ms
+2026-07-10 22:46:15.767 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.0082 ms
+2026-07-10 22:46:15.768 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.5348 ms
+2026-07-10 22:46:16.164 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0159 ms
+2026-07-10 22:46:16.178 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 12.6994 ms
+2026-07-10 22:46:17.837 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0196 ms
+2026-07-10 22:46:17.837 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0095 ms
+2026-07-10 22:46:17.838 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0077 ms
+2026-07-10 22:46:17.840 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.0748 ms
+2026-07-10 22:46:17.840 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0915 ms
+2026-07-10 22:46:17.841 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7643 ms
+2026-07-10 22:49:20.094 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:20.116 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:20.116 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:20.116 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:20.184 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:49:40.890 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:40.912 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:40.912 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:40.912 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:40.973 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:49:58.465 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:58.486 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:58.486 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:58.486 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:49:58.562 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:50:59.192 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:50:59.216 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:50:59.216 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:50:59.216 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:50:59.283 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:51:54.731 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 2.1153 ms
+2026-07-10 22:51:54.731 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 2.1275 ms
+2026-07-10 22:51:54.731 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 2.1181 ms
+2026-07-10 22:51:54.934 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-10 22:51:54.942 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 22:51:54.942 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 22:51:54.942 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 22:51:55.164 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 393.6115 ms
+2026-07-10 22:51:55.164 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 393.6122 ms
+2026-07-10 22:51:55.170 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 399.6781 ms
+2026-07-10 22:51:55.801 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 12.1368 ms
+2026-07-10 22:51:55.801 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 12.1571 ms
+2026-07-10 22:51:55.803 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 14.3823 ms
+2026-07-10 22:51:56.905 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.8034 ms
+2026-07-10 22:52:09.378 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1399 ms
+2026-07-10 22:52:09.382 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.1313 ms
+2026-07-10 22:52:09.949 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.7568 ms
+2026-07-10 22:52:10.565 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0559 ms
+2026-07-10 22:52:11.017 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:52:11.018 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:52:11.018 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:52:11.018 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 22:52:11.098 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 22:52:11.541 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 974.8646 ms
+2026-07-10 22:52:14.092 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0675 ms
+2026-07-10 22:52:14.107 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 13.0999 ms
+2026-07-10 22:52:17.768 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.1651 ms
+2026-07-10 22:52:17.769 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0348 ms
+2026-07-10 22:52:17.772 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0412 ms
+2026-07-10 22:52:17.778 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 5.7269 ms
+2026-07-10 22:52:17.780 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 7.1160 ms
+2026-07-10 22:52:17.904 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 132.2495 ms

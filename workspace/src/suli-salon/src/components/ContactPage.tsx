@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import type { SiteSettings } from "@/lib/db";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -25,50 +26,14 @@ function useReveal() {
 /* ─────────────────────────────────────────────────────── */
 /* Info Cards Data                                         */
 /* ─────────────────────────────────────────────────────── */
-const INFO = [
-    {
-        icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-            </svg>
-        ),
-        label: "Our Location",
-        lines: ["Suli Salon – Praha 12", "Cs. exilu 2154, 143 00 Praha 12", "Czech Republic"],
-    },
-    {
-        icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.41-1.42a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.29v1.63z" />
-            </svg>
-        ),
-        label: "Phone & Email",
-        lines: ["+420 777 123 456", "info@sulisalon.cz", "booking@sulisalon.cz"],
-    },
-    {
-        icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-            </svg>
-        ),
-        label: "Opening Hours",
-        lines: ["Mon – Fri: 10:00 – 18:00", "Sat – Sun: 09:00 – 19:00", "Public Holidays: Closed"],
-    },
-    {
-        icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><path d="M8 21l4-4 4 4M12 17v4" />
-            </svg>
-        ),
-        label: "Follow Us",
-        lines: ["@sulisalon.prague", "facebook.com/sulisalon", "TikTok: @sulisalon"],
-    },
-];
 
 /* ─────────────────────────────────────────────────────── */
 /* Contact Form Component                                   */
 /* ─────────────────────────────────────────────────────── */
 function ContactForm() {
     const [sent, setSent] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const [focused, setFocused] = useState<string | null>(null);
     const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
 
@@ -109,7 +74,33 @@ function ContactForm() {
                         Send a Message
                     </h2>
 
-                    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+                    {errorMsg && <div style={{ background: "#fef2f2", color: "#991b1b", padding: "10px 14px", borderRadius: 6, fontSize: 13, marginBottom: 16, fontFamily: "Montserrat,sans-serif" }}>{errorMsg}</div>}
+
+                    <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (!form.name || !form.message) return;
+                        setIsSubmitting(true);
+                        setErrorMsg("");
+                        try {
+                            const res = await fetch("/api/contact", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    name: form.name,
+                                    email: form.email,
+                                    phone: form.phone,
+                                    subject: form.service,
+                                    message: form.message,
+                                }),
+                            });
+                            if (!res.ok) throw new Error("Failed to send");
+                            setSent(true);
+                        } catch {
+                            setErrorMsg("Something went wrong. Please try again.");
+                        } finally {
+                            setIsSubmitting(false);
+                        }
+                    }}>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                             <div>
                                 <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>Full Name *</label>
@@ -157,12 +148,12 @@ function ContactForm() {
                                 style={{ ...inputStyle("message"), resize: "vertical" }} />
                         </div>
 
-                        <button type="submit"
-                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .3s", boxShadow: "0 4px 20px rgba(194,169,121,.35)" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(194,169,121,.45)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(194,169,121,.35)"; }}
+                        <button type="submit" disabled={isSubmitting}
+                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: isSubmitting ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: "0 4px 20px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}
+                            onMouseOver={(e) => { if (!isSubmitting) { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(194,169,121,.45)"; } }}
+                            onMouseOut={(e) => { if (!isSubmitting) { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(194,169,121,.35)"; } }}
                         >
-                            Send Message →
+                            {isSubmitting ? "Sending..." : "Send Message →"}
                         </button>
                     </form>
                 </>
@@ -174,7 +165,7 @@ function ContactForm() {
 /* ─────────────────────────────────────────────────────── */
 /* Main Contact Page                                        */
 /* ─────────────────────────────────────────────────────── */
-export default function ContactPage() {
+export default function ContactPage({ settings }: { settings: SiteSettings }) {
     useReveal();
 
     const titleRef = useRef<HTMLHeadingElement>(null);
@@ -261,7 +252,44 @@ export default function ContactPage() {
             <section style={{ background: "#FDFBF7", padding: "80px 0 0" }}>
                 <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20 }}>
-                        {INFO.map((card, i) => (
+                        {[
+                            {
+                                icon: (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                                    </svg>
+                                ),
+                                label: "Our Location",
+                                lines: [settings.siteName, settings.address],
+                            },
+                            {
+                                icon: (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.41-1.42a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.29v1.63z" />
+                                    </svg>
+                                ),
+                                label: "Phone & Email",
+                                lines: [settings.hotline, settings.hotline2, settings.email].filter(Boolean),
+                            },
+                            {
+                                icon: (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                ),
+                                label: "Opening Hours",
+                                lines: settings.workingHours.split(",").map(s => s.trim()),
+                            },
+                            {
+                                icon: (
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><path d="M8 21l4-4 4 4M12 17v4" />
+                                    </svg>
+                                ),
+                                label: "Follow Us",
+                                lines: ["@sulisalon.prague", "facebook.com/sulisalon"],
+                            },
+                        ].map((card, i) => (
                             <div key={i} className="reveal info-card" data-delay={String(i * 80)}
                                 style={{ background: "#fff", padding: "32px 26px", boxShadow: "0 4px 20px rgba(0,0,0,.05)" }}>
                                 <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.2)" }}>
@@ -295,17 +323,19 @@ export default function ContactPage() {
                     {/* Map + extra info */}
                     <div className="reveal" data-delay="150" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                         {/* Map embed */}
-                        <div style={{ overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,.1)", height: 340 }}>
-                            <iframe
-                                title="Suli Salon location"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2565.8!2d14.399!3d50.020!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDAxJzEyLjAiTiAxNMKwMjMnNTYuNCJF!5e0!3m2!1sen!2scz!4v1683000000000!5m2!1sen!2scz"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0, display: "block", filter: "grayscale(30%)" }}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            />
-                        </div>
+                        {settings.mapEmbedUrl && (
+                            <div style={{ overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,.1)", height: 340 }}>
+                                <iframe
+                                    title="Suli Salon location"
+                                    src={settings.mapEmbedUrl}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0, display: "block", filter: "grayscale(30%)" }}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
+                            </div>
+                        )}
 
                         {/* Book CTA card */}
                         <div style={{ background: "#2E2E2E", padding: "32px 28px", display: "flex", alignItems: "center", gap: 24 }}>
@@ -335,19 +365,19 @@ export default function ContactPage() {
                             </div>
                             <div style={{ display: "flex", gap: 12 }}>
                                 {[
-                                    { name: "Instagram", handle: "@sulisalon.prague", color: "#E1306C" },
-                                    { name: "Facebook", handle: "Suli Salon Praha", color: "#1877F2" },
-                                    { name: "TikTok", handle: "@sulisalon", color: "#010101" },
-                                ].map((s) => (
+                                    { name: "Instagram", link: settings.instagram, color: "#E1306C" },
+                                    { name: "Facebook", link: settings.facebook, color: "#1877F2" },
+                                    { name: "TikTok", link: settings.tiktok, color: "#010101" },
+                                ].filter(s => s.link).map((s) => (
                                     <a
                                         key={s.name}
-                                        href="#"
+                                        href={s.link}
                                         style={{ display: "flex", flexDirection: "column", flex: 1, padding: "14px 12px", border: "1.5px solid #EAE5DC", borderRadius: 4, textDecoration: "none", transition: "all .3s", alignItems: "center", textAlign: "center" }}
                                         onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; }}
                                         onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#EAE5DC"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
                                     >
                                         <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, color: "#2E2E2E", marginBottom: 3 }}>{s.name}</div>
-                                        <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, color: "#aaa" }}>{s.handle}</div>
+                                        <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, color: "#aaa" }}>Follow Us</div>
                                     </a>
                                 ))}
                             </div>

@@ -6,11 +6,13 @@ import styles from "./admin.module.css";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "dashboard" },
   { href: "/admin/bookings", label: "Appointments", icon: "calendar_month" },
-  { href: "/admin/cruises", label: "Services", icon: "spa" },
+  { href: "/admin/services", label: "Services", icon: "spa" },
   { href: "/admin/gallery", label: "Gallery", icon: "photo_library" },
   { href: "/admin/posts", label: "Blog", icon: "article" },
   { href: "/admin/categories", label: "Categories", icon: "category" },
   { href: "/admin/pricing", label: "Price List", icon: "payments" },
+  { href: "/admin/team", label: "Team", icon: "groups" },
+  { href: "/admin/about", label: "About Page", icon: "info" },
   { href: "/admin/settings", label: "Settings", icon: "settings" },
 ];
 

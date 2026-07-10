@@ -1,10 +1,12 @@
 import ContactPage from "@/components/ContactPage";
+import { getSettings } from "@/lib/db";
 
 export const metadata = {
-    title: "Contact Us | Suli Salon – Luxury Nail Gallery in Prague",
-    description: "Get in touch with Suli Salon. Find our location, opening hours, or send us a message to book your appointment.",
+    title: "Contact Us | Suli Salon",
+    description: "Get in touch with Suli Salon.",
 };
 
-export default function Contact() {
-    return <ContactPage />;
+export default async function Contact() {
+    const settings = await getSettings();
+    return <ContactPage settings={settings} />;
 }

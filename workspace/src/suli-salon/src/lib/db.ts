@@ -78,6 +78,16 @@ export interface GalleryItemData {
   isActive: boolean;
 }
 
+export interface TeamMemberData {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  bio: string;
+  order: number;
+  isActive: boolean;
+}
+
 export interface SiteSettings {
   siteName: string;
   tagline: string;
@@ -109,6 +119,9 @@ export interface SiteSettings {
   bannerCta2Text: string;
   bannerCta2Link: string;
   bannerStats: { value: string; label: string }[];
+  aboutHeadline: string;
+  aboutSubheadline: string;
+  aboutValues: { title: string; description: string }[];
 }
 
 // ── Default Settings ─────────────────────────────
@@ -154,6 +167,13 @@ const DEFAULT_SETTINGS: SiteSettings = {
     { value: "500+", label: "Happy Clients" },
     { value: "5★", label: "Rating" },
     { value: "7", label: "Days Open" },
+  ],
+  aboutHeadline: "A Decade of Refined Artistry",
+  aboutSubheadline: "Since 2013, Suli Salon has redefined nail care, blending meticulous technique with an atmosphere of absolute tranquility. We believe your hands and feet deserve nothing less than perfection.",
+  aboutValues: [
+    { title: "Precision", description: "Every stroke, every cuticle treatment is performed with exacting standards." },
+    { title: "Hygiene", description: "Hospital-grade sterilization ensures your complete safety and peace of mind." },
+    { title: "Ambiance", description: "A serene, beautifully designed space where you can truly exhale." }
   ],
 };
 
@@ -457,4 +477,37 @@ export async function getContacts() {
 
 export async function createContact(data: { name: string; email?: string; phone?: string; subject?: string; message: string }) {
   return prisma.contact.create({ data });
+}
+
+// ── Team Members ────────────────────────────────────
+export async function getTeamMembers(): Promise<TeamMemberData[]> {
+  const members = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
+  return members.map(m => ({
+    id: m.id, name: m.name, role: m.role,
+    image: m.image ?? "", bio: m.bio ?? "",
+    order: m.order, isActive: m.isActive,
+  }));
+}
+
+export async function createTeamMember(data: Omit<TeamMemberData, "id">): Promise<TeamMemberData> {
+  const m = await prisma.teamMember.create({ data });
+  return {
+    id: m.id, name: m.name, role: m.role,
+    image: m.image ?? "", bio: m.bio ?? "",
+    order: m.order, isActive: m.isActive,
+  };
+}
+
+export async function updateTeamMember(id: string, data: Partial<TeamMemberData>): Promise<boolean> {
+  try {
+    await prisma.teamMember.update({ where: { id }, data });
+    return true;
+  } catch { return false; }
+}
+
+export async function deleteTeamMember(id: string): Promise<boolean> {
+  try {
+    await prisma.teamMember.delete({ where: { id } });
+    return true;
+  } catch { return false; }
 }

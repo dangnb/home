@@ -17,6 +17,7 @@ export default function GalleryPage() {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [filter, setFilter] = useState("All");
   const [showAdd, setShowAdd] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [newItem, setNewItem] = useState({ title: "", image: "", category: "Gel Nails" });
   const [msg, setMsg] = useState({ type: "", text: "" });
 
@@ -27,6 +28,31 @@ export default function GalleryPage() {
   function flash(type: string, text: string) {
     setMsg({ type, text });
     setTimeout(() => setMsg({ type: "", text: "" }), 3000);
+  }
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNewItem(p => ({ ...p, image: data.url }));
+        flash("success", "Image uploaded successfully!");
+      } else {
+        flash("error", data.error || "Upload failed");
+      }
+    } catch (error) {
+      flash("error", "An error occurred during upload");
+    } finally {
+      setIsUploading(false);
+    }
   }
 
   async function handleAdd() {
@@ -82,8 +108,14 @@ export default function GalleryPage() {
           <div className={styles.formGrid}>
             <div className={styles.formField}>
               <label>Image URL</label>
-              <input value={newItem.image} onChange={e => setNewItem(p => ({ ...p, image: e.target.value }))}
-                placeholder="https://..." />
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                <input value={newItem.image} onChange={e => setNewItem(p => ({ ...p, image: e.target.value }))}
+                  placeholder="https://..." style={{ flex: 1 }} />
+                <label style={{ background: "#F4F1EA", padding: "8px 12px", borderRadius: 4, cursor: "pointer", border: "1px solid #EAE5DC", display: "inline-block" }}>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: "#2E2E2E" }}>{isUploading ? "Uploading..." : "Upload File"}</span>
+                  <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileUpload} disabled={isUploading} />
+                </label>
+              </div>
             </div>
             <div className={styles.formField}>
               <label>Title (optional)</label>

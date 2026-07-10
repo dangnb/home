@@ -2,88 +2,88 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>Admin<span>Panel</span></h2>
+      <h2><i class="bi bi-boxes" style="margin-right: 8px;"></i>Admin<span>Panel</span></h2>
       <div class="subtitle">HỆ THỐNG QUẢN TRỊ</div>
     </div>
     <ul class="nav-links">
       <li class="nav-divider">TỔNG QUAN</li>
       <li>
         <a routerLink="/admin/dashboard" routerLinkActive="active" title="Dashboard">
-          <span class="icon">◱</span> <span class="nav-text">Dashboard</span>
+          <span class="icon"><i class="bi bi-grid-1x2"></i></span> <span class="nav-text">Dashboard</span>
         </a>
       </li>
       <li class="nav-divider">HÀNG HOÁ</li>
       <li>
         <a routerLink="/admin/products" routerLinkActive="active" title="Sản phẩm">
-          <span class="icon">✧</span> <span class="nav-text">Sản phẩm</span>
+          <span class="icon"><i class="bi bi-box-seam"></i></span> <span class="nav-text">Sản phẩm</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/categories" routerLinkActive="active" title="Danh mục">
-          <span class="icon">⊟</span> <span class="nav-text">Danh mục</span>
+          <span class="icon"><i class="bi bi-tags"></i></span> <span class="nav-text">Danh mục</span>
         </a>
       </li>
       <li class="nav-divider">QUẢN LÝ KHO (WMS)</li>
       <li>
         <a routerLink="/admin/inventory" routerLinkActive="active" title="Tồn kho">
-          <span class="icon">⛃</span> <span class="nav-text">Tồn kho</span>
+          <span class="icon"><i class="bi bi-layers"></i></span> <span class="nav-text">Tồn kho</span>
         </a>
       </li>
       <li>
         <!-- Match UI mockup: active state using blue borders -->
         <a routerLink="/admin/transactions" routerLinkActive="active" title="Sổ cái">
-          <span class="icon">☷</span> <span class="nav-text">Sổ cái</span>
+          <span class="icon"><i class="bi bi-journal-text"></i></span> <span class="nav-text">Sổ cái</span>
         </a>
       </li>
       <li class="nav-divider">BÁN HÀNG</li>
       <li>
         <a routerLink="/admin/orders" routerLinkActive="active" title="Đơn POS">
-          <span class="icon">⚲</span> <span class="nav-text">Đơn POS</span>
+          <span class="icon"><i class="bi bi-receipt"></i></span> <span class="nav-text">Đơn POS</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/customers" routerLinkActive="active" title="Khách hàng">
-          <span class="icon">👥</span> <span class="nav-text">Khách hàng</span>
+          <span class="icon"><i class="bi bi-people"></i></span> <span class="nav-text">Khách hàng</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/customer-debts" routerLinkActive="active" title="Sổ nợ">
-          <span class="icon">📒</span> <span class="nav-text">Sổ nợ khách hàng</span>
+          <span class="icon"><i class="bi bi-journal-minus"></i></span> <span class="nav-text">Sổ nợ khách hàng</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/suppliers" routerLinkActive="active" title="Nhà cung cấp">
-          <span class="icon">🚚</span> <span class="nav-text">Nhà cung cấp</span>
+          <span class="icon"><i class="bi bi-truck"></i></span> <span class="nav-text">Nhà cung cấp</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/supplier-debts" routerLinkActive="active" title="Sổ nợ NCC">
-          <span class="icon">📒</span> <span class="nav-text">Sổ nợ NCC</span>
+          <span class="icon"><i class="bi bi-journal-arrow-down"></i></span> <span class="nav-text">Sổ nợ NCC</span>
         </a>
       </li>
       <li class="nav-divider">HỆ THỐNG</li>
       <li>
         <a routerLink="/admin/users" routerLinkActive="active" title="NSD">
-          <span class="icon">⚇</span> <span class="nav-text">NSD</span>
+          <span class="icon"><i class="bi bi-person-badge"></i></span> <span class="nav-text">NSD</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/roles" routerLinkActive="active" title="Quyền">
-          <span class="icon">⚿</span> <span class="nav-text">Quyền</span>
+          <span class="icon"><i class="bi bi-shield-lock"></i></span> <span class="nav-text">Quyền</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/audits" routerLinkActive="active" title="Audits">
-          <span class="icon">📝</span> <span class="nav-text">Audit Log</span>
+          <span class="icon"><i class="bi bi-file-earmark-code"></i></span> <span class="nav-text">Audit Log</span>
         </a>
       </li>
     </ul>
     <div class="sidebar-footer">
       <a routerLink="/settings" class="settings-link" title="Cài đặt">
-        <span class="icon">⚙</span> <span class="nav-text">Cài đặt</span>
+        <span class="icon"><i class="bi bi-gear"></i></span> <span class="nav-text">Cài đặt</span>
       </a>
       <a routerLink="/login" class="logout-link" title="Đăng xuất">
-        <span class="icon">⎋</span> <span class="nav-text">Log out</span>
+        <span class="icon"><i class="bi bi-box-arrow-right"></i></span> <span class="nav-text">Log out</span>
       </a>
     </div>
   </aside>
@@ -93,12 +93,7 @@
     <header class="topbar">
       <div class="topbar-left">
         <button class="btn-toggle-sidebar" (click)="toggleSidebar()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <i class="bi bi-list"></i>
         </button>
         <div class="breadcrumb">
           Tra cứu quản trị <span class="separator">/</span> <span class="current">Tổng quan</span>
@@ -108,11 +103,7 @@
       <div class="topbar-center">
         <div class="search-box">
           <span class="search-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+            <i class="bi bi-search"></i>
           </span>
           <input type="text" placeholder="Tìm kiếm giao dịch...">
         </div>
@@ -130,32 +121,14 @@
 
         <button class="btn-icon" (click)="toggleTheme()" title="Đổi giao diện">
           @if (!isDarkMode) {
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
+            <i class="bi bi-moon"></i>
           }
           @if (isDarkMode) {
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
+            <i class="bi bi-sun"></i>
           }
         </button>
         <button class="btn-icon position-relative">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
+          <i class="bi bi-bell"></i>
           <span class="notification-dot"></span>
         </button>
 

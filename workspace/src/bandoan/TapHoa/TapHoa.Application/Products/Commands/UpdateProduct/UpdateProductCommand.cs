@@ -17,6 +17,8 @@ public class UpdateProductCommand : IRequest<bool>
     public decimal WholesalePrice { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
+    public int MinStockLevel { get; set; } = 0;
+    public int MaxStockLevel { get; set; } = 0;
     public string Unit { get; set; } = string.Empty;
     public string? Barcode { get; set; }
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
@@ -52,7 +54,9 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             request.MainImageUrl,
             request.AdditionalImages,
             request.Status,
-            request.Barcode
+            request.Barcode,
+            request.MinStockLevel,
+            request.MaxStockLevel
         );
 
         entity.ClearUnits();

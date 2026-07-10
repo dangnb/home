@@ -46,7 +46,7 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
                 p.Id, p.Name, p.CategoryId, c.Name AS CategoryName,
                 p.SupplierId, s.FullName AS SupplierName,
                 p.MainImageUrl, p.CostPrice, p.WholesalePrice, p.Price, 
-                p.StockQuantity, p.Unit, p.Barcode, p.Status,
+                p.StockQuantity, p.MinStockLevel, p.MaxStockLevel, p.Unit, p.Barcode, p.Status,
                 p.AdditionalImages
             FROM Products p
             LEFT JOIN Categories c ON p.CategoryId = c.Id

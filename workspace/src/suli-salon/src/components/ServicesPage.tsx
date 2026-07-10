@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import type { ServiceData, CategoryData } from "@/lib/db";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -26,66 +27,7 @@ function useReveal() {
 /* ─────────────────────────────────────────────────────── */
 /* Services Data                                            */
 /* ─────────────────────────────────────────────────────── */
-const CATEGORIES = [
-    {
-        id: "nails",
-        label: "Nails",
-        icon: "💅",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLsncxcUaLl-kRMraO4Z3lDzU_fTWPnoZq2Nu1fF9l-q2D54UsfpLvZepPtcS0B2zdHpDP019vTTziYl3Lsio_K0RghBV2Kd_31VlBu9YThyB2KfTE2ZzWVM0ChalCmLEx48YQMzPoQilLwQtKH3bk9r8zqYRRm1YjdXdQ4B8Z5Duf5JifHrDxt-Yqx-AJmBZ27EcKAtb5-sZbvqtdbRr6MeDpmlG4q0XU5CqOa9eJhvtE1RQdGItfyviGtS",
-        desc: "Classic to avant-garde — every style, every shape, perfected.",
-        items: [
-            { name: "Classic Manicure", price: "500 CZK", duration: "45 min", popular: false },
-            { name: "Gel Polish Manicure", price: "700 CZK", duration: "60 min", popular: true },
-            { name: "Nail Extensions – New Set", price: "1 200 CZK", duration: "90 min", popular: false },
-            { name: "Nail Extensions – Infill", price: "900 CZK", duration: "75 min", popular: false },
-            { name: "Nail Art (per nail)", price: "50 CZK+", duration: "varies", popular: false },
-            { name: "Spa Pedicure", price: "800 CZK", duration: "60 min", popular: true },
-            { name: "Gel Pedicure", price: "950 CZK", duration: "75 min", popular: false },
-            { name: "French Gel Set", price: "1 100 CZK", duration: "80 min", popular: false },
-        ],
-    },
-    {
-        id: "facial",
-        label: "Facial Care",
-        icon: "✨",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvmBUkVHNFLX8ch_FNKHBzKDug9sqEhnNxXqV93sZFRO19ROp_KHIZJOu0aOeObsISyGxs8ds6u8tA0RdSFMfbTIuJx_dE3QmqPM7A938Ym1PnaAFzyFvoKmSn_BfngbhWM2PC1yB5e1GX2GFyzEQrRRPqYhu_d9uh_nVWI1VmGGuNjQB6-uGXWI6T2GRcPIp5751kYnxSCv-z92VVdYNtj7YmftrHK3skW7cZ-wwbVgQzBSADuCzI3f6Xc",
-        desc: "Skin-first rituals for a lasting, radiant glow.",
-        items: [
-            { name: "Deep Cleansing Facial", price: "1 500 CZK", duration: "60 min", popular: false },
-            { name: "Anti-Aging Treatment", price: "1 800 CZK", duration: "90 min", popular: true },
-            { name: "Hydrating Facial Mask", price: "1 200 CZK", duration: "60 min", popular: false },
-            { name: "Microdermabrasion", price: "1 600 CZK", duration: "75 min", popular: false },
-        ],
-    },
-    {
-        id: "eyelashes",
-        label: "Eyelashes",
-        icon: "👁️",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvvYMW4tC0WzVAhOd3ipWXpoh7jRs9wIx0S7K1Kdh7EKc8odCkT_vB5hQjabtivklH3nVceHH9wgUcWH3iDLFt7mmiBDAhlILRlH5LhzhmBVh_JXZE9LHvzpc_KbgOdYOzsV_AOCIfRRulpr5dcfiR4sJXnzOQz0NEyf2eG08NE3SOSgVzhZ3Il7MA3b_VYPaaBMyiTx14mdmC83Wea1IERfo5fjHZX7SMCQTMUSM3xPhn4WsK0Xs-Nczx-",
-        desc: "Open your eyes to a new world of volume and definition.",
-        items: [
-            { name: "Classic Lash Extensions", price: "1 100 CZK", duration: "90 min", popular: false },
-            { name: "Volume Lash Extensions", price: "1 400 CZK", duration: "120 min", popular: true },
-            { name: "Lash Lifting", price: "900 CZK", duration: "60 min", popular: false },
-            { name: "Lash Tinting", price: "500 CZK", duration: "30 min", popular: false },
-            { name: "Lash Removal", price: "300 CZK", duration: "30 min", popular: false },
-        ],
-    },
-    {
-        id: "eyebrows",
-        label: "Eyebrows",
-        icon: "〰️",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvA13tpO-MB-gIyzZ16CZpoWDDGRxtKCB_vF8CocOZAwA23iscVRX_ARLcroGFuJkq3LdD54fln74NTYIYQQdUrE9RHvVkCwUN70DfJDA8WIgcwkfS3v2AnTEAswCgPzsdn7Qf1kpACwunL2IGizrk3o4zH5o5ZlBG0Ih6DGy8dWJA2EulR902hDyUutORt9vc9zX2BHDHr6_uACENL1JJBN6mWsF5aTT6C-JqXwwOC4rkVMho0MuOgJziy",
-        desc: "Frame your face with precision brow artistry.",
-        items: [
-            { name: "Eyebrow Shaping & Threading", price: "300 CZK", duration: "20 min", popular: false },
-            { name: "Eyebrow Tinting", price: "400 CZK", duration: "30 min", popular: false },
-            { name: "Brow Lamination", price: "850 CZK", duration: "60 min", popular: true },
-            { name: "Ombre Brows (Powder)", price: "2 200 CZK", duration: "150 min", popular: false },
-            { name: "Brow Package (Shape + Tint)", price: "650 CZK", duration: "45 min", popular: false },
-        ],
-    },
-];
+
 
 /* ─────────────────────────────────────────────────────── */
 /* Service Row Component                                    */
@@ -156,13 +98,37 @@ function ServiceRow({ item, index }: { item: ServiceItem; index: number }) {
 /* ─────────────────────────────────────────────────────── */
 /* Services Page                                            */
 /* ─────────────────────────────────────────────────────── */
-export default function ServicesPage() {
+export default function ServicesPage({ services, categories }: { services: ServiceData[], categories: CategoryData[] }) {
     useReveal();
-    const [activeId, setActiveId] = useState("nails");
+    
+    const uiCategories = categories.map(c => {
+        const catServices = services.filter(s => s.categoryId === c.id);
+        let icon = "✦";
+        if (c.label.toLowerCase().includes("nail")) icon = "💅";
+        if (c.label.toLowerCase().includes("facial")) icon = "✨";
+        if (c.label.toLowerCase().includes("eye")) icon = "👁️";
+        if (c.label.toLowerCase().includes("brow")) icon = "〰️";
+        
+        return {
+            id: c.id,
+            label: c.label,
+            icon,
+            img: (catServices.length > 0 && catServices[0].image) ? catServices[0].image : "https://lh3.googleusercontent.com/aida/AP1WRLsncxcUaLl-kRMraO4Z3lDzU_fTWPnoZq2Nu1fF9l-q2D54UsfpLvZepPtcS0B2zdHpDP019vTTziYl3Lsio_K0RghBV2Kd_31VlBu9YThyB2KfTE2ZzWVM0ChalCmLEx48YQMzPoQilLwQtKH3bk9r8zqYRRm1YjdXdQ4B8Z5Duf5JifHrDxt-Yqx-AJmBZ27EcKAtb5-sZbvqtdbRr6MeDpmlG4q0XU5CqOa9eJhvtE1RQdGItfyviGtS",
+            desc: c.description || "Experience our premium treatments crafted with intention.",
+            items: catServices.map((s, i) => ({
+                name: s.name,
+                price: s.price,
+                duration: s.duration + " min",
+                popular: i === 0, // Mark first item as popular for visual flair
+            }))
+        };
+    });
+
+    const [activeId, setActiveId] = useState(uiCategories.length > 0 ? uiCategories[0].id : "");
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
 
-    const activeCat = CATEGORIES.find((c) => c.id === activeId)!;
+    const activeCat = uiCategories.find((c) => c.id === activeId) || uiCategories[0];
     const catImgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -232,8 +198,8 @@ export default function ServicesPage() {
                 <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
 
                     {/* Category Tabs */}
-                    <div className="reveal" style={{ display: "flex", gap: 0, marginBottom: 60, borderBottom: "1.5px solid #EAE5DC" }}>
-                        {CATEGORIES.map((cat) => (
+                    <div className="reveal" style={{ display: "flex", gap: 0, marginBottom: 60, borderBottom: "1.5px solid #EAE5DC", flexWrap: "wrap" }}>
+                        {uiCategories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => handleCatChange(cat.id)}
@@ -302,9 +268,10 @@ export default function ServicesPage() {
                             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 34, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 8px" }}>{activeCat.label}</h2>
                             <div style={{ width: 60, height: 2, background: "linear-gradient(90deg,#C2A979,#a08040)", marginBottom: 32 }} />
 
-                            {activeCat.items.map((item, i) => (
+                            {activeCat && activeCat.items.map((item, i) => (
                                 <ServiceRow key={item.name} item={item} index={i} />
                             ))}
+                            {activeCat && activeCat.items.length === 0 && <p style={{fontFamily: "Montserrat", fontSize: 13, color: "#888"}}>No services in this category.</p>}
 
                             {/* Bottom CTA */}
                             <div style={{ marginTop: 36, padding: "28px", background: "#F4F1EA", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>

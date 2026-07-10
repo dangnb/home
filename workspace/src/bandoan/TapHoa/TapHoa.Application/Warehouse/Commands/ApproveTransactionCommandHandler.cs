@@ -53,7 +53,8 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
                 ? await _context.ProductBatches.FindAsync(new object[] { line.ProductBatchId.Value }, cancellationToken) 
                 : null;
 
-            if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Inbound)
+            if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Inbound || 
+                (transaction.Type == TapHoa.Domain.Enums.TransactionType.Adjustment && line.Quantity > 0))
             {
                 if (stockLevel == null)
                 {
@@ -61,18 +62,22 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
                     _context.StockLevels.Add(stockLevel);
                 }
 
-                stockLevel.IncreaseStock(line.Quantity, line.UnitCost);
-                if (product != null) product.UpdateStockCache(product.StockQuantity + line.Quantity);
-                if (batch != null) batch.AddStock(line.Quantity);
+                var absQuantity = Math.Abs(line.Quantity);
+                stockLevel.IncreaseStock(absQuantity, line.UnitCost);
+                if (product != null) product.UpdateStockCache(product.StockQuantity + absQuantity);
+                if (batch != null) batch.AddStock(absQuantity);
             }
-            else if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Outbound)
+            else if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Outbound || 
+                     transaction.Type == TapHoa.Domain.Enums.TransactionType.Wastage ||
+                     (transaction.Type == TapHoa.Domain.Enums.TransactionType.Adjustment && line.Quantity < 0))
             {
                 if (stockLevel == null)
                     throw new DomainException($"Vật tư {product?.Name ?? line.ProductId.ToString()} chưa có trong kho hoặc lô không hợp lệ.");
 
-                stockLevel.DecreaseStock(line.Quantity);
-                if (product != null) product.UpdateStockCache(product.StockQuantity - line.Quantity);
-                if (batch != null) batch.RemoveStock(line.Quantity);
+                var absQuantity = Math.Abs(line.Quantity);
+                stockLevel.DecreaseStock(absQuantity);
+                if (product != null) product.UpdateStockCache(product.StockQuantity - absQuantity);
+                if (batch != null) batch.RemoveStock(absQuantity);
             }
         }
 

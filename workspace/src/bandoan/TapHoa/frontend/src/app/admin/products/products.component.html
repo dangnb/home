@@ -241,6 +241,14 @@
             <label class="form-label fw-bold text-dark fs-7">Tồn kho hiện tại</label>
             <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
           </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark fs-7">Tồn kho tối thiểu (Cảnh báo hết)</label>
+            <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-solid rounded-3 py-2">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark fs-7">Tồn kho tối đa (Cảnh báo dư thừa)</label>
+            <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-solid rounded-3 py-2">
+          </div>
           <div>
             <label class="form-label fw-bold text-dark fs-7">Trạng thái kinh doanh</label>
             <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-control-solid rounded-3 py-2">

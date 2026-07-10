@@ -21,9 +21,9 @@ export default function PublicShell({ children, settings, regularCruises, dinner
 
   return (
     <>
-      <Navbar />
+      <Navbar settings={settings} />
       {children}
-      <Footer />
+      <Footer settings={settings} />
       {/* CTA Widget (Mobile Mobile) */}
       <div className="fixed bottom-8 right-8 z-40 md:hidden">
         <Link href="/booking">

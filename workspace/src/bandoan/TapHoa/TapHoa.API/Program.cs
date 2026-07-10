@@ -61,6 +61,7 @@ app.MapGroup("api/v{version:apiVersion}/products").WithApiVersionSet(apiVersionS
 app.MapGroup("api/v{version:apiVersion}/categories").WithApiVersionSet(apiVersionSet).MapCategoriesEndpoints();
 app.MapGroup("api/v{version:apiVersion}/auth").WithApiVersionSet(apiVersionSet).MapAuthEndpoints();
 app.MapGroup("api/v{version:apiVersion}/transactions").WithApiVersionSet(apiVersionSet).MapTransactionsEndpoints();
+app.MapGroup("api/v{version:apiVersion}/stock-takes").WithApiVersionSet(apiVersionSet).MapStockTakesEndpoints();
 app.MapGroup("api/v{version:apiVersion}/audits").WithApiVersionSet(apiVersionSet).MapAuditsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/customer-ledger").WithApiVersionSet(apiVersionSet).MapCustomerLedgerEndpoints();
 app.MapGroup("api/v{version:apiVersion}/supplier-ledger").WithApiVersionSet(apiVersionSet).MapSupplierLedgerEndpoints();

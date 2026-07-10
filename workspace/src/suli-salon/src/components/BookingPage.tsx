@@ -1,35 +1,15 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import type { ServiceData, SiteSettings, CategoryData } from "@/lib/db";
 
 /* ─────────────────────────────────────────────────────── */
-/* Data                                                     */
+/* Types                                                    */
 /* ─────────────────────────────────────────────────────── */
-const BRANCHES = [
-    { id: "praha12", name: "Suli Salon – Praha 12", address: "Cs. exilu 2154, 143 00 Praha 12", hours: "Mon–Sat: 09:00–19:00" },
-    { id: "center", name: "Suli Salon – Center", address: "Wenceslas Square 1, 110 00 Praha 1", hours: "Mon–Sun: 10:00–20:00" },
-];
-
-const SERVICES = [
-    { id: "1", cat: "Nails", name: "Classic Manicure", price: "500 CZK", duration: "45 min" },
-    { id: "2", cat: "Nails", name: "Gel Polish Manicure", price: "700 CZK", duration: "60 min", popular: true },
-    { id: "3", cat: "Nails", name: "Nail Extensions – New Set", price: "1 200 CZK", duration: "90 min" },
-    { id: "4", cat: "Nails", name: "Spa Pedicure", price: "800 CZK", duration: "60 min" },
-    { id: "5", cat: "Facial", name: "Deep Cleansing Facial", price: "1 500 CZK", duration: "60 min" },
-    { id: "6", cat: "Facial", name: "Anti-Aging Treatment", price: "1 800 CZK", duration: "90 min", popular: true },
-    { id: "7", cat: "Eyelashes", name: "Classic Lash Extensions", price: "1 100 CZK", duration: "90 min" },
-    { id: "8", cat: "Eyelashes", name: "Volume Lash Extensions", price: "1 400 CZK", duration: "120 min", popular: true },
-    { id: "9", cat: "Eyelashes", name: "Lash Lifting", price: "900 CZK", duration: "60 min" },
-    { id: "10", cat: "Eyebrows", name: "Brow Lamination", price: "850 CZK", duration: "60 min", popular: true },
-    { id: "11", cat: "Eyebrows", name: "Eyebrow Shaping", price: "300 CZK", duration: "20 min" },
-    { id: "12", cat: "Eyebrows", name: "Ombre Brows", price: "2 200 CZK", duration: "150 min" },
-];
-
-const TIME_SLOTS = ["09:00", "10:00", "11:00", "12:00", "13:30", "14:30", "15:30", "16:30", "17:30", "18:00"];
-
 type FormData = {
     branch: string;
     serviceId: string;
+    serviceName: string;
     date: string;
     time: string;
     name: string;
@@ -79,83 +59,23 @@ function StepBar({ current }: { current: number }) {
 }
 
 /* ─────────────────────────────────────────────────────── */
-/* Booking Summary Sidebar                                  */
-/* ─────────────────────────────────────────────────────── */
-function BookingSummary({ data }: { data: FormData }) {
-    const svc = SERVICES.find((s) => s.id === data.serviceId);
-    const branch = BRANCHES.find((b) => b.id === data.branch);
-    const hasContent = data.branch || data.serviceId || data.date;
-
-    return (
-        <div style={{ background: "#1A1A1A", padding: "40px 36px", position: "sticky", top: 100, minHeight: 400, display: "flex", flexDirection: "column" }}>
-            {/* Logo */}
-            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 32 }}>
-                Suli Salon
-            </div>
-
-            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#555", marginBottom: 24 }}>
-                Your Booking Summary
-            </div>
-
-            {!hasContent ? (
-                <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#444", textAlign: "center", lineHeight: 1.6 }}>
-                        Your selections will appear here as you complete each step.
-                    </p>
-                </div>
-            ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: 0, flex: 1 }}>
-                    {branch && (
-                        <SummaryRow icon="📍" label="Branch" value={branch.name} sub={branch.address} />
-                    )}
-                    {svc && (
-                        <SummaryRow icon="✦" label="Service" value={svc.name} sub={`${svc.duration} · ${svc.price}`} />
-                    )}
-                    {data.date && (
-                        <SummaryRow icon="📅" label="Date" value={new Date(data.date).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />
-                    )}
-                    {data.time && (
-                        <SummaryRow icon="🕐" label="Time" value={data.time} />
-                    )}
-                    {data.name && (
-                        <SummaryRow icon="👤" label="Name" value={data.name} />
-                    )}
-                </div>
-            )}
-
-            {svc && (
-                <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid #2a2a2a" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#555" }}>Total</span>
-                        <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#C2A979" }}>{svc.price}</span>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
-
-function SummaryRow({ icon, label, value, sub }: { icon: string; label: string; value: string; sub?: string }) {
-    return (
-        <div style={{ padding: "16px 0", borderBottom: "1px solid #222" }}>
-            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "#444", marginBottom: 4 }}>
-                {icon} {label}
-            </div>
-            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, fontWeight: 600, color: "#ccc" }}>{value}</div>
-            {sub && <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", marginTop: 2 }}>{sub}</div>}
-        </div>
-    );
-}
-
-/* ─────────────────────────────────────────────────────── */
 /* Main Booking Page                                        */
 /* ─────────────────────────────────────────────────────── */
-export default function BookingPage() {
+export default function BookingPage({ services, settings, categories }: { services: ServiceData[], settings: SiteSettings, categories: CategoryData[] }) {
+    const BRANCHES = [
+        { id: "main", name: settings.siteName || "Suli Salon", address: settings.address, hours: settings.workingHours || "Mon-Sun: 9:00 - 20:00" },
+    ];
+    
     const [step, setStep] = useState(1);
     const [done, setDone] = useState(false);
-    const [activeCat, setActiveCat] = useState("Nails");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+    
+    const cats = categories.map(c => c.label);
+    const [activeCat, setActiveCat] = useState(cats.length > 0 ? cats[0] : "");
+    
     const [form, setForm] = useState<FormData>({
-        branch: "", serviceId: "", date: "", time: "", name: "", phone: "", email: "", notes: "",
+        branch: "", serviceId: "", serviceName: "", date: "", time: "", name: "", phone: "", email: "", notes: "",
     });
 
     const inputStyle = (focused?: boolean): React.CSSProperties => ({
@@ -167,8 +87,36 @@ export default function BookingPage() {
         transition: "border-color .25s",
     });
 
-    const cats = [...new Set(SERVICES.map((s) => s.cat))];
-    const filteredServices = SERVICES.filter((s) => s.cat === activeCat);
+    const activeCatObj = categories.find(c => c.label === activeCat);
+    const filteredServices = services.filter((s) => s.categoryId === activeCatObj?.id);
+    const departureSlots = settings.departureSlots || ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
+
+    async function submitBooking() {
+        if (!form.name || !form.phone || !form.email) return;
+        setIsSubmitting(true);
+        setErrorMsg("");
+        try {
+            const res = await fetch("/api/bookings", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    customerName: form.name,
+                    phone: form.phone,
+                    email: form.email,
+                    date: form.date,
+                    time: form.time,
+                    serviceName: form.serviceName,
+                    note: form.notes,
+                }),
+            });
+            if (!res.ok) throw new Error("Failed to book");
+            setDone(true);
+        } catch {
+            setErrorMsg("Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
 
     if (done) {
         return (
@@ -232,6 +180,8 @@ export default function BookingPage() {
 
                         <StepBar current={step} />
 
+                        {errorMsg && <div style={{ background: "#fef2f2", color: "#991b1b", padding: "10px 14px", borderRadius: 6, fontSize: 13, marginBottom: 16, fontFamily: "Montserrat,sans-serif" }}>{errorMsg}</div>}
+
                         {/* ── Step 1: Branch ───────────────────────── */}
                         {step === 1 && (
                             <div>
@@ -287,7 +237,7 @@ export default function BookingPage() {
                                     {filteredServices.map((s) => {
                                         const sel = form.serviceId === s.id;
                                         return (
-                                            <div key={s.id} onClick={() => setForm({ ...form, serviceId: s.id })}
+                                            <div key={s.id} onClick={() => setForm({ ...form, serviceId: s.id, serviceName: s.name })}
                                                 style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px", cursor: "pointer", border: `1.5px solid ${sel ? "#C2A979" : "#E0D8CC"}`, background: sel ? "#FFFAF4" : "#fff", transition: "all .25s", gap: 16 }}>
                                                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                                                     <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${sel ? "#C2A979" : "#DDD"}`, background: sel ? "#C2A979" : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", transition: "all .25s" }}>
@@ -296,15 +246,15 @@ export default function BookingPage() {
                                                     <div>
                                                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                                             <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, fontWeight: 600, color: "#2E2E2E" }}>{s.name}</span>
-                                                            {"popular" in s && s.popular && <span style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", fontSize: 9, fontFamily: "Montserrat,sans-serif", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "2px 7px" }}>Popular</span>}
                                                         </div>
-                                                        <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#AAA" }}>⏱ {s.duration}</span>
+                                                        <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#AAA" }}>⏱ {s.duration} min</span>
                                                     </div>
                                                 </div>
                                                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontWeight: 700, color: "#C2A979", flexShrink: 0 }}>{s.price}</span>
                                             </div>
                                         );
                                     })}
+                                    {filteredServices.length === 0 && <p style={{fontFamily: "Montserrat", fontSize: 13}}>No services found in this category.</p>}
                                 </div>
                                 <div style={{ display: "flex", gap: 12 }}>
                                     <BackBtn onClick={() => setStep(1)} />
@@ -332,7 +282,7 @@ export default function BookingPage() {
                                         Available Time Slots
                                     </label>
                                     <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10 }}>
-                                        {TIME_SLOTS.map((t) => {
+                                        {departureSlots.map((t) => {
                                             const sel = form.time === t;
                                             return (
                                                 <button key={t} onClick={() => setForm({ ...form, time: t })}
@@ -376,9 +326,9 @@ export default function BookingPage() {
                                 </div>
                                 <div style={{ display: "flex", gap: 12 }}>
                                     <BackBtn onClick={() => setStep(3)} />
-                                    <button onClick={() => setDone(true)} disabled={!form.name || !form.phone || !form.email}
-                                        style={{ flex: 1, background: (!form.name || !form.phone || !form.email) ? "#DDD" : "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: !form.name || !form.phone || !form.email ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: (!form.name || !form.phone || !form.email) ? "none" : "0 6px 24px rgba(194,169,121,.35)" }}>
-                                        Confirm Booking ✓
+                                    <button onClick={submitBooking} disabled={!form.name || !form.phone || !form.email || isSubmitting}
+                                        style={{ flex: 1, background: (!form.name || !form.phone || !form.email || isSubmitting) ? "#DDD" : "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: (!form.name || !form.phone || !form.email || isSubmitting) ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: (!form.name || !form.phone || !form.email || isSubmitting) ? "none" : "0 6px 24px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}>
+                                        {isSubmitting ? "Sending..." : "Confirm Booking ✓"}
                                     </button>
                                 </div>
                             </div>
@@ -386,10 +336,66 @@ export default function BookingPage() {
                     </div>
 
                     {/* RIGHT: Sidebar */}
-                    <BookingSummary data={form} />
+                    <div style={{ background: "#1A1A1A", padding: "40px 36px", position: "sticky", top: 100, minHeight: 400, display: "flex", flexDirection: "column" }}>
+                        {/* Logo */}
+                        <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 32 }}>
+                            {settings.siteName || "Suli Salon"}
+                        </div>
+
+                        <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#555", marginBottom: 24 }}>
+                            Your Booking Summary
+                        </div>
+
+                        {!(form.branch || form.serviceId || form.date) ? (
+                            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#444", textAlign: "center", lineHeight: 1.6 }}>
+                                    Your selections will appear here as you complete each step.
+                                </p>
+                            </div>
+                        ) : (
+                            <div style={{ display: "flex", flexDirection: "column", gap: 0, flex: 1 }}>
+                                {form.branch && (
+                                    <SummaryRow icon="📍" label="Branch" value={BRANCHES[0]?.name || ""} sub={BRANCHES[0]?.address || ""} />
+                                )}
+                                {form.serviceId && (
+                                    <SummaryRow icon="✦" label="Service" value={form.serviceName} sub={`${services.find(s => s.id === form.serviceId)?.duration} min · ${services.find(s => s.id === form.serviceId)?.price}`} />
+                                )}
+                                {form.date && (
+                                    <SummaryRow icon="📅" label="Date" value={new Date(form.date).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />
+                                )}
+                                {form.time && (
+                                    <SummaryRow icon="🕐" label="Time" value={form.time} />
+                                )}
+                                {form.name && (
+                                    <SummaryRow icon="👤" label="Name" value={form.name} />
+                                )}
+                            </div>
+                        )}
+
+                        {form.serviceId && (
+                            <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid #2a2a2a" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#555" }}>Total</span>
+                                    <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#C2A979" }}>{services.find(s => s.id === form.serviceId)?.price}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
+    );
+}
+
+function SummaryRow({ icon, label, value, sub }: { icon: string; label: string; value: string; sub?: string }) {
+    return (
+        <div style={{ padding: "16px 0", borderBottom: "1px solid #222" }}>
+            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "#444", marginBottom: 4 }}>
+                {icon} {label}
+            </div>
+            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, fontWeight: 600, color: "#ccc" }}>{value}</div>
+            {sub && <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", marginTop: 2 }}>{sub}</div>}
+        </div>
     );
 }
 

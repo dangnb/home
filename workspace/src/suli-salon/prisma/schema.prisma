@@ -156,3 +156,16 @@ model Language {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 }
+
+// ── Team Member ───────────────────────────────
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  image     String?
+  bio       String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

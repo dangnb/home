@@ -24,6 +24,8 @@ public interface IApplicationDbContext
     DbSet<StockLevel> StockLevels { get; }
     DbSet<WarehouseLocation> WarehouseLocations { get; }
     DbSet<ProductBatch> ProductBatches { get; }
+    DbSet<StockTake> StockTakes { get; }
+    DbSet<StockTakeLine> StockTakeLines { get; }
 
     Guid CurrentCompanyId { get; }
 

@@ -14,6 +14,8 @@ public class ProductDto
     public decimal WholesalePrice { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
+    public int MinStockLevel { get; set; }
+    public int MaxStockLevel { get; set; }
     public string Unit { get; set; } = string.Empty;
     public string? Barcode { get; set; }
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]

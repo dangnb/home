@@ -39,6 +39,18 @@ public static class TransactionsEndpoints
         .WithDescription("Creates a new outbound transaction (Draft)")
         .RequireAuthorization();
 
+        group.MapPost("/wastage", async ([FromBody] CreateWastageTransactionCommand command, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
+        {
+            var username = user.Identity?.Name ?? "System";
+            var finalCommand = command with { CreatedBy = username };
+
+            var id = await sender.Send(finalCommand);
+            return Results.Ok(new { Id = id, Message = "Wastage Transaction created successfully as Draft." });
+        })
+        .WithName("CreateWastageTransaction")
+        .WithDescription("Creates a new wastage/damage transaction (Draft)")
+        .RequireAuthorization();
+
         group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateTransactionCommand command, [FromServices] ISender sender) =>
         {
             if (id != command.TransactionId) return Results.BadRequest("ID mismatch");
@@ -123,6 +135,15 @@ public static class TransactionsEndpoints
             return Results.Ok(result);
         })
         .WithName("GetExpiringBatches")
+        .RequireAuthorization();
+
+        group.MapGet("/suggested-batches/{productId:guid}", async (Guid productId, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetSuggestedBatchesQuery(productId));
+            return Results.Ok(result);
+        })
+        .WithName("GetSuggestedBatches")
+        .WithDescription("Gets suggested batches for outbound based on FEFO")
         .RequireAuthorization();
 
         return group;
