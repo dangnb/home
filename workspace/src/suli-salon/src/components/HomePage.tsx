@@ -230,7 +230,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
     }, []);
 
     const bannerTitles = (settings.bannerTitle || "Precision\nNail Care").split("\\n");
-    const bgImage = settings.bannerImage || "https://lh3.googleusercontent.com/aida/AP1WRLsm6Y9PCPUQl-URvdmq5ipK4EWJgMerQplUGJpnUqfwUmdKZRgeTY-PusEHITIrVYSm44lOFG5kEuwNblC5Hb-qn672agc4hpRPvoI6iweYZfZc_Z4kuwqXIYJtvS5DDRoa8QxYsHjPxzYMVv7cQSrDW0wO-hKW53g2Cezuw8TWWKJgQHZQKS8gQX0n8SC9uIPHBWzqiZVp0GzXIsr729zAX3ptZz36EFl8FkN4JaP0JZ3vbp2RnyqEGhAm";
+    const bgImage = settings.bannerImage || "/uploads/banner.png";
 
     return (
         <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", overflow: "visible", background: "#FDFBF7", paddingTop: 120, paddingBottom: 60 }}>

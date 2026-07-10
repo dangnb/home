@@ -1,0 +1,92 @@
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card glass-panel border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent border-bottom-0 py-3">
+        <h5 class="mb-0 fw-bold"><i class="bi bi-box-seam me-2 text-primary"></i>Danh sách xuất hủy</h5>
+      </div>
+      <div class="card-body p-0">
+        <div class="p-3 bg-light border-bottom">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-9">
+              <select class="form-select border-0 shadow-sm" [(ngModel)]="selectedProductId">
+                <option value="">-- Chọn mặt hàng cần hủy --</option>
+                <option *ngFor="let p of availableProducts" [value]="p.id">{{ p.name }} (Tồn: {{ p.stockQuantity }})</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary w-100 rounded-3 shadow-sm" (click)="addProduct()" [disabled]="!selectedProductId">
+                <i class="bi bi-plus-lg me-1"></i> Thêm
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive" style="min-height: 200px;">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-muted">
+              <tr>
+                <th class="ps-3 border-0">Sản phẩm</th>
+                <th class="border-0" style="width: 120px;">Số lượng</th>
+                <th class="border-0">Lý do</th>
+                <th class="border-0 text-end pe-3" style="width: 60px;">Xóa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="lines.length === 0">
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-inbox fs-1 mb-2"></i>
+                    <p class="mb-0">Chưa có sản phẩm nào được chọn</p>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let line of lines; let i = index">
+                <td class="ps-3 fw-medium text-dark">{{ line.product.name }}</td>
+                <td>
+                  <input type="number" class="form-control form-control-sm text-center" [(ngModel)]="line.quantity" min="1" [max]="line.product.stockQuantity">
+                </td>
+                <td>
+                  <select class="form-select form-select-sm" [(ngModel)]="line.reason">
+                    <option value="Hết hạn">Hết hạn</option>
+                    <option value="Hư hỏng">Hư hỏng</option>
+                    <option value="Mất mát">Mất mát</option>
+                    <option value="Lý do khác">Lý do khác</option>
+                  </select>
+                </td>
+                <td class="text-end pe-3">
+                  <button class="btn btn-sm btn-link text-danger p-0" (click)="removeLine(i)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card glass-panel border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent border-bottom-0 py-3">
+        <h5 class="mb-0 fw-bold"><i class="bi bi-info-circle me-2 text-primary"></i>Thông tin phiếu</h5>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label text-muted small fw-medium">Mã tham chiếu (Optional)</label>
+          <input type="text" class="form-control form-control-solid rounded-3" [(ngModel)]="referenceId" placeholder="VD: BB01, PX02...">
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label text-muted small fw-medium">Ghi chú chung</label>
+          <textarea class="form-control form-control-solid rounded-3" [(ngModel)]="notes" rows="4" placeholder="Nhập ghi chú cho phiếu xuất hủy này..."></textarea>
+        </div>
+
+        <button class="btn btn-danger w-100 rounded-3 shadow py-2 fw-medium" (click)="submit()" [disabled]="isSubmitting">
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          <i class="bi bi-check-lg me-1" *ngIf="!isSubmitting"></i> Hoàn tất xuất hủy
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

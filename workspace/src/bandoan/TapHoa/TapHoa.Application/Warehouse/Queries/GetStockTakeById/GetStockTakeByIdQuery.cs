@@ -44,17 +44,12 @@ public class GetStockTakeByIdQueryHandler : IRequestHandler<GetStockTakeByIdQuer
     {
         var stockTake = await _context.StockTakes
             .Include(x => x.Lines)
+                .ThenInclude(l => l.Product)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (stockTake == null)
             throw new KeyNotFoundException($"StockTake with ID {request.Id} not found");
-
-        var productIds = stockTake.Lines.Select(l => l.ProductId).Distinct().ToList();
-        var products = await _context.Products
-            .Where(p => productIds.Contains(p.Id))
-            .AsNoTracking()
-            .ToDictionaryAsync(p => p.Id, cancellationToken);
 
         var dto = new StockTakeDetailDto
         {
@@ -66,7 +61,7 @@ public class GetStockTakeByIdQueryHandler : IRequestHandler<GetStockTakeByIdQuer
             CreatedBy = stockTake.CreatedBy ?? "System",
             Lines = stockTake.Lines.Select(l =>
             {
-                var product = products.TryGetValue(l.ProductId, out var p) ? p : null;
+                var product = l.Product;
                 return new StockTakeLineDto
                 {
                     Id = l.Id,

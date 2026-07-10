@@ -1,0 +1,27 @@
+2026-07-11 00:10:08.831 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 2.6113 ms
+2026-07-11 00:10:09.047 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-11 00:10:09.054 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 00:10:09.616 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 00:10:09.618 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 00:10:09.618 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 00:10:09.618 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 00:10:09.713 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-11 00:10:10.512 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 1637.8034 ms
+2026-07-11 00:10:52.432 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 0.4828 ms
+2026-07-11 00:10:52.527 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 92.1060 ms
+2026-07-11 00:14:29.265 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 0.0602 ms
+2026-07-11 00:14:29.322 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 56.2754 ms
+2026-07-11 00:14:29.961 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 9.7692 ms
+2026-07-11 00:14:30.547 +07:00 [INF] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 200 in 24.2503 ms
+2026-07-11 00:14:31.019 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0532 ms
+2026-07-11 00:14:31.021 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0541 ms
+2026-07-11 00:14:31.024 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0404 ms
+2026-07-11 00:14:31.061 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 38.1852 ms
+2026-07-11 00:14:31.076 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 54.4568 ms
+2026-07-11 00:14:31.077 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 51.7318 ms
+2026-07-11 00:14:31.691 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0489 ms
+2026-07-11 00:14:31.753 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 59.8861 ms
+2026-07-11 00:14:41.036 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0625 ms
+2026-07-11 00:14:41.083 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 19.1937 ms
+2026-07-11 00:17:21.219 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0641 ms
+2026-07-11 00:17:21.279 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 54.5691 ms

@@ -20,6 +20,10 @@ export class ProductService extends BaseCrudService<Product> {
     updateProduct(id: string, product: Product) { return this.update(id, product); }
     deleteProduct(id: string) { return this.delete(id); }
 
+    getLowStockProducts(): Observable<Product[]> {
+        return this.http.get<Product[]>(`${this.apiUrl}/low-stock`);
+    }
+
     // Đặc thù của Product
     uploadImage(file: File): Observable<{ url: string }> {
         const formData = new FormData();

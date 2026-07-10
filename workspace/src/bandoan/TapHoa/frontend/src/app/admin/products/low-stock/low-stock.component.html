@@ -1,0 +1,76 @@
+<div class="card glass-panel border-0 shadow-sm">
+  <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
+    <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> Cảnh báo hàng sắp hết</h5>
+    <button class="btn btn-primary btn-sm rounded-pill px-3" routerLink="/admin/products/create">
+      <i class="bi bi-plus-lg me-1"></i> Thêm hàng mới
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-muted">
+          <tr>
+            <th class="ps-4 fw-semibold border-0">Sản phẩm</th>
+            <th class="fw-semibold border-0">Mã vạch</th>
+            <th class="fw-semibold border-0">Tồn kho hiện tại</th>
+            <th class="fw-semibold border-0">Mức tối thiểu</th>
+            <th class="fw-semibold border-0">Trạng thái</th>
+            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="isLoading">
+            <td colspan="6" class="text-center py-4">
+              <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!isLoading && products.length === 0">
+            <td colspan="6" class="text-center py-5 text-muted">
+              <div class="d-flex flex-column align-items-center">
+                <i class="bi bi-check-circle-fill text-success fs-1 mb-2"></i>
+                <h6 class="fw-medium">Không có sản phẩm nào sắp hết</h6>
+                <p class="small text-muted mb-0">Tất cả hàng hóa đều ở mức an toàn</p>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let item of products" class="border-bottom">
+            <td class="ps-4">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0" *ngIf="item.mainImageUrl">
+                  <img [src]="'http://localhost:5222' + item.mainImageUrl" alt="" class="rounded-3 shadow-sm" style="width: 48px; height: 48px; object-fit: cover;">
+                </div>
+                <div class="flex-shrink-0 bg-light rounded-3 d-flex align-items-center justify-content-center text-muted" *ngIf="!item.mainImageUrl" style="width: 48px; height: 48px;">
+                  <i class="bi bi-image fs-5"></i>
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-1 text-dark fw-semibold">{{ item.name }}</h6>
+                  <span class="badge bg-light text-dark fw-normal border">{{ item.categoryName || 'Không phân loại' }}</span>
+                </div>
+              </div>
+            </td>
+            <td><span class="font-monospace text-muted small">{{ item.barcode || '-' }}</span></td>
+            <td>
+              <span class="fw-bold" [ngClass]="{'text-danger': item.stockQuantity === 0, 'text-warning': item.stockQuantity > 0}">
+                {{ item.stockQuantity }} {{ item.unit }}
+              </span>
+            </td>
+            <td>{{ item.minStockLevel }} {{ item.unit }}</td>
+            <td>
+              <span class="badge rounded-pill fw-normal" [ngClass]="item.stockQuantity === 0 ? 'bg-danger-subtle text-danger' : 'bg-warning-subtle text-warning'">
+                <i class="bi me-1" [ngClass]="item.stockQuantity === 0 ? 'bi-x-circle' : 'bi-exclamation-circle'"></i>
+                {{ item.stockQuantity === 0 ? 'Hết hàng' : 'Sắp hết' }}
+              </span>
+            </td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products', item.id]" title="Chỉnh sửa sản phẩm">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

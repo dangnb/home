@@ -20,19 +20,19 @@ export default function ServicesPreview() {
           {[
             {
               title: "Nails",
-              img: "https://lh3.googleusercontent.com/aida/AP1WRLsncxcUaLl-kRMraO4Z3lDzU_fTWPnoZq2Nu1fF9l-q2D54UsfpLvZepPtcS0B2zdHpDP019vTTziYl3Lsio_K0RghBV2Kd_31VlBu9YThyB2KfTE2ZzWVM0ChalCmLEx48YQMzPoQilLwQtKH3bk9r8zqYRRm1YjdXdQ4B8Z5Duf5JifHrDxt-Yqx-AJmBZ27EcKAtb5-sZbvqtdbRr6MeDpmlG4q0XU5CqOa9eJhvtE1RQdGItfyviGtS"
+              img: "/uploads/banner.png"
             },
             {
               title: "Facial Care",
-              img: "https://lh3.googleusercontent.com/aida/AP1WRLvmBUkVHNFLX8ch_FNKHBzKDug9sqEhnNxXqV93sZFRO19ROp_KHIZJOu0aOeObsISyGxs8ds6u8tA0RdSFMfbTIuJx_dE3QmqPM7A938Ym1PnaAFzyFvoKmSn_BfngbhWM2PC1yB5e1GX2GFyzEQrRRPqYhu_d9uh_nVWI1VmGGuNjQB6-uGXWI6T2GRcPIp5751kYnxSCv-z92VVdYNtj7YmftrHK3skW7cZ-wwbVgQzBSADuCzI3f6Xc"
+              img: "/uploads/banner.png"
             },
             {
               title: "Eyelashes",
-              img: "https://lh3.googleusercontent.com/aida/AP1WRLvvYMW4tC0WzVAhOd3ipWXpoh7jRs9wIx0S7K1Kdh7EKc8odCkT_vB5hQjabtivklH3nVceHH9wgUcWH3iDLFt7mmiBDAhlILRlH5LhzhmBVh_JXZE9LHvzpc_KbgOdYOzsV_AOCIfRRulpr5dcfiR4sJXnzOQz0NEyf2eG08NE3SOSgVzhZ3Il7MA3b_VYPaaBMyiTx14mdmC83Wea1IERfo5fjHZX7SMCQTMUSM3xPhn4WsK0Xs-Nczx-"
+              img: "/uploads/banner.png"
             },
             {
               title: "Eyebrows",
-              img: "https://lh3.googleusercontent.com/aida/AP1WRLvA13tpO-MB-gIyzZ16CZpoWDDGRxtKCB_vF8CocOZAwA23iscVRX_ARLcroGFuJkq3LdD54fln74NTYIYQQdUrE9RHvVkCwUN70DfJDA8WIgcwkfS3v2AnTEAswCgPzsdn7Qf1kpACwunL2IGizrk3o4zH5o5ZlBG0Ih6DGy8dWJA2EulR902hDyUutORt9vc9zX2BHDHr6_uACENL1JJBN6mWsF5aTT6C-JqXwwOC4rkVMho0MuOgJziy"
+              img: "/uploads/banner.png"
             }
           ].map((service, idx) => (
             <div key={idx} className="group relative overflow-hidden h-[500px] whisper-shadow reveal" data-delay={(idx + 1) * 100}>
