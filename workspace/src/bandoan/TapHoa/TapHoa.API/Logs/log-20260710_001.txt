@@ -232,3 +232,673 @@
 2026-07-10 22:52:17.778 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 5.7269 ms
 2026-07-10 22:52:17.780 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 7.1160 ms
 2026-07-10 22:52:17.904 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 132.2495 ms
+2026-07-10 23:01:36.160 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 1.8666 ms
+2026-07-10 23:01:36.160 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 1.8604 ms
+2026-07-10 23:01:36.160 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 1.8342 ms
+2026-07-10 23:01:36.386 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-10 23:01:36.393 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 23:01:36.393 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 23:01:36.393 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 23:01:36.688 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 488.3637 ms
+2026-07-10 23:01:36.688 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 488.3651 ms
+2026-07-10 23:01:36.996 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:01:36.996 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:01:36.996 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:01:36.996 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:01:37.098 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 23:01:37.560 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 1359.5750 ms
+2026-07-10 23:27:14.028 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.1641 ms
+2026-07-10 23:27:14.028 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.1641 ms
+2026-07-10 23:27:14.028 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.1642 ms
+2026-07-10 23:27:14.072 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 42.6033 ms
+2026-07-10 23:27:14.072 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 42.7849 ms
+2026-07-10 23:27:14.119 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 89.9052 ms
+2026-07-10 23:27:14.726 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 3.7369 ms
+2026-07-10 23:27:14.726 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 3.7398 ms
+2026-07-10 23:27:14.750 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 28.2018 ms
+2026-07-10 23:27:15.023 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.6980 ms
+2026-07-10 23:27:15.023 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.6526 ms
+2026-07-10 23:27:15.069 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 47.2843 ms
+2026-07-10 23:27:15.218 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.4200 ms
+2026-07-10 23:27:15.218 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.1749 ms
+2026-07-10 23:27:15.219 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.6022 ms
+2026-07-10 23:27:19.923 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0493 ms
+2026-07-10 23:27:19.923 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0205 ms
+2026-07-10 23:27:19.923 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0495 ms
+2026-07-10 23:27:19.927 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.6741 ms
+2026-07-10 23:27:19.927 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.6759 ms
+2026-07-10 23:27:19.928 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.5649 ms
+2026-07-10 23:27:20.950 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0544 ms
+2026-07-10 23:27:20.967 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 15.4744 ms
+2026-07-10 23:27:21.708 +07:00 [INF] HTTP OPTIONS /api/v1/api/v1/stock-takes responded 204 in 0.0632 ms
+2026-07-10 23:27:21.710 +07:00 [INF] HTTP GET /api/v1/api/v1/stock-takes responded 404 in 0.7510 ms
+2026-07-10 23:27:22.055 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1343 ms
+2026-07-10 23:27:22.139 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 82.2222 ms
+2026-07-10 23:27:22.669 +07:00 [INF] HTTP GET /api/v1/api/v1/stock-takes responded 404 in 0.6650 ms
+2026-07-10 23:27:23.118 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 1.1593 ms
+2026-07-10 23:27:23.118 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.1405 ms
+2026-07-10 23:27:23.119 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 2.2231 ms
+2026-07-10 23:27:23.471 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 3.2053 ms
+2026-07-10 23:27:23.753 +07:00 [INF] HTTP GET /api/v1/api/v1/stock-takes responded 404 in 0.4227 ms
+2026-07-10 23:27:24.878 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.9510 ms
+2026-07-10 23:27:31.817 +07:00 [INF] HTTP OPTIONS /api/v1/api/v1/stock-takes responded 204 in 0.1345 ms
+2026-07-10 23:27:31.819 +07:00 [INF] HTTP POST /api/v1/api/v1/stock-takes responded 404 in 0.5192 ms
+2026-07-10 23:29:14.454 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0479 ms
+2026-07-10 23:29:14.459 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.8661 ms
+2026-07-10 23:29:29.397 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0415 ms
+2026-07-10 23:29:29.540 +07:00 [INF] Audit Logged: Create by admin - CreateStockTakeCommand
+2026-07-10 23:29:29.731 +07:00 [INF] HTTP POST /api/v1/stock-takes responded 200 in 332.9206 ms
+2026-07-10 23:29:29.744 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/3dc2e7d3-6266-4d4f-9e50-89f28c43bf55 responded 204 in 0.0266 ms
+2026-07-10 23:29:29.801 +07:00 [ERR] HTTP GET /api/v1/stock-takes/3dc2e7d3-6266-4d4f-9e50-89f28c43bf55 responded 500 in 56.1540 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:29:29.822 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:29:42.094 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/3dc2e7d3-6266-4d4f-9e50-89f28c43bf55 responded 204 in 0.0326 ms
+2026-07-10 23:29:42.130 +07:00 [ERR] HTTP GET /api/v1/stock-takes/3dc2e7d3-6266-4d4f-9e50-89f28c43bf55 responded 500 in 34.4786 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:29:42.148 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:29:45.884 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0294 ms
+2026-07-10 23:29:45.887 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.5900 ms
+2026-07-10 23:29:48.455 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0409 ms
+2026-07-10 23:29:48.462 +07:00 [INF] Audit Logged: Create by admin - CreateStockTakeCommand
+2026-07-10 23:29:48.468 +07:00 [INF] HTTP POST /api/v1/stock-takes responded 200 in 11.1164 ms
+2026-07-10 23:29:48.483 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 204 in 0.0312 ms
+2026-07-10 23:29:48.499 +07:00 [ERR] HTTP GET /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 500 in 14.8347 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:29:48.500 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 54
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:34:27.383 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 204 in 2.0764 ms
+2026-07-10 23:34:27.583 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-10 23:34:27.588 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-10 23:34:28.125 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:34:28.126 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:34:28.126 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:34:28.126 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-10 23:34:28.216 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-10 23:34:28.600 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1100 ms
+2026-07-10 23:34:28.967 +07:00 [ERR] HTTP GET /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 500 in 904.1595 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:34:28.967 +07:00 [ERR] HTTP GET /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 500 in 712.5498 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:34:28.968 +07:00 [ERR] HTTP GET /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 500 in 1089.5302 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:34:28.967 +07:00 [ERR] HTTP GET /api/v1/stock-takes/b56dcaf6-c717-48fb-8498-0426d957b28a responded 500 in 1544.2856 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:34:28.992 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:34:28.991 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:34:28.992 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:34:28.993 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-10 23:34:29.014 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 412.2020 ms
+2026-07-10 23:34:37.162 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1321 ms
+2026-07-10 23:34:37.196 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 29.8753 ms
+2026-07-10 23:34:38.604 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.9508 ms
+2026-07-10 23:34:39.635 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 9.2002 ms
+2026-07-10 23:34:43.387 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0452 ms
+2026-07-10 23:34:43.395 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 5.8323 ms
+2026-07-10 23:34:56.089 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0382 ms
+2026-07-10 23:34:56.137 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 46.7189 ms
+2026-07-10 23:34:58.063 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.1344 ms
+2026-07-10 23:34:58.266 +07:00 [INF] Audit Logged: Create by admin - CreateStockTakeCommand
+2026-07-10 23:34:58.523 +07:00 [INF] HTTP POST /api/v1/stock-takes responded 200 in 457.7276 ms
+2026-07-10 23:34:58.545 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 204 in 0.0761 ms
+2026-07-10 23:34:58.564 +07:00 [ERR] HTTP GET /api/v1/stock-takes/203d0aa0-6f5d-4c48-aa68-a6187cbe56ed responded 500 in 16.9648 ms
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-10 23:34:58.566 +07:00 [ERR] An exception occurred: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+System.InvalidOperationException: Expression '@productIds' in the SQL tree does not have a type mapping assigned.
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.InExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SqlBinaryExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.SqlExpressions.SelectExpression.VisitChildren(ExpressionVisitor visitor)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.VisitExtension(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalTypeMappingPostprocessor.Process(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.ProcessTypeMappings(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.RelationalQueryTranslationPostprocessor.Process(Expression query)
+   at MySql.EntityFrameworkCore.Query.Internal.MySQLQueryTranslationPostprocessor.Process(Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToDictionaryAsync[TSource,TKey,TElement](IQueryable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer, CancellationToken cancellationToken)
+   at TapHoa.Application.Warehouse.Queries.GetStockTakeById.GetStockTakeByIdQueryHandler.Handle(GetStockTakeByIdQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetStockTakeById\GetStockTakeByIdQuery.cs:line 57
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.StockTakesEndpoints.<>c.<<MapStockTakesEndpoints>b__0_1>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\StockTakesEndpoints.cs:line 32
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23

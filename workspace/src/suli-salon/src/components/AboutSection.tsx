@@ -15,14 +15,14 @@ export default function AboutSection() {
           {/* Overlapping image composition */}
           <div className="relative w-4/5 aspect-[3/4] whisper-shadow">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="Salon Expertise" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida/AP1WRLvgJMyMloSkchi8E8sDJhJRMqpp6KFiFDHJh0Mk11QQ43Xb9ulueKIiYxLgizuBLFO3hkUC4jT8AY89mIjhPTOkzuHJw4veRVwNWuvvCDDnjCD1bO3kPO0G_X5usyUjcXbzsW5IhIe3KOGRRhGFKrsQCj3AlVn4aYeoEG2xUUysXAc7iNJNJEBzATVgfo4_v1cyrDlB5onUihR7971P5uvlEjdXCwJo6Ww8vsF9cEXu2DuvxEutrt_hTlA" />
+            <img alt="Salon Expertise" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="/uploads/banner.png" />
             <div className="absolute -top-8 -left-8 bg-primary p-8 text-white hover:scale-110 transition-transform shadow-xl">
               <span className="block font-display-lg text-headline-md leading-none">10++</span>
               <span className="block font-label-caps text-[10px] mt-1">YEARS OF EXPERIENCE</span>
             </div>
             <div className="absolute -bottom-12 -right-12 w-48 h-48 rounded-full border-8 border-white overflow-hidden whisper-shadow hover:scale-105 transition-transform duration-500">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="Detailed Nail Art" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida/AP1WRLu1fGVg4xRMJDSvETLQP7xkqNrrWb1SvWN05-GieM3-R4fn_j1oClLTAzxsH81AiQvqB4_lLqajZIcRoqXKqZpdfUakgj5EGdbv5GyFllvotmZN0P8SsLWvJM2xZtv629BoNbVytQOLYnK-HvrNkCJ0Owbf-Qivxi_7a4TqndmgAb-fnMaZgh_ljcR4lCUbwC2vLs5mfUma1CTC_CevlyAmxVc-cPlO47W3yk8Xb7KdaGR2j6f2r7Cf3o1j" />
+              <img alt="Detailed Nail Art" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="/uploads/banner.png" />
             </div>
           </div>
         </div>

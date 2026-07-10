@@ -14,8 +14,13 @@
       </li>
       <li class="nav-divider">HÀNG HOÁ</li>
       <li>
-        <a routerLink="/admin/products" routerLinkActive="active" title="Sản phẩm">
+        <a routerLink="/admin/products" routerLinkActive="active" title="Sản phẩm" [routerLinkActiveOptions]="{exact: true}">
           <span class="icon"><i class="bi bi-box-seam"></i></span> <span class="nav-text">Sản phẩm</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/products/low-stock" routerLinkActive="active" title="Cảnh báo tồn kho">
+          <span class="icon"><i class="bi bi-exclamation-triangle"></i></span> <span class="nav-text">Cảnh báo tồn kho</span>
         </a>
       </li>
       <li>
@@ -25,8 +30,13 @@
       </li>
       <li class="nav-divider">QUẢN LÝ KHO (WMS)</li>
       <li>
-        <a routerLink="/admin/inventory" routerLinkActive="active" title="Tồn kho">
+        <a routerLink="/admin/inventory" routerLinkActive="active" title="Tồn kho" [routerLinkActiveOptions]="{exact: true}">
           <span class="icon"><i class="bi bi-layers"></i></span> <span class="nav-text">Tồn kho</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/inventory/wastage" routerLinkActive="active" title="Xuất hủy hàng">
+          <span class="icon"><i class="bi bi-trash3"></i></span> <span class="nav-text">Xuất hủy hàng</span>
         </a>
       </li>
       <li>

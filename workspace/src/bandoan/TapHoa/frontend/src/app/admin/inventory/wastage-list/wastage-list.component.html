@@ -1,0 +1,57 @@
+<div class="card glass-panel border-0 shadow-sm">
+  <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
+    <h5 class="mb-0 fw-bold"><i class="bi bi-trash3 text-danger me-2"></i> Phiếu xuất hủy hàng hóa</h5>
+    <button class="btn btn-danger btn-sm rounded-pill px-3" routerLink="/admin/inventory/wastage/create">
+      <i class="bi bi-plus-lg me-1"></i> Tạo phiếu xuất hủy
+    </button>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-muted">
+          <tr>
+            <th class="ps-4 fw-semibold border-0">Mã phiếu</th>
+            <th class="fw-semibold border-0">Ngày tạo</th>
+            <th class="fw-semibold border-0">Người tạo</th>
+            <th class="fw-semibold border-0">Trạng thái</th>
+            <th class="fw-semibold border-0">Lý do/Ghi chú</th>
+            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="isLoading">
+            <td colspan="6" class="text-center py-4">
+              <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!isLoading && transactions.length === 0">
+            <td colspan="6" class="text-center py-4 text-muted">
+              Chưa có phiếu xuất hủy nào
+            </td>
+          </tr>
+          <tr *ngFor="let item of transactions" class="border-bottom">
+            <td class="ps-4 fw-medium text-danger">#{{ item.code }}</td>
+            <td>{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ item.createdBy }}</td>
+            <td>
+              <span class="badge rounded-pill fw-normal" [ngClass]="getStatusClass(item.status)">
+                {{ getStatusText(item.status) }}
+              </span>
+            </td>
+            <td class="text-muted small text-truncate" style="max-width: 200px;" [title]="item.notes || ''">
+              {{ item.notes || '-' }}
+            </td>
+            <td class="text-end pe-4">
+              <!-- We don't have a detail page specifically for wastage yet, we can view it later -->
+              <button class="btn btn-sm btn-outline-danger rounded-circle" title="Chi tiết">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

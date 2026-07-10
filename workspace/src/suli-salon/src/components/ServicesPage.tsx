@@ -113,7 +113,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
             id: c.id,
             label: c.label,
             icon,
-            img: (catServices.length > 0 && catServices[0].image) ? catServices[0].image : "https://lh3.googleusercontent.com/aida/AP1WRLsncxcUaLl-kRMraO4Z3lDzU_fTWPnoZq2Nu1fF9l-q2D54UsfpLvZepPtcS0B2zdHpDP019vTTziYl3Lsio_K0RghBV2Kd_31VlBu9YThyB2KfTE2ZzWVM0ChalCmLEx48YQMzPoQilLwQtKH3bk9r8zqYRRm1YjdXdQ4B8Z5Duf5JifHrDxt-Yqx-AJmBZ27EcKAtb5-sZbvqtdbRr6MeDpmlG4q0XU5CqOa9eJhvtE1RQdGItfyviGtS",
+            img: (catServices.length > 0 && catServices[0].image) ? catServices[0].image : "/uploads/banner.png",
             desc: c.description || "Experience our premium treatments crafted with intention.",
             items: catServices.map((s, i) => ({
                 name: s.name,

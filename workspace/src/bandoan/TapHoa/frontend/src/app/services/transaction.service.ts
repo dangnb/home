@@ -19,6 +19,19 @@ export interface CreateInboundTransactionRequest {
     lines: TransactionLineDto[];
 }
 
+export interface CreateWastageTransactionRequest {
+    referenceId: string;
+    notes: string;
+    lines: {
+        productId: string;
+        quantity: number;
+        unitPrice: number;
+        locationCode?: string;
+        batchNumber?: string;
+        productBatchId?: string;
+    }[];
+}
+
 export interface TransactionDetailDto {
     id: string;
     code: string;
@@ -49,6 +62,10 @@ export class TransactionService {
 
     createOutboundTransaction(payload: CreateInboundTransactionRequest): Observable<any> {
         return this.http.post(`${this.backendUrl}/transactions/outbound`, payload);
+    }
+
+    createWastageTransaction(payload: CreateWastageTransactionRequest): Observable<any> {
+        return this.http.post(`${this.backendUrl}/transactions/wastage`, payload);
     }
 
     getTransactions(): Observable<any[]> {

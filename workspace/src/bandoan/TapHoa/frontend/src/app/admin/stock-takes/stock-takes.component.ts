@@ -29,9 +29,10 @@ export class StockTakesComponent implements OnInit {
     this.isLoading = true;
     this.stockTakeService.getStockTakes(this.pageIndex, this.pageSize).subscribe({
       next: (res: any) => {
-        this.stockTakes = res.items;
-        this.totalCount = res.totalCount;
-        this.totalPages = res.totalPages;
+        console.log('StockTakes API Response:', res);
+        this.stockTakes = res.items || res.Items || [];
+        this.totalCount = res.totalCount || res.TotalCount || 0;
+        this.totalPages = res.totalPages || res.TotalPages || 0;
         this.isLoading = false;
       },
       error: (err: any) => {
