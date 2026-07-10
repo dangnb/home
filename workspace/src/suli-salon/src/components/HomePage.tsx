@@ -1,41 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-
-/* ─────────────────────────────────────────────────────── */
-/* Data                                                     */
-/* ─────────────────────────────────────────────────────── */
-const SERVICES = [
-    {
-        title: "Nails",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLsncxcUaLl-kRMraO4Z3lDzU_fTWPnoZq2Nu1fF9l-q2D54UsfpLvZepPtcS0B2zdHpDP019vTTziYl3Lsio_K0RghBV2Kd_31VlBu9YThyB2KfTE2ZzWVM0ChalCmLEx48YQMzPoQilLwQtKH3bk9r8zqYRRm1YjdXdQ4B8Z5Duf5JifHrDxt-Yqx-AJmBZ27EcKAtb5-sZbvqtdbRr6MeDpmlG4q0XU5CqOa9eJhvtE1RQdGItfyviGtS",
-    },
-    {
-        title: "Facial Care",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvmBUkVHNFLX8ch_FNKHBzKDug9sqEhnNxXqV93sZFRO19ROp_KHIZJOu0aOeObsISyGxs8ds6u8tA0RdSFMfbTIuJx_dE3QmqPM7A938Ym1PnaAFzyFvoKmSn_BfngbhWM2PC1yB5e1GX2GFyzEQrRRPqYhu_d9uh_nVWI1VmGGuNjQB6-uGXWI6T2GRcPIp5751kYnxSCv-z92VVdYNtj7YmftrHK3skW7cZ-wwbVgQzBSADuCzI3f6Xc",
-    },
-    {
-        title: "Eyelashes",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvvYMW4tC0WzVAhOd3ipWXpoh7jRs9wIx0S7K1Kdh7EKc8odCkT_vB5hQjabtivklH3nVceHH9wgUcWH3iDLFt7mmiBDAhlILRlH5LhzhmBVh_JXZE9LHvzpc_KbgOdYOzsV_AOCIfRRulpr5dcfiR4sJXnzOQz0NEyf2eG08NE3SOSgVzhZ3Il7MA3b_VYPaaBMyiTx14mdmC83Wea1IERfo5fjHZX7SMCQTMUSM3xPhn4WsK0Xs-Nczx-",
-    },
-    {
-        title: "Eyebrows",
-        img: "https://lh3.googleusercontent.com/aida/AP1WRLvA13tpO-MB-gIyzZ16CZpoWDDGRxtKCB_vF8CocOZAwA23iscVRX_ARLcroGFuJkq3LdD54fln74NTYIYQQdUrE9RHvVkCwUN70DfJDA8WIgcwkfS3v2AnTEAswCgPzsdn7Qf1kpACwunL2IGizrk3o4zH5o5ZlBG0Ih6DGy8dWJA2EulR902hDyUutORt9vc9zX2BHDHr6_uACENL1JJBN6mWsF5aTT6C-JqXwwOC4rkVMho0MuOgJziy",
-    },
-];
-
-const GALLERY = [
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLvwaaw5PhO3q7G6GDm-putw-oyJ4EEbn-t5NS6uv8fh4RykIks2MCnU6YVn0LP4znv4-1Ff_mj37ahIxRupUrV04EuQUtSZn_U4YbPT5qj1t1ikz5Ym5ejg73mUtrzDpS5bUgofGaD0SOzi5B5rz2cHRhovsjuYLZq7I22Z-NF8nRexRXGv3eMfRKNjLeyFKijT84zHeHJ7og-qWZ3UUGl2GXgRVDYIlD6mN9JcpxPbjnclYXc1e017E8J4", span: "row-span-2" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLu-Kuik5OETZq4lu0EghInZt2VbvsE7SO6grA9jbUt1vVFlZeSq4Z5D4_VYEcri2MeQwieyKuuOwKNGh1RrADEHzO6oTSXneGIjC9WTdt9MTZjbVw9Dfeut0jM297W_8oQMiau9D29VtGcn5HYhS1KE0PscY0Pk_-SKLzjKunbjwdt3aaSdc5o3KScyjYLyG8ZUoHEKJi5gx0tQOcdnTdq_os56DBIfjfyW0IDsV85UHbTPQo0e4mF0CqE", span: "" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLu1fGVg4xRMJDSvETLQP7xkqNrrWb1SvWN05-GieM3-R4fn_j1oClLTAzxsH81AiQvqB4_lLqajZIcRoqXKqZpdfUakgj5EGdbv5GyFllvotmZN0P8SsLWvJM2xZtv629BoNbVytQOLYnK-HvrNkCJ0Owbf-Qivxi_7a4TqndmgAb-fnMaZgh_ljcR4lCUbwC2vLs5mfUma1CTC_CevlyAmxVc-cPlO47W3yk8Xb7KdaGR2j6f2r7Cf3o1j", span: "col-span-2 row-span-2" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLtUavqc-jC-LLOjs3UygBxeP-uiX_OP6eEktrhOIMrnI5fnRjKV-NKc1sYXs2EtODATu_FyGsWvlq0MY0G9K3yVr4fJRETdBSF2LyVpgiK_8NdSptrcOs1cYowxmm4VDdV0yDSnyyeX6moFvbADLkJUyiRXv6XACPsS5ozj5PMzymB7pgQ8GVKsY68bLDX5casKWzD9BWwQSreIOG2AGNTibfLGciawZip-vmgywLjUYvc6poyU-aXJFlwx", span: "" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLu9PIeHtdybqYje9-XuLPD2zCvagr4IMCs5LVuc_y8Ez35thKlG4M1UMPpUvtSWSDhC1vvsEZBaGISU__Vgs-OKWSWnnVP_turwO6Fbmxc_JUCrXyPNRdWh9aCsfGiTxNSLvbIj0_FcR9UbgtJbkOfniSJa7KasjvsMH_wmbTqQ_-9rXiH3DVnCJUcZcitlGCx47YcDFLzCf7_YgY1OLcqMk0OJPUFXY1qPcEvv0xiRieLCU-8HRvTiPTmH", span: "" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLtmsK1ri2awsUDlsxNOePqAkTLwLwLUOJAlo3smMVsHzkNn_5j4jIfsrJoFTdvd53adUrcSLBcw1CtDlPJipxZ18E0-czkDx2Mfrz-r2KIXc_T_EpJ9ObPucPKXuQHr_09d7qTlT-qfOmUnIE8fGTjuDbNBp46pGH8k6TLZjeqAnhxs7azbLUcox11UAXfPICWLDLZRTuGw4_-XyFTVmm1xdlE33c-LY5VYtB7Pb6Q7irgFpeGkg7ymNEXZ", span: "row-span-2" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLvS9s73jrEia1Mx5bMDd9Ngr5MqBn3vZWoXj2Fet6y1YBrpN-GZpso9L0uG88DoR7_hWdd9xyTG5IGsdGPblAhsm7cRa5jTRcXFB2rNd7wTfBNwNVlfmtN0P6IpKtcUHkUnFb25oWkeD3idRM8WG8e23FP5pkB56z1bcuDYBTtYuOCzSP0vP0t4cjal3BDMgJIA1Y4JuivYyPnqzd1WDr4qJvLh48RxWHImA5tcnT6YK1_sdFK4dFdtaGL1", span: "" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLsKkqquwhXD3_Huf74jW-lN7rjhJER_RMq-Gt_BgWSGI_xbuj6fM8wIyI3StJYILWB93JSK7Rr7uVSj21u8In0lMhW5s3MPMlg7JMYhd975p9K-dIrl2fEdGKgziPYOFxQbr_pfrCvMi-l6HpYXcrxrFfkrOcUoGEoZnqk43F38zuyQOuaJ4enUE9lUIBmFqdqNZS9Z8EEhGz9LG2pE8ILMWHYYAPTIlXxPUS4nOv-obBtL_cSMmvHWbD8", span: "" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLtsBMKK-M55051aPGScceZ_Tkdf4nOCFP_l0zmXL9QGDmv-yByxA2XGaCEBXmrTkSLe2Ya7hX2Jvdv_nTMm6IReiM2QNbAlZOMiIMhtajusRja4hgkIuNV0sM9gac36FvFa03ms4qElfoH8RFMSWx1iSWtKV8fWFLQrPq6M0wMh-0gwpb_gwIi_lqEEwWsnTeNBDYV8CTiWVlUnu7lfYUCYTom2PezUnrIafPILsZJO_YpPzV-8ppVJTgY", span: "col-span-2" },
-    { url: "https://lh3.googleusercontent.com/aida/AP1WRLsXltZC6xTmj2q194Gevvzemzr1LPbEYo3XxaKnUuu8qIR3MzLn0xzDkfxPkShpPO7p5O010PTyNOMqnCgRfMxiQp83DC-3AWevtLEnuzwdSc0gnth6vH6w9iK7gPbL6lZMLafLiBDn7apxa4y9qvMregcrjGFFT7HzfdGHngUvzNzg0hIXVUgayRCZeFbOJk74ByOuhx5hW92K6z-OvoblYC01hkalpdkEXLstvzOmHddKJ9Tr6AeCsIyY", span: "" },
-];
+import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
 
 const FEATURES = [
     "Professional and experienced team",
@@ -70,8 +36,49 @@ function useReveal() {
 /* ─────────────────────────────────────────────────────── */
 /* Slide-out Booking Widget                                 */
 /* ─────────────────────────────────────────────────────── */
-function SlideOutBooking() {
+function SlideOutBooking({ services, settings }: { services: ServiceData[], settings: SiteSettings }) {
     const [open, setOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        phone: "",
+        date: "",
+        time: "",
+        serviceName: "",
+        notes: "",
+    });
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [errorMsg, setErrorMsg] = useState("");
+
+    async function handleSubmit() {
+        if (!formData.name || !formData.phone || !formData.date || !formData.time || !formData.serviceName) {
+            setErrorMsg("Please fill in all required fields.");
+            return;
+        }
+        setStatus("loading");
+        setErrorMsg("");
+        try {
+            const res = await fetch("/api/bookings", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    customerName: formData.name,
+                    phone: formData.phone,
+                    date: formData.date,
+                    time: formData.time,
+                    serviceName: formData.serviceName,
+                    note: formData.notes,
+                }),
+            });
+            if (!res.ok) throw new Error("Failed to book");
+            setStatus("success");
+            setFormData({ name: "", phone: "", date: "", time: "", serviceName: "", notes: "" });
+            setTimeout(() => { setOpen(false); setStatus("idle"); }, 3000);
+        } catch {
+            setStatus("error");
+            setErrorMsg("Something went wrong. Please try again.");
+        }
+    }
+
     return (
         <>
             {/* Tab trigger */}
@@ -127,7 +134,7 @@ function SlideOutBooking() {
                 <div style={{ padding: "32px 28px 24px", borderBottom: "1px solid #E8E0D0" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>Suli Salon</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{settings.siteName || "Suli Salon"}</div>
                             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2, fontStyle: "italic" }}>Book Appointment</h2>
                         </div>
                         <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: "#888", lineHeight: 1 }}>✕</button>
@@ -135,107 +142,79 @@ function SlideOutBooking() {
                 </div>
 
                 <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
-                    {(["Full Name", "Phone Number", "Preferred Date", "Preferred Service"] as const).map((label, i) => (
-                        <div key={i} style={{ marginBottom: 18 }}>
-                            <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>{label}</label>
-                            {label === "Preferred Service" ? (
-                                <select style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
-                                    <option value="">Select a service...</option>
-                                    <option>Nails</option>
-                                    <option>Facial Care</option>
-                                    <option>Eyelashes</option>
-                                    <option>Eyebrows</option>
-                                </select>
-                            ) : (
-                                <input
-                                    type={label === "Preferred Date" ? "date" : "text"}
-                                    style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }}
-                                    placeholder={label === "Full Name" ? "Your name..." : label === "Phone Number" ? "+420 xxx xxx xxx" : ""}
-                                />
-                            )}
+                    {status === "success" ? (
+                        <div style={{ textAlign: "center", padding: "40px 0", color: "#166534" }}>
+                            <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
+                            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, margin: "0 0 8px" }}>Booking Sent!</h3>
+                            <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14 }}>We will contact you shortly to confirm your appointment.</p>
                         </div>
-                    ))}
-                    <div style={{ marginBottom: 18 }}>
-                        <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Message (optional)</label>
-                        <textarea rows={3} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", resize: "none", boxSizing: "border-box" }} placeholder="Any additional notes..." />
-                    </div>
+                    ) : (
+                        <>
+                            {errorMsg && <div style={{ background: "#fef2f2", color: "#991b1b", padding: "10px 14px", borderRadius: 6, fontSize: 13, marginBottom: 16, fontFamily: "Montserrat,sans-serif" }}>{errorMsg}</div>}
+                            <div style={{ marginBottom: 18 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Full Name *</label>
+                                <input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} placeholder="Your name..." />
+                            </div>
+                            <div style={{ marginBottom: 18 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Phone Number *</label>
+                                <input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} placeholder="+420 xxx xxx xxx" />
+                            </div>
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 }}>
+                                <div>
+                                    <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Date *</label>
+                                    <input value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} type="date" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} />
+                                </div>
+                                <div>
+                                    <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Time *</label>
+                                    <select value={formData.time} onChange={e => setFormData({ ...formData, time: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
+                                        <option value="">Select...</option>
+                                        {(settings.departureSlots || []).map((slot, i) => (
+                                            <option key={i} value={slot}>{slot}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div style={{ marginBottom: 18 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Preferred Service *</label>
+                                <select value={formData.serviceName} onChange={e => setFormData({ ...formData, serviceName: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
+                                    <option value="">Select a service...</option>
+                                    {services.map(s => (
+                                        <option key={s.id} value={s.title}>{s.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div style={{ marginBottom: 18 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>Message (optional)</label>
+                                <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} rows={3} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", resize: "none", boxSizing: "border-box" }} placeholder="Any additional notes..." />
+                            </div>
+                        </>
+                    )}
                 </div>
 
-                <div style={{ padding: "20px 28px", borderTop: "1px solid #E8E0D0" }}>
-                    <button
-                        style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", borderRadius: 6, cursor: "pointer", transition: "opacity .2s" }}
-                        onMouseOver={(e) => (e.currentTarget.style.opacity = "0.88")}
-                        onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
-                    >
-                        Send Request
-                    </button>
-                </div>
+                {status !== "success" && (
+                    <div style={{ padding: "20px 28px", borderTop: "1px solid #E8E0D0" }}>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={status === "loading"}
+                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", borderRadius: 6, cursor: status === "loading" ? "not-allowed" : "pointer", transition: "opacity .2s", opacity: status === "loading" ? 0.7 : 1 }}
+                            onMouseOver={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "0.88" }}
+                            onMouseOut={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "1" }}
+                        >
+                            {status === "loading" ? "Sending..." : "Send Request"}
+                        </button>
+                    </div>
+                )}
             </div>
         </>
     );
 }
 
-/* ─────────────────────────────────────────────────────── */
-/* Navbar                                                   */
-/* ─────────────────────────────────────────────────────── */
-function Navbar() {
-    const [scrolled, setScrolled] = useState(false);
-    useEffect(() => {
-        const fn = () => setScrolled(window.scrollY > 40);
-        window.addEventListener("scroll", fn);
-        return () => window.removeEventListener("scroll", fn);
-    }, []);
 
-    return (
-        <header
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                zIndex: 50,
-                transition: "all .5s ease",
-                background: scrolled ? "rgba(253,251,247,.95)" : "rgba(253,251,247,.65)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                borderBottom: scrolled ? "1px solid rgba(194,169,121,.25)" : "1px solid rgba(194,169,121,.12)",
-                boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,.06)" : "none",
-                padding: scrolled ? "10px 0" : "18px 0",
-            }}
-        >
-            <nav style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <a href="/" style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontStyle: "italic", fontWeight: 700, color: "#C2A979", textDecoration: "none", letterSpacing: "-0.01em", transition: "transform .3s" }}>
-                    Suli Salon
-                </a>
-
-                <ul style={{ display: "flex", gap: 40, listStyle: "none", margin: 0, padding: 0 }}>
-                    {["Services", "About", "Gallery", "Locations"].map((item) => (
-                        <li key={item}>
-                            <a href={`/${item.toLowerCase()}`} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2E2E2E", textDecoration: "none", transition: "color .3s", paddingBottom: 2, borderBottom: "1.5px solid transparent" }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.borderBottomColor = "#C2A979"; }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.color = "#2E2E2E"; (e.currentTarget as HTMLElement).style.borderBottomColor = "transparent"; }}
-                            >{item}</a>
-                        </li>
-                    ))}
-                </ul>
-
-                <a href="/booking">
-                    <button style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "14px 28px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", borderRadius: "20px 4px 20px 4px", cursor: "pointer", transition: "all .3s", boxShadow: "0 4px 16px rgba(194,169,121,.35)" }}
-                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(194,169,121,.45)"; }}
-                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(194,169,121,.35)"; }}
-                    >
-                        Book Appointment
-                    </button>
-                </a>
-            </nav>
-        </header>
-    );
-}
 
 /* ─────────────────────────────────────────────────────── */
 /* Hero Section                                             */
 /* ─────────────────────────────────────────────────────── */
-function Hero() {
+function Hero({ settings }: { settings: SiteSettings }) {
     const titleRef = useRef<HTMLHeadingElement>(null);
     const descRef = useRef<HTMLParagraphElement>(null);
 
@@ -250,6 +229,9 @@ function Hero() {
         return () => window.removeEventListener("mousemove", fn);
     }, []);
 
+    const bannerTitles = (settings.bannerTitle || "Precision\nNail Care").split("\\n");
+    const bgImage = settings.bannerImage || "https://lh3.googleusercontent.com/aida/AP1WRLsm6Y9PCPUQl-URvdmq5ipK4EWJgMerQplUGJpnUqfwUmdKZRgeTY-PusEHITIrVYSm44lOFG5kEuwNblC5Hb-qn672agc4hpRPvoI6iweYZfZc_Z4kuwqXIYJtvS5DDRoa8QxYsHjPxzYMVv7cQSrDW0wO-hKW53g2Cezuw8TWWKJgQHZQKS8gQX0n8SC9uIPHBWzqiZVp0GzXIsr729zAX3ptZz36EFl8FkN4JaP0JZ3vbp2RnyqEGhAm";
+
     return (
         <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", overflow: "visible", background: "#FDFBF7", paddingTop: 120, paddingBottom: 60 }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", width: "100%" }}>
@@ -257,27 +239,29 @@ function Hero() {
                 {/* Left */}
                 <div className="reveal is-visible" style={{ zIndex: 2 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        PREMIUM EXPERIENCE
+                        {settings.bannerBadge || "PREMIUM EXPERIENCE"}
                     </div>
                     <h1
                         ref={titleRef}
                         style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(42px,5.5vw,72px)", fontWeight: 700, lineHeight: 1.1, color: "#2E2E2E", margin: "0 0 24px", transition: "transform .12s ease-out", letterSpacing: "-0.02em" }}
                     >
-                        Precision<br />Nail Care
+                        {bannerTitles.map((t, i) => (
+                            <span key={i}>{t}{i < bannerTitles.length - 1 ? <br /> : null}</span>
+                        ))}
                     </h1>
                     <p
                         ref={descRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.7, color: "#6B6B6B", maxWidth: 440, marginBottom: 40, transition: "transform .12s ease-out" }}
                     >
-                        High-quality products, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague.
+                        {settings.bannerSubtitle || "High-quality products, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague."}
                     </p>
-                    <a href="/services">
+                    <a href={settings.bannerCta1Link || "/services"}>
                         <button
                             style={{ background: "#1A1A1A", color: "#fff", padding: "18px 44px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .35s cubic-bezier(.16,1,.3,1)", boxShadow: "0 6px 24px rgba(0,0,0,.18)" }}
                             onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(194,169,121,.4)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#1A1A1A"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(0,0,0,.18)"; }}
                         >
-                            Our Services →
+                            {settings.bannerCta1Text || "Our Services →"}
                         </button>
                     </a>
                 </div>
@@ -288,7 +272,7 @@ function Hero() {
                     <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.18)", aspectRatio: "3/4", borderRadius: "80px 12px 80px 12px" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="https://lh3.googleusercontent.com/aida/AP1WRLsm6Y9PCPUQl-URvdmq5ipK4EWJgMerQplUGJpnUqfwUmdKZRgeTY-PusEHITIrVYSm44lOFG5kEuwNblC5Hb-qn672agc4hpRPvoI6iweYZfZc_Z4kuwqXIYJtvS5DDRoa8QxYsHjPxzYMVv7cQSrDW0wO-hKW53g2Cezuw8TWWKJgQHZQKS8gQX0n8SC9uIPHBWzqiZVp0GzXIsr729zAX3ptZz36EFl8FkN4JaP0JZ3vbp2RnyqEGhAm"
+                            src={bgImage}
                             alt="Nail artistry showcase"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
                             onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
@@ -305,7 +289,7 @@ function Hero() {
                         <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src="https://lh3.googleusercontent.com/aida/AP1WRLu1fGVg4xRMJDSvETLQP7xkqNrrWb1SvWN05-GieM3-R4fn_j1oClLTAzxsH81AiQvqB4_lLqajZIcRoqXKqZpdfUakgj5EGdbv5GyFllvotmZN0P8SsLWvJM2xZtv629BoNbVytQOLYnK-HvrNkCJ0Owbf-Qivxi_7a4TqndmgAb-fnMaZgh_ljcR4lCUbwC2vLs5mfUma1CTC_CevlyAmxVc-cPlO47W3yk8Xb7KdaGR2j6f2r7Cf3o1j"
+                                src={settings.aboutImage1 || "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=800&auto=format&fit=crop"}
                                 alt="Precision nail care detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
                                 onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
@@ -333,8 +317,8 @@ function Hero() {
                             onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(-4px)")}
                             onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(0)")}
                         >
-                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 700, lineHeight: 1 }}>10+</div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.4 }}>Years of<br />Experience</div>
+                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{settings.bannerStats?.[0]?.value || "10+"}</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.4 }}>{(settings.bannerStats?.[0]?.label || "Years of\\nExperience").split("\\n").map((t, i) => <span key={i}>{t}<br/></span>)}</div>
                         </div>
                     </div>
                 </div>
@@ -346,7 +330,7 @@ function Hero() {
 /* ─────────────────────────────────────────────────────── */
 /* About Section                                            */
 /* ─────────────────────────────────────────────────────── */
-function About() {
+function About({ settings }: { settings: SiteSettings }) {
     return (
         <section style={{ background: "#F4F1EA", padding: "160px 0", overflow: "hidden" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "5fr 7fr", gap: 80, alignItems: "center" }}>
@@ -356,7 +340,7 @@ function About() {
                     <div style={{ position: "relative", width: "80%", aspectRatio: "3/4", boxShadow: "0 20px 60px rgba(0,0,0,.1)" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="https://lh3.googleusercontent.com/aida/AP1WRLvgJMyMloSkchi8E8sDJhJRMqpp6KFiFDHJh0Mk11QQ43Xb9ulueKIiYxLgizuBLFO3hkUC4jT8AY89mIjhPTOkzuHJw4veRVwNWuvvCDDnjCD1bO3kPO0G_X5usyUjcXbzsW5IhIe3KOGRRhGFKrsQCj3AlVn4aYeoEG2xUUysXAc7iNJNJEBzATVgfo4_v1cyrDlB5onUihR7971P5uvlEjdXCwJo6Ww8vsF9cEXu2DuvxEutrt_hTlA"
+                            src={settings.aboutImage2 || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop"}
                             alt="Salon"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease" }}
                             onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}
@@ -367,8 +351,8 @@ function About() {
                             onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.06)")}
                             onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
                         >
-                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 32, fontWeight: 700, lineHeight: 1 }}>10+</div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 4 }}>YEARS OF<br />EXPERIENCE</div>
+                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 32, fontWeight: 700, lineHeight: 1 }}>{settings.bannerStats?.[0]?.value || "10+"}</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 4 }}>{(settings.bannerStats?.[0]?.label || "YEARS OF\\nEXPERIENCE").toUpperCase().split("\\n").map((t, i) => <span key={i}>{t}<br/></span>)}</div>
                         </div>
                         {/* Small circle img */}
                         <div style={{ position: "absolute", bottom: -40, right: -40, width: 160, height: 160, borderRadius: "50%", border: "6px solid #fff", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,.12)", transition: "transform .5s" }}
@@ -377,7 +361,7 @@ function About() {
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src="https://lh3.googleusercontent.com/aida/AP1WRLu1fGVg4xRMJDSvETLQP7xkqNrrWb1SvWN05-GieM3-R4fn_j1oClLTAzxsH81AiQvqB4_lLqajZIcRoqXKqZpdfUakgj5EGdbv5GyFllvotmZN0P8SsLWvJM2xZtv629BoNbVytQOLYnK-HvrNkCJ0Owbf-Qivxi_7a4TqndmgAb-fnMaZgh_ljcR4lCUbwC2vLs5mfUma1CTC_CevlyAmxVc-cPlO47W3yk8Xb7KdaGR2j6f2r7Cf3o1j"
+                                src={settings.aboutImage1 || "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=800&auto=format&fit=crop"}
                                 alt="Detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             />
@@ -388,7 +372,7 @@ function About() {
                 {/* Text side */}
                 <div className="reveal" data-delay="150">
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 16 }}>
-                        About Suli Salon
+                        About {settings.siteName || "Suli Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,3.5vw,48px)", fontWeight: 700, color: "#2E2E2E", lineHeight: 1.2, fontStyle: "italic", margin: "0 0 24px" }}>
                         Style That Speaks for You
@@ -429,13 +413,14 @@ function About() {
 /* ─────────────────────────────────────────────────────── */
 /* Services                                                 */
 /* ─────────────────────────────────────────────────────── */
-function Services() {
+function Services({ services, settings }: { services: ServiceData[], settings: SiteSettings }) {
+    const displayServices = services.slice(0, 4); // Only display top 4 on homepage
     return (
         <section style={{ background: "#FDFBF7", padding: "160px 0" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ marginBottom: 56 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 12 }}>
-                        Salon Suli
+                        {settings.siteName || "Suli Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,3.5vw,44px)", fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2 }}>
                         Professional Manicure &amp; Pedicure in Prague
@@ -444,24 +429,25 @@ function Services() {
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
-                    {SERVICES.map((s, i) => (
+                    {displayServices.map((s, i) => (
                         <div
-                            key={i}
+                            key={s.id}
                             className="reveal"
                             data-delay={String((i + 1) * 100)}
                             style={{ position: "relative", height: 500, overflow: "hidden", cursor: "pointer" }}
                         // Hover handled via CSS group
                         >
-                            <ServiceCard {...s} />
+                            <ServiceCard title={s.name} img={s.image || ""} slug={s.slug} />
                         </div>
                     ))}
+                    {displayServices.length === 0 && <p>No services yet.</p>}
                 </div>
             </div>
         </section>
     );
 }
 
-function ServiceCard({ title, img }: { title: string; img: string }) {
+function ServiceCard({ title, img, slug }: { title: string; img: string; slug: string }) {
     const imgRef = useRef<HTMLImageElement>(null);
     const linkRef = useRef<HTMLAnchorElement>(null);
 
@@ -480,7 +466,7 @@ function ServiceCard({ title, img }: { title: string; img: string }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 ref={imgRef}
-                src={img}
+                src={img || "https://placehold.co/400x600/f4f1ea/c2a979?text=Nail+Service"}
                 alt={title}
                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease" }}
             />
@@ -489,7 +475,7 @@ function ServiceCard({ title, img }: { title: string; img: string }) {
                 <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 600, color: "#fff", margin: "0 0 8px" }}>{title}</h3>
                 <a
                     ref={linkRef}
-                    href="/services"
+                    href={`/services/${slug}`}
                     style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", opacity: 0, transition: "opacity .4s", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}
                 >
                     VIEW DETAILS →
@@ -502,13 +488,18 @@ function ServiceCard({ title, img }: { title: string; img: string }) {
 /* ─────────────────────────────────────────────────────── */
 /* Gallery – Bento Grid                                     */
 /* ─────────────────────────────────────────────────────── */
-function Gallery() {
+function Gallery({ gallery, settings }: { gallery: GalleryItemData[], settings: SiteSettings }) {
+    // We only display max 10 images on the home page bento grid
+    const items = gallery.slice(0, 10);
+    // Dynamic spans based on position to keep the bento grid interesting
+    const spans = ["row-span-2", "", "col-span-2 row-span-2", "", "", "row-span-2", "", "", "col-span-2", ""];
+
     return (
         <section style={{ background: "#F9F9F9", padding: "160px 0" }}>
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ textAlign: "center", marginBottom: 64 }}>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(36px,4vw,54px)", fontWeight: 700, color: "#C2A979", fontStyle: "italic", margin: "0 0 8px" }}>
-                        Suli Salon
+                        {settings.siteName || "Suli Salon"}
                     </h2>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#999" }}>
                         Luxury Nail Gallery in Prague
@@ -516,9 +507,10 @@ function Gallery() {
                 </div>
 
                 <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gridAutoRows: 280, gap: 12 }}>
-                    {GALLERY.map((g, i) => (
-                        <GalleryItem key={i} url={g.url} span={g.span} />
+                    {items.map((g, i) => (
+                        <GalleryItem key={g.id} url={g.image} span={spans[i] || ""} />
                     ))}
+                    {items.length === 0 && <p style={{ gridColumn: "span 4", textAlign: "center" }}>No gallery images yet.</p>}
                 </div>
             </div>
         </section>
@@ -551,78 +543,12 @@ function GalleryItem({ url, span }: { url: string; span: string }) {
     );
 }
 
-/* ─────────────────────────────────────────────────────── */
-/* Footer                                                   */
-/* ─────────────────────────────────────────────────────── */
-function Footer() {
-    return (
-        <footer style={{ background: "#1A1A1A", color: "#ccc", paddingTop: 80, paddingBottom: 0 }}>
-            <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px 48px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 40 }}>
-                {/* Brand */}
-                <div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 16 }}>Suli Salon</div>
-                    <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, color: "#888", maxWidth: 240 }}>
-                        Elevating beauty through precision and artistry. Your destination for premium nail care in Prague.
-                    </p>
-                    <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
-                        {["f", "ig"].map((s) => (
-                            <a key={s} href="#" style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", color: "#888", transition: "all .3s", textDecoration: "none", fontSize: 14 }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#C2A979"; (e.currentTarget as HTMLElement).style.color = "#C2A979"; }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#333"; (e.currentTarget as HTMLElement).style.color = "#888"; }}
-                            >{s}</a>
-                        ))}
-                    </div>
-                </div>
-                {/* Quick Links */}
-                <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Quick Links</h4>
-                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                        {["Services", "Gallery", "About Us", "Contact Us"].map((l) => (
-                            <li key={l}>
-                                <a href="#" style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", textDecoration: "none", transition: "color .25s" }}
-                                    onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = "#C2A979")}
-                                    onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = "#888")}
-                                >{l}</a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                {/* Branch */}
-                <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Our Branches</h4>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", lineHeight: 1.7 }}>
-                        <div style={{ fontWeight: 600, color: "#ccc", marginBottom: 6 }}>Suli Salon – Praha 12</div>
-                        <div>📍 Cs. exilu 2154, 143 00 Praha 12</div>
-                    </div>
-                </div>
-                {/* Hours */}
-                <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Opening Hours</h4>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", lineHeight: 2 }}>
-                        <div>🕐 Mon – Fri: 10:00 – 18:00</div>
-                        <div>🕐 Sat – Sun: 09:00 – 19:00</div>
-                    </div>
-                </div>
-            </div>
-            <div style={{ borderTop: "1px solid #2a2a2a", padding: "20px 64px", maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", margin: 0 }}>© 2024 Suli Salon. All rights reserved.</p>
-                <div style={{ display: "flex", gap: 24 }}>
-                    {["Privacy Policy", "Terms of Service", "Careers"].map((l) => (
-                        <a key={l} href="#" style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, color: "#555", textDecoration: "none", transition: "color .25s" }}
-                            onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = "#C2A979")}
-                            onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = "#555")}
-                        >{l}</a>
-                    ))}
-                </div>
-            </div>
-        </footer>
-    );
-}
+
 
 /* ─────────────────────────────────────────────────────── */
 /* Main Page Component                                      */
 /* ─────────────────────────────────────────────────────── */
-export default function HomePage() {
+export default function HomePage({ services, gallery, settings }: { services: ServiceData[], gallery: GalleryItemData[], settings: SiteSettings }) {
     useReveal();
 
     return (
@@ -648,11 +574,13 @@ export default function HomePage() {
       `}</style>
 
             <main>
-                <Hero />
-                <About />
-                <Services />
-                <Gallery />
+                <Hero settings={settings} />
+                <About settings={settings} />
+                <Services services={services} settings={settings} />
+                <Gallery gallery={gallery} settings={settings} />
             </main>
+
+            <SlideOutBooking services={services} settings={settings} />
 
             {/* Mobile floating CTA */}
             <a href="/booking" className="mobile-cta" style={{ position: "fixed", bottom: 24, right: 24, zIndex: 40 }}>

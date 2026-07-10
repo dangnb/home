@@ -14,6 +14,8 @@ public class CreateProductCommand : IRequest<ProductDto>
     public decimal WholesalePrice { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
+    public int MinStockLevel { get; set; } = 0;
+    public int MaxStockLevel { get; set; } = 0;
     public string Unit { get; set; } = "kg";
     public string? Barcode { get; set; }
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]

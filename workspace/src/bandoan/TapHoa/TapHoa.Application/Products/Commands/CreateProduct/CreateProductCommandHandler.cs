@@ -30,7 +30,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             request.MainImageUrl,
             request.AdditionalImages,
             request.Status,
-            request.Barcode
+            request.Barcode,
+            request.MinStockLevel,
+            request.MaxStockLevel
         );
 
         foreach (var unit in request.Units)

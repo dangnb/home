@@ -86,6 +86,66 @@ export class InventoryComponent implements OnInit {
         }
     }
 
+    async reportWastage(item: any) {
+        const result = await Swal.fire({
+            title: `Báo hỏng / Hủy: ${item.productName}`,
+            text: `Nhập số lượng hàng hỏng/hết hạn cần hủy:`,
+            input: 'number',
+            inputValue: 1,
+            inputAttributes: {
+                min: '1',
+                max: item.quantityOnHand.toString(),
+                step: '1'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Ghi nhận',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: async (qty) => {
+                const quantity = parseInt(qty);
+                if (isNaN(quantity) || quantity <= 0) {
+                    Swal.showValidationMessage('Số lượng không hợp lệ');
+                    return false;
+                }
+                if (quantity > item.quantityOnHand) {
+                    Swal.showValidationMessage('Số lượng hủy không được vượt quá tồn kho hiện tại');
+                    return false;
+                }
+
+                try {
+                    const payload = {
+                        referenceId: `WASTAGE-${Date.now()}`,
+                        notes: 'Hủy hàng hỏng/hết hạn',
+                        createdBy: 'Admin',
+                        lines: [
+                            {
+                                productId: item.productId,
+                                quantity: quantity,
+                                unitPrice: 0
+                            }
+                        ]
+                    };
+                    const res: any = await this.http.post(`${environment.apiUrl}/transactions/wastage`, payload).toPromise();
+                    
+                    // Automatically approve it so stock decreases immediately
+                    if (res && res.id) {
+                        await this.http.post(`${environment.apiUrl}/transactions/${res.id}/approve`, {}).toPromise();
+                    }
+                    return res;
+                } catch (error: any) {
+                    Swal.showValidationMessage(`Lỗi: ${error.error?.message || error.message}`);
+                    return false;
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+
+        if (result.isConfirmed) {
+            this.alertService.success('Thành công', 'Đã ghi nhận phiếu hủy/hỏng hàng và cập nhật tồn kho!');
+            this.fetchStock();
+        }
+    }
+
     async adjustStock(item: any) {
         const result = await Swal.fire({
             title: `Kiểm kê: ${item.productName}`,

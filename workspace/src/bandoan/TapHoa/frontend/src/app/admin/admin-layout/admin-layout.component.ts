@@ -13,7 +13,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 export class AdminLayoutComponent {
   isSidebarCollapsed = false;
   isDarkMode = false;
-  currentFontSize = 16;
+  currentFontSize = 14;
 
   ngOnInit() {
     // Load theme from localStorage

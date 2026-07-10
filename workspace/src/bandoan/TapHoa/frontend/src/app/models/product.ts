@@ -11,6 +11,8 @@ export interface Product {
     wholesalePrice: number;
     price: number;
     stockQuantity: number;
+    minStockLevel: number;
+    maxStockLevel: number;
     unit: string;
     status: string;
     units?: ProductUnit[];

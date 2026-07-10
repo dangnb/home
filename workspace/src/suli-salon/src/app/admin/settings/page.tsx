@@ -127,13 +127,13 @@ export default function SettingsPage() {
                 label="Tên đơn vị"
                 value={form.siteName}
                 onChange={(e) => set("siteName", e.target.value)}
-                placeholder="Nail Services Sông Hàn – 2Da Tickets"
+                placeholder="Suli Salon"
               />
               <FormInput
                 label="Slogan / Tagline"
                 value={form.tagline}
                 onChange={(e) => set("tagline", e.target.value)}
-                placeholder="Quầy Vé Nail Services Sông Hàn Đà Nẵng Uy Tín"
+                placeholder="Professional Nail Salon in Prague"
               />
               <FormInput
                 label="Hotline chính"
@@ -309,7 +309,7 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề trang (SEO Title)</label>
                 <input value={form.seoTitle} onChange={e => set("seoTitle", e.target.value)}
-                  placeholder="Nail service Sông Hàn – Đặt Vé Uy Tín, Giá Tốt" />
+                  placeholder="Suli Salon – Professional Nail Services" />
                 <span style={{ fontSize: "0.75rem", color: form.seoTitle.length > 60 ? "#ef4444" : "#aaa" }}>
                   {form.seoTitle.length}/60 ký tự {form.seoTitle.length > 60 ? "⚠️ Quá dài" : "✓"}
                 </span>
@@ -391,12 +391,12 @@ export default function SettingsPage() {
           </div>
         )}
 
-        {/* ── Tab: Giờ xuất bến ── */}
+        {/* ── Tab: Giờ Hẹn ── */}
         {activeTab === "slots" && (
           <div className={styles.formCard}>
-            <h3 className={styles.cardSectionTitle}>🕐 Cấu Hình Giờ Xuất Bến</h3>
+            <h3 className={styles.cardSectionTitle}>🕐 Cấu Hình Giờ Hẹn</h3>
             <p style={{ fontSize: "0.82rem", color: "#888", marginBottom: "1.25rem", lineHeight: 1.6 }}>
-              All items các chuyến xuất bến hiển thị trong form appointment. Mỗi dòng là một lựa chọn.
+              Danh sách các khung giờ để khách chọn khi đặt lịch. Mỗi dòng là một lựa chọn.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -415,7 +415,7 @@ export default function SettingsPage() {
                       arr[i] = e.target.value;
                       set("departureSlots", arr);
                     }}
-                    placeholder="17:00 – Chuyến chiều"
+                    placeholder="10:00 - Sáng"
                     style={{
                       flex: 1, padding: "0.65rem 0.85rem",
                       border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px",

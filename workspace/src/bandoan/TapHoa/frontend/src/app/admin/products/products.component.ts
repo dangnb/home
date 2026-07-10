@@ -45,23 +45,6 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  // Pagination State
-  currentPage = 1;
-  pageSize = 5;
-  totalCount = 0;
-
-  activeDropdownRowId: string | null = null;
-
-  toggleDropdown(id: string, event: Event) {
-    event.stopPropagation();
-    this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;
-  }
-
-  @HostListener('document:click')
-  closeDropdown() {
-    this.activeDropdownRowId = null;
-  }
-
   // Modal State
   showModal = false;
   isEditMode = false;
@@ -310,6 +293,8 @@ export class ProductsComponent implements OnInit {
       wholesalePrice: 0,
       price: 0,
       stockQuantity: 0,
+      minStockLevel: 0,
+      maxStockLevel: 0,
       unit: 'kg',
       status: 'Active',
       supplierId: undefined,

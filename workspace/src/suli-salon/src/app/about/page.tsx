@@ -1,11 +1,13 @@
 import AboutPage from "@/components/AboutPage";
+import { getSettings, getTeamMembers } from "@/lib/db";
 
 export const metadata = {
-    title: "About Us | Suli Salon – Luxury Nail Gallery in Prague",
-    description:
-        "Learn about Suli Salon's story, our team, and our passion for precision nail care in the heart of Prague.",
+    title: "About Us | Suli Salon",
+    description: "Learn about Suli Salon's story.",
 };
 
-export default function About() {
-    return <AboutPage />;
+export default async function About() {
+    const settings = await getSettings();
+    const team = await getTeamMembers();
+    return <AboutPage settings={settings} team={team} />;
 }

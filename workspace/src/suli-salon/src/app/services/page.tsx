@@ -1,10 +1,13 @@
 import ServicesPage from "@/components/ServicesPage";
+import { getServices, getCategories } from "@/lib/db";
 
 export const metadata = {
-  title: "Services | Suli Salon – Luxury Nail Gallery in Prague",
-  description: "Explore our full menu of professional nail, facial, eyelash, and eyebrow services with transparent pricing.",
+  title: "Services | Suli Salon",
+  description: "Explore our full menu of professional services.",
 };
 
-export default function Services() {
-  return <ServicesPage />;
+export default async function Services() {
+  const services = await getServices();
+  const categories = await getCategories();
+  return <ServicesPage services={services} categories={categories} />;
 }

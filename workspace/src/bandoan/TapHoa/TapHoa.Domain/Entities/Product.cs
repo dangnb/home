@@ -17,6 +17,8 @@ public class Product : BaseAuditableEntity<Guid>
     public decimal WholesalePrice { get; private set; }
     public decimal Price { get; private set; }
     public int StockQuantity { get; private set; }
+    public int MinStockLevel { get; private set; }
+    public int MaxStockLevel { get; private set; }
     public string Unit { get; private set; }
     public string? Barcode { get; private set; }
     public ProductStatus Status { get; private set; }
@@ -27,7 +29,7 @@ public class Product : BaseAuditableEntity<Guid>
     // Private parameterless constructor for EF Core
     private Product() { }
 
-    private Product(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
+    private Product(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
     {
         Name = name;
         CategoryId = categoryId;
@@ -36,6 +38,8 @@ public class Product : BaseAuditableEntity<Guid>
         WholesalePrice = wholesalePrice;
         Price = price;
         StockQuantity = stockQuantity;
+        MinStockLevel = minStockLevel;
+        MaxStockLevel = maxStockLevel;
         Unit = unit;
         Barcode = barcode;
         MainImageUrl = mainImageUrl;
@@ -43,7 +47,7 @@ public class Product : BaseAuditableEntity<Guid>
         Status = status;
     }
 
-    public static Product Create(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
+    public static Product Create(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -54,10 +58,13 @@ public class Product : BaseAuditableEntity<Guid>
         if (stockQuantity < 0)
             throw new DomainException("Số lượng tồn kho không thể là số âm.");
 
-        return new Product(name, categoryId, supplierId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode);
+        if (minStockLevel < 0 || maxStockLevel < 0 || (maxStockLevel > 0 && minStockLevel > maxStockLevel))
+            throw new DomainException("Ngưỡng tồn kho không hợp lệ.");
+
+        return new Product(name, categoryId, supplierId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode, minStockLevel, maxStockLevel);
     }
 
-    public void Update(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null)
+    public void Update(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -67,6 +74,9 @@ public class Product : BaseAuditableEntity<Guid>
 
         if (stockQuantity < 0)
             throw new DomainException("Số lượng tồn kho không thể là số âm.");
+
+        if (minStockLevel < 0 || maxStockLevel < 0 || (maxStockLevel > 0 && minStockLevel > maxStockLevel))
+            throw new DomainException("Ngưỡng tồn kho không hợp lệ.");
 
         Name = name;
         CategoryId = categoryId;
@@ -75,6 +85,8 @@ public class Product : BaseAuditableEntity<Guid>
         WholesalePrice = wholesalePrice;
         Price = price;
         StockQuantity = stockQuantity;
+        MinStockLevel = minStockLevel;
+        MaxStockLevel = maxStockLevel;
         Unit = unit;
         Barcode = barcode;
         MainImageUrl = mainImageUrl;

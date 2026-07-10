@@ -4,6 +4,7 @@ using TapHoa.Application.Products.Commands.UpdateProduct;
 using TapHoa.Application.Products.Commands.DeleteProduct;
 using TapHoa.Application.Products.Queries.GetProducts;
 using TapHoa.Application.Products.Queries.GetPagedProducts;
+using TapHoa.Application.Products.Queries.GetLowStockProducts;
 using TapHoa.Application.Products.Queries.GetProductById;
 using Microsoft.AspNetCore.Mvc;
 using TapHoa.API.Authorization;
@@ -39,6 +40,15 @@ public static class ProductsEndpoints
         })
         .WithName("GetPagedProducts")
         .WithDescription("Gets paged products with search and category filters")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+
+        group.MapGet("/low-stock", async ([FromServices] ISender sender) =>
+        {
+            var products = await sender.Send(new GetLowStockProductsQuery());
+            return Results.Ok(products);
+        })
+        .WithName("GetProductsLowStock")
+        .WithDescription("Gets a list of products that have stock quantity less than or equal to their min stock level.")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
 
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
