@@ -695,3 +695,35 @@
         background-color: #eff6ff;
     }
 }
+
+// Icon buttons used in table actions
+.btn-icon-sm {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg,
+    i {
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg,
+    i {
+        flex-shrink: 0;
+    }
+}

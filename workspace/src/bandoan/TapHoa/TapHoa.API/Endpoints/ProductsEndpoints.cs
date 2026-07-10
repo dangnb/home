@@ -6,6 +6,8 @@ using TapHoa.Application.Products.Queries.GetProducts;
 using TapHoa.Application.Products.Queries.GetPagedProducts;
 using TapHoa.Application.Products.Queries.GetLowStockProducts;
 using TapHoa.Application.Products.Queries.GetProductById;
+using TapHoa.Application.Products.Queries.GetProductBatches;
+using TapHoa.Application.Products.Queries.GetExpiringBatches;
 using Microsoft.AspNetCore.Mvc;
 using TapHoa.API.Authorization;
 using TapHoa.Domain.Enums;
@@ -58,6 +60,24 @@ public static class ProductsEndpoints
         })
         .WithName("GetProductById")
         .WithDescription("Gets a specific product by ID")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+
+        group.MapGet("/{id:guid}/batches", async (Guid id, [FromServices] ISender sender) =>
+        {
+            var batches = await sender.Send(new GetProductBatchesQuery(id));
+            return Results.Ok(batches);
+        })
+        .WithName("GetProductBatches")
+        .WithDescription("Gets all active batches for a specific product")
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+
+        group.MapGet("/expiring-batches", async ([FromQuery] int? days, [FromServices] ISender sender) =>
+        {
+            var batches = await sender.Send(new GetExpiringBatchesQuery(days ?? 30));
+            return Results.Ok(batches);
+        })
+        .WithName("GetProductExpiringBatches")
+        .WithDescription("Gets all batches expiring within a threshold")
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
 
         group.MapPost("/", async ([FromBody] CreateProductCommand command, [FromServices] ISender sender) =>

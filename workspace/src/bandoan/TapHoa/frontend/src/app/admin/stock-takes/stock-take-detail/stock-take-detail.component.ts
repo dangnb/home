@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StockTakeService, StockTakeDetailDto, StockTakeStatus, StockTakeLineDto } from '../../../core/services/stock-take.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-stock-take-detail',
@@ -23,8 +24,8 @@ export class StockTakeDetailComponent implements OnInit {
     if (!this.stockTake) return [];
     if (!this.searchQuery) return this.stockTake.lines;
     const q = this.searchQuery.toLowerCase();
-    return this.stockTake.lines.filter(l => 
-      l.productName.toLowerCase().includes(q) || 
+    return this.stockTake.lines.filter(l =>
+      l.productName.toLowerCase().includes(q) ||
       l.sku.toLowerCase().includes(q)
     );
   }
@@ -32,8 +33,9 @@ export class StockTakeDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private stockTakeService: StockTakeService
-  ) {}
+    private stockTakeService: StockTakeService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -48,10 +50,12 @@ export class StockTakeDetailComponent implements OnInit {
       next: (data: any) => {
         this.stockTake = data;
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading stock take', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -67,7 +71,7 @@ export class StockTakeDetailComponent implements OnInit {
 
   saveLine(line: StockTakeLineDto): void {
     if (!this.stockTake) return;
-    
+
     // Only save if actualQuantity is filled
     if (line.actualQuantity === null || line.actualQuantity === undefined) return;
 
@@ -83,32 +87,57 @@ export class StockTakeDetailComponent implements OnInit {
         if (this.stockTake!.status === StockTakeStatus.Draft) {
           this.stockTake!.status = StockTakeStatus.InProgress;
         }
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error saving line', err);
         this.isSaving = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   completeStockTake(): void {
     if (!this.stockTake) return;
-    
-    if (confirm('Bạn có chắc chắn muốn HOÀN TẤT phiếu kiểm kê này? Các số lượng DƯ/THIẾU sẽ được tự động ĐIỀU CHỈNH vào kho và KHÔNG THỂ HOÀN TÁC.')) {
-      this.isCompleting = true;
-      this.stockTakeService.completeStockTake(this.stockTake.id).subscribe({
-        next: () => {
-          this.isCompleting = false;
-          alert('Phiếu kiểm kê đã hoàn tất và kho đã được điều chỉnh!');
-          this.router.navigate(['/admin/stock-takes']);
-        },
-        error: (err: any) => {
-          console.error('Error completing stock take', err);
-          this.isCompleting = false;
-          alert('Có lỗi xảy ra khi hoàn tất phiếu kiểm kê.');
-        }
-      });
-    }
+
+    Swal.fire({
+      title: 'Xác nhận hoàn tất',
+      text: 'Bạn có chắc chắn muốn HOÀN TẤT phiếu kiểm kê này? Các số lượng DƯ/THIẾU sẽ được tự động ĐIỀU CHỈNH vào kho và KHÔNG THỂ HOÀN TÁC.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Đồng ý',
+      cancelButtonText: 'Hủy'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isCompleting = true;
+        this.cdr.detectChanges();
+        this.stockTakeService.completeStockTake(this.stockTake.id).subscribe({
+          next: () => {
+            this.isCompleting = false;
+            this.cdr.detectChanges();
+            Swal.fire(
+              'Thành công!',
+              'Phiếu kiểm kê đã hoàn tất và kho đã được điều chỉnh!',
+              'success'
+            ).then(() => {
+              this.router.navigate(['/admin/stock-takes']);
+            });
+          },
+          error: (err: any) => {
+            console.error('Error completing stock take', err);
+            this.isCompleting = false;
+            this.cdr.detectChanges();
+            Swal.fire(
+              'Lỗi!',
+              'Có lỗi xảy ra khi hoàn tất phiếu kiểm kê.',
+              'error'
+            );
+          }
+        });
+      }
+    });
   }
 
   getStatusClass(status: StockTakeStatus): string {

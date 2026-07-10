@@ -5,6 +5,27 @@ import { Product } from '../models/product';
 import { environment } from '../../environments/environment';
 import { BaseCrudService } from './base-crud.service';
 
+export interface ProductBatch {
+    id: string;
+    productId: string;
+    batchNumber: string;
+    mfgDate: Date;
+    expiryDate: Date;
+    stockQuantity: number;
+}
+
+export interface ExpiringBatch {
+    batchId: string;
+    productId: string;
+    productName: string;
+    productCode: string;
+    batchNumber: string;
+    mfgDate: Date;
+    expiryDate: Date;
+    stockQuantity: number;
+    daysUntilExpiry: number;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -22,6 +43,14 @@ export class ProductService extends BaseCrudService<Product> {
 
     getLowStockProducts(): Observable<Product[]> {
         return this.http.get<Product[]>(`${this.apiUrl}/low-stock`);
+    }
+
+    getProductBatches(productId: string): Observable<ProductBatch[]> {
+        return this.http.get<ProductBatch[]>(`${this.apiUrl}/${productId}/batches`);
+    }
+
+    getExpiringBatches(days: number = 30): Observable<ExpiringBatch[]> {
+        return this.http.get<ExpiringBatch[]>(`${this.apiUrl}/expiring-batches?days=${days}`);
     }
 
     // Đặc thù của Product

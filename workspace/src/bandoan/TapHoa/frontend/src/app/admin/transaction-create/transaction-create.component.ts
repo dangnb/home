@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto, TransactionDetailDto } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
-import { ProductService } from '../../services/product.service';
+import { ProductService, ProductBatch } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
@@ -29,7 +29,7 @@ export class TransactionCreateComponent implements OnInit {
     notes: string = '';
 
     availableProducts: Product[] = [];
-    lines: (TransactionLineDto & { productName: string })[] = [];
+    lines: (TransactionLineDto & { productName: string, productBatchId?: string })[] = [];
 
     // For Autocomplete
     searchQuery: string = '';
@@ -45,6 +45,10 @@ export class TransactionCreateComponent implements OnInit {
     selectedBatchNumber: string = '';
     selectedMfgDate: string = '';
     selectedExpiryDate: string = '';
+    
+    // Batches
+    availableBatches: ProductBatch[] = [];
+    selectedBatchId: string | null = null;
 
     isSubmitting = false;
 
@@ -111,8 +115,18 @@ export class TransactionCreateComponent implements OnInit {
         this.searchQuery = prod.name;
         this.selectedCost = prod.price;
         this.showDropdown = false;
-
-        // Focus quantity input for fast typing (optional)
+        
+        // If outbound, fetch available batches
+        this.availableBatches = [];
+        this.selectedBatchId = null;
+        if (this.transactionType === 'outbound') {
+            this.productService.getProductBatches(prod.id).subscribe(batches => {
+                this.availableBatches = batches;
+                if (batches.length > 0) {
+                    this.selectedBatchId = batches[0].id;
+                }
+            });
+        }
     }
 
     onSearchBlur() {
@@ -149,6 +163,7 @@ export class TransactionCreateComponent implements OnInit {
             unitCost: this.selectedCost,
             locationCode: this.selectedLocationCode || undefined,
             batchNumber: this.selectedBatchNumber || undefined,
+            productBatchId: this.selectedBatchId || undefined,
             mfgDate: this.selectedMfgDate || undefined,
             expiryDate: this.selectedExpiryDate || undefined
         });
@@ -162,6 +177,8 @@ export class TransactionCreateComponent implements OnInit {
         this.selectedBatchNumber = '';
         this.selectedMfgDate = '';
         this.selectedExpiryDate = '';
+        this.selectedBatchId = null;
+        this.availableBatches = [];
     }
 
     removeLine(index: number) {
@@ -190,6 +207,7 @@ export class TransactionCreateComponent implements OnInit {
                 unitCost: l.unitCost,
                 locationCode: l.locationCode,
                 batchNumber: l.batchNumber,
+                productBatchId: l.productBatchId,
                 mfgDate: l.mfgDate,
                 expiryDate: l.expiryDate
             }))
