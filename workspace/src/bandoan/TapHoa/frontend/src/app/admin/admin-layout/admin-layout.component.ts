@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, HostListener, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../services/product.service';
+import { ProductService, ExpiringBatch } from '../../services/product.service';
 
 
 
@@ -20,6 +20,13 @@ export class AdminLayoutComponent {
   showNotifications = false;
   lowStockCount = 0;
   lowStockProducts: any[] = [];
+  
+  expiringCount = 0;
+  expiringBatches: ExpiringBatch[] = [];
+  
+  get totalNotifications() {
+      return this.lowStockCount + this.expiringCount;
+  }
 
   constructor(private productService: ProductService, private eRef: ElementRef) {}
 
@@ -57,6 +64,13 @@ export class AdminLayoutComponent {
       next: (products) => {
         this.lowStockProducts = products || [];
         this.lowStockCount = this.lowStockProducts.length;
+      }
+    });
+
+    this.productService.getExpiringBatches(30).subscribe({
+      next: (batches) => {
+        this.expiringBatches = batches || [];
+        this.expiringCount = this.expiringBatches.length;
       }
     });
   }

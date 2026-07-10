@@ -7,9 +7,9 @@
 
 .sidebar {
     width: 260px;
-    background-color: var(--dark, #0f172a);
-    border-right: none;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    background-color: var(--dark);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -23,7 +23,7 @@
 
         h2 {
             font-size: 1.6rem;
-            color: var(--light, #ffffff);
+            color: var(--light);
             font-weight: 800;
             letter-spacing: -0.5px;
             margin: 0;
@@ -32,18 +32,21 @@
             gap: 8px;
 
             span {
-                color: var(--secondary, #d97706);
+                color: var(--primary-light);
                 font-weight: 900;
+                background: linear-gradient(to right, #818cf8, #c7d2fe);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
         }
 
         .subtitle {
             font-size: 0.65rem;
-            color: #94a3b8;
+            color: var(--text-muted);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0.25rem;
+            letter-spacing: 1.5px;
+            margin-top: 0.4rem;
             margin-left: 2px;
         }
     }
@@ -78,15 +81,17 @@
         li a {
             display: flex;
             align-items: center;
-            padding: 0.85rem 1rem;
+            padding: 0.8rem 1rem;
             color: #cbd5e1;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.95rem;
             border-radius: 12px;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             gap: 0.75rem;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+            overflow: hidden;
 
             .icon {
                 font-size: 1.25rem;
@@ -96,27 +101,52 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                transition: color 0.25s ease;
+                z-index: 1;
+            }
+            
+            .nav-text {
+                z-index: 1;
             }
 
             &:hover {
-                color: var(--light, #ffffff);
+                color: var(--light);
                 background-color: rgba(255, 255, 255, 0.05);
 
                 .icon {
-                    color: var(--secondary, #d97706);
+                    color: var(--light);
                 }
             }
 
             &.active {
-                background: linear-gradient(90deg, rgba(217, 119, 6, 0.1) 0%, rgba(217, 119, 6, 0.02) 100%);
-                color: var(--light, #ffffff);
-                border-left: 3px solid var(--secondary, #d97706);
-                padding-left: calc(1rem - 3px);
+                color: var(--light);
                 font-weight: 700;
+                
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, rgba(79, 70, 229, 0) 100%);
+                    z-index: 0;
+                }
+                
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 15%;
+                    height: 70%;
+                    width: 4px;
+                    background-color: var(--primary);
+                    border-radius: 0 4px 4px 0;
+                    box-shadow: 2px 0 8px rgba(79, 70, 229, 0.6);
+                }
 
                 .icon {
-                    color: var(--secondary, #d97706);
-                    filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.4));
+                    color: var(--primary-light);
                 }
             }
         }
@@ -247,22 +277,24 @@
     display: flex;
     flex-direction: column;
     transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: var(--bs-body-bg, #f3f4f6);
+    background-color: var(--gray-50);
 
     .topbar {
-        height: 70px;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        height: 72px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         padding: 0 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        border-bottom: 1px solid var(--border-light);
         position: sticky;
         top: 0;
         z-index: 99;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        
+        /* Floating Topbar Illusion */
+        box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.02);
 
         .topbar-left {
             display: flex;
@@ -273,14 +305,14 @@
                 background: none;
                 border: none;
                 font-size: 1.5rem;
-                color: #64748b;
+                color: var(--text-muted);
                 cursor: pointer;
                 padding: 0;
                 line-height: 1;
                 transition: color 0.2s;
 
                 &:hover {
-                    color: var(--dark, #0f172a);
+                    color: var(--dark);
                 }
             }
 
@@ -388,6 +420,13 @@
                 align-items: center;
                 gap: 1rem;
                 cursor: pointer;
+                padding: 4px;
+                border-radius: 12px;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                    background-color: var(--gray-100);
+                }
 
                 .user-info-text {
                     display: flex;
@@ -397,13 +436,13 @@
 
                     .user-name {
                         font-weight: 700;
-                        color: var(--dark, #0f172a);
+                        color: var(--dark);
                         font-size: 0.95rem;
                     }
 
                     .user-role {
-                        font-size: 0.65rem;
-                        color: var(--secondary, #d97706);
+                        font-size: 0.7rem;
+                        color: var(--primary);
                         font-weight: 800;
                         text-transform: uppercase;
                         letter-spacing: 0.5px;
@@ -414,15 +453,15 @@
                 .avatar {
                     width: 44px;
                     height: 44px;
-                    border-radius: 12px;
-                    background: linear-gradient(135deg, var(--dark, #0f172a) 0%, #1e293b 100%);
-                    color: var(--light, #ffffff);
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+                    color: var(--light);
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     font-weight: 700;
                     font-size: 1.2rem;
-                    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+                    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
                 }
             }
         }
@@ -434,5 +473,79 @@
         max-width: 1600px;
         margin: 0 auto;
         width: 100%;
+    }
+}
+
+/* ==========================================
+   MOBILE RESPONSIVENESS
+   ========================================== */
+@media (max-width: 991px) {
+    /* Hide sidebar completely by default on mobile */
+    .sidebar {
+        transform: translateX(-100%);
+        width: 260px;
+        box-shadow: none;
+    }
+
+    .main-wrapper {
+        margin-left: 0;
+    }
+
+    /* When toggled open on mobile (we reuse sidebar-collapsed class but invert logic for mobile if needed, 
+       actually it's better to just use a class like 'sidebar-open' or adapt 'sidebar-collapsed' logic. 
+       Wait, by default isSidebarCollapsed is false. So 'sidebar-collapsed' class is NOT present.
+       Let's reverse the meaning on mobile: 
+       Without 'sidebar-collapsed': sidebar is HIDDEN.
+       With 'sidebar-collapsed': sidebar is SHOWN. (Wait, that's confusing. Let's just use CSS)
+    */
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1050;
+    }
+
+    .main-wrapper {
+        margin-left: 0 !important;
+        
+        .topbar {
+            padding: 0 1rem;
+            height: auto;
+            min-height: 70px;
+            flex-wrap: wrap;
+            
+            .topbar-center {
+                order: 3;
+                margin: 0.5rem 0 1rem 0;
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            .topbar-right {
+                gap: 0.75rem;
+                
+                .user-info-text {
+                    display: none; /* Hide name on small screens */
+                }
+            }
+        }
+        
+        .content-area {
+            padding: 1rem;
+        }
+    }
+    
+    /* When sidebar is explicitly toggled, we can use a class. 
+       Let's assume we change TS to handle 'sidebar-open' for mobile, 
+       but for now we can just use the existing sidebar-collapsed class as a toggle.
+       If sidebar-collapsed is TRUE, show sidebar on mobile.
+    */
+    .sidebar-collapsed {
+        .sidebar {
+            transform: translateX(0);
+            width: 260px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
     }
 }

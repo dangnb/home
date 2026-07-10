@@ -134,20 +134,34 @@
               [(ngModel)]="selectedLocationCode" placeholder="A-01">
           </div>
         </div>
-        <div class="row g-3 align-items-end mt-1">
-          <div class="col-md-4">
-            <label class="form-label text-muted fw-bold small text-uppercase">Lô hàng (Batch)</label>
-            <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
-              placeholder="B001">
+        <div class="row g-3 align-items-end mt-2">
+          <div class="col-md-10" *ngIf="transactionType === 'outbound' && availableBatches.length > 0">
+            <label class="form-label text-muted fw-bold small text-uppercase text-danger">Chọn Lô xuất kho (FEFO) <span class="text-danger">*</span></label>
+            <select class="form-select custom-input rounded-3 shadow-none border-danger" [(ngModel)]="selectedBatchId">
+              <option *ngFor="let b of availableBatches" [value]="b.id">
+                Lô: {{ b.batchNumber }} | Tồn: {{ b.stockQuantity }} | HSD: {{ b.expiryDate | date:'dd/MM/yyyy' }}
+              </option>
+            </select>
           </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted fw-bold small text-uppercase">Ngày SX (MFG)</label>
-            <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedMfgDate">
+          <div class="col-md-10" *ngIf="transactionType === 'outbound' && availableBatches.length === 0 && selectedProductId">
+            <div class="alert alert-warning py-2 mb-0 small"><i class="bi bi-info-circle me-1"></i>Sản phẩm này chưa có lô hàng nào trong kho. Hệ thống sẽ tự động trừ kho chung.</div>
           </div>
-          <div class="col-md-3">
-            <label class="form-label text-muted fw-bold small text-uppercase">Hạn SD (EXP)</label>
-            <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
-          </div>
+
+          <ng-container *ngIf="transactionType === 'inbound'">
+            <div class="col-md-4">
+              <label class="form-label text-muted fw-bold small text-uppercase">Lô hàng (Batch)</label>
+              <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
+                placeholder="Ví dụ: B001">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label text-muted fw-bold small text-uppercase">Ngày SX (MFG)</label>
+              <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedMfgDate">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label text-muted fw-bold small text-uppercase">Hạn SD (EXP)</label>
+              <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
+            </div>
+          </ng-container>
           <div class="col-md-2">
             <button
               class="btn btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
