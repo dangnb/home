@@ -1,19 +1,36 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ProductService } from '../../services/product.service';
 
 
 
 @Component({
     selector: 'app-admin-layout',
-    imports: [RouterOutlet, RouterLink, RouterLinkActive],
+    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
     templateUrl: './admin-layout.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './admin-layout.component.scss'
 })
 export class AdminLayoutComponent {
   isSidebarCollapsed = false;
   isDarkMode = false;
   currentFontSize = 14;
+
+  showNotifications = false;
+  lowStockCount = 0;
+  lowStockProducts: any[] = [];
+
+  constructor(private productService: ProductService, private eRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  clickout(event: Event) {
+    if(this.showNotifications) {
+      if(!this.eRef.nativeElement.contains(event.target)) {
+        this.showNotifications = false;
+      }
+    }
+  }
 
   ngOnInit() {
     // Load theme from localStorage
@@ -31,6 +48,24 @@ export class AdminLayoutComponent {
       this.currentFontSize = parseInt(savedFontSize, 10);
       document.documentElement.style.setProperty('--root-font-size', `${this.currentFontSize}px`);
     }
+
+    this.loadNotifications();
+  }
+
+  loadNotifications() {
+    this.productService.getLowStockProducts().subscribe({
+      next: (products) => {
+        this.lowStockProducts = products || [];
+        this.lowStockCount = this.lowStockProducts.length;
+      }
+    });
+  }
+
+  toggleNotifications(event?: Event) {
+    if(event) {
+        event.stopPropagation();
+    }
+    this.showNotifications = !this.showNotifications;
   }
 
   changeFontSize(step: number) {
