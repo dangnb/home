@@ -11,6 +11,7 @@ export default function Navbar({ settings }: { settings: SiteSettings }) {
         window.addEventListener("scroll", fn);
         return () => window.removeEventListener("scroll", fn);
     }, []);
+    const pathname = usePathname();
 
     return (
         <header
@@ -35,14 +36,21 @@ export default function Navbar({ settings }: { settings: SiteSettings }) {
                 </Link>
 
                 <ul style={{ display: "flex", gap: 40, listStyle: "none", margin: 0, padding: 0 }}>
-                    {["Services", "About", "Gallery", "Contact"].map((item) => (
-                        <li key={item}>
-                            <Link href={`/${item.toLowerCase()}`} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2E2E2E", textDecoration: "none", transition: "color .3s", paddingBottom: 2, borderBottom: "1.5px solid transparent" }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.borderBottomColor = "#C2A979"; }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.color = "#2E2E2E"; (e.currentTarget as HTMLElement).style.borderBottomColor = "transparent"; }}
-                            >{item}</Link>
-                        </li>
-                    ))}
+                    {["Services", "About", "Gallery", "Contact"].map((item) => {
+                        const href = `/${item.toLowerCase()}`;
+                        const isActive = pathname === href || pathname.startsWith(href + '/');
+                        const defaultColor = isActive ? "#C2A979" : "#2E2E2E";
+                        const defaultBorder = isActive ? "#C2A979" : "transparent";
+
+                        return (
+                            <li key={item}>
+                                <Link href={href} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: defaultColor, textDecoration: "none", transition: "color .3s, border-bottom-color .3s", paddingBottom: 2, borderBottom: `1.5px solid ${defaultBorder}` }}
+                                    onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.borderBottomColor = "#C2A979"; }}
+                                    onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.color = defaultColor; (e.currentTarget as HTMLElement).style.borderBottomColor = defaultBorder; }}
+                                >{item}</Link>
+                            </li>
+                        );
+                    })}
                 </ul>
 
                 <Link href="/booking">
