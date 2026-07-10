@@ -142,10 +142,39 @@
             <i class="bi bi-sun"></i>
           }
         </button>
-        <button class="btn-icon position-relative">
-          <i class="bi bi-bell"></i>
-          <span class="notification-dot"></span>
-        </button>
+        <div class="notification-container position-relative">
+          <button class="btn-icon position-relative" (click)="toggleNotifications($event)" title="Thông báo">
+            <i class="bi bi-bell"></i>
+            <span *ngIf="lowStockCount > 0" class="notification-dot"></span>
+          </button>
+          
+          <!-- Dropdown -->
+          <div *ngIf="showNotifications" class="notification-dropdown position-absolute end-0 mt-2 bg-white rounded-3 shadow-lg border" style="width: 320px; z-index: 1000;">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+              <h6 class="mb-0 fw-bold">Thông báo cảnh báo</h6>
+              <span class="badge bg-danger rounded-pill">{{ lowStockCount }}</span>
+            </div>
+            <div class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+              <div *ngIf="lowStockCount === 0" class="p-4 text-center text-muted">
+                <i class="bi bi-check2-circle fs-2 text-success d-block mb-2"></i>
+                Không có cảnh báo nào
+              </div>
+              <ng-container *ngIf="lowStockCount > 0">
+                <a *ngFor="let p of lowStockProducts" routerLink="/admin/products/low-stock" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between align-items-start">
+                    <h6 class="mb-1 text-danger fw-bold text-truncate" style="max-width: 200px;"><i class="bi bi-exclamation-circle-fill me-1"></i> Sắp hết hàng</h6>
+                    <small class="text-muted">Tồn: {{ p.totalQuantity }} {{ p.unit }}</small>
+                  </div>
+                  <p class="mb-1 small text-dark">{{ p.name }}</p>
+                  <small class="text-danger">Định mức tối thiểu: {{ p.minStockLevel }} {{ p.unit }}</small>
+                </a>
+              </ng-container>
+            </div>
+            <div class="p-2 border-top text-center bg-light rounded-bottom">
+              <a routerLink="/admin/products/low-stock" class="text-decoration-none small fw-bold">Xem tất cả cảnh báo</a>
+            </div>
+          </div>
+        </div>
 
         <div class="user-profile">
           <div class="user-info-text text-end">
