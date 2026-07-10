@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="TapHoa.API/TapHoa.API.csproj" />
+  <Project Path="TapHoa.Application.UnitTests/TapHoa.Application.UnitTests.csproj" />
   <Project Path="TapHoa.Application/TapHoa.Application.csproj" />
   <Project Path="TapHoa.Domain/TapHoa.Domain.csproj" />
   <Project Path="TapHoa.Infrastructure/TapHoa.Infrastructure.csproj" />

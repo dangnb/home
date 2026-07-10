@@ -1,9 +1,6 @@
 <div class="card glass-panel border-0 shadow-sm">
   <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
     <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> Cảnh báo hàng sắp hết</h5>
-    <button class="btn btn-primary btn-sm rounded-pill px-3" routerLink="/admin/products/create">
-      <i class="bi bi-plus-lg me-1"></i> Thêm hàng mới
-    </button>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
@@ -11,7 +8,6 @@
         <thead class="table-light text-muted">
           <tr>
             <th class="ps-4 fw-semibold border-0">Sản phẩm</th>
-            <th class="fw-semibold border-0">Mã vạch</th>
             <th class="fw-semibold border-0">Tồn kho hiện tại</th>
             <th class="fw-semibold border-0">Mức tối thiểu</th>
             <th class="fw-semibold border-0">Trạng thái</th>
@@ -20,14 +16,14 @@
         </thead>
         <tbody>
           <tr *ngIf="isLoading">
-            <td colspan="6" class="text-center py-4">
+            <td colspan="5" class="text-center py-4">
               <div class="spinner-border text-danger" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
             </td>
           </tr>
           <tr *ngIf="!isLoading && products.length === 0">
-            <td colspan="6" class="text-center py-5 text-muted">
+            <td colspan="5" class="text-center py-5 text-muted">
               <div class="d-flex flex-column align-items-center">
                 <i class="bi bi-check-circle-fill text-success fs-1 mb-2"></i>
                 <h6 class="fw-medium">Không có sản phẩm nào sắp hết</h6>
@@ -50,7 +46,6 @@
                 </div>
               </div>
             </td>
-            <td><span class="font-monospace text-muted small">{{ item.barcode || '-' }}</span></td>
             <td>
               <span class="fw-bold" [ngClass]="{'text-danger': item.stockQuantity === 0, 'text-warning': item.stockQuantity > 0}">
                 {{ item.stockQuantity }} {{ item.unit }}

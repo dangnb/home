@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TransactionService, CreateWastageTransactionRequest } from '../../../services/transaction.service';
-import { ProductService, Product } from '../../../services/product.service';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../models/product';
 import { AlertService } from '../../../services/alert.service';
 
 interface WastageLineUI {
