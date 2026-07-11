@@ -26,14 +26,10 @@
   </div>
 </div>
 
-@if (isLoading) {
-  <div class="d-flex justify-content-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-  </div>
-} @else {
-
-  <!-- Summary KPIs -->
-  <div class="row g-4 mb-4">
+  <!-- Content -->
+  <div>
+    <!-- Summary KPIs -->
+    <div class="row g-4 mb-4">
     <div class="col-md-4">
       <div class="kpi-card kpi-blue h-100">
         <div class="d-flex justify-content-between align-items-start">
@@ -81,12 +77,11 @@
         </div>
         <div class="card-body p-4">
           <div style="height: 350px;">
-            <!-- <canvas baseChart
+            <canvas baseChart
               [data]="lineChartData"
               [options]="lineChartOptions"
               [type]="lineChartType">
-            </canvas> -->
-            <p>Chart hidden for debug</p>
+            </canvas>
           </div>
         </div>
       </div>
@@ -100,12 +95,11 @@
         </div>
         <div class="card-body p-4">
           <div style="height: 350px;">
-            <!-- <canvas baseChart
+            <canvas baseChart
               [data]="barChartData"
               [options]="barChartOptions"
               [type]="barChartType">
-            </canvas> -->
-            <p>Chart hidden for debug</p>
+            </canvas>
           </div>
         </div>
       </div>
@@ -149,5 +143,3 @@
       </div>
     </div>
   </div>
-
-}

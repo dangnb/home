@@ -29,6 +29,8 @@ public interface IApplicationDbContext
     DbSet<StockTakeLine> StockTakeLines { get; }
     DbSet<Order> Orders { get; }
     DbSet<OrderDetail> OrderDetails { get; }
+    DbSet<ReturnOrder> ReturnOrders { get; }
+    DbSet<ReturnOrderDetail> ReturnOrderDetails { get; }
 
     Guid CurrentCompanyId { get; }
 

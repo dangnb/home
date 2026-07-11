@@ -26,6 +26,9 @@ public class GetTopProductsReportQueryHandler : IRequestHandler<GetTopProductsRe
             ? "TotalRevenue DESC" 
             : "TotalQuantitySold DESC";
 
+        var fromDate = request.FromDate.Date;
+        var toDate = request.ToDate.Date.AddDays(1).AddTicks(-1);
+
         var sql = $@"
             SELECT 
                 p.Id as ProductId,
@@ -47,7 +50,7 @@ public class GetTopProductsReportQueryHandler : IRequestHandler<GetTopProductsRe
             ORDER BY {orderByClause}
             LIMIT @Limit";
 
-        var result = await connection.QueryAsync<TopProductReportDto>(sql, new { request.FromDate, request.ToDate, request.Limit });
+        var result = await connection.QueryAsync<TopProductReportDto>(sql, new { FromDate = fromDate, ToDate = toDate, request.Limit });
         
         return result.ToList();
     }

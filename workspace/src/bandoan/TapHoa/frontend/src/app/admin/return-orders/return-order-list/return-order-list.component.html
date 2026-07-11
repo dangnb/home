@@ -1,0 +1,94 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="h3 mb-0 text-gray-800">Quản lý Trả hàng / Hoàn tiền</h2>
+  <a routerLink="/admin/return-orders/create" class="btn btn-primary shadow-sm">
+    <i class="bi bi-plus-circle me-2"></i>Tạo phiếu trả hàng
+  </a>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <h6 class="m-0 font-weight-bold text-primary">Danh sách Phiếu trả hàng</h6>
+    <div class="input-group" style="width: 300px;">
+      <input type="text" class="form-control" placeholder="Tìm kiếm theo mã..." 
+             [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
+      <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Mã Phiếu</th>
+            <th>Đơn hàng gốc</th>
+            <th>Khách hàng</th>
+            <th>Ngày trả</th>
+            <th>Số tiền hoàn</th>
+            <th>Trạng thái</th>
+            <th class="text-end">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of returnOrders; track item.id) {
+            <tr>
+              <td><span class="fw-medium">{{ item.returnCode }}</span></td>
+              <td><span class="text-primary">{{ item.originalOrderCode }}</span></td>
+              <td>{{ item.customerName }}</td>
+              <td>{{ item.returnDate | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td><span class="text-danger fw-bold">{{ item.refundAmount | number:'1.0-0' }}đ</span></td>
+              <td>
+                @if (item.status === 1) {
+                  <span class="badge bg-warning text-dark">Pending</span>
+                } @else if (item.status === 2) {
+                  <span class="badge bg-success">Approved</span>
+                } @else {
+                  <span class="badge bg-danger">Cancelled</span>
+                }
+              </td>
+              <td class="text-end">
+                <a [routerLink]="['/admin/return-orders', item.id]" class="btn btn-sm btn-outline-info me-1" title="Chi tiết">
+                  <i class="bi bi-eye"></i>
+                </a>
+                @if (item.status === 1) {
+                  <button class="btn btn-sm btn-outline-success" (click)="approve(item.id)" title="Duyệt">
+                    <i class="bi bi-check-circle"></i>
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+          @if (returnOrders.length === 0) {
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">
+                Không tìm thấy phiếu trả hàng nào
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    @if (totalPages > 1) {
+      <div class="card-footer border-0 bg-white d-flex justify-content-end py-3">
+        <nav aria-label="Page navigation">
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="pageNumber === 1">
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(pageNumber - 1)">Trước</a>
+            </li>
+            @for (page of [].constructor(totalPages); track $index) {
+              <li class="page-item" [class.active]="pageNumber === $index + 1">
+                <a class="page-link" href="javascript:void(0)" (click)="onPageChange($index + 1)">{{ $index + 1 }}</a>
+              </li>
+            }
+            <li class="page-item" [class.disabled]="pageNumber === totalPages">
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(pageNumber + 1)">Sau</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    }
+  </div>
+</div>

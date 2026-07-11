@@ -136,6 +136,18 @@ export const routes: Routes = [
             { 
                 path: 'audits', 
                 loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) 
+            },
+            {
+                path: 'return-orders',
+                loadComponent: () => import('./admin/return-orders/return-order-list/return-order-list.component').then(m => m.ReturnOrderListComponent)
+            },
+            {
+                path: 'return-orders/create',
+                loadComponent: () => import('./admin/return-orders/return-order-form/return-order-form.component').then(m => m.ReturnOrderFormComponent)
+            },
+            {
+                path: 'return-orders/:id',
+                loadComponent: () => import('./admin/return-orders/return-order-detail/return-order-detail.component').then(m => m.ReturnOrderDetailComponent)
             }
         ]
     }
