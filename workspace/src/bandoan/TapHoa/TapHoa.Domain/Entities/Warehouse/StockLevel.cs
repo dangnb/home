@@ -69,13 +69,20 @@ public class StockLevel : BaseEntity<Guid>
         if (quantity < 0) throw new ArgumentException("Quantity must be positive.");
         if (QuantityOnHand < quantity) throw new InvalidOperationException("Not enough stock.");
 
-        // Decreasing stock completely removes it from on-hand.
-        // It must have been reserved first, OR it decrees available directly (for adjustments).
         QuantityOnHand -= quantity;
         
-        // Safety bounds
-        if (AvailableQuantity < 0) AvailableQuantity = 0;
-        if (ReservedQuantity < 0) ReservedQuantity = 0;
+        // Decrease from available first, then from reserved if needed
+        if (AvailableQuantity >= quantity)
+        {
+            AvailableQuantity -= quantity;
+        }
+        else
+        {
+            // Some stock was reserved, reduce what's available and adjust reserved
+            var fromReserved = quantity - AvailableQuantity;
+            AvailableQuantity = 0;
+            ReservedQuantity = Math.Max(0, ReservedQuantity - fromReserved);
+        }
         
         RowVersion = Guid.NewGuid().ToByteArray();
     }

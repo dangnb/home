@@ -1,74 +1,66 @@
-<div class="container-fluid py-4 min-vh-100 bg-light">
+<div class="container-fluid py-4 min-vh-100">
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-4">
-      <h2 class="fw-bolder text-dark mb-1 fs-3">Dashboard Tổng Quan</h2>
-      <p class="text-secondary mb-0">Theo dõi hoạt động kinh doanh và tình hình kho bãi hôm nay.</p>
+    <div class="dash-header">
+      <h2>Dashboard Tổng Quan</h2>
+      <p>Theo dõi hoạt động kinh doanh và tình hình kho bãi hôm nay.</p>
     </div>
 
     @if (isLoading) {
-    <div class="d-flex justify-content-center align-items-center py-5" style="min-height: 400px;">
+    <div class="dash-loading">
       <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
     </div>
     } @else if (summary) {
     <!-- KPI Cards Row -->
-    <div class="row g-4 mb-4">
+    <div class="kpi-grid stagger-children">
       <!-- Total Products -->
-      <div class="col-12 col-sm-6 col-xl-3">
-        <div class="premium-card p-4 h-100 border-0 shadow-sm" style="border-left: 4px solid #3b82f6 !important;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <p class="text-muted fw-bold text-uppercase fs-8 mb-1" style="letter-spacing: 0.5px;">Tổng Sản Phẩm</p>
-              <h3 class="fw-bolder text-dark mb-0 fs-2">{{ summary.totalProducts | number }}</h3>
-            </div>
-            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #eff6ff;">
-              <span class="fs-4 text-primary">📦</span>
-            </div>
+      <div class="kpi-item kpi-blue">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="kpi-label mb-1">Tổng Sản Phẩm</p>
+            <h3 class="kpi-number mb-0">{{ summary.totalProducts | number }}</h3>
+          </div>
+          <div class="kpi-icon-circle icon-blue">
+            <i class="bi bi-box-seam"></i>
           </div>
         </div>
       </div>
 
       <!-- Low Stock Alert -->
-      <div class="col-12 col-sm-6 col-xl-3">
-        <div class="premium-card p-4 h-100 border-0 shadow-sm" style="border-left: 4px solid #ef4444 !important;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <p class="text-muted fw-bold text-uppercase fs-8 mb-1" style="letter-spacing: 0.5px;">Sắp Hết Hàng</p>
-              <h3 class="fw-bolder text-dark mb-0 fs-2">{{ summary.lowStockCount | number }}</h3>
-            </div>
-            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #fef2f2;">
-              <span class="fs-4 text-danger">⚠️</span>
-            </div>
+      <div class="kpi-item kpi-red">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="kpi-label mb-1">Sắp Hết Hàng</p>
+            <h3 class="kpi-number mb-0">{{ summary.lowStockCount | number }}</h3>
+          </div>
+          <div class="kpi-icon-circle icon-red">
+            <i class="bi bi-exclamation-triangle"></i>
           </div>
         </div>
       </div>
 
       <!-- Total Customers -->
-      <div class="col-12 col-sm-6 col-xl-3">
-        <div class="premium-card p-4 h-100 border-0 shadow-sm" style="border-left: 4px solid #10b981 !important;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <p class="text-muted fw-bold text-uppercase fs-8 mb-1" style="letter-spacing: 0.5px;">Khách Hàng</p>
-              <h3 class="fw-bolder text-dark mb-0 fs-2">{{ summary.totalCustomers | number }}</h3>
-            </div>
-            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #ecfdf5;">
-              <span class="fs-4 text-success">👥</span>
-            </div>
+      <div class="kpi-item kpi-green">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="kpi-label mb-1">Khách Hàng</p>
+            <h3 class="kpi-number mb-0">{{ summary.totalCustomers | number }}</h3>
+          </div>
+          <div class="kpi-icon-circle icon-green">
+            <i class="bi bi-people"></i>
           </div>
         </div>
       </div>
 
       <!-- Total Stock Value -->
-      <div class="col-12 col-sm-6 col-xl-3">
-        <div class="premium-card p-4 h-100 border-0 shadow-sm" style="border-left: 4px solid #f59e0b !important;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <p class="text-muted fw-bold text-uppercase fs-8 mb-1" style="letter-spacing: 0.5px;">Ước tính giá trị kho</p>
-              <h3 class="fw-bolder text-dark mb-0 fs-4">{{ summary.totalStockValue | number:'1.0-0' }} ₫</h3>
-            </div>
-            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; background: #fffbeb;">
-              <span class="fs-4 text-warning">💰</span>
-            </div>
+      <div class="kpi-item kpi-amber">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <p class="kpi-label mb-1">Ước tính giá trị kho</p>
+            <h3 class="kpi-number mb-0 fs-4">{{ summary.totalStockValue | number:'1.0-0' }} ₫</h3>
+          </div>
+          <div class="kpi-icon-circle icon-amber">
+            <i class="bi bi-wallet2"></i>
           </div>
         </div>
       </div>
@@ -77,10 +69,11 @@
     <!-- Charts Row -->
     <div class="row g-4 mb-4">
       <div class="col-12 col-lg-8">
-        <div class="premium-card h-100 bg-white p-4 shadow-sm rounded-3">
-          <h5 class="fw-bold text-dark mb-4">Biểu đồ xuất kho (Top 5 sản phẩm)</h5>
+        <div class="chart-card h-100">
+          <h5 class="chart-title">Biểu đồ xuất kho (Top 5 sản phẩm)</h5>
           @if (summary.topProducts.length === 0) {
-            <div class="text-center py-5 text-muted">
+            <div class="empty-state">
+              <span class="empty-icon">📊</span>
               Chưa có dữ liệu thống kê sản phẩm xuất kho.
             </div>
           } @else {
@@ -94,14 +87,15 @@
       </div>
       
       <div class="col-12 col-lg-4">
-        <div class="premium-card h-100 bg-white p-4 shadow-sm rounded-3 d-flex flex-column align-items-center justify-content-center">
-          <h5 class="fw-bold text-dark w-100 text-start mb-4">Tỷ trọng xuất kho</h5>
+        <div class="chart-card h-100 d-flex flex-column align-items-center justify-content-center">
+          <h5 class="chart-title w-100 text-start">Tỷ trọng xuất kho</h5>
           @if (summary.topProducts.length === 0) {
-            <div class="text-center py-5 text-muted">
+            <div class="empty-state">
+              <span class="empty-icon">🥧</span>
               Chưa có dữ liệu thống kê sản phẩm xuất kho.
             </div>
           } @else {
-            <div style="width: 100%; max-width: 300px;">
+            <div style="width: 100%; max-width: 280px;">
               <canvas baseChart
                 [data]="pieChartData"
                 [options]="pieChartOptions"
@@ -116,15 +110,15 @@
     <!-- Recent Activity Row -->
     <div class="row g-4">
       <div class="col-12">
-        <div class="premium-card bg-white shadow-sm rounded-3">
-          <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
-            <h5 class="mb-0 fw-bold text-dark">Giao Dịch Gần Đây</h5>
-            <a href="/admin/transactions" class="text-primary fw-medium text-decoration-none">Xem tất cả</a>
+        <div class="tx-card">
+          <div class="tx-header">
+            <h5>Giao Dịch Gần Đây</h5>
+            <a href="/admin/transactions">Xem tất cả</a>
           </div>
           <div class="p-0">
             @if (summary.recentTransactions.length === 0) {
-              <div class="text-center py-5 text-muted">
-                <span class="fs-2 d-block mb-2">📋</span>
+              <div class="empty-state">
+                <span class="empty-icon">📋</span>
                 Chưa có giao dịch nào.
               </div>
             } @else {
@@ -133,19 +127,19 @@
                   <li class="list-group-item px-4 py-3 border-bottom-0 border-top">
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;"
-                             [ngClass]="tx.type === 0 ? 'bg-success bg-opacity-10 text-success' : (tx.type === 1 ? 'bg-danger bg-opacity-10 text-danger' : 'bg-warning bg-opacity-10 text-warning')">
+                        <div class="tx-icon-circle"
+                             [ngClass]="tx.type === 0 ? 'tx-in' : (tx.type === 1 ? 'tx-out' : 'tx-other')">
                           @if (tx.type === 0) {
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <i class="bi bi-arrow-down-left"></i>
                           } @else if (tx.type === 1) {
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                            <i class="bi bi-arrow-up-right"></i>
                           } @else {
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            <i class="bi bi-arrow-repeat"></i>
                           }
                         </div>
                         <div>
-                          <p class="mb-0 fw-bold text-dark fs-7">{{ tx.transactionCode }}</p>
-                          <p class="mb-0 text-muted" style="font-size: 0.8rem;">{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+                          <p class="mb-0 fw-bold text-dark" style="font-size: 0.9rem;">{{ tx.transactionCode }}</p>
+                          <p class="mb-0 text-muted" style="font-size: 0.78rem;">{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
                         </div>
                       </div>
                       <div class="text-end">

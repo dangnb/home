@@ -106,6 +106,12 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
             .HasForeignKey(u => u.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // Unique Barcode constraint (filtered: only non-null barcodes must be unique)
+        modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Barcode)
+            .IsUnique()
+            .HasFilter("Barcode IS NOT NULL AND IsDeleted = 0");
+
         modelBuilder.Entity<CustomerDebt>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<CustomerDebtTransaction>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<SupplierDebt>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);

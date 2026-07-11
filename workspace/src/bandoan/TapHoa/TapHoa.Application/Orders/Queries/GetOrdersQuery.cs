@@ -43,9 +43,6 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, PagedResult
 
     public async Task<PagedResult<OrderDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
     {
-        var rawCount = await _context.Orders.IgnoreQueryFilters().CountAsync(cancellationToken);
-        Console.WriteLine($"[DEBUG] Total raw orders in DB (ignoring filters): {rawCount}");
-
         var query = _context.Orders
             .Include(o => o.Customer)
             .AsNoTracking();

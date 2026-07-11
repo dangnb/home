@@ -11,12 +11,13 @@ public static class AuthEndpoints
     {
         void SetTokenCookie(HttpContext context, string token)
         {
+            var env = context.RequestServices.GetRequiredService<IWebHostEnvironment>();
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Expires = DateTime.UtcNow.AddDays(7),
-                SameSite = SameSiteMode.Lax, // For local dev over HTTP
-                Secure = false // Change to true in Production with HTTPS
+                SameSite = env.IsProduction() ? SameSiteMode.Strict : SameSiteMode.Lax,
+                Secure = env.IsProduction() // Auto-detect: true in Production (HTTPS), false in Development
             };
             context.Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
