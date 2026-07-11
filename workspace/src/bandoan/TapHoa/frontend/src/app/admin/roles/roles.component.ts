@@ -5,10 +5,11 @@ import { RoleService } from '../../services/role.service';
 import { Role } from '../../models/role';
 import { AppPermissionsList, AppPermissions } from '../../models/permission.enum';
 import { AlertService } from '../../services/alert.service';
+import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-roles',
-  imports: [FormsModule],
+  imports: [FormsModule, ModalComponent],
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./roles.component.scss']
