@@ -53,7 +53,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
 
         foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
 
-        var keyString = _config["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
+        var keyString = _config["Security:JwtKey"] ?? _config["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

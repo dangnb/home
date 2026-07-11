@@ -5,6 +5,7 @@ using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Entities;
 using TapHoa.Domain.Entities.Warehouse;
 using TapHoa.Domain.Enums;
+using TapHoa.Domain.Exceptions;
 
 namespace TapHoa.Application.Orders.Commands;
 
@@ -46,8 +47,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
 
     public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        // Generate OrderCode
-        var orderCount = await _context.Orders.CountAsync(cancellationToken);
+        // Generate OrderCode — use IgnoreQueryFilters to prevent duplicates with soft-deleted records
+        var orderCount = await _context.Orders.IgnoreQueryFilters().CountAsync(cancellationToken);
         var orderCode = $"ORD-{DateTime.UtcNow:yyyyMMdd}-{(orderCount + 1):D4}";
 
         var order = new Order(
@@ -63,6 +64,22 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
             order.AddDetail(item.ProductId, item.Quantity, item.UnitPrice);
         }
 
+        // Validate Promotion before applying
+        if (request.PromotionId.HasValue)
+        {
+            var promotion = await _context.Promotions.FindAsync(new object[] { request.PromotionId.Value }, cancellationToken);
+            if (promotion == null)
+                throw new DomainException("Khuyến mãi không tồn tại.");
+            if (!promotion.IsActive)
+                throw new DomainException("Khuyến mãi đã ngừng hoạt động.");
+            if (promotion.StartDate.HasValue && DateTime.UtcNow < promotion.StartDate.Value)
+                throw new DomainException("Khuyến mãi chưa bắt đầu.");
+            if (promotion.EndDate.HasValue && DateTime.UtcNow > promotion.EndDate.Value)
+                throw new DomainException("Khuyến mãi đã hết hạn.");
+            if (promotion.MinOrderAmount > 0 && order.SubTotal < promotion.MinOrderAmount)
+                throw new DomainException($"Đơn hàng chưa đạt giá trị tối thiểu {promotion.MinOrderAmount:N0}₫ để áp dụng khuyến mãi.");
+        }
+
         order.ApplyDiscount(request.DiscountAmount, request.PromotionId);
         order.Complete(request.AmountPaid);
 
@@ -76,13 +93,19 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         {
             invTx.AddLine(item.ProductId, item.Quantity, item.UnitPrice);
 
-            // Deduct stock (simplified logic without batch handling for now)
             var stockLevel = await _context.StockLevels
                 .FirstOrDefaultAsync(x => x.ProductId == item.ProductId, cancellationToken);
             
             if (stockLevel != null)
             {
                 stockLevel.DecreaseStock(item.Quantity);
+            }
+
+            // Update product stock cache
+            var product = await _context.Products.FindAsync(new object[] { item.ProductId }, cancellationToken);
+            if (product != null)
+            {
+                product.UpdateStockCache(product.StockQuantity - item.Quantity);
             }
         }
 
@@ -112,8 +135,23 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
             }
         }
 
+        // Accumulate Loyalty Points for customer (1 point per 10,000₫ spent)
+        if (request.CustomerId.HasValue && request.PaymentMethod != PaymentMethod.Debt)
+        {
+            var customer = await _context.Customers.FindAsync(new object[] { request.CustomerId.Value }, cancellationToken);
+            if (customer != null)
+            {
+                var pointsEarned = (int)(order.TotalAmount / 10000);
+                if (pointsEarned > 0)
+                {
+                    customer.AddPoints(pointsEarned);
+                }
+            }
+        }
+
         await _context.SaveChangesAsync(cancellationToken);
 
         return order.Id;
     }
 }
+

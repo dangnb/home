@@ -8,6 +8,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RolesComponent } from './admin/roles/roles.component';
 import { UsersComponent } from './admin/users/users.component';
 import { authGuard } from './guards/auth.guard';
+import { permissionGuard } from './guards/permission.guard';
+import { AppPermissions } from './models/permission.enum';
 
 export const routes: Routes = [
     {
@@ -39,21 +41,74 @@ export const routes: Routes = [
                 path: 'orders',
                 loadComponent: () => import('./admin/orders/orders.component').then(m => m.OrdersComponent)
             },
-            { path: 'categories', component: CategoriesComponent },
-            { path: 'inventory', loadComponent: () => import('./admin/inventory/inventory.component').then(m => m.InventoryComponent) },
-            { path: 'inventory/wastage', loadComponent: () => import('./admin/inventory/wastage-list/wastage-list.component').then(m => m.WastageListComponent) },
-            { path: 'inventory/wastage/create', loadComponent: () => import('./admin/inventory/wastage-create/wastage-create.component').then(m => m.WastageCreateComponent) },
-            { path: 'stock-takes', loadComponent: () => import('./admin/stock-takes/stock-takes.component').then(m => m.StockTakesComponent) },
-            { path: 'stock-takes/create', loadComponent: () => import('./admin/stock-takes/stock-take-create/stock-take-create.component').then(m => m.StockTakeCreateComponent) },
-            { path: 'stock-takes/:id', loadComponent: () => import('./admin/stock-takes/stock-take-detail/stock-take-detail.component').then(m => m.StockTakeDetailComponent) },
-            { path: 'products', component: ProductsComponent },
-            { path: 'products/low-stock', loadComponent: () => import('./admin/products/low-stock/low-stock.component').then(m => m.LowStockComponent) },
-            { path: 'transactions', loadComponent: () => import('./admin/transactions/transactions.component').then(m => m.TransactionsComponent) },
-            { path: 'transactions/create', loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) },
-            { path: 'transactions/edit/:id', loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) },
-            { path: 'transactions/:id', loadComponent: () => import('./admin/transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) },
-            { path: 'roles', component: RolesComponent },
-            { path: 'users', component: UsersComponent },
+            { 
+                path: 'categories', 
+                component: CategoriesComponent,
+                canActivate: [permissionGuard],
+                data: { permission: AppPermissions.ViewCategories }
+            },
+            { 
+                path: 'inventory', 
+                loadComponent: () => import('./admin/inventory/inventory.component').then(m => m.InventoryComponent) 
+            },
+            { 
+                path: 'inventory/wastage', 
+                loadComponent: () => import('./admin/inventory/wastage-list/wastage-list.component').then(m => m.WastageListComponent) 
+            },
+            { 
+                path: 'inventory/wastage/create', 
+                loadComponent: () => import('./admin/inventory/wastage-create/wastage-create.component').then(m => m.WastageCreateComponent) 
+            },
+            { 
+                path: 'stock-takes', 
+                loadComponent: () => import('./admin/stock-takes/stock-takes.component').then(m => m.StockTakesComponent) 
+            },
+            { 
+                path: 'stock-takes/create', 
+                loadComponent: () => import('./admin/stock-takes/stock-take-create/stock-take-create.component').then(m => m.StockTakeCreateComponent) 
+            },
+            { 
+                path: 'stock-takes/:id', 
+                loadComponent: () => import('./admin/stock-takes/stock-take-detail/stock-take-detail.component').then(m => m.StockTakeDetailComponent) 
+            },
+            { 
+                path: 'products', 
+                component: ProductsComponent,
+                canActivate: [permissionGuard],
+                data: { permission: AppPermissions.ViewProducts }
+            },
+            { 
+                path: 'products/low-stock', 
+                loadComponent: () => import('./admin/products/low-stock/low-stock.component').then(m => m.LowStockComponent) 
+            },
+            { 
+                path: 'transactions', 
+                loadComponent: () => import('./admin/transactions/transactions.component').then(m => m.TransactionsComponent) 
+            },
+            { 
+                path: 'transactions/create', 
+                loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) 
+            },
+            { 
+                path: 'transactions/edit/:id', 
+                loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) 
+            },
+            { 
+                path: 'transactions/:id', 
+                loadComponent: () => import('./admin/transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) 
+            },
+            { 
+                path: 'roles', 
+                component: RolesComponent,
+                canActivate: [permissionGuard],
+                data: { permission: AppPermissions.ViewRoles }
+            },
+            { 
+                path: 'users', 
+                component: UsersComponent,
+                canActivate: [permissionGuard],
+                data: { permission: AppPermissions.ViewUsers }
+            },
             {
                 path: 'customers',
                 loadComponent: () => import('./admin/customers/customers.component').then(m => m.CustomersComponent)
@@ -74,7 +129,10 @@ export const routes: Routes = [
                 path: 'promotions',
                 loadComponent: () => import('./admin/promotions/promotions.component').then(m => m.PromotionsComponent)
             },
-            { path: 'audits', loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) }
+            { 
+                path: 'audits', 
+                loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) 
+            }
         ]
     }
 ];

@@ -23,10 +23,30 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
+        var permitLimit = configuration.GetValue<int>("Security:RateLimiting:PermitLimit", 100);
+        var window = configuration.GetValue<int>("Security:RateLimiting:Window", 60);
+        var queueLimit = configuration.GetValue<int>("Security:RateLimiting:QueueLimit", 10);
+
+        services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = System.Threading.RateLimiting.PartitionedRateLimiter.Create<Microsoft.AspNetCore.Http.HttpContext, string>(httpContext =>
+                System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+                    factory: partition => new System.Threading.RateLimiting.FixedWindowRateLimiterOptions
+                    {
+                        AutoReplenishment = true,
+                        PermitLimit = permitLimit,
+                        QueueLimit = queueLimit,
+                        Window = TimeSpan.FromSeconds(window)
+                    }));
+            options.RejectionStatusCode = 429;
+        });
+
+        var allowedOrigins = configuration.GetSection("Security:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:4200" };
         services.AddCors(options =>
         {
             options.AddPolicy("AllowAll",
-                policy => policy.WithOrigins("http://localhost:4200")
+                policy => policy.WithOrigins(allowedOrigins)
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
                                 .AllowCredentials());
@@ -46,7 +66,7 @@ public static class DependencyInjection
         });
 
         // Configure JWT Authentication
-        var jwtKey = configuration["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
+        var jwtKey = configuration["Security:JwtKey"] ?? configuration["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

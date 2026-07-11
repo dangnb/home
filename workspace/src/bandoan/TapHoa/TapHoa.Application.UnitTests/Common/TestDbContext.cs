@@ -32,6 +32,9 @@ public class TestDbContext : DbContext, IApplicationDbContext
     public DbSet<ProductBatch> ProductBatches => Set<ProductBatch>();
     public DbSet<StockTake> StockTakes => Set<StockTake>();
     public DbSet<StockTakeLine> StockTakeLines => Set<StockTakeLine>();
+    public DbSet<Promotion> Promotions => Set<Promotion>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
 
     public Guid CurrentCompanyId { get; set; } = Guid.Parse("01950000-0000-7000-8000-000000000000");
 

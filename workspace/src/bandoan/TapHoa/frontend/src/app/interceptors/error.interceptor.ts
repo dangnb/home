@@ -22,6 +22,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
                 return handle401Error(req, next, authService, router, alertService);
             }
 
+            // Intercept 403 Forbidden errors
+            if (error.status === 403) {
+                alertService.error('Không có quyền', 'Bạn không có quyền thực hiện thao tác này.');
+                router.navigate(['/admin/dashboard']);
+            }
+
             return throwError(() => error);
         })
     );

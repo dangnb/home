@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     labels: [],
     datasets: [{
       data: [],
-      backgroundColor: ['#4CAF50', '#FF9800', '#F44336', '#2196F3', '#9C27B0']
+      backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
     }]
   };
   public pieChartType: ChartType = 'pie';
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   public barChartData: ChartData<'bar'> = {
     labels: [],
     datasets: [
-      { data: [], label: 'Số lượng xuất', backgroundColor: '#3f51b5' }
+      { data: [], label: 'Số lượng xuất', backgroundColor: '#6366f1' }
     ]
   };
   public barChartType: ChartType = 'bar';

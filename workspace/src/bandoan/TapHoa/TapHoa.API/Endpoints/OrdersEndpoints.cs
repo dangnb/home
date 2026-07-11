@@ -39,6 +39,12 @@ public static class OrdersEndpoints
             return Results.Ok(result);
         });
 
+        group.MapPut("/{id:guid}/cancel", async (IMediator mediator, Guid id) =>
+        {
+            var result = await mediator.Send(new CancelOrderCommand(id));
+            return Results.Ok(new { success = result, message = "Đơn hàng đã được hủy thành công." });
+        });
+
         return group;
     }
 }

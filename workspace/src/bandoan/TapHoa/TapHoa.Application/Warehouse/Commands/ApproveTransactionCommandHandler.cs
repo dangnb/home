@@ -82,7 +82,8 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
             }
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        // NOTE: Single SaveChangesAsync at the end for atomicity — 
+        // stock changes and debt records are committed together.
 
         // Auto-create debt if AmountPaid < TotalAmount
         decimal totalAmount = transaction.Lines.Sum(l => l.Quantity * l.UnitCost);
@@ -130,9 +131,10 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
                     _context.CustomerDebtTransactions.Add(debtTransaction);
                 }
             }
-            
-            await _context.SaveChangesAsync(cancellationToken);
         }
+
+        // Single atomic save for all changes (stock + debt)
+        await _context.SaveChangesAsync(cancellationToken);
 
         return true;
     }

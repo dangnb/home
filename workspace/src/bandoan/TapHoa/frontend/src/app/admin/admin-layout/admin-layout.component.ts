@@ -20,6 +20,10 @@ export class AdminLayoutComponent {
   showNotifications = false;
   lowStockCount = 0;
   lowStockProducts: any[] = [];
+
+  displayName = 'Admin';
+  displayRole = 'ADMIN';
+  displayInitial = 'A';
   
   expiringCount = 0;
   expiringBatches: ExpiringBatch[] = [];
@@ -57,6 +61,19 @@ export class AdminLayoutComponent {
     }
 
     this.loadNotifications();
+    this.loadUserInfo();
+  }
+
+  loadUserInfo() {
+    try {
+      const authRaw = localStorage.getItem('authInfo');
+      if (authRaw) {
+        const authInfo = JSON.parse(authRaw);
+        this.displayName = authInfo.fullName || authInfo.username || 'Admin';
+        this.displayRole = (authInfo.roles && authInfo.roles.length > 0) ? authInfo.roles[0].toUpperCase() : 'ADMIN';
+        this.displayInitial = this.displayName.charAt(0).toUpperCase();
+      }
+    } catch {}
   }
 
   loadNotifications() {
