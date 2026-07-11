@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -22,6 +22,7 @@ export class PosComponent implements OnInit {
   private productService = inject(ProductService);
   private customerService = inject(CustomerService);
   private alertService = inject(AlertService);
+  private cdr = inject(ChangeDetectorRef);
 
   products: any[] = [];
   customers: any[] = [];
@@ -57,12 +58,18 @@ export class PosComponent implements OnInit {
     this.isLoadingProducts = true;
     this.productService.getPaged(1, 50, { SearchTerm: term || '' }).subscribe({
       next: (res: any) => {
-        this.products = res.items || res; // fallback if api returns direct array somehow
+        if (Array.isArray(res)) {
+          this.products = res;
+        } else {
+          this.products = res.items || res.Items || res.data?.items || res.data?.Items || [];
+        }
         this.isLoadingProducts = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.isLoadingProducts = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -73,7 +80,14 @@ export class PosComponent implements OnInit {
 
   loadCustomers() {
     this.customerService.getCustomers().subscribe({
-      next: (res: any) => this.customers = Array.isArray(res) ? res : res.items,
+      next: (res: any) => {
+        if (Array.isArray(res)) {
+          this.customers = res;
+        } else {
+          this.customers = res.items || res.Items || res.data?.items || res.data?.Items || [];
+        }
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }

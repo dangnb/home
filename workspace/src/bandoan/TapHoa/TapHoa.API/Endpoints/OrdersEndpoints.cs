@@ -23,7 +23,8 @@ public static class OrdersEndpoints
             [FromQuery] int? pageSize, 
             [FromQuery] string? searchTerm,
             [FromQuery] DateTime? fromDate,
-            [FromQuery] DateTime? toDate) =>
+            [FromQuery] DateTime? toDate,
+            [FromQuery] OrderStatus? status) =>
         {
             var query = new GetOrdersQuery 
             { 
@@ -31,7 +32,8 @@ public static class OrdersEndpoints
                 PageSize = pageSize ?? 10,
                 SearchTerm = searchTerm,
                 FromDate = fromDate,
-                ToDate = toDate
+                ToDate = toDate,
+                Status = status
             };
             var result = await mediator.Send(query);
             return Results.Ok(result);

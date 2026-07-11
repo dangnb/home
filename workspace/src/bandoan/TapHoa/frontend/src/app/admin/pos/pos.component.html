@@ -50,32 +50,36 @@
     </div>
 
     <!-- Product Grid -->
-    <div class="row g-3" *ngIf="!isLoadingProducts">
-      <div class="col-6 col-md-4 col-xl-3" *ngFor="let product of products">
-        <div class="card h-100 product-card shadow-sm bg-white" (click)="addToCart(product)">
-          <div class="product-img-wrapper position-relative">
-            <i class="bi bi-box-seam"></i>
-            <span class="position-absolute top-0 end-0 m-2 badge bg-success bg-opacity-75 rounded-pill shadow-sm" style="font-size: 0.7rem;">
-              Kho: {{ product.stockQuantity || 10 }}
-            </span>
-          </div>
-          <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
-            <h6 class="card-title text-dark fw-bold mb-2 text-truncate" style="font-size: 0.95rem;" [title]="product.name">{{ product.name }}</h6>
-            <div class="mt-auto">
-              <span class="text-primary fw-bolder fs-5">{{ product.price | number:'1.0-0' }}<small class="text-muted ms-1 fs-6">đ</small></span>
+    @if (!isLoadingProducts) {
+      <div class="row g-3">
+        @for (product of products; track product.id) {
+        <div class="col-6 col-md-4 col-xl-3">
+          <div class="card h-100 product-card shadow-sm bg-white" (click)="addToCart(product)">
+            <div class="product-img-wrapper position-relative">
+              <i class="bi bi-box-seam"></i>
+              <span class="position-absolute top-0 end-0 m-2 badge bg-success bg-opacity-75 rounded-pill shadow-sm" style="font-size: 0.7rem;">
+                Kho: {{ product.stockQuantity || 10 }}
+              </span>
+            </div>
+            <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
+              <h6 class="card-title text-dark fw-bold mb-2 text-truncate" style="font-size: 0.95rem;" [title]="product.name">{{ product.name }}</h6>
+              <div class="mt-auto">
+                <span class="text-primary fw-bolder fs-5">{{ product.price | number:'1.0-0' }}<small class="text-muted ms-1 fs-6">đ</small></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <div class="col-12 text-center text-muted py-5" *ngIf="products.length === 0">
-        <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
-          <i class="bi bi-inbox fs-1 text-secondary"></i>
+        } @empty {
+        <div class="col-12 text-center text-muted py-5">
+          <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
+            <i class="bi bi-inbox fs-1 text-secondary"></i>
+          </div>
+          <h5 class="fw-bold">Không tìm thấy sản phẩm</h5>
+          <p>Vui lòng thử tìm kiếm với từ khóa khác.</p>
         </div>
-        <h5 class="fw-bold">Không tìm thấy sản phẩm</h5>
-        <p>Vui lòng thử tìm kiếm với từ khóa khác.</p>
+        }
       </div>
-    </div>
+    }
   </div>
 
   <!-- Cột giỏ hàng và thanh toán (Bên phải) -->
@@ -93,7 +97,8 @@
     
     <!-- Danh sách item -->
     <div class="cart-items">
-      <div class="cart-item" *ngFor="let item of cart; let i = index">
+      @for (item of cart; track item.product.id; let i = $index) {
+      <div class="cart-item">
         <div class="d-flex justify-content-between align-items-start mb-2">
           <div class="fw-bold text-dark pe-2">{{ item.product.name }}</div>
           <button class="btn btn-link text-danger p-0 border-0" (click)="removeFromCart(i)"><i class="bi bi-x-circle-fill fs-5"></i></button>
@@ -111,11 +116,12 @@
           <div class="fw-bolder text-dark fs-6">{{ (item.product.price * item.quantity) | number:'1.0-0' }}đ</div>
         </div>
       </div>
-
-      <div class="text-center text-muted py-5 h-100 d-flex flex-column justify-content-center align-items-center" *ngIf="cart.length === 0">
+      } @empty {
+      <div class="text-center text-muted py-5 h-100 d-flex flex-column justify-content-center align-items-center">
         <i class="bi bi-cart-x fs-1 mb-2 text-secondary opacity-50"></i>
         <p class="mb-0">Chưa có sản phẩm trong giỏ</p>
       </div>
+      }
     </div>
 
     <!-- Footer Thanh toán -->
@@ -125,7 +131,9 @@
         <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
         <select class="form-select form-control-solid rounded-3 ps-5 py-2 border-0 shadow-sm fw-medium text-dark bg-light" [(ngModel)]="selectedCustomerId">
           <option [ngValue]="null">Khách lẻ (Mặc định)</option>
-          <option *ngFor="let cus of customers" [ngValue]="cus.id">{{ cus.name || cus.fullName }} - {{ cus.phoneNumber }}</option>
+          @for (cus of customers; track cus.id) {
+          <option [ngValue]="cus.id">{{ cus.name || cus.fullName }} - {{ cus.phoneNumber }}</option>
+          }
         </select>
       </div>
 

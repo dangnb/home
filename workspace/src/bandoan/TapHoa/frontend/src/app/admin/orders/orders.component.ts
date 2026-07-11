@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
@@ -14,9 +14,13 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 })
 export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
+  private cdr = inject(ChangeDetectorRef);
 
   orders: OrderDto[] = [];
   searchTerm = '';
+  fromDate = '';
+  toDate = '';
+  status: number | null = null;
   
   // Pagination
   currentPage = 1;
@@ -31,11 +35,21 @@ export class OrdersComponent implements OnInit {
   }
 
   loadOrders() {
-    this.orderService.getPagedOrders(this.currentPage, this.pageSize, this.searchTerm).subscribe({
+    this.orderService.getPagedOrders(this.currentPage, this.pageSize, this.searchTerm, this.fromDate, this.toDate, this.status || undefined).subscribe({
       next: (res: any) => {
         console.log('Orders API Response:', res);
-        this.orders = res.items || res.Items || res.data?.items || res.data?.Items || [];
-        this.totalCount = res.totalCount || res.TotalCount || res.data?.totalCount || res.data?.TotalCount || 0;
+        
+        // Handle both object {items: ...} and flat array responses just in case
+        if (Array.isArray(res)) {
+          this.orders = res;
+          this.totalCount = res.length;
+        } else {
+          this.orders = res.items || res.Items || res.data?.items || res.data?.Items || [];
+          this.totalCount = res.totalCount || res.TotalCount || res.data?.totalCount || res.data?.TotalCount || 0;
+        }
+        
+        // Force angular to update the view
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error(err);

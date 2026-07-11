@@ -9063,3 +9063,182 @@ System.InvalidOperationException: Transaction must be PendingApproval to be appr
 2026-07-11 13:41:01.499 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
 2026-07-11 13:41:01.881 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 497.4515 ms
 2026-07-11 13:41:01.930 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 18.8499 ms
+2026-07-11 13:42:21.679 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.1468 ms
+2026-07-11 13:42:21.682 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0448 ms
+2026-07-11 13:42:21.684 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.7185 ms
+2026-07-11 13:42:21.687 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.8363 ms
+2026-07-11 13:42:21.693 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0332 ms
+2026-07-11 13:42:21.709 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 14.9595 ms
+2026-07-11 13:42:21.711 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.8152 ms
+2026-07-11 13:42:21.718 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.7412 ms
+2026-07-11 13:42:21.752 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 8.1225 ms
+2026-07-11 13:42:43.922 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0625 ms
+2026-07-11 13:42:43.926 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.1624 ms
+2026-07-11 13:42:43.929 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.1035 ms
+2026-07-11 13:42:43.937 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.9908 ms
+2026-07-11 13:42:43.959 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0356 ms
+2026-07-11 13:42:43.963 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.0494 ms
+2026-07-11 13:42:43.976 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.4265 ms
+2026-07-11 13:42:43.981 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 21.1500 ms
+2026-07-11 13:42:44.026 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 18.3900 ms
+2026-07-11 13:43:10.552 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1886 ms
+2026-07-11 13:43:10.641 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 81.5408 ms
+2026-07-11 13:43:11.874 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/stock responded 204 in 0.0398 ms
+2026-07-11 13:43:11.876 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0334 ms
+2026-07-11 13:43:11.878 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0299 ms
+2026-07-11 13:43:11.888 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 9.0944 ms
+2026-07-11 13:43:11.888 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 8.6193 ms
+2026-07-11 13:43:11.910 +07:00 [INF] HTTP GET /api/v1/transactions/stock responded 200 in 33.7243 ms
+2026-07-11 13:43:15.166 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0302 ms
+2026-07-11 13:43:15.179 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 11.3356 ms
+2026-07-11 13:43:16.039 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.0311 ms
+2026-07-11 13:43:16.072 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 31.9580 ms
+2026-07-11 13:43:16.683 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0446 ms
+2026-07-11 13:43:16.683 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0171 ms
+2026-07-11 13:43:16.689 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 5.2867 ms
+2026-07-11 13:43:16.697 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 12.9921 ms
+2026-07-11 13:43:16.946 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 10.8450 ms
+2026-07-11 13:44:02.256 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0183 ms
+2026-07-11 13:44:02.270 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 13.0914 ms
+2026-07-11 13:44:28.918 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 13:44:28.940 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 13:44:28.940 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 13:44:28.940 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-11 13:44:29.011 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-11 13:44:29.242 +07:00 [ERR] Failed executing DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-11 13:44:29.249 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 2.0263 ms
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 1.9924 ms
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 2.0500 ms
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 2.0098 ms
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 2.0017 ms
+2026-07-11 13:44:30.730 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 2.0185 ms
+2026-07-11 13:44:30.738 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.3125 ms
+2026-07-11 13:44:30.817 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-11 13:44:30.823 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 13:44:30.823 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 13:44:30.823 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 13:44:30.823 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 13:44:30.823 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-11 13:44:30.911 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 168.3969 ms
+2026-07-11 13:44:30.919 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 176.5341 ms
+2026-07-11 13:44:30.919 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 176.5244 ms
+2026-07-11 13:44:30.933 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 13.8977 ms
+2026-07-11 13:44:31.121 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 378.6203 ms
+2026-07-11 13:44:31.169 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 426.1043 ms
+2026-07-11 13:44:31.173 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 50.3050 ms
+2026-07-11 13:44:38.407 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0670 ms
+2026-07-11 13:44:38.407 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0668 ms
+2026-07-11 13:44:38.413 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 4.0217 ms
+2026-07-11 13:44:38.415 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 5.8108 ms
+2026-07-11 13:44:38.415 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0647 ms
+2026-07-11 13:44:38.415 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0335 ms
+2026-07-11 13:44:38.419 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.6677 ms
+2026-07-11 13:44:38.420 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 3.6545 ms
+2026-07-11 13:44:38.709 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.3661 ms
+2026-07-11 13:44:38.712 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 3.6508 ms
+2026-07-11 13:44:38.735 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.1550 ms
+2026-07-11 13:44:38.757 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 19.9889 ms
+2026-07-11 13:45:18.734 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.1265 ms
+2026-07-11 13:45:18.762 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 25.4570 ms
+2026-07-11 13:45:28.372 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.1265 ms
+2026-07-11 13:45:28.431 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 54.3576 ms
+2026-07-11 13:45:31.186 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0829 ms
+2026-07-11 13:45:31.234 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 46.6162 ms
+2026-07-11 13:45:32.226 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0583 ms
+2026-07-11 13:45:32.246 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 17.9453 ms
+2026-07-11 13:45:33.903 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0988 ms
+2026-07-11 13:45:33.924 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 18.4645 ms
+2026-07-11 13:45:39.137 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1009 ms
+2026-07-11 13:45:39.257 +07:00 [INF] HTTP GET /api/v1/transactions responded 200 in 119.1892 ms
+2026-07-11 13:45:39.608 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0783 ms
+2026-07-11 13:45:39.608 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0281 ms
+2026-07-11 13:45:39.611 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.8739 ms
+2026-07-11 13:45:39.612 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.8023 ms
+2026-07-11 13:46:48.117 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0452 ms
+2026-07-11 13:46:48.117 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0442 ms
+2026-07-11 13:46:48.120 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.9163 ms
+2026-07-11 13:46:48.121 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.3371 ms
+2026-07-11 13:46:48.121 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0370 ms
+2026-07-11 13:46:48.121 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0184 ms
+2026-07-11 13:46:48.124 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.1022 ms
+2026-07-11 13:46:48.124 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.7839 ms
+2026-07-11 13:46:48.827 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.7175 ms
+2026-07-11 13:46:48.827 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.9322 ms
+2026-07-11 13:46:48.832 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.3359 ms
+2026-07-11 13:46:48.833 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2721 ms
+2026-07-11 13:46:49.096 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.4662 ms
+2026-07-11 13:46:49.097 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.3380 ms
+2026-07-11 13:46:49.101 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.0004 ms
+2026-07-11 13:46:49.102 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.9572 ms
+2026-07-11 13:46:49.353 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.5851 ms
+2026-07-11 13:46:49.353 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.8924 ms
+2026-07-11 13:46:49.357 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.4456 ms
+2026-07-11 13:46:49.357 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.9420 ms
+2026-07-11 13:46:49.803 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0364 ms
+2026-07-11 13:46:49.819 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 14.6330 ms
+2026-07-11 13:46:50.493 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 24.5824 ms
+2026-07-11 13:46:50.494 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 25.3381 ms
+2026-07-11 13:46:50.506 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 13.1291 ms
+2026-07-11 13:46:50.945 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3429 ms
+2026-07-11 13:46:50.946 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.9863 ms
+2026-07-11 13:46:50.953 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 5.1008 ms
+2026-07-11 13:46:55.082 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0381 ms
+2026-07-11 13:46:55.130 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 46.0975 ms
+2026-07-11 13:47:01.539 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0199 ms
+2026-07-11 13:47:01.539 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0123 ms
+2026-07-11 13:47:01.542 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.4138 ms
+2026-07-11 13:47:01.544 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 3.5374 ms
+2026-07-11 13:47:01.868 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0302 ms
+2026-07-11 13:47:01.883 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 13.6176 ms
+2026-07-11 13:47:02.338 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.0270 ms
+2026-07-11 13:47:02.377 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 37.0395 ms
+2026-07-11 13:47:02.981 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.2530 ms
+2026-07-11 13:47:02.982 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.2067 ms
+2026-07-11 13:47:54.410 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0379 ms
+2026-07-11 13:47:54.410 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0102 ms
+2026-07-11 13:47:54.412 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3713 ms
+2026-07-11 13:47:54.413 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.7399 ms
+2026-07-11 13:47:54.419 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0174 ms
+2026-07-11 13:47:54.419 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0163 ms
+2026-07-11 13:47:54.421 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.9695 ms
+2026-07-11 13:47:54.422 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5471 ms
+2026-07-11 13:47:54.684 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.4465 ms
+2026-07-11 13:47:54.686 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.0948 ms
+2026-07-11 13:47:54.722 +07:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0353 ms
+2026-07-11 13:47:54.738 +07:00 [INF] HTTP GET /api/v1/orders responded 200 in 14.6561 ms
+2026-07-11 13:48:51.489 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0324 ms
+2026-07-11 13:48:51.489 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0134 ms
+2026-07-11 13:48:51.492 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6875 ms
+2026-07-11 13:48:51.492 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.7294 ms
+2026-07-11 13:48:51.495 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0146 ms
+2026-07-11 13:48:51.495 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0108 ms
+2026-07-11 13:48:51.497 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8589 ms
+2026-07-11 13:48:51.497 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.4689 ms
+2026-07-11 13:48:52.161 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.0000 ms
+2026-07-11 13:48:52.162 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.5936 ms
+2026-07-11 13:48:52.165 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8519 ms
+2026-07-11 13:48:52.165 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3743 ms
+2026-07-11 13:48:52.418 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.2043 ms
+2026-07-11 13:48:52.419 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.9739 ms
+2026-07-11 13:48:52.422 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.9320 ms
+2026-07-11 13:48:52.423 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5765 ms
+2026-07-11 13:48:52.624 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.0615 ms
+2026-07-11 13:48:52.624 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.3984 ms
+2026-07-11 13:48:52.628 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8458 ms
+2026-07-11 13:48:52.628 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.3836 ms
+2026-07-11 13:49:06.151 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0190 ms
+2026-07-11 13:49:06.152 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0107 ms
+2026-07-11 13:49:06.154 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3642 ms
+2026-07-11 13:49:06.154 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.8037 ms
+2026-07-11 13:49:06.156 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0166 ms
+2026-07-11 13:49:06.156 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0066 ms
+2026-07-11 13:49:06.158 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 0.8843 ms
+2026-07-11 13:49:06.159 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.5842 ms
