@@ -8,5 +8,7 @@ public record CreateInboundTransactionCommand(
     string ReferenceId, 
     string Notes, 
     List<TransactionLineDto> Lines,
+    decimal AmountPaid = 0,
+    Guid? SupplierId = null,
     string CreatedBy = "System"
 ) : IRequest<Guid>;

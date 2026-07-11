@@ -13,8 +13,8 @@
             <th class="ps-4 fw-semibold border-0">Số phiếu</th>
             <th class="fw-semibold border-0">Ngày tạo</th>
             <th class="fw-semibold border-0">Trạng thái</th>
-            <th class="fw-semibold border-0">Số sản phẩm</th>
-            <th class="fw-semibold border-0">Ghi chú</th>
+            <th class="fw-semibold border-0 d-none d-md-table-cell">Số SP</th>
+            <th class="fw-semibold border-0 d-none d-lg-table-cell">Ghi chú</th>
             <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
           </tr>
         </thead>
@@ -39,8 +39,8 @@
                 {{ getStatusText(item.status) }}
               </span>
             </td>
-            <td>{{ item.totalLines }}</td>
-            <td class="text-muted small text-truncate" style="max-width: 200px;" [title]="item.notes || ''">
+            <td class="d-none d-md-table-cell">{{ item.totalLines }}</td>
+            <td class="text-muted small text-truncate d-none d-lg-table-cell" style="max-width: 200px;" [title]="item.notes || ''">
               {{ item.notes || '-' }}
             </td>
             <td class="text-end pe-4">

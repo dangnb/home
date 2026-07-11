@@ -490,14 +490,6 @@
     .main-wrapper {
         margin-left: 0;
     }
-
-    /* When toggled open on mobile (we reuse sidebar-collapsed class but invert logic for mobile if needed, 
-       actually it's better to just use a class like 'sidebar-open' or adapt 'sidebar-collapsed' logic. 
-       Wait, by default isSidebarCollapsed is false. So 'sidebar-collapsed' class is NOT present.
-       Let's reverse the meaning on mobile: 
-       Without 'sidebar-collapsed': sidebar is HIDDEN.
-       With 'sidebar-collapsed': sidebar is SHOWN. (Wait, that's confusing. Let's just use CSS)
-    */
 }
 
 @media (max-width: 768px) {
@@ -536,16 +528,55 @@
         }
     }
     
-    /* When sidebar is explicitly toggled, we can use a class. 
-       Let's assume we change TS to handle 'sidebar-open' for mobile, 
-       but for now we can just use the existing sidebar-collapsed class as a toggle.
-       If sidebar-collapsed is TRUE, show sidebar on mobile.
-    */
+    .sidebar-backdrop {
+        display: none;
+    }
+
     .sidebar-collapsed {
         .sidebar {
             transform: translateX(0);
             width: 260px;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            
+            .sidebar-header {
+                padding: 2rem 1.5rem 1.5rem;
+                text-align: left;
+                h2 { font-size: 1.6rem; span { display: inline; } }
+                .subtitle { display: block; }
+            }
+            .nav-links li a {
+                justify-content: flex-start;
+                padding: 0.8rem 1rem;
+                &.active {
+                    padding-left: 1rem;
+                }
+                .nav-text { display: inline; }
+            }
+            .sidebar-footer a {
+                justify-content: flex-start;
+                padding: 0.85rem 1rem;
+                .nav-text { display: inline; }
+            }
+            .nav-divider { display: block; }
         }
+
+        .sidebar-backdrop {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1040;
+            backdrop-filter: blur(2px);
+        }
+    }
+}
+
+/* Global Responsive Table Utilities */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: 0;
     }
 }

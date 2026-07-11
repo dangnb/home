@@ -1,0 +1,220 @@
+<div class="row g-4 mb-4">
+  <!-- Summary Cards -->
+  <div class="col-md-4">
+    <div class="summary-card p-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="text-muted fw-bold mb-1 fs-6">Tổng Khuyến Mãi</p>
+          <h3 class="fw-bolder text-dark mb-0">{{ totalCount }}</h3>
+        </div>
+        <div class="icon-wrapper bg-primary bg-opacity-10 text-primary">
+          <i class="bi bi-gift-fill"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="summary-card p-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p class="text-muted fw-bold mb-1 fs-6">Đang diễn ra</p>
+          <h3 class="fw-bolder text-success mb-0">{{ promotions.length }}</h3>
+        </div>
+        <div class="icon-wrapper bg-success bg-opacity-10 text-success">
+          <i class="bi bi-play-circle-fill"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="summary-card p-4 h-100 d-flex flex-column justify-content-center border-primary border-opacity-50" style="background: #eff6ff; cursor: pointer;" (click)="openAddModal()">
+      <div class="d-flex align-items-center justify-content-center text-primary fw-bold gap-2 fs-5">
+        <i class="bi bi-plus-circle-fill"></i> Thêm mới nhanh
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
+  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
+    <h5 class="mb-0 fw-bold text-dark fs-5 d-flex align-items-center gap-2">
+      <i class="bi bi-tags text-primary"></i> Danh sách Khuyến mãi
+    </h5>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="search-input-wrapper shadow-sm">
+        <i class="bi bi-search"></i>
+        <input type="text" class="w-100 border-0" placeholder="Tìm kiếm chương trình..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      
+      <button class="btn btn-primary d-flex align-items-center gap-2 text-nowrap rounded-pill px-4 shadow-sm fw-medium" (click)="openAddModal()">
+        <i class="bi bi-plus-lg"></i> Thêm khuyến mãi
+      </button>
+    </div>
+  </div>
+
+  <div class="bg-light p-4 rounded-bottom">
+    <div class="table-responsive">
+      <table class="table promo-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th class="ps-4">Tên chương trình</th>
+            <th>Loại ưu đãi</th>
+            <th class="text-end">Mức giảm</th>
+            <th class="text-end d-none d-md-table-cell">Đơn tối thiểu</th>
+            <th class="d-none d-lg-table-cell">Thời gian áp dụng</th>
+            <th class="text-center">Trạng thái</th>
+            <th class="text-end pe-4">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of promotions; track p.id) {
+            <tr>
+              <td class="ps-4">
+                <div class="fw-bold text-dark fs-6">{{ p.name }}</div>
+                <div class="text-muted small text-truncate mt-1" style="max-width: 250px;">{{ p.description || 'Không có mô tả' }}</div>
+              </td>
+              <td>
+                <span class="badge rounded-pill fw-medium" 
+                      [ngClass]="{
+                        'bg-info bg-opacity-10 text-info border border-info': p.type === PromotionType.PercentageOff,
+                        'bg-success bg-opacity-10 text-success border border-success': p.type === PromotionType.FixedAmountOff,
+                        'bg-warning bg-opacity-10 text-warning border border-warning': p.type === PromotionType.BuyXGetY
+                      }">
+                  <i class="bi bi-percent me-1" *ngIf="p.type === PromotionType.PercentageOff"></i>
+                  <i class="bi bi-cash me-1" *ngIf="p.type === PromotionType.FixedAmountOff"></i>
+                  <i class="bi bi-box2 me-1" *ngIf="p.type === PromotionType.BuyXGetY"></i>
+                  {{ p.type === PromotionType.PercentageOff ? 'Giảm %' : (p.type === PromotionType.FixedAmountOff ? 'Trừ tiền' : 'Mua X Tặng Y') }}
+                </span>
+              </td>
+              <td class="text-end fw-bolder text-dark fs-6">
+                {{ p.type === PromotionType.PercentageOff ? p.discountValue + '%' : (p.discountValue | number:'1.0-0') + ' ₫' }}
+              </td>
+              <td class="text-end d-none d-md-table-cell text-muted fw-medium">
+                {{ p.minOrderAmount | number:'1.0-0' }} ₫
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <div class="d-flex flex-column small">
+                  @if (p.startDate || p.endDate) {
+                    <span class="text-dark"><i class="bi bi-calendar2-check text-success me-1"></i> {{ p.startDate ? (p.startDate | date:'dd/MM HH:mm') : '...' }}</span>
+                    <span class="text-muted mt-1"><i class="bi bi-calendar2-x text-danger me-1"></i> {{ p.endDate ? (p.endDate | date:'dd/MM HH:mm') : '...' }}</span>
+                  } @else {
+                    <span class="badge bg-light text-dark border">Không giới hạn</span>
+                  }
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check form-switch d-inline-block mb-0">
+                  <input class="form-check-input custom-switch" type="checkbox" [checked]="p.isActive" (change)="toggleStatus(p)">
+                </div>
+              </td>
+              <td class="text-end pe-4">
+                <button class="action-btn text-secondary" (click)="openEditModal(p)" title="Chỉnh sửa">
+                  <i class="bi bi-pencil-square fs-5"></i>
+                </button>
+                <button class="action-btn delete text-secondary" (click)="deletePromotion(p.id)" title="Xóa">
+                  <i class="bi bi-trash fs-5"></i>
+                </button>
+              </td>
+            </tr>
+          }
+          @if (promotions.length === 0) {
+            <tr>
+              <td colspan="7" class="text-center py-5 bg-white rounded-3">
+                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                  <i class="bi bi-gift fs-1 text-muted opacity-50"></i>
+                </div>
+                <h5 class="fw-bold text-dark">Chưa có khuyến mãi</h5>
+                <p class="text-muted">Tạo mới chương trình khuyến mãi để kích thích mua sắm.</p>
+                <button class="btn btn-outline-primary rounded-pill px-4 mt-2" (click)="openAddModal()">Thêm ngay</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="card-footer bg-white border-top-0 py-3 px-4 rounded-bottom">
+    <app-pagination [currentPage]="currentPage" [pageSize]="pageSize" [totalItems]="totalCount"
+        (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
+  </div>
+</div>
+
+@if (showModal) {
+<app-modal [title]="isEditMode ? 'Cập nhật khuyến mãi' : 'Thêm khuyến mãi mới'" (closeDialog)="closeModal()">
+  <form (ngSubmit)="savePromotion()" #promoForm="ngForm" id="promoNgForm">
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label text-muted fw-bold mb-1">Tên chương trình <span class="text-danger">*</span></label>
+        <input type="text" class="form-control bg-light border-0 py-2 fw-medium" name="name" [(ngModel)]="editingPromotion.name" required placeholder="Ví dụ: Giảm giá mùa hè...">
+      </div>
+
+      <div class="col-md-6 col-12">
+        <label class="form-label text-muted fw-bold mb-1">Loại khuyến mãi <span class="text-danger">*</span></label>
+        <select class="form-select bg-light border-0 py-2 fw-medium" [(ngModel)]="editingPromotion.type" name="type" required>
+          <option [ngValue]="1">Giảm giá theo %</option>
+          <option [ngValue]="2">Giảm giá tiền mặt</option>
+          <option [ngValue]="3">Mua X tặng Y</option>
+        </select>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <label class="form-label text-muted fw-bold mb-1">Đơn tối thiểu áp dụng</label>
+        <div class="input-group">
+          <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.minOrderAmount" name="minOrder" placeholder="0">
+          <span class="input-group-text bg-light border-0 fw-bold text-muted">₫</span>
+        </div>
+      </div>
+
+      @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.FixedAmountOff) {
+        <div class="col-12">
+          <label class="form-label text-muted fw-bold mb-1">
+            {{ editingPromotion.type === PromotionType.PercentageOff ? 'Mức giảm (%)' : 'Số tiền giảm' }} <span class="text-danger">*</span>
+          </label>
+          <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold text-danger" appNumberFormat [(ngModel)]="editingPromotion.discountValue" name="discountValue" required placeholder="0">
+            <span class="input-group-text bg-light border-0 fw-bold text-muted">{{ editingPromotion.type === PromotionType.PercentageOff ? '%' : '₫' }}</span>
+          </div>
+        </div>
+      }
+
+      @if (editingPromotion.type === PromotionType.BuyXGetY) {
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Số lượng Mua (X)</label>
+          <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold" [(ngModel)]="editingPromotion.buyQuantity" name="buyQty" placeholder="0">
+        </div>
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Số lượng Tặng (Y)</label>
+          <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold text-success" [(ngModel)]="editingPromotion.getQuantity" name="getQty" placeholder="0">
+        </div>
+      }
+
+      <div class="col-md-6 col-12">
+        <label class="form-label text-muted fw-bold mb-1">Thời gian bắt đầu</label>
+        <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.startDate" name="startDate">
+      </div>
+      <div class="col-md-6 col-12">
+        <label class="form-label text-muted fw-bold mb-1">Thời gian kết thúc</label>
+        <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.endDate" name="endDate">
+      </div>
+
+      <div class="col-12">
+        <label class="form-label text-muted fw-bold mb-1">Mô tả thêm</label>
+        <textarea class="form-control bg-light border-0 py-2 fw-medium" rows="3" [(ngModel)]="editingPromotion.description" name="description" placeholder="Ghi chú nội bộ hoặc thể lệ chương trình..."></textarea>
+      </div>
+    </div>
+  </form>
+  
+  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0 shadow-sm" (click)="closeModal()">Đóng</button>
+    <button type="submit" form="promoNgForm" class="btn btn-primary text-white fw-bold rounded-pill px-5 py-2 border-0 shadow-sm" [disabled]="!promoForm.form.valid || isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+      }
+      {{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}
+    </button>
+  </div>
+</app-modal>
+}

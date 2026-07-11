@@ -18,6 +18,10 @@ public class InventoryTransaction : BaseEntity<Guid>
     public DateTime? ApprovedAt { get; private set; }
     public string? ApprovedBy { get; private set; }
 
+    public Guid? SupplierId { get; private set; }
+    public Guid? CustomerId { get; private set; }
+    public decimal AmountPaid { get; private set; }
+
     public virtual ICollection<InventoryTransactionLine> Lines { get; private set; }
 
     private InventoryTransaction() { } // For EF Core
@@ -86,5 +90,12 @@ public class InventoryTransaction : BaseEntity<Guid>
             throw new InvalidOperationException("Cannot cancel a completed transaction.");
 
         Status = TransactionStatus.Cancelled;
+    }
+
+    public void SetPaymentDetails(decimal amountPaid, Guid? supplierId = null, Guid? customerId = null)
+    {
+        AmountPaid = amountPaid;
+        SupplierId = supplierId;
+        CustomerId = customerId;
     }
 }

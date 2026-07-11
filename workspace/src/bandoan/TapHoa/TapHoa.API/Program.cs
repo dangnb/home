@@ -30,6 +30,129 @@ app.UseSerilogRequestLogging();
 
 // KHÔNG SỬ DỤNG context.Database.Migrate() Ở ĐÂY VÌ LỖI DBNull CAST CỦA ORACLE PROVIDER (.NET 10)
 // DB schema đã được cài đặt hoàn tất thông qua native script trước đó.
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<TapHoa.Infrastructure.Data.AppDbContext>();
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Promotions` (
+                `Id` char(36) NOT NULL,
+                `Name` longtext NOT NULL,
+                `Description` longtext NULL,
+                `Type` int NOT NULL,
+                `MinOrderAmount` decimal(18,2) NOT NULL,
+                `StartDate` datetime(6) NULL,
+                `EndDate` datetime(6) NULL,
+                `IsActive` tinyint(1) NOT NULL,
+                `DiscountValue` decimal(18,2) NOT NULL,
+                `BuyQuantity` int NULL,
+                `GetQuantity` int NULL,
+                `TargetProductId` char(36) NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710204132_AddPromotionsAndLoyalty', '10.0.9');
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Orders` (
+                `Id` char(36) NOT NULL,
+                `OrderCode` longtext NOT NULL,
+                `CustomerId` char(36) NULL,
+                `OrderDate` datetime(6) NOT NULL,
+                `SubTotal` decimal(18,2) NOT NULL,
+                `DiscountAmount` decimal(18,2) NOT NULL,
+                `TotalAmount` decimal(18,2) NOT NULL,
+                `AmountPaid` decimal(18,2) NOT NULL,
+                `PaymentMethod` int NOT NULL,
+                `Status` int NOT NULL,
+                `PromotionId` char(36) NULL,
+                `CreatedBy` longtext NOT NULL,
+                `Notes` longtext NULL,
+                `CreatedDate` datetime(6) NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`),
+                CONSTRAINT `FK_Orders_Customers_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `Customers` (`Id`),
+                CONSTRAINT `FK_Orders_Promotions_PromotionId` FOREIGN KEY (`PromotionId`) REFERENCES `Promotions` (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `OrderDetails` (
+                `Id` char(36) NOT NULL,
+                `OrderId` char(36) NOT NULL,
+                `ProductId` char(36) NOT NULL,
+                `Quantity` int NOT NULL,
+                `UnitPrice` decimal(18,2) NOT NULL,
+                `SubTotal` decimal(18,2) NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`),
+                CONSTRAINT `FK_OrderDetails_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `Orders` (`Id`) ON DELETE CASCADE,
+                CONSTRAINT `FK_OrderDetails_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE INDEX IF NOT EXISTS `IX_OrderDetails_OrderId` ON `OrderDetails` (`OrderId`);
+            CREATE INDEX IF NOT EXISTS `IX_OrderDetails_ProductId` ON `OrderDetails` (`ProductId`);
+            CREATE INDEX IF NOT EXISTS `IX_Orders_CustomerId` ON `Orders` (`CustomerId`);
+            CREATE INDEX IF NOT EXISTS `IX_Orders_PromotionId` ON `Orders` (`PromotionId`);
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260711042701_AddPOSOrders', '10.0.9');
+        ");
+    }
+    catch { }
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -68,5 +191,7 @@ app.MapGroup("api/v{version:apiVersion}/supplier-ledger").WithApiVersionSet(apiV
 app.MapGroup("api/v{version:apiVersion}/customers").WithApiVersionSet(apiVersionSet).MapCustomersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/suppliers").WithApiVersionSet(apiVersionSet).MapSuppliersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/dashboard").WithApiVersionSet(apiVersionSet).MapDashboardEndpoints();
+app.MapGroup("api/v{version:apiVersion}/promotions").WithApiVersionSet(apiVersionSet).MapPromotionsEndpoints();
+app.MapGroup("api/v{version:apiVersion}/orders").WithApiVersionSet(apiVersionSet).MapOrdersEndpoints();
 
 app.Run();

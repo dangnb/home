@@ -31,6 +31,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<SupplierDebtTransaction> SupplierDebtTransactions => Set<SupplierDebtTransaction>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
+    public DbSet<Promotion> Promotions => Set<Promotion>();
     
     // Warehouse
     public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
@@ -40,6 +41,10 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<ProductBatch> ProductBatches => Set<ProductBatch>();
     public DbSet<StockTake> StockTakes => Set<StockTake>();
     public DbSet<StockTakeLine> StockTakeLines => Set<StockTakeLine>();
+
+    // Sales & POS
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
 
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
@@ -85,6 +90,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         modelBuilder.Entity<ProductBatch>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<WarehouseLocation>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<StockTake>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<Order>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<OrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.AdditionalImages)

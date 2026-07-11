@@ -2,14 +2,14 @@
     (click)="closeDialog.emit()">
     <div class="modal-dialog modal-dialog-centered" [ngClass]="'modal-' + size" (click)="$event.stopPropagation()">
         <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
-            <div class="modal-header px-4 py-3 bg-white" style="border-bottom: 1px solid #f1f5f9;">
-                <h5 class="modal-title fw-bold text-dark mb-0 fs-5">{{ title }}</h5>
-                <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="closeDialog.emit()" style="font-size: 0.8rem; opacity: 0.5;"></button>
+            <div class="modal-header px-3 py-2 bg-white" style="border-bottom: 1px solid #f1f5f9;">
+                <h5 class="modal-title fw-bold text-dark mb-0 fs-6">{{ title }}</h5>
+                <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="closeDialog.emit()" style="font-size: 0.75rem; opacity: 0.5;"></button>
             </div>
-            <div class="modal-body px-4 py-4 bg-white" style="max-height: 75vh; overflow-y: auto;">
+            <div class="modal-body px-3 py-3 bg-white" style="max-height: 75vh; overflow-y: auto;">
                 <ng-content></ng-content>
             </div>
-            <div class="modal-footer bg-white border-top-0 px-4 py-3 d-flex justify-content-end gap-2" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+            <div class="modal-footer bg-white border-top-0 px-3 py-2 d-flex justify-content-end gap-2" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
                 <ng-content select="[modal-footer]"></ng-content>
             </div>
         </div>

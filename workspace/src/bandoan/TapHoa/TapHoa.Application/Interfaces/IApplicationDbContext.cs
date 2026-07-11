@@ -13,6 +13,7 @@ public interface IApplicationDbContext
     DbSet<Role> Roles { get; }
     DbSet<UserToken> UserTokens { get; }
     DbSet<AuditLog> AuditLogs { get; }
+    DbSet<Promotion> Promotions { get; }
     DbSet<Customer> Customers { get; }
     DbSet<CustomerDebt> CustomerDebts { get; }
     DbSet<CustomerDebtTransaction> CustomerDebtTransactions { get; }
@@ -26,6 +27,8 @@ public interface IApplicationDbContext
     DbSet<ProductBatch> ProductBatches { get; }
     DbSet<StockTake> StockTakes { get; }
     DbSet<StockTakeLine> StockTakeLines { get; }
+    DbSet<Order> Orders { get; }
+    DbSet<OrderDetail> OrderDetails { get; }
 
     Guid CurrentCompanyId { get; }
 

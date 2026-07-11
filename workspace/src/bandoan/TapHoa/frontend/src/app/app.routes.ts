@@ -27,7 +27,18 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', loadComponent: () => import('./admin/dashboard/dashboard.component').then(m => m.DashboardComponent) },
+            {
+                path: 'dashboard',
+                loadComponent: () => import('./admin/dashboard/dashboard.component').then(m => m.DashboardComponent)
+            },
+            {
+                path: 'pos',
+                loadComponent: () => import('./admin/pos/pos.component').then(m => m.PosComponent)
+            },
+            {
+                path: 'orders',
+                loadComponent: () => import('./admin/orders/orders.component').then(m => m.OrdersComponent)
+            },
             { path: 'categories', component: CategoriesComponent },
             { path: 'inventory', loadComponent: () => import('./admin/inventory/inventory.component').then(m => m.InventoryComponent) },
             { path: 'inventory/wastage', loadComponent: () => import('./admin/inventory/wastage-list/wastage-list.component').then(m => m.WastageListComponent) },
@@ -58,6 +69,10 @@ export const routes: Routes = [
             {
                 path: 'supplier-debts',
                 loadComponent: () => import('./admin/supplier-debts/supplier-debts.component').then(m => m.SupplierDebtsComponent)
+            },
+            {
+                path: 'promotions',
+                loadComponent: () => import('./admin/promotions/promotions.component').then(m => m.PromotionsComponent)
             },
             { path: 'audits', loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) }
         ]

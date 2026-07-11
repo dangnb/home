@@ -5,6 +5,8 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto, TransactionDetailDto } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
 import { ProductService, ProductBatch } from '../../services/product.service';
+import { CustomerService } from '../../services/customer.service';
+import { SupplierService } from '../../services/supplier.service';
 import { Product } from '../../models/product';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
 
@@ -19,6 +21,8 @@ export class TransactionCreateComponent implements OnInit {
     private transactionService = inject(TransactionService);
     private alertService = inject(AlertService);
     private productService = inject(ProductService);
+    private customerService = inject(CustomerService);
+    private supplierService = inject(SupplierService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
 
@@ -27,9 +31,16 @@ export class TransactionCreateComponent implements OnInit {
 
     referenceId: string = '';
     notes: string = '';
+    amountPaid: number = 0;
 
     availableProducts: Product[] = [];
     lines: (TransactionLineDto & { productName: string, productBatchId?: string })[] = [];
+
+    // Customers and Suppliers
+    customers: any[] = [];
+    suppliers: any[] = [];
+    selectedCustomerId: string | null = null;
+    selectedSupplierId: string | null = null;
 
     // For Autocomplete
     searchQuery: string = '';
@@ -55,6 +66,9 @@ export class TransactionCreateComponent implements OnInit {
     hideDropdownTimeout: any;
 
     ngOnInit(): void {
+        this.customerService.getCustomers().subscribe(res => this.customers = res);
+        this.supplierService.getSuppliers().subscribe(res => this.suppliers = res);
+
         this.productService.getProducts().subscribe((res) => {
             this.availableProducts = res;
 
@@ -201,6 +215,9 @@ export class TransactionCreateComponent implements OnInit {
             transactionId: this.editTransactionId, // Used for update
             referenceId: this.referenceId,
             notes: this.notes,
+            amountPaid: this.amountPaid,
+            supplierId: this.transactionType === 'inbound' ? (this.selectedSupplierId || undefined) : undefined,
+            customerId: this.transactionType === 'outbound' ? (this.selectedCustomerId || undefined) : undefined,
             lines: this.lines.map(l => ({
                 productId: l.productId,
                 quantity: l.quantity,

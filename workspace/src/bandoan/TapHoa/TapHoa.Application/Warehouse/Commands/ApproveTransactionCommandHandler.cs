@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TapHoa.Application.Interfaces;
+using TapHoa.Domain.Entities;
 using TapHoa.Domain.Entities.Warehouse;
 using TapHoa.Domain.Exceptions;
 
@@ -82,6 +83,57 @@ public class ApproveTransactionCommandHandler : IRequestHandler<ApproveTransacti
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        // Auto-create debt if AmountPaid < TotalAmount
+        decimal totalAmount = transaction.Lines.Sum(l => l.Quantity * l.UnitCost);
+        decimal debtAmount = totalAmount - transaction.AmountPaid;
+
+        if (debtAmount > 0)
+        {
+            if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Inbound && transaction.SupplierId.HasValue)
+            {
+                var supplierDebt = await _context.SupplierDebts.FirstOrDefaultAsync(d => d.SupplierId == transaction.SupplierId.Value, cancellationToken);
+                if (supplierDebt == null)
+                {
+                    var supplier = await _context.Suppliers.FindAsync(new object[] { transaction.SupplierId.Value }, cancellationToken);
+                    if (supplier != null)
+                    {
+                        supplierDebt = SupplierDebt.Create(supplier.Id, supplier.FullName, supplier.PhoneNumber);
+                        _context.SupplierDebts.Add(supplierDebt);
+                    }
+                }
+                
+                if (supplierDebt != null)
+                {
+                    supplierDebt.AddDebt(debtAmount);
+                    var debtTransaction = SupplierDebtTransaction.CreateDebt(transaction.SupplierId.Value, debtAmount, "Nợ từ phiếu nhập: " + transaction.Code);
+                    _context.SupplierDebtTransactions.Add(debtTransaction);
+                }
+            }
+            else if (transaction.Type == TapHoa.Domain.Enums.TransactionType.Outbound && transaction.CustomerId.HasValue)
+            {
+                var customerDebt = await _context.CustomerDebts.FirstOrDefaultAsync(d => d.CustomerId == transaction.CustomerId.Value, cancellationToken);
+                if (customerDebt == null)
+                {
+                    var customer = await _context.Customers.FindAsync(new object[] { transaction.CustomerId.Value }, cancellationToken);
+                    if (customer != null)
+                    {
+                        customerDebt = CustomerDebt.Create(customer.Id, customer.FullName, customer.PhoneNumber);
+                        _context.CustomerDebts.Add(customerDebt);
+                    }
+                }
+
+                if (customerDebt != null)
+                {
+                    customerDebt.AddDebt(debtAmount);
+                    var debtTransaction = CustomerDebtTransaction.CreateDebt(transaction.CustomerId.Value, debtAmount, "Nợ từ phiếu xuất: " + transaction.Code);
+                    _context.CustomerDebtTransactions.Add(debtTransaction);
+                }
+            }
+            
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         return true;
     }
 }

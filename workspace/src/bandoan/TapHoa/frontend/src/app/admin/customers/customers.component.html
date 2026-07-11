@@ -35,9 +35,9 @@
             <tr>
               <th class="ps-4">Khách hàng</th>
               <th>SĐT</th>
-              <th>Email</th>
-              <th>Địa chỉ</th>
-              <th>Ghi chú</th>
+              <th class="d-none d-md-table-cell">Email</th>
+              <th class="d-none d-lg-table-cell">Địa chỉ</th>
+              <th class="d-none d-xl-table-cell">Ghi chú</th>
               <th class="text-end pe-4">Thao tác</th>
             </tr>
           </thead>
@@ -46,9 +46,9 @@
               <tr>
                 <td class="ps-4 fw-medium text-dark">{{ customer.fullName }}</td>
                 <td class="text-primary fw-medium">{{ customer.phoneNumber || '-' }}</td>
-                <td>{{ customer.email || '-' }}</td>
-                <td>{{ customer.address || '-' }}</td>
-                <td class="text-muted text-truncate" style="max-width: 250px;">{{ customer.notes || '-' }}</td>
+                <td class="d-none d-md-table-cell">{{ customer.email || '-' }}</td>
+                <td class="d-none d-lg-table-cell">{{ customer.address || '-' }}</td>
+                <td class="text-muted text-truncate d-none d-xl-table-cell" style="max-width: 250px;">{{ customer.notes || '-' }}</td>
                 <td class="text-end pe-4">
                   <div class="dropdown" [class.show]="activeDropdownRowId === customer.id">
                     <button
