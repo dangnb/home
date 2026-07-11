@@ -129,6 +129,10 @@ export const routes: Routes = [
                 path: 'promotions',
                 loadComponent: () => import('./admin/promotions/promotions.component').then(m => m.PromotionsComponent)
             },
+            {
+                path: 'reports',
+                loadComponent: () => import('./admin/reports/reports.component').then(m => m.ReportsComponent)
+            },
             { 
                 path: 'audits', 
                 loadComponent: () => import('./admin/audits/audits.component').then(m => m.AuditsComponent) 

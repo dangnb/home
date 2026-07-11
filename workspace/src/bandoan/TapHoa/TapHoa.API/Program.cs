@@ -194,5 +194,6 @@ app.MapGroup("api/v{version:apiVersion}/suppliers").WithApiVersionSet(apiVersion
 app.MapGroup("api/v{version:apiVersion}/dashboard").WithApiVersionSet(apiVersionSet).MapDashboardEndpoints();
 app.MapGroup("api/v{version:apiVersion}/promotions").WithApiVersionSet(apiVersionSet).MapPromotionsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/orders").WithApiVersionSet(apiVersionSet).MapOrdersEndpoints();
+app.MapGroup("api/v{version:apiVersion}/reports").WithApiVersionSet(apiVersionSet).MapReportsEndpoints();
 
 app.Run();
