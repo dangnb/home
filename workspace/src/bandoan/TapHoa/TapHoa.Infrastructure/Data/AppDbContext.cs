@@ -45,6 +45,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     // Sales & POS
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
+    public DbSet<ReturnOrder> ReturnOrders => Set<ReturnOrder>();
+    public DbSet<ReturnOrderDetail> ReturnOrderDetails => Set<ReturnOrderDetail>();
 
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
@@ -92,6 +94,8 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         modelBuilder.Entity<StockTake>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<Order>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<OrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<ReturnOrder>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<ReturnOrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.AdditionalImages)

@@ -21,6 +21,9 @@ public class GetRevenueProfitReportQueryHandler : IRequestHandler<GetRevenueProf
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
 
+        var fromDate = request.FromDate.Date;
+        var toDate = request.ToDate.Date.AddDays(1).AddTicks(-1);
+
         // Query to get overall summary
         var summarySql = @"
             SELECT 
@@ -38,7 +41,7 @@ public class GetRevenueProfitReportQueryHandler : IRequestHandler<GetRevenueProf
               AND o.OrderDate <= @ToDate
               AND o.IsDeleted = 0";
 
-        var summary = await connection.QueryFirstOrDefaultAsync<RevenueProfitReportDto>(summarySql, new { request.FromDate, request.ToDate });
+        var summary = await connection.QueryFirstOrDefaultAsync<RevenueProfitReportDto>(summarySql, new { FromDate = fromDate, ToDate = toDate });
         if (summary == null) summary = new RevenueProfitReportDto();
 
         // Query to get chart data grouped by time
@@ -68,7 +71,7 @@ public class GetRevenueProfitReportQueryHandler : IRequestHandler<GetRevenueProf
             GROUP BY DATE_FORMAT(o.OrderDate, {dateFormat})
             ORDER BY Label ASC";
 
-        var chartData = await connection.QueryAsync<RevenueChartDataDto>(chartSql, new { request.FromDate, request.ToDate });
+        var chartData = await connection.QueryAsync<RevenueChartDataDto>(chartSql, new { FromDate = fromDate, ToDate = toDate });
         
         summary.ChartData = chartData.ToList();
 

@@ -849,5 +849,197 @@ BEGIN
     VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
 END;
 
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260710204132_AddPromotionsAndLoyalty')
+BEGIN
+    ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260710204132_AddPromotionsAndLoyalty')
+BEGIN
+    CREATE TABLE `Promotions` (
+        `Id` char(36) NOT NULL,
+        `Name` longtext NOT NULL,
+        `Description` longtext NULL,
+        `Type` int NOT NULL,
+        `MinOrderAmount` decimal(18,2) NOT NULL,
+        `StartDate` datetime(6) NULL,
+        `EndDate` datetime(6) NULL,
+        `IsActive` tinyint(1) NOT NULL,
+        `DiscountValue` decimal(18,2) NOT NULL,
+        `BuyQuantity` int NULL,
+        `GetQuantity` int NULL,
+        `TargetProductId` char(36) NULL,
+        `CreatedDate` datetime(6) NULL,
+        `CreatedBy` longtext NULL,
+        `ModifiedDate` datetime(6) NULL,
+        `ModifiedBy` longtext NULL,
+        `IsDeleted` tinyint(1) NOT NULL,
+        `DeletedDate` datetime(6) NULL,
+        `DeletedBy` longtext NULL,
+        `CompanyId` char(36) NOT NULL,
+        PRIMARY KEY (`Id`)
+    );
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260710204132_AddPromotionsAndLoyalty')
+BEGIN
+    INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+    VALUES ('20260710204132_AddPromotionsAndLoyalty', '10.0.9');
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE TABLE `Orders` (
+        `Id` char(36) NOT NULL,
+        `OrderCode` longtext NOT NULL,
+        `CustomerId` char(36) NULL,
+        `OrderDate` datetime(6) NOT NULL,
+        `SubTotal` decimal(18,2) NOT NULL,
+        `DiscountAmount` decimal(18,2) NOT NULL,
+        `TotalAmount` decimal(18,2) NOT NULL,
+        `AmountPaid` decimal(18,2) NOT NULL,
+        `PaymentMethod` int NOT NULL,
+        `Status` int NOT NULL,
+        `PromotionId` char(36) NULL,
+        `CreatedBy` longtext NOT NULL,
+        `Notes` longtext NULL,
+        `CreatedDate` datetime(6) NULL,
+        `ModifiedDate` datetime(6) NULL,
+        `ModifiedBy` longtext NULL,
+        `IsDeleted` tinyint(1) NOT NULL,
+        `DeletedDate` datetime(6) NULL,
+        `DeletedBy` longtext NULL,
+        `CompanyId` char(36) NOT NULL,
+        PRIMARY KEY (`Id`),
+        CONSTRAINT `FK_Orders_Customers_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `Customers` (`Id`),
+        CONSTRAINT `FK_Orders_Promotions_PromotionId` FOREIGN KEY (`PromotionId`) REFERENCES `Promotions` (`Id`)
+    );
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE TABLE `OrderDetails` (
+        `Id` char(36) NOT NULL,
+        `OrderId` char(36) NOT NULL,
+        `ProductId` char(36) NOT NULL,
+        `Quantity` int NOT NULL,
+        `UnitPrice` decimal(18,2) NOT NULL,
+        `SubTotal` decimal(18,2) NOT NULL,
+        `CreatedDate` datetime(6) NULL,
+        `CreatedBy` longtext NULL,
+        `ModifiedDate` datetime(6) NULL,
+        `ModifiedBy` longtext NULL,
+        `IsDeleted` tinyint(1) NOT NULL,
+        `DeletedDate` datetime(6) NULL,
+        `DeletedBy` longtext NULL,
+        `CompanyId` char(36) NOT NULL,
+        PRIMARY KEY (`Id`),
+        CONSTRAINT `FK_OrderDetails_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `Orders` (`Id`) ON DELETE CASCADE,
+        CONSTRAINT `FK_OrderDetails_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE
+    );
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE INDEX `IX_OrderDetails_OrderId` ON `OrderDetails` (`OrderId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE INDEX `IX_OrderDetails_ProductId` ON `OrderDetails` (`ProductId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE INDEX `IX_Orders_CustomerId` ON `Orders` (`CustomerId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    CREATE INDEX `IX_Orders_PromotionId` ON `Orders` (`PromotionId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711042701_AddPOSOrders')
+BEGIN
+    INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+    VALUES ('20260711042701_AddPOSOrders', '10.0.9');
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    ALTER TABLE `Products` MODIFY `Barcode` varchar(255) NULL;
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE TABLE `ReturnOrders` (
+        `Id` char(36) NOT NULL,
+        `OriginalOrderId` char(36) NOT NULL,
+        `ReturnCode` longtext NOT NULL,
+        `ReturnDate` datetime(6) NOT NULL,
+        `Reason` longtext NULL,
+        `Status` int NOT NULL,
+        `RefundAmount` decimal(18,2) NOT NULL,
+        `CreatedBy` longtext NOT NULL,
+        `CreatedDate` datetime(6) NULL,
+        `ModifiedDate` datetime(6) NULL,
+        `ModifiedBy` longtext NULL,
+        `IsDeleted` tinyint(1) NOT NULL,
+        `DeletedDate` datetime(6) NULL,
+        `DeletedBy` longtext NULL,
+        `CompanyId` char(36) NOT NULL,
+        PRIMARY KEY (`Id`),
+        CONSTRAINT `FK_ReturnOrders_Orders_OriginalOrderId` FOREIGN KEY (`OriginalOrderId`) REFERENCES `Orders` (`Id`) ON DELETE CASCADE
+    );
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE TABLE `ReturnOrderDetails` (
+        `Id` char(36) NOT NULL,
+        `ReturnOrderId` char(36) NOT NULL,
+        `ProductId` char(36) NOT NULL,
+        `Quantity` int NOT NULL,
+        `RefundPrice` decimal(18,2) NOT NULL,
+        `CreatedDate` datetime(6) NULL,
+        `CreatedBy` longtext NULL,
+        `ModifiedDate` datetime(6) NULL,
+        `ModifiedBy` longtext NULL,
+        `IsDeleted` tinyint(1) NOT NULL,
+        `DeletedDate` datetime(6) NULL,
+        `DeletedBy` longtext NULL,
+        `CompanyId` char(36) NOT NULL,
+        PRIMARY KEY (`Id`),
+        CONSTRAINT `FK_ReturnOrderDetails_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE,
+        CONSTRAINT `FK_ReturnOrderDetails_ReturnOrders_ReturnOrderId` FOREIGN KEY (`ReturnOrderId`) REFERENCES `ReturnOrders` (`Id`) ON DELETE CASCADE
+    );
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE UNIQUE INDEX `IX_Products_Barcode` ON `Products` (`Barcode`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE INDEX `IX_ReturnOrderDetails_ProductId` ON `ReturnOrderDetails` (`ProductId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE INDEX `IX_ReturnOrderDetails_ReturnOrderId` ON `ReturnOrderDetails` (`ReturnOrderId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    CREATE INDEX `IX_ReturnOrders_OriginalOrderId` ON `ReturnOrders` (`OriginalOrderId`);
+END;
+
+IF NOT EXISTS(SELECT * FROM `__EFMigrationsHistory` WHERE `MigrationId` = '20260711155435_AddReturnOrders')
+BEGIN
+    INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+    VALUES ('20260711155435_AddReturnOrders', '10.0.9');
+END;
+
 COMMIT;
 

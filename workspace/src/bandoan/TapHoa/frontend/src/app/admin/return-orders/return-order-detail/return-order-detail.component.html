@@ -1,0 +1,112 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="h3 mb-0 text-gray-800">Chi tiết Phiếu Trả Hàng</h2>
+  <div>
+    <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm me-2">
+      <i class="bi bi-arrow-left me-2"></i>Danh sách
+    </a>
+    @if (returnOrder?.status === 1) {
+      <button class="btn btn-success shadow-sm" (click)="approve()">
+        <i class="bi bi-check-circle me-2"></i>Duyệt phiếu
+      </button>
+    }
+  </div>
+</div>
+
+@if (isLoading) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+} @else if (returnOrder) {
+  <div class="row">
+    <div class="col-xl-4 col-lg-5">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Thông tin chung</h6>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <span class="text-muted d-block small">Trạng thái</span>
+            @if (returnOrder.status === 1) {
+              <span class="badge bg-warning text-dark">Pending</span>
+            } @else if (returnOrder.status === 2) {
+              <span class="badge bg-success">Approved</span>
+            } @else {
+              <span class="badge bg-danger">Cancelled</span>
+            }
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Mã phiếu trả</span>
+            <span class="fw-bold fs-5">{{ returnOrder.returnCode }}</span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Mã đơn hàng gốc</span>
+            <a [routerLink]="['/admin/orders', returnOrder.originalOrderId]" class="fw-bold text-primary text-decoration-none">
+              {{ returnOrder.originalOrderCode }} <i class="bi bi-box-arrow-up-right small"></i>
+            </a>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Khách hàng</span>
+            <span class="fw-medium">{{ returnOrder.customerName }}</span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Ngày lập</span>
+            <span class="fw-medium">{{ returnOrder.returnDate | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Người lập</span>
+            <span class="fw-medium">{{ returnOrder.createdBy }}</span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small">Lý do</span>
+            <p class="mb-0 text-dark">{{ returnOrder.reason || 'Không có lý do' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8 col-lg-7">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Sản phẩm hoàn trả</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th class="text-end">Đơn giá hoàn</th>
+                  <th class="text-center">Số lượng</th>
+                  <th class="text-end">Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of returnOrder.details; track item.id) {
+                  <tr>
+                    <td>
+                      <span class="fw-medium d-block text-dark">{{ item.productName }}</span>
+                      <small class="text-muted">{{ item.unit }}</small>
+                    </td>
+                    <td class="text-end">{{ item.refundPrice | number:'1.0-0' }}đ</td>
+                    <td class="text-center">
+                      <span class="badge bg-secondary">{{ item.quantity }}</span>
+                    </td>
+                    <td class="text-end fw-bold text-danger">{{ item.subTotal | number:'1.0-0' }}đ</td>
+                  </tr>
+                }
+              </tbody>
+              <tfoot>
+                <tr class="table-light fw-bold">
+                  <td colspan="3" class="text-end text-dark">Tổng tiền hoàn trả:</td>
+                  <td class="text-end text-danger fs-5">{{ returnOrder.refundAmount | number:'1.0-0' }}đ</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

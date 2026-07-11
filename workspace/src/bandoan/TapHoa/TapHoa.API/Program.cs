@@ -152,6 +152,60 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Products` MODIFY `Barcode` varchar(255) NULL;
+            
+            CREATE TABLE IF NOT EXISTS `ReturnOrders` (
+                `Id` char(36) NOT NULL,
+                `OriginalOrderId` char(36) NOT NULL,
+                `ReturnCode` longtext NOT NULL,
+                `ReturnDate` datetime(6) NOT NULL,
+                `Reason` longtext NULL,
+                `Status` int NOT NULL,
+                `RefundAmount` decimal(18,2) NOT NULL,
+                `CreatedBy` longtext NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`),
+                CONSTRAINT `FK_ReturnOrders_Orders_OriginalOrderId` FOREIGN KEY (`OriginalOrderId`) REFERENCES `Orders` (`Id`) ON DELETE CASCADE
+            );
+
+            CREATE TABLE IF NOT EXISTS `ReturnOrderDetails` (
+                `Id` char(36) NOT NULL,
+                `ReturnOrderId` char(36) NOT NULL,
+                `ProductId` char(36) NOT NULL,
+                `Quantity` int NOT NULL,
+                `RefundPrice` decimal(18,2) NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`),
+                CONSTRAINT `FK_ReturnOrderDetails_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE,
+                CONSTRAINT `FK_ReturnOrderDetails_ReturnOrders_ReturnOrderId` FOREIGN KEY (`ReturnOrderId`) REFERENCES `ReturnOrders` (`Id`) ON DELETE CASCADE
+            );
+
+            CREATE UNIQUE INDEX IF NOT EXISTS `IX_Products_Barcode` ON `Products` (`Barcode`);
+            CREATE INDEX IF NOT EXISTS `IX_ReturnOrderDetails_ProductId` ON `ReturnOrderDetails` (`ProductId`);
+            CREATE INDEX IF NOT EXISTS `IX_ReturnOrderDetails_ReturnOrderId` ON `ReturnOrderDetails` (`ReturnOrderId`);
+            CREATE INDEX IF NOT EXISTS `IX_ReturnOrders_OriginalOrderId` ON `ReturnOrders` (`OriginalOrderId`);
+
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260711155435_AddReturnOrders', '10.0.9');
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
@@ -195,5 +249,6 @@ app.MapGroup("api/v{version:apiVersion}/dashboard").WithApiVersionSet(apiVersion
 app.MapGroup("api/v{version:apiVersion}/promotions").WithApiVersionSet(apiVersionSet).MapPromotionsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/orders").WithApiVersionSet(apiVersionSet).MapOrdersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/reports").WithApiVersionSet(apiVersionSet).MapReportsEndpoints();
+app.MapGroup("api/v{version:apiVersion}/return-orders").WithApiVersionSet(apiVersionSet).MapReturnOrdersEndpoints();
 
 app.Run();

@@ -34,4 +34,8 @@ export class OrderService {
 
     return this.http.get<any>(this.apiUrl, { params });
   }
+
+  getOrderById(id: string): Observable<OrderDto> {
+    return this.http.get<OrderDto>(`${this.apiUrl}/${id}`);
+  }
 }
