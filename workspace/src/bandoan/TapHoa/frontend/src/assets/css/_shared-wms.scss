@@ -465,3 +465,195 @@
 
     svg, i { flex-shrink: 0; }
 }
+
+/* ============================================
+   SHARED WMS — MOBILE RESPONSIVE
+   ============================================ */
+
+/* ── Tablet (≤991px) ── */
+@media (max-width: 991px) {
+    .kpi-cards-row {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+
+        .kpi-card {
+            flex: 1 1 calc(50% - 0.75rem);
+            min-width: 180px;
+        }
+    }
+
+    .view-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* ── Phone (≤768px) ── */
+@media (max-width: 768px) {
+    /* ── Tables ── */
+    .data-table,
+    .custom-table {
+        thead th, th {
+            font-size: 0.62rem;
+            padding: 0.6rem 0.35rem;
+            white-space: nowrap;
+        }
+
+        tbody td, td {
+            font-size: 0.78rem;
+            padding: 0.6rem 0.35rem;
+        }
+    }
+
+    .tx-code { font-size: 0.78rem; }
+    .type-text { font-size: 0.78rem; }
+    .date-val { font-size: 0.78rem; }
+    .time-val { font-size: 0.7rem; }
+
+    .mini-avatar {
+        width: 22px;
+        height: 22px;
+        font-size: 0.55rem;
+    }
+
+    /* ── Transaction List Card ── */
+    .transaction-list-card {
+        border-radius: var(--radius-md);
+
+        .card-header {
+            padding: 0.85rem 1rem !important;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.6rem;
+
+            h4, h5 { font-size: 0.95rem; }
+        }
+
+        .toolbar-btn {
+            font-size: 0.78rem;
+            padding: 0.35rem 0.65rem;
+        }
+    }
+
+    /* ── KPI Cards ── */
+    .kpi-cards-row {
+        gap: 0.5rem;
+
+        .kpi-card {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 140px;
+            padding: 0.85rem;
+
+            .kpi-title { font-size: 0.62rem; }
+            .kpi-value { font-size: 1.15rem; }
+            .kpi-icon { font-size: 1.25rem; }
+        }
+    }
+
+    /* ── Status Pills ── */
+    .status-pill {
+        padding: 0.2rem 0.55rem;
+        font-size: 0.68rem;
+    }
+
+    /* ── Pagination ── */
+    .pagination-custom {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem;
+
+        .btn-icon-sm,
+        .btn-page-sm {
+            width: 30px;
+            height: 30px;
+            font-size: 0.78rem;
+        }
+    }
+
+    .pagination-info {
+        font-size: 0.75rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* ── Form ── */
+    .form-row-classic {
+        flex-direction: column;
+        align-items: flex-start;
+
+        label {
+            flex: none;
+            text-align: left;
+            padding-right: 0;
+            margin-bottom: 0.25rem;
+            font-size: 0.78rem;
+        }
+
+        .flex-grow-1 {
+            width: 100%;
+            flex-direction: column;
+        }
+    }
+
+    /* ── View Header / Toolbar ── */
+    .view-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.6rem;
+    }
+
+    .toolbar-actions,
+    .view-actions {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+
+        .btn {
+            font-size: 0.78rem;
+            padding: 0.4rem 0.7rem;
+        }
+    }
+
+    /* ── Action buttons (inside table cells) ── */
+    .btn-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+        padding: 2rem 1rem;
+
+        .empty-icon { font-size: 2rem; }
+        p { font-size: 0.85rem; }
+    }
+}
+
+/* ── Small Phone (≤480px) ── */
+@media (max-width: 480px) {
+    .kpi-cards-row {
+        .kpi-card {
+            flex: 1 1 100%;
+            min-width: 100%;
+            padding: 0.75rem;
+        }
+    }
+
+    .data-table,
+    .custom-table {
+        thead th, th {
+            font-size: 0.58rem;
+            padding: 0.5rem 0.25rem;
+        }
+
+        tbody td, td {
+            font-size: 0.72rem;
+            padding: 0.5rem 0.25rem;
+        }
+    }
+
+    .status-pill {
+        padding: 0.15rem 0.4rem;
+        font-size: 0.6rem;
+    }
+}

@@ -360,3 +360,48 @@
         background: rgba(255, 255, 255, 0.92);
     }
 }
+
+/* ── Phone ── */
+@media (max-width: 480px) {
+    .login-wrapper {
+        padding: 1rem;
+        align-items: flex-start;
+        padding-top: 15vh;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 100%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .login-form-side {
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+
+        .brand-section {
+            .brand-name { font-size: 1.6rem; }
+            .brand-tagline { font-size: 0.72rem; }
+        }
+
+        .form-header {
+            h1 { font-size: 1.3rem; }
+            p { font-size: 0.82rem; }
+        }
+
+        .form-input {
+            padding: 0.7rem 0.75rem 0.7rem 2.8rem;
+            font-size: 0.9rem;
+        }
+
+        .form-floating .input-icon {
+            left: 0.85rem;
+            font-size: 1rem;
+        }
+
+        .btn-login {
+            padding: 0.75rem;
+            font-size: 0.95rem;
+        }
+    }
+}
