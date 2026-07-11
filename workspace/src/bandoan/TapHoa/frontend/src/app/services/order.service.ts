@@ -20,7 +20,8 @@ export class OrderService {
     pageSize: number = 10,
     searchTerm?: string,
     fromDate?: string,
-    toDate?: string
+    toDate?: string,
+    status?: number
   ): Observable<{ items: OrderDto[], totalCount: number, pageIndex: number, pageSize: number }> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber)
@@ -29,6 +30,7 @@ export class OrderService {
     if (searchTerm) params = params.set('searchTerm', searchTerm);
     if (fromDate) params = params.set('fromDate', fromDate);
     if (toDate) params = params.set('toDate', toDate);
+    if (status) params = params.set('status', status);
 
     return this.http.get<any>(this.apiUrl, { params });
   }

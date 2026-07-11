@@ -29,6 +29,7 @@ public record GetOrdersQuery : IRequest<PagedResult<OrderDto>>
     public string? SearchTerm { get; init; }
     public DateTime? FromDate { get; init; }
     public DateTime? ToDate { get; init; }
+    public OrderStatus? Status { get; init; }
 }
 
 public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, PagedResult<OrderDto>>
@@ -66,6 +67,11 @@ public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, PagedResult
         if (request.ToDate.HasValue)
         {
             query = query.Where(x => x.OrderDate <= request.ToDate.Value);
+        }
+
+        if (request.Status.HasValue)
+        {
+            query = query.Where(x => x.Status == request.Status.Value);
         }
 
         query = query.OrderByDescending(x => x.OrderDate);
