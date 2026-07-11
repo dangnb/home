@@ -24,7 +24,8 @@
       <div>
         <button class="btn btn-success rounded-pill px-4" 
                 *ngIf="stockTake.status !== StockTakeStatus.Completed && stockTake.status !== StockTakeStatus.Cancelled"
-                [disabled]="isCompleting"
+                [disabled]="isCompleting || !isReadyToComplete"
+                [title]="!isReadyToComplete ? 'Vui lòng nhập đầy đủ số lượng thực tế' : ''"
                 (click)="completeStockTake()">
           <span *ngIf="isCompleting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           <i class="bi bi-check2-circle me-1" *ngIf="!isCompleting"></i> Hoàn tất kiểm kê

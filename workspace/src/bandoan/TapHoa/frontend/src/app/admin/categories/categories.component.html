@@ -68,7 +68,7 @@
                   <!-- Info -->
                   <div class="d-flex flex-column">
                     <div class="d-flex align-items-center gap-2">
-                      <span class="fw-bold text-dark fs-6" [style.font-size]="level === 0 ? '1rem' : '0.9rem'">{{ node.name }}</span>
+                      <span class="fw-bold text-dark" [ngClass]="level === 0 ? 'fs-5' : 'fs-6'">{{ node.name }}</span>
                       @if (node.children.length > 0) {
                         <span class="badge-count">{{ node.children.length }} con</span>
                       }

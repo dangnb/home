@@ -30,6 +30,11 @@ export class StockTakeDetailComponent implements OnInit {
     );
   }
 
+  get isReadyToComplete(): boolean {
+    if (!this.stockTake) return false;
+    return this.stockTake.lines.every(l => l.actualQuantity !== null && l.actualQuantity !== undefined);
+  }
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -113,7 +118,7 @@ export class StockTakeDetailComponent implements OnInit {
       if (result.isConfirmed) {
         this.isCompleting = true;
         this.cdr.detectChanges();
-        this.stockTakeService.completeStockTake(this.stockTake.id).subscribe({
+        this.stockTakeService.completeStockTake(this.stockTake!.id).subscribe({
           next: () => {
             this.isCompleting = false;
             this.cdr.detectChanges();
@@ -129,9 +134,22 @@ export class StockTakeDetailComponent implements OnInit {
             console.error('Error completing stock take', err);
             this.isCompleting = false;
             this.cdr.detectChanges();
+            
+            // Try to extract error message from response
+            let errorMsg = 'Có lỗi xảy ra khi hoàn tất phiếu kiểm kê.';
+            if (err.error) {
+              if (typeof err.error === 'string') {
+                errorMsg = err.error;
+              } else if (err.error.message) {
+                errorMsg = err.error.message;
+              } else if (err.error.detail) {
+                errorMsg = err.error.detail;
+              }
+            }
+            
             Swal.fire(
               'Lỗi!',
-              'Có lỗi xảy ra khi hoàn tất phiếu kiểm kê.',
+              errorMsg,
               'error'
             );
           }

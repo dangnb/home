@@ -9,7 +9,9 @@ public record CreateOutboundTransactionCommand(
     string ReferenceId,
     string Notes,
     string CreatedBy,
-    List<OutboundTransactionLineDto> Lines) : IRequest<Guid>;
+    List<OutboundTransactionLineDto> Lines,
+    decimal AmountPaid = 0,
+    Guid? CustomerId = null) : IRequest<Guid>;
 
 public record OutboundTransactionLineDto(
     Guid ProductId,
@@ -46,6 +48,8 @@ public class CreateOutboundTransactionCommandHandler : IRequestHandler<CreateOut
             request.CreatedBy,
             request.Notes
         );
+
+        transaction.SetPaymentDetails(request.AmountPaid, customerId: request.CustomerId);
 
         foreach (var line in request.Lines)
         {

@@ -80,11 +80,11 @@
         <thead class="table-light">
           <tr>
             <th scope="col" class="ps-4">SẢN PHẨM</th>
-            <th scope="col">BARCODE</th>
+            <th scope="col" class="d-none d-lg-table-cell">BARCODE</th>
             <th scope="col" class="text-center">TỒN THỰC TẾ</th>
-            <th scope="col" class="text-center">CÓ THỂ BÁN</th>
-            <th scope="col">LẦN CẬP NHẬT GẦN NHẤT</th>
-            <th scope="col">TRẠNG THÁI</th>
+            <th scope="col" class="text-center d-none d-md-table-cell">CÓ THỂ BÁN</th>
+            <th scope="col" class="d-none d-xl-table-cell">LẦN CẬP NHẬT GẦN NHẤT</th>
+            <th scope="col" class="d-none d-lg-table-cell">TRẠNG THÁI</th>
             <th scope="col" class="text-end pe-4">THAO TÁC</th>
           </tr>
         </thead>
@@ -97,14 +97,14 @@
           @for (item of filteredInventories; track item.productId) {
           <tr>
             <td class="ps-4 fw-medium text-primary">{{ item.productName }}</td>
-            <td class="text-muted fw-bold" style="font-family: monospace;">{{ item.barcode }}</td>
+            <td class="text-muted fw-bold d-none d-lg-table-cell" style="font-family: monospace;">{{ item.barcode }}</td>
             <td class="text-center fw-bolder fs-5 text-dark">{{ item.quantityOnHand }}</td>
-            <td class="text-center fw-bold"
+            <td class="text-center fw-bold d-none d-md-table-cell"
               [ngClass]="{'text-danger': item.availableQuantity <= 5, 'text-success': item.availableQuantity > 5}">
               {{ item.availableQuantity }}
             </td>
-            <td>{{ item.lastRestockedAt | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td>
+            <td class="d-none d-xl-table-cell">{{ item.lastRestockedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="d-none d-lg-table-cell">
               <span class="badge rounded-pill"
                 [ngClass]="{'bg-success': item.quantityOnHand > 10, 'bg-warning text-dark': item.quantityOnHand <= 10 && item.quantityOnHand > 0, 'bg-danger': item.quantityOnHand === 0}">
                 {{ item.quantityOnHand > 10 ? 'An Toàn' : (item.quantityOnHand === 0 ? 'Hết Hàng' : 'Sắp Hết') }}

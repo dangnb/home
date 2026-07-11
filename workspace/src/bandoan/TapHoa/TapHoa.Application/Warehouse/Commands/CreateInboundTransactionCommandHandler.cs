@@ -36,6 +36,8 @@ public class CreateInboundTransactionCommandHandler : IRequestHandler<CreateInbo
             request.Notes
         );
 
+        transaction.SetPaymentDetails(request.AmountPaid, supplierId: request.SupplierId);
+
         foreach (var line in request.Lines)
         {
             var product = await _productRepository.GetByIdAsync(line.ProductId, cancellationToken);

@@ -50,8 +50,8 @@
         <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">Thông tin chung</h5>
       </div>
 
-      <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
-        <div class="col-md-5">
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">Mã tham chiếu (Đơn hàng/PO) <span
               class="text-danger">*</span></label>
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
@@ -62,7 +62,7 @@
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="notes"
             placeholder="Ghi chú thêm về lô hàng">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">Loại nghiệp vụ <span
               class="text-danger">*</span></label>
           <div class="d-flex bg-white border rounded-3 overflow-hidden shadow-sm">
@@ -73,6 +73,27 @@
               [(ngModel)]="transactionType" value="outbound">
             <label class="btn btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">Xuất</label>
           </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
+        <div class="col-md-6" *ngIf="transactionType === 'inbound'">
+          <label class="form-label text-muted fw-bold small text-uppercase">Nhà cung cấp</label>
+          <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedSupplierId">
+            <option [ngValue]="null">-- Chọn Nhà Cung Cấp --</option>
+            <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }} ({{ s.code }})</option>
+          </select>
+        </div>
+        <div class="col-md-6" *ngIf="transactionType === 'outbound'">
+          <label class="form-label text-muted fw-bold small text-uppercase">Khách hàng</label>
+          <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedCustomerId">
+            <option [ngValue]="null">-- Chọn Khách Hàng --</option>
+            <option *ngFor="let c of customers" [value]="c.id">{{ c.name }} ({{ c.code }})</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label text-muted fw-bold small text-uppercase">Đã thanh toán (VNĐ)</label>
+          <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none text-success fw-bold" [(ngModel)]="amountPaid"
+            placeholder="0">
         </div>
       </div>
 

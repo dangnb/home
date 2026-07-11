@@ -1,4 +1,5 @@
 <div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
+  <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -50,10 +51,21 @@
           <span class="icon"><i class="bi bi-journal-text"></i></span> <span class="nav-text">Sổ cái</span>
         </a>
       </li>
+      <!-- BÁN HÀNG -->
       <li class="nav-divider">BÁN HÀNG</li>
       <li>
-        <a routerLink="/admin/orders" routerLinkActive="active" title="Đơn POS">
-          <span class="icon"><i class="bi bi-receipt"></i></span> <span class="nav-text">Đơn POS</span>
+        <a routerLink="/admin/pos" routerLinkActive="active" title="Bán hàng POS">
+          <span class="icon"><i class="bi bi-cart-check"></i></span> <span class="nav-text">Bán hàng POS</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/orders" routerLinkActive="active" title="Lịch sử Đơn hàng">
+          <span class="icon"><i class="bi bi-receipt"></i></span> <span class="nav-text">Lịch sử Đơn hàng</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/promotions" routerLinkActive="active" title="Khuyến mãi">
+          <span class="icon"><i class="bi bi-gift"></i></span> <span class="nav-text">Khuyến mãi</span>
         </a>
       </li>
       <li>
@@ -110,7 +122,7 @@
         <button class="btn-toggle-sidebar" (click)="toggleSidebar()">
           <i class="bi bi-list"></i>
         </button>
-        <div class="breadcrumb">
+        <div class="breadcrumb d-none d-md-block">
           Tra cứu quản trị <span class="separator">/</span> <span class="current">Tổng quan</span>
         </div>
       </div>

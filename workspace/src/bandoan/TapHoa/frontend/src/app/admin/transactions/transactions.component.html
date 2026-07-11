@@ -159,11 +159,11 @@
           <tr>
             <th class="ps-4">MÃ PHIẾU</th>
             <th>LOẠI GIAO DỊCH</th>
-            <th>NGƯỜI TẠO</th>
-            <th>SỐ LƯỢNG</th>
+            <th class="d-none d-lg-table-cell">NGƯỜI TẠO</th>
+            <th class="d-none d-sm-table-cell">SỐ LƯỢNG</th>
             <th>TỔNG TIỀN</th>
-            <th>THỜI GIAN</th>
-            <th>TRẠNG THÁI</th>
+            <th class="d-none d-md-table-cell">THỜI GIAN</th>
+            <th class="d-none d-xl-table-cell">TRẠNG THÁI</th>
             <th class="text-end pe-4">THAO TÁC</th>
           </tr>
         </thead>
@@ -177,27 +177,27 @@
             </td>
             <td>
               <div class="d-flex align-items-center gap-2">
-                <div class="type-dot" [ngClass]="getTypeIconClass(tx.type)"></div>
+                <div class="type-dot d-none d-sm-block" [ngClass]="getTypeIconClass(tx.type)"></div>
                 <span class="type-text text-dark fw-medium">{{ getTypeLabel(tx.type) }}</span>
               </div>
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               <div class="d-flex align-items-center gap-2">
                 <div class="mini-avatar">{{ getInitials(tx.createdBy || 'Admin') }}</div>
                 <span class="user-text text-dark">{{ tx.createdBy || 'admin' }}</span>
               </div>
             </td>
-            <td>
+            <td class="d-none d-sm-table-cell">
               <span class="text-dark">{{ tx.itemsCount || 1 }}</span>
             </td>
             <td>
               <span class="text-dark fw-bold">{{ tx.totalCost || 75000 | number }}</span>
             </td>
-            <td>
+            <td class="d-none d-md-table-cell">
               <div class="date-val text-dark">{{ tx.createdAt | date:'dd/MM/yyyy' }}</div>
               <div class="time-val text-muted">{{ tx.createdAt | date:'HH:mm' }}</div>
             </td>
-            <td>
+            <td class="d-none d-xl-table-cell">
               <span class="status-pill status-pending d-inline-flex align-items-center gap-1 px-3 py-1 fw-bold">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                   stroke-linecap="round" stroke-linejoin="round">

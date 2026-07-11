@@ -17,6 +17,9 @@ export interface CreateInboundTransactionRequest {
     referenceId: string;
     notes: string;
     lines: TransactionLineDto[];
+    amountPaid?: number;
+    supplierId?: string;
+    customerId?: string;
 }
 
 export interface CreateWastageTransactionRequest {
@@ -41,6 +44,9 @@ export interface TransactionDetailDto {
     notes: string;
     status: number; // 1=Draft, 2=PendingApproval, 3=Completed, 4=Cancelled
     createdAt: string;
+    amountPaid: number;
+    supplierId?: string;
+    customerId?: string;
     lines: {
         productId: string;
         productName: string;
