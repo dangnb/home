@@ -104,7 +104,7 @@
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                       </svg>
-                      Sửa sản phẩm
+                      {{ 'PRODUCTS.ACTION_EDIT' | translate }}
                     </a></li>
                   <li>
                     <hr class="dropdown-divider">
@@ -116,7 +116,7 @@
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                       </svg>
-                      Xóa
+                      {{ 'PRODUCTS.ACTION_DELETE' | translate }}
                     </a></li>
                 </ul>
               </div>
@@ -144,21 +144,21 @@
 </div>
 
 @if (showModal) {
-<app-modal [title]="isEditMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'" size="xl" (closeDialog)="closeModal()">
+<app-modal [title]="isEditMode ? ('PRODUCTS.TITLE_EDIT' | translate) : ('PRODUCTS.TITLE_ADD' | translate)" size="xl" (closeDialog)="closeModal()">
   <form (ngSubmit)="saveProduct()" #productForm="ngForm" id="productNgForm">
     <div class="row g-4 mb-4">
       <!-- Cột trái: Thông tin chính -->
       <div class="col-12 col-lg-8">
         <!-- Panel Thông tin cơ bản -->
         <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Thông tin cơ bản</h6>
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_BASIC' | translate }}</h6>
           <div class="row g-3">
             <div class="col-12">
-              <label class="form-label fw-bold text-dark fs-7">Tên sản phẩm <span class="text-danger">*</span></label>
-              <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid rounded-3 py-2" required placeholder="Nhập tên sản phẩm...">
+              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.COL_NAME' | translate }} <span class="text-danger">*</span></label>
+              <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid rounded-3 py-2" required>
             </div>
             <div class="col-12 col-md-6">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Danh mục <span class="text-danger">*</span></label>
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COL_CATEGORY' | translate }} <span class="text-danger">*</span></label>
               <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select bg-light border-0 rounded-3 py-2" required>
                 @for (cat of flatCategories; track cat.id) {
                 <option [value]="cat.id">{{ cat.name }}</option>
@@ -166,37 +166,37 @@
               </select>
             </div>
             <div class="col-12 col-md-6">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Nhà cung cấp</label>
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.SUPPLIER' | translate }}</label>
               <select [(ngModel)]="editingProduct.supplierId" name="supplierId" class="form-select bg-light border-0 rounded-3 py-2">
-                <option [value]="undefined">-- Không chọn --</option>
+                <option [value]="undefined">{{ 'PRODUCTS.NO_SELECTION' | translate }}</option>
                 @for (sup of suppliers; track sup.id) {
                 <option [value]="sup.id">{{ sup.fullName }}</option>
                 }
               </select>
             </div>
             <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">Đơn vị tính gốc</label>
+              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.BASE_UNIT' | translate }}</label>
               <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-control-solid rounded-3 py-2">
-                <option value="kg">kg</option>
-                <option value="bó">Bó</option>
-                <option value="hộp">Hộp</option>
-                <option value="chai">Chai</option>
+                <option value="kg">{{ 'PRODUCTS.UNIT_KG' | translate }}</option>
+                <option value="bó">{{ 'PRODUCTS.UNIT_BUNCH' | translate }}</option>
+                <option value="hộp">{{ 'PRODUCTS.UNIT_BOX' | translate }}</option>
+                <option value="chai">{{ 'PRODUCTS.UNIT_BOTTLE' | translate }}</option>
               </select>
             </div>
             <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">Mã hệ thống</label>
+              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.SYSTEM_CODE' | translate }}</label>
               <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid rounded-3 py-2 bg-light text-muted" disabled>
             </div>
             <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá vốn (₫)</label>
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COST_PRICE' | translate }} (₫)</label>
               <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
             <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá sỉ (₫)</label>
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.WHOLESALE_PRICE' | translate }} (₫)</label>
               <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
             <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">Giá bán (₫) <span class="text-danger">*</span></label>
+              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COL_PRICE' | translate }} (₫) <span class="text-danger">*</span></label>
               <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control bg-light border-0 rounded-3 py-2" required>
             </div>
           </div>
@@ -204,9 +204,9 @@
 
         <!-- Panel Hình ảnh -->
         <div class="border rounded-4 p-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Hình ảnh sản phẩm</h6>
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_IMAGES' | translate }}</h6>
           <div class="mb-4">
-            <label class="form-label fw-bold text-dark fs-7">Ảnh chính</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MAIN_IMAGE' | translate }}</label>
             <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
             @if (editingProduct.mainImageUrl) {
             <div class="mt-3">
@@ -215,7 +215,7 @@
             }
           </div>
           <div>
-            <label class="form-label fw-bold text-dark fs-7">Ảnh phụ đính kèm</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}</label>
             <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
             @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
             <div class="d-flex gap-2 flex-wrap mt-3">
@@ -236,39 +236,39 @@
       <!-- Cột phải: Thuộc tính mở rộng -->
       <div class="col-12 col-lg-4">
         <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Trạng thái & Tồn kho</h6>
+          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_STATUS_STOCK' | translate }}</h6>
           <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">Tồn kho hiện tại</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.CURRENT_STOCK' | translate }}</label>
             <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">Tồn kho tối thiểu (Cảnh báo hết)</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MIN_STOCK' | translate }}</label>
             <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-solid rounded-3 py-2">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">Tồn kho tối đa (Cảnh báo dư thừa)</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MAX_STOCK' | translate }}</label>
             <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-solid rounded-3 py-2">
           </div>
           <div>
-            <label class="form-label fw-bold text-dark fs-7">Trạng thái kinh doanh</label>
+            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.BUSINESS_STATUS' | translate }}</label>
             <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-control-solid rounded-3 py-2">
-              <option value="Active">Đang bán</option>
-              <option value="OutOfStock">Sắp hết / Hết hàng</option>
-              <option value="Discontinued">Ngừng bán (Ẩn)</option>
-              <option value="Draft">Lưu nháp</option>
+              <option value="Active">{{ 'PRODUCTS.STATUS_ACTIVE' | translate }}</option>
+              <option value="OutOfStock">{{ 'PRODUCTS.STATUS_OUT_OF_STOCK' | translate }}</option>
+              <option value="Discontinued">{{ 'PRODUCTS.STATUS_DISCONTINUED' | translate }}</option>
+              <option value="Draft">{{ 'PRODUCTS.STATUS_DRAFT' | translate }}</option>
             </select>
           </div>
         </div>
 
         <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
           <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-            <h6 class="fw-bold mb-0 text-primary">Đơn vị quy đổi</h6>
-            <button type="button" class="btn btn-sm btn-light fw-bold text-primary rounded-pill px-3" (click)="addUnit()">+ Thêm</button>
+            <h6 class="fw-bold mb-0 text-primary">{{ 'PRODUCTS.CONVERSION_UNITS' | translate }}</h6>
+            <button type="button" class="btn btn-sm btn-light fw-bold text-primary rounded-pill px-3" (click)="addUnit()">{{ 'PRODUCTS.ADD_UNIT' | translate }}</button>
           </div>
           
           @if (!editingProduct.units || editingProduct.units.length === 0) {
             <div class="text-center py-3 bg-light rounded-3">
-              <span class="text-muted small">Chưa có đơn vị tính phụ</span>
+              <span class="text-muted small">{{ 'PRODUCTS.NO_ADDITIONAL_UNITS' | translate }}</span>
             </div>
           }
           
@@ -279,18 +279,18 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
                 <div class="mb-2">
-                  <label class="form-label small fw-bold text-dark mb-1">Tên ĐVT phụ</label>
+                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.UNIT_NAME' | translate }}</label>
                   <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid rounded-3" placeholder="VD: Thùng, Lốc">
                 </div>
                 <div class="mb-2">
-                  <label class="form-label small fw-bold text-dark mb-1">Quy đổi</label>
+                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.CONVERSION' | translate }}</label>
                   <div class="input-group input-group-sm">
                     <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid border-end-0">
-                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">{{ editingProduct.unit || 'gốc' }}</span>
+                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">{{ editingProduct.unit || ('PRODUCTS.BASE' | translate) }}</span>
                   </div>
                 </div>
                 <div>
-                  <label class="form-label small fw-bold text-dark mb-1">Giá bán riêng</label>
+                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.SEPARATE_PRICE' | translate }}</label>
                   <div class="input-group input-group-sm">
                     <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid border-end-0">
                     <span class="input-group-text bg-white border-start-0 text-muted fw-bold">₫</span>
@@ -304,12 +304,12 @@
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">{{ 'PRODUCTS.BTN_CANCEL' | translate }}</button>
     <button type="submit" form="productNgForm" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!productForm.form.valid || isSubmitting">
       @if (isSubmitting) {
         <span class="spinner-border spinner-border-sm me-2"></span>
       }
-      {{ isEditMode ? 'Lưu Thay Đổi' : 'Tạo Sản Phẩm' }}
+      {{ isEditMode ? ('PRODUCTS.BTN_SAVE_CHANGES' | translate) : ('PRODUCTS.BTN_CREATE_PRODUCT' | translate) }}
     </button>
   </div>
 </app-modal>
@@ -317,11 +317,11 @@
 
 <!-- History Modal -->
 @if (showHistoryModal) {
-<app-modal [title]="'Lịch sử giao dịch: ' + historyProduct?.name" size="lg" [noPadding]="true" (closeDialog)="closeHistoryModal()">
+<app-modal [title]="'PRODUCTS.TX_HISTORY_TITLE' | translate: { name: historyProduct?.name }" size="lg" [noPadding]="true" (closeDialog)="closeHistoryModal()">
   @if (isHistoryLoading) {
   <div class="text-center py-5">
     <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">Đang tải thẻ kho...</p>
+    <p class="mt-2 text-muted">{{ 'PRODUCTS.LOADING_STOCK_CARD' | translate }}</p>
   </div>
   }
   @if (!isHistoryLoading) {
@@ -329,11 +329,11 @@
     <table class="table table-hover align-middle mb-0">
       <thead class="table-light sticky-top shadow-sm">
         <tr>
-          <th class="ps-4 py-3">Mã GD</th>
-          <th class="py-3">Thời gian</th>
-          <th class="py-3">Phân loại</th>
-          <th class="text-center py-3">Số lượng</th>
-          <th class="text-end pe-4 py-3">Đơn giá</th>
+          <th class="ps-4 py-3">{{ 'PRODUCTS.COL_TX_CODE' | translate }}</th>
+          <th class="py-3">{{ 'PRODUCTS.COL_TX_TIME' | translate }}</th>
+          <th class="py-3">{{ 'PRODUCTS.COL_TX_TYPE' | translate }}</th>
+          <th class="text-center py-3">{{ 'PRODUCTS.COL_TX_QTY' | translate }}</th>
+          <th class="text-end pe-4 py-3">{{ 'PRODUCTS.COL_TX_PRICE' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -343,13 +343,13 @@
           <td>{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>
             @if (tx.type === 0) {
-            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Nhập kho</span>
+            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_INBOUND' | translate }}</span>
             }
             @if (tx.type === 1) {
-            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">Xuất kho</span>
+            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_OUTBOUND' | translate }}</span>
             }
             @if (tx.type === 2) {
-            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">Kiểm kê / Điều chỉnh</span>
+            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_ADJUSTMENT' | translate }}</span>
             }
           </td>
           <td class="text-center">
@@ -363,7 +363,7 @@
         }
         @if (productHistory.length === 0) {
         <tr>
-          <td colspan="5" class="text-center py-4 text-muted">Chưa có phát sinh giao dịch nào.</td>
+          <td colspan="5" class="text-center py-4 text-muted">{{ 'PRODUCTS.NO_TX_HISTORY' | translate }}</td>
         </tr>
         }
       </tbody>
@@ -372,7 +372,7 @@
   }
 
   <div modal-footer>
-    <button class="btn btn-light" (click)="closeHistoryModal()">Đóng</button>
+    <button class="btn btn-light" (click)="closeHistoryModal()">{{ 'PRODUCTS.BTN_CLOSE' | translate }}</button>
   </div>
 </app-modal>
 }

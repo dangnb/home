@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { OrderService } from '../../services/order.service';
 import { OrderDto, OrderStatus, PaymentMethod } from '../../models/order.model';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
@@ -8,12 +9,13 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, DatePipe],
+  imports: [CommonModule, FormsModule, PaginationComponent, DatePipe, TranslatePipe],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
+  private translate = inject(TranslateService);
   private cdr = inject(ChangeDetectorRef);
 
   orders: OrderDto[] = [];

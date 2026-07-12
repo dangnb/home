@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 export interface CategoryNode extends Category {
     children: CategoryNode[];
@@ -14,7 +15,7 @@ export interface CategoryNode extends Category {
 
 @Component({
     selector: 'app-categories',
-    imports: [CommonModule, FormsModule, ModalComponent],
+    imports: [CommonModule, FormsModule, ModalComponent, TranslatePipe],
     templateUrl: './categories.component.html',
     changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './categories.component.scss'
@@ -31,17 +32,26 @@ export class CategoriesComponent implements OnInit {
     isSubmitting = false;
     editingCategory: Category = this.getEmptyCategory();
 
-    constructor(private categoryService: CategoryService, private alertService: AlertService) { }
+    private categoryService = inject(CategoryService);
+    private alertService = inject(AlertService);
+    private translate = inject(TranslateService);
+
+    constructor() { }
 
     ngOnInit() {
         this.loadCategories();
     }
 
     loadCategories() {
-        this.categoryService.getCategories().subscribe(data => {
-            this.categories = data;
-            this.categoryNodes = this.buildTree(data);
-            this.applyFilter();
+        this.categoryService.getCategories().subscribe({
+            next: (data) => {
+                this.categories = data;
+                this.categoryNodes = this.buildTree(data);
+                this.applyFilter();
+            },
+            error: (err) => {
+                this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR'));
+            }
         });
     }
 
@@ -118,32 +128,41 @@ export class CategoriesComponent implements OnInit {
         if (this.isEditMode) {
             this.categoryService.updateCategory(payload.id, payload).subscribe({
                 next: () => {
-                    this.loadCategories();
+                    this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
                     this.closeModal();
+                    this.loadCategories();
                 },
-                error: () => {
+                error: (err) => {
                     this.isSubmitting = false;
+                    this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
                 }
             });
         } else {
             this.categoryService.createCategory(payload).subscribe({
                 next: () => {
-                    this.loadCategories();
+                    this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
                     this.closeModal();
+                    this.loadCategories();
                 },
-                error: () => {
+                error: (err) => {
                     this.isSubmitting = false;
+                    this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
                 }
             });
         }
     }
 
     deleteCategory(id: string) {
-        this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa danh mục này không? Các danh mục con có thể cũng bị ảnh hưởng.').then((result: any) => {
+        this.alertService.confirm(this.translate.instant('COMMON.CONFIRM'), this.translate.instant('COMMON.DELETE_CONFIRM')).then((result: any) => {
             if (result.isConfirmed) {
-                this.categoryService.deleteCategory(id).subscribe(() => {
-                    this.loadCategories();
-                    this.alertService.success('Thành công', 'Đã xóa danh mục.');
+                this.categoryService.deleteCategory(id).subscribe({
+                  next: () => {
+                      this.loadCategories();
+                      this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.DELETE_SUCCESS'));
+                  },
+                  error: (err) => {
+                      this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.DELETE_ERROR') + ': ' + (err.error?.title || err.message));
+                  }
                 });
             }
         });

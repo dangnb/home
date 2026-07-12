@@ -2,19 +2,19 @@
   <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-3">
     <div>
       <h2 class="view-title mb-1">
-        <i class="bi bi-graph-up-arrow me-2 text-primary"></i>Báo cáo Doanh thu & Lợi nhuận
+        <i class="bi bi-graph-up-arrow me-2 text-primary"></i>{{ 'REPORTS.TITLE' | translate }}
       </h2>
-      <p class="view-subtitle text-muted mb-0">Theo dõi kết quả kinh doanh và sản phẩm bán chạy</p>
+      <p class="view-subtitle text-muted mb-0">{{ 'REPORTS.SUBTITLE' | translate }}</p>
     </div>
 
     <!-- Filters -->
     <div class="d-flex align-items-center gap-2">
       <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="filterType" (change)="onFilterChange()">
-        <option value="today">Hôm nay</option>
-        <option value="thisWeek">Tuần này</option>
-        <option value="thisMonth">Tháng này</option>
-        <option value="thisYear">Năm nay</option>
-        <option value="custom">Tuỳ chỉnh...</option>
+        <option value="today">{{ 'REPORTS.FILTER_TODAY' | translate }}</option>
+        <option value="thisWeek">{{ 'REPORTS.FILTER_THIS_WEEK' | translate }}</option>
+        <option value="thisMonth">{{ 'REPORTS.FILTER_THIS_MONTH' | translate }}</option>
+        <option value="thisYear">{{ 'REPORTS.FILTER_THIS_YEAR' | translate }}</option>
+        <option value="custom">{{ 'REPORTS.FILTER_CUSTOM' | translate }}</option>
       </select>
 
       @if (filterType === 'custom') {
@@ -34,7 +34,7 @@
       <div class="kpi-card kpi-blue h-100">
         <div class="d-flex justify-content-between align-items-start">
           <div>
-            <p class="kpi-title">Tổng Doanh thu</p>
+            <p class="kpi-title">{{ 'REPORTS.TOTAL_REVENUE' | translate }}</p>
             <h3 class="kpi-value">{{ summary.totalRevenue | number:'1.0-0' }} ₫</h3>
           </div>
           <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
@@ -46,7 +46,7 @@
       <div class="kpi-card kpi-green h-100">
         <div class="d-flex justify-content-between align-items-start">
           <div>
-            <p class="kpi-title">Tổng Lợi nhuận</p>
+            <p class="kpi-title">{{ 'REPORTS.TOTAL_PROFIT' | translate }}</p>
             <h3 class="kpi-value">{{ summary.totalProfit | number:'1.0-0' }} ₫</h3>
           </div>
           <div class="kpi-icon"><i class="bi bi-graph-up"></i></div>
@@ -58,7 +58,7 @@
       <div class="kpi-card kpi-purple h-100">
         <div class="d-flex justify-content-between align-items-start">
           <div>
-            <p class="kpi-title">Số Đơn hàng</p>
+            <p class="kpi-title">{{ 'REPORTS.TOTAL_ORDERS' | translate }}</p>
             <h3 class="kpi-value">{{ summary.totalOrders | number }}</h3>
           </div>
           <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
@@ -73,7 +73,7 @@
     <div class="col-12 col-xl-8">
       <div class="card border-0 shadow-sm rounded-4 h-100">
         <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-          <h5 class="fw-bold mb-0 text-dark">Biểu đồ Doanh thu & Lợi nhuận</h5>
+          <h5 class="fw-bold mb-0 text-dark">{{ 'REPORTS.CHART_REVENUE_PROFIT' | translate }}</h5>
         </div>
         <div class="card-body p-4">
           <div style="height: 350px;">
@@ -91,7 +91,7 @@
     <div class="col-12 col-xl-4">
       <div class="card border-0 shadow-sm rounded-4 h-100">
         <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
-          <h5 class="fw-bold mb-0 text-dark">Top Sản phẩm Doanh thu</h5>
+          <h5 class="fw-bold mb-0 text-dark">{{ 'REPORTS.CHART_TOP_PRODUCTS' | translate }}</h5>
         </div>
         <div class="card-body p-4">
           <div style="height: 350px;">
@@ -109,17 +109,17 @@
   <!-- Top Products Table -->
   <div class="card border-0 shadow-sm rounded-4">
     <div class="card-header bg-white border-bottom pt-4 pb-3 px-4 d-flex justify-content-between align-items-center">
-      <h5 class="fw-bold mb-0 text-dark">Chi tiết Top 10 Sản phẩm</h5>
+      <h5 class="fw-bold mb-0 text-dark">{{ 'REPORTS.TOP_10_TITLE' | translate }}</h5>
     </div>
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover align-middle mb-0 custom-table">
           <thead class="table-light">
             <tr>
-              <th class="ps-4">Sản phẩm</th>
-              <th>Danh mục</th>
-              <th class="text-center">Số lượng bán</th>
-              <th class="text-end pe-4">Doanh thu</th>
+              <th class="ps-4">{{ 'REPORTS.COL_PRODUCT' | translate }}</th>
+              <th>{{ 'REPORTS.COL_CATEGORY' | translate }}</th>
+              <th class="text-center">{{ 'REPORTS.COL_QTY_SOLD' | translate }}</th>
+              <th class="text-end pe-4">{{ 'REPORTS.COL_REVENUE' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -135,7 +135,7 @@
             }
             @if (topProducts.length === 0) {
               <tr>
-                <td colspan="4" class="text-center py-5 text-muted">Không có dữ liệu trong khoảng thời gian này</td>
+                <td colspan="4" class="text-center py-5 text-muted">{{ 'REPORTS.NO_DATA' | translate }}</td>
               </tr>
             }
           </tbody>

@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
@@ -13,7 +14,7 @@ import { NumberFormatDirective } from '../../shared/directives/number-format.dir
 @Component({
   selector: 'app-pos',
   standalone: true,
-  imports: [CommonModule, FormsModule, NumberFormatDirective],
+  imports: [CommonModule, FormsModule, NumberFormatDirective, TranslatePipe],
   templateUrl: './pos.component.html',
   styleUrls: ['./pos.component.scss']
 })
@@ -23,6 +24,7 @@ export class PosComponent implements OnInit {
   private customerService = inject(CustomerService);
   private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
+  private translate = inject(TranslateService);
 
   products: any[] = [];
   customers: any[] = [];
@@ -67,8 +69,8 @@ export class PosComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error(err);
         this.isLoadingProducts = false;
+        this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
         this.cdr.detectChanges();
       }
     });
@@ -144,7 +146,7 @@ export class PosComponent implements OnInit {
 
   checkout() {
     if (this.cart.length === 0) {
-      this.alertService.warning('Giỏ hàng trống', 'Vui lòng thêm sản phẩm vào giỏ hàng.');
+      this.alertService.warning('Cảnh báo', this.translate.instant('POS.CART_EMPTY'));
       return;
     }
 
@@ -167,12 +169,12 @@ export class PosComponent implements OnInit {
     };
 
     this.orderService.createOrder(command).subscribe({
-      next: () => {
-        this.alertService.success('Thành công', 'Đã thanh toán đơn hàng thành công.');
+      next: (res) => {
+        this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Thanh toán đơn hàng thành công');
         this.resetForm();
       },
       error: (err) => {
-        this.alertService.error('Lỗi', err.error?.title || 'Không thể tạo đơn hàng.');
+        this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Lỗi thanh toán: ' + (err.error?.title || err.message));
       }
     });
   }

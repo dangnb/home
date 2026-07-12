@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CustomerService, Customer } from '../../services/customer.service';
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -8,12 +9,13 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent, TranslatePipe],
   templateUrl: './customers.component.html'
 })
 export class CustomersComponent implements OnInit {
   private customerService = inject(CustomerService);
   private alertService = inject(AlertService);
+  private translate = inject(TranslateService);
   private cdr = inject(ChangeDetectorRef);
 
   customers: Customer[] = [];
@@ -51,8 +53,8 @@ export class CustomersComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.alertService.error('Lỗi', 'Không thể tải danh sách khách hàng');
         this.isLoading = false;
+        this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
         this.cdr.detectChanges();
       }
     });
@@ -107,30 +109,30 @@ export class CustomersComponent implements OnInit {
     if (this.editingCustomer) {
       this.customerService.updateCustomer(this.editingCustomer.id, this.formData).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã cập nhật thông tin khách hàng');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
           this.loadCustomers();
           this.closeModal();
           this.isSubmitting = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Không thể cập nhật khách hàng');
           this.isSubmitting = false;
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
           this.cdr.detectChanges();
         }
       });
     } else {
       this.customerService.createCustomer(this.formData).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã thêm khách hàng mới');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
           this.loadCustomers();
           this.closeModal();
           this.isSubmitting = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Không thể tạo khách hàng');
           this.isSubmitting = false;
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
           this.cdr.detectChanges();
         }
       });
@@ -138,16 +140,16 @@ export class CustomersComponent implements OnInit {
   }
 
   deleteCustomer(id: string) {
-    this.alertService.confirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa khách hàng này không? Hành động này không thể hoàn tác.', 'Có, xóa', 'Hủy').then((result: any) => {
+    this.alertService.confirm(this.translate.instant('COMMON.CONFIRM'), this.translate.instant('COMMON.DELETE_CONFIRM')).then((result: any) => {
       if (result.isConfirmed) {
         this.customerService.deleteCustomer(id).subscribe({
           next: () => {
-            this.alertService.success('Thành công', 'Đã xóa khách hàng');
+            this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.DELETE_SUCCESS'));
             this.loadCustomers();
             this.cdr.detectChanges();
           },
           error: (err) => {
-            this.alertService.error('Lỗi', 'Không thể xóa khách hàng này');
+            this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.DELETE_ERROR') + ': ' + (err.error?.title || err.message));
             this.cdr.detectChanges();
           }
         });
