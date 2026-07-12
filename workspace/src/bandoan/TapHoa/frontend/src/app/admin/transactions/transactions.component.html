@@ -1,7 +1,7 @@
 <div class="page-title-area d-flex justify-content-between align-items-center mb-4">
   <div>
-    <h2 class="mb-1 fw-bold fs-4" style="color: var(--dark);">Sổ Cái Giao Dịch Kho</h2>
-    <p class="text-muted mb-0 view-subtitle">Theo dõi và quản lý toàn bộ biến động xuất nhập kho trong hệ thống.</p>
+    <h2 class="mb-1 fw-bold fs-4" style="color: var(--dark);">{{ 'TRANSACTIONS.TITLE' | translate }}</h2>
+    <p class="text-muted mb-0 view-subtitle">{{ 'TRANSACTIONS.SUBTITLE' | translate }}</p>
   </div>
   <button class="btn-primary-gradient d-flex align-items-center gap-2 px-4 py-2" routerLink="/admin/transactions/create">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -10,7 +10,7 @@
       <line x1="12" y1="8" x2="12" y2="16"></line>
       <line x1="8" y1="12" x2="16" y2="12"></line>
     </svg>
-    Tạo Phiếu Nhập
+    {{ 'TRANSACTIONS.CREATE_INBOUND' | translate }}
   </button>
 </div>
 
@@ -21,7 +21,7 @@
     <div class="card h-100 kpi-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-          <div class="kpi-label">TỔNG GIAO DỊCH</div>
+          <div class="kpi-label">{{ 'TRANSACTIONS.KPI_TOTAL_TX' | translate }}</div>
           <div class="kpi-icon-box bg-blue-light text-primary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -37,7 +37,7 @@
           <div class="kpi-value text-dark">1,284</div>
           <div class="kpi-badge badge-green mb-1">+12%</div>
         </div>
-        <div class="kpi-footer">So với tháng trước</div>
+        <div class="kpi-footer">{{ 'TRANSACTIONS.KPI_VS_LAST_MONTH' | translate }}</div>
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@
     <div class="card h-100 kpi-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-          <div class="kpi-label">TỔNG GIÁ TRỊ (VND)</div>
+          <div class="kpi-label">{{ 'TRANSACTIONS.KPI_TOTAL_VALUE' | translate }}</div>
           <div class="kpi-icon-box bg-gray-light text-muted">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -64,7 +64,7 @@
             <polyline points="17 6 23 6 23 12"></polyline>
           </svg>
         </div>
-        <div class="kpi-footer">Lưu chuyển dòng hàng</div>
+        <div class="kpi-footer">{{ 'TRANSACTIONS.KPI_CASH_FLOW' | translate }}</div>
       </div>
     </div>
   </div>
@@ -73,7 +73,7 @@
     <div class="card h-100 kpi-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-          <div class="kpi-label">ĐANG XỬ LÝ</div>
+          <div class="kpi-label">{{ 'TRANSACTIONS.KPI_PENDING' | translate }}</div>
           <div class="kpi-icon-box bg-blue-light text-primary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -88,7 +88,7 @@
           <div class="kpi-value text-dark">28</div>
           <div class="kpi-dot bg-warning mb-2"></div>
         </div>
-        <div class="kpi-footer">Yêu cầu chờ duyệt</div>
+        <div class="kpi-footer">{{ 'TRANSACTIONS.KPI_WAITING_APPROVAL' | translate }}</div>
       </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
     <div class="card h-100 kpi-card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-          <div class="kpi-label">TỶ LỆ SAI SÓT</div>
+          <div class="kpi-label">{{ 'TRANSACTIONS.KPI_ERROR_RATE' | translate }}</div>
           <div class="kpi-icon-box bg-red-light text-danger">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -111,7 +111,7 @@
           <div class="kpi-value text-dark">0.4%</div>
           <div class="kpi-badge badge-green badge-flat mb-1">-0.2% vs MoM</div>
         </div>
-        <div class="kpi-footer">Dựa trên kiểm kê thực tế</div>
+        <div class="kpi-footer">{{ 'TRANSACTIONS.KPI_BASED_ON_STOCK_TAKE' | translate }}</div>
       </div>
     </div>
   </div>
@@ -121,9 +121,9 @@
 <div class="premium-card mb-4" (click)="activeDropdownRowId = null">
   <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
     <div class="d-flex align-items-center gap-3">
-      <h4 class="mb-0 fw-bold fs-5 text-dark">Lịch sử giao dịch</h4>
+      <h4 class="mb-0 fw-bold fs-5 text-dark">{{ 'TRANSACTIONS.TX_HISTORY' | translate }}</h4>
       <span class="badge bg-light text-muted border px-2 py-1" style="font-weight: 500; font-size: 0.85rem;">{{
-        filteredTransactions.length }} bản ghi</span>
+        filteredTransactions.length }} {{ 'TRANSACTIONS.RECORDS' | translate }}</span>
     </div>
     <div class="d-flex align-items-center gap-3">
       <div class="search-input-wrapper">
@@ -131,7 +131,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="w-100" placeholder="Tìm kiếm phiếu..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        <input type="text" class="w-100" [placeholder]="'TRANSACTIONS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
       <button class="btn btn-light d-flex align-items-center gap-2 fw-bold border text-nowrap">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -140,7 +140,7 @@
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-        Xuất file
+        {{ 'TRANSACTIONS.EXPORT' | translate }}
       </button>
     </div>
   </div>
@@ -148,7 +148,7 @@
     @if (isLoading) {
     <div class="text-center py-5 text-muted">
       <div class="spinner-border text-primary" role="status"></div>
-      <div class="mt-2">Đang tải dữ liệu lô...</div>
+      <div class="mt-2">{{ 'COMMON.LOADING' | translate }}</div>
     </div>
     }
 
@@ -157,14 +157,14 @@
       <table class="table custom-table mb-0 align-middle">
         <thead class="table-light">
           <tr>
-            <th class="ps-4">MÃ PHIẾU</th>
-            <th>LOẠI GIAO DỊCH</th>
-            <th class="d-none d-lg-table-cell">NGƯỜI TẠO</th>
-            <th class="d-none d-sm-table-cell">SỐ LƯỢNG</th>
-            <th>TỔNG TIỀN</th>
-            <th class="d-none d-md-table-cell">THỜI GIAN</th>
-            <th class="d-none d-xl-table-cell">TRẠNG THÁI</th>
-            <th class="text-end pe-4">THAO TÁC</th>
+            <th class="ps-4">{{ 'TRANSACTIONS.COL_CODE' | translate }}</th>
+            <th>{{ 'TRANSACTIONS.COL_TYPE' | translate }}</th>
+            <th class="d-none d-lg-table-cell">{{ 'TRANSACTIONS.COL_CREATED_BY' | translate }}</th>
+            <th class="d-none d-sm-table-cell">{{ 'TRANSACTIONS.COL_QTY' | translate }}</th>
+            <th>{{ 'TRANSACTIONS.COL_TOTAL' | translate }}</th>
+            <th class="d-none d-md-table-cell">{{ 'TRANSACTIONS.COL_TIME' | translate }}</th>
+            <th class="d-none d-xl-table-cell">{{ 'TRANSACTIONS.COL_STATUS' | translate }}</th>
+            <th class="text-end pe-4">{{ 'COMMON.ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -204,7 +204,7 @@
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                Đang xử lý
+                {{ 'TRANSACTIONS.STATUS_PENDING' | translate }}
               </span>
             </td>
             <td class="text-end pe-4">
@@ -227,7 +227,7 @@
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      Duyệt phiếu
+                      {{ 'TRANSACTIONS.BTN_APPROVE' | translate }}
                     </button>
                   </li>
                   <li>
@@ -236,7 +236,7 @@
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                       </svg>
-                      Sửa phiếu
+                      {{ 'TRANSACTIONS.BTN_EDIT' | translate }}
                     </a>
                   </li>
                   }
@@ -246,7 +246,7 @@
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="12" r="3"></circle>
                       </svg>
-                      Xem chi tiết
+                      {{ 'COMMON.VIEW_DETAIL' | translate }}
                     </a>
                   </li>
                   <li>
@@ -259,7 +259,7 @@
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                       </svg>
-                      Xóa
+                      {{ 'COMMON.DELETE' | translate }}
                     </button>
                   </li>
                 </ul>
@@ -269,7 +269,7 @@
           }
           @if (filteredTransactions.length === 0 && !isLoading) {
           <tr class="text-center">
-            <td colspan="8" class="py-5 text-muted">Chưa có giao dịch kho nào.</td>
+            <td colspan="8" class="py-5 text-muted">{{ 'TRANSACTIONS.NO_DATA' | translate }}</td>
           </tr>
           }
         </tbody>
@@ -280,8 +280,7 @@
   <div class="card-footer bg-light-surface border-0 py-3 px-4 d-flex justify-content-between align-items-center"
     style="border-top: 1px solid var(--border-color) !important;">
     <span class="text-muted" style="font-size: 0.85rem;">
-      Hiển thị <strong>{{ paginatedTransactions.length }}</strong> trong tổng số <strong>{{ filteredTransactions.length
-        }}</strong> giao dịch
+      {{ 'TRANSACTIONS.SHOWING' | translate }} <strong>{{ paginatedTransactions.length }}</strong> {{ 'TRANSACTIONS.OF' | translate }} <strong>{{ filteredTransactions.length }}</strong> {{ 'TRANSACTIONS.RECORDS_LC' | translate }}
     </span>
     @if (totalPages >= 1) {
     <div class="pagination-custom d-flex gap-2">

@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TransactionService, TransactionDetailDto } from '../../../services/transaction.service';
 
 @Component({
   selector: 'app-wastage-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './wastage-list.component.html',
   styleUrls: ['./wastage-list.component.scss']
 })
@@ -43,12 +44,14 @@ export class WastageListComponent implements OnInit {
     });
   }
 
+  private t = inject(TranslateService);
+
   getStatusText(status: number): string {
     switch(status) {
-      case 0: return 'Nháp';
-      case 1: return 'Chờ duyệt';
-      case 2: return 'Hoàn tất';
-      default: return 'Không rõ';
+      case 0: return this.t.instant('WASTAGE.STATUS_DRAFT');
+      case 1: return this.t.instant('WASTAGE.STATUS_PENDING');
+      case 2: return this.t.instant('WASTAGE.STATUS_COMPLETED');
+      default: return this.t.instant('WASTAGE.STATUS_UNKNOWN');
     }
   }
 

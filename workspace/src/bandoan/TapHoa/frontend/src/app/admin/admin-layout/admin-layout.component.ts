@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, HostListener, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ProductService, ExpiringBatch } from '../../services/product.service';
 import { LanguageService, LanguageOption } from '../../services/language.service';
 
@@ -9,7 +9,7 @@ import { LanguageService, LanguageOption } from '../../services/language.service
 
 @Component({
     selector: 'app-admin-layout',
-    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule],
+    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslatePipe],
     templateUrl: './admin-layout.component.html',
     changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './admin-layout.component.scss'

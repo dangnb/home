@@ -19,10 +19,8 @@ export class LanguageService {
     ];
 
     init(): void {
-        this.translate.addLangs(this.languages.map(l => l.code));
         const saved = localStorage.getItem('app_lang');
         const lang = saved && this.languages.some(l => l.code === saved) ? saved : 'vi';
-        this.translate.setDefaultLang('vi');
         this.translate.use(lang);
     }
 
@@ -32,7 +30,7 @@ export class LanguageService {
     }
 
     getCurrentLang(): string {
-        return this.translate.currentLang || 'vi';
+        return this.translate.currentLang() || 'vi';
     }
 
     getCurrentLanguage(): LanguageOption {

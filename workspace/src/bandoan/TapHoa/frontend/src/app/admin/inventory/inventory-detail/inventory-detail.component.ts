@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef }
 import { CommonModule, DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
 
 interface StockMovement {
@@ -36,7 +37,7 @@ interface ProductStockDetail {
 @Component({
     selector: 'app-inventory-detail',
     standalone: true,
-    imports: [CommonModule, DatePipe, DecimalPipe, NgClass, RouterLink],
+    imports: [CommonModule, DatePipe, DecimalPipe, NgClass, RouterLink, TranslatePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <div class="premium-card mb-4">
@@ -47,12 +48,12 @@ interface ProductStockDetail {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path>
             </svg>
-            Quay lại Tồn Kho
+            {{ 'INVENTORY_DETAIL.BACK_TO_INVENTORY' | translate }}
           </a>
           <h5 class="mb-1 fw-bold text-dark fs-5">
-            <span class="me-2 fs-5">📋</span>Chi Tiết Tồn Kho: <span class="text-primary">{{ detail?.productName }}</span>
+            <span class="me-2 fs-5">📋</span>{{ 'INVENTORY_DETAIL.TITLE' | translate }}: <span class="text-primary">{{ detail?.productName }}</span>
           </h5>
-          <p class="text-muted mb-0 fs-7">Lịch sử toàn bộ biến động nhập/xuất/hủy/điều chỉnh của sản phẩm này.</p>
+          <p class="text-muted mb-0 fs-7">{{ 'INVENTORY_DETAIL.SUBTITLE' | translate }}</p>
         </div>
       </div>
 
@@ -63,7 +64,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Tồn hiện tại</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.CURRENT_STOCK' | translate }}</div>
                 <div class="fs-3 fw-bold" [ngClass]="{'text-danger': detail.currentStock <= 0, 'text-warning': detail.currentStock > 0 && detail.currentStock <= detail.reorderPoint, 'text-success': detail.currentStock > detail.reorderPoint}">
                   {{ detail.currentStock }}
                 </div>
@@ -74,7 +75,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Giá vốn TB</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.AVG_COST' | translate }}</div>
                 <div class="fs-5 fw-bold text-primary">{{ detail.averageCost | number:'1.0-0' }}₫</div>
               </div>
             </div>
@@ -82,7 +83,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Giá trị tồn</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.STOCK_VALUE' | translate }}</div>
                 <div class="fs-5 fw-bold text-success">{{ detail.totalValue | number:'1.0-0' }}₫</div>
               </div>
             </div>
@@ -90,7 +91,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Ngưỡng cảnh báo</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.REORDER_POINT' | translate }}</div>
                 <div class="fs-3 fw-bold text-warning">{{ detail.reorderPoint }}</div>
               </div>
             </div>
@@ -98,7 +99,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Tổng giao dịch</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.TOTAL_TRANSACTIONS' | translate }}</div>
                 <div class="fs-3 fw-bold text-dark">{{ detail.movements.length }}</div>
               </div>
             </div>
@@ -106,7 +107,7 @@ interface ProductStockDetail {
           <div class="col-6 col-lg-2">
             <div class="card border-0 shadow-sm h-100 rounded-4">
               <div class="card-body text-center p-3">
-                <div class="text-muted small fw-medium mb-1">Barcode</div>
+                <div class="text-muted small fw-medium mb-1">{{ 'INVENTORY_DETAIL.BARCODE' | translate }}</div>
                 <div class="fw-bold text-dark" style="font-family: monospace; font-size: 13px;">{{ detail.barcode || '—' }}</div>
               </div>
             </div>
@@ -121,22 +122,22 @@ interface ProductStockDetail {
           <table class="table table-hover align-middle mb-0 custom-table" style="font-size: 13px;">
             <thead class="table-light">
               <tr>
-                <th scope="col" class="ps-3">NGÀY</th>
-                <th scope="col">MÃ PHIẾU</th>
-                <th scope="col">LOẠI</th>
-                <th scope="col" class="d-none d-lg-table-cell">SỐ THAM CHIẾU</th>
-                <th scope="col" class="text-center">SỐ LƯỢNG</th>
-                <th scope="col" class="text-end d-none d-md-table-cell">ĐƠN GIÁ</th>
-                <th scope="col" class="text-end d-none d-md-table-cell">THÀNH TIỀN</th>
-                <th scope="col" class="text-center fw-bold">TỒN SAU GD</th>
-                <th scope="col" class="d-none d-lg-table-cell">NGƯỜI TẠO</th>
-                <th scope="col" class="d-none d-xl-table-cell">GHI CHÚ</th>
+                <th scope="col" class="ps-3">{{ 'INVENTORY_DETAIL.COL_DATE' | translate }}</th>
+                <th scope="col">{{ 'INVENTORY_DETAIL.COL_CODE' | translate }}</th>
+                <th scope="col">{{ 'INVENTORY_DETAIL.COL_TYPE' | translate }}</th>
+                <th scope="col" class="d-none d-lg-table-cell">{{ 'INVENTORY_DETAIL.COL_REFERENCE' | translate }}</th>
+                <th scope="col" class="text-center">{{ 'INVENTORY_DETAIL.COL_QUANTITY' | translate }}</th>
+                <th scope="col" class="text-end d-none d-md-table-cell">{{ 'INVENTORY_DETAIL.COL_UNIT_COST' | translate }}</th>
+                <th scope="col" class="text-end d-none d-md-table-cell">{{ 'INVENTORY_DETAIL.COL_TOTAL' | translate }}</th>
+                <th scope="col" class="text-center fw-bold">{{ 'INVENTORY_DETAIL.COL_BALANCE' | translate }}</th>
+                <th scope="col" class="d-none d-lg-table-cell">{{ 'INVENTORY_DETAIL.COL_CREATED_BY' | translate }}</th>
+                <th scope="col" class="d-none d-xl-table-cell">{{ 'INVENTORY_DETAIL.COL_NOTES' | translate }}</th>
               </tr>
             </thead>
             <tbody>
               @if (isLoading) {
               <tr>
-                <td colspan="10" class="text-center py-4 text-muted">Đang tải dữ liệu...</td>
+                <td colspan="10" class="text-center py-4 text-muted">{{ 'COMMON.LOADING' | translate }}</td>
               </tr>
               }
               @for (m of detail?.movements; track m.transactionId) {

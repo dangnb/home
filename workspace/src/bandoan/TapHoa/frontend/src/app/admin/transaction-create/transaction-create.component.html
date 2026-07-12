@@ -11,7 +11,7 @@
         </svg>
       </button>
       <h3 class="mb-0 fw-bolder text-primary fs-4" style="color: #0b5ed7 !important;">
-        {{ isEditMode ? 'Chỉnh sửa phiếu kho (' + editTransactionId + ')' : 'Tạo Phiếu Kho (Nhập/Xuất)' }}
+        {{ isEditMode ? ('TRANSACTION_CREATE.TITLE_EDIT' | translate: { id: editTransactionId }) : ('TRANSACTION_CREATE.TITLE_CREATE' | translate) }}
       </h3>
     </div>
     <div class="d-flex align-items-center gap-3">
@@ -35,7 +35,7 @@
       </button>
       <button class="btn btn-white btn-sm px-4 py-2 rounded-2 fw-medium text-dark bg-white shadow-sm"
         routerLink="/admin/transactions" style="border: 1px solid #cbd5e1;">
-        Trở về
+        {{ 'TRANSACTION_CREATE.BACK' | translate }}
       </button>
     </div>
   </div>
@@ -47,51 +47,51 @@
         <span
           class="rounded-circle bg-light-primary text-primary fw-bold d-flex justify-content-center align-items-center shadow-sm"
           style="width: 28px; height: 28px; font-size: 14px;">1</span>
-        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">Thông tin chung</h5>
+        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">{{ 'TRANSACTION_CREATE.STEP1_INFO' | translate }}</h5>
       </div>
 
       <div class="row g-4 mb-4">
         <div class="col-md-4">
-          <label class="form-label text-muted fw-bold small text-uppercase">Mã tham chiếu (Đơn hàng/PO) <span
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.REF_ID' | translate }} <span
               class="text-danger">*</span></label>
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
-            placeholder="Ví dụ: PO-2026-623">
+            [placeholder]="'TRANSACTION_CREATE.REF_ID_PLACEHOLDER' | translate">
         </div>
         <div class="col-md-4">
-          <label class="form-label text-muted fw-bold small text-uppercase">Ghi chú</label>
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.NOTES' | translate }}</label>
           <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="notes"
-            placeholder="Ghi chú thêm về lô hàng">
+            [placeholder]="'TRANSACTION_CREATE.NOTES_PLACEHOLDER' | translate">
         </div>
         <div class="col-md-4">
-          <label class="form-label text-muted fw-bold small text-uppercase">Loại nghiệp vụ <span
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.TYPE' | translate }} <span
               class="text-danger">*</span></label>
           <div class="d-flex bg-white border rounded-3 overflow-hidden shadow-sm">
             <input type="radio" class="btn-check" name="trType" id="typeIn" autocomplete="off"
               [(ngModel)]="transactionType" value="inbound">
-            <label class="btn btn-outline-primary border-0 w-50 py-2 fw-medium rounded-0" for="typeIn">Nhập</label>
+            <label class="btn btn-outline-primary border-0 w-50 py-2 fw-medium rounded-0" for="typeIn">{{ 'TRANSACTION_CREATE.TYPE_IN' | translate }}</label>
             <input type="radio" class="btn-check" name="trType" id="typeOut" autocomplete="off"
               [(ngModel)]="transactionType" value="outbound">
-            <label class="btn btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">Xuất</label>
+            <label class="btn btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">{{ 'TRANSACTION_CREATE.TYPE_OUT' | translate }}</label>
           </div>
         </div>
       </div>
       <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
         <div class="col-md-6" *ngIf="transactionType === 'inbound'">
-          <label class="form-label text-muted fw-bold small text-uppercase">Nhà cung cấp</label>
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.SUPPLIER' | translate }}</label>
           <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedSupplierId">
-            <option [ngValue]="null">-- Chọn Nhà Cung Cấp --</option>
+            <option [ngValue]="null">{{ 'TRANSACTION_CREATE.SELECT_SUPPLIER' | translate }}</option>
             <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }} ({{ s.code }})</option>
           </select>
         </div>
         <div class="col-md-6" *ngIf="transactionType === 'outbound'">
-          <label class="form-label text-muted fw-bold small text-uppercase">Khách hàng</label>
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.CUSTOMER' | translate }}</label>
           <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedCustomerId">
-            <option [ngValue]="null">-- Chọn Khách Hàng --</option>
+            <option [ngValue]="null">{{ 'TRANSACTION_CREATE.SELECT_CUSTOMER' | translate }}</option>
             <option *ngFor="let c of customers" [value]="c.id">{{ c.name }} ({{ c.code }})</option>
           </select>
         </div>
         <div class="col-md-6">
-          <label class="form-label text-muted fw-bold small text-uppercase">Đã thanh toán (VNĐ)</label>
+          <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.PAID_AMOUNT' | translate }}</label>
           <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none text-success fw-bold" [(ngModel)]="amountPaid"
             placeholder="0">
         </div>
@@ -102,7 +102,7 @@
         <span
           class="rounded-circle bg-light-primary text-primary fw-bold d-flex justify-content-center align-items-center shadow-sm"
           style="width: 28px; height: 28px; font-size: 14px;">2</span>
-        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">Nhập sản phẩm</h5>
+        <h5 class="fw-bold text-primary mb-0 ms-3 fs-5" style="color: #0d6efd !important;">{{ 'TRANSACTION_CREATE.STEP2_PRODUCTS' | translate }}</h5>
       </div>
 
       <!-- Gray Group box containing inputs -->
@@ -110,7 +110,7 @@
         style="background-color: #f8fafc !important; border-color: #e2e8f0 !important;">
         <div class="row g-3 align-items-end">
           <div class="col-md-5 position-relative">
-            <label class="form-label text-muted fw-bold small text-uppercase">Tìm mặt hàng (Tên/Mã)</label>
+            <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.SEARCH_ITEM' | translate }}</label>
             <div class="position-relative">
               <span class="position-absolute top-50 translate-middle-y ms-3 text-muted">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -121,12 +121,12 @@
               </span>
               <input type="text" class="form-control custom-input rounded-3 shadow-none"
                 style="padding-left: 2.5rem !important;" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
-                (focus)="onSearchFocus()" (blur)="onSearchBlur()" placeholder="Táo New Zealand size to">
+                (focus)="onSearchFocus()" (blur)="onSearchBlur()" [placeholder]="'TRANSACTION_CREATE.SEARCH_ITEM_PLACEHOLDER' | translate">
             </div>
             <!-- Dropdown Menu -->
             <ul class="dropdown-menu w-100 shadow-sm border-0 custom-autocomplete" [class.show]="showDropdown">
               @if (filteredProducts.length === 0) {
-              <li class="px-3 py-2 text-muted small">Không tìm thấy sản phẩm.</li>
+              <li class="px-3 py-2 text-muted small">{{ 'TRANSACTION_CREATE.NO_PRODUCT_FOUND' | translate }}</li>
               }
               @for (p of filteredProducts; track p) {
               <li>
@@ -142,44 +142,44 @@
             </ul>
           </div>
           <div class="col-md-2">
-            <label class="form-label text-muted fw-bold small text-uppercase">Số lượng</label>
+            <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.QUANTITY' | translate }}</label>
             <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity">
           </div>
           <div class="col-md-2">
-            <label class="form-label text-muted fw-bold small text-uppercase">Giá vốn</label>
+            <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.UNIT_COST' | translate }}</label>
             <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost">
           </div>
           <div class="col-md-3">
-            <label class="form-label text-muted fw-bold small text-uppercase">Vị trí kho (Ví dụ A-01-02)</label>
+            <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.LOCATION' | translate }}</label>
             <input type="text" class="form-control custom-input rounded-3 shadow-none"
               [(ngModel)]="selectedLocationCode" placeholder="A-01">
           </div>
         </div>
         <div class="row g-3 align-items-end mt-2">
           <div class="col-md-10" *ngIf="transactionType === 'outbound' && availableBatches.length > 0">
-            <label class="form-label text-muted fw-bold small text-uppercase text-danger">Chọn Lô xuất kho (FEFO) <span class="text-danger">*</span></label>
+            <label class="form-label text-muted fw-bold small text-uppercase text-danger">{{ 'TRANSACTION_CREATE.BATCH_FEFO' | translate }} <span class="text-danger">*</span></label>
             <select class="form-select custom-input rounded-3 shadow-none border-danger" [(ngModel)]="selectedBatchId">
               <option *ngFor="let b of availableBatches" [value]="b.id">
-                Lô: {{ b.batchNumber }} | Tồn: {{ b.stockQuantity }} | HSD: {{ b.expiryDate | date:'dd/MM/yyyy' }}
+                {{ 'TRANSACTION_CREATE.BATCH_NUMBER' | translate }}: {{ b.batchNumber }} | {{ 'COMMON.QUANTITY' | translate }}: {{ b.stockQuantity }} | {{ 'TRANSACTION_CREATE.EXP_DATE' | translate }}: {{ b.expiryDate | date:'dd/MM/yyyy' }}
               </option>
             </select>
           </div>
           <div class="col-md-10" *ngIf="transactionType === 'outbound' && availableBatches.length === 0 && selectedProductId">
-            <div class="alert alert-warning py-2 mb-0 small"><i class="bi bi-info-circle me-1"></i>Sản phẩm này chưa có lô hàng nào trong kho. Hệ thống sẽ tự động trừ kho chung.</div>
+            <div class="alert alert-warning py-2 mb-0 small"><i class="bi bi-info-circle me-1"></i>{{ 'TRANSACTION_CREATE.NO_BATCH_WARNING' | translate }}</div>
           </div>
 
           <ng-container *ngIf="transactionType === 'inbound'">
             <div class="col-md-4">
-              <label class="form-label text-muted fw-bold small text-uppercase">Lô hàng (Batch)</label>
+              <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.BATCH_NUMBER' | translate }}</label>
               <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
-                placeholder="Ví dụ: B001">
+                [placeholder]="'TRANSACTION_CREATE.BATCH_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-3">
-              <label class="form-label text-muted fw-bold small text-uppercase">Ngày SX (MFG)</label>
+              <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.MFG_DATE' | translate }}</label>
               <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedMfgDate">
             </div>
             <div class="col-md-3">
-              <label class="form-label text-muted fw-bold small text-uppercase">Hạn SD (EXP)</label>
+              <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.EXP_DATE' | translate }}</label>
               <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
             </div>
           </ng-container>
@@ -187,7 +187,7 @@
             <button
               class="btn btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
               (click)="addLine()" style="background-color: #3b82f6; border-color: #3b82f6; padding: 0.6rem;">
-              <span class="fs-5 lh-1 fw-medium">+</span> THÊM
+              <span class="fs-5 lh-1 fw-medium">+</span> {{ 'TRANSACTION_CREATE.BTN_ADD' | translate }}
             </button>
           </div>
         </div>
@@ -204,7 +204,7 @@
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          Chưa có sản phẩm nào được đưa vào phiếu nhập. Vui lòng thêm từ bên trên.
+          {{ 'TRANSACTION_CREATE.EMPTY_LINE_STATE' | translate }}
         </div>
       </div>
 
@@ -224,9 +224,9 @@
               </svg>
             </div>
           </div>
-          <h5 class="fw-bold text-dark fs-5 mb-2">Theo dõi tồn kho thời gian thực</h5>
+          <h5 class="fw-bold text-dark fs-5 mb-2">{{ 'TRANSACTION_CREATE.REALTIME_STOCK_TRACKING' | translate }}</h5>
           <p class="text-muted fw-medium fs-7 opacity-75 mb-0 mx-auto" style="max-width: 350px;">
-            WarehousePro tự động cập nhật số lượng tồn kho và giá vốn bình quân ngay sau khi phiếu nhập được lưu.
+            {{ 'TRANSACTION_CREATE.REALTIME_STOCK_DESC' | translate }}
           </p>
         </div>
       </div>
@@ -238,12 +238,12 @@
         <table class="table table-hover align-middle m-0">
           <thead class="bg-light text-muted small text-uppercase" style="border-bottom: 2px solid #f1f3f5;">
             <tr>
-              <th class="ps-4 py-3 border-0">Sản phẩm</th>
-              <th class="py-3 border-0">Vị trí</th>
-              <th class="py-3 border-0">Lô & HSD</th>
-              <th class="text-center py-3 border-0">Số lượng</th>
-              <th class="text-end py-3 border-0">Giá vốn</th>
-              <th class="text-end py-3 border-0 pe-4">Thành tiền</th>
+              <th class="ps-4 py-3 border-0">{{ 'COMMON.PRODUCT' | translate }}</th>
+              <th class="py-3 border-0">{{ 'TRANSACTION_CREATE.COL_LOCATION' | translate }}</th>
+              <th class="py-3 border-0">{{ 'TRANSACTION_CREATE.COL_BATCH_EXP' | translate }}</th>
+              <th class="text-center py-3 border-0">{{ 'COMMON.QUANTITY' | translate }}</th>
+              <th class="text-end py-3 border-0">{{ 'COMMON.UNIT_COST' | translate }}</th>
+              <th class="text-end py-3 border-0 pe-4">{{ 'COMMON.TOTAL' | translate }}</th>
               <th class="text-center py-3 border-0" style="width: 60px;"></th>
             </tr>
           </thead>
@@ -251,11 +251,11 @@
             @for (l of lines; track l; let i = $index) {
             <tr class="bg-white">
               <td class="ps-4 fw-medium py-3 text-dark">{{ l.productName }}</td>
-              <td class="py-3 text-secondary small">{{ l.locationCode || 'Mặc định' }}</td>
+              <td class="py-3 text-secondary small">{{ l.locationCode || ('TRANSACTION_CREATE.LOCATION_DEFAULT' | translate) }}</td>
               <td class="py-3 text-secondary small">
                 {{ l.batchNumber || 'N/A' }}
-                @if (l.mfgDate) { <br><span class="opacity-75">NSX: {{ l.mfgDate | date:'dd/MM/yyyy' }}</span> }
-                @if (l.expiryDate) { <br><span class="opacity-75">HSD: {{ l.expiryDate | date:'dd/MM/yyyy' }}</span> }
+                @if (l.mfgDate) { <br><span class="opacity-75">{{ 'TRANSACTION_CREATE.MFG' | translate }}: {{ l.mfgDate | date:'dd/MM/yyyy' }}</span> }
+                @if (l.expiryDate) { <br><span class="opacity-75">{{ 'TRANSACTION_CREATE.EXP' | translate }}: {{ l.expiryDate | date:'dd/MM/yyyy' }}</span> }
               </td>
               <td class="text-center fw-medium py-3 text-dark">{{ l.quantity }}</td>
               <td class="text-end fw-medium py-3 text-dark">{{ l.unitCost | number:'1.0-0' }} ₫</td>
@@ -283,7 +283,7 @@
     <div class="px-4 px-md-5 py-4 d-flex justify-content-between align-items-center"
       style="background-color: #eef2f6 !important; border-top: 1px solid #e2e8f0;">
       <h4 class="mb-0 text-dark d-flex align-items-center fw-bold fs-4">
-        Tổng cộng: <span class="fw-bolder fs-3 ms-3 text-danger" style="letter-spacing: 0.5px;">đ{{ totalAmount |
+        {{ 'TRANSACTION_CREATE.GRAND_TOTAL' | translate }} <span class="fw-bolder fs-3 ms-3 text-danger" style="letter-spacing: 0.5px;">đ{{ totalAmount |
           number:'1.0-0' }}</span>
       </h4>
       <button class="btn px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
@@ -304,8 +304,7 @@
           <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
           <polyline points="16 16 12 12 8 16"></polyline>
         </svg>
-        {{ isSubmitting ? 'ĐANG LƯU...' : (isEditMode ? 'CẬP NHẬT PHIẾU KHO' : (transactionType === 'inbound' ? 'LƯU
-        PHIẾU TẠM NHẬP' : 'LƯU PHIẾU TẠM XUẤT')) }}
+        {{ isSubmitting ? ('TRANSACTION_CREATE.BTN_SUBMITTING' | translate) : (isEditMode ? ('TRANSACTION_CREATE.BTN_UPDATE' | translate) : (transactionType === 'inbound' ? ('TRANSACTION_CREATE.BTN_SAVE_INBOUND' | translate) : ('TRANSACTION_CREATE.BTN_SAVE_OUTBOUND' | translate))) }}
       </button>
     </div>
   </div>

@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit, inject, ChangeDetectorRef }
 import { CommonModule, DatePipe, NgClass, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { AlertService } from '../../services/alert.service';
@@ -33,7 +34,7 @@ interface InventoryReportSummary {
 
 @Component({
     selector: 'app-inventory',
-    imports: [CommonModule, NgClass, DatePipe, FormsModule, DecimalPipe, RouterLink],
+    imports: [CommonModule, NgClass, DatePipe, FormsModule, DecimalPipe, RouterLink, TranslatePipe],
     templateUrl: './inventory.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './inventory.component.scss'
@@ -272,10 +273,12 @@ export class InventoryComponent implements OnInit {
         }
     }
 
+    private translateService = inject(TranslateService);
+
     getStockStatus(item: InventoryReportItem): string {
-        if (item.closingStock <= 0) return 'Hết Hàng';
-        if (item.closingStock <= item.reorderPoint) return 'Sắp Hết';
-        return 'An Toàn';
+        if (item.closingStock <= 0) return this.translateService.instant('COMMON.OUT_OF_STOCK');
+        if (item.closingStock <= item.reorderPoint) return this.translateService.instant('COMMON.LOW_STOCK');
+        return this.translateService.instant('COMMON.SAFE');
     }
 
     getStockBadgeClass(item: InventoryReportItem): string {
