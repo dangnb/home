@@ -1,0 +1,139 @@
+<div class="shift-schedules-container" @fadeIn>
+  <!-- Header with Month Navigation -->
+  <div class="page-header">
+    <div class="header-title">
+      <h2>Lịch Phân Ca</h2>
+      <p>Quản lý lịch làm việc theo dạng lịch tháng</p>
+    </div>
+    
+    <div class="month-navigation">
+      <button class="btn-nav" (click)="previousMonth()" title="Tháng trước">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <h3 class="current-month-label">
+        Tháng {{ currentMonth.getMonth() + 1 }} - {{ currentMonth.getFullYear() }}
+      </h3>
+      <button class="btn-nav" (click)="nextMonth()" title="Tháng sau">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+    <button (click)="openAddModal()" class="btn-create-shift">
+      <i class="bi bi-plus-lg"></i>
+      Phân ca mới
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-card">
+    <div class="filter-group" style="flex: 1;">
+      <label>Lọc theo nhân viên</label>
+      <select [(ngModel)]="selectedUsername" (change)="onFilterChange()" class="form-select">
+        <option value="">-- Tất cả nhân viên --</option>
+        <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading Overlay for Calendar -->
+  <div class="position-relative">
+    <div *ngIf="isLoading" class="calendar-loading-overlay">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2 fw-bold text-primary">Đang tải lịch...</p>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <div class="weekday-col" *ngFor="let day of weekDays">{{ day }}</div>
+      </div>
+      
+      <div class="calendar-body">
+        <div class="calendar-day" 
+             *ngFor="let day of calendarDays" 
+             [ngClass]="{
+               'other-month': !day.isCurrentMonth,
+               'is-today': day.isToday
+             }">
+          <div class="day-top">
+            <span class="day-number">{{ day.date | date:'d' }}</span>
+            <button class="btn-add-quick" (click)="openAddModal(formatDate(day.date))" title="Thêm ca ngày này">
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+          
+          <div class="shifts-container">
+            <div class="shift-item" 
+                 *ngFor="let shift of day.shifts"
+                 [ngClass]="{
+                   'ca-sang': shift.shiftType === 'Ca Sáng',
+                   'ca-chieu': shift.shiftType === 'Ca Chiều',
+                   'ca-toi': shift.shiftType === 'Ca Tối'
+                 }"
+                 [title]="shift.notes || ''">
+              
+              <div class="shift-info">
+                <span class="shift-time">{{ shift.startTime | slice:0:5 }} - {{ shift.endTime | slice:0:5 }}</span>
+                <span class="shift-user">{{ shift.username }}</span>
+              </div>
+              <button class="btn-delete-mini" (click)="deleteSchedule(shift.id); $event.stopPropagation()" title="Xóa">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Phân Ca -->
+<app-modal *ngIf="isModalOpen" [title]="'PHÂN CA LÀM VIỆC'" (closeDialog)="closeModal()">
+  <div class="modal-body p-0 modal-animate-enter">
+    <div class="mb-4">
+      <label class="form-label fw-bold">Nhân viên <span class="text-danger">*</span></label>
+      <select [(ngModel)]="form.username" class="form-select border-2">
+        <option value="">-- Chọn nhân viên --</option>
+        <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
+      </select>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Ngày làm việc <span class="text-danger">*</span></label>
+        <input type="date" [(ngModel)]="form.shiftDate" class="form-control border-2">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Loại ca <span class="text-danger">*</span></label>
+        <select [(ngModel)]="form.shiftType" (change)="onShiftTypeChange()" class="form-select border-2">
+          <option *ngFor="let type of shiftTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Giờ bắt đầu <span class="text-danger">*</span></label>
+        <input type="time" [(ngModel)]="form.startTime" class="form-control border-2">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Giờ kết thúc <span class="text-danger">*</span></label>
+        <input type="time" [(ngModel)]="form.endTime" class="form-control border-2">
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-bold">Ghi chú</label>
+      <textarea [(ngModel)]="form.notes" rows="3" class="form-control border-2" placeholder="Nhập ghi chú..."></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
+      <button type="button" class="btn btn-light px-4 py-2 fw-bold rounded-3" (click)="closeModal()">
+        Hủy bỏ
+      </button>
+      <button type="button" class="btn btn-primary px-4 py-2 fw-bold rounded-3 shadow-sm" (click)="saveSchedule()" [disabled]="isSubmitting">
+        <i class="bi bi-save me-2"></i> {{ isSubmitting ? 'Đang xử lý...' : 'Xác nhận Lưu' }}
+      </button>
+    </div>
+  </div>
+</app-modal>

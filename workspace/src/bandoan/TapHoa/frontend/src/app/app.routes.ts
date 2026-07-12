@@ -28,7 +28,12 @@ export const routes: Routes = [
         component: AdminLayoutComponent,
         canActivate: [authGuard],
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            {
+            path: 'shift-schedules',
+            loadComponent: () => import('./admin/shift-schedules/shift-schedules.component').then(m => m.ShiftSchedulesComponent),
+            data: { title: 'Lịch Phân Ca' }
+          },
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             {
                 path: 'dashboard',
                 loadComponent: () => import('./admin/dashboard/dashboard.component').then(m => m.DashboardComponent)

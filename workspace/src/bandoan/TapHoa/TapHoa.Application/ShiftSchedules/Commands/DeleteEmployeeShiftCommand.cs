@@ -1,5 +1,5 @@
 using MediatR;
-using TapHoa.Application.Common.Exceptions;
+using TapHoa.Domain.Exceptions;
 using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Entities;
 
@@ -25,7 +25,7 @@ public class DeleteEmployeeShiftCommandHandler : IRequestHandler<DeleteEmployeeS
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(EmployeeShift), request.Id);
+            throw new KeyNotFoundException($"EmployeeShift with ID {request.Id} not found.");
         }
 
         _context.EmployeeShifts.Remove(entity);
