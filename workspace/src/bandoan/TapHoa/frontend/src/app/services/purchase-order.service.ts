@@ -47,9 +47,7 @@ export interface UpdatePurchaseOrderStatusDto {
   providedIn: 'root'
 })
 export class PurchaseOrderService extends BaseCrudService<PurchaseOrder> {
-  constructor(protected override http: HttpClient) {
-    super(http, `${environment.apiUrl}/purchase-orders`);
-  }
+  protected apiUrl = `${environment.apiUrl}/purchase-orders`;
 
   createPurchaseOrder(dto: CreatePurchaseOrderDto): Observable<string> {
     return this.http.post<string>(this.apiUrl, dto);

@@ -16,17 +16,17 @@
     
     <div class="d-flex align-items-center gap-2">
       <!-- Actions based on status -->
-      <button *ngIf="order.status === 0 || order.status === 'Draft'" class="btn btn-primary d-flex align-items-center gap-2 px-3 shadow-sm" 
+      <button *ngIf="order.status === 'Draft'" class="btn btn-primary d-flex align-items-center gap-2 px-3 shadow-sm" 
               (click)="updateStatus('Processing')" [disabled]="isSubmitting">
         <i class="bi bi-send"></i> <span>{{ 'PURCHASE_ORDERS.DETAIL.PROCESS_BTN' | translate }}</span>
       </button>
       
-      <button *ngIf="order.status === 1 || order.status === 'Processing'" class="btn btn-success d-flex align-items-center gap-2 px-3 shadow-sm" 
+      <button *ngIf="order.status === 'Processing'" class="btn btn-success d-flex align-items-center gap-2 px-3 shadow-sm" 
               data-bs-toggle="modal" data-bs-target="#completeOrderModal">
         <i class="bi bi-check-circle"></i> <span>{{ 'PURCHASE_ORDERS.DETAIL.COMPLETE_BTN' | translate }}</span>
       </button>
       
-      <button *ngIf="order.status === 0 || order.status === 'Draft' || order.status === 1 || order.status === 'Processing'" class="btn btn-outline-danger d-flex align-items-center gap-2 px-3" 
+      <button *ngIf="order.status === 'Draft' || order.status === 'Processing'" class="btn btn-outline-danger d-flex align-items-center gap-2 px-3" 
               (click)="updateStatus('Cancelled')" [disabled]="isSubmitting">
         <i class="bi bi-x-circle"></i> <span>{{ 'PURCHASE_ORDERS.DETAIL.CANCEL_BTN' | translate }}</span>
       </button>
