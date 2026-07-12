@@ -266,12 +266,13 @@ using (var scope = app.Services.CreateScope())
                 `ModifiedBy` longtext NULL,
                 `IsDeleted` tinyint(1) NOT NULL,
                 `DeletedDate` datetime(6) NULL,
-                `DeletedBy` longtext NULL,
                 `CompanyId` char(36) NOT NULL,
                 PRIMARY KEY (`Id`)
             );
         ");
     }
+    catch { }
+
     try
     {
         context.Database.ExecuteSqlRaw(@"

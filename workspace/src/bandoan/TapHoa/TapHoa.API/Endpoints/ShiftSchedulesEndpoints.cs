@@ -6,9 +6,9 @@ namespace TapHoa.API.Endpoints;
 
 public static class ShiftSchedulesEndpoints
 {
-    public static void MapShiftSchedulesEndpoints(this IEndpointRouteBuilder app)
+    public static RouteGroupBuilder MapShiftSchedulesEndpoints(this RouteGroupBuilder group)
     {
-        var group = app.MapGroup("/api/v1/shift-schedules").WithTags("ShiftSchedules").RequireAuthorization();
+        group.WithTags("ShiftSchedules").RequireAuthorization();
 
         group.MapGet("/", async (ISender sender, [AsParameters] GetEmployeeShiftsQuery query) =>
         {
@@ -27,5 +27,7 @@ public static class ShiftSchedulesEndpoints
             await sender.Send(new DeleteEmployeeShiftCommand { Id = id });
             return Results.Ok(new { Message = "Shift schedule deleted successfully." });
         });
+
+        return group;
     }
 }

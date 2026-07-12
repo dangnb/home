@@ -1,6 +1,6 @@
 using FluentValidation;
 using MediatR;
-using TapHoa.Application.Common.Exceptions;
+using TapHoa.Domain.Exceptions;
 using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Entities;
 
