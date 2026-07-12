@@ -51,6 +51,9 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<ReturnOrder> ReturnOrders => Set<ReturnOrder>();
     public DbSet<ReturnOrderDetail> ReturnOrderDetails => Set<ReturnOrderDetail>();
 
+    public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+    public DbSet<PurchaseOrderDetail> PurchaseOrderDetails => Set<PurchaseOrderDetail>();
+
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -99,6 +102,9 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         modelBuilder.Entity<OrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<ReturnOrder>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<ReturnOrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        
+        modelBuilder.Entity<PurchaseOrder>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<PurchaseOrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.AdditionalImages)

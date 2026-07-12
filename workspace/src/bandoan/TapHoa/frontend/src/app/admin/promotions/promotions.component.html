@@ -80,16 +80,22 @@
                       [ngClass]="{
                         'bg-info bg-opacity-10 text-info border border-info': p.type === PromotionType.PercentageOff,
                         'bg-success bg-opacity-10 text-success border border-success': p.type === PromotionType.FixedAmountOff,
-                        'bg-warning bg-opacity-10 text-warning border border-warning': p.type === PromotionType.BuyXGetY
+                        'bg-warning bg-opacity-10 text-warning border border-warning': p.type === PromotionType.BuyXGetY,
+                        'bg-primary bg-opacity-10 text-primary border border-primary': p.type === PromotionType.CouponCode,
+                        'bg-purple bg-opacity-10 text-purple border border-purple': p.type === PromotionType.CategoryDiscount
                       }">
-                  <i class="bi bi-percent me-1" *ngIf="p.type === PromotionType.PercentageOff"></i>
+                  <i class="bi bi-percent me-1" *ngIf="p.type === PromotionType.PercentageOff || p.type === PromotionType.CategoryDiscount"></i>
                   <i class="bi bi-cash me-1" *ngIf="p.type === PromotionType.FixedAmountOff"></i>
                   <i class="bi bi-box2 me-1" *ngIf="p.type === PromotionType.BuyXGetY"></i>
-                  {{ p.type === PromotionType.PercentageOff ? ('PROMOTIONS.TYPE_PERCENT' | translate) : (p.type === PromotionType.FixedAmountOff ? ('PROMOTIONS.TYPE_FIXED' | translate) : ('PROMOTIONS.TYPE_BOGO' | translate)) }}
+                  <i class="bi bi-ticket-perforated me-1" *ngIf="p.type === PromotionType.CouponCode"></i>
+                  {{ p.type === PromotionType.PercentageOff ? ('PROMOTIONS.TYPE_PERCENT' | translate) : 
+                     (p.type === PromotionType.FixedAmountOff ? ('PROMOTIONS.TYPE_FIXED' | translate) : 
+                     (p.type === PromotionType.BuyXGetY ? ('PROMOTIONS.TYPE_BOGO' | translate) : 
+                     (p.type === PromotionType.CouponCode ? 'Mã Khuyến Mãi' : 'Giảm Theo Danh Mục'))) }}
                 </span>
               </td>
               <td class="text-end fw-bolder text-dark fs-6">
-                {{ p.type === PromotionType.PercentageOff ? p.discountValue + '%' : (p.discountValue | number:'1.0-0') + ' ₫' }}
+                {{ p.type === PromotionType.PercentageOff || p.type === PromotionType.CategoryDiscount ? p.discountValue + '%' : (p.discountValue | number:'1.0-0') + ' ₫' }}
               </td>
               <td class="text-end d-none d-md-table-cell text-muted fw-medium">
                 {{ p.minOrderAmount | number:'1.0-0' }} ₫
@@ -183,14 +189,14 @@
         </div>
       </div>
 
-      @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.FixedAmountOff) {
+      @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.FixedAmountOff || editingPromotion.type === PromotionType.CouponCode || editingPromotion.type === PromotionType.CategoryDiscount) {
         <div class="col-12">
           <label class="form-label text-muted fw-bold mb-1">
-            {{ editingPromotion.type === PromotionType.PercentageOff ? ('PROMOTIONS.DISCOUNT_PERCENT' | translate) : ('PROMOTIONS.DISCOUNT_FIXED' | translate) }} <span class="text-danger">*</span>
+            Mức giảm giá <span class="text-danger">*</span>
           </label>
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold text-danger" appNumberFormat [(ngModel)]="editingPromotion.discountValue" name="discountValue" required placeholder="0">
-            <span class="input-group-text bg-light border-0 fw-bold text-muted">{{ editingPromotion.type === PromotionType.PercentageOff ? '%' : '₫' }}</span>
+            <span class="input-group-text bg-light border-0 fw-bold text-muted">{{ editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.CategoryDiscount ? '%' : '₫' }}</span>
           </div>
         </div>
       }
@@ -233,6 +239,18 @@
         <div class="col-md-6 col-12">
           <label class="form-label text-muted fw-bold mb-1">Số lượt sử dụng tối đa</label>
           <input type="number" class="form-control bg-light border-0 py-2 fw-medium text-center" [(ngModel)]="editingPromotion.maxUsageCount" name="maxUsageCount" placeholder="Không giới hạn">
+        </div>
+      }
+
+      @if (editingPromotion.type === PromotionType.CategoryDiscount) {
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Danh mục áp dụng <span class="text-danger">*</span></label>
+          <select class="form-select bg-light border-0 py-2 fw-medium" [(ngModel)]="editingPromotion.applicableCategoryId" name="applicableCategoryId" required>
+            <option [ngValue]="null">-- Chọn Danh mục --</option>
+            @for (cat of categories; track cat.id) {
+              <option [ngValue]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
         </div>
       }
 

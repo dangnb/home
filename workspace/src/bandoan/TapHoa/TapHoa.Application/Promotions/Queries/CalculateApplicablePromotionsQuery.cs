@@ -83,7 +83,19 @@ public class CalculateApplicablePromotionsQueryHandler : IRequestHandler<Calcula
                 && !cartCategoryIds.Contains(promo.ApplicableCategoryId.Value))
                 continue;
 
-            decimal calculatedDiscount = promo.CalculateDiscount(request.SubTotal);
+            decimal calculatedDiscount = 0;
+
+            if (promo.Type == PromotionType.CategoryDiscount && promo.ApplicableCategoryId.HasValue)
+            {
+                var categorySubTotal = request.Items
+                    .Where(i => i.CategoryId == promo.ApplicableCategoryId.Value)
+                    .Sum(i => i.UnitPrice * i.Quantity);
+                calculatedDiscount = promo.CalculateDiscount(categorySubTotal, request.SubTotal);
+            }
+            else
+            {
+                calculatedDiscount = promo.CalculateDiscount(request.SubTotal);
+            }
 
             if (calculatedDiscount > 0)
             {

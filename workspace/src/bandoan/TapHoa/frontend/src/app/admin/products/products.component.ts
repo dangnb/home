@@ -12,6 +12,7 @@ import { CategoryService } from '../../services/category.service';
 import { SupplierService } from '../../services/supplier.service';
 import { TransactionService } from '../../services/transaction.service';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -88,13 +89,38 @@ export class ProductsComponent implements OnInit {
     private categoryService: CategoryService,
     private supplierService: SupplierService,
     private transactionService: TransactionService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.loadProducts();
     this.loadCategoriesTree();
     this.loadSuppliers();
+
+    this.route.queryParams.subscribe(params => {
+      const editId = params['editProductId'];
+      if (editId) {
+        console.log('Found editProductId in query params:', editId);
+        this.productService.getProduct(editId).subscribe({
+          next: (product) => {
+            console.log('Fetched product for edit:', product);
+            if (product) {
+              this.openEditModal(product);
+              this.cdr.detectChanges(); // Ensure UI updates
+              // Clean up the query param
+              this.router.navigate([], {
+                relativeTo: this.route,
+                queryParams: { editProductId: null },
+                queryParamsHandling: 'merge'
+              });
+            }
+          },
+          error: (err) => console.error('Failed to fetch product for edit:', err)
+        });
+      }
+    });
   }
 
   loadSuppliers() {

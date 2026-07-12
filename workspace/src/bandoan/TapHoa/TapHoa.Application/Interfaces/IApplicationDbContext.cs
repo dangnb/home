@@ -33,6 +33,8 @@ public interface IApplicationDbContext
     DbSet<OrderDetail> OrderDetails { get; }
     DbSet<ReturnOrder> ReturnOrders { get; }
     DbSet<ReturnOrderDetail> ReturnOrderDetails { get; }
+    DbSet<PurchaseOrder> PurchaseOrders { get; }
+    DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; }
 
     Guid CurrentCompanyId { get; }
 

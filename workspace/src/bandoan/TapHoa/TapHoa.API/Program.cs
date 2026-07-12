@@ -343,5 +343,6 @@ app.MapGroup("api/v{version:apiVersion}/reports").WithApiVersionSet(apiVersionSe
 app.MapGroup("api/v{version:apiVersion}/return-orders").WithApiVersionSet(apiVersionSet).MapReturnOrdersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/shifts").WithApiVersionSet(apiVersionSet).MapShiftsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/shift-schedules").WithApiVersionSet(apiVersionSet).MapShiftSchedulesEndpoints();
+app.MapGroup("api/v{version:apiVersion}/purchase-orders").WithApiVersionSet(apiVersionSet).MapPurchaseOrdersEndpoints();
 
 app.Run();
