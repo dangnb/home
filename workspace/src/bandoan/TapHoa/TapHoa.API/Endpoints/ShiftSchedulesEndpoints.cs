@@ -28,6 +28,13 @@ public static class ShiftSchedulesEndpoints
             return Results.Ok(new { Message = "Shift schedule deleted successfully." });
         });
 
+        group.MapPut("/{id}/move", async (ISender sender, Guid id, MoveEmployeeShiftCommand command) =>
+        {
+            if (id != command.Id) return Results.BadRequest();
+            await sender.Send(command);
+            return Results.Ok(new { Message = "Shift moved successfully." });
+        });
+
         return group;
     }
 }

@@ -52,7 +52,12 @@ public class GetPagedPromotionsQueryHandler : IRequestHandler<GetPagedPromotions
                 DiscountValue = x.DiscountValue,
                 BuyQuantity = x.BuyQuantity,
                 GetQuantity = x.GetQuantity,
-                TargetProductId = x.TargetProductId
+                TargetProductId = x.TargetProductId,
+                CouponCode = x.CouponCode,
+                MaxUsageCount = x.MaxUsageCount,
+                CurrentUsageCount = x.CurrentUsageCount,
+                ApplicableCategoryId = x.ApplicableCategoryId,
+                MaxDiscountAmount = x.MaxDiscountAmount
             })
             .ToListAsync(cancellationToken);
 

@@ -34,6 +34,7 @@
           <thead class="table-light">
             <tr>
               <th class="ps-4">{{ 'CUSTOMERS.COL_NAME' | translate }}</th>
+              <th>Hạng / Điểm</th>
               <th>{{ 'CUSTOMERS.COL_PHONE' | translate }}</th>
               <th class="d-none d-md-table-cell">{{ 'CUSTOMERS.COL_EMAIL' | translate }}</th>
               <th class="d-none d-lg-table-cell">{{ 'CUSTOMERS.COL_ADDRESS' | translate }}</th>
@@ -45,6 +46,21 @@
             @for (customer of filteredCustomers; track customer.id) {
               <tr>
                 <td class="ps-4 fw-medium text-dark">{{ customer.fullName }}</td>
+                <td>
+                  <div class="d-flex flex-column gap-1">
+                    <span class="badge rounded-pill px-2" 
+                          [ngClass]="{
+                            'bg-secondary text-white': customer.tier === 0,
+                            'bg-light text-dark border': customer.tier === 1,
+                            'bg-warning text-dark': customer.tier === 2,
+                            'bg-primary text-white': customer.tier === 3
+                          }"
+                          style="width: fit-content; font-size: 0.75rem; letter-spacing: 0.5px;">
+                      {{ customer.tierName || 'Standard' }}
+                    </span>
+                    <span class="text-muted" style="font-size: 0.75rem;">⭐ {{ (customer.loyaltyPoints || 0) | number }} pt</span>
+                  </div>
+                </td>
                 <td class="text-primary fw-medium">{{ customer.phoneNumber || '-' }}</td>
                 <td class="d-none d-md-table-cell">{{ customer.email || '-' }}</td>
                 <td class="d-none d-lg-table-cell">{{ customer.address || '-' }}</td>

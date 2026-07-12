@@ -13,6 +13,10 @@ export interface Customer {
   bankAccountNumber?: string;
   bankName?: string;
   totalDebt?: number;
+  loyaltyPoints?: number;
+  totalAccumulatedPoints?: number;
+  tier?: number;
+  tierName?: string;
 }
 
 @Injectable({

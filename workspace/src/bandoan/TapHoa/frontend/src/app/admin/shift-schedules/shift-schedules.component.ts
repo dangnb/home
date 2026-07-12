@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ShiftScheduleService, EmployeeShiftDto, CreateEmployeeShiftCommand } from '../../services/shift-schedule.service';
@@ -10,6 +10,7 @@ interface CalendarDay {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
+  isWeekend: boolean;
   shifts: EmployeeShiftDto[];
 }
 
@@ -31,6 +32,7 @@ interface CalendarDay {
 export class ShiftSchedulesComponent implements OnInit {
   private scheduleService = inject(ShiftScheduleService);
   private alertService = inject(AlertService);
+  private cdr = inject(ChangeDetectorRef);
 
   schedules: EmployeeShiftDto[] = [];
   isLoading = false;
@@ -135,6 +137,7 @@ export class ShiftSchedulesComponent implements OnInit {
         date: currentGridDate,
         isCurrentMonth: currentGridDate.getMonth() === month,
         isToday: this.formatDate(currentGridDate) === this.formatDate(today),
+        isWeekend: currentGridDate.getDay() === 0 || currentGridDate.getDay() === 6,
         shifts: dayShifts
       });
     }
@@ -142,15 +145,19 @@ export class ShiftSchedulesComponent implements OnInit {
 
   loadSchedules() {
     this.isLoading = true;
+    this.cdr.markForCheck();
+    
     this.scheduleService.getSchedules(this.startDate, this.endDate, this.selectedUsername).subscribe({
       next: (res) => {
         this.schedules = res;
         this.generateCalendar();
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.alertService.error('Không thể tải danh sách ca làm việc');
         this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -161,14 +168,91 @@ export class ShiftSchedulesComponent implements OnInit {
 
   openAddModal(dateStr?: string) {
     this.form = {
-      username: '',
+      username: this.selectedUsername || '',
       shiftDate: dateStr || this.formatDate(new Date()),
       shiftType: 'Ca Sáng',
-      startTime: '07:00',
+      startTime: '08:00',
       endTime: '12:00',
       notes: ''
     };
     this.isModalOpen = true;
+    this.cdr.markForCheck();
+  }
+
+  // --- DRAG AND DROP LOGIC ---
+  draggedShiftId: string | null = null;
+
+  onDragStart(event: DragEvent, shiftId: string) {
+    this.draggedShiftId = shiftId;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', shiftId);
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault(); // Necessary to allow dropping
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+  }
+
+  onDrop(event: DragEvent, targetDate: Date) {
+    event.preventDefault();
+    const shiftId = this.draggedShiftId || (event.dataTransfer ? event.dataTransfer.getData('text/plain') : null);
+    
+    if (shiftId) {
+      const draggedShift = this.schedules.find(s => s.id === shiftId);
+      if (!draggedShift) return;
+
+      const todayStr = this.formatDate(new Date());
+      const targetDateStr = this.formatDate(targetDate);
+      const shiftDateStr = draggedShift.shiftDate.split('T')[0];
+
+      if (targetDateStr < todayStr) {
+        this.alertService.warning('Không thể chuyển ca về ngày trong quá khứ');
+        return;
+      }
+      if (shiftDateStr < todayStr) {
+        this.alertService.warning('Không thể di chuyển ca làm việc ở quá khứ');
+        return;
+      }
+      if (targetDateStr === shiftDateStr) return;
+
+      const hasCollision = this.schedules.some(s => 
+        s.shiftDate.split('T')[0] === targetDateStr &&
+        s.username === draggedShift.username &&
+        s.shiftType === draggedShift.shiftType
+      );
+
+      if (hasCollision) {
+        this.alertService.warning(`Nhân viên ${draggedShift.username} đã có ${draggedShift.shiftType} vào ngày này`);
+        return;
+      }
+
+      this.alertService.confirm('Di chuyển ca', `Bạn muốn chuyển ${draggedShift.shiftType} của ${draggedShift.username} sang ngày ${targetDate.toLocaleDateString('vi-VN')}?`)
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.isLoading = true;
+            this.cdr.markForCheck();
+            
+            this.scheduleService.moveSchedule(shiftId, targetDateStr).subscribe({
+              next: () => {
+                this.alertService.success('Đã chuyển ca sang ngày khác');
+                this.loadSchedules();
+                this.draggedShiftId = null;
+                this.cdr.markForCheck();
+              },
+              error: () => {
+                this.alertService.error('Có lỗi xảy ra khi di chuyển ca');
+                this.isLoading = false;
+                this.draggedShiftId = null;
+                this.cdr.markForCheck();
+              }
+            });
+          }
+        });
+    }
   }
 
   closeModal() {
@@ -208,6 +292,7 @@ export class ShiftSchedulesComponent implements OnInit {
     }
 
     this.isSubmitting = true;
+    this.cdr.markForCheck();
     
     const command = {
       ...this.form,
@@ -221,10 +306,12 @@ export class ShiftSchedulesComponent implements OnInit {
         this.closeModal();
         this.loadSchedules();
         this.isSubmitting = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.alertService.error('Có lỗi xảy ra khi phân ca');
         this.isSubmitting = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -236,8 +323,12 @@ export class ShiftSchedulesComponent implements OnInit {
           next: () => {
             this.alertService.success('Đã xóa lịch phân ca');
             this.loadSchedules();
+            this.cdr.markForCheck();
           },
-          error: () => this.alertService.error('Có lỗi xảy ra khi xóa')
+          error: () => {
+            this.alertService.error('Có lỗi xảy ra khi xóa');
+            this.cdr.markForCheck();
+          }
         });
       }
     });

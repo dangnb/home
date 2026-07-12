@@ -71,7 +71,7 @@
   text-decoration: none;
   transition: all var(--transition-fast);
   box-shadow: 0 2px 8px rgba(239, 68, 68, .25);
-  &:hover { background: #dc2626; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(239, 68, 68, .3); color: #fff; }
+  &:hover { background: #dc2626; box-shadow: 0 4px 12px rgba(239, 68, 68, .3); color: #fff; }
 }
 
 // Table

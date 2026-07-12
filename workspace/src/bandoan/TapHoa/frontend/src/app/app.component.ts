@@ -25,8 +25,7 @@ export class AppComponent implements OnInit {
         event instanceof NavigationCancel ||
         event instanceof NavigationError
       ) {
-        // Small delay to make the loading screen visible and smooth
-        setTimeout(() => this.loadingService.hide(), 500);
+        this.loadingService.hide();
       }
     });
   }

@@ -355,7 +355,7 @@ body {
                 font-weight: 600;
                 cursor: pointer;
                 transition: transform var(--transition-fast), background var(--transition-fast);
-                &:hover { background: #ea580c; transform: translateY(-2px); }
+                &:hover { background: #ea580c; box-shadow: var(--shadow-sm); }
             }
         }
     }
@@ -376,7 +376,6 @@ body {
                 transition: transform var(--transition-base), box-shadow var(--transition-base);
 
                 &:hover {
-                    transform: translateY(-4px);
                     box-shadow: var(--shadow-lg);
                 }
 
@@ -465,7 +464,6 @@ body {
 
     &:hover {
         background-color: var(--primary-hover) !important;
-        transform: translateY(-1px);
         box-shadow: var(--shadow-sm) !important;
     }
 }
@@ -481,7 +479,6 @@ body {
     box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.25);
 
     &:hover {
-        transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.35);
         color: white;
     }
@@ -513,7 +510,6 @@ body {
     transition: all var(--transition-fast);
 
     &:hover {
-        transform: translateY(-1px);
         box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
     }
 }

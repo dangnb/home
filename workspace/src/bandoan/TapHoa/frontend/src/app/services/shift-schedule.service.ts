@@ -45,7 +45,11 @@ export class ShiftScheduleService {
     return this.http.post<{ id: string; message: string }>(this.apiUrl, command);
   }
 
-  deleteSchedule(id: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  deleteSchedule(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  moveSchedule(id: string, newDate: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/move`, { id, newDate });
   }
 }

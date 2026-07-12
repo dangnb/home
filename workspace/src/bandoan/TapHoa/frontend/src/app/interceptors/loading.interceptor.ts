@@ -6,8 +6,10 @@ import { finalize } from 'rxjs/operators';
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loadingService = inject(LoadingService);
   
-  // You might want to bypass loading screen for specific headers or URLs
-  // For example: if (req.headers.has('X-Skip-Loading')) return next(req);
+  // Skip loading screen for translation files and silent requests
+  if (req.url.includes('/assets/i18n/')) {
+    return next(req);
+  }
 
   loadingService.show();
 
