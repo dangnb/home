@@ -11,6 +11,8 @@ public class PayrollPeriod : BaseAuditableEntity<Guid>
     public DateTime EndDate { get; private set; }
     public PayrollPeriodStatus Status { get; private set; }
     public string? Notes { get; private set; }
+    public string Formula { get; private set; } = "BaseSalary + OvertimePay + Allowance + Bonus - Deduction";
+    public string? CustomVariables { get; private set; }
 
     public virtual ICollection<PayrollEntry> Entries { get; private set; } = new List<PayrollEntry>();
 
@@ -54,5 +56,13 @@ public class PayrollPeriod : BaseAuditableEntity<Guid>
     public void ResetToDraft()
     {
         Status = PayrollPeriodStatus.Draft;
+    }
+
+    public void UpdateFormula(string formula, string? customVariables = null)
+    {
+        Formula = string.IsNullOrWhiteSpace(formula) 
+            ? "BaseSalary + OvertimePay + Allowance + Bonus - Deduction" 
+            : formula;
+        CustomVariables = customVariables;
     }
 }

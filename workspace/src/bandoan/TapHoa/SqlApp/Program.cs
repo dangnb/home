@@ -1,6 +1,16 @@
 using MySqlConnector;
 var c = new MySqlConnection("Server=localhost;Database=TapHoaWMS;User=root;Password=12345678;AllowUserVariables=true;UseAffectedRows=false");
 c.Open();
-using var cmd = new MySqlCommand(System.IO.File.ReadAllText("../add_supplier_id_to_product.sql"), c);
-cmd.ExecuteNonQuery();
-Console.WriteLine("Database migration updated.");
+
+try
+{
+    using var cmd = new MySqlCommand("ALTER TABLE PayrollPeriods ADD COLUMN `CustomVariables` LONGTEXT NULL;", c);
+    cmd.ExecuteNonQuery();
+    Console.WriteLine("CustomVariables column added.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"CustomVariables: {ex.Message}");
+}
+
+Console.WriteLine("Done!");

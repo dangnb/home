@@ -12,14 +12,16 @@
     </div>
   </div>
 
-  <!-- Check-in/Check-out Card -->
-  <div class="checkin-card premium-card">
+  <!-- Check-in/Check-out Hero Card -->
+  <div class="checkin-card">
     <div class="checkin-header">
       <div class="checkin-status">
-        <i class="bi bi-clock" style="font-size: 1.5rem; color: var(--primary);"></i>
-        <div>
+        <div class="checkin-icon-wrap">
+          <i class="bi bi-clock-fill"></i>
+        </div>
+        <div class="checkin-info">
           <strong>{{ 'ATTENDANCE.TODAY' | translate }}</strong>
-          <p class="text-muted mb-0" style="font-size: 0.82rem;">{{ 'ATTENDANCE.TODAY_DESC' | translate }}</p>
+          <p>{{ 'ATTENDANCE.TODAY_DESC' | translate }}</p>
         </div>
       </div>
       <div class="checkin-actions">
@@ -29,37 +31,63 @@
             {{ checkingIn() ? '...' : ('ATTENDANCE.CHECK_IN' | translate) }}
           </button>
         } @else if (!todayAttendance()?.checkOut) {
-          <span class="badge-checkin"><i class="bi bi-check-circle"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
+          <span class="badge-checkin"><i class="bi bi-check-circle-fill"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
           <button class="btn btn-warning" [disabled]="checkingOut()" (click)="doCheckOut()">
             <i class="bi bi-box-arrow-right"></i>
             {{ checkingOut() ? '...' : ('ATTENDANCE.CHECK_OUT' | translate) }}
           </button>
         } @else {
-          <span class="badge-checkin"><i class="bi bi-check-circle"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
+          <span class="badge-checkin"><i class="bi bi-check-circle-fill"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
           <span class="badge-checkout"><i class="bi bi-check-circle-fill"></i> {{ formatTime(todayAttendance()!.checkOut) }}</span>
-          <span class="badge-hours">{{ todayAttendance()!.totalHours }}h</span>
+          <span class="badge-hours"><i class="bi bi-hourglass-split"></i> {{ todayAttendance()!.totalHours }}h</span>
         }
       </div>
     </div>
   </div>
 
   <!-- Summary KPIs -->
-  <div class="kpi-grid">
+  <div class="kpi-grid stagger-children">
     <div class="kpi-item kpi-blue">
-      <div class="kpi-label">{{ 'ATTENDANCE.TOTAL_DAYS' | translate }}</div>
-      <div class="kpi-number">{{ summary().total }}</div>
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-label">{{ 'ATTENDANCE.TOTAL_DAYS' | translate }}</div>
+          <div class="kpi-number">{{ summary().total }}</div>
+        </div>
+        <div class="kpi-icon-circle icon-blue"><i class="bi bi-calendar3"></i></div>
+      </div>
+      <div class="kpi-sub">Tháng {{ selectedMonth() }}/{{ selectedYear() }}</div>
     </div>
+
     <div class="kpi-item kpi-green">
-      <div class="kpi-label">{{ 'ATTENDANCE.PRESENT' | translate }}</div>
-      <div class="kpi-number">{{ summary().present }}</div>
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-label">{{ 'ATTENDANCE.PRESENT' | translate }}</div>
+          <div class="kpi-number">{{ summary().present }}</div>
+        </div>
+        <div class="kpi-icon-circle icon-green"><i class="bi bi-person-check"></i></div>
+      </div>
+      <div class="kpi-sub">{{ summary().totalHours }} giờ làm việc</div>
     </div>
+
     <div class="kpi-item kpi-amber">
-      <div class="kpi-label">{{ 'ATTENDANCE.LATE' | translate }}</div>
-      <div class="kpi-number">{{ summary().late }}</div>
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-label">{{ 'ATTENDANCE.LATE' | translate }}</div>
+          <div class="kpi-number">{{ summary().late }}</div>
+        </div>
+        <div class="kpi-icon-circle icon-amber"><i class="bi bi-alarm"></i></div>
+      </div>
+      <div class="kpi-sub">{{ summary().overtimeHours }} giờ tăng ca</div>
     </div>
+
     <div class="kpi-item kpi-red">
-      <div class="kpi-label">{{ 'ATTENDANCE.ABSENT' | translate }}</div>
-      <div class="kpi-number">{{ summary().absent }}</div>
+      <div class="kpi-header">
+        <div>
+          <div class="kpi-label">{{ 'ATTENDANCE.ABSENT' | translate }}</div>
+          <div class="kpi-number">{{ summary().absent }}</div>
+        </div>
+        <div class="kpi-icon-circle icon-red"><i class="bi bi-person-x"></i></div>
+      </div>
     </div>
   </div>
 
@@ -90,17 +118,21 @@
       <p>{{ 'COMMON.TXT_17' | translate }}</p>
     </div>
   } @else {
-    <div class="premium-card" style="overflow: hidden;">
+    <div class="table-card">
+      <div class="table-card-header">
+        <h5><i class="bi bi-table"></i> Bảng chấm công</h5>
+        <span class="record-count">{{ attendances().length }} bản ghi</span>
+      </div>
       <div class="table-responsive">
         <table class="table table-hover wms-data-table mb-0">
           <thead>
             <tr>
               <th>{{ 'ATTENDANCE.DATE' | translate }}</th>
               <th>{{ 'ATTENDANCE.EMPLOYEE' | translate }}</th>
-              <th>{{ 'ATTENDANCE.CHECK_IN' | translate }}</th>
-              <th>{{ 'ATTENDANCE.CHECK_OUT' | translate }}</th>
-              <th>{{ 'ATTENDANCE.HOURS' | translate }}</th>
-              <th>{{ 'ATTENDANCE.OVERTIME' | translate }}</th>
+              <th class="text-center">{{ 'ATTENDANCE.CHECK_IN' | translate }}</th>
+              <th class="text-center">{{ 'ATTENDANCE.CHECK_OUT' | translate }}</th>
+              <th class="text-center">{{ 'ATTENDANCE.HOURS' | translate }}</th>
+              <th class="text-center">{{ 'ATTENDANCE.OVERTIME' | translate }}</th>
               <th>{{ 'ATTENDANCE.STATUS_COL' | translate }}</th>
               <th></th>
             </tr>
@@ -110,10 +142,18 @@
               <tr>
                 <td><strong>{{ formatDate(a.date) }}</strong></td>
                 <td>{{ a.username }}</td>
-                <td>{{ formatTime(a.checkIn) }}</td>
-                <td>{{ formatTime(a.checkOut) }}</td>
-                <td>{{ a.totalHours }}h</td>
-                <td>
+                <td class="text-center">
+                  @if (a.checkIn) {
+                    <span class="badge-checkin" style="font-size: 0.78rem; padding: 0.25rem 0.55rem;">{{ formatTime(a.checkIn) }}</span>
+                  } @else { — }
+                </td>
+                <td class="text-center">
+                  @if (a.checkOut) {
+                    <span class="badge-checkout" style="font-size: 0.78rem; padding: 0.25rem 0.55rem;">{{ formatTime(a.checkOut) }}</span>
+                  } @else { — }
+                </td>
+                <td class="text-center fw-semibold">{{ a.totalHours }}h</td>
+                <td class="text-center">
                   @if (a.overtimeHours > 0) {
                     <span class="text-warning fw-bold">+{{ a.overtimeHours }}h</span>
                   } @else {
@@ -121,7 +161,7 @@
                   }
                 </td>
                 <td>
-                  <span class="status-pill" [style.background]="getStatusColor(a.status) + '18'" [style.color]="getStatusColor(a.status)">
+                  <span class="status-pill" [style.background]="getStatusColor(a.status) + '15'" [style.color]="getStatusColor(a.status)">
                     {{ getStatusLabel(a.status) }}
                   </span>
                 </td>

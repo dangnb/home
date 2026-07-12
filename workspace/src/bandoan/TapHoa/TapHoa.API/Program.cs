@@ -297,6 +297,16 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';");
+    }
+    catch { }
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())

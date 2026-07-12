@@ -37,8 +37,23 @@ export class PayrollComponent implements OnInit {
 
   // Calculate modal
   showCalcModal = signal(false);
-  calcConfig = { defaultBaseSalary: 5000000, overtimeRate: 1.5, defaultAllowance: 500000 };
+  calcConfig: any = { 
+    defaultBaseSalary: 5000000, 
+    overtimeRate: 1.5, 
+    defaultAllowance: 500000,
+    formula: '(BaseSalary / 22 * WorkDays) + OvertimePay + Allowance + Bonus - Deduction',
+    customVariables: {}
+  };
+  customVarsList: { key: string, value: number }[] = [];
   calcPeriodId = '';
+
+  addCustomVariable() {
+    this.customVarsList.push({ key: '', value: 0 });
+  }
+
+  removeCustomVariable(index: number) {
+    this.customVarsList.splice(index, 1);
+  }
 
   // Edit entry modal
   showEditModal = signal(false);
@@ -110,11 +125,26 @@ export class PayrollComponent implements OnInit {
 
   openCalcModal(periodId: string) {
     this.calcPeriodId = periodId;
-    this.calcConfig = { defaultBaseSalary: 5000000, overtimeRate: 1.5, defaultAllowance: 500000 };
+    this.calcConfig = { 
+      defaultBaseSalary: 5000000, 
+      overtimeRate: 1.5, 
+      defaultAllowance: 500000,
+      formula: '(BaseSalary / 22 * WorkDays) + OvertimePay + Allowance + Bonus - Deduction',
+      customVariables: {}
+    };
+    this.customVarsList = [];
     this.showCalcModal.set(true);
   }
 
   doCalculate() {
+    const customVarsObj: { [key: string]: number } = {};
+    for (const v of this.customVarsList) {
+      if (v.key.trim()) {
+        customVarsObj[v.key.trim()] = v.value;
+      }
+    }
+    this.calcConfig.customVariables = customVarsObj;
+
     this.payrollService.calculatePayroll(this.calcPeriodId, this.calcConfig).subscribe({
       next: () => {
         this.alertService.success('Tính lương thành công!');

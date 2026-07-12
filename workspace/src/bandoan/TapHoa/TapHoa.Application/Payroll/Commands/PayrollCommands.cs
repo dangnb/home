@@ -38,6 +38,43 @@ public class CreatePayrollPeriodCommandHandler : IRequestHandler<CreatePayrollPe
     }
 }
 
+// ── Helper ──
+public static class PayrollCalculatorHelper
+{
+    public static decimal EvaluateNetSalary(string formula, decimal baseSalary, int workDays, decimal totalHours, decimal overtimeHours, decimal overtimePay, decimal allowance, decimal bonus, decimal deduction, Dictionary<string, decimal>? customVariables = null)
+    {
+        try
+        {
+            var interpreter = new DynamicExpresso.Interpreter();
+            interpreter.SetVariable("BaseSalary", (double)baseSalary);
+            interpreter.SetVariable("WorkDays", (double)workDays);
+            interpreter.SetVariable("TotalHours", (double)totalHours);
+            interpreter.SetVariable("OvertimeHours", (double)overtimeHours);
+            interpreter.SetVariable("OvertimePay", (double)overtimePay);
+            interpreter.SetVariable("Allowance", (double)allowance);
+            interpreter.SetVariable("Bonus", (double)bonus);
+            interpreter.SetVariable("Deduction", (double)deduction);
+
+            if (customVariables != null)
+            {
+                foreach (var kvp in customVariables)
+                {
+                    interpreter.SetVariable(kvp.Key, (double)kvp.Value);
+                }
+            }
+
+            var result = interpreter.Eval(formula);
+            return Convert.ToDecimal(result);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Formula Error: {ex.Message}");
+            // Fallback in case of syntax error in formula
+            return baseSalary + overtimePay + allowance + bonus - deduction;
+        }
+    }
+}
+
 // ── Calculate Payroll ──
 public class CalculatePayrollCommand : IRequest<bool>
 {
@@ -45,6 +82,8 @@ public class CalculatePayrollCommand : IRequest<bool>
     public decimal DefaultBaseSalary { get; set; } = 5000000m; // 5 triệu/tháng
     public decimal OvertimeRate { get; set; } = 1.5m;
     public decimal DefaultAllowance { get; set; } = 500000m;
+    public string Formula { get; set; } = "(BaseSalary / 22 * WorkDays) + OvertimePay + Allowance + Bonus - Deduction";
+    public Dictionary<string, decimal>? CustomVariables { get; set; }
 }
 
 public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCommand, bool>
@@ -63,8 +102,14 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
             .FirstOrDefaultAsync(p => p.Id == request.PeriodId && !p.IsDeleted, cancellationToken)
             ?? throw new InvalidOperationException("Payroll period not found.");
 
-        if (period.Status != PayrollPeriodStatus.Draft)
-            throw new InvalidOperationException("Can only calculate Draft payroll periods. Reset to Draft first.");
+        if (period.Status != PayrollPeriodStatus.Draft && period.Status != PayrollPeriodStatus.Calculated)
+            throw new InvalidOperationException("Can only calculate Draft or Calculated payroll periods.");
+
+        string? customVarsJson = request.CustomVariables != null && request.CustomVariables.Any()
+            ? System.Text.Json.JsonSerializer.Serialize(request.CustomVariables)
+            : null;
+
+        period.UpdateFormula(request.Formula, customVarsJson);
 
         // Remove old entries
         if (period.Entries.Any())
@@ -96,6 +141,19 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
 
             var overtimePay = Math.Round(overtimeHours * hourlyRate * request.OvertimeRate, 0);
 
+            var netSalary = PayrollCalculatorHelper.EvaluateNetSalary(
+                formula: period.Formula,
+                baseSalary: request.DefaultBaseSalary,
+                workDays: workDays,
+                totalHours: totalHours,
+                overtimeHours: overtimeHours,
+                overtimePay: overtimePay,
+                allowance: request.DefaultAllowance,
+                bonus: 0,
+                deduction: 0,
+                customVariables: request.CustomVariables
+            );
+
             var entry = new PayrollEntry(
                 payrollPeriodId: period.Id,
                 username: user.Username,
@@ -105,7 +163,8 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
                 overtimeHours: overtimeHours,
                 baseSalary: request.DefaultBaseSalary,
                 overtimePay: overtimePay,
-                allowance: request.DefaultAllowance
+                allowance: request.DefaultAllowance,
+                netSalary: netSalary
             );
 
             _context.PayrollEntries.Add(entry);
@@ -147,8 +206,27 @@ public class UpdatePayrollEntryCommandHandler : IRequestHandler<UpdatePayrollEnt
         if (entry.PayrollPeriod.Status == PayrollPeriodStatus.Paid)
             throw new InvalidOperationException("Cannot modify entries of a paid payroll period.");
 
-        entry.UpdateBaseSalary(request.BaseSalary);
-        entry.UpdateAdjustments(request.Bonus, request.Deduction, request.Allowance, request.Notes);
+        Dictionary<string, decimal>? customVars = null;
+        if (!string.IsNullOrWhiteSpace(entry.PayrollPeriod.CustomVariables))
+        {
+            try { customVars = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, decimal>>(entry.PayrollPeriod.CustomVariables); } catch { }
+        }
+
+        var netSalary = PayrollCalculatorHelper.EvaluateNetSalary(
+            formula: entry.PayrollPeriod.Formula,
+            baseSalary: request.BaseSalary,
+            workDays: entry.WorkDays,
+            totalHours: entry.TotalHours,
+            overtimeHours: entry.OvertimeHours,
+            overtimePay: entry.OvertimePay,
+            allowance: request.Allowance,
+            bonus: request.Bonus,
+            deduction: request.Deduction,
+            customVariables: customVars
+        );
+
+        entry.UpdateBaseSalary(request.BaseSalary, netSalary);
+        entry.UpdateAdjustments(request.Bonus, request.Deduction, request.Allowance, netSalary, request.Notes);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
