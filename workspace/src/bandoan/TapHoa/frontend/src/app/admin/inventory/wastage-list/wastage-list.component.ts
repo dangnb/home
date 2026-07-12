@@ -15,10 +15,10 @@ export class WastageListComponent implements OnInit {
   transactions: TransactionDetailDto[] = [];
   isLoading = false;
 
-  constructor(
-    private transactionService: TransactionService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  private transactionService = inject(TransactionService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.loadTransactions();

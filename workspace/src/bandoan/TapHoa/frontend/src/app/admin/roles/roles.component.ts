@@ -32,7 +32,10 @@ export class RolesComponent implements OnInit {
     { id: "3", name: 'Cashier', description: 'Nhân viên thu ngân', permissions: AppPermissions.ViewProducts }
   ];
 
-  constructor(private roleService: RoleService, private alertService: AlertService) { }
+  private roleService = inject(RoleService);
+  private alertService = inject(AlertService);
+
+  constructor() { }
 
   ngOnInit(): void {
     this.loadRoles();

@@ -16,7 +16,9 @@ export class NumberFormatDirective implements ControlValueAccessor {
   private onChange: (val: number | null) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor(private el: ElementRef<HTMLInputElement>) {}
+  private el = inject<ElementRef<HTMLInputElement>>(ElementRef);
+
+  constructor() {}
 
   writeValue(value: any): void {
     if (value !== undefined && value !== null && value !== '') {

@@ -30,9 +30,7 @@ export interface ExpiringBatch {
     providedIn: 'root'
 })
 export class ProductService extends BaseCrudService<Product> {
-    constructor(protected override http: HttpClient) {
-        super(http, `${environment.apiUrl}/products`);
-    }
+    protected override apiUrl = `${environment.apiUrl}/products`;
 
     // Compatbility mappings for existing code
     getProducts() { return this.getAll(); }

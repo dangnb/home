@@ -8,9 +8,7 @@ import { BaseCrudService } from './base-crud.service';
     providedIn: 'root'
 })
 export class CategoryService extends BaseCrudService<Category> {
-    constructor(protected override http: HttpClient) {
-        super(http, `${environment.apiUrl}/categories`);
-    }
+    protected override apiUrl = `${environment.apiUrl}/categories`;
 
     // Các hàm đặc thù của Category (nếu sau này có thêm) sẽ viết thêm ở đây
     // Ví dụ: updateStatus, v.v.. Các hàm get/create/update/delete đã có sẵn.

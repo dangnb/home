@@ -82,17 +82,17 @@ export class ProductsComponent implements OnInit {
     this.loadProducts();
   }
 
-  constructor(
-    private productService: ProductService,
-    private alertService: AlertService,
-    private translate: TranslateService,
-    private categoryService: CategoryService,
-    private supplierService: SupplierService,
-    private transactionService: TransactionService,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  private productService = inject(ProductService);
+  private alertService = inject(AlertService);
+  private translate = inject(TranslateService);
+  private categoryService = inject(CategoryService);
+  private supplierService = inject(SupplierService);
+  private transactionService = inject(TransactionService);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  constructor() { }
 
   ngOnInit() {
     this.loadProducts();

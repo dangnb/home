@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -50,10 +50,10 @@ export class DashboardComponent implements OnInit {
   };
   public barChartType: ChartType = 'bar';
 
-  constructor(
-    private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  private dashboardService = inject(DashboardService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {}
 
   ngOnInit() {
     this.loadSummary();

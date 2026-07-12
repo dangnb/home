@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -36,7 +36,7 @@ export interface DashboardTopProductDto {
 export class DashboardService {
   private apiUrl = `${environment.apiUrl}/dashboard`;
 
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   getSummary(): Observable<DashboardSummaryDto> {
     return this.http.get<DashboardSummaryDto>(`${this.apiUrl}/summary`);

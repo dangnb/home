@@ -9,7 +9,7 @@ public static class PurchaseOrdersEndpoints
 {
     public static RouteGroupBuilder MapPurchaseOrdersEndpoints(this RouteGroupBuilder group)
     {
-        group.WithTags("Purchase Orders").RequireAuthorization();
+        group.WithTags("Purchase Orders");
 
         group.MapGet("/", async (IMediator mediator) =>
         {
