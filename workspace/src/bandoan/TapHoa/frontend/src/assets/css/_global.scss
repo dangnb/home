@@ -840,3 +840,114 @@ body {
         border-radius: var(--radius-sm);
     }
 }
+
+/* ============================================
+   MOBILE-FIRST UTILITIES
+   Touch targets, safe areas, performance
+   ============================================ */
+
+/* ── Touch-friendly minimum sizes ── */
+@media (max-width: 768px) {
+    /* Ensure all clickable elements meet 44px minimum */
+    button, a, [role="button"], .btn, .btn-icon, .btn-icon-sm {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Prevent text selection on interactive elements */
+    .sidebar, .topbar, .nav-links, .pagination-custom {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Improve scroll performance */
+    .table-responsive,
+    .cart-items,
+    .nav-links,
+    .modal-body {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    /* Prevent pull-to-refresh interference */
+    .content-area {
+        overscroll-behavior-y: contain;
+    }
+
+    /* Full-width inputs on mobile (prevent zoom on iOS) */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="search"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* Bottom safe area for fixed elements */
+    .fixed-bottom-action {
+        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Horizontal scroll snap for KPI cards on narrow screens */
+    .kpi-cards-row {
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+
+        > * {
+            scroll-snap-align: start;
+        }
+    }
+}
+
+/* ── Safe area padding utility ── */
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-top {
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* ── Touch action hints ── */
+.touch-none { touch-action: none; }
+.touch-pan-y { touch-action: pan-y; }
+.touch-pan-x { touch-action: pan-x; }
+
+/* ── Prevent overscroll bounce on iOS ── */
+html {
+    overscroll-behavior: none;
+}
+
+/* ── Active state for touch devices ── */
+@media (hover: none) and (pointer: coarse) {
+    .card:active,
+    .premium-card:active,
+    .kpi-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+
+    .btn:active {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+
+    /* Disable hover effects on touch devices */
+    .card:hover,
+    .premium-card:hover,
+    .kpi-card:hover {
+        box-shadow: var(--shadow-card) !important;
+        transform: none;
+    }
+}
+
+/* ── Hide scrollbar on mobile but keep functionality ── */
+@media (max-width: 768px) {
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar { display: none; }
+    }
+}
