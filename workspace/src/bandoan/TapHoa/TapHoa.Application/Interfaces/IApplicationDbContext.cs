@@ -35,6 +35,9 @@ public interface IApplicationDbContext
     DbSet<ReturnOrderDetail> ReturnOrderDetails { get; }
     DbSet<PurchaseOrder> PurchaseOrders { get; }
     DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; }
+    DbSet<Attendance> Attendances { get; }
+    DbSet<PayrollPeriod> PayrollPeriods { get; }
+    DbSet<PayrollEntry> PayrollEntries { get; }
 
     Guid CurrentCompanyId { get; }
 

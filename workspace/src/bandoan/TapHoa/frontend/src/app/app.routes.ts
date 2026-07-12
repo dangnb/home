@@ -169,6 +169,16 @@ export const routes: Routes = [
             {
                 path: 'return-orders/:id',
                 loadComponent: () => import('./admin/return-orders/return-order-detail/return-order-detail.component').then(m => m.ReturnOrderDetailComponent)
+            },
+            {
+                path: 'attendance',
+                loadComponent: () => import('./admin/attendance/attendance.component').then(m => m.AttendanceComponent),
+                data: { title: 'Chấm Công' }
+            },
+            {
+                path: 'payroll',
+                loadComponent: () => import('./admin/payroll/payroll.component').then(m => m.PayrollComponent),
+                data: { title: 'Tính Lương' }
             }
         ]
     }

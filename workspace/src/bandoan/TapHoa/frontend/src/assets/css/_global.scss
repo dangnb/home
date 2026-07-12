@@ -804,7 +804,6 @@ body {
 
     /* ── Utility ── */
     .d-md-none { display: none !important; }
-    .d-md-block { display: block !important; }
 
     /* ── Page header ── */
     .page-header {
@@ -817,6 +816,16 @@ body {
 
     .page-title-area .view-subtitle {
         font-size: 0.82rem;
+    }
+
+    /* ── Charts responsive canvas ── */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    .chart-card {
+        overflow: hidden;
     }
 }
 

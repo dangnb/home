@@ -54,6 +54,11 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
     public DbSet<PurchaseOrderDetail> PurchaseOrderDetails => Set<PurchaseOrderDetail>();
 
+    // Payroll & Attendance
+    public DbSet<Attendance> Attendances => Set<Attendance>();
+    public DbSet<PayrollPeriod> PayrollPeriods => Set<PayrollPeriod>();
+    public DbSet<PayrollEntry> PayrollEntries => Set<PayrollEntry>();
+
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -105,6 +110,27 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         
         modelBuilder.Entity<PurchaseOrder>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<PurchaseOrderDetail>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+
+        // Payroll & Attendance
+        modelBuilder.Entity<Attendance>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<PayrollPeriod>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<PayrollEntry>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+
+        modelBuilder.Entity<Attendance>()
+            .HasIndex(a => new { a.Username, a.Date, a.CompanyId })
+            .IsUnique()
+            .HasFilter("IsDeleted = 0");
+
+        modelBuilder.Entity<PayrollPeriod>()
+            .HasIndex(p => new { p.Month, p.Year, p.CompanyId })
+            .IsUnique()
+            .HasFilter("IsDeleted = 0");
+
+        modelBuilder.Entity<PayrollEntry>()
+            .HasOne(e => e.PayrollPeriod)
+            .WithMany(p => p.Entries)
+            .HasForeignKey(e => e.PayrollPeriodId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.AdditionalImages)

@@ -344,5 +344,7 @@ app.MapGroup("api/v{version:apiVersion}/return-orders").WithApiVersionSet(apiVer
 app.MapGroup("api/v{version:apiVersion}/shifts").WithApiVersionSet(apiVersionSet).MapShiftsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/shift-schedules").WithApiVersionSet(apiVersionSet).MapShiftSchedulesEndpoints();
 app.MapGroup("api/v{version:apiVersion}/purchase-orders").WithApiVersionSet(apiVersionSet).MapPurchaseOrdersEndpoints();
+app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersionSet).MapAttendancesEndpoints();
+app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
 
 app.Run();
