@@ -841,3 +841,236 @@
 2026-07-12 23:01:04.031 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.1353 ms
 2026-07-12 23:01:04.033 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 3.2677 ms
 2026-07-12 23:01:05.522 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.1056 ms
+2026-07-12 23:17:06.530 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:17:06.554 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:17:06.555 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:17:06.555 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:17:06.648 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-12 23:17:06.966 +07:00 [ERR] Failed executing DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-12 23:17:06.977 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-12 23:19:06.813 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 6.5063 ms
+2026-07-12 23:19:06.813 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 6.5005 ms
+2026-07-12 23:19:06.813 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 6.5111 ms
+2026-07-12 23:19:06.813 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 6.5015 ms
+2026-07-12 23:19:06.890 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-12 23:19:06.896 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-12 23:19:06.896 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-12 23:19:06.896 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-12 23:19:06.896 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-12 23:19:06.989 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 164.6379 ms
+2026-07-12 23:19:07.256 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 430.8330 ms
+2026-07-12 23:19:07.269 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 444.1774 ms
+2026-07-12 23:19:07.270 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 445.1159 ms
+2026-07-12 23:19:24.484 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.5252 ms
+2026-07-12 23:19:24.485 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0602 ms
+2026-07-12 23:19:24.489 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0900 ms
+2026-07-12 23:19:24.501 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 14.0774 ms
+2026-07-12 23:19:24.560 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 73.3360 ms
+2026-07-12 23:19:24.609 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 118.0990 ms
+2026-07-12 23:20:09.271 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0921 ms
+2026-07-12 23:20:09.273 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0915 ms
+2026-07-12 23:20:09.277 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 4.1321 ms
+2026-07-12 23:20:09.280 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 4.7680 ms
+2026-07-12 23:20:09.286 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0995 ms
+2026-07-12 23:20:09.307 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 18.6899 ms
+2026-07-12 23:20:13.766 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.2875 ms
+2026-07-12 23:20:13.774 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 5.5682 ms
+2026-07-12 23:20:14.300 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0784 ms
+2026-07-12 23:20:14.301 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0414 ms
+2026-07-12 23:20:14.306 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 5.2997 ms
+2026-07-12 23:20:14.308 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 4.7170 ms
+2026-07-12 23:20:16.044 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 4.4662 ms
+2026-07-12 23:20:16.577 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 4.1634 ms
+2026-07-12 23:20:16.578 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 4.8836 ms
+2026-07-12 23:20:19.461 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/check-in responded 204 in 0.1343 ms
+2026-07-12 23:20:19.690 +07:00 [INF] Audit Logged: Unknown by admin - CheckInCommand
+2026-07-12 23:20:19.839 +07:00 [INF] HTTP POST /api/v1/attendances/check-in responded 200 in 376.4026 ms
+2026-07-12 23:20:19.851 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0847 ms
+2026-07-12 23:20:19.851 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0372 ms
+2026-07-12 23:20:19.877 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 24.5954 ms
+2026-07-12 23:20:19.877 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 24.5954 ms
+2026-07-12 23:20:49.464 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0927 ms
+2026-07-12 23:20:49.469 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.5110 ms
+2026-07-12 23:20:54.202 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.1493 ms
+2026-07-12 23:20:54.216 +07:00 [INF] Audit Logged: Create by admin - CreatePayrollPeriodCommand
+2026-07-12 23:20:54.315 +07:00 [INF] HTTP POST /api/v1/payroll/periods responded 200 in 111.8805 ms
+2026-07-12 23:20:54.339 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 8.8841 ms
+2026-07-12 23:21:39.983 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0813 ms
+2026-07-12 23:21:39.983 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.1969 ms
+2026-07-12 23:21:39.986 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6314 ms
+2026-07-12 23:21:39.987 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.3836 ms
+2026-07-12 23:21:39.990 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0729 ms
+2026-07-12 23:21:39.992 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0975 ms
+2026-07-12 23:21:39.995 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 2.8583 ms
+2026-07-12 23:21:39.995 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.8745 ms
+2026-07-12 23:21:48.724 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0625 ms
+2026-07-12 23:21:48.725 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0653 ms
+2026-07-12 23:21:48.728 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.4957 ms
+2026-07-12 23:21:48.730 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.7251 ms
+2026-07-12 23:21:48.733 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0731 ms
+2026-07-12 23:21:48.738 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.2055 ms
+2026-07-12 23:22:00.978 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.0666 ms
+2026-07-12 23:22:01.087 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 107.5281 ms
+2026-07-12 23:22:13.870 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be/calculate responded 204 in 0.0796 ms
+2026-07-12 23:22:13.902 +07:00 [INF] Audit Logged: Unknown by admin - CalculatePayrollCommand
+2026-07-12 23:22:14.249 +07:00 [INF] HTTP POST /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be/calculate responded 200 in 376.9789 ms
+2026-07-12 23:22:14.275 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0529 ms
+2026-07-12 23:22:14.277 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.1040 ms
+2026-07-12 23:22:14.282 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 4.5539 ms
+2026-07-12 23:22:14.294 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 14.9685 ms
+2026-07-12 23:23:31.849 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0802 ms
+2026-07-12 23:23:31.851 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0431 ms
+2026-07-12 23:23:31.854 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.5503 ms
+2026-07-12 23:23:31.858 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 5.0239 ms
+2026-07-12 23:23:31.862 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0824 ms
+2026-07-12 23:23:31.867 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.3652 ms
+2026-07-12 23:23:33.334 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.3226 ms
+2026-07-12 23:23:33.338 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 4.0703 ms
+2026-07-12 23:23:33.349 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.3258 ms
+2026-07-12 23:23:45.021 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0429 ms
+2026-07-12 23:23:45.021 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0429 ms
+2026-07-12 23:23:45.025 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 2.8333 ms
+2026-07-12 23:23:45.025 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 3.4984 ms
+2026-07-12 23:23:59.674 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0309 ms
+2026-07-12 23:23:59.678 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.6635 ms
+2026-07-12 23:25:58.846 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0372 ms
+2026-07-12 23:25:58.847 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0282 ms
+2026-07-12 23:25:58.850 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.9952 ms
+2026-07-12 23:25:58.851 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.6575 ms
+2026-07-12 23:25:58.855 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0533 ms
+2026-07-12 23:25:58.858 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.5529 ms
+2026-07-12 23:26:08.479 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0338 ms
+2026-07-12 23:26:08.481 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0308 ms
+2026-07-12 23:26:08.483 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.1038 ms
+2026-07-12 23:26:08.485 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.5876 ms
+2026-07-12 23:26:08.488 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0357 ms
+2026-07-12 23:26:08.489 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0271 ms
+2026-07-12 23:26:08.492 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 2.6051 ms
+2026-07-12 23:26:08.492 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.7569 ms
+2026-07-12 23:27:16.583 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0440 ms
+2026-07-12 23:27:16.584 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0268 ms
+2026-07-12 23:27:16.586 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.8499 ms
+2026-07-12 23:27:16.587 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.0145 ms
+2026-07-12 23:27:16.589 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0270 ms
+2026-07-12 23:27:16.593 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.6018 ms
+2026-07-12 23:27:21.746 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0257 ms
+2026-07-12 23:27:21.749 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.2532 ms
+2026-07-12 23:27:25.286 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0291 ms
+2026-07-12 23:27:25.289 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.4063 ms
+2026-07-12 23:27:56.169 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0665 ms
+2026-07-12 23:27:56.170 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0287 ms
+2026-07-12 23:27:56.173 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.9232 ms
+2026-07-12 23:27:56.174 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.4930 ms
+2026-07-12 23:27:56.176 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0405 ms
+2026-07-12 23:27:56.179 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.5990 ms
+2026-07-12 23:28:05.108 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.0598 ms
+2026-07-12 23:28:05.116 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 7.0968 ms
+2026-07-12 23:28:59.781 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0364 ms
+2026-07-12 23:28:59.781 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0282 ms
+2026-07-12 23:28:59.784 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6378 ms
+2026-07-12 23:28:59.785 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.5119 ms
+2026-07-12 23:28:59.786 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0326 ms
+2026-07-12 23:28:59.789 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.3604 ms
+2026-07-12 23:29:01.335 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.4690 ms
+2026-07-12 23:29:01.336 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.9490 ms
+2026-07-12 23:29:01.340 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.1399 ms
+2026-07-12 23:29:03.532 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.0311 ms
+2026-07-12 23:29:03.556 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 22.4970 ms
+2026-07-12 23:29:14.930 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0331 ms
+2026-07-12 23:29:14.930 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0230 ms
+2026-07-12 23:29:14.933 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.6694 ms
+2026-07-12 23:29:14.933 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.0577 ms
+2026-07-12 23:29:14.935 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0358 ms
+2026-07-12 23:29:14.938 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.0440 ms
+2026-07-12 23:31:55.313 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.0528 ms
+2026-07-12 23:31:55.319 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 5.2795 ms
+2026-07-12 23:33:00.468 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 204 in 0.0576 ms
+2026-07-12 23:33:00.476 +07:00 [INF] HTTP GET /api/v1/payroll/periods/4267349a-c267-486c-bddd-f84455a8e2be responded 200 in 5.7320 ms
+2026-07-12 23:34:50.382 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0293 ms
+2026-07-12 23:34:50.383 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0275 ms
+2026-07-12 23:34:50.384 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.4251 ms
+2026-07-12 23:34:50.386 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.2015 ms
+2026-07-12 23:34:50.387 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0260 ms
+2026-07-12 23:34:50.390 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.1891 ms
+2026-07-12 23:34:52.822 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0428 ms
+2026-07-12 23:34:52.825 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.2277 ms
+2026-07-12 23:34:56.480 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0275 ms
+2026-07-12 23:34:56.483 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.2103 ms
+2026-07-12 23:34:57.949 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0323 ms
+2026-07-12 23:34:57.952 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 1.6817 ms
+2026-07-12 23:35:02.695 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0331 ms
+2026-07-12 23:35:02.703 +07:00 [INF] Audit Logged: Create by admin - CreatePayrollPeriodCommand
+2026-07-12 23:35:02.708 +07:00 [INF] HTTP POST /api/v1/payroll/periods responded 200 in 12.0999 ms
+2026-07-12 23:35:02.723 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.4734 ms
+2026-07-12 23:35:11.504 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/1e03ba8c-142e-4713-890b-14403fba0754/calculate responded 204 in 0.0333 ms
+2026-07-12 23:35:11.511 +07:00 [INF] Audit Logged: Unknown by admin - CalculatePayrollCommand
+2026-07-12 23:35:11.530 +07:00 [INF] HTTP POST /api/v1/payroll/periods/1e03ba8c-142e-4713-890b-14403fba0754/calculate responded 200 in 25.5300 ms
+2026-07-12 23:35:11.536 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0346 ms
+2026-07-12 23:35:11.539 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.3947 ms
+2026-07-12 23:35:13.137 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/1e03ba8c-142e-4713-890b-14403fba0754 responded 204 in 0.0255 ms
+2026-07-12 23:35:13.141 +07:00 [INF] HTTP GET /api/v1/payroll/periods/1e03ba8c-142e-4713-890b-14403fba0754 responded 200 in 3.1922 ms
+2026-07-12 23:35:16.226 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0785 ms
+2026-07-12 23:35:16.227 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0080 ms
+2026-07-12 23:35:16.229 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.8081 ms
+2026-07-12 23:35:16.229 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 1.8377 ms
+2026-07-12 23:35:22.269 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0306 ms
+2026-07-12 23:35:22.272 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 1.8902 ms
+2026-07-12 23:35:23.245 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0289 ms
+2026-07-12 23:35:23.245 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0082 ms
+2026-07-12 23:35:23.248 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.6294 ms
+2026-07-12 23:35:23.248 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 1.5267 ms
+2026-07-12 23:35:51.243 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0269 ms
+2026-07-12 23:35:51.246 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 1.8376 ms
+2026-07-12 23:35:52.092 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0282 ms
+2026-07-12 23:35:52.093 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0156 ms
+2026-07-12 23:35:52.096 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.3849 ms
+2026-07-12 23:35:52.096 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 1.7346 ms
+2026-07-12 23:40:11.898 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0415 ms
+2026-07-12 23:40:11.901 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0400 ms
+2026-07-12 23:40:11.904 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.0354 ms
+2026-07-12 23:40:11.906 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.9415 ms
+2026-07-12 23:40:11.912 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0487 ms
+2026-07-12 23:40:11.916 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.1222 ms
+2026-07-12 23:40:11.926 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0462 ms
+2026-07-12 23:40:11.929 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0474 ms
+2026-07-12 23:40:11.933 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.0219 ms
+2026-07-12 23:40:11.936 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 3.6322 ms
+2026-07-12 23:40:11.956 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0436 ms
+2026-07-12 23:40:11.958 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0382 ms
+2026-07-12 23:40:11.960 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 2.0485 ms
+2026-07-12 23:40:11.961 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 1.8852 ms
+2026-07-12 23:40:12.189 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.3700 ms
+2026-07-12 23:40:12.195 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2.6882 ms
+2026-07-12 23:40:12.212 +07:00 [INF] HTTP OPTIONS /api/v1/purchase-orders responded 204 in 0.0348 ms
+2026-07-12 23:40:12.263 +07:00 [INF] HTTP GET /api/v1/purchase-orders responded 200 in 49.7527 ms
+2026-07-12 23:41:01.632 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:01.656 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:01.656 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:01.656 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:01.736 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-12 23:41:27.642 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:27.669 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:27.669 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:27.670 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:27.762 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-12 23:41:33.148 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:33.175 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:33.175 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:33.175 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-12 23:41:33.267 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-12 23:41:33.570 +07:00 [ERR] Failed executing DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-12 23:41:33.581 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;

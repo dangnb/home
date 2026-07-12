@@ -73,6 +73,8 @@ export interface CalculatePayrollCommand {
   defaultBaseSalary: number;
   overtimeRate: number;
   defaultAllowance: number;
+  formula: string;
+  customVariables?: { [key: string]: number };
 }
 
 export interface UpdatePayrollEntryCommand {

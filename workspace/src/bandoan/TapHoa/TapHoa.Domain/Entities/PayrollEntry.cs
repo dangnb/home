@@ -30,7 +30,7 @@ public class PayrollEntry : BaseAuditableEntity<Guid>
 
     public PayrollEntry(Guid payrollPeriodId, string username, string employeeName,
         int workDays, decimal totalHours, decimal overtimeHours,
-        decimal baseSalary, decimal overtimePay, decimal allowance)
+        decimal baseSalary, decimal overtimePay, decimal allowance, decimal netSalary)
     {
         Id = Guid.NewGuid();
         PayrollPeriodId = payrollPeriodId;
@@ -44,26 +44,21 @@ public class PayrollEntry : BaseAuditableEntity<Guid>
         Allowance = allowance;
         Bonus = 0;
         Deduction = 0;
-        CalculateNetSalary();
+        NetSalary = netSalary;
     }
 
-    public void UpdateAdjustments(decimal bonus, decimal deduction, decimal allowance, string? notes)
+    public void UpdateAdjustments(decimal bonus, decimal deduction, decimal allowance, decimal netSalary, string? notes)
     {
         Bonus = bonus;
         Deduction = deduction;
         Allowance = allowance;
         Notes = notes;
-        CalculateNetSalary();
+        NetSalary = netSalary;
     }
 
-    public void UpdateBaseSalary(decimal baseSalary)
+    public void UpdateBaseSalary(decimal baseSalary, decimal netSalary)
     {
         BaseSalary = baseSalary;
-        CalculateNetSalary();
-    }
-
-    private void CalculateNetSalary()
-    {
-        NetSalary = BaseSalary + OvertimePay + Allowance + Bonus - Deduction;
+        NetSalary = netSalary;
     }
 }

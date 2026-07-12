@@ -24,12 +24,9 @@ CREATE TABLE IF NOT EXISTS `Attendances` (
     `DeletedDate` DATETIME(6) NULL,
     `DeletedBy` LONGTEXT NULL,
     `CompanyId` CHAR(36) NOT NULL,
-    PRIMARY KEY (`Id`)
+    PRIMARY KEY (`Id`),
+    INDEX `IX_Attendances_Username_Date` (`Username`, `Date`, `CompanyId`)
 );
-
-CREATE UNIQUE INDEX `IX_Attendances_Username_Date_CompanyId`
-    ON `Attendances` (`Username`, `Date`, `CompanyId`)
-    WHERE `IsDeleted` = 0;
 
 -- Bảng Kỳ Lương (PayrollPeriods)
 CREATE TABLE IF NOT EXISTS `PayrollPeriods` (
@@ -48,12 +45,9 @@ CREATE TABLE IF NOT EXISTS `PayrollPeriods` (
     `DeletedDate` DATETIME(6) NULL,
     `DeletedBy` LONGTEXT NULL,
     `CompanyId` CHAR(36) NOT NULL,
-    PRIMARY KEY (`Id`)
+    PRIMARY KEY (`Id`),
+    INDEX `IX_PayrollPeriods_Month_Year` (`Month`, `Year`, `CompanyId`)
 );
-
-CREATE UNIQUE INDEX `IX_PayrollPeriods_Month_Year_CompanyId`
-    ON `PayrollPeriods` (`Month`, `Year`, `CompanyId`)
-    WHERE `IsDeleted` = 0;
 
 -- Bảng Chi Tiết Lương (PayrollEntries)
 CREATE TABLE IF NOT EXISTS `PayrollEntries` (
@@ -80,13 +74,7 @@ CREATE TABLE IF NOT EXISTS `PayrollEntries` (
     `DeletedBy` LONGTEXT NULL,
     `CompanyId` CHAR(36) NOT NULL,
     PRIMARY KEY (`Id`),
-    CONSTRAINT `FK_PayrollEntries_PayrollPeriods_PayrollPeriodId`
-        FOREIGN KEY (`PayrollPeriodId`) REFERENCES `PayrollPeriods` (`Id`)
-        ON DELETE CASCADE
+    INDEX `IX_PayrollEntries_PayrollPeriodId` (`PayrollPeriodId`),
+    INDEX `IX_PayrollEntries_Username` (`Username`),
+    CONSTRAINT `FK_PayrollEntries_PayrollPeriods` FOREIGN KEY (`PayrollPeriodId`) REFERENCES `PayrollPeriods` (`Id`) ON DELETE CASCADE
 );
-
-CREATE INDEX `IX_PayrollEntries_PayrollPeriodId`
-    ON `PayrollEntries` (`PayrollPeriodId`);
-
-CREATE INDEX `IX_PayrollEntries_Username`
-    ON `PayrollEntries` (`Username`);
