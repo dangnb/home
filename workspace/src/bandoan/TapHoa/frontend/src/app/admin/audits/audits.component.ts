@@ -2,10 +2,11 @@ import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef }
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuditService } from '../../services/audit.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-audits',
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, TranslatePipe],
     templateUrl: './audits.component.html',
     styleUrl: './audits.component.scss'
 })

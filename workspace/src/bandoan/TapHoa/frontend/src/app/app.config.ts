@@ -8,13 +8,14 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './interceptors/jwt.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { loadingInterceptor } from './interceptors/loading.interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withXhr(), withInterceptors([jwtInterceptor, errorInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([jwtInterceptor, errorInterceptor, loadingInterceptor])),
     provideCharts(withDefaultRegisterables()),
     provideAnimationsAsync(),
     provideTranslateService({

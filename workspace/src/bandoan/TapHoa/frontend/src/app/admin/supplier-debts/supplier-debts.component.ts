@@ -6,11 +6,12 @@ import { SupplierService, Supplier } from '../../services/supplier.service';
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-supplier-debts',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent, NumberFormatDirective],
+  imports: [CommonModule, FormsModule, ModalComponent, NumberFormatDirective, TranslatePipe],
   templateUrl: './supplier-debts.component.html',
   styleUrls: ['./supplier-debts.component.scss']
 })
@@ -19,6 +20,7 @@ export class SupplierDebtsComponent implements OnInit {
   private supplierService = inject(SupplierService);
   private alertService = inject(AlertService);
   private cdr = inject(ChangeDetectorRef);
+  private translateService = inject(TranslateService);
 
   debts: SupplierDebtDto[] = [];
   filteredDebts: SupplierDebtDto[] = [];
@@ -179,7 +181,9 @@ export class SupplierDebtsComponent implements OnInit {
 
   submitForm() {
     if (this.formData.amount <= 0) {
-      this.alertService.warning('Cảnh báo', 'Số tiền phải lớn hơn 0');
+      const warnTitle = this.translateService.instant('COMMON.WARNING') || 'Cảnh báo';
+      const warnMsg = this.translateService.instant('SUPPLIER_DEBTS.MSG_PAY_ERROR') || 'Số tiền phải lớn hơn 0';
+      this.alertService.warning(warnTitle, warnMsg);
       return;
     }
 
@@ -198,7 +202,9 @@ export class SupplierDebtsComponent implements OnInit {
 
     request.subscribe({
       next: () => {
-        this.alertService.success('Thành công', 'Đã lưu giao dịch sổ nợ!');
+        const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+        const successMsg = this.translateService.instant('SUPPLIER_DEBTS.MSG_PAY_SUCCESS') || 'Đã lưu giao dịch sổ nợ!';
+        this.alertService.success(successTitle, successMsg);
         this.loadDebts();
         this.closeModal();
         if (this.showDetailModal && this.selectedSupplierForDetail) {
@@ -207,7 +213,9 @@ export class SupplierDebtsComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err: any) => {
-        this.alertService.error('Lỗi', err.error?.title || err.error?.message || 'Không thể lưu giao dịch');
+        const errorTitle = this.translateService.instant('COMMON.ERROR') || 'Lỗi';
+        const errorMsg = err.error?.title || err.error?.message || this.translateService.instant('SUPPLIER_DEBTS.MSG_PAY_ERROR') || 'Không thể lưu giao dịch';
+        this.alertService.error(errorTitle, errorMsg);
         this.isSubmitting = false;
         this.cdr.detectChanges();
       }
