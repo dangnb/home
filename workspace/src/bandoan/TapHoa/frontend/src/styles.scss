@@ -1,5 +1,5 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @import "./assets/css/global";
 @import "./assets/css/shared-wms";
@@ -7,4 +7,4 @@
 /* Ensure tables have enough height to show dropdown menus without clipping */
 .table-responsive {
   min-height: 250px;
-}
+}
