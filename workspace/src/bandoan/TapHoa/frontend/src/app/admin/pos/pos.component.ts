@@ -10,11 +10,14 @@ import { CustomerService } from '../../services/customer.service';
 import { AlertService } from '../../services/alert.service';
 import { CreateOrderCommand, OrderItemDto, PaymentMethod } from '../../models/order.model';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
+import { ShiftOpenModalComponent } from '../shift/shift-open-modal/shift-open-modal.component';
+import { ShiftCloseModalComponent } from '../shift/shift-close-modal/shift-close-modal.component';
+import { ShiftService, ShiftDto } from '../../services/shift.service';
 
 @Component({
   selector: 'app-pos',
   standalone: true,
-  imports: [CommonModule, FormsModule, NumberFormatDirective, TranslatePipe],
+  imports: [CommonModule, FormsModule, NumberFormatDirective, TranslatePipe, ShiftOpenModalComponent, ShiftCloseModalComponent],
   templateUrl: './pos.component.html',
   styleUrls: ['./pos.component.scss']
 })
@@ -26,9 +29,15 @@ export class PosComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private translate = inject(TranslateService);
 
+  private shiftService = inject(ShiftService);
+
   products: any[] = [];
   customers: any[] = [];
   cart: { product: any, quantity: number }[] = [];
+
+  // Shift state
+  currentShift: ShiftDto | null = null;
+  needsShiftOpen = false;
 
   // Search and Loading state
   searchTerm: string = '';
@@ -45,6 +54,8 @@ export class PosComponent implements OnInit {
   PaymentMethod = PaymentMethod;
 
   ngOnInit(): void {
+    this.checkShiftStatus();
+
     this.loadProducts();
     this.loadCustomers();
 
@@ -54,6 +65,32 @@ export class PosComponent implements OnInit {
     ).subscribe(term => {
       this.loadProducts(term);
     });
+  }
+
+  checkShiftStatus() {
+    this.shiftService.getCurrentShift().subscribe({
+      next: (res) => {
+        if (res) {
+          this.currentShift = res;
+          this.needsShiftOpen = false;
+        } else {
+          this.currentShift = null;
+          this.needsShiftOpen = true; // Show Open Modal
+        }
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        // Fallback or handle error
+      }
+    });
+  }
+
+  onShiftOpened() {
+    this.checkShiftStatus();
+  }
+
+  onShiftClosed() {
+    this.checkShiftStatus();
   }
 
   loadProducts(term?: string) {

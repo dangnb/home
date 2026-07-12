@@ -1,15 +1,15 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="h3 mb-0 text-gray-800">Quản lý Trả hàng / Hoàn tiền</h2>
+  <h2 class="h3 mb-0 text-gray-800">{{ 'RETURNS.TITLE' | translate }}</h2>
   <a routerLink="/admin/return-orders/create" class="btn btn-primary shadow-sm">
-    <i class="bi bi-plus-circle me-2"></i>Tạo phiếu trả hàng
+    <i class="bi bi-plus-circle me-2"></i>{{ 'COMMON.CREATE' | translate }}
   </a>
 </div>
 
 <div class="card shadow mb-4">
   <div class="card-header py-3 d-flex justify-content-between align-items-center">
-    <h6 class="m-0 font-weight-bold text-primary">Danh sách Phiếu trả hàng</h6>
+    <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURNS.TITLE' | translate }}</h6>
     <div class="input-group" style="width: 300px;">
-      <input type="text" class="form-control" placeholder="Tìm kiếm theo mã..." 
+      <input type="text" class="form-control" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate" 
              [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
       <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
         <i class="bi bi-search"></i>
@@ -21,13 +21,13 @@
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
           <tr>
-            <th>Mã Phiếu</th>
-            <th>Đơn hàng gốc</th>
-            <th>Khách hàng</th>
-            <th>Ngày trả</th>
-            <th>Số tiền hoàn</th>
-            <th>Trạng thái</th>
-            <th class="text-end">Thao tác</th>
+            <th>{{ 'RETURNS.COL_RETURN_ID' | translate }}</th>
+            <th>{{ 'RETURNS.COL_ORDER_ID' | translate }}</th>
+            <th>{{ 'CUSTOMER_DEBTS.COL_CUSTOMER' | translate }}</th>
+            <th>{{ 'RETURNS.COL_DATE' | translate }}</th>
+            <th>{{ 'RETURNS.COL_REFUND' | translate }}</th>
+            <th>{{ 'RETURNS.COL_STATUS' | translate }}</th>
+            <th class="text-end">{{ 'RETURNS.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -40,9 +40,9 @@
               <td><span class="text-danger fw-bold">{{ item.refundAmount | number:'1.0-0' }}đ</span></td>
               <td>
                 @if (item.status === 1) {
-                  <span class="badge bg-warning text-dark">Pending</span>
+                  <span class="badge bg-warning text-dark">{{ 'RETURNS.STATUS_PENDING' | translate }}</span>
                 } @else if (item.status === 2) {
-                  <span class="badge bg-success">Approved</span>
+                  <span class="badge bg-success">{{ 'RETURNS.STATUS_COMPLETED' | translate }}</span>
                 } @else {
                   <span class="badge bg-danger">Cancelled</span>
                 }
@@ -62,7 +62,7 @@
           @if (returnOrders.length === 0) {
             <tr>
               <td colspan="7" class="text-center py-4 text-muted">
-                Không tìm thấy phiếu trả hàng nào
+                {{ 'RETURNS.NO_DATA' | translate }}
               </td>
             </tr>
           }

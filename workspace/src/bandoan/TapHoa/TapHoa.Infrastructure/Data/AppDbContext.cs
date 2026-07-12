@@ -42,6 +42,9 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<StockTake> StockTakes => Set<StockTake>();
     public DbSet<StockTakeLine> StockTakeLines => Set<StockTakeLine>();
 
+    // Shift & Cash Management
+    public DbSet<Shift> Shifts => Set<Shift>();
+    public DbSet<EmployeeShift> EmployeeShifts => Set<EmployeeShift>();
     // Sales & POS
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();

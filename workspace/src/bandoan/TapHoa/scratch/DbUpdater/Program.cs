@@ -12,13 +12,14 @@ class Program
 
         try
         {
-            using var killCommand = new MySqlCommand("KILL 11", connection);
-            killCommand.ExecuteNonQuery();
-            Console.WriteLine("Killed process 11");
+            var sql = System.IO.File.ReadAllText(@"e:\Word_Space\job-out\workspace\src\bandoan\TapHoa\update.sql");
+            var script = new MySqlScript(connection, sql);
+            script.Execute();
+            Console.WriteLine("Database updated successfully from update.sql");
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error killing process 11: " + ex.Message);
+            Console.WriteLine("Error updating database: " + ex.Message);
         }
     }
 }

@@ -4,16 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, TranslatePipe],
   templateUrl: './users.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
   private alertService = inject(AlertService);
+  private translateService = inject(TranslateService);
   users: any[] = [];
   roles: any[] = [
     { id: 1, name: 'Admin' },
@@ -137,7 +139,9 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(id: string) {
-    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn khóa/xóa User này?').then((result: any) => {
+    const confirmTitle = this.translateService.instant('COMMON.CONFIRM') || 'Xác nhận';
+    const confirmMsg = this.translateService.instant('USERS.CONFIRM_DELETE') || 'Bạn có chắc chắn muốn khóa/xóa User này?';
+    this.alertService.confirm(confirmTitle, confirmMsg).then((result: any) => {
       if (result.isConfirmed) {
         this.mockUsers = this.mockUsers.filter(u => u.id !== (id as any));
 
@@ -148,7 +152,9 @@ export class UsersComponent implements OnInit {
         }
 
         this.updatePaginatedUsers();
-        this.alertService.success('Thành công', 'Đã xóa người dùng thành công.');
+        const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+        const successMsg = this.translateService.instant('USERS.MSG_DELETE_SUCCESS') || 'Đã xóa người dùng thành công.';
+        this.alertService.success(successTitle, successMsg);
       }
     });
   }

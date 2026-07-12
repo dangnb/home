@@ -4,16 +4,18 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReturnOrderService, ReturnOrderDto } from '../../../services/return-order.service';
 import { AlertService } from '../../../services/alert.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-return-order-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './return-order-list.component.html'
 })
 export class ReturnOrderListComponent implements OnInit {
   private returnOrderService = inject(ReturnOrderService);
   private alertService = inject(AlertService);
+  private translateService = inject(TranslateService);
 
   returnOrders: ReturnOrderDto[] = [];
   pageNumber = 1;
@@ -35,7 +37,9 @@ export class ReturnOrderListComponent implements OnInit {
           this.totalPages = res.totalPages;
         },
         error: (err: any) => {
-          this.alertService.error('Lỗi', 'Lỗi khi tải danh sách phiếu trả hàng');
+          const errorTitle = this.translateService.instant('COMMON.ERROR') || 'Lỗi';
+          const errorMsg = this.translateService.instant('COMMON.LOAD_ERROR') || 'Lỗi khi tải dữ liệu';
+          this.alertService.error(errorTitle, errorMsg);
         }
       });
   }
@@ -53,14 +57,22 @@ export class ReturnOrderListComponent implements OnInit {
   }
 
   approve(id: string) {
-    this.alertService.confirm('Xác nhận duyệt', 'Bạn có chắc chắn muốn duyệt phiếu trả hàng này? Kho sẽ tự động nhập lại sản phẩm.').then(result => {
+    const title = this.translateService.instant('COMMON.CONFIRM') || 'Xác nhận duyệt';
+    const msg = 'Bạn có chắc chắn muốn duyệt phiếu trả hàng này? Kho sẽ tự động nhập lại sản phẩm.';
+    this.alertService.confirm(title, msg).then(result => {
       if (result.isConfirmed) {
         this.returnOrderService.approveReturnOrder(id).subscribe({
           next: () => {
-            this.alertService.success('Thành công', 'Đã duyệt phiếu trả hàng thành công');
+            const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+            const successMsg = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+            this.alertService.success(successTitle, successMsg);
             this.loadData();
           },
-          error: () => this.alertService.error('Lỗi', 'Lỗi khi duyệt phiếu trả hàng')
+          error: () => {
+            const errorTitle = this.translateService.instant('COMMON.ERROR') || 'Lỗi';
+            const errorMsg = this.translateService.instant('COMMON.ERROR') || 'Lỗi';
+            this.alertService.error(errorTitle, errorMsg);
+          }
         });
       }
     });

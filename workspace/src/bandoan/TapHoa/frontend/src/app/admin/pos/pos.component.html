@@ -1,4 +1,8 @@
 <div class="row g-0 pos-container m-0">
+  <!-- Shift Modals -->
+  <app-shift-open-modal *ngIf="needsShiftOpen" (shiftOpened)="onShiftOpened()"></app-shift-open-modal>
+  <app-shift-close-modal #closeModal [currentShift]="currentShift" (shiftClosed)="onShiftClosed()"></app-shift-close-modal>
+
   <!-- Cột danh sách sản phẩm (Bên trái) -->
   <div class="col-md-7 col-lg-8 products-panel">
     
@@ -90,9 +94,14 @@
         <i class="bi bi-cart3 text-primary me-2 fs-4"></i> {{ 'POS.CART_TITLE' | translate }}
         <span class="badge bg-danger rounded-pill ms-2">{{ cart.length }}</span>
       </h5>
-      <button class="btn btn-sm btn-light text-danger rounded-circle" [title]="'POS.CART_CLEAR_ALL' | translate" (click)="resetForm()" *ngIf="cart.length > 0">
-        <i class="bi bi-trash fs-5"></i>
-      </button>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-danger fw-bold" title="Chốt ca làm việc" (click)="closeModal.openModal()" *ngIf="currentShift">
+          <i class="bi bi-lock-fill"></i> Chốt ca
+        </button>
+        <button class="btn btn-sm btn-light text-danger rounded-circle" [title]="'POS.CART_CLEAR_ALL' | translate" (click)="resetForm()" *ngIf="cart.length > 0">
+          <i class="bi bi-trash fs-5"></i>
+        </button>
+      </div>
     </div>
     
     <!-- Danh sách item -->

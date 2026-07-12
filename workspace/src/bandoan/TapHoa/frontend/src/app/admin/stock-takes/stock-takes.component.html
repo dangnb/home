@@ -1,8 +1,8 @@
 <div class="card glass-panel border-0 shadow-sm">
   <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
-    <h5 class="mb-0 fw-bold"><i class="bi bi-clipboard-check text-primary me-2"></i> Phiếu kiểm kê kho</h5>
+    <h5 class="mb-0 fw-bold"><i class="bi bi-clipboard-check text-primary me-2"></i> {{ 'STOCK_TAKES.TITLE' | translate }}</h5>
     <button class="btn btn-primary btn-sm rounded-pill px-3" routerLink="/admin/stock-takes/create">
-      <i class="bi bi-plus-lg me-1"></i> Tạo phiếu kiểm kê
+      <i class="bi bi-plus-lg me-1"></i> {{ 'STOCK_TAKES.BTN_CREATE' | translate }}
     </button>
   </div>
   <div class="card-body p-0">
@@ -10,25 +10,25 @@
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light text-muted">
           <tr>
-            <th class="ps-4 fw-semibold border-0">Số phiếu</th>
-            <th class="fw-semibold border-0">Ngày tạo</th>
-            <th class="fw-semibold border-0">Trạng thái</th>
-            <th class="fw-semibold border-0 d-none d-md-table-cell">Số SP</th>
-            <th class="fw-semibold border-0 d-none d-lg-table-cell">Ghi chú</th>
-            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+            <th class="ps-4 fw-semibold border-0">{{ 'STOCK_TAKES.COL_DOCUMENT_NO' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'STOCK_TAKES.COL_CREATED_DATE' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'STOCK_TAKES.COL_STATUS' | translate }}</th>
+            <th class="fw-semibold border-0 d-none d-md-table-cell">{{ 'STOCK_TAKES.COL_LINES_COUNT' | translate }}</th>
+            <th class="fw-semibold border-0 d-none d-lg-table-cell">{{ 'STOCK_TAKES.COL_NOTES' | translate }}</th>
+            <th class="fw-semibold border-0 text-end pe-4">{{ 'STOCK_TAKES.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="isLoading">
             <td colspan="6" class="text-center py-4">
               <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
               </div>
             </td>
           </tr>
           <tr *ngIf="!isLoading && stockTakes.length === 0">
             <td colspan="6" class="text-center py-4 text-muted">
-              Chưa có phiếu kiểm kê nào
+              {{ 'STOCK_TAKES.NO_DATA' | translate }}
             </td>
           </tr>
           <tr *ngFor="let item of stockTakes" class="border-bottom">
@@ -44,7 +44,7 @@
               {{ item.notes || '-' }}
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/stock-takes', item.id]" title="Chi tiết">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/stock-takes', item.id]" [title]="'COMMON.VIEW_DETAIL' | translate">
                 <i class="bi bi-eye"></i>
               </button>
             </td>
@@ -55,10 +55,12 @@
   </div>
   <div class="card-footer bg-transparent border-top-0 py-3" *ngIf="totalPages > 1">
     <div class="d-flex justify-content-between align-items-center">
-      <span class="text-muted small">Hiển thị trang {{ pageIndex }} / {{ totalPages }} (Tổng {{ totalCount }})</span>
+      <span class="text-muted small">
+        {{ 'STOCK_TAKES.PAGINATION' | translate:{pageIndex: pageIndex, totalPages: totalPages, totalCount: totalCount} }}
+      </span>
       <div class="btn-group">
-        <button class="btn btn-sm btn-outline-secondary" (click)="previousPage()" [disabled]="pageIndex === 1">Trước</button>
-        <button class="btn btn-sm btn-outline-secondary" (click)="nextPage()" [disabled]="pageIndex === totalPages">Sau</button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="previousPage()" [disabled]="pageIndex === 1">{{ 'STOCK_TAKES.BTN_PREV' | translate }}</button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="nextPage()" [disabled]="pageIndex === totalPages">{{ 'STOCK_TAKES.BTN_NEXT' | translate }}</button>
       </div>
     </div>
   </div>

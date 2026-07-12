@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
@@ -6,15 +6,17 @@ import { Role } from '../../models/role';
 import { AppPermissionsList, AppPermissions } from '../../models/permission.enum';
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-roles',
-  imports: [FormsModule, ModalComponent],
+  imports: [FormsModule, ModalComponent, TranslatePipe],
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
+  private translateService = inject(TranslateService);
   roles: Role[] = [];
   permissionsList = AppPermissionsList;
 
@@ -80,11 +82,15 @@ export class RolesComponent implements OnInit {
   }
 
   deleteRole(id: string) {
-    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa vai trò này không?').then((result: any) => {
+    const confirmTitle = this.translateService.instant('COMMON.CONFIRM') || 'Xác nhận';
+    const confirmMsg = this.translateService.instant('ROLES.CONFIRM_DELETE') || 'Bạn có chắc chắn muốn xóa vai trò này không?';
+    this.alertService.confirm(confirmTitle, confirmMsg).then((result: any) => {
       if (result.isConfirmed) {
         this.roles = this.roles.filter(r => r.id !== id);
         this.mockRoles = this.mockRoles.filter(r => r.id !== id);
-        this.alertService.success('Thành công', 'Đã xóa vai trò.');
+        const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+        const successMsg = this.translateService.instant('ROLES.MSG_DELETE_SUCCESS') || 'Đã xóa vai trò.';
+        this.alertService.success(successTitle, successMsg);
       }
     });
   }

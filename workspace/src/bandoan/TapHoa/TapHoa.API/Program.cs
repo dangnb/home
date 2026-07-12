@@ -206,6 +206,96 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `StockTakes` (
+                `Id` char(36) NOT NULL,
+                `DocumentNo` longtext NOT NULL,
+                `Status` int NOT NULL,
+                `Notes` longtext NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+
+            CREATE TABLE IF NOT EXISTS `StockTakeLines` (
+                `Id` char(36) NOT NULL,
+                `StockTakeId` char(36) NOT NULL,
+                `ProductId` char(36) NOT NULL,
+                `ExpectedQuantity` int NOT NULL,
+                `ActualQuantity` int NULL,
+                `Reason` longtext NULL,
+                PRIMARY KEY (`Id`),
+                CONSTRAINT `FK_StockTakeLines_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE RESTRICT,
+                CONSTRAINT `FK_StockTakeLines_StockTakes_StockTakeId` FOREIGN KEY (`StockTakeId`) REFERENCES `StockTakes` (`Id`) ON DELETE CASCADE
+            );
+
+            CREATE INDEX IF NOT EXISTS `IX_StockTakeLines_ProductId` ON `StockTakeLines` (`ProductId`);
+            CREATE INDEX IF NOT EXISTS `IX_StockTakeLines_StockTakeId` ON `StockTakeLines` (`StockTakeId`);
+
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710154920_AddStockTake', '10.0.9');
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Shifts` (
+                `Id` char(36) NOT NULL,
+                `Username` longtext NOT NULL,
+                `StartTime` datetime(6) NOT NULL,
+                `EndTime` datetime(6) NULL,
+                `StartingCash` decimal(18,2) NOT NULL,
+                `ExpectedCash` decimal(18,2) NULL,
+                `ActualCash` decimal(18,2) NULL,
+                `Difference` decimal(18,2) NULL,
+                `Notes` longtext NULL,
+                `Status` int NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `EmployeeShifts` (
+                `Id` char(36) NOT NULL,
+                `Username` longtext NOT NULL,
+                `ShiftDate` datetime(6) NOT NULL,
+                `ShiftType` longtext NOT NULL,
+                `StartTime` time(6) NOT NULL,
+                `EndTime` time(6) NOT NULL,
+                `Notes` longtext NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
@@ -250,5 +340,7 @@ app.MapGroup("api/v{version:apiVersion}/promotions").WithApiVersionSet(apiVersio
 app.MapGroup("api/v{version:apiVersion}/orders").WithApiVersionSet(apiVersionSet).MapOrdersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/reports").WithApiVersionSet(apiVersionSet).MapReportsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/return-orders").WithApiVersionSet(apiVersionSet).MapReturnOrdersEndpoints();
+app.MapGroup("api/v{version:apiVersion}/shifts").WithApiVersionSet(apiVersionSet).MapShiftsEndpoints();
+app.MapGroup("api/v{version:apiVersion}/shift-schedules").WithApiVersionSet(apiVersionSet).MapShiftSchedulesEndpoints();
 
 app.Run();

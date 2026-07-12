@@ -35,6 +35,8 @@ public class TestDbContext : DbContext, IApplicationDbContext
     public DbSet<Promotion> Promotions => Set<Promotion>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
+    public DbSet<ReturnOrder> ReturnOrders => Set<ReturnOrder>();
+    public DbSet<ReturnOrderDetail> ReturnOrderDetails => Set<ReturnOrderDetail>();
 
     public Guid CurrentCompanyId { get; set; } = Guid.Parse("01950000-0000-7000-8000-000000000000");
 

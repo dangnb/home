@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StockTakeService, StockTakeDto, StockTakeStatus } from '../../core/services/stock-take.service';
-
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-stock-takes',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './stock-takes.component.html',
   styleUrls: ['./stock-takes.component.scss']
 })
@@ -23,7 +23,8 @@ export class StockTakesComponent implements OnInit {
 
   constructor(
     private stockTakeService: StockTakeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -61,11 +62,11 @@ export class StockTakesComponent implements OnInit {
 
   getStatusText(status: StockTakeStatus): string {
     switch (status) {
-      case StockTakeStatus.Draft: return 'Bản nháp';
-      case StockTakeStatus.InProgress: return 'Đang kiểm kê';
-      case StockTakeStatus.Completed: return 'Hoàn tất';
-      case StockTakeStatus.Cancelled: return 'Đã hủy';
-      default: return 'Không xác định';
+      case StockTakeStatus.Draft: return this.translate.instant('STOCK_TAKES.STATUS_DRAFT');
+      case StockTakeStatus.InProgress: return this.translate.instant('STOCK_TAKES.STATUS_IN_PROGRESS');
+      case StockTakeStatus.Completed: return this.translate.instant('STOCK_TAKES.STATUS_COMPLETED');
+      case StockTakeStatus.Cancelled: return this.translate.instant('STOCK_TAKES.STATUS_CANCELLED');
+      default: return 'Unknown';
     }
   }
 
