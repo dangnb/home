@@ -1,7 +1,7 @@
 /* ============================================
    TAPHOA WMS — SHARED COMPONENT STYLES
-   KPI Cards, Tables, Pagination, Status Pills,
-   Page Headers, Form Layouts, Buttons
+   Apple/Minimal: KPI Cards, Tables, Pagination,
+   Status Pills, Page Headers, Form Layouts
    ============================================ */
 
 /* ── Page Header ── */
@@ -10,13 +10,13 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-    animation: fadeInUp 0.4s ease both;
+    animation: fadeInUp 0.35s ease both;
 
     h2 {
         color: var(--text-heading);
-        font-size: 1.5rem;
-        font-weight: 800;
-        letter-spacing: -0.3px;
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
     }
 }
 
@@ -25,49 +25,53 @@
         font-size: 0.9rem;
         max-width: 600px;
         color: var(--text-muted);
+        line-height: 1.5;
     }
 }
 
 /* ============================================
-   KPI CARDS
+   KPI CARDS (Apple-like: clean, spacious)
    ============================================ */
 .kpi-card {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
     transition: all var(--transition-base);
     background: var(--bg-surface);
+    padding: 1.25rem;
 
     &:hover {
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-1px);
     }
 
     .kpi-label {
         font-size: 0.72rem;
-        font-weight: 700;
+        font-weight: 600;
         color: var(--text-muted);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.04em;
     }
 
     .kpi-value {
         font-size: 1.75rem;
-        font-weight: 800;
+        font-weight: 700;
         line-height: 1;
         color: var(--text-heading);
+        letter-spacing: -0.02em;
 
-        &.text-danger { color: #ef4444 !important; }
+        &.text-danger { color: var(--danger) !important; }
     }
 
     .kpi-badge {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
-        padding: 0.2rem 0.6rem;
+        padding: 0.2rem 0.65rem;
         border-radius: var(--radius-full);
 
         &.badge-green {
-            background-color: #d1fae5;
-            color: #059669;
+            background-color: #E8FAF0;
+            color: #1D8348;
         }
 
         &.badge-flat {
@@ -76,21 +80,21 @@
         }
     }
 
-    .kpi-icon { font-size: 1.4rem; color: var(--gray-400); }
+    .kpi-icon { font-size: 1.35rem; color: var(--gray-400); }
 
     .kpi-icon-box {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         border-radius: var(--radius-md);
         display: flex;
         align-items: center;
         justify-content: center;
 
-        &.bg-blue-light  { background-color: #eff6ff; }
-        &.bg-gray-light  { background-color: var(--gray-100); }
-        &.bg-red-light   { background-color: #fef2f2; }
-        &.bg-green-light { background-color: #ecfdf5; }
-        &.bg-amber-light { background-color: #fffbeb; }
+        &.bg-blue-light  { background-color: #EBF5FF; }
+        &.bg-gray-light  { background-color: var(--gray-50); }
+        &.bg-red-light   { background-color: #FFF0EF; }
+        &.bg-green-light { background-color: #E8FAF0; }
+        &.bg-amber-light { background-color: #FFF8EB; }
     }
 
     .kpi-dot {
@@ -109,7 +113,7 @@
 }
 
 /* ============================================
-   DATA TABLES
+   DATA TABLES (Apple-like: clean, borderless feel)
    ============================================ */
 .data-table,
 .custom-table {
@@ -120,13 +124,13 @@
     th {
         background-color: var(--gray-50);
         color: var(--text-muted);
-        font-size: 0.7rem;
-        font-weight: 700;
+        font-size: 0.72rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        padding: 0.85rem 0.5rem;
+        letter-spacing: 0.04em;
+        padding: 0.9rem 0.65rem;
         border-bottom: 1px solid var(--border-color);
-        border-top: 1px solid var(--border-color);
+        border-top: none;
 
         &.ps-4 { padding-left: 1.5rem !important; }
         &.pe-4 { padding-right: 1.5rem !important; }
@@ -134,7 +138,7 @@
 
     tbody td,
     td {
-        padding: 0.85rem 0.5rem;
+        padding: 0.9rem 0.65rem;
         vertical-align: middle;
         border-bottom: 1px solid var(--border-light);
         font-size: 0.88rem;
@@ -155,18 +159,18 @@
 
 /* ── Transaction List Card ── */
 .transaction-list-card {
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
     background: var(--bg-surface);
     overflow: hidden;
 
     .toolbar-btn {
-        border: 1px solid var(--border-color);
+        border: 1.5px solid var(--border-color);
         color: var(--gray-600);
         font-weight: 500;
         font-size: 0.88rem;
-        padding: 0.4rem 0.8rem;
+        padding: 0.45rem 0.85rem;
         background: var(--bg-surface);
         border-radius: var(--radius-md);
         transition: all var(--transition-fast);
@@ -180,20 +184,20 @@
     .custom-table {
         th {
             font-size: 0.72rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding-top: 0.85rem;
-            padding-bottom: 0.85rem;
+            letter-spacing: 0.04em;
+            padding-top: 0.9rem;
+            padding-bottom: 0.9rem;
             border-bottom: 1px solid var(--border-color);
-            border-top: 1px solid var(--border-color);
+            border-top: none;
             background: var(--gray-50);
         }
 
         td {
-            padding-top: 0.85rem;
-            padding-bottom: 0.85rem;
+            padding-top: 0.9rem;
+            padding-bottom: 0.9rem;
             vertical-align: middle;
             border-bottom: 1px solid var(--border-light);
         }
@@ -226,9 +230,9 @@
 .type-text { font-size: 0.9rem; line-height: 1.2; }
 
 .mini-avatar {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
     background-color: var(--primary-light);
     color: var(--primary);
     font-size: 0.65rem;
@@ -242,26 +246,26 @@
 .time-val { font-size: 0.78rem; margin-top: 2px; color: var(--text-muted); }
 
 /* ============================================
-   STATUS PILLS
+   STATUS PILLS (Apple-like: softer colors)
    ============================================ */
 .status-pill {
-    padding: 0.3rem 0.75rem;
+    padding: 0.3rem 0.8rem;
     border-radius: var(--radius-full);
     font-size: 0.75rem;
     font-weight: 600;
     display: inline-block;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.01em;
 
-    &.status-success { background-color: #d1fae5; color: #059669; }
-    &.status-pending { background-color: #fef3c7; color: #d97706; }
-    &.status-danger  { background-color: #fee2e2; color: #b91c1c; }
+    &.status-success { background-color: #E8FAF0; color: #1D8348; }
+    &.status-pending { background-color: #FFF8EB; color: #B36B00; }
+    &.status-danger  { background-color: #FFF0EF; color: #CC2D25; }
     &.status-draft   { background-color: var(--gray-100); color: var(--gray-500); }
-    &.status-info    { background-color: #dbeafe; color: #2563eb; }
-    &.status-purple  { background-color: #ede9fe; color: #7c3aed; }
+    &.status-info    { background-color: #EBF5FF; color: #0062CC; }
+    &.status-purple  { background-color: #F3EEFF; color: #6B3FA0; }
 }
 
 /* ============================================
-   PAGINATION
+   PAGINATION (Apple-like: clean, minimal)
    ============================================ */
 .pagination-custom {
     .btn {
@@ -273,7 +277,6 @@
             background-color: var(--primary);
             border-color: var(--primary);
             color: white;
-            box-shadow: 0 2px 6px rgba(var(--primary-rgb), 0.2);
         }
 
         &:hover:not(.btn-primary) {
@@ -292,8 +295,8 @@
     }
 
     .btn-icon-sm {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         background: transparent;
         border: none;
         color: var(--text-muted);
@@ -305,14 +308,14 @@
     }
 
     .btn-page-sm {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         border: none;
 
         &.btn-primary {
-            box-shadow: 0 2px 6px rgba(var(--primary-rgb), 0.2);
             background-color: var(--primary);
             color: #fff;
+            border-radius: var(--radius-sm);
         }
 
         &.btn-light-subtle {
@@ -329,16 +332,16 @@
 .form-row-classic {
     display: flex;
     align-items: center;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.85rem;
 
     label {
         flex: 0 0 130px;
         text-align: right;
         padding-right: 15px;
         font-size: 0.85rem;
-        color: var(--gray-700);
+        color: var(--gray-600);
         margin-bottom: 0;
-        .required { color: #ef4444; }
+        .required { color: var(--danger); }
     }
 
     .flex-grow-1 {
@@ -350,20 +353,20 @@
 
 .classic-panel {
     background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
     margin-bottom: 1.5rem;
 
     .panel-header {
         background: var(--gray-50);
-        border-bottom: 1px solid var(--border-color);
-        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-light);
+        padding: 0.8rem 1.25rem;
         font-size: 0.92rem;
         color: var(--gray-600);
         font-weight: 600;
     }
 
-    .panel-body { padding: 1rem; }
+    .panel-body { padding: 1.25rem; }
 }
 
 /* ============================================
@@ -374,21 +377,21 @@
 .bg-light-primary { background-color: var(--primary-light); color: var(--primary); }
 
 .btn-light-warning {
-    background-color: #fef3c7;
-    color: #d97706;
-    &:hover { background-color: #f59e0b; color: #fff; }
+    background-color: #FFF8EB;
+    color: #B36B00;
+    &:hover { background-color: var(--warning); color: #fff; }
 }
 
 .btn-light-danger {
-    background-color: #fee2e2;
-    color: #ef4444;
-    &:hover { background-color: #ef4444; color: #fff; }
+    background-color: #FFF0EF;
+    color: var(--danger);
+    &:hover { background-color: var(--danger); color: #fff; }
 }
 
 .py-20 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
 .border-dashed { border-style: dashed !important; }
 .border-2 { border-width: 2px !important; }
-.letter-spacing-1 { letter-spacing: 0.5px; }
+.letter-spacing-1 { letter-spacing: 0.04em; }
 
 /* ── Autocomplete ── */
 .custom-autocomplete {
@@ -412,14 +415,14 @@
 }
 
 .custom-input {
-    border: 1px solid var(--border-color) !important;
+    border: 1.5px solid var(--border-color) !important;
     background-color: var(--bg-surface);
     font-size: 0.88rem;
-    padding: 0.6rem 0.75rem;
+    padding: 0.65rem 0.85rem;
 
     &:focus {
         border-color: var(--primary) !important;
-        box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.12) !important;
+        box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.10) !important;
     }
 }
 
@@ -434,13 +437,13 @@
 
 .security-card {
     border-left: 4px solid var(--primary) !important;
-    .bg-light-blue { background-color: #eff6ff; }
+    .bg-light-blue { background-color: #EBF5FF; }
 }
 
 /* ── Icon Buttons ── */
 .btn-icon-sm {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     display: inline-flex;
     align-items: center;
@@ -453,8 +456,8 @@
 }
 
 .btn-icon {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     padding: 0;
     display: inline-flex;
     align-items: center;
@@ -494,25 +497,25 @@
     .data-table,
     .custom-table {
         thead th, th {
-            font-size: 0.62rem;
-            padding: 0.6rem 0.35rem;
+            font-size: 0.65rem;
+            padding: 0.65rem 0.4rem;
             white-space: nowrap;
         }
 
         tbody td, td {
-            font-size: 0.78rem;
-            padding: 0.6rem 0.35rem;
+            font-size: 0.8rem;
+            padding: 0.65rem 0.4rem;
         }
     }
 
-    .tx-code { font-size: 0.78rem; }
-    .type-text { font-size: 0.78rem; }
-    .date-val { font-size: 0.78rem; }
-    .time-val { font-size: 0.7rem; }
+    .tx-code { font-size: 0.8rem; }
+    .type-text { font-size: 0.8rem; }
+    .date-val { font-size: 0.8rem; }
+    .time-val { font-size: 0.72rem; }
 
     .mini-avatar {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
         font-size: 0.55rem;
     }
 
@@ -544,7 +547,7 @@
             min-width: 140px;
             padding: 0.85rem;
 
-            .kpi-title { font-size: 0.62rem; }
+            .kpi-title { font-size: 0.65rem; }
             .kpi-value { font-size: 1.15rem; }
             .kpi-icon { font-size: 1.25rem; }
         }
@@ -552,7 +555,7 @@
 
     /* ── Status Pills ── */
     .status-pill {
-        padding: 0.2rem 0.55rem;
+        padding: 0.2rem 0.6rem;
         font-size: 0.68rem;
     }
 
@@ -641,18 +644,18 @@
     .data-table,
     .custom-table {
         thead th, th {
-            font-size: 0.58rem;
-            padding: 0.5rem 0.25rem;
+            font-size: 0.6rem;
+            padding: 0.55rem 0.3rem;
         }
 
         tbody td, td {
             font-size: 0.72rem;
-            padding: 0.5rem 0.25rem;
+            padding: 0.55rem 0.3rem;
         }
     }
 
     .status-pill {
-        padding: 0.15rem 0.4rem;
-        font-size: 0.6rem;
+        padding: 0.15rem 0.45rem;
+        font-size: 0.62rem;
     }
 }
