@@ -1,0 +1,195 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-area">
+      <h2><i class="bi bi-calendar-check"></i> {{ 'ATTENDANCE.TITLE' | translate }}</h2>
+      <p class="view-subtitle">{{ 'ATTENDANCE.SUBTITLE' | translate }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="openCreateModal()">
+        <i class="bi bi-plus-circle"></i> {{ 'ATTENDANCE.ADD_MANUAL' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Check-in/Check-out Card -->
+  <div class="checkin-card premium-card">
+    <div class="checkin-header">
+      <div class="checkin-status">
+        <i class="bi bi-clock" style="font-size: 1.5rem; color: var(--primary);"></i>
+        <div>
+          <strong>{{ 'ATTENDANCE.TODAY' | translate }}</strong>
+          <p class="text-muted mb-0" style="font-size: 0.82rem;">{{ 'ATTENDANCE.TODAY_DESC' | translate }}</p>
+        </div>
+      </div>
+      <div class="checkin-actions">
+        @if (!todayAttendance() || !todayAttendance()?.checkIn) {
+          <button class="btn btn-success" [disabled]="checkingIn()" (click)="doCheckIn()">
+            <i class="bi bi-box-arrow-in-right"></i>
+            {{ checkingIn() ? '...' : ('ATTENDANCE.CHECK_IN' | translate) }}
+          </button>
+        } @else if (!todayAttendance()?.checkOut) {
+          <span class="badge-checkin"><i class="bi bi-check-circle"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
+          <button class="btn btn-warning" [disabled]="checkingOut()" (click)="doCheckOut()">
+            <i class="bi bi-box-arrow-right"></i>
+            {{ checkingOut() ? '...' : ('ATTENDANCE.CHECK_OUT' | translate) }}
+          </button>
+        } @else {
+          <span class="badge-checkin"><i class="bi bi-check-circle"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
+          <span class="badge-checkout"><i class="bi bi-check-circle-fill"></i> {{ formatTime(todayAttendance()!.checkOut) }}</span>
+          <span class="badge-hours">{{ todayAttendance()!.totalHours }}h</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi-item kpi-blue">
+      <div class="kpi-label">{{ 'ATTENDANCE.TOTAL_DAYS' | translate }}</div>
+      <div class="kpi-number">{{ summary().total }}</div>
+    </div>
+    <div class="kpi-item kpi-green">
+      <div class="kpi-label">{{ 'ATTENDANCE.PRESENT' | translate }}</div>
+      <div class="kpi-number">{{ summary().present }}</div>
+    </div>
+    <div class="kpi-item kpi-amber">
+      <div class="kpi-label">{{ 'ATTENDANCE.LATE' | translate }}</div>
+      <div class="kpi-number">{{ summary().late }}</div>
+    </div>
+    <div class="kpi-item kpi-red">
+      <div class="kpi-label">{{ 'ATTENDANCE.ABSENT' | translate }}</div>
+      <div class="kpi-number">{{ summary().absent }}</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <select class="form-select" [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChange()" [value]="selectedMonth()">
+        @for (m of months; track m) {
+          <option [value]="m">{{ 'COMMON.MONTH' | translate }} {{ m }}</option>
+        }
+      </select>
+      <select class="form-select" [(ngModel)]="selectedYear" (ngModelChange)="onMonthChange()" [value]="selectedYear()">
+        @for (y of years; track y) {
+          <option [value]="y">{{ y }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Data Table -->
+  @if (isLoading()) {
+    <div class="dash-loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  } @else if (attendances().length === 0) {
+    <div class="empty-state premium-card">
+      <span class="empty-icon">📋</span>
+      <p>{{ 'COMMON.TXT_17' | translate }}</p>
+    </div>
+  } @else {
+    <div class="premium-card" style="overflow: hidden;">
+      <div class="table-responsive">
+        <table class="table table-hover wms-data-table mb-0">
+          <thead>
+            <tr>
+              <th>{{ 'ATTENDANCE.DATE' | translate }}</th>
+              <th>{{ 'ATTENDANCE.EMPLOYEE' | translate }}</th>
+              <th>{{ 'ATTENDANCE.CHECK_IN' | translate }}</th>
+              <th>{{ 'ATTENDANCE.CHECK_OUT' | translate }}</th>
+              <th>{{ 'ATTENDANCE.HOURS' | translate }}</th>
+              <th>{{ 'ATTENDANCE.OVERTIME' | translate }}</th>
+              <th>{{ 'ATTENDANCE.STATUS_COL' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of attendances(); track a.id) {
+              <tr>
+                <td><strong>{{ formatDate(a.date) }}</strong></td>
+                <td>{{ a.username }}</td>
+                <td>{{ formatTime(a.checkIn) }}</td>
+                <td>{{ formatTime(a.checkOut) }}</td>
+                <td>{{ a.totalHours }}h</td>
+                <td>
+                  @if (a.overtimeHours > 0) {
+                    <span class="text-warning fw-bold">+{{ a.overtimeHours }}h</span>
+                  } @else {
+                    —
+                  }
+                </td>
+                <td>
+                  <span class="status-pill" [style.background]="getStatusColor(a.status) + '18'" [style.color]="getStatusColor(a.status)">
+                    {{ getStatusLabel(a.status) }}
+                  </span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-outline-secondary" (click)="openEditModal(a)" title="Sửa">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Manual Attendance Modal -->
+@if (showModal()) {
+  <div class="modal-backdrop" (click)="showModal.set(false)"></div>
+  <div class="modal-container">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h5>{{ editingAttendance.id ? ('ATTENDANCE.EDIT' | translate) : ('ATTENDANCE.ADD_MANUAL' | translate) }}</h5>
+        <button class="btn-close" (click)="showModal.set(false)"></button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="mb-3">
+          <label class="form-label">{{ 'ATTENDANCE.EMPLOYEE' | translate }}</label>
+          <input type="text" class="form-control" [(ngModel)]="editingAttendance.username" [disabled]="!!editingAttendance.id">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'ATTENDANCE.DATE' | translate }}</label>
+          <input type="date" class="form-control" [(ngModel)]="editingAttendance.date" [disabled]="!!editingAttendance.id">
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-6">
+            <label class="form-label">{{ 'ATTENDANCE.HOURS' | translate }}</label>
+            <input type="number" class="form-control" [(ngModel)]="editingAttendance.totalHours" step="0.5">
+          </div>
+          <div class="col-6">
+            <label class="form-label">{{ 'ATTENDANCE.OVERTIME' | translate }}</label>
+            <input type="number" class="form-control" [(ngModel)]="editingAttendance.overtimeHours" step="0.5">
+          </div>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-6">
+            <label class="form-label">{{ 'ATTENDANCE.LATE_MINS' | translate }}</label>
+            <input type="number" class="form-control" [(ngModel)]="editingAttendance.lateMinutes">
+          </div>
+          <div class="col-6">
+            <label class="form-label">{{ 'ATTENDANCE.STATUS_COL' | translate }}</label>
+            <select class="form-select" [(ngModel)]="editingAttendance.status">
+              @for (s of statusOptions; track s.value) {
+                <option [value]="s.value">{{ s.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'COMMON.NOTES' | translate }}</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="editingAttendance.notes"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary" (click)="showModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" (click)="saveAttendance()">{{ 'COMMON.SAVE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,97 @@
+:host { display: block; animation: fadeInUp 0.35s ease both; }
+
+.btn-back {
+  background: none; border: none; padding: 0; margin-right: 0.5rem;
+  font-size: 1.2rem; color: var(--primary); cursor: pointer;
+  &:hover { opacity: 0.7; }
+}
+
+.filter-bar {
+  margin-bottom: 1rem;
+}
+
+/* Period Cards Grid */
+.periods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.period-card {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  &:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+}
+
+.period-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+}
+
+.period-month {
+  font-size: 1.3rem; font-weight: 800; color: var(--text-heading);
+}
+
+.period-status {
+  padding: 0.25rem 0.75rem; border-radius: var(--radius-full);
+  font-size: 0.75rem; font-weight: 700;
+}
+.status-draft { background: var(--gray-100); color: var(--text-muted); }
+.status-calculated { background: rgba(0, 122, 255, 0.1); color: #007AFF; }
+.status-approved { background: rgba(52, 199, 89, 0.1); color: #34C759; }
+.status-paid { background: rgba(88, 86, 214, 0.1); color: #5856D6; }
+
+.period-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;
+  .stat { display: flex; flex-direction: column; gap: 0.15rem; }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .stat-value { font-size: 1rem; font-weight: 700; color: var(--text-heading); }
+}
+
+.period-actions {
+  display: flex; gap: 0.5rem;
+}
+
+/* Detail */
+.detail-info {
+  margin-bottom: 1.25rem;
+  .detail-header {
+    display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;
+    h3 { margin: 0 0 0.25rem; font-weight: 800; font-size: 1.2rem; }
+  }
+  .total-label { display: block; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .total-value { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+}
+
+/* Modal (same pattern as attendance) */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); z-index: 1050;
+}
+.modal-container {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 1060; width: 95%; max-width: 500px;
+}
+.modal-card {
+  background: var(--bg-surface); border-radius: var(--radius-xl);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden;
+}
+.modal-header-custom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light);
+  h5 { margin: 0; font-weight: 700; font-size: 1.1rem; }
+}
+.modal-body-custom { padding: 1.25rem 1.5rem; }
+.modal-footer-custom {
+  display: flex; justify-content: flex-end; gap: 0.5rem;
+  padding: 1rem 1.5rem; border-top: 1px solid var(--border-light);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .periods-grid { grid-template-columns: 1fr; }
+  .detail-info .detail-header { flex-direction: column; }
+}

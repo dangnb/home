@@ -104,6 +104,18 @@
           <span class="icon"><i class="bi bi-cart-plus"></i></span> <span class="nav-text">{{ 'COMMON.TXT_32' | translate }}</span>
         </a>
       </li>
+      <!-- NHÂN SỰ -->
+      <li class="nav-divider">{{ 'SIDEBAR.HR_SECTION' | translate }}</li>
+      <li>
+        <a routerLink="/admin/attendance" routerLinkActive="active" title="Chấm công">
+          <span class="icon"><i class="bi bi-calendar-check"></i></span> <span class="nav-text">{{ 'SIDEBAR.ATTENDANCE' | translate }}</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/payroll" routerLinkActive="active" title="Tính lương">
+          <span class="icon"><i class="bi bi-wallet2"></i></span> <span class="nav-text">{{ 'SIDEBAR.PAYROLL' | translate }}</span>
+        </a>
+      </li>
       <li class="nav-divider">{{ 'SIDEBAR.SYSTEM_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/users" routerLinkActive="active" title="NSD">
@@ -159,7 +171,7 @@
 
       <div class="topbar-right">
         <div class="font-size-controls"
-          style="display:flex; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-right: 6px;">
+          style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-right: 6px;">
           <button class="btn-icon"
             style="padding: 4px 8px; font-size: 13px; font-weight:bold; border-right: 1px solid var(--border-color);"
           (click)="changeFontSize(-1)" [title]="'COMMON.TXT_60' | translate">A-</button>

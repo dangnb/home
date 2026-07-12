@@ -1,0 +1,282 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-title-area">
+      <h2>
+        @if (showDetail()) {
+          <button class="btn-back" (click)="backToList()"><i class="bi bi-arrow-left"></i></button>
+        }
+        <i class="bi bi-wallet2"></i> {{ 'PAYROLL.TITLE' | translate }}
+      </h2>
+      <p class="view-subtitle">{{ showDetail() ? ('PAYROLL.DETAIL_SUBTITLE' | translate) : ('PAYROLL.SUBTITLE' | translate) }}</p>
+    </div>
+    @if (!showDetail()) {
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="openCreateModal()">
+          <i class="bi bi-plus-circle"></i> {{ 'PAYROLL.CREATE_PERIOD' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- PERIOD LIST VIEW -->
+  @if (!showDetail()) {
+    <!-- Year Filter -->
+    <div class="filter-bar">
+      <select class="form-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange()" style="max-width: 160px;">
+        @for (y of years; track y) { <option [value]="y">{{ y }}</option> }
+      </select>
+    </div>
+
+    @if (isLoading()) {
+      <div class="dash-loading"><div class="spinner-border text-primary"></div></div>
+    } @else if (periods().length === 0) {
+      <div class="empty-state premium-card">
+        <span class="empty-icon">💰</span>
+        <p>{{ 'PAYROLL.NO_PERIODS' | translate }}</p>
+      </div>
+    } @else {
+      <div class="periods-grid">
+        @for (p of periods(); track p.id) {
+          <div class="period-card premium-card" (click)="viewDetail(p)">
+            <div class="period-header">
+              <div class="period-month">T{{ p.month }}/{{ p.year }}</div>
+              <span class="period-status" [class]="getStatusClass(p.status)">{{ p.statusText }}</span>
+            </div>
+            <div class="period-stats">
+              <div class="stat">
+                <span class="stat-label">{{ 'PAYROLL.EMPLOYEES' | translate }}</span>
+                <span class="stat-value">{{ p.employeeCount }}</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">{{ 'PAYROLL.TOTAL_SALARY' | translate }}</span>
+                <span class="stat-value">{{ formatCurrency(p.totalNetSalary) }}</span>
+              </div>
+            </div>
+            <div class="period-actions">
+              @if (p.status === 1) {
+                <button class="btn btn-sm btn-primary" (click)="openCalcModal(p.id); $event.stopPropagation()">
+                  <i class="bi bi-calculator"></i> {{ 'PAYROLL.CALCULATE' | translate }}
+                </button>
+              }
+              @if (p.status === 2) {
+                <button class="btn btn-sm btn-success" (click)="doApprove(p.id); $event.stopPropagation()">
+                  <i class="bi bi-check-lg"></i> {{ 'PAYROLL.APPROVE' | translate }}
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- DETAIL VIEW -->
+  @if (showDetail()) {
+    @if (loadingDetail()) {
+      <div class="dash-loading"><div class="spinner-border text-primary"></div></div>
+    } @else if (detail()) {
+      <!-- Detail Header -->
+      <div class="detail-info premium-card">
+        <div class="detail-header">
+          <div>
+            <h3>{{ 'PAYROLL.PERIOD_LABEL' | translate }} T{{ detail()!.period.month }}/{{ detail()!.period.year }}</h3>
+            <span class="period-status" [class]="getStatusClass(detail()!.period.status)">{{ detail()!.period.statusText }}</span>
+          </div>
+          <div class="detail-total">
+            <span class="total-label">{{ 'PAYROLL.TOTAL_SALARY' | translate }}</span>
+            <span class="total-value">{{ formatCurrency(getTotalNetSalary()) }}</span>
+          </div>
+        </div>
+        @if (detail()!.period.status === 1) {
+          <button class="btn btn-primary mt-3" (click)="openCalcModal(detail()!.period.id)">
+            <i class="bi bi-calculator"></i> {{ 'PAYROLL.CALCULATE' | translate }}
+          </button>
+        }
+        @if (detail()!.period.status === 2) {
+          <button class="btn btn-success mt-3" (click)="doApprove(detail()!.period.id)">
+            <i class="bi bi-check-lg"></i> {{ 'PAYROLL.APPROVE' | translate }}
+          </button>
+        }
+      </div>
+
+      <!-- Entries Table -->
+      @if (detail()!.entries.length > 0) {
+        <div class="premium-card" style="overflow: hidden;">
+          <div class="table-responsive">
+            <table class="table table-hover wms-data-table mb-0">
+              <thead>
+                <tr>
+                  <th>{{ 'PAYROLL.EMPLOYEE_NAME' | translate }}</th>
+                  <th class="text-center">{{ 'PAYROLL.WORK_DAYS' | translate }}</th>
+                  <th class="text-end">{{ 'PAYROLL.BASE_SALARY' | translate }}</th>
+                  <th class="text-end">{{ 'PAYROLL.OVERTIME_PAY' | translate }}</th>
+                  <th class="text-end">{{ 'PAYROLL.ALLOWANCE' | translate }}</th>
+                  <th class="text-end">{{ 'PAYROLL.BONUS' | translate }}</th>
+                  <th class="text-end">{{ 'PAYROLL.DEDUCTION' | translate }}</th>
+                  <th class="text-end fw-bold">{{ 'PAYROLL.NET_SALARY' | translate }}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (e of detail()!.entries; track e.id) {
+                  <tr>
+                    <td>
+                      <strong>{{ e.employeeName }}</strong>
+                      <div class="text-muted small">{{ e.username }}</div>
+                    </td>
+                    <td class="text-center">{{ e.workDays }}</td>
+                    <td class="text-end">{{ formatCurrency(e.baseSalary) }}</td>
+                    <td class="text-end">
+                      @if (e.overtimePay > 0) {
+                        <span class="text-warning">{{ formatCurrency(e.overtimePay) }}</span>
+                      } @else { — }
+                    </td>
+                    <td class="text-end">{{ formatCurrency(e.allowance) }}</td>
+                    <td class="text-end">
+                      @if (e.bonus > 0) {
+                        <span class="text-success">+{{ formatCurrency(e.bonus) }}</span>
+                      } @else { — }
+                    </td>
+                    <td class="text-end">
+                      @if (e.deduction > 0) {
+                        <span class="text-danger">-{{ formatCurrency(e.deduction) }}</span>
+                      } @else { — }
+                    </td>
+                    <td class="text-end fw-bold">{{ formatCurrency(e.netSalary) }}</td>
+                    <td>
+                      @if (detail()!.period.status !== 4) {
+                        <button class="btn btn-sm btn-outline-primary" (click)="openEditEntry(e)">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+              <tfoot>
+                <tr class="table-primary">
+                  <td colspan="7" class="text-end fw-bold">{{ 'PAYROLL.TOTAL_SALARY' | translate }}</td>
+                  <td class="text-end fw-bold">{{ formatCurrency(getTotalNetSalary()) }}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      } @else {
+        <div class="empty-state premium-card">
+          <span class="empty-icon">📊</span>
+          <p>{{ 'PAYROLL.NO_ENTRIES' | translate }}</p>
+        </div>
+      }
+    }
+  }
+</div>
+
+<!-- Create Period Modal -->
+@if (showCreateModal()) {
+  <div class="modal-backdrop" (click)="showCreateModal.set(false)"></div>
+  <div class="modal-container">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h5>{{ 'PAYROLL.CREATE_PERIOD' | translate }}</h5>
+        <button class="btn-close" (click)="showCreateModal.set(false)"></button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="row g-3">
+          <div class="col-6">
+            <label class="form-label">{{ 'COMMON.MONTH' | translate }}</label>
+            <select class="form-select" [(ngModel)]="newPeriodMonth">
+              @for (m of months; track m) { <option [value]="m">{{ 'COMMON.MONTH' | translate }} {{ m }}</option> }
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label">{{ 'COMMON.YEAR' | translate }}</label>
+            <select class="form-select" [(ngModel)]="newPeriodYear">
+              @for (y of years; track y) { <option [value]="y">{{ y }}</option> }
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary" (click)="showCreateModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" (click)="createPeriod()">{{ 'COMMON.SAVE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Calculate Modal -->
+@if (showCalcModal()) {
+  <div class="modal-backdrop" (click)="showCalcModal.set(false)"></div>
+  <div class="modal-container">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h5>{{ 'PAYROLL.CALCULATE' | translate }}</h5>
+        <button class="btn-close" (click)="showCalcModal.set(false)"></button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="mb-3">
+          <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }} (VNĐ)</label>
+          <input type="number" class="form-control" [(ngModel)]="calcConfig.defaultBaseSalary" step="100000">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'PAYROLL.OVERTIME_RATE' | translate }}</label>
+          <input type="number" class="form-control" [(ngModel)]="calcConfig.overtimeRate" step="0.1">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'PAYROLL.ALLOWANCE' | translate }} (VNĐ)</label>
+          <input type="number" class="form-control" [(ngModel)]="calcConfig.defaultAllowance" step="100000">
+        </div>
+      </div>
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary" (click)="showCalcModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" (click)="doCalculate()">
+          <i class="bi bi-calculator"></i> {{ 'PAYROLL.DO_CALCULATE' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Edit Entry Modal -->
+@if (showEditModal()) {
+  <div class="modal-backdrop" (click)="showEditModal.set(false)"></div>
+  <div class="modal-container">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h5>{{ 'PAYROLL.EDIT_ENTRY' | translate }}: {{ editEntry?.employeeName }}</h5>
+        <button class="btn-close" (click)="showEditModal.set(false)"></button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="mb-3">
+          <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }}</label>
+          <input type="number" class="form-control" [(ngModel)]="editForm.baseSalary" step="100000">
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-6">
+            <label class="form-label">{{ 'PAYROLL.BONUS' | translate }}</label>
+            <input type="number" class="form-control" [(ngModel)]="editForm.bonus" step="50000">
+          </div>
+          <div class="col-6">
+            <label class="form-label">{{ 'PAYROLL.DEDUCTION' | translate }}</label>
+            <input type="number" class="form-control" [(ngModel)]="editForm.deduction" step="50000">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'PAYROLL.ALLOWANCE' | translate }}</label>
+          <input type="number" class="form-control" [(ngModel)]="editForm.allowance" step="50000">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'COMMON.NOTES' | translate }}</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="editForm.notes"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary" (click)="showEditModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" (click)="saveEntry()">{{ 'COMMON.SAVE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}

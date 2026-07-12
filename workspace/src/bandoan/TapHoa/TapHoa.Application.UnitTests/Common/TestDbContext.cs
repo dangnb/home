@@ -37,6 +37,13 @@ public class TestDbContext : DbContext, IApplicationDbContext
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
     public DbSet<ReturnOrder> ReturnOrders => Set<ReturnOrder>();
     public DbSet<ReturnOrderDetail> ReturnOrderDetails => Set<ReturnOrderDetail>();
+    public DbSet<Shift> Shifts => Set<Shift>();
+    public DbSet<EmployeeShift> EmployeeShifts => Set<EmployeeShift>();
+    public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+    public DbSet<PurchaseOrderDetail> PurchaseOrderDetails => Set<PurchaseOrderDetail>();
+    public DbSet<Attendance> Attendances => Set<Attendance>();
+    public DbSet<PayrollPeriod> PayrollPeriods => Set<PayrollPeriod>();
+    public DbSet<PayrollEntry> PayrollEntries => Set<PayrollEntry>();
 
     public Guid CurrentCompanyId { get; set; } = Guid.Parse("01950000-0000-7000-8000-000000000000");
 
