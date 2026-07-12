@@ -60,7 +60,7 @@
             </td>
             <td class="wst-notes" [title]="item.notes || ''">{{ item.notes || '—' }}</td>
             <td class="text-end pe-3">
-              <a [routerLink]="['/admin/transactions', item.id]" class="wst-action-btn" title="Chi tiết">
+              <a [routerLink]="['/admin/transactions', item.id]" class="wst-action-btn" [title]="'WASTAGE.TXT_15' | translate">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               </a>
             </td>

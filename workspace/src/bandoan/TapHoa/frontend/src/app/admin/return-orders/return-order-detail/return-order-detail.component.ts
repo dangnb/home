@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { ReturnOrderService, ReturnOrderDto } from '../../../services/return-order.service';
 import { AlertService } from '../../../services/alert.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-return-order-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './return-order-detail.component.html'
 })
 export class ReturnOrderDetailComponent implements OnInit {

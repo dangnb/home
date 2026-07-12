@@ -1,7 +1,7 @@
 @if (totalPages > 0) {
 <div class="d-flex align-items-center justify-content-between py-3 px-4 w-100 bg-white">
     <div class="d-flex align-items-center gap-2">
-        <span class="text-muted fw-medium fs-8">Hiển thị</span>
+        <span class="text-muted fw-medium fs-8">{{ 'COMMON.TXT_64' | translate }}</span>
         <select class="form-select border-0 bg-light rounded-2 text-dark fw-bold fs-8 px-2 py-1 shadow-none"
             style="width: auto; max-width: 65px; background-color: #f1f4f8 !important; cursor: pointer; min-height: 28px; background-position: right 0.25rem center; background-size: 10px 10px; padding-right: 1.5rem !important;"
             (change)="onPageSizeChange($event)">
@@ -18,7 +18,7 @@
         <a href="javascript:void(0)" class="text-decoration-none fw-medium fs-8 transition-base"
             [class.text-muted]="currentPage !== 1" [class.opacity-50]="currentPage === 1"
             [class.hover-text-primary]="currentPage !== 1" [style.pointer-events]="currentPage === 1 ? 'none' : 'auto'"
-            (click)="goToPage(currentPage - 1)">Trước</a>
+            (click)="goToPage(currentPage - 1)">{{ 'COMMON.TXT_65' | translate }}</a>
 
         <div class="d-flex align-items-center">
             @for (page of pages; track $index) {

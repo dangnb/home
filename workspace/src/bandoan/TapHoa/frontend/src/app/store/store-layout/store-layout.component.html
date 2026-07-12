@@ -4,23 +4,23 @@
             <h1 routerLink="/">Fresh<span>Mart</span></h1>
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm trái cây, thịt cá, rau củ..." />
-            <button>Tìm kiếm</button>
+            <input type="text" [placeholder]="'STORE.TXT_30' | translate" />
+            <button>{{ 'STORE.TXT_21' | translate }}</button>
         </div>
         <div class="header-actions">
-            <button class="cart-btn">🛒 Giỏ hàng (0)</button>
-            <button class="login-btn" routerLink="/admin">Quản trị</button>
+            <button class="cart-btn">{{ 'STORE.TXT_22' | translate }}</button>
+            <button class="login-btn" routerLink="/admin">{{ 'STORE.TXT_23' | translate }}</button>
         </div>
     </header>
 
     <nav class="categories-nav">
         <ul>
-            <li><a href="#">Rau củ quả tươi</a></li>
-            <li><a href="#">Thịt cá & Hải sản</a></li>
-            <li><a href="#">Sữa & Bơ</a></li>
-            <li><a href="#">Đồ uống</a></li>
-            <li><a href="#">Bánh kẹo</a></li>
-            <li><a href="#">Gia vị nấu ăn</a></li>
+            <li><a href="#">{{ 'STORE.TXT_24' | translate }}</a></li>
+            <li><a href="#">{{ 'STORE.TXT_25' | translate }}</a></li>
+            <li><a href="#">{{ 'STORE.TXT_26' | translate }}</a></li>
+            <li><a href="#">{{ 'STORE.TXT_27' | translate }}</a></li>
+            <li><a href="#">{{ 'STORE.TXT_28' | translate }}</a></li>
+            <li><a href="#">{{ 'STORE.TXT_29' | translate }}</a></li>
         </ul>
     </nav>
 

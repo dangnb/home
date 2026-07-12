@@ -68,7 +68,7 @@
             <div class="card-body p-3 text-center d-flex flex-column justify-content-between">
               <h6 class="card-title text-dark fw-bold mb-2 text-truncate" style="font-size: 0.95rem;" [title]="product.name">{{ product.name }}</h6>
               <div class="mt-auto">
-                <span class="text-primary fw-bolder fs-5">{{ product.price | number:'1.0-0' }}<small class="text-muted ms-1 fs-6">đ</small></span>
+                <span class="text-primary fw-bolder fs-5">{{ product.price | number:'1.0-0' }}<small class="text-muted ms-1 fs-6">{{ 'POS.TXT_27' | translate }}</small></span>
               </div>
             </div>
           </div>
@@ -95,8 +95,8 @@
         <span class="badge bg-danger rounded-pill ms-2">{{ cart.length }}</span>
       </h5>
       <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-sm btn-outline-danger fw-bold" title="Chốt ca làm việc" (click)="closeModal.openModal()" *ngIf="currentShift">
-          <i class="bi bi-lock-fill"></i> Chốt ca
+        <button class="btn btn-sm btn-outline-danger fw-bold" [title]="'POS.TXT_35' | translate" (click)="closeModal.openModal()" *ngIf="currentShift">
+          <i class="bi bi-lock-fill"></i> {{ 'POS.TXT_28' | translate }}
         </button>
         <button class="btn btn-sm btn-light text-danger rounded-circle" [title]="'POS.CART_CLEAR_ALL' | translate" (click)="resetForm()" *ngIf="cart.length > 0">
           <i class="bi bi-trash fs-5"></i>
@@ -170,7 +170,7 @@
         </div>
         <div class="mt-2" *ngIf="usePoints">
           <div class="input-group input-group-sm">
-            <span class="input-group-text bg-light text-muted border-0">Dùng:</span>
+            <span class="input-group-text bg-light text-muted border-0">{{ 'POS.TXT_29' | translate }}</span>
             <input type="number" class="form-control border-0 bg-light fw-bold text-primary" [(ngModel)]="pointsToUse" (change)="togglePoints()" [max]="selectedCustomerObj.loyaltyPoints" min="0">
             <span class="input-group-text bg-light border-0 text-success fw-bold">-{{ (pointsToUse * 100) | number }}₫</span>
           </div>
@@ -183,10 +183,10 @@
         <div class="d-flex gap-2 mb-2">
           <div class="input-group input-group-sm">
             <span class="input-group-text bg-light border-0"><i class="bi bi-ticket-perforated text-primary"></i></span>
-            <input type="text" class="form-control border-0 bg-light fw-medium" placeholder="Nhập mã giảm giá..." [(ngModel)]="couponCode" (keyup.enter)="applyCoupon()">
+            <input type="text" class="form-control border-0 bg-light fw-medium" [placeholder]="'POS.TXT_34' | translate" [(ngModel)]="couponCode" (keyup.enter)="applyCoupon()">
           </div>
           <button class="btn btn-sm btn-primary rounded-pill px-3 fw-bold text-nowrap shadow-sm" (click)="applyCoupon()" [disabled]="!couponCode.trim()">
-            <i class="bi bi-check2-circle me-1"></i>Áp dụng
+            <i class="bi bi-check2-circle me-1"></i>{{ 'POS.TXT_30' | translate }}
           </button>
         </div>
         <div *ngIf="couponMessage" class="small mb-2 px-1" [class.text-success]="couponApplied" [class.text-danger]="!couponApplied">
@@ -197,7 +197,7 @@
         <!-- Suggested Promotions -->
         <div *ngIf="suggestedPromotions.length > 0 && !appliedPromotion" class="suggested-promos">
           <div class="small fw-bold text-muted mb-2 d-flex align-items-center gap-1">
-            <i class="bi bi-stars text-warning"></i> Khuyến mãi khả dụng
+            <i class="bi bi-stars text-warning"></i> {{ 'POS.TXT_31' | translate }}
           </div>
           <div class="promo-item d-flex justify-content-between align-items-center p-2 rounded-3 bg-light border mb-1" 
                *ngFor="let promo of suggestedPromotions">
@@ -206,7 +206,7 @@
               <div class="text-muted" style="font-size: 0.75rem;">Giảm {{ promo.calculatedDiscount | number:'1.0-0' }}₫</div>
             </div>
             <button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold" style="font-size: 0.75rem;" (click)="applyPromotion(promo)">
-              <i class="bi bi-plus-circle me-1"></i>Dùng
+              <i class="bi bi-plus-circle me-1"></i>{{ 'POS.TXT_32' | translate }}
             </button>
           </div>
         </div>
@@ -266,7 +266,7 @@
         </div>
         <div class="input-group">
           <input type="text" class="form-control form-control-lg text-end fw-bolder text-dark border-0 shadow-sm bg-light" [(ngModel)]="amountPaid" appNumberFormat>
-          <span class="input-group-text bg-light border-0 shadow-sm fw-bold">đ</span>
+          <span class="input-group-text bg-light border-0 shadow-sm fw-bold">{{ 'POS.TXT_33' | translate }}</span>
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import { ShiftScheduleService, EmployeeShiftDto, CreateEmployeeShiftCommand } fr
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface CalendarDay {
   date: Date;
@@ -17,7 +18,7 @@ interface CalendarDay {
 @Component({
   selector: 'app-shift-schedules',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent, TranslatePipe],
   templateUrl: './shift-schedules.component.html',
   styleUrls: ['./shift-schedules.component.scss'],
   animations: [

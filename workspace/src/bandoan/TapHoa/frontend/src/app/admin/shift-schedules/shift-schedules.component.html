@@ -2,34 +2,34 @@
   <!-- Header with Month Navigation -->
   <div class="page-header">
     <div class="header-title">
-      <h2>Lịch Phân Ca</h2>
-      <p>Quản lý lịch làm việc theo dạng lịch tháng</p>
+      <h2>{{ 'SHIFTS.TXT_1' | translate }}</h2>
+      <p>{{ 'SHIFTS.TXT_2' | translate }}</p>
     </div>
     
     <div class="month-navigation">
-      <button class="btn-nav" (click)="previousMonth()" title="Tháng trước">
+      <button class="btn-nav" (click)="previousMonth()" [title]="'SHIFTS.TXT_16' | translate">
         <i class="bi bi-chevron-left"></i>
       </button>
       <h3 class="current-month-label">
         Tháng {{ currentMonth.getMonth() + 1 }} - {{ currentMonth.getFullYear() }}
       </h3>
-      <button class="btn-nav" (click)="nextMonth()" title="Tháng sau">
+      <button class="btn-nav" (click)="nextMonth()" [title]="'SHIFTS.TXT_17' | translate">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
 
     <button (click)="openAddModal()" class="btn-create-shift">
       <i class="bi bi-plus-lg"></i>
-      Phân ca mới
+      {{ 'SHIFTS.TXT_3' | translate }}
     </button>
   </div>
 
   <!-- Filters -->
   <div class="filters-card">
     <div class="filter-group" style="flex: 1;">
-      <label>Lọc theo nhân viên</label>
+      <label>{{ 'SHIFTS.TXT_4' | translate }}</label>
       <select [(ngModel)]="selectedUsername" (change)="onFilterChange()" class="form-select">
-        <option value="">-- Tất cả nhân viên --</option>
+        <option value="">{{ 'SHIFTS.TXT_5' | translate }}</option>
         <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
       </select>
     </div>
@@ -39,7 +39,7 @@
   <div class="position-relative">
     <div *ngIf="isLoading" class="calendar-loading-overlay">
       <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-2 fw-bold text-primary">Đang tải lịch...</p>
+      <p class="mt-2 fw-bold text-primary">{{ 'SHIFTS.TXT_6' | translate }}</p>
     </div>
 
     <!-- Calendar Grid -->
@@ -60,7 +60,7 @@
              (drop)="onDrop($event, day.date)">
           <div class="day-top">
             <span class="day-number">{{ day.date | date:'d' }}</span>
-            <button class="btn-add-quick" (click)="openAddModal(formatDate(day.date))" title="Thêm ca ngày này">
+            <button class="btn-add-quick" (click)="openAddModal(formatDate(day.date))" [title]="'SHIFTS.TXT_18' | translate">
               <i class="bi bi-plus"></i>
             </button>
           </div>
@@ -81,7 +81,7 @@
                 <span class="shift-time">{{ shift.startTime | slice:0:5 }} - {{ shift.endTime | slice:0:5 }}</span>
                 <span class="shift-user">{{ shift.username }}</span>
               </div>
-              <button class="btn-delete-mini" (click)="deleteSchedule(shift.id); $event.stopPropagation()" title="Xóa">
+              <button class="btn-delete-mini" (click)="deleteSchedule(shift.id); $event.stopPropagation()" [title]="'SHIFTS.TXT_19' | translate">
                 <i class="bi bi-x"></i>
               </button>
             </div>
@@ -96,20 +96,20 @@
 <app-modal *ngIf="isModalOpen" [title]="'PHÂN CA LÀM VIỆC'" (closeDialog)="closeModal()">
   <div class="modal-body p-0 modal-animate-enter">
     <div class="mb-4">
-      <label class="form-label fw-bold">Nhân viên <span class="text-danger">*</span></label>
+      <label class="form-label fw-bold">{{ 'SHIFTS.TXT_7' | translate }} <span class="text-danger">*</span></label>
       <select [(ngModel)]="form.username" class="form-select border-2">
-        <option value="">-- Chọn nhân viên --</option>
+        <option value="">{{ 'SHIFTS.TXT_8' | translate }}</option>
         <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
       </select>
     </div>
 
     <div class="row mb-4">
       <div class="col-md-6">
-        <label class="form-label fw-bold">Ngày làm việc <span class="text-danger">*</span></label>
+        <label class="form-label fw-bold">{{ 'SHIFTS.TXT_9' | translate }} <span class="text-danger">*</span></label>
         <input type="date" [(ngModel)]="form.shiftDate" class="form-control border-2">
       </div>
       <div class="col-md-6">
-        <label class="form-label fw-bold">Loại ca <span class="text-danger">*</span></label>
+        <label class="form-label fw-bold">{{ 'SHIFTS.TXT_10' | translate }} <span class="text-danger">*</span></label>
         <select [(ngModel)]="form.shiftType" (change)="onShiftTypeChange()" class="form-select border-2">
           <option *ngFor="let type of shiftTypes" [value]="type">{{ type }}</option>
         </select>
@@ -118,23 +118,23 @@
 
     <div class="row mb-4">
       <div class="col-md-6">
-        <label class="form-label fw-bold">Giờ bắt đầu <span class="text-danger">*</span></label>
+        <label class="form-label fw-bold">{{ 'SHIFTS.TXT_11' | translate }} <span class="text-danger">*</span></label>
         <input type="time" [(ngModel)]="form.startTime" class="form-control border-2">
       </div>
       <div class="col-md-6">
-        <label class="form-label fw-bold">Giờ kết thúc <span class="text-danger">*</span></label>
+        <label class="form-label fw-bold">{{ 'SHIFTS.TXT_12' | translate }} <span class="text-danger">*</span></label>
         <input type="time" [(ngModel)]="form.endTime" class="form-control border-2">
       </div>
     </div>
 
     <div class="mb-4">
-      <label class="form-label fw-bold">Ghi chú</label>
-      <textarea [(ngModel)]="form.notes" rows="3" class="form-control border-2" placeholder="Nhập ghi chú..."></textarea>
+      <label class="form-label fw-bold">{{ 'SHIFTS.TXT_13' | translate }}</label>
+      <textarea [(ngModel)]="form.notes" rows="3" class="form-control border-2" [placeholder]="'SHIFTS.TXT_15' | translate"></textarea>
     </div>
 
     <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
       <button type="button" class="btn btn-light px-4 py-2 fw-bold rounded-3" (click)="closeModal()">
-        Hủy bỏ
+        {{ 'SHIFTS.TXT_14' | translate }}
       </button>
       <button type="button" class="btn btn-primary px-4 py-2 fw-bold rounded-3 shadow-sm" (click)="saveSchedule()" [disabled]="isSubmitting">
         <i class="bi bi-save me-2"></i> {{ isSubmitting ? 'Đang xử lý...' : 'Xác nhận Lưu' }}

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-low-stock',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './low-stock.component.html',
   styleUrls: ['./low-stock.component.scss']
 })

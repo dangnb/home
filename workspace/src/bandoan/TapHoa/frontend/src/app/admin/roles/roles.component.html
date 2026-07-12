@@ -27,7 +27,7 @@
             </div>
             <div class="card-toolbar d-flex gap-2">
               <button class="btn btn-icon btn-light-warning btn-sm rounded-3 shadow-none border-0"
-                (click)="openEditModal(role)" title="Phân Quyền / Sửa">
+                (click)="openEditModal(role)" [title]="'ROLES.TXT_18' | translate">
                 ⚙️
               </button>
               @if (role.name !== 'Admin') {

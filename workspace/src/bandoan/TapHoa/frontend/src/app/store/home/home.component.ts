@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-home',
-    imports: [],
+    imports: [TranslatePipe],
     templateUrl: './home.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './home.component.scss'

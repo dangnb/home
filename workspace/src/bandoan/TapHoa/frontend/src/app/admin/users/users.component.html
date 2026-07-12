@@ -162,14 +162,14 @@
             [(ngModel)]="editingUser.phoneNumber">
         </div>
         <div class="col-md-6">
-          <label class="form-label small fw-bold text-dark mb-1">Căn cước công dân</label>
+          <label class="form-label small fw-bold text-dark mb-1">{{ 'USERS.TXT_30' | translate }}</label>
           <input type="text" class="form-control form-control-solid rounded-3 py-2" name="citizenId"
-            [(ngModel)]="editingUser.citizenId" placeholder="Nhập CCCD...">
+            [(ngModel)]="editingUser.citizenId" [placeholder]="'USERS.TXT_32' | translate">
         </div>
         <div class="col-12">
-          <label class="form-label small fw-bold text-dark mb-1">Địa chỉ thường trú</label>
+          <label class="form-label small fw-bold text-dark mb-1">{{ 'USERS.TXT_31' | translate }}</label>
           <input type="text" class="form-control form-control-solid rounded-3 py-2" name="address"
-            [(ngModel)]="editingUser.address" placeholder="Nhập địa chỉ đầy đủ...">
+            [(ngModel)]="editingUser.address" [placeholder]="'USERS.TXT_33' | translate">
         </div>
         <div class="col-md-6 d-flex align-items-center mb-2 mt-4">
           <div class="form-check form-switch form-check-custom form-check-solid">
