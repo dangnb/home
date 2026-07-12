@@ -4,7 +4,7 @@
     <div class="summary-card p-4">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <p class="text-muted fw-bold mb-1 fs-6">Tổng Khuyến Mãi</p>
+          <p class="text-muted fw-bold mb-1 fs-6">{{ 'PROMOTIONS.TOTAL_PROMO' | translate }}</p>
           <h3 class="fw-bolder text-dark mb-0">{{ totalCount }}</h3>
         </div>
         <div class="icon-wrapper bg-primary bg-opacity-10 text-primary">
@@ -17,7 +17,7 @@
     <div class="summary-card p-4">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <p class="text-muted fw-bold mb-1 fs-6">Đang diễn ra</p>
+          <p class="text-muted fw-bold mb-1 fs-6">{{ 'PROMOTIONS.ACTIVE_PROMO' | translate }}</p>
           <h3 class="fw-bolder text-success mb-0">{{ promotions.length }}</h3>
         </div>
         <div class="icon-wrapper bg-success bg-opacity-10 text-success">
@@ -29,7 +29,7 @@
   <div class="col-md-4">
     <div class="summary-card p-4 h-100 d-flex flex-column justify-content-center border-primary border-opacity-50" style="background: #eff6ff; cursor: pointer;" (click)="openAddModal()">
       <div class="d-flex align-items-center justify-content-center text-primary fw-bold gap-2 fs-5">
-        <i class="bi bi-plus-circle-fill"></i> Thêm mới nhanh
+        <i class="bi bi-plus-circle-fill"></i> {{ 'PROMOTIONS.QUICK_ADD' | translate }}
       </div>
     </div>
   </div>
@@ -38,17 +38,17 @@
 <div class="premium-card mb-4" (click)="activeDropdownRowId = null">
   <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
     <h5 class="mb-0 fw-bold text-dark fs-5 d-flex align-items-center gap-2">
-      <i class="bi bi-tags text-primary"></i> Danh sách Khuyến mãi
+      <i class="bi bi-tags text-primary"></i> {{ 'PROMOTIONS.LIST_TITLE' | translate }}
     </h5>
     
     <div class="d-flex align-items-center gap-3">
       <div class="search-input-wrapper shadow-sm">
         <i class="bi bi-search"></i>
-        <input type="text" class="w-100 border-0" placeholder="Tìm kiếm chương trình..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        <input type="text" class="w-100 border-0" [placeholder]="'PROMOTIONS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
       
       <button class="btn btn-primary d-flex align-items-center gap-2 text-nowrap rounded-pill px-4 shadow-sm fw-medium" (click)="openAddModal()">
-        <i class="bi bi-plus-lg"></i> Thêm khuyến mãi
+        <i class="bi bi-plus-lg"></i> {{ 'PROMOTIONS.ADD_PROMO' | translate }}
       </button>
     </div>
   </div>
@@ -58,13 +58,13 @@
       <table class="table promo-table align-middle mb-0">
         <thead>
           <tr>
-            <th class="ps-4">Tên chương trình</th>
-            <th>Loại ưu đãi</th>
-            <th class="text-end">Mức giảm</th>
-            <th class="text-end d-none d-md-table-cell">Đơn tối thiểu</th>
-            <th class="d-none d-lg-table-cell">Thời gian áp dụng</th>
-            <th class="text-center">Trạng thái</th>
-            <th class="text-end pe-4">Thao tác</th>
+            <th class="ps-4">{{ 'PROMOTIONS.COL_NAME' | translate }}</th>
+            <th>{{ 'PROMOTIONS.COL_TYPE' | translate }}</th>
+            <th class="text-end">{{ 'PROMOTIONS.COL_DISCOUNT' | translate }}</th>
+            <th class="text-end d-none d-md-table-cell">{{ 'PROMOTIONS.COL_MIN_ORDER' | translate }}</th>
+            <th class="d-none d-lg-table-cell">{{ 'PROMOTIONS.COL_PERIOD' | translate }}</th>
+            <th class="text-center">{{ 'PROMOTIONS.COL_STATUS' | translate }}</th>
+            <th class="text-end pe-4">{{ 'PROMOTIONS.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -72,7 +72,7 @@
             <tr>
               <td class="ps-4">
                 <div class="fw-bold text-dark fs-6">{{ p.name }}</div>
-                <div class="text-muted small text-truncate mt-1" style="max-width: 250px;">{{ p.description || 'Không có mô tả' }}</div>
+                <div class="text-muted small text-truncate mt-1" style="max-width: 250px;">{{ p.description || ('PROMOTIONS.NO_DESC' | translate) }}</div>
               </td>
               <td>
                 <span class="badge rounded-pill fw-medium" 
@@ -84,7 +84,7 @@
                   <i class="bi bi-percent me-1" *ngIf="p.type === PromotionType.PercentageOff"></i>
                   <i class="bi bi-cash me-1" *ngIf="p.type === PromotionType.FixedAmountOff"></i>
                   <i class="bi bi-box2 me-1" *ngIf="p.type === PromotionType.BuyXGetY"></i>
-                  {{ p.type === PromotionType.PercentageOff ? 'Giảm %' : (p.type === PromotionType.FixedAmountOff ? 'Trừ tiền' : 'Mua X Tặng Y') }}
+                  {{ p.type === PromotionType.PercentageOff ? ('PROMOTIONS.TYPE_PERCENT' | translate) : (p.type === PromotionType.FixedAmountOff ? ('PROMOTIONS.TYPE_FIXED' | translate) : ('PROMOTIONS.TYPE_BOGO' | translate)) }}
                 </span>
               </td>
               <td class="text-end fw-bolder text-dark fs-6">
@@ -99,7 +99,7 @@
                     <span class="text-dark"><i class="bi bi-calendar2-check text-success me-1"></i> {{ p.startDate ? (p.startDate | date:'dd/MM HH:mm') : '...' }}</span>
                     <span class="text-muted mt-1"><i class="bi bi-calendar2-x text-danger me-1"></i> {{ p.endDate ? (p.endDate | date:'dd/MM HH:mm') : '...' }}</span>
                   } @else {
-                    <span class="badge bg-light text-dark border">Không giới hạn</span>
+                    <span class="badge bg-light text-dark border">{{ 'PROMOTIONS.NO_LIMIT' | translate }}</span>
                   }
                 </div>
               </td>
@@ -124,9 +124,9 @@
                 <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
                   <i class="bi bi-gift fs-1 text-muted opacity-50"></i>
                 </div>
-                <h5 class="fw-bold text-dark">Chưa có khuyến mãi</h5>
-                <p class="text-muted">Tạo mới chương trình khuyến mãi để kích thích mua sắm.</p>
-                <button class="btn btn-outline-primary rounded-pill px-4 mt-2" (click)="openAddModal()">Thêm ngay</button>
+                <h5 class="fw-bold text-dark">{{ 'PROMOTIONS.EMPTY_TITLE' | translate }}</h5>
+                <p class="text-muted">{{ 'PROMOTIONS.EMPTY_DESC' | translate }}</p>
+                <button class="btn btn-outline-primary rounded-pill px-4 mt-2" (click)="openAddModal()">{{ 'PROMOTIONS.BTN_ADD_NOW' | translate }}</button>
               </td>
             </tr>
           }
@@ -143,25 +143,25 @@
 </div>
 
 @if (showModal) {
-<app-modal [title]="isEditMode ? 'Cập nhật khuyến mãi' : 'Thêm khuyến mãi mới'" (closeDialog)="closeModal()">
+<app-modal [title]="isEditMode ? ('PROMOTIONS.MODAL_EDIT' | translate) : ('PROMOTIONS.MODAL_ADD' | translate)" (closeDialog)="closeModal()">
   <form (ngSubmit)="savePromotion()" #promoForm="ngForm" id="promoNgForm">
     <div class="row g-3">
       <div class="col-12">
-        <label class="form-label text-muted fw-bold mb-1">Tên chương trình <span class="text-danger">*</span></label>
-        <input type="text" class="form-control bg-light border-0 py-2 fw-medium" name="name" [(ngModel)]="editingPromotion.name" required placeholder="Ví dụ: Giảm giá mùa hè...">
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.NAME' | translate }} <span class="text-danger">*</span></label>
+        <input type="text" class="form-control bg-light border-0 py-2 fw-medium" name="name" [(ngModel)]="editingPromotion.name" required [placeholder]="'PROMOTIONS.NAME_PLACEHOLDER' | translate">
       </div>
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">Loại khuyến mãi <span class="text-danger">*</span></label>
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TYPE' | translate }} <span class="text-danger">*</span></label>
         <select class="form-select bg-light border-0 py-2 fw-medium" [(ngModel)]="editingPromotion.type" name="type" required>
-          <option [ngValue]="1">Giảm giá theo %</option>
-          <option [ngValue]="2">Giảm giá tiền mặt</option>
-          <option [ngValue]="3">Mua X tặng Y</option>
+          <option [ngValue]="1">{{ 'PROMOTIONS.OPT_PERCENT' | translate }}</option>
+          <option [ngValue]="2">{{ 'PROMOTIONS.OPT_FIXED' | translate }}</option>
+          <option [ngValue]="3">{{ 'PROMOTIONS.OPT_BOGO' | translate }}</option>
         </select>
       </div>
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">Đơn tối thiểu áp dụng</label>
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.MIN_ORDER' | translate }}</label>
         <div class="input-group">
           <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.minOrderAmount" name="minOrder" placeholder="0">
           <span class="input-group-text bg-light border-0 fw-bold text-muted">₫</span>
@@ -171,7 +171,7 @@
       @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.FixedAmountOff) {
         <div class="col-12">
           <label class="form-label text-muted fw-bold mb-1">
-            {{ editingPromotion.type === PromotionType.PercentageOff ? 'Mức giảm (%)' : 'Số tiền giảm' }} <span class="text-danger">*</span>
+            {{ editingPromotion.type === PromotionType.PercentageOff ? ('PROMOTIONS.DISCOUNT_PERCENT' | translate) : ('PROMOTIONS.DISCOUNT_FIXED' | translate) }} <span class="text-danger">*</span>
           </label>
           <div class="input-group">
             <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold text-danger" appNumberFormat [(ngModel)]="editingPromotion.discountValue" name="discountValue" required placeholder="0">
@@ -182,38 +182,38 @@
 
       @if (editingPromotion.type === PromotionType.BuyXGetY) {
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">Số lượng Mua (X)</label>
+          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.BUY_QTY' | translate }}</label>
           <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold" [(ngModel)]="editingPromotion.buyQuantity" name="buyQty" placeholder="0">
         </div>
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">Số lượng Tặng (Y)</label>
+          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.GET_QTY' | translate }}</label>
           <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold text-success" [(ngModel)]="editingPromotion.getQuantity" name="getQty" placeholder="0">
         </div>
       }
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">Thời gian bắt đầu</label>
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.START_DATE' | translate }}</label>
         <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.startDate" name="startDate">
       </div>
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">Thời gian kết thúc</label>
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.END_DATE' | translate }}</label>
         <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.endDate" name="endDate">
       </div>
 
       <div class="col-12">
-        <label class="form-label text-muted fw-bold mb-1">Mô tả thêm</label>
-        <textarea class="form-control bg-light border-0 py-2 fw-medium" rows="3" [(ngModel)]="editingPromotion.description" name="description" placeholder="Ghi chú nội bộ hoặc thể lệ chương trình..."></textarea>
+        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.DESCRIPTION' | translate }}</label>
+        <textarea class="form-control bg-light border-0 py-2 fw-medium" rows="3" [(ngModel)]="editingPromotion.description" name="description" [placeholder]="'PROMOTIONS.DESC_PLACEHOLDER' | translate"></textarea>
       </div>
     </div>
   </form>
   
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0 shadow-sm" (click)="closeModal()">Đóng</button>
+    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0 shadow-sm" (click)="closeModal()">{{ 'PROMOTIONS.BTN_CLOSE' | translate }}</button>
     <button type="submit" form="promoNgForm" class="btn btn-primary text-white fw-bold rounded-pill px-5 py-2 border-0 shadow-sm" [disabled]="!promoForm.form.valid || isSubmitting">
       @if (isSubmitting) {
         <span class="spinner-border spinner-border-sm me-2"></span>
       }
-      {{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}
+      {{ isEditMode ? ('PROMOTIONS.BTN_UPDATE' | translate) : ('PROMOTIONS.BTN_ADD' | translate) }}
     </button>
   </div>
 </app-modal>

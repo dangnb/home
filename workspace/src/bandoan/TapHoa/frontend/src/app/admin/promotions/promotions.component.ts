@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PromotionService } from '../../services/promotion.service';
 import { Promotion, PromotionType } from '../../models/promotion';
 import { AlertService } from '../../services/alert.service';
@@ -11,13 +12,14 @@ import { NumberFormatDirective } from '../../shared/directives/number-format.dir
 @Component({
   selector: 'app-promotions',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, NumberFormatDirective, DatePipe],
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, NumberFormatDirective, DatePipe, TranslatePipe],
   templateUrl: './promotions.component.html',
   styleUrls: ['./promotions.component.scss']
 })
 export class PromotionsComponent implements OnInit {
   private promotionService = inject(PromotionService);
   private alertService = inject(AlertService);
+  private translate = inject(TranslateService);
 
   promotions: Promotion[] = [];
   searchTerm = '';
@@ -98,7 +100,7 @@ export class PromotionsComponent implements OnInit {
 
   savePromotion() {
     if (!this.editingPromotion.name) {
-      this.alertService.warning('Cảnh báo', 'Vui lòng nhập tên khuyến mãi');
+      this.alertService.warning(this.translate.instant('COMMON.WARNING'), 'Vui lòng nhập tên khuyến mãi');
       return;
     }
 
@@ -110,25 +112,25 @@ export class PromotionsComponent implements OnInit {
     if (this.isEditMode && payload.id) {
       this.promotionService.updatePromotion(payload.id, payload).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã cập nhật khuyến mãi');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Đã cập nhật khuyến mãi');
           this.loadPromotions();
           this.closeModal();
         },
         error: (err: any) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Lỗi cập nhật');
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), err.error?.title || 'Lỗi cập nhật');
           this.isSubmitting = false;
         }
       });
     } else {
       this.promotionService.createPromotion(payload).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã tạo khuyến mãi mới');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Đã tạo khuyến mãi mới');
           this.currentPage = 1;
           this.loadPromotions();
           this.closeModal();
         },
         error: (err: any) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Lỗi tạo mới');
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), err.error?.title || 'Lỗi tạo mới');
           this.isSubmitting = false;
         }
       });
@@ -140,24 +142,24 @@ export class PromotionsComponent implements OnInit {
     this.promotionService.togglePromotionStatus(promotion.id, newStatus).subscribe({
       next: () => {
         promotion.isActive = newStatus;
-        this.alertService.success('Thành công', 'Đã thay đổi trạng thái');
+        this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Đã thay đổi trạng thái');
       },
       error: (err: any) => {
-        this.alertService.error('Lỗi', 'Không thể thay đổi trạng thái');
+        this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Không thể thay đổi trạng thái');
       }
     });
   }
 
   deletePromotion(id: string) {
-    this.alertService.confirm('Xác nhận', 'Bạn có chắc chắn muốn xóa khuyến mãi này?').then((result: any) => {
+    this.alertService.confirm(this.translate.instant('COMMON.CONFIRM'), 'Bạn có chắc chắn muốn xóa khuyến mãi này?').then((result: any) => {
       if (result.isConfirmed) {
         this.promotionService.deletePromotion(id).subscribe({
           next: () => {
-            this.alertService.success('Thành công', 'Đã xóa khuyến mãi');
+            this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Đã xóa khuyến mãi');
             this.loadPromotions();
           },
           error: (err: any) => {
-            this.alertService.error('Lỗi', 'Không thể xóa khuyến mãi');
+            this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Không thể xóa khuyến mãi');
           }
         });
       }

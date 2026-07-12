@@ -43,6 +43,16 @@
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
             }
+
+            .brand-icon {
+                width: 32px;
+                height: 32px;
+                object-fit: contain;
+                margin-right: 6px;
+                border-radius: 50%;
+                background-color: white; /* just in case it has transparency */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
         }
 
         .subtitle {
@@ -203,7 +213,12 @@
         .sidebar-header {
             padding: 1.5rem 0.5rem;
             text-align: center;
-            h2 { font-size: 1.1rem; span { display: none; } }
+            h2 { 
+                font-size: 1.1rem; 
+                justify-content: center;
+                .brand-text { display: none; } 
+                .brand-icon { margin-right: 0; }
+            }
             .subtitle { display: none; }
         }
 

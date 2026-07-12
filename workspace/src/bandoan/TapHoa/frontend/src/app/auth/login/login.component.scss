@@ -99,11 +99,18 @@
         top: 0;
         left: 0;
 
-        .emoji { font-size: 1.8rem; }
+        .brand-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: white;
+            object-fit: contain;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
         h2 {
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 2.8rem;
             letter-spacing: -0.5px;
             margin: 0;
             background: linear-gradient(to right, #ffffff, #c7d2fe);

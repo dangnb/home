@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostListener, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { SupplierService, Supplier } from '../../services/supplier.service';
 import { AlertService } from '../../services/alert.service';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
@@ -8,12 +9,13 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 @Component({
   selector: 'app-suppliers',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent, TranslatePipe],
   templateUrl: './suppliers.component.html'
 })
 export class SuppliersComponent implements OnInit {
   private supplierService = inject(SupplierService);
   private alertService = inject(AlertService);
+  private translate = inject(TranslateService);
   private cdr = inject(ChangeDetectorRef);
 
   suppliers: Supplier[] = [];
@@ -51,8 +53,8 @@ export class SuppliersComponent implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        this.alertService.error('Lỗi', 'Không thể tải danh sách nhà cung cấp');
         this.isLoading = false;
+        this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
         this.cdr.detectChanges();
       }
     });
@@ -107,30 +109,30 @@ export class SuppliersComponent implements OnInit {
     if (this.editingSupplier) {
       this.supplierService.updateSupplier(this.editingSupplier.id, this.formData).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã cập nhật thông tin nhà cung cấp');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
           this.loadSuppliers();
           this.closeModal();
           this.isSubmitting = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Không thể cập nhật nhà cung cấp');
           this.isSubmitting = false;
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
           this.cdr.detectChanges();
         }
       });
     } else {
       this.supplierService.createSupplier(this.formData).subscribe({
         next: () => {
-          this.alertService.success('Thành công', 'Đã thêm nhà cung cấp mới');
+          this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.SAVE_SUCCESS'));
           this.loadSuppliers();
           this.closeModal();
           this.isSubmitting = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
-          this.alertService.error('Lỗi', err.error?.title || 'Không thể tạo nhà cung cấp');
           this.isSubmitting = false;
+          this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
           this.cdr.detectChanges();
         }
       });
@@ -138,16 +140,16 @@ export class SuppliersComponent implements OnInit {
   }
 
   deleteSupplier(id: string) {
-    this.alertService.confirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa nhà cung cấp này không? Hành động này không thể hoàn tác.', 'Có, xóa', 'Hủy').then((result: any) => {
+    this.alertService.confirm(this.translate.instant('COMMON.CONFIRM'), this.translate.instant('COMMON.DELETE_CONFIRM')).then((result: any) => {
       if (result.isConfirmed) {
         this.supplierService.deleteSupplier(id).subscribe({
           next: () => {
-            this.alertService.success('Thành công', 'Đã xóa nhà cung cấp');
+            this.alertService.success(this.translate.instant('COMMON.SUCCESS'), this.translate.instant('COMMON.DELETE_SUCCESS'));
             this.loadSuppliers();
             this.cdr.detectChanges();
           },
           error: (err) => {
-            this.alertService.error('Lỗi', 'Không thể xóa nhà cung cấp này');
+            this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.DELETE_ERROR') + ': ' + (err.error?.title || err.message));
             this.cdr.detectChanges();
           }
         });

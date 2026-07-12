@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { forkJoin } from 'rxjs';
@@ -10,7 +11,7 @@ import { RevenueProfitReport, TopProductReport } from '../../models/report.model
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, FormsModule, BaseChartDirective],
+  imports: [CommonModule, FormsModule, BaseChartDirective, TranslatePipe],
   providers: [DatePipe, DecimalPipe],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
@@ -62,6 +63,9 @@ export class ReportsComponent implements OnInit {
     }
   };
   public barChartType: ChartType = 'bar';
+
+  private translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor(
     private reportService: ReportService,

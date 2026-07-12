@@ -2,7 +2,7 @@
   <div
     class="card-header bg-white border-bottom-0 py-3 d-flex flex-column gap-3">
     <div class="d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 fw-bold"><i class="bi bi-receipt text-primary me-2"></i>Lịch sử bán hàng</h5>
+      <h5 class="mb-0 fw-bold"><i class="bi bi-receipt text-primary me-2"></i>{{ 'ORDERS.TITLE' | translate }}</h5>
     </div>
     
     <div class="row g-3 align-items-center">
@@ -12,9 +12,9 @@
           <div class="search-icon-box">
             <i class="bi bi-search"></i>
           </div>
-          <input type="text" class="orders-search-input" placeholder="Mã đơn, SĐT khách hàng..." 
+          <input type="text" class="orders-search-input" [placeholder]="'ORDERS.SEARCH_PLACEHOLDER' | translate" 
             [(ngModel)]="searchTerm" (keyup.enter)="onSearchChange()">
-          <button class="orders-search-btn" title="Tìm kiếm" (click)="onSearchChange()">
+          <button class="orders-search-btn" [title]="'ORDERS.SEARCH_TITLE' | translate" (click)="onSearchChange()">
             <i class="bi bi-arrow-right"></i>
           </button>
         </div>
@@ -23,25 +23,25 @@
       <!-- Status Filter -->
       <div class="col-md-2">
         <select class="form-select premium-filter text-muted" [(ngModel)]="status" (change)="onSearchChange()">
-          <option [ngValue]="null">Tất cả trạng thái</option>
-          <option [ngValue]="OrderStatus.Pending">Chờ xử lý</option>
-          <option [ngValue]="OrderStatus.Completed">Hoàn thành</option>
-          <option [ngValue]="OrderStatus.Cancelled">Đã hủy</option>
+          <option [ngValue]="null">{{ 'ORDERS.STATUS_ALL' | translate }}</option>
+          <option [ngValue]="OrderStatus.Pending">{{ 'ORDERS.STATUS_PENDING' | translate }}</option>
+          <option [ngValue]="OrderStatus.Completed">{{ 'ORDERS.STATUS_COMPLETED' | translate }}</option>
+          <option [ngValue]="OrderStatus.Cancelled">{{ 'ORDERS.STATUS_CANCELLED' | translate }}</option>
         </select>
       </div>
       
       <!-- Date Filters -->
       <div class="col-md-2">
-        <input type="date" class="form-control premium-filter text-muted" [(ngModel)]="fromDate" (change)="onSearchChange()" title="Từ ngày">
+        <input type="date" class="form-control premium-filter text-muted" [(ngModel)]="fromDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_FROM' | translate">
       </div>
       <div class="col-md-2">
-        <input type="date" class="form-control premium-filter text-muted" [(ngModel)]="toDate" (change)="onSearchChange()" title="Đến ngày">
+        <input type="date" class="form-control premium-filter text-muted" [(ngModel)]="toDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_TO' | translate">
       </div>
       
       <!-- Action Button -->
       <div class="col-md-2">
         <button class="btn btn-primary w-100 fw-medium premium-btn" type="button" (click)="onSearchChange()">
-          <i class="bi bi-funnel me-1"></i> Lọc
+          <i class="bi bi-funnel me-1"></i> {{ 'ORDERS.BTN_FILTER' | translate }}
         </button>
       </div>
     </div>
@@ -51,13 +51,13 @@
     <table class="table table-hover align-middle mb-0">
       <thead class="table-light text-muted">
         <tr>
-          <th class="ps-4">Mã Đơn</th>
-          <th>Ngày tạo</th>
-          <th>Khách hàng</th>
-          <th class="text-end">Tổng tiền</th>
-          <th class="text-center">Thanh toán</th>
-          <th class="text-center">Trạng thái</th>
-          <th>Người tạo</th>
+          <th class="ps-4">{{ 'ORDERS.COL_CODE' | translate }}</th>
+          <th>{{ 'ORDERS.COL_DATE' | translate }}</th>
+          <th>{{ 'ORDERS.COL_CUSTOMER' | translate }}</th>
+          <th class="text-end">{{ 'ORDERS.COL_TOTAL' | translate }}</th>
+          <th class="text-center">{{ 'ORDERS.COL_PAYMENT' | translate }}</th>
+          <th class="text-center">{{ 'ORDERS.COL_STATUS' | translate }}</th>
+          <th>{{ 'ORDERS.COL_CREATED_BY' | translate }}</th>
         </tr>
       </thead>
       <tbody class="border-top-0">
@@ -65,26 +65,26 @@
         <tr class="align-middle">
           <td class="ps-4 fw-bold text-primary">{{ order.orderCode }}</td>
           <td>{{ order.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ order.customerName || 'Khách lẻ' }}</td>
+          <td>{{ order.customerName || ('ORDERS.CUSTOMER_DEFAULT' | translate) }}</td>
           <td class="text-end fw-bold">{{ order.totalAmount | number:'1.0-0' }}đ</td>
           <td class="text-center">
             @if (order.paymentMethod === PaymentMethod.Cash) {
-              <span class="badge bg-success bg-opacity-10 text-success">Tiền mặt</span>
+              <span class="badge bg-success bg-opacity-10 text-success">{{ 'ORDERS.PAYMENT_CASH' | translate }}</span>
             } @else if (order.paymentMethod === PaymentMethod.BankTransfer) {
-              <span class="badge bg-primary bg-opacity-10 text-primary">Chuyển khoản</span>
+              <span class="badge bg-primary bg-opacity-10 text-primary">{{ 'ORDERS.PAYMENT_TRANSFER' | translate }}</span>
             } @else if (order.paymentMethod === PaymentMethod.Card) {
-              <span class="badge bg-info bg-opacity-10 text-info">Quẹt thẻ</span>
+              <span class="badge bg-info bg-opacity-10 text-info">{{ 'ORDERS.PAYMENT_CARD' | translate }}</span>
             } @else if (order.paymentMethod === PaymentMethod.Debt) {
-              <span class="badge bg-warning bg-opacity-10 text-warning">Ghi nợ</span>
+              <span class="badge bg-warning bg-opacity-10 text-warning">{{ 'ORDERS.PAYMENT_DEBT' | translate }}</span>
             }
           </td>
           <td class="text-center">
             @if (order.status === OrderStatus.Completed) {
-              <span class="badge bg-success rounded-pill">Hoàn thành</span>
+              <span class="badge bg-success rounded-pill">{{ 'ORDERS.STATUS_COMPLETED' | translate }}</span>
             } @else if (order.status === OrderStatus.Pending) {
-              <span class="badge bg-secondary rounded-pill">Chờ xử lý</span>
+              <span class="badge bg-secondary rounded-pill">{{ 'ORDERS.STATUS_PENDING' | translate }}</span>
             } @else if (order.status === OrderStatus.Cancelled) {
-              <span class="badge bg-danger rounded-pill">Đã hủy</span>
+              <span class="badge bg-danger rounded-pill">{{ 'ORDERS.STATUS_CANCELLED' | translate }}</span>
             }
           </td>
           <td>{{ order.createdBy }}</td>
@@ -93,7 +93,7 @@
         <tr>
           <td colspan="7" class="text-center text-muted py-5">
             <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-            Chưa có đơn hàng nào
+            {{ 'ORDERS.NO_ORDERS' | translate }}
           </td>
         </tr>
         }
