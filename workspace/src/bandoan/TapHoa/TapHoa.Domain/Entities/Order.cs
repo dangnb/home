@@ -15,7 +15,10 @@ public class Order : BaseAuditableEntity<Guid>
     // Financials
     public decimal SubTotal { get; private set; }
     public decimal DiscountAmount { get; private set; }
-    public decimal TotalAmount { get; private set; } // SubTotal - DiscountAmount
+    public int PointsUsed { get; private set; }
+    public decimal PointDiscountAmount { get; private set; }
+    public int PointsEarned { get; private set; }
+    public decimal TotalAmount { get; private set; } // SubTotal - DiscountAmount - PointDiscountAmount
     public decimal AmountPaid { get; private set; }
 
     public PaymentMethod PaymentMethod { get; private set; }
@@ -58,10 +61,22 @@ public class Order : BaseAuditableEntity<Guid>
         CalculateTotals();
     }
 
+    public void ApplyPoints(int pointsUsed, decimal pointDiscountAmount)
+    {
+        PointsUsed = pointsUsed;
+        PointDiscountAmount = pointDiscountAmount;
+        CalculateTotals();
+    }
+
+    public void SetPointsEarned(int pointsEarned)
+    {
+        PointsEarned = pointsEarned;
+    }
+
     private void CalculateTotals()
     {
         SubTotal = OrderDetails.Sum(x => x.SubTotal);
-        TotalAmount = Math.Max(0, SubTotal - DiscountAmount);
+        TotalAmount = Math.Max(0, SubTotal - DiscountAmount - PointDiscountAmount);
     }
 
     public void Complete(decimal amountPaid)

@@ -154,7 +154,7 @@
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-xs);
 
-  &:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  &:hover { box-shadow: var(--shadow-md); }
 
   &__icon {
     width: 2.6rem;

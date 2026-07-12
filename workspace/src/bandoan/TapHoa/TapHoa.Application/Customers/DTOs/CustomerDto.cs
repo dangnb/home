@@ -11,4 +11,8 @@ public class CustomerDto
     public string? BankAccountNumber { get; set; }
     public string? BankName { get; set; }
     public decimal TotalDebt { get; set; }
+    public int LoyaltyPoints { get; set; }
+    public int TotalAccumulatedPoints { get; set; }
+    public int Tier { get; set; }
+    public string TierName => ((TapHoa.Domain.Enums.CustomerTier)Tier).ToString();
 }

@@ -25,6 +25,7 @@ export interface CreateOrderCommand {
   amountPaid: number;
   paymentMethod: PaymentMethod;
   notes?: string;
+  pointsToUse?: number;
 }
 
 export interface OrderDto {

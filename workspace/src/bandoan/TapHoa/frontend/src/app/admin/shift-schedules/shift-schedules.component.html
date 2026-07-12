@@ -53,8 +53,11 @@
              *ngFor="let day of calendarDays" 
              [ngClass]="{
                'other-month': !day.isCurrentMonth,
-               'is-today': day.isToday
-             }">
+               'is-today': day.isToday,
+               'is-weekend': day.isWeekend
+             }"
+             (dragover)="onDragOver($event)"
+             (drop)="onDrop($event, day.date)">
           <div class="day-top">
             <span class="day-number">{{ day.date | date:'d' }}</span>
             <button class="btn-add-quick" (click)="openAddModal(formatDate(day.date))" title="Thêm ca ngày này">
@@ -65,6 +68,8 @@
           <div class="shifts-container">
             <div class="shift-item" 
                  *ngFor="let shift of day.shifts"
+                 draggable="true"
+                 (dragstart)="onDragStart($event, shift.id)"
                  [ngClass]="{
                    'ca-sang': shift.shiftType === 'Ca Sáng',
                    'ca-chieu': shift.shiftType === 'Ca Chiều',

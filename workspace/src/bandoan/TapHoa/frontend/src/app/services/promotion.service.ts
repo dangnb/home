@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Promotion } from '../models/promotion';
+import { Promotion, ApplicablePromotionResult, ApplyCouponCodeResult } from '../models/promotion';
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +46,14 @@ export class PromotionService {
   deletePromotion(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  // --- Advanced Promotions Engine ---
+  calculateApplicablePromotions(items: { productId: string; categoryId?: string; quantity: number; unitPrice: number }[], subTotal: number): Observable<ApplicablePromotionResult[]> {
+    return this.http.post<ApplicablePromotionResult[]>(`${this.apiUrl}/calculate`, { items, subTotal });
+  }
+
+  applyCouponCode(couponCode: string, subTotal: number): Observable<ApplyCouponCodeResult> {
+    return this.http.post<ApplyCouponCodeResult>(`${this.apiUrl}/apply-coupon`, { couponCode, subTotal });
+  }
 }
+

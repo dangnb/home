@@ -12,43 +12,56 @@ import { AlertService } from '../../../services/alert.service';
   imports: [CommonModule, FormsModule, ModalComponent, NumberFormatDirective],
   template: `
     <app-modal *ngIf="isOpen" [title]="'CHỐT CA LÀM VIỆC'" (closeDialog)="close()">
-      <div class="space-y-4" *ngIf="currentShift">
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <p class="text-sm text-gray-500 mb-1">Thời gian bắt đầu</p>
-            <p class="font-bold text-gray-800">{{ currentShift.startTime | date:'medium' }}</p>
+      <div class="modal-body-content p-2" *ngIf="currentShift">
+        <!-- Overview Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-6">
+            <div class="p-3 bg-light rounded-4 border border-secondary border-opacity-10 h-100 shadow-sm d-flex flex-column justify-content-center">
+              <span class="text-muted small fw-medium mb-1"><i class="bi bi-clock-history me-1"></i>Thời gian bắt đầu</span>
+              <span class="fs-6 fw-bold text-dark">{{ currentShift.startTime | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
           </div>
-          <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <p class="text-sm text-gray-500 mb-1">Tiền lẻ đầu ca</p>
-            <p class="font-bold text-blue-600">{{ currentShift.startingCash | number }} đ</p>
+          <div class="col-6">
+            <div class="p-3 bg-primary bg-opacity-10 rounded-4 border border-primary border-opacity-25 h-100 shadow-sm d-flex flex-column justify-content-center">
+              <span class="text-primary small fw-bold mb-1"><i class="bi bi-cash-stack me-1"></i>Tiền lẻ đầu ca</span>
+              <span class="fs-5 fw-bolder text-primary">{{ currentShift.startingCash | number }}đ</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Tiền mặt thực tế đếm được (VND)</label>
-          <input type="text" appNumberFormat [(ngModel)]="actualCash"
-                 class="w-full px-4 py-3 text-lg font-bold text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                 placeholder="Nhập số tiền...">
-          <p class="text-xs text-gray-500 mt-1">Đếm toàn bộ số tiền mặt có trong két để hệ thống tính toán chênh lệch Thừa/Thiếu.</p>
+        <!-- Input Section -->
+        <div class="mb-4">
+          <label class="form-label small fw-bold text-dark mb-2">Tiền mặt thực tế đếm được (VNĐ) <span class="text-danger">*</span></label>
+          <div class="input-group input-group-lg shadow-sm border rounded-3 overflow-hidden">
+            <span class="input-group-text bg-white border-0 text-muted"><i class="bi bi-wallet2 fs-5"></i></span>
+            <input type="text" appNumberFormat [(ngModel)]="actualCash"
+                   class="form-control border-0 px-2 text-dark fw-bolder text-end fs-4 shadow-none"
+                   placeholder="Nhập số tiền..." style="background-color: transparent;">
+            <span class="input-group-text bg-white border-0 fw-bold text-muted">đ</span>
+          </div>
+          <div class="form-text mt-2 text-muted small">
+            <i class="bi bi-info-circle text-primary me-1"></i>Đếm toàn bộ tiền mặt trong két để hệ thống tính toán mức chênh lệch (Thừa/Thiếu).
+          </div>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú (Tùy chọn)</label>
-          <textarea [(ngModel)]="notes" rows="2"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    placeholder="Ghi chú thêm nếu bị lệch tiền..."></textarea>
+        <div class="mb-2">
+          <label class="form-label small fw-bold text-dark mb-2">Ghi chú (Tùy chọn)</label>
+          <textarea [(ngModel)]="notes" rows="3"
+                    class="form-control form-control-solid rounded-3 py-2 shadow-sm border-0 bg-light"
+                    placeholder="Ghi chú nguyên nhân nếu có lệch tiền..."></textarea>
         </div>
       </div>
 
-      <div modal-footer class="flex justify-end gap-3 w-full">
+      <div modal-footer class="w-100 d-flex justify-content-end gap-2 mt-3">
         <button (click)="close()" [disabled]="isSubmitting"
-                class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0 shadow-sm transition-all hover-shadow">
           Hủy
         </button>
         <button (click)="submit()" [disabled]="isSubmitting"
-                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center gap-2">
-          <i class="fas fa-lock" *ngIf="!isSubmitting"></i>
-          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+                class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0 shadow-sm d-flex align-items-center gap-2 transition-all hover-shadow"
+                style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+          <i class="bi bi-lock-fill" *ngIf="!isSubmitting"></i>
+          <span class="spinner-border spinner-border-sm" *ngIf="isSubmitting"></span>
           Xác nhận Chốt ca
         </button>
       </div>

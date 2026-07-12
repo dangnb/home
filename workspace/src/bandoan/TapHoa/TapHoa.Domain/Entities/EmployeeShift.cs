@@ -28,4 +28,9 @@ public class EmployeeShift : BaseAuditableEntity<Guid>
         EndTime = endTime;
         Notes = notes;
     }
+
+    public void MoveToDate(DateTime newDate)
+    {
+        ShiftDate = newDate.Date;
+    }
 }

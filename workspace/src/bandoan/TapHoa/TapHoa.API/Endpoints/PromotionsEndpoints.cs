@@ -57,6 +57,19 @@ public static class PromotionsEndpoints
             return success ? Results.NoContent() : Results.NotFound();
         }).RequireAuthorization();
 
+        // --- Advanced Promotions Engine ---
+        group.MapPost("/calculate", async (CalculateApplicablePromotionsQuery query, IMediator mediator) =>
+        {
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        }).RequireAuthorization();
+
+        group.MapPost("/apply-coupon", async (ApplyCouponCodeQuery query, IMediator mediator) =>
+        {
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        }).RequireAuthorization();
+
         return group;
     }
 }

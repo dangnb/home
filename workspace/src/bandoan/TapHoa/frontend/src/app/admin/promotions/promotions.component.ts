@@ -177,7 +177,11 @@ export class PromotionsComponent implements OnInit {
       buyQuantity: null,
       getQuantity: null,
       startDate: null,
-      endDate: null
+      endDate: null,
+      couponCode: null,
+      maxUsageCount: null,
+      applicableCategoryId: null,
+      maxDiscountAmount: null
     };
   }
 }

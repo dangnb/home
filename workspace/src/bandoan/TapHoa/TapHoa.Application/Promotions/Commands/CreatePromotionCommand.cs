@@ -16,6 +16,10 @@ public class CreatePromotionCommand : IRequest<Guid>
     public int? BuyQuantity { get; set; }
     public int? GetQuantity { get; set; }
     public Guid? TargetProductId { get; set; }
+    public string? CouponCode { get; set; }
+    public int? MaxUsageCount { get; set; }
+    public Guid? ApplicableCategoryId { get; set; }
+    public decimal? MaxDiscountAmount { get; set; }
 }
 
 public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionCommand, Guid>
@@ -39,7 +43,11 @@ public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionComm
             request.DiscountValue,
             request.BuyQuantity,
             request.GetQuantity,
-            request.TargetProductId
+            request.TargetProductId,
+            request.CouponCode,
+            request.MaxUsageCount,
+            request.ApplicableCategoryId,
+            request.MaxDiscountAmount
         );
 
         _context.Promotions.Add(promotion);

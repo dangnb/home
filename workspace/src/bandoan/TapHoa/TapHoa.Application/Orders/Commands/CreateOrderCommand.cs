@@ -18,7 +18,8 @@ public record CreateOrderCommand(
     Guid? PromotionId,
     decimal AmountPaid,
     PaymentMethod PaymentMethod,
-    string? Notes
+    string? Notes,
+    int PointsToUse = 0
 ) : IRequest<Guid>;
 
 public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
@@ -81,6 +82,19 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         }
 
         order.ApplyDiscount(request.DiscountAmount, request.PromotionId);
+
+        Customer? customer = null;
+        if (request.CustomerId.HasValue)
+        {
+            customer = await _context.Customers.FindAsync(new object[] { request.CustomerId.Value }, cancellationToken);
+            if (customer != null && request.PointsToUse > 0)
+            {
+                customer.UsePoints(request.PointsToUse);
+                decimal pointDiscount = request.PointsToUse * 100m; // 1 point = 100 VND
+                order.ApplyPoints(request.PointsToUse, pointDiscount);
+            }
+        }
+
         order.Complete(request.AmountPaid);
 
         _context.Orders.Add(order);
@@ -115,37 +129,38 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Gui
         _context.InventoryTransactions.Add(invTx);
 
         // Handle Customer Debt
-        if (request.PaymentMethod == PaymentMethod.Debt && request.CustomerId.HasValue)
+        if (request.PaymentMethod == PaymentMethod.Debt && request.CustomerId.HasValue && customer != null)
         {
-            var customer = await _context.Customers.FindAsync(new object[] { request.CustomerId.Value }, cancellationToken);
-            if (customer != null)
-            {
-                var customerDebt = await _context.CustomerDebts
+            var customerDebt = await _context.CustomerDebts
                     .FirstOrDefaultAsync(x => x.CustomerId == request.CustomerId.Value, cancellationToken);
                 
                 if (customerDebt == null)
                 {
-                    customerDebt = new CustomerDebt(request.CustomerId.Value, customer.FullName, customer.PhoneNumber);
+                    customerDebt = new CustomerDebt(request.CustomerId.Value, customer!.FullName, customer.PhoneNumber);
                     _context.CustomerDebts.Add(customerDebt);
                 }
 
                 customerDebt.AddDebt(order.TotalAmount);
                 var debtTx = CustomerDebtTransaction.CreateDebt(request.CustomerId.Value, order.TotalAmount, $"Nợ đơn hàng {orderCode}");
                 _context.CustomerDebtTransactions.Add(debtTx);
-            }
         }
 
         // Accumulate Loyalty Points for customer (1 point per 10,000₫ spent)
-        if (request.CustomerId.HasValue && request.PaymentMethod != PaymentMethod.Debt)
+        if (customer != null && request.PaymentMethod != PaymentMethod.Debt)
         {
-            var customer = await _context.Customers.FindAsync(new object[] { request.CustomerId.Value }, cancellationToken);
-            if (customer != null)
+            decimal multiplier = customer.Tier switch
             {
-                var pointsEarned = (int)(order.TotalAmount / 10000);
-                if (pointsEarned > 0)
-                {
-                    customer.AddPoints(pointsEarned);
-                }
+                CustomerTier.Platinum => 2.0m,
+                CustomerTier.Gold => 1.5m,
+                CustomerTier.Silver => 1.2m,
+                _ => 1.0m
+            };
+
+            var pointsEarned = (int)(order.TotalAmount / 10000m * multiplier);
+            if (pointsEarned > 0)
+            {
+                customer.AddPoints(pointsEarned);
+                order.SetPointsEarned(pointsEarned);
             }
         }
 

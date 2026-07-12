@@ -62,6 +62,7 @@
             <th>{{ 'PROMOTIONS.COL_TYPE' | translate }}</th>
             <th class="text-end">{{ 'PROMOTIONS.COL_DISCOUNT' | translate }}</th>
             <th class="text-end d-none d-md-table-cell">{{ 'PROMOTIONS.COL_MIN_ORDER' | translate }}</th>
+            <th class="d-none d-lg-table-cell">Sử dụng</th>
             <th class="d-none d-lg-table-cell">{{ 'PROMOTIONS.COL_PERIOD' | translate }}</th>
             <th class="text-center">{{ 'PROMOTIONS.COL_STATUS' | translate }}</th>
             <th class="text-end pe-4">{{ 'PROMOTIONS.COL_ACTIONS' | translate }}</th>
@@ -94,6 +95,18 @@
                 {{ p.minOrderAmount | number:'1.0-0' }} ₫
               </td>
               <td class="d-none d-lg-table-cell">
+                @if (p.maxUsageCount) {
+                  <div class="d-flex flex-column">
+                    <span class="small fw-bold text-dark">{{ p.currentUsageCount }}/{{ p.maxUsageCount }}</span>
+                    <div class="progress mt-1" style="height: 5px; width: 80px;">
+                      <div class="progress-bar bg-primary" [style.width.%]="(p.currentUsageCount / p.maxUsageCount) * 100"></div>
+                    </div>
+                  </div>
+                } @else {
+                  <span class="badge bg-light text-muted border small">Không giới hạn</span>
+                }
+              </td>
+              <td class="d-none d-lg-table-cell">
                 <div class="d-flex flex-column small">
                   @if (p.startDate || p.endDate) {
                     <span class="text-dark"><i class="bi bi-calendar2-check text-success me-1"></i> {{ p.startDate ? (p.startDate | date:'dd/MM HH:mm') : '...' }}</span>
@@ -120,7 +133,7 @@
           }
           @if (promotions.length === 0) {
             <tr>
-              <td colspan="7" class="text-center py-5 bg-white rounded-3">
+              <td colspan="8" class="text-center py-5 bg-white rounded-3">
                 <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
                   <i class="bi bi-gift fs-1 text-muted opacity-50"></i>
                 </div>
@@ -157,6 +170,8 @@
           <option [ngValue]="1">{{ 'PROMOTIONS.OPT_PERCENT' | translate }}</option>
           <option [ngValue]="2">{{ 'PROMOTIONS.OPT_FIXED' | translate }}</option>
           <option [ngValue]="3">{{ 'PROMOTIONS.OPT_BOGO' | translate }}</option>
+          <option [ngValue]="4">Mã giảm giá (Coupon)</option>
+          <option [ngValue]="5">Giảm giá theo danh mục</option>
         </select>
       </div>
 
@@ -204,6 +219,32 @@
         <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.DESCRIPTION' | translate }}</label>
         <textarea class="form-control bg-light border-0 py-2 fw-medium" rows="3" [(ngModel)]="editingPromotion.description" name="description" [placeholder]="'PROMOTIONS.DESC_PLACEHOLDER' | translate"></textarea>
       </div>
+
+      <!-- Advanced Fields -->
+      @if (editingPromotion.type === PromotionType.CouponCode || editingPromotion.type === PromotionType.CategoryDiscount) {
+        <div class="col-12"><hr class="my-1 opacity-25"></div>
+      }
+
+      @if (editingPromotion.type === PromotionType.CouponCode) {
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Mã Coupon <span class="text-danger">*</span></label>
+          <input type="text" class="form-control bg-light border-0 py-2 fw-bold text-uppercase" [(ngModel)]="editingPromotion.couponCode" name="couponCode" placeholder="VD: SALE50K" required>
+        </div>
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Số lượt sử dụng tối đa</label>
+          <input type="number" class="form-control bg-light border-0 py-2 fw-medium text-center" [(ngModel)]="editingPromotion.maxUsageCount" name="maxUsageCount" placeholder="Không giới hạn">
+        </div>
+      }
+
+      @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.CategoryDiscount) {
+        <div class="col-md-6 col-12">
+          <label class="form-label text-muted fw-bold mb-1">Giảm tối đa (₫)</label>
+          <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.maxDiscountAmount" name="maxDiscount" placeholder="Không giới hạn">
+            <span class="input-group-text bg-light border-0 fw-bold text-muted">₫</span>
+          </div>
+        </div>
+      }
     </div>
   </form>
   

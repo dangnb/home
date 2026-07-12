@@ -138,12 +138,89 @@
       <!-- Khách hàng -->
       <div class="mb-3 position-relative">
         <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-        <select class="form-select form-control-solid rounded-3 ps-5 py-2 border-0 shadow-sm fw-medium text-dark bg-light" [(ngModel)]="selectedCustomerId">
+        <select class="form-select form-control-solid rounded-3 ps-5 py-2 border-0 shadow-sm fw-medium text-dark bg-light" [(ngModel)]="selectedCustomerId" (ngModelChange)="onCustomerChange()">
           <option [ngValue]="null">{{ 'POS.CUSTOMER_DEFAULT' | translate }}</option>
           @for (cus of customers; track cus.id) {
           <option [ngValue]="cus.id">{{ cus.name || cus.fullName }} - {{ cus.phoneNumber }}</option>
           }
         </select>
+      </div>
+
+      <!-- Khách hàng thân thiết: Điểm & Hạng -->
+      <div class="mb-3 p-3 rounded-3 bg-white border border-primary border-opacity-25 shadow-sm" *ngIf="selectedCustomerObj">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <span class="badge rounded-pill px-2 me-2" 
+                  [ngClass]="{
+                    'bg-secondary text-white': selectedCustomerObj.tier === 0,
+                    'bg-light text-dark border': selectedCustomerObj.tier === 1,
+                    'bg-warning text-dark': selectedCustomerObj.tier === 2,
+                    'bg-primary text-white': selectedCustomerObj.tier === 3
+                  }">
+              {{ selectedCustomerObj.tierName || 'Standard' }}
+            </span>
+            <span class="fw-bold text-dark small"><i class="bi bi-star-fill text-warning me-1"></i>{{ selectedCustomerObj.loyaltyPoints | number }} điểm</span>
+          </div>
+        </div>
+        <div class="form-check form-switch d-flex align-items-center gap-2 m-0" *ngIf="selectedCustomerObj.loyaltyPoints > 0">
+          <input class="form-check-input mt-0" type="checkbox" id="usePointsToggle" [(ngModel)]="usePoints" (change)="togglePoints()">
+          <label class="form-check-label small fw-medium text-muted m-0" for="usePointsToggle">
+            Sử dụng điểm (tối đa {{ selectedCustomerObj.loyaltyPoints | number }})
+          </label>
+        </div>
+        <div class="mt-2" *ngIf="usePoints">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-light text-muted border-0">Dùng:</span>
+            <input type="number" class="form-control border-0 bg-light fw-bold text-primary" [(ngModel)]="pointsToUse" (change)="togglePoints()" [max]="selectedCustomerObj.loyaltyPoints" min="0">
+            <span class="input-group-text bg-light border-0 text-success fw-bold">-{{ (pointsToUse * 100) | number }}₫</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khuyến Mãi Gợi Ý -->
+      <div class="promo-section mb-3" *ngIf="cart.length > 0">
+        <!-- Coupon Code Input -->
+        <div class="d-flex gap-2 mb-2">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-light border-0"><i class="bi bi-ticket-perforated text-primary"></i></span>
+            <input type="text" class="form-control border-0 bg-light fw-medium" placeholder="Nhập mã giảm giá..." [(ngModel)]="couponCode" (keyup.enter)="applyCoupon()">
+          </div>
+          <button class="btn btn-sm btn-primary rounded-pill px-3 fw-bold text-nowrap shadow-sm" (click)="applyCoupon()" [disabled]="!couponCode.trim()">
+            <i class="bi bi-check2-circle me-1"></i>Áp dụng
+          </button>
+        </div>
+        <div *ngIf="couponMessage" class="small mb-2 px-1" [class.text-success]="couponApplied" [class.text-danger]="!couponApplied">
+          <i class="bi" [class.bi-check-circle-fill]="couponApplied" [class.bi-x-circle-fill]="!couponApplied"></i>
+          {{ couponMessage }}
+        </div>
+
+        <!-- Suggested Promotions -->
+        <div *ngIf="suggestedPromotions.length > 0 && !appliedPromotion" class="suggested-promos">
+          <div class="small fw-bold text-muted mb-2 d-flex align-items-center gap-1">
+            <i class="bi bi-stars text-warning"></i> Khuyến mãi khả dụng
+          </div>
+          <div class="promo-item d-flex justify-content-between align-items-center p-2 rounded-3 bg-light border mb-1" 
+               *ngFor="let promo of suggestedPromotions">
+            <div>
+              <div class="fw-bold text-dark small">{{ promo.name }}</div>
+              <div class="text-muted" style="font-size: 0.75rem;">Giảm {{ promo.calculatedDiscount | number:'1.0-0' }}₫</div>
+            </div>
+            <button class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold" style="font-size: 0.75rem;" (click)="applyPromotion(promo)">
+              <i class="bi bi-plus-circle me-1"></i>Dùng
+            </button>
+          </div>
+        </div>
+
+        <!-- Applied Promotion Badge -->
+        <div *ngIf="appliedPromotion" class="applied-promo d-flex justify-content-between align-items-center p-2 rounded-3 border border-success bg-success bg-opacity-10">
+          <div>
+            <div class="fw-bold text-success small"><i class="bi bi-check-circle-fill me-1"></i>{{ appliedPromotion.name }}</div>
+            <div class="text-muted" style="font-size: 0.75rem;">Tiết kiệm {{ appliedPromotion.calculatedDiscount | number:'1.0-0' }}₫</div>
+          </div>
+          <button class="btn btn-sm btn-outline-danger rounded-pill px-2" style="font-size: 0.7rem;" (click)="clearAppliedPromotion(); calculateDefaultAmountPaid()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Tóm tắt số tiền -->
@@ -155,7 +232,7 @@
         <div class="d-flex justify-content-between mb-2 align-items-center">
           <span class="text-muted fw-medium">{{ 'POS.SUMMARY_DISCOUNT' | translate }}</span>
           <div class="position-relative" style="width: 100px;">
-            <input type="text" class="form-control form-control-sm text-end text-danger fw-bold border-0 bg-white shadow-sm" [(ngModel)]="discountAmount" appNumberFormat (ngModelChange)="calculateDefaultAmountPaid()">
+            <input type="text" class="form-control form-control-sm text-end text-danger fw-bold border-0 bg-white shadow-sm" [(ngModel)]="discountAmount" appNumberFormat (ngModelChange)="calculateDefaultAmountPaid()" [disabled]="!!appliedPromotion">
           </div>
         </div>
         <hr class="my-2 border-secondary opacity-25">
