@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { StockTakeService } from '../../../core/services/stock-take.service';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models/category';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-stock-take-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslatePipe],
   templateUrl: './stock-take-create.component.html',
   styleUrls: ['./stock-take-create.component.scss']
 })

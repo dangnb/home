@@ -6,6 +6,7 @@ import { TransactionService, CreateWastageTransactionRequest } from '../../../se
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../models/product';
 import { AlertService } from '../../../services/alert.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface WastageLineUI {
   product: Product;
@@ -16,7 +17,7 @@ interface WastageLineUI {
 @Component({
   selector: 'app-wastage-create',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './wastage-create.component.html',
   styleUrls: ['./wastage-create.component.scss']
 })

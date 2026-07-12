@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="h3 mb-0 text-gray-800">Tạo Phiếu Trả Hàng</h2>
+  <h2 class="h3 mb-0 text-gray-800">{{ 'RETURN_ORDERS.TXT_21' | translate }}</h2>
   <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm">
-    <i class="bi bi-arrow-left me-2"></i>Quay lại
+    <i class="bi bi-arrow-left me-2"></i>{{ 'RETURN_ORDERS.TXT_22' | translate }}
   </a>
 </div>
 
@@ -10,22 +10,22 @@
     <!-- Search Order Card -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tìm Đơn Hàng Gốc</h6>
+        <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURN_ORDERS.TXT_23' | translate }}</h6>
       </div>
       <div class="card-body">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nhập mã đơn hàng (VD: ORD-...)" 
+          <input type="text" class="form-control" [placeholder]="'RETURN_ORDERS.TXT_41' | translate" 
                  [(ngModel)]="searchOrderCode" (keyup.enter)="searchOrder()">
-          <button class="btn btn-primary" type="button" (click)="searchOrder()">Tìm kiếm</button>
+          <button class="btn btn-primary" type="button" (click)="searchOrder()">{{ 'RETURN_ORDERS.TXT_24' | translate }}</button>
         </div>
         
         @if (orderData) {
           <div class="mt-4 border-top pt-3">
-            <h6 class="fw-bold text-dark mb-3">Thông tin đơn hàng</h6>
-            <p class="mb-1"><span class="text-muted">Mã đơn:</span> <span class="fw-medium text-primary">{{ orderData.orderCode }}</span></p>
-            <p class="mb-1"><span class="text-muted">Khách hàng:</span> <span class="fw-medium">{{ orderData.customerName || 'Khách lẻ' }}</span></p>
-            <p class="mb-1"><span class="text-muted">Ngày mua:</span> <span class="fw-medium">{{ orderData.orderDate | date:'dd/MM/yyyy HH:mm' }}</span></p>
-            <p class="mb-1"><span class="text-muted">Tổng tiền:</span> <span class="fw-bold text-success">{{ orderData.totalAmount | number:'1.0-0' }}đ</span></p>
+            <h6 class="fw-bold text-dark mb-3">{{ 'RETURN_ORDERS.TXT_25' | translate }}</h6>
+            <p class="mb-1"><span class="text-muted">{{ 'RETURN_ORDERS.TXT_26' | translate }}</span> <span class="fw-medium text-primary">{{ orderData.orderCode }}</span></p>
+            <p class="mb-1"><span class="text-muted">{{ 'RETURN_ORDERS.TXT_27' | translate }}</span> <span class="fw-medium">{{ orderData.customerName || 'Khách lẻ' }}</span></p>
+            <p class="mb-1"><span class="text-muted">{{ 'RETURN_ORDERS.TXT_28' | translate }}</span> <span class="fw-medium">{{ orderData.orderDate | date:'dd/MM/yyyy HH:mm' }}</span></p>
+            <p class="mb-1"><span class="text-muted">{{ 'RETURN_ORDERS.TXT_29' | translate }}</span> <span class="fw-bold text-success">{{ orderData.totalAmount | number:'1.0-0' }}đ</span></p>
           </div>
         }
       </div>
@@ -36,13 +36,13 @@
     <!-- Return Form Card -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Sản phẩm hoàn trả</h6>
+        <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURN_ORDERS.TXT_30' | translate }}</h6>
       </div>
       <div class="card-body">
         @if (!orderData) {
           <div class="text-center py-5 text-muted">
             <i class="bi bi-cart-x fs-1 d-block mb-3"></i>
-            Vui lòng tìm kiếm đơn hàng để chọn sản phẩm hoàn trả
+            {{ 'RETURN_ORDERS.TXT_31' | translate }}
           </div>
         } @else {
           <form [formGroup]="returnForm" (ngSubmit)="onSubmit()">
@@ -51,11 +51,11 @@
               <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                   <tr>
-                    <th style="width: 50px;" class="text-center">Chọn</th>
-                    <th>Sản phẩm</th>
-                    <th class="text-end">Đơn giá</th>
-                    <th style="width: 120px;" class="text-center">SL Trả / Mua</th>
-                    <th class="text-end">Thành tiền</th>
+                    <th style="width: 50px;" class="text-center">{{ 'RETURN_ORDERS.TXT_32' | translate }}</th>
+                    <th>{{ 'RETURN_ORDERS.TXT_33' | translate }}</th>
+                    <th class="text-end">{{ 'RETURN_ORDERS.TXT_34' | translate }}</th>
+                    <th style="width: 120px;" class="text-center">{{ 'RETURN_ORDERS.TXT_35' | translate }}</th>
+                    <th class="text-end">{{ 'RETURN_ORDERS.TXT_36' | translate }}</th>
                   </tr>
                 </thead>
                 <tbody formArrayName="items">
@@ -90,7 +90,7 @@
                 </tbody>
                 <tfoot>
                   <tr class="table-light fw-bold">
-                    <td colspan="4" class="text-end text-dark">Tổng tiền hoàn trả:</td>
+                    <td colspan="4" class="text-end text-dark">{{ 'RETURN_ORDERS.TXT_37' | translate }}</td>
                     <td class="text-end text-danger fs-5">{{ totalRefundAmount | number:'1.0-0' }}đ</td>
                   </tr>
                 </tfoot>
@@ -98,17 +98,17 @@
             </div>
 
             <div class="mb-4">
-              <label class="form-label fw-bold">Lý do trả hàng</label>
-              <textarea class="form-control" formControlName="reason" rows="3" placeholder="Nhập lý do khách trả hàng (nếu có)"></textarea>
+              <label class="form-label fw-bold">{{ 'RETURN_ORDERS.TXT_38' | translate }}</label>
+              <textarea class="form-control" formControlName="reason" rows="3" [placeholder]="'RETURN_ORDERS.TXT_42' | translate"></textarea>
             </div>
 
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-primary btn-lg" [disabled]="isSubmitting || returnForm.invalid">
                 @if (isSubmitting) {
                   <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Đang xử lý...
+                  {{ 'RETURN_ORDERS.TXT_39' | translate }}
                 } @else {
-                  <i class="bi bi-check-circle me-2"></i>Tạo Phiếu Trả Hàng
+                  <i class="bi bi-check-circle me-2"></i>{{ 'RETURN_ORDERS.TXT_40' | translate }}
                 }
               </button>
             </div>

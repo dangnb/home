@@ -1,17 +1,17 @@
 <div class="card glass-panel border-0 shadow-sm">
   <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
-    <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> Cảnh báo hàng sắp hết</h5>
+    <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> {{ 'PRODUCTS.TXT_67' | translate }}</h5>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light text-muted">
           <tr>
-            <th class="ps-4 fw-semibold border-0">Sản phẩm</th>
-            <th class="fw-semibold border-0">Tồn kho hiện tại</th>
-            <th class="fw-semibold border-0">Mức tối thiểu</th>
-            <th class="fw-semibold border-0">Trạng thái</th>
-            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+            <th class="ps-4 fw-semibold border-0">{{ 'PRODUCTS.TXT_68' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_69' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_70' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_71' | translate }}</th>
+            <th class="fw-semibold border-0 text-end pe-4">{{ 'PRODUCTS.TXT_72' | translate }}</th>
           </tr>
         </thead>
         <tbody>
@@ -26,8 +26,8 @@
             <td colspan="5" class="text-center py-5 text-muted">
               <div class="d-flex flex-column align-items-center">
                 <i class="bi bi-check-circle-fill text-success fs-1 mb-2"></i>
-                <h6 class="fw-medium">Không có sản phẩm nào sắp hết</h6>
-                <p class="small text-muted mb-0">Tất cả hàng hóa đều ở mức an toàn</p>
+                <h6 class="fw-medium">{{ 'PRODUCTS.TXT_73' | translate }}</h6>
+                <p class="small text-muted mb-0">{{ 'PRODUCTS.TXT_74' | translate }}</p>
               </div>
             </td>
           </tr>
@@ -59,7 +59,7 @@
               </span>
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" title="Chỉnh sửa sản phẩm">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" [title]="'PRODUCTS.TXT_75' | translate">
                 <i class="bi bi-pencil"></i>
               </button>
             </td>

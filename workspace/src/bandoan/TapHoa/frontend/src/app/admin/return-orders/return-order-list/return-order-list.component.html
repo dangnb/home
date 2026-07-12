@@ -48,11 +48,11 @@
                 }
               </td>
               <td class="text-end">
-                <a [routerLink]="['/admin/return-orders', item.id]" class="btn btn-sm btn-outline-info me-1" title="Chi tiết">
+                <a [routerLink]="['/admin/return-orders', item.id]" class="btn btn-sm btn-outline-info me-1" [title]="'RETURN_ORDERS.TXT_2' | translate">
                   <i class="bi bi-eye"></i>
                 </a>
                 @if (item.status === 1) {
-                  <button class="btn btn-sm btn-outline-success" (click)="approve(item.id)" title="Duyệt">
+                  <button class="btn btn-sm btn-outline-success" (click)="approve(item.id)" [title]="'RETURN_ORDERS.TXT_3' | translate">
                     <i class="bi bi-check-circle"></i>
                   </button>
                 }
@@ -76,7 +76,7 @@
         <nav aria-label="Page navigation">
           <ul class="pagination mb-0">
             <li class="page-item" [class.disabled]="pageNumber === 1">
-              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(pageNumber - 1)">Trước</a>
+              <a class="page-link" href="javascript:void(0)" (click)="onPageChange(pageNumber - 1)">{{ 'RETURN_ORDERS.TXT_1' | translate }}</a>
             </li>
             @for (page of [].constructor(totalPages); track $index) {
               <li class="page-item" [class.active]="pageNumber === $index + 1">

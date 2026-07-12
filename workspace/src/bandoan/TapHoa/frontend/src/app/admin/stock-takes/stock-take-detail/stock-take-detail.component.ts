@@ -4,11 +4,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StockTakeService, StockTakeDetailDto, StockTakeStatus, StockTakeLineDto } from '../../../core/services/stock-take.service';
 import Swal from 'sweetalert2';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-stock-take-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './stock-take-detail.component.html',
   styleUrls: ['./stock-take-detail.component.scss']
 })

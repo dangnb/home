@@ -9,17 +9,17 @@
       <div class="overlay-content">
         <div class="logo">
           <img src="assets/images/logo.png" alt="Logo" class="brand-icon" />
-          <h2>Tạp Hóa</h2>
+          <h2>{{ 'AUTH.TXT_1' | translate }}</h2>
         </div>
         <div class="brand-text">
-          <h1>Quản trị dễ dàng,<br>Kinh doanh hiệu quả</h1>
-          <p>Hệ thống quản lý chuỗi siêu thị và siêu thị mini chuẩn Enterprise với CQRS & DDD Architecture.
+          <h1>{{ 'AUTH.TXT_2' | translate }}<br>{{ 'AUTH.TXT_3' | translate }}</h1>
+          <p>{{ 'AUTH.TXT_4' | translate }}
           </p>
         </div>
         <div class="features-list">
-          <span>✅ Bán hàng POS</span>
-          <span>✅ Kho hàng WMS</span>
-          <span>✅ Phân quyền RBAC</span>
+          <span>{{ 'AUTH.TXT_5' | translate }}</span>
+          <span>{{ 'AUTH.TXT_6' | translate }}</span>
+          <span>{{ 'AUTH.TXT_7' | translate }}</span>
         </div>
       </div>
     </div>
@@ -28,8 +28,8 @@
       <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
 
         <div class="form-header">
-          <h1 class="welcome-text">Đăng Nhập</h1>
-          <p class="subtitle">Truy cập vào hệ thống quản trị nội bộ</p>
+          <h1 class="welcome-text">{{ 'AUTH.TXT_8' | translate }}</h1>
+          <p class="subtitle">{{ 'AUTH.TXT_9' | translate }}</p>
         </div>
 
         @if (errorMsg) {
@@ -40,18 +40,18 @@
         }
 
         <div class="auth-input-group mt-2">
-          <label>Tên đăng nhập</label>
+          <label>{{ 'AUTH.TXT_10' | translate }}</label>
           <div class="auth-input-wrapper">
             <span class="input-icon">👤</span>
             <input type="text" name="username" [(ngModel)]="loginData.username" required
-              placeholder="Tên đăng nhập..." autocomplete="off" />
+              [placeholder]="'AUTH.TXT_14' | translate" autocomplete="off" />
             </div>
           </div>
 
           <div class="auth-input-group">
             <div class="label-row">
-              <label>Mật khẩu</label>
-              <a href="#" class="forgot-link">Quên mật khẩu?</a>
+              <label>{{ 'AUTH.TXT_11' | translate }}</label>
+              <a href="#" class="forgot-link">{{ 'AUTH.TXT_12' | translate }}</a>
             </div>
             <div class="auth-input-wrapper">
               <span class="input-icon">🔒</span>
@@ -66,7 +66,7 @@
             <button type="submit" class="btn-login" [class.loading]="isLoading"
               [disabled]="!loginForm.form.valid || isLoading">
               @if (!isLoading) {
-                <span class="btn-text">Đăng Nhập Ngay 🚀</span>
+                <span class="btn-text">{{ 'AUTH.TXT_13' | translate }}</span>
               }
               @if (isLoading) {
                 <span class="loader"></span>

@@ -127,7 +127,7 @@
           <tr>
             <td colspan="8" class="text-center py-5 text-muted">
               <span class="fs-1 d-block mb-3">📭</span>
-              Không có sản phẩm nào phù hợp.
+              {{ 'PRODUCTS.TXT_65' | translate }}
             </td>
           </tr>
           }
@@ -280,7 +280,7 @@
                 </button>
                 <div class="mb-2">
                   <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.UNIT_NAME' | translate }}</label>
-                  <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid rounded-3" placeholder="VD: Thùng, Lốc">
+                  <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid rounded-3" [placeholder]="'PRODUCTS.TXT_66' | translate">
                 </div>
                 <div class="mb-2">
                   <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.CONVERSION' | translate }}</label>

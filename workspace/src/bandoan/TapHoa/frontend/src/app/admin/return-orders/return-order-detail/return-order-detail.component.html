@@ -1,12 +1,12 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="h3 mb-0 text-gray-800">Chi tiết Phiếu Trả Hàng</h2>
+  <h2 class="h3 mb-0 text-gray-800">{{ 'RETURN_ORDERS.TXT_4' | translate }}</h2>
   <div>
     <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm me-2">
-      <i class="bi bi-arrow-left me-2"></i>Danh sách
+      <i class="bi bi-arrow-left me-2"></i>{{ 'RETURN_ORDERS.TXT_5' | translate }}
     </a>
     @if (returnOrder?.status === 1) {
       <button class="btn btn-success shadow-sm" (click)="approve()">
-        <i class="bi bi-check-circle me-2"></i>Duyệt phiếu
+        <i class="bi bi-check-circle me-2"></i>{{ 'RETURN_ORDERS.TXT_6' | translate }}
       </button>
     }
   </div>
@@ -23,11 +23,11 @@
     <div class="col-xl-4 col-lg-5">
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Thông tin chung</h6>
+          <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURN_ORDERS.TXT_7' | translate }}</h6>
         </div>
         <div class="card-body">
           <div class="mb-3">
-            <span class="text-muted d-block small">Trạng thái</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_8' | translate }}</span>
             @if (returnOrder.status === 1) {
               <span class="badge bg-warning text-dark">Pending</span>
             } @else if (returnOrder.status === 2) {
@@ -37,29 +37,29 @@
             }
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Mã phiếu trả</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_9' | translate }}</span>
             <span class="fw-bold fs-5">{{ returnOrder.returnCode }}</span>
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Mã đơn hàng gốc</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_10' | translate }}</span>
             <a [routerLink]="['/admin/orders', returnOrder.originalOrderId]" class="fw-bold text-primary text-decoration-none">
               {{ returnOrder.originalOrderCode }} <i class="bi bi-box-arrow-up-right small"></i>
             </a>
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Khách hàng</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_11' | translate }}</span>
             <span class="fw-medium">{{ returnOrder.customerName }}</span>
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Ngày lập</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_12' | translate }}</span>
             <span class="fw-medium">{{ returnOrder.returnDate | date:'dd/MM/yyyy HH:mm' }}</span>
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Người lập</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_13' | translate }}</span>
             <span class="fw-medium">{{ returnOrder.createdBy }}</span>
           </div>
           <div class="mb-3">
-            <span class="text-muted d-block small">Lý do</span>
+            <span class="text-muted d-block small">{{ 'RETURN_ORDERS.TXT_14' | translate }}</span>
             <p class="mb-0 text-dark">{{ returnOrder.reason || 'Không có lý do' }}</p>
           </div>
         </div>
@@ -69,17 +69,17 @@
     <div class="col-xl-8 col-lg-7">
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Sản phẩm hoàn trả</h6>
+          <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURN_ORDERS.TXT_15' | translate }}</h6>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light">
                 <tr>
-                  <th>Sản phẩm</th>
-                  <th class="text-end">Đơn giá hoàn</th>
-                  <th class="text-center">Số lượng</th>
-                  <th class="text-end">Thành tiền</th>
+                  <th>{{ 'RETURN_ORDERS.TXT_16' | translate }}</th>
+                  <th class="text-end">{{ 'RETURN_ORDERS.TXT_17' | translate }}</th>
+                  <th class="text-center">{{ 'RETURN_ORDERS.TXT_18' | translate }}</th>
+                  <th class="text-end">{{ 'RETURN_ORDERS.TXT_19' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,7 +99,7 @@
               </tbody>
               <tfoot>
                 <tr class="table-light fw-bold">
-                  <td colspan="3" class="text-end text-dark">Tổng tiền hoàn trả:</td>
+                  <td colspan="3" class="text-end text-dark">{{ 'RETURN_ORDERS.TXT_20' | translate }}</td>
                   <td class="text-end text-danger fs-5">{{ returnOrder.refundAmount | number:'1.0-0' }}đ</td>
                 </tr>
               </tfoot>

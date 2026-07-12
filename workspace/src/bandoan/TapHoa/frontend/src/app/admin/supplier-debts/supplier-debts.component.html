@@ -128,11 +128,11 @@
           <thead class="table-light sticky-top">
             <tr>
               <th>{{ 'SUPPLIER_DEBTS.COL_DATE' | translate }}</th>
-              <th>Hạn Trả</th>
+              <th>{{ 'SUPPLIER_DEBTS.TXT_25' | translate }}</th>
               <th>{{ 'SUPPLIER_DEBTS.COL_TYPE' | translate }}</th>
               <th class="text-end">{{ 'SUPPLIER_DEBTS.COL_AMOUNT' | translate }}</th>
-              <th class="text-end">Đã Trả (₫)</th>
-              <th class="text-end">Còn Lại (₫)</th>
+              <th class="text-end">{{ 'SUPPLIER_DEBTS.TXT_26' | translate }}</th>
+              <th class="text-end">{{ 'SUPPLIER_DEBTS.TXT_27' | translate }}</th>
               <th>{{ 'SUPPLIER_DEBTS.COL_NOTE' | translate }}</th>
               <th class="text-center">{{ 'SUPPLIER_DEBTS.COL_ACTIONS' | translate }}</th>
             </tr>
@@ -217,12 +217,12 @@
           <label class="form-label small fw-bold text-dark mb-1">{{ 'SUPPLIER_DEBTS.LBL_PAY_AMOUNT' | translate }} <span class="text-danger">*</span></label>
           <div class="input-group input-group-solid">
             <input type="text" appNumberFormat class="form-control form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
-            <span class="input-group-text bg-light border-0 rounded-end-3">đ</span>
+            <span class="input-group-text bg-light border-0 rounded-end-3">{{ 'SUPPLIER_DEBTS.TXT_28' | translate }}</span>
           </div>
         </div>
         @if (modalMode === 'record') {
           <div class="col-12">
-            <label class="form-label small fw-bold text-dark mb-1">Hạn trả (Tùy chọn)</label>
+            <label class="form-label small fw-bold text-dark mb-1">{{ 'SUPPLIER_DEBTS.TXT_29' | translate }}</label>
             <input type="date" class="form-control form-control-solid rounded-3 py-2" name="dueDate" [(ngModel)]="formData.dueDate">
           </div>
         }

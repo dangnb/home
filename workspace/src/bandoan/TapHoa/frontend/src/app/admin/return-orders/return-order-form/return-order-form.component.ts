@@ -5,11 +5,12 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, F
 import { ReturnOrderService } from '../../../services/return-order.service';
 import { OrderService } from '../../../services/order.service';
 import { AlertService } from '../../../services/alert.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-return-order-form',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './return-order-form.component.html'
 })
 export class ReturnOrderFormComponent implements OnInit {
