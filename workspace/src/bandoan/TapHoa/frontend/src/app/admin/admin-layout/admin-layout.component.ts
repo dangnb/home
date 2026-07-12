@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, HostListener, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener, ElementRef, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -37,7 +37,11 @@ export class AdminLayoutComponent {
       return this.lowStockCount + this.expiringCount;
   }
 
-  constructor(private productService: ProductService, private eRef: ElementRef, public langService: LanguageService) {
+  private productService = inject(ProductService);
+  private eRef = inject(ElementRef);
+  public langService = inject(LanguageService);
+
+  constructor() {
     this.languages = this.langService.languages;
     this.langService.init();
   }

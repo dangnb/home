@@ -1,13 +1,13 @@
 <div class="premium-card mb-4">
   <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
     <h5 class="mb-0 fw-bold text-dark fs-5">
-      <span class="me-2 fs-5">🛒</span> Đơn mua hàng (Purchase Orders)
+      <span class="me-2 fs-5">🛒</span> {{ 'PURCHASE_ORDERS.TITLE' | translate }}
     </h5>
     
     <div class="d-flex align-items-center gap-3">
       <button class="btn btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders/create">
         <i class="bi bi-plus-lg"></i>
-        <span>Tạo phiếu mua</span>
+        <span>{{ 'PURCHASE_ORDERS.CREATE_BTN' | translate }}</span>
       </button>
     </div>
   </div>
@@ -17,21 +17,21 @@
       <table class="table table-hover align-middle mb-0 data-table">
         <thead class="table-light text-muted">
           <tr>
-            <th class="ps-4 fw-semibold border-0 rounded-start">Mã Đơn</th>
-            <th class="fw-semibold border-0">Nhà cung cấp</th>
-            <th class="fw-semibold border-0">Ngày đặt</th>
-            <th class="fw-semibold border-0">Ngày nhận (Dự kiến)</th>
-            <th class="fw-semibold border-0 text-end">Tổng tiền</th>
-            <th class="fw-semibold border-0 text-end">Đã thanh toán</th>
-            <th class="fw-semibold border-0 text-center">Trạng thái</th>
-            <th class="fw-semibold border-0 text-end pe-4 rounded-end">Thao tác</th>
+            <th class="ps-4 fw-semibold border-0 rounded-start">{{ 'PURCHASE_ORDERS.COL_CODE' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'PURCHASE_ORDERS.COL_SUPPLIER' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'COMMON.DATE' | translate }}</th>
+            <th class="fw-semibold border-0">{{ 'PURCHASE_ORDERS.COL_DATE' | translate }}</th>
+            <th class="fw-semibold border-0 text-end">{{ 'PURCHASE_ORDERS.COL_TOTAL' | translate }}</th>
+            <th class="fw-semibold border-0 text-end">{{ 'PURCHASE_ORDERS.COL_PAID' | translate }}</th>
+            <th class="fw-semibold border-0 text-center">{{ 'PURCHASE_ORDERS.COL_STATUS' | translate }}</th>
+            <th class="fw-semibold border-0 text-end pe-4 rounded-end">{{ 'PURCHASE_ORDERS.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="isLoading">
             <td colspan="8" class="text-center py-5">
               <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Đang tải...</span>
+                <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
               </div>
             </td>
           </tr>
@@ -49,11 +49,11 @@
             <td class="text-end">{{ order.amountPaid | number:'1.0-0' }} ₫</td>
             <td class="text-center">
               <span class="badge rounded-pill px-3 py-2" [ngClass]="getStatusBadgeClass(order.status)">
-                {{ getStatusLabel(order.status) }}
+                {{ 'PURCHASE_ORDERS.STATUS.' + getEnumString(order.status) | translate }}
               </span>
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/purchase-orders', order.id]" title="Xem chi tiết">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/purchase-orders', order.id]" [title]="'COMMON.VIEW_DETAIL' | translate">
                 <i class="bi bi-eye"></i>
               </button>
             </td>
@@ -62,7 +62,7 @@
           <tr *ngIf="!isLoading && purchaseOrders.length === 0">
             <td colspan="8" class="text-center py-5 text-muted">
               <span class="fs-1 d-block mb-3">📭</span>
-              Không có đơn mua hàng nào.
+              {{ 'COMMON.NO_DATA' | translate }}
             </td>
           </tr>
         </tbody>

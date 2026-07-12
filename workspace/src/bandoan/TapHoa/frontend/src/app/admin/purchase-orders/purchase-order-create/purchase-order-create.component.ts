@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PurchaseOrderService, CreatePurchaseOrderDto } from '../../../services/purchase-order.service';
 import { SupplierService } from '../../../services/supplier.service';
 import { ProductService } from '../../../services/product.service';
@@ -11,11 +12,18 @@ import { NumberFormatDirective } from '../../../shared/directives/number-format.
 @Component({
   selector: 'app-purchase-order-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NumberFormatDirective],
+  imports: [CommonModule, FormsModule, RouterLink, NumberFormatDirective, TranslateModule],
   templateUrl: './purchase-order-create.component.html',
   styleUrl: './purchase-order-create.component.scss'
 })
 export class PurchaseOrderCreateComponent implements OnInit {
+  private poService = inject(PurchaseOrderService);
+  private supplierService = inject(SupplierService);
+  private productService = inject(ProductService);
+  private alertService = inject(AlertService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+
   suppliers: any[] = [];
   products: any[] = [];
   
@@ -32,17 +40,15 @@ export class PurchaseOrderCreateComponent implements OnInit {
 
   isSubmitting = false;
 
-  constructor(
-    private poService: PurchaseOrderService,
-    private supplierService: SupplierService,
-    private productService: ProductService,
-    private alertService: AlertService,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
-    this.supplierService.getSuppliers().subscribe(data => this.suppliers = data);
-    this.productService.getProducts().subscribe(data => this.products = data);
+    this.supplierService.getSuppliers().subscribe(data => {
+      this.suppliers = data;
+      this.cdr.detectChanges();
+    });
+    this.productService.getProducts().subscribe(data => {
+      this.products = data;
+      this.cdr.detectChanges();
+    });
   }
 
   addProduct(): void {
@@ -118,6 +124,7 @@ export class PurchaseOrderCreateComponent implements OnInit {
         console.error('Error creating PO:', err);
         this.alertService.error('Có lỗi xảy ra khi tạo đơn mua hàng');
         this.isSubmitting = false;
+        this.cdr.detectChanges();
       }
     });
   }

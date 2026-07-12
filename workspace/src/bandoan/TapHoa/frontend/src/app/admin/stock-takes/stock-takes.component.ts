@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StockTakeService, StockTakeDto, StockTakeStatus } from '../../core/services/stock-take.service';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-stock-takes',
@@ -21,11 +20,11 @@ export class StockTakesComponent implements OnInit {
   isLoading = false;
   StockTakeStatus = StockTakeStatus;
 
-  constructor(
-    private stockTakeService: StockTakeService,
-    private cdr: ChangeDetectorRef,
-    private translate: TranslateService
-  ) {}
+  private stockTakeService = inject(StockTakeService);
+  private cdr = inject(ChangeDetectorRef);
+  private translate = inject(TranslateService);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.loadStockTakes();

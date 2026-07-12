@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Role } from '../models/role';
@@ -12,7 +12,7 @@ export class RoleService {
     // but building the real API endpoint is better. We will point to real API.
     private apiUrl = `${environment.apiUrl}/roles`;
 
-    constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
     getRoles(): Observable<Role[]> {
         return this.http.get<Role[]>(this.apiUrl);

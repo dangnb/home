@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
@@ -15,10 +15,10 @@ export class LowStockComponent implements OnInit {
   products: Product[] = [];
   isLoading = false;
 
-  constructor(
-    private productService: ProductService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  private productService = inject(ProductService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.loadLowStockProducts();

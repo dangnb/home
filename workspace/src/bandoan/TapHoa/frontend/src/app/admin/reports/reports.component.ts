@@ -67,10 +67,10 @@ export class ReportsComponent implements OnInit {
   private translate = inject(TranslateService);
   private cdr = inject(ChangeDetectorRef);
 
-  constructor(
-    private reportService: ReportService,
-    private datePipe: DatePipe
-  ) {}
+  private reportService = inject(ReportService);
+  private datePipe = inject(DatePipe);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.applyFilter();

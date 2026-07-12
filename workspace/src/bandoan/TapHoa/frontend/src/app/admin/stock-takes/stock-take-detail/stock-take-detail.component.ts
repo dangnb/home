@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -35,12 +35,12 @@ export class StockTakeDetailComponent implements OnInit {
     return this.stockTake.lines.every(l => l.actualQuantity !== null && l.actualQuantity !== undefined);
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private stockTakeService: StockTakeService,
-    private cdr: ChangeDetectorRef
-  ) { }
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private stockTakeService = inject(StockTakeService);
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor() { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

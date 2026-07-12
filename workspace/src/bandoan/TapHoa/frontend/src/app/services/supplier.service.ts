@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -20,7 +20,7 @@ export interface Supplier {
 export class SupplierService {
   private apiUrl = `${environment.apiUrl}/suppliers`;
 
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   getSuppliers(): Observable<Supplier[]> {
     return this.http.get<Supplier[]>(this.apiUrl);

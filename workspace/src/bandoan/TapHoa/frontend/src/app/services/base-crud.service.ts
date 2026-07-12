@@ -1,11 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export abstract class BaseCrudService<T> {
-    protected constructor(
-        protected http: HttpClient,
-        protected apiUrl: string
-    ) { }
+    protected http = inject(HttpClient);
+    protected abstract apiUrl: string;
 
     getAll(queryParams?: any): Observable<T[]> {
         let params = new HttpParams();

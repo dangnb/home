@@ -37,7 +37,10 @@ export class ModalComponent implements OnInit, OnDestroy {
     @Input() closeOnBackdrop: boolean = true;
     @Output() closeDialog = new EventEmitter<void>();
 
-    constructor(private el: ElementRef, private renderer: Renderer2) {}
+    private el = inject(ElementRef);
+    private renderer = inject(Renderer2);
+
+    constructor() {}
 
     ngOnInit(): void {
         this.renderer.appendChild(document.body, this.el.nativeElement);

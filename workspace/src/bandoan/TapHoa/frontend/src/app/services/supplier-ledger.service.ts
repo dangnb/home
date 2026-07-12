@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -34,7 +34,7 @@ export interface SupplierDebtTransactionDto {
 export class SupplierLedgerService {
   private apiUrl = `${environment.apiUrl}/supplier-ledger`;
 
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
 
   getSupplierDebts(): Observable<SupplierDebtDto[]> {
     return this.http.get<SupplierDebtDto[]>(this.apiUrl);

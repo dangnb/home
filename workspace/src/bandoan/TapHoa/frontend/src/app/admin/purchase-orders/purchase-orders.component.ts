@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { PurchaseOrderService, PurchaseOrder } from '../../services/purchase-order.service';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-purchase-orders',
   standalone: true,
-  imports: [CommonModule, RouterLink, PaginationComponent],
+  imports: [CommonModule, RouterLink, PaginationComponent, TranslateModule],
   templateUrl: './purchase-orders.component.html',
   styleUrl: './purchase-orders.component.scss'
 })
 export class PurchaseOrdersComponent implements OnInit {
+  private poService = inject(PurchaseOrderService);
+  private cdr = inject(ChangeDetectorRef);
+
   purchaseOrders: PurchaseOrder[] = [];
   isLoading = true;
   currentPage = 1;
   pageSize = 10;
   totalCount = 0;
-
-  constructor(private poService: PurchaseOrderService) {}
 
   ngOnInit(): void {
     this.loadPurchaseOrders();
@@ -31,10 +33,12 @@ export class PurchaseOrdersComponent implements OnInit {
         this.purchaseOrders = res;
         this.totalCount = res.length;
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading purchase orders:', err);
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -50,23 +54,25 @@ export class PurchaseOrdersComponent implements OnInit {
     this.loadPurchaseOrders();
   }
 
-  getStatusBadgeClass(status: string): string {
-    switch (status) {
+  getEnumString(status: any): string {
+    if (typeof status === 'string') return status;
+    const map: Record<number, string> = {
+      0: 'Draft',
+      1: 'Processing',
+      2: 'Completed',
+      3: 'Cancelled'
+    };
+    return map[status] || 'Draft';
+  }
+
+  getStatusBadgeClass(status: any): string {
+    const s = this.getEnumString(status);
+    switch (s) {
       case 'Draft': return 'bg-secondary text-white';
       case 'Processing': return 'bg-primary text-white';
       case 'Completed': return 'bg-success text-white';
       case 'Cancelled': return 'bg-danger text-white';
       default: return 'bg-light text-dark';
-    }
-  }
-
-  getStatusLabel(status: string): string {
-    switch (status) {
-      case 'Draft': return 'Nháp';
-      case 'Processing': return 'Đang xử lý';
-      case 'Completed': return 'Hoàn thành';
-      case 'Cancelled': return 'Đã hủy';
-      default: return status;
     }
   }
 }

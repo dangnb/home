@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -18,12 +18,12 @@ export class StockTakeCreateComponent implements OnInit {
   categories: Category[] = [];
   isSubmitting = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private stockTakeService: StockTakeService,
-    private categoryService: CategoryService,
-    private router: Router
-  ) {
+  private fb = inject(FormBuilder);
+  private stockTakeService = inject(StockTakeService);
+  private categoryService = inject(CategoryService);
+  private router = inject(Router);
+
+  constructor() {
     this.createForm = this.fb.group({
       documentNo: ['', Validators.required],
       notes: [''],

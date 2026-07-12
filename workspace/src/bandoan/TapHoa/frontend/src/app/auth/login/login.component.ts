@@ -20,7 +20,10 @@ export class LoginComponent {
   errorMsg = '';
   showPassword = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() { }
 
   onSubmit() {
     this.isLoading = true;

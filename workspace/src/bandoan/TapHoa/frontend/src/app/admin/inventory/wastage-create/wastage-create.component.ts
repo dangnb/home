@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -29,12 +29,12 @@ export class WastageCreateComponent implements OnInit {
   selectedProductId: string = '';
   isSubmitting = false;
 
-  constructor(
-    private transactionService: TransactionService,
-    private productService: ProductService,
-    private alertService: AlertService,
-    private router: Router
-  ) {}
+  private transactionService = inject(TransactionService);
+  private productService = inject(ProductService);
+  private alertService = inject(AlertService);
+  private router = inject(Router);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(res => {
