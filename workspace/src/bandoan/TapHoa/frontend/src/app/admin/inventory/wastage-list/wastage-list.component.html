@@ -1,55 +1,71 @@
-<div class="card glass-panel border-0 shadow-sm">
-  <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
-    <h5 class="mb-0 fw-bold"><i class="bi bi-trash3 text-danger me-2"></i> Phiếu xuất hủy hàng hóa</h5>
-    <button class="btn btn-danger btn-sm rounded-pill px-3" routerLink="/admin/inventory/wastage/create">
-      <i class="bi bi-plus-lg me-1"></i> Tạo phiếu xuất hủy
-    </button>
+<div class="wst-page">
+  <!-- Header -->
+  <div class="wst-header">
+    <div class="wst-header__left">
+      <div class="wst-header__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>
+        </svg>
+      </div>
+      <div>
+        <span class="wst-header__title">Phiếu Xuất Hủy Hàng Hóa</span>
+        <span class="wst-header__sub">Quản lý phiếu hủy hàng tồn kho bị hỏng, hết hạn.</span>
+      </div>
+    </div>
+    <a routerLink="/admin/inventory/wastage/create" class="wst-btn-create">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Tạo phiếu xuất hủy
+    </a>
   </div>
-  <div class="card-body p-0">
+
+  <!-- Table -->
+  <div class="wst-table-wrap">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light text-muted">
+      <table class="wst-table">
+        <thead>
           <tr>
-            <th class="ps-4 fw-semibold border-0">Mã phiếu</th>
-            <th class="fw-semibold border-0">Ngày tạo</th>
-            <th class="fw-semibold border-0">Người tạo</th>
-            <th class="fw-semibold border-0">Trạng thái</th>
-            <th class="fw-semibold border-0">Lý do/Ghi chú</th>
-            <th class="fw-semibold border-0 text-end pe-4">Thao tác</th>
+            <th class="ps-3">MÃ PHIẾU</th>
+            <th>NGÀY TẠO</th>
+            <th>NGƯỜI TẠO</th>
+            <th>TRẠNG THÁI</th>
+            <th>LÝ DO / GHI CHÚ</th>
+            <th class="text-end pe-3">THAO TÁC</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="isLoading">
-            <td colspan="6" class="text-center py-4">
-              <div class="spinner-border text-danger" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+          @if (isLoading) {
+          <tr><td colspan="6" class="wst-table__empty">
+            <div class="wst-spinner"></div>
+            <span>Đang tải dữ liệu...</span>
+          </td></tr>
+          }
+          @if (!isLoading && transactions.length === 0) {
+          <tr><td colspan="6" class="wst-table__empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span>Chưa có phiếu xuất hủy nào</span>
+          </td></tr>
+          }
+          @for (item of transactions; track item.id) {
+          <tr class="wst-table__row">
+            <td class="ps-3">
+              <a [routerLink]="['/admin/transactions', item.id]" class="wst-code">#{{ item.code }}</a>
             </td>
-          </tr>
-          <tr *ngIf="!isLoading && transactions.length === 0">
-            <td colspan="6" class="text-center py-4 text-muted">
-              Chưa có phiếu xuất hủy nào
-            </td>
-          </tr>
-          <tr *ngFor="let item of transactions" class="border-bottom">
-            <td class="ps-4 fw-medium text-danger">#{{ item.code }}</td>
-            <td>{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="wst-date">{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ item.createdBy }}</td>
             <td>
-              <span class="badge rounded-pill fw-normal" [ngClass]="getStatusClass(item.status)">
+              <span class="wst-status" [ngClass]="getStatusClass(item.status)">
                 {{ getStatusText(item.status) }}
               </span>
             </td>
-            <td class="text-muted small text-truncate" style="max-width: 200px;" [title]="item.notes || ''">
-              {{ item.notes || '-' }}
-            </td>
-            <td class="text-end pe-4">
-              <!-- We don't have a detail page specifically for wastage yet, we can view it later -->
-              <button class="btn btn-sm btn-outline-danger rounded-circle" title="Chi tiết">
-                <i class="bi bi-eye"></i>
-              </button>
+            <td class="wst-notes" [title]="item.notes || ''">{{ item.notes || '—' }}</td>
+            <td class="text-end pe-3">
+              <a [routerLink]="['/admin/transactions', item.id]" class="wst-action-btn" title="Chi tiết">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </a>
             </td>
           </tr>
+          }
         </tbody>
       </table>
     </div>

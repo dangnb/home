@@ -1,147 +1,214 @@
-<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
-  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
-    <div>
-      <h5 class="mb-1 fw-bold text-dark fs-5">
-        <span class="me-2 fs-5">📦</span>Tồn Kho Tức Thời (Real-time WMS)
-      </h5>
-      <p class="text-muted mb-0 fs-7">Dữ liệu lấy trực tiếp từ StockLevel, đồng bộ liên tục với toàn bộ sổ cái nghiệp vụ Nhập/Xuất/Kiểm kê.</p>
-    </div>
-    
-    <div class="d-flex align-items-center gap-3">
-      <div class="search-input-wrapper">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+<div class="inv-page" (click)="activeDropdownRowId = null">
+  <!-- ===== HEADER BAR ===== -->
+  <div class="inv-header">
+    <div class="inv-header__left">
+      <div class="inv-header__icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
         </svg>
-        <input type="text" class="w-100" placeholder="Tìm kiếm tên sản phẩm, barcode..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
-      <button class="btn btn-light d-flex align-items-center gap-2 fw-bold text-nowrap" (click)="fetchStock()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 2v6h-6"></path>
-          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-          <path d="M3 22v-6h6"></path>
-          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+      <div>
+        <h4 class="inv-header__title">Báo Cáo Tồn Kho</h4>
+        <p class="inv-header__sub">Tồn đầu kỳ • Nhập/Xuất/Hủy • Tồn cuối kỳ — theo khoảng thời gian.</p>
+      </div>
+    </div>
+    <div class="inv-header__actions">
+      <select class="inv-select" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
+        <option value="today">📅 Hôm nay</option>
+        <option value="thisWeek">📆 Tuần này</option>
+        <option value="thisMonth">🗓️ Tháng này</option>
+        <option value="lastMonth">⏪ Tháng trước</option>
+        <option value="thisYear">📊 Năm nay</option>
+        <option value="custom">🔧 Tùy chọn...</option>
+      </select>
+      @if (filterType === 'custom') {
+      <input type="date" class="inv-date-input" [(ngModel)]="customFromDate" (change)="onFilterChange()">
+      <span class="inv-date-arrow">→</span>
+      <input type="date" class="inv-date-input" [(ngModel)]="customToDate" (change)="onFilterChange()">
+      }
+      <div class="inv-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        Làm mới
+        <input type="text" placeholder="Tìm sản phẩm..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      </div>
+      <button class="inv-btn-refresh" (click)="applyFilter()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+          <path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+        </svg>
       </button>
     </div>
   </div>
 
-  @if (lowStockProducts.length > 0 || expiringBatches.length > 0) {
-  <div class="p-4 bg-light border-bottom border-warning">
-    <div class="row g-4">
-      @if (lowStockProducts.length > 0) {
-      <div class="col-md-6">
-        <div class="alert alert-warning border-0 shadow-sm h-100 mb-0 d-flex flex-column rounded-4">
-          <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
-            <span class="fs-4 me-2">⚠️</span> Cảnh báo Tồn kho thấp
-          </h5>
-          <ul class="list-group list-group-flush bg-transparent rounded-3 border">
-            @for (ls of lowStockProducts; track ls.productId) {
-            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
-              <span class="fw-medium text-dark">{{ ls.productName }}</span>
-              <span class="badge bg-danger rounded-pill px-3">{{ ls.availableQuantity }} / {{ ls.reorderPoint }}</span>
-            </li>
-            }
-          </ul>
-        </div>
+  <!-- ===== KPI CARDS ===== -->
+  @if (reportSummary) {
+  <div class="inv-kpi-row">
+    <div class="inv-kpi-card inv-kpi-card--blue">
+      <div class="inv-kpi-card__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
       </div>
-      }
-
-      @if (expiringBatches.length > 0) {
-      <div class="col-md-6">
-        <div class="alert alert-danger border-0 shadow-sm h-100 mb-0 d-flex flex-column rounded-4">
-          <h5 class="fw-bold mb-3 text-dark d-flex align-items-center">
-            <span class="fs-4 me-2">⏳</span> Lô hàng sắp hết hạn (FEFO)
-          </h5>
-          <ul class="list-group list-group-flush bg-transparent rounded-3 border">
-            @for (exp of expiringBatches; track exp.batchId) {
-            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
-              <div>
-                <span class="fw-medium text-dark d-block">{{ exp.productName }}</span>
-                <small class="text-muted">Lô: {{ exp.batchNumber }} - Tồn: <b class="text-danger">{{ exp.quantityOnHand }}</b></small>
-              </div>
-              <span class="badge bg-danger rounded-pill px-3 py-2">
-                HSD: {{ exp.expiryDate | date:'dd/MM/yyyy' }}
-              </span>
-            </li>
-            }
-          </ul>
-        </div>
+      <div class="inv-kpi-card__data">
+        <span class="inv-kpi-card__value">{{ reportSummary.totalSku }}</span>
+        <span class="inv-kpi-card__label">Tổng SKU</span>
       </div>
-      }
+    </div>
+    <div class="inv-kpi-card inv-kpi-card--green">
+      <div class="inv-kpi-card__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+      </div>
+      <div class="inv-kpi-card__data">
+        <span class="inv-kpi-card__value">{{ reportSummary.totalInventoryValue | number:'1.0-0' }}<small>₫</small></span>
+        <span class="inv-kpi-card__label">Giá trị tồn kho</span>
+      </div>
+    </div>
+    <div class="inv-kpi-card inv-kpi-card--amber">
+      <div class="inv-kpi-card__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      </div>
+      <div class="inv-kpi-card__data">
+        <span class="inv-kpi-card__value">{{ reportSummary.lowStockCount }}</span>
+        <span class="inv-kpi-card__label">Sắp hết hàng</span>
+      </div>
+    </div>
+    <div class="inv-kpi-card inv-kpi-card--red">
+      <div class="inv-kpi-card__icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+      </div>
+      <div class="inv-kpi-card__data">
+        <span class="inv-kpi-card__value">{{ reportSummary.outOfStockCount }}</span>
+        <span class="inv-kpi-card__label">Hết hàng</span>
+      </div>
     </div>
   </div>
   }
 
-  <div class="bg-white p-3">
+  <!-- ===== ALERT PANELS ===== -->
+  @if (lowStockProducts.length > 0 || expiringBatches.length > 0) {
+  <div class="inv-alerts">
+    @if (lowStockProducts.length > 0) {
+    <div class="inv-alert inv-alert--warning">
+      <div class="inv-alert__header">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Cảnh báo Tồn kho thấp</span>
+      </div>
+      <div class="inv-alert__body">
+        @for (ls of lowStockProducts; track ls.productId) {
+        <div class="inv-alert__item">
+          <span>{{ ls.productName }}</span>
+          <span class="inv-alert__badge inv-alert__badge--danger">{{ ls.availableQuantity }} / {{ ls.reorderPoint }}</span>
+        </div>
+        }
+      </div>
+    </div>
+    }
+    @if (expiringBatches.length > 0) {
+    <div class="inv-alert inv-alert--danger">
+      <div class="inv-alert__header">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Lô hàng sắp hết hạn</span>
+      </div>
+      <div class="inv-alert__body">
+        @for (exp of expiringBatches; track exp.batchId) {
+        <div class="inv-alert__item">
+          <div>
+            <span class="fw-medium">{{ exp.productName }}</span>
+            <small class="text-muted d-block">Lô: {{ exp.batchNumber }} • Tồn: <b class="text-danger">{{ exp.quantityOnHand }}</b></small>
+          </div>
+          <span class="inv-alert__badge inv-alert__badge--danger">HSD: {{ exp.expiryDate | date:'dd/MM/yyyy' }}</span>
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- ===== DATA TABLE ===== -->
+  <div class="inv-table-wrap">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0 custom-table">
-        <thead class="table-light">
+      <table class="inv-table">
+        <thead>
           <tr>
-            <th scope="col" class="ps-4">SẢN PHẨM</th>
-            <th scope="col" class="d-none d-lg-table-cell">BARCODE</th>
-            <th scope="col" class="text-center">TỒN THỰC TẾ</th>
-            <th scope="col" class="text-center d-none d-md-table-cell">CÓ THỂ BÁN</th>
-            <th scope="col" class="d-none d-xl-table-cell">LẦN CẬP NHẬT GẦN NHẤT</th>
-            <th scope="col" class="d-none d-lg-table-cell">TRẠNG THÁI</th>
-            <th scope="col" class="text-end pe-4">THAO TÁC</th>
+            <th class="inv-table__th--product">SẢN PHẨM</th>
+            <th class="d-none d-lg-table-cell">ĐVT</th>
+            <th class="text-center">ĐẦU KỲ</th>
+            <th class="text-center inv-th--in">NHẬP</th>
+            <th class="text-center inv-th--out">XUẤT</th>
+            <th class="text-center d-none d-md-table-cell">HỦY</th>
+            <th class="text-center d-none d-lg-table-cell">ĐIỀU CHỈNH</th>
+            <th class="text-center inv-th--closing">CUỐI KỲ</th>
+            <th class="text-end d-none d-xl-table-cell">GIÁ VỐN TB</th>
+            <th class="text-end d-none d-xl-table-cell">GIÁ TRỊ TỒN</th>
+            <th class="d-none d-lg-table-cell text-center">TRẠNG THÁI</th>
+            <th class="text-end">THAO TÁC</th>
           </tr>
         </thead>
         <tbody>
           @if (isLoading) {
-          <tr>
-            <td colspan="7" class="text-center py-4 text-muted">Đang tải dữ liệu...</td>
-          </tr>
+          <tr><td colspan="12" class="inv-table__empty">
+            <div class="inv-spinner"></div>
+            <span>Đang tải dữ liệu...</span>
+          </td></tr>
           }
-          @for (item of filteredInventories; track item.productId) {
-          <tr>
-            <td class="ps-4 fw-medium text-primary">{{ item.productName }}</td>
-            <td class="text-muted fw-bold d-none d-lg-table-cell" style="font-family: monospace;">{{ item.barcode }}</td>
-            <td class="text-center fw-bolder fs-5 text-dark">{{ item.quantityOnHand }}</td>
-            <td class="text-center fw-bold d-none d-md-table-cell"
-              [ngClass]="{'text-danger': item.availableQuantity <= 5, 'text-success': item.availableQuantity > 5}">
-              {{ item.availableQuantity }}
+          @for (item of filteredItems; track item.productId) {
+          <tr class="inv-table__row">
+            <td class="inv-table__td--product">
+              <a [routerLink]="['/admin/inventory', item.productId]" class="inv-product-link">
+                <span class="inv-product-link__name">{{ item.productName }}</span>
+                <span class="inv-product-link__code">{{ item.barcode }}</span>
+              </a>
             </td>
-            <td class="d-none d-xl-table-cell">{{ item.lastRestockedAt | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td class="d-none d-lg-table-cell">
-              <span class="badge rounded-pill"
-                [ngClass]="{'bg-success': item.quantityOnHand > 10, 'bg-warning text-dark': item.quantityOnHand <= 10 && item.quantityOnHand > 0, 'bg-danger': item.quantityOnHand === 0}">
-                {{ item.quantityOnHand > 10 ? 'An Toàn' : (item.quantityOnHand === 0 ? 'Hết Hàng' : 'Sắp Hết') }}
+            <td class="text-muted d-none d-lg-table-cell">{{ item.unit }}</td>
+            <td class="text-center inv-num inv-num--muted">{{ item.openingStock }}</td>
+            <td class="text-center inv-num inv-num--in">
+              @if (item.totalInbound > 0) { +{{ item.totalInbound }} } @else { <span class="inv-num--dash">—</span> }
+            </td>
+            <td class="text-center inv-num inv-num--out">
+              @if (item.totalOutbound > 0) { -{{ item.totalOutbound }} } @else { <span class="inv-num--dash">—</span> }
+            </td>
+            <td class="text-center d-none d-md-table-cell inv-num">
+              @if (item.totalWastage > 0) { <span class="inv-num--out">-{{ item.totalWastage }}</span> } @else { <span class="inv-num--dash">—</span> }
+            </td>
+            <td class="text-center d-none d-lg-table-cell inv-num">
+              @if (item.totalAdjustment !== 0) {
+              <span [ngClass]="{'inv-num--in': item.totalAdjustment > 0, 'inv-num--out': item.totalAdjustment < 0}">
+                {{ item.totalAdjustment > 0 ? '+' : '' }}{{ item.totalAdjustment }}
               </span>
+              } @else { <span class="inv-num--dash">—</span> }
             </td>
-            <td class="text-end pe-4">
+            <td class="text-center inv-num inv-num--closing" [ngClass]="{'inv-num--danger': item.closingStock <= 0, 'inv-num--warning': item.closingStock > 0 && item.closingStock <= item.reorderPoint}">
+              {{ item.closingStock }}
+            </td>
+            <td class="text-end d-none d-xl-table-cell inv-money">{{ item.averageCost | number:'1.0-0' }}₫</td>
+            <td class="text-end d-none d-xl-table-cell inv-money inv-money--bold">{{ item.inventoryValue | number:'1.0-0' }}₫</td>
+            <td class="d-none d-lg-table-cell text-center">
+              <span class="inv-status" [ngClass]="getStockBadgeClass(item)">{{ getStockStatus(item) }}</span>
+            </td>
+            <td class="text-end">
               <div class="dropdown" [class.show]="activeDropdownRowId === item.productId">
-                <button
-                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
-                  type="button" (click)="toggleDropdown(item.productId, $event)" style="width:32px; height:32px;">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="1"></circle>
-                    <circle cx="12" cy="5" r="1"></circle>
-                    <circle cx="12" cy="19" r="1"></circle>
-                  </svg>
+                <button class="inv-action-btn" type="button" (click)="toggleDropdown(item.productId, $event)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === item.productId"
-                  style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
+                <ul class="inv-dropdown" [class.show]="activeDropdownRowId === item.productId">
                   <li>
-                    <button class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-warning border-0 bg-transparent w-100 text-start"
-                      (click)="adjustStock(item)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="me-1" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 20h9"></path>
-                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-                      </svg>
-                      Kiểm Kê Tự Động
+                    <a [routerLink]="['/admin/inventory', item.productId]" class="inv-dropdown__item">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      Xem chi tiết
+                    </a>
+                  </li>
+                  <li>
+                    <button class="inv-dropdown__item inv-dropdown__item--warning" (click)="adjustStock(item)">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                      Kiểm kê
                     </button>
                   </li>
                   <li>
-                    <button class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-danger border-0 bg-transparent w-100 text-start"
-                      (click)="reportWastage(item)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 6h18"></path>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
-                      Ghi nhận Hủy/Hỏng
+                    <button class="inv-dropdown__item inv-dropdown__item--danger" (click)="reportWastage(item)">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      Ghi nhận hủy/hỏng
                     </button>
                   </li>
                 </ul>
@@ -149,13 +216,11 @@
             </td>
           </tr>
           }
-          @if (!isLoading && filteredInventories.length === 0) {
-          <tr>
-            <td colspan="7" class="text-center py-5 text-muted">
-              <span class="fs-1 d-block mb-3">📭</span>
-              Không tìm thấy sản phẩm nào trong kho.
-            </td>
-          </tr>
+          @if (!isLoading && filteredItems.length === 0) {
+          <tr><td colspan="12" class="inv-table__empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>Không tìm thấy sản phẩm nào.</span>
+          </td></tr>
           }
         </tbody>
       </table>

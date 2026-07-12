@@ -11,16 +11,16 @@ public static class ReturnOrdersEndpoints
     public static RouteGroupBuilder MapReturnOrdersEndpoints(this RouteGroupBuilder group)
     {
         group.MapPost("/", CreateReturnOrder)
-            .RequireAuthorization("RequireCashierRole");
+            .RequireAuthorization();
 
         group.MapPost("/{id}/approve", ApproveReturnOrder)
-            .RequireAuthorization("RequireManagerRole");
+            .RequireAuthorization();
 
         group.MapGet("/", GetReturnOrders)
-            .RequireAuthorization("RequireCashierRole");
+            .RequireAuthorization();
 
         group.MapGet("/{id}", GetReturnOrderById)
-            .RequireAuthorization("RequireCashierRole");
+            .RequireAuthorization();
 
         return group;
     }

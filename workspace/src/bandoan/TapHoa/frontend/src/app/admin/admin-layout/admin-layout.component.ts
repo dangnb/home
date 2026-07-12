@@ -1,13 +1,15 @@
 import { Component, ChangeDetectionStrategy, HostListener, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProductService, ExpiringBatch } from '../../services/product.service';
+import { LanguageService, LanguageOption } from '../../services/language.service';
 
 
 
 @Component({
     selector: 'app-admin-layout',
-    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, TranslateModule],
     templateUrl: './admin-layout.component.html',
     changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './admin-layout.component.scss'
@@ -27,12 +29,18 @@ export class AdminLayoutComponent {
   
   expiringCount = 0;
   expiringBatches: ExpiringBatch[] = [];
-  
+
+  showLangDropdown = false;
+  languages: LanguageOption[] = [];
+
   get totalNotifications() {
       return this.lowStockCount + this.expiringCount;
   }
 
-  constructor(private productService: ProductService, private eRef: ElementRef) {}
+  constructor(private productService: ProductService, private eRef: ElementRef, public langService: LanguageService) {
+    this.languages = this.langService.languages;
+    this.langService.init();
+  }
 
   @HostListener('document:click', ['$event'])
   clickout(event: Event) {
