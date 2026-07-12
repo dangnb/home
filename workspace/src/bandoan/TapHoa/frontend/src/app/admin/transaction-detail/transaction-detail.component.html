@@ -2,7 +2,7 @@
   @if (isLoading) {
     <div class="txn-detail__loading">
       <div class="txn-spinner"></div>
-      <span>Đang tải dữ liệu phiếu kho...</span>
+      <span>{{ 'TRANSACTION_DETAIL.LOADING' | translate }}</span>
     </div>
   }
 
@@ -10,7 +10,7 @@
     <div class="txn-detail__error">
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       <p class="txn-detail__error-msg">{{ error }}</p>
-      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">Quay Lại</button>
+      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">{{ 'COMMON.BACK' | translate }}</button>
     </div>
   }
 
@@ -26,32 +26,32 @@
             <line x1="16" y1="17" x2="8" y2="17"></line>
           </svg>
         </div>
-        <span class="txn-detail__title">Chi Tiết Phiếu Kho</span>
+        <span class="txn-detail__title">{{ 'TRANSACTION_DETAIL.TITLE' | translate }}</span>
       </div>
       <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-        Trở về Sổ Cái
+        {{ 'TRANSACTION_DETAIL.BACK_TO_LEDGER' | translate }}
       </button>
     </div>
 
     <!-- Summary Row -->
     <div class="txn-detail__summary">
       <div class="txn-detail__summary-item">
-        <span class="txn-detail__label">Mã Phiếu</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.CODE' | translate }}</span>
         <span class="txn-detail__value txn-detail__value--primary">{{ transaction.code }}</span>
       </div>
       <div class="txn-detail__summary-item">
-        <span class="txn-detail__label">Loại Chứng Từ</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.DOC_TYPE' | translate }}</span>
         <span class="txn-detail__value">{{ getTypeLabel(transaction.type) }}</span>
       </div>
       <div class="txn-detail__summary-item">
-        <span class="txn-detail__label">Trạng Thái</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.STATUS' | translate }}</span>
         <span class="txn-status" [ngClass]="getStatusBadgeClass(transaction.status)">
           {{ getStatusLabel(transaction.status) }}
         </span>
       </div>
       <div class="txn-detail__summary-item">
-        <span class="txn-detail__label">Tổng Giá Trị</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.TOTAL_VALUE' | translate }}</span>
         <span class="txn-detail__value txn-detail__value--success">{{ totalAmount | currency:'VND' }}</span>
       </div>
     </div>
@@ -59,15 +59,15 @@
     <!-- Meta Info -->
     <div class="txn-detail__meta">
       <div class="txn-detail__meta-item">
-        <span class="txn-detail__label">Người Tạo</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.CREATED_BY' | translate }}</span>
         <span>&#64;{{ transaction.createdBy }}</span>
       </div>
       <div class="txn-detail__meta-item">
-        <span class="txn-detail__label">Thời Gian Tạo</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.CREATED_AT' | translate }}</span>
         <span>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</span>
       </div>
       <div class="txn-detail__meta-item">
-        <span class="txn-detail__label">Tham Chiếu / Ghi Chú</span>
+        <span class="txn-detail__label">{{ 'TRANSACTION_DETAIL.REFERENCE_NOTES' | translate }}</span>
         <span>{{ transaction.referenceId }} <br> <span class="txn-muted">{{ transaction.notes }}</span></span>
       </div>
     </div>
@@ -76,16 +76,16 @@
     <div class="txn-detail__lines">
       <div class="txn-detail__lines-title">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        Danh Sách Chi Tiết
+        {{ 'TRANSACTION_DETAIL.LINES_TITLE' | translate }}
       </div>
       <div class="table-responsive">
         <table class="txn-table">
           <thead>
             <tr>
-              <th class="ps-3">Sản phẩm</th>
-              <th class="text-center">Số lượng</th>
-              <th class="text-end">Đơn giá vốn</th>
-              <th class="text-end pe-3">Thành tiền</th>
+              <th class="ps-3">{{ 'TRANSACTION_DETAIL.COL_PRODUCT' | translate }}</th>
+              <th class="text-center">{{ 'TRANSACTION_DETAIL.COL_QUANTITY' | translate }}</th>
+              <th class="text-end">{{ 'TRANSACTION_DETAIL.COL_UNIT_COST' | translate }}</th>
+              <th class="text-end pe-3">{{ 'TRANSACTION_DETAIL.COL_TOTAL' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -101,7 +101,7 @@
         </table>
       </div>
       @if (transaction.lines.length === 0) {
-        <div class="txn-detail__empty">Phiếu không có mặt hàng nào.</div>
+        <div class="txn-detail__empty">{{ 'TRANSACTION_DETAIL.NO_LINES' | translate }}</div>
       }
     </div>
   }

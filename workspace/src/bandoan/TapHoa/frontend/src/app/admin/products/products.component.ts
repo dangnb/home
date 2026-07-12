@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { environment } from '../../../environments/environment';
@@ -14,7 +15,7 @@ import { NumberFormatDirective } from '../../shared/directives/number-format.dir
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, NumberFormatDirective],
+  imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, NumberFormatDirective, TranslatePipe],
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
   styleUrl: './products.component.scss'
@@ -83,6 +84,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private alertService: AlertService,
+    private translate: TranslateService,
     private categoryService: CategoryService,
     private supplierService: SupplierService,
     private transactionService: TransactionService,
@@ -233,8 +235,7 @@ export class ProductsComponent implements OnInit {
             this.alertService.success('Thành công', 'Đã xóa sản phẩm.');
           },
           error: (err) => {
-            console.error('Lỗi xóa sản phẩm:', err);
-            this.alertService.error('Thất bại', 'Không thể xóa sản phẩm. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau!');
+            this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
           }
         });
       }

@@ -10,18 +10,18 @@
         </svg>
       </div>
       <div>
-        <h4 class="inv-header__title">Báo Cáo Tồn Kho</h4>
-        <p class="inv-header__sub">Tồn đầu kỳ • Nhập/Xuất/Hủy • Tồn cuối kỳ — theo khoảng thời gian.</p>
+        <h4 class="inv-header__title">{{ 'INVENTORY.TITLE' | translate }}</h4>
+        <p class="inv-header__sub">{{ 'INVENTORY.SUBTITLE' | translate }}</p>
       </div>
     </div>
     <div class="inv-header__actions">
       <select class="inv-select" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
-        <option value="today">📅 Hôm nay</option>
-        <option value="thisWeek">📆 Tuần này</option>
-        <option value="thisMonth">🗓️ Tháng này</option>
-        <option value="lastMonth">⏪ Tháng trước</option>
-        <option value="thisYear">📊 Năm nay</option>
-        <option value="custom">🔧 Tùy chọn...</option>
+        <option value="today">📅 {{ 'INVENTORY.FILTER_TODAY' | translate }}</option>
+        <option value="thisWeek">📆 {{ 'INVENTORY.FILTER_THIS_WEEK' | translate }}</option>
+        <option value="thisMonth">🗓️ {{ 'INVENTORY.FILTER_THIS_MONTH' | translate }}</option>
+        <option value="lastMonth">⏪ {{ 'INVENTORY.FILTER_LAST_MONTH' | translate }}</option>
+        <option value="thisYear">📊 {{ 'INVENTORY.FILTER_THIS_YEAR' | translate }}</option>
+        <option value="custom">🔧 {{ 'INVENTORY.FILTER_CUSTOM' | translate }}</option>
       </select>
       @if (filterType === 'custom') {
       <input type="date" class="inv-date-input" [(ngModel)]="customFromDate" (change)="onFilterChange()">
@@ -32,7 +32,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" placeholder="Tìm sản phẩm..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        <input type="text" [placeholder]="'INVENTORY.SEARCH_PRODUCT' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
       <button class="inv-btn-refresh" (click)="applyFilter()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -52,7 +52,7 @@
       </div>
       <div class="inv-kpi-card__data">
         <span class="inv-kpi-card__value">{{ reportSummary.totalSku }}</span>
-        <span class="inv-kpi-card__label">Tổng SKU</span>
+        <span class="inv-kpi-card__label">{{ 'INVENTORY.TOTAL_SKU' | translate }}</span>
       </div>
     </div>
     <div class="inv-kpi-card inv-kpi-card--green">
@@ -61,7 +61,7 @@
       </div>
       <div class="inv-kpi-card__data">
         <span class="inv-kpi-card__value">{{ reportSummary.totalInventoryValue | number:'1.0-0' }}<small>₫</small></span>
-        <span class="inv-kpi-card__label">Giá trị tồn kho</span>
+        <span class="inv-kpi-card__label">{{ 'INVENTORY.TOTAL_VALUE' | translate }}</span>
       </div>
     </div>
     <div class="inv-kpi-card inv-kpi-card--amber">
@@ -70,7 +70,7 @@
       </div>
       <div class="inv-kpi-card__data">
         <span class="inv-kpi-card__value">{{ reportSummary.lowStockCount }}</span>
-        <span class="inv-kpi-card__label">Sắp hết hàng</span>
+        <span class="inv-kpi-card__label">{{ 'INVENTORY.LOW_STOCK_COUNT' | translate }}</span>
       </div>
     </div>
     <div class="inv-kpi-card inv-kpi-card--red">
@@ -79,7 +79,7 @@
       </div>
       <div class="inv-kpi-card__data">
         <span class="inv-kpi-card__value">{{ reportSummary.outOfStockCount }}</span>
-        <span class="inv-kpi-card__label">Hết hàng</span>
+        <span class="inv-kpi-card__label">{{ 'INVENTORY.OUT_OF_STOCK_COUNT' | translate }}</span>
       </div>
     </div>
   </div>
@@ -92,7 +92,7 @@
     <div class="inv-alert inv-alert--warning">
       <div class="inv-alert__header">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <span>Cảnh báo Tồn kho thấp</span>
+        <span>{{ 'INVENTORY.LOW_STOCK_WARNING' | translate }}</span>
       </div>
       <div class="inv-alert__body">
         @for (ls of lowStockProducts; track ls.productId) {
@@ -108,16 +108,16 @@
     <div class="inv-alert inv-alert--danger">
       <div class="inv-alert__header">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span>Lô hàng sắp hết hạn</span>
+        <span>{{ 'INVENTORY.EXPIRING_BATCHES' | translate }}</span>
       </div>
       <div class="inv-alert__body">
         @for (exp of expiringBatches; track exp.batchId) {
         <div class="inv-alert__item">
           <div>
             <span class="fw-medium">{{ exp.productName }}</span>
-            <small class="text-muted d-block">Lô: {{ exp.batchNumber }} • Tồn: <b class="text-danger">{{ exp.quantityOnHand }}</b></small>
+            <small class="text-muted d-block">{{ 'INVENTORY.BATCH' | translate }}: {{ exp.batchNumber }} • {{ 'INVENTORY.STOCK' | translate }}: <b class="text-danger">{{ exp.quantityOnHand }}</b></small>
           </div>
-          <span class="inv-alert__badge inv-alert__badge--danger">HSD: {{ exp.expiryDate | date:'dd/MM/yyyy' }}</span>
+          <span class="inv-alert__badge inv-alert__badge--danger">{{ 'INVENTORY.EXPIRY_DATE' | translate }}: {{ exp.expiryDate | date:'dd/MM/yyyy' }}</span>
         </div>
         }
       </div>
@@ -132,25 +132,25 @@
       <table class="inv-table">
         <thead>
           <tr>
-            <th class="inv-table__th--product">SẢN PHẨM</th>
-            <th class="d-none d-lg-table-cell">ĐVT</th>
-            <th class="text-center">ĐẦU KỲ</th>
-            <th class="text-center inv-th--in">NHẬP</th>
-            <th class="text-center inv-th--out">XUẤT</th>
-            <th class="text-center d-none d-md-table-cell">HỦY</th>
-            <th class="text-center d-none d-lg-table-cell">ĐIỀU CHỈNH</th>
-            <th class="text-center inv-th--closing">CUỐI KỲ</th>
-            <th class="text-end d-none d-xl-table-cell">GIÁ VỐN TB</th>
-            <th class="text-end d-none d-xl-table-cell">GIÁ TRỊ TỒN</th>
-            <th class="d-none d-lg-table-cell text-center">TRẠNG THÁI</th>
-            <th class="text-end">THAO TÁC</th>
+            <th class="inv-table__th--product">{{ 'INVENTORY.COL_PRODUCT' | translate }}</th>
+            <th class="d-none d-lg-table-cell">{{ 'INVENTORY.COL_UNIT' | translate }}</th>
+            <th class="text-center">{{ 'INVENTORY.COL_OPENING' | translate }}</th>
+            <th class="text-center inv-th--in">{{ 'INVENTORY.COL_INBOUND' | translate }}</th>
+            <th class="text-center inv-th--out">{{ 'INVENTORY.COL_OUTBOUND' | translate }}</th>
+            <th class="text-center d-none d-md-table-cell">{{ 'INVENTORY.COL_WASTAGE' | translate }}</th>
+            <th class="text-center d-none d-lg-table-cell">{{ 'INVENTORY.COL_ADJUSTMENT' | translate }}</th>
+            <th class="text-center inv-th--closing">{{ 'INVENTORY.COL_CLOSING' | translate }}</th>
+            <th class="text-end d-none d-xl-table-cell">{{ 'INVENTORY.COL_AVG_COST' | translate }}</th>
+            <th class="text-end d-none d-xl-table-cell">{{ 'INVENTORY.COL_VALUE' | translate }}</th>
+            <th class="d-none d-lg-table-cell text-center">{{ 'INVENTORY.COL_STATUS' | translate }}</th>
+            <th class="text-end">{{ 'INVENTORY.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @if (isLoading) {
           <tr><td colspan="12" class="inv-table__empty">
             <div class="inv-spinner"></div>
-            <span>Đang tải dữ liệu...</span>
+            <span>{{ 'COMMON.LOADING' | translate }}</span>
           </td></tr>
           }
           @for (item of filteredItems; track item.productId) {
@@ -196,19 +196,19 @@
                   <li>
                     <a [routerLink]="['/admin/inventory', item.productId]" class="inv-dropdown__item">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                      Xem chi tiết
+                      {{ 'COMMON.VIEW_DETAIL' | translate }}
                     </a>
                   </li>
                   <li>
                     <button class="inv-dropdown__item inv-dropdown__item--warning" (click)="adjustStock(item)">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                      Kiểm kê
+                      {{ 'INVENTORY.STOCK_TAKE' | translate }}
                     </button>
                   </li>
                   <li>
                     <button class="inv-dropdown__item inv-dropdown__item--danger" (click)="reportWastage(item)">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                      Ghi nhận hủy/hỏng
+                      {{ 'INVENTORY.REPORT_WASTAGE' | translate }}
                     </button>
                   </li>
                 </ul>
@@ -219,7 +219,7 @@
           @if (!isLoading && filteredItems.length === 0) {
           <tr><td colspan="12" class="inv-table__empty">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            <span>Không tìm thấy sản phẩm nào.</span>
+            <span>{{ 'INVENTORY.NO_PRODUCT_FOUND' | translate }}</span>
           </td></tr>
           }
         </tbody>

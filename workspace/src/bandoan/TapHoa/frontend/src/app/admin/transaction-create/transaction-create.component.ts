@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { TransactionService, CreateInboundTransactionRequest, TransactionLineDto, TransactionDetailDto } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProductService, ProductBatch } from '../../services/product.service';
 import { CustomerService } from '../../services/customer.service';
 import { SupplierService } from '../../services/supplier.service';
@@ -12,7 +13,7 @@ import { NumberFormatDirective } from '../../shared/directives/number-format.dir
 
 @Component({
     selector: 'app-transaction-create',
-    imports: [CommonModule, FormsModule, RouterModule, NumberFormatDirective],
+    imports: [CommonModule, FormsModule, RouterModule, NumberFormatDirective, TranslatePipe],
     templateUrl: './transaction-create.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transaction-create.component.scss'
@@ -25,6 +26,7 @@ export class TransactionCreateComponent implements OnInit {
     private supplierService = inject(SupplierService);
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private t = inject(TranslateService);
 
     isEditMode = false;
     editTransactionId: string | null = null;
@@ -102,7 +104,7 @@ export class TransactionCreateComponent implements OnInit {
                 }));
             },
             error: (err) => {
-                this.alertService.error('Lỗi', 'Không thể tải thông tin phiếu. Có thể phiếu đã xóa hoặc không tồn tại.');
+                this.alertService.error(this.t.instant('COMMON.ERROR'), this.t.instant('TRANSACTIONS.LOAD_ERROR'));
                 this.router.navigate(['/admin/transactions']);
             }
         });
@@ -161,10 +163,10 @@ export class TransactionCreateComponent implements OnInit {
 
     addLine() {
         if (!this.selectedProductId) {
-            this.alertService.warning('Cảnh báo', 'Vui lòng chọn sản phẩm'); return;
+            this.alertService.warning(this.t.instant('TRANSACTIONS.WARNING'), this.t.instant('TRANSACTIONS.SELECT_PRODUCT')); return;
         }
         if (this.selectedQuantity <= 0) {
-            this.alertService.warning('Cảnh báo', 'Số lượng phải lớn hơn 0'); return;
+            this.alertService.warning(this.t.instant('TRANSACTIONS.WARNING'), this.t.instant('TRANSACTIONS.QTY_GREATER_THAN_ZERO')); return;
         }
 
         const prod = this.availableProducts.find(p => p.id == this.selectedProductId);
@@ -207,7 +209,7 @@ export class TransactionCreateComponent implements OnInit {
 
     submitTransaction() {
         if (this.lines.length === 0) {
-            this.alertService.warning('Cảnh báo', 'Phải có ít nhất 1 mặt hàng trong phiếu!'); return;
+            this.alertService.warning(this.t.instant('TRANSACTIONS.WARNING'), this.t.instant('TRANSACTIONS.NEED_AT_LEAST_ONE')); return;
         }
 
         this.isSubmitting = true;
@@ -238,13 +240,12 @@ export class TransactionCreateComponent implements OnInit {
 
         reqObservable.subscribe({
             next: (res) => {
-                const actionName = this.isEditMode ? 'cập nhật' : (this.transactionType === 'inbound' ? 'nhập' : 'xuất');
-                this.alertService.success('Thành công', `Phiếu đã được ${actionName} thành công!`);
+                this.alertService.success(this.t.instant('COMMON.SUCCESS'), this.t.instant('TRANSACTIONS.SAVE_SUCCESS'));
                 this.router.navigate(['/admin/transactions']);
             },
             error: (err) => {
                 console.error(err);
-                this.alertService.error('Thất bại', 'Lỗi lưu phiếu: ' + (err.error?.title || err.message));
+                this.alertService.error(this.t.instant('COMMON.ERROR'), this.t.instant('TRANSACTIONS.SAVE_ERROR') + ' ' + (err.error?.title || err.message));
                 this.isSubmitting = false;
             }
         });

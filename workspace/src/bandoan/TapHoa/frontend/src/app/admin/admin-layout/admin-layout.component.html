@@ -4,110 +4,110 @@
   <aside class="sidebar">
     <div class="sidebar-header">
       <h2><i class="bi bi-boxes" style="margin-right: 6px;"></i>Tap<span>Hoa</span></h2>
-      <div class="subtitle">HỆ THỐNG QUẢN TRỊ</div>
+      <div class="subtitle">{{ 'SIDEBAR.SUBTITLE' | translate }}</div>
     </div>
     <ul class="nav-links">
-      <li class="nav-divider">TỔNG QUAN</li>
+      <li class="nav-divider">{{ 'SIDEBAR.OVERVIEW' | translate }}</li>
       <li>
         <a routerLink="/admin/dashboard" routerLinkActive="active" title="Dashboard">
-          <span class="icon"><i class="bi bi-grid-1x2"></i></span> <span class="nav-text">Dashboard</span>
+          <span class="icon"><i class="bi bi-grid-1x2"></i></span> <span class="nav-text">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
         </a>
       </li>
-      <li class="nav-divider">BÁO CÁO</li>
+      <li class="nav-divider">{{ 'SIDEBAR.REPORTS_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/reports" routerLinkActive="active" title="Doanh thu & Lợi nhuận">
-          <span class="icon"><i class="bi bi-graph-up-arrow"></i></span> <span class="nav-text">Doanh thu & Lợi nhuận</span>
+          <span class="icon"><i class="bi bi-graph-up-arrow"></i></span> <span class="nav-text">{{ 'SIDEBAR.REPORTS' | translate }}</span>
         </a>
       </li>
-      <li class="nav-divider">HÀNG HOÁ</li>
+      <li class="nav-divider">{{ 'SIDEBAR.PRODUCTS_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/products" routerLinkActive="active" title="Sản phẩm" [routerLinkActiveOptions]="{exact: true}">
-          <span class="icon"><i class="bi bi-box-seam"></i></span> <span class="nav-text">Sản phẩm</span>
+          <span class="icon"><i class="bi bi-box-seam"></i></span> <span class="nav-text">{{ 'SIDEBAR.PRODUCTS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/products/low-stock" routerLinkActive="active" title="Cảnh báo tồn kho">
-          <span class="icon"><i class="bi bi-exclamation-triangle"></i></span> <span class="nav-text">Cảnh báo tồn kho</span>
+          <span class="icon"><i class="bi bi-exclamation-triangle"></i></span> <span class="nav-text">{{ 'SIDEBAR.LOW_STOCK_ALERT' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/categories" routerLinkActive="active" title="Danh mục">
-          <span class="icon"><i class="bi bi-tags"></i></span> <span class="nav-text">Danh mục</span>
+          <span class="icon"><i class="bi bi-tags"></i></span> <span class="nav-text">{{ 'SIDEBAR.CATEGORIES' | translate }}</span>
         </a>
       </li>
-      <li class="nav-divider">QUẢN LÝ KHO (WMS)</li>
+      <li class="nav-divider">{{ 'SIDEBAR.WMS_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/inventory" routerLinkActive="active" title="Tồn kho" [routerLinkActiveOptions]="{exact: true}">
-          <span class="icon"><i class="bi bi-layers"></i></span> <span class="nav-text">Tồn kho</span>
+          <span class="icon"><i class="bi bi-layers"></i></span> <span class="nav-text">{{ 'SIDEBAR.INVENTORY' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/inventory/wastage" routerLinkActive="active" title="Xuất hủy hàng">
-          <span class="icon"><i class="bi bi-trash3"></i></span> <span class="nav-text">Xuất hủy hàng</span>
+          <span class="icon"><i class="bi bi-trash3"></i></span> <span class="nav-text">{{ 'SIDEBAR.WASTAGE' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/stock-takes" routerLinkActive="active" title="Kiểm kê kho">
-          <span class="icon"><i class="bi bi-clipboard-check"></i></span> <span class="nav-text">Kiểm kê kho</span>
+          <span class="icon"><i class="bi bi-clipboard-check"></i></span> <span class="nav-text">{{ 'SIDEBAR.STOCK_TAKES' | translate }}</span>
         </a>
       </li>
       <li>
         <!-- Match UI mockup: active state using blue borders -->
         <a routerLink="/admin/transactions" routerLinkActive="active" title="Sổ cái">
-          <span class="icon"><i class="bi bi-journal-text"></i></span> <span class="nav-text">Sổ cái</span>
+          <span class="icon"><i class="bi bi-journal-text"></i></span> <span class="nav-text">{{ 'SIDEBAR.LEDGER' | translate }}</span>
         </a>
       </li>
       <!-- BÁN HÀNG -->
-      <li class="nav-divider">BÁN HÀNG</li>
+      <li class="nav-divider">{{ 'SIDEBAR.SALES_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/pos" routerLinkActive="active" title="Bán hàng POS">
-          <span class="icon"><i class="bi bi-cart-check"></i></span> <span class="nav-text">Bán hàng POS</span>
+          <span class="icon"><i class="bi bi-cart-check"></i></span> <span class="nav-text">{{ 'SIDEBAR.POS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/orders" routerLinkActive="active" title="Lịch sử Đơn hàng">
-          <span class="icon"><i class="bi bi-receipt"></i></span> <span class="nav-text">Lịch sử Đơn hàng</span>
+          <span class="icon"><i class="bi bi-receipt"></i></span> <span class="nav-text">{{ 'SIDEBAR.ORDERS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/return-orders" routerLinkActive="active" title="Trả hàng / Hoàn tiền">
-          <span class="icon"><i class="bi bi-arrow-return-left"></i></span> <span class="nav-text">Trả hàng / Hoàn tiền</span>
+          <span class="icon"><i class="bi bi-arrow-return-left"></i></span> <span class="nav-text">{{ 'SIDEBAR.RETURNS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/promotions" routerLinkActive="active" title="Khuyến mãi">
-          <span class="icon"><i class="bi bi-gift"></i></span> <span class="nav-text">Khuyến mãi</span>
+          <span class="icon"><i class="bi bi-gift"></i></span> <span class="nav-text">{{ 'SIDEBAR.PROMOTIONS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/customers" routerLinkActive="active" title="Khách hàng">
-          <span class="icon"><i class="bi bi-people"></i></span> <span class="nav-text">Khách hàng</span>
+          <span class="icon"><i class="bi bi-people"></i></span> <span class="nav-text">{{ 'SIDEBAR.CUSTOMERS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/customer-debts" routerLinkActive="active" title="Sổ nợ">
-          <span class="icon"><i class="bi bi-journal-minus"></i></span> <span class="nav-text">Sổ nợ khách hàng</span>
+          <span class="icon"><i class="bi bi-journal-minus"></i></span> <span class="nav-text">{{ 'SIDEBAR.CUSTOMER_DEBTS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/suppliers" routerLinkActive="active" title="Nhà cung cấp">
-          <span class="icon"><i class="bi bi-truck"></i></span> <span class="nav-text">Nhà cung cấp</span>
+          <span class="icon"><i class="bi bi-truck"></i></span> <span class="nav-text">{{ 'SIDEBAR.SUPPLIERS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/supplier-debts" routerLinkActive="active" title="Sổ nợ NCC">
-          <span class="icon"><i class="bi bi-journal-arrow-down"></i></span> <span class="nav-text">Sổ nợ NCC</span>
+          <span class="icon"><i class="bi bi-journal-arrow-down"></i></span> <span class="nav-text">{{ 'SIDEBAR.SUPPLIER_DEBTS' | translate }}</span>
         </a>
       </li>
-      <li class="nav-divider">HỆ THỐNG</li>
+      <li class="nav-divider">{{ 'SIDEBAR.SYSTEM_SECTION' | translate }}</li>
       <li>
         <a routerLink="/admin/users" routerLinkActive="active" title="NSD">
-          <span class="icon"><i class="bi bi-person-badge"></i></span> <span class="nav-text">NSD</span>
+          <span class="icon"><i class="bi bi-person-badge"></i></span> <span class="nav-text">{{ 'SIDEBAR.USERS' | translate }}</span>
         </a>
       </li>
       <li>
         <a routerLink="/admin/roles" routerLinkActive="active" title="Quyền">
-          <span class="icon"><i class="bi bi-shield-lock"></i></span> <span class="nav-text">Quyền</span>
+          <span class="icon"><i class="bi bi-shield-lock"></i></span> <span class="nav-text">{{ 'SIDEBAR.ROLES' | translate }}</span>
         </a>
       </li>
       <li>
@@ -118,10 +118,10 @@
     </ul>
     <div class="sidebar-footer">
       <a routerLink="/settings" class="settings-link" title="Cài đặt">
-        <span class="icon"><i class="bi bi-gear"></i></span> <span class="nav-text">Cài đặt</span>
+        <span class="icon"><i class="bi bi-gear"></i></span> <span class="nav-text">{{ 'SIDEBAR.SETTINGS' | translate }}</span>
       </a>
       <a routerLink="/login" class="logout-link" title="Đăng xuất">
-        <span class="icon"><i class="bi bi-box-arrow-right"></i></span> <span class="nav-text">Log out</span>
+        <span class="icon"><i class="bi bi-box-arrow-right"></i></span> <span class="nav-text">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
       </a>
     </div>
   </aside>
@@ -134,7 +134,7 @@
           <i class="bi bi-list"></i>
         </button>
         <div class="breadcrumb d-none d-md-block">
-          Tra cứu quản trị <span class="separator">/</span> <span class="current">Tổng quan</span>
+          {{ 'HEADER.BREADCRUMB_ADMIN' | translate }} <span class="separator">/</span> <span class="current">{{ 'HEADER.BREADCRUMB_OVERVIEW' | translate }}</span>
         </div>
       </div>
 
@@ -143,7 +143,7 @@
           <span class="search-icon">
             <i class="bi bi-search"></i>
           </span>
-          <input type="text" placeholder="Tìm kiếm giao dịch...">
+          <input type="text" [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate">
         </div>
       </div>
 
@@ -155,6 +155,30 @@
           (click)="changeFontSize(-1)" title="Thu nhỏ chữ">A-</button>
           <button class="btn-icon" style="padding: 4px 8px; font-size: 15px; font-weight:bold;"
           (click)="changeFontSize(1)" title="Phóng to chữ">A+</button>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="lang-switcher position-relative" style="margin-right: 4px;">
+          <button class="btn-icon" (click)="showLangDropdown = !showLangDropdown; $event.stopPropagation()" style="font-size: 16px; padding: 4px 6px;" title="Language">
+            {{ langService.getCurrentLanguage().flag }}
+          </button>
+          @if (showLangDropdown) {
+          <div class="position-absolute end-0 mt-1 bg-white rounded-3 shadow-lg border" style="z-index: 1000; min-width: 160px; overflow: hidden;">
+            @for (lang of languages; track lang.code) {
+            <button class="d-flex align-items-center gap-2 w-100 border-0 bg-transparent px-3 py-2"
+              [style.background]="lang.code === langService.getCurrentLang() ? 'var(--gray-50)' : 'transparent'"
+              [style.font-weight]="lang.code === langService.getCurrentLang() ? '700' : '400'"
+              style="font-size: 13px; font-family: var(--font-family); cursor: pointer;"
+              (click)="langService.setLanguage(lang.code); showLangDropdown = false">
+              <span style="font-size: 18px;">{{ lang.flag }}</span>
+              <span>{{ lang.name }}</span>
+              @if (lang.code === langService.getCurrentLang()) {
+              <span style="margin-left: auto; color: var(--primary);">✓</span>
+              }
+            </button>
+            }
+          </div>
+          }
         </div>
 
         <button class="btn-icon" (click)="toggleTheme()" title="Đổi giao diện">
@@ -212,7 +236,7 @@
 
         <div class="user-profile">
           <div class="user-info-text text-end">
-            <span class="user-name">Chào, {{ displayName }}</span>
+            <span class="user-name">{{ 'HEADER.GREETING' | translate }}, {{ displayName }}</span>
             <span class="user-role">{{ displayRole }}</span>
           </div>
           <div class="avatar">{{ displayInitial }}</div>

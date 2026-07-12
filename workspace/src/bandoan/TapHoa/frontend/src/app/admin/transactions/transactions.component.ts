@@ -4,10 +4,11 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
 import { AlertService } from '../../services/alert.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-transactions',
-    imports: [CommonModule, RouterModule, FormsModule],
+    imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
     templateUrl: './transactions.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './transactions.component.scss'
@@ -15,6 +16,7 @@ import { AlertService } from '../../services/alert.service';
 export class TransactionsComponent implements OnInit {
     private transactionService = inject(TransactionService);
     private alertService = inject(AlertService);
+    private t = inject(TranslateService);
 
     transactions: any[] = [];
     paginatedTransactions: any[] = [];
@@ -68,7 +70,7 @@ export class TransactionsComponent implements OnInit {
             },
             error: (err) => {
                 console.error(err);
-                this.error = 'Không thể tải danh sách giao dịch';
+                this.error = this.t.instant('TRANSACTIONS.LOAD_ERROR');
                 this.isLoading = false;
             }
         });
@@ -107,12 +109,12 @@ export class TransactionsComponent implements OnInit {
     }
 
     getTypeLabel(type: number): string {
-        if (type === 1) return 'Nhập kho thông thường';
-        if (type === 2) return 'Xuất kho bán hàng';
-        if (type === 3) return 'Điều chỉnh tồn';
-        if (type === 4) return 'Luân chuyển nội bộ';
-        if (type === 5) return 'Xuất hủy hàng (Wastage)';
-        return 'Khác';
+        if (type === 1) return this.t.instant('TRANSACTIONS.TYPE_INBOUND');
+        if (type === 2) return this.t.instant('TRANSACTIONS.TYPE_OUTBOUND');
+        if (type === 3) return this.t.instant('TRANSACTIONS.TYPE_ADJUSTMENT');
+        if (type === 4) return this.t.instant('TRANSACTIONS.TYPE_TRANSFER');
+        if (type === 5) return this.t.instant('TRANSACTIONS.TYPE_WASTAGE');
+        return this.t.instant('COMMON.OTHER');
     }
 
     getTypeIconClass(type: number): string {
@@ -139,25 +141,25 @@ export class TransactionsComponent implements OnInit {
     }
 
     getStatusLabel(status: number): string {
-        if (status === 1) return 'Đã lưu nháp';
-        if (status === 2) return 'Đang xử lý';
-        return 'Hoàn thành';
+        if (status === 1) return this.t.instant('TRANSACTIONS.STATUS_DRAFT');
+        if (status === 2) return this.t.instant('TRANSACTIONS.STATUS_PENDING');
+        return this.t.instant('TRANSACTIONS.STATUS_COMPLETED');
     }
 
     approveTransaction(id: string, type: number = 1) {
-        const title = type === 1 ? 'Duyệt phiếu nhập' : 'Duyệt phiếu xuất';
-        const msg = type === 1 ? 'số lượng hàng hóa sẽ chính thức được cộng vào kho.' : 'số lượng hàng hóa sẽ chính thức bị trừ khỏi kho.';
+        const title = type === 1 ? this.t.instant('TRANSACTIONS.APPROVE_INBOUND_TITLE') : this.t.instant('TRANSACTIONS.APPROVE_OUTBOUND_TITLE');
+        const msg = type === 1 ? this.t.instant('TRANSACTIONS.APPROVE_INBOUND_MSG') : this.t.instant('TRANSACTIONS.APPROVE_OUTBOUND_MSG');
 
-        this.alertService.confirm(title, `Bằng cách duyệt phiếu này, ${msg} Bạn có chắc chắn số liệu đã chính xác?`, 'Có, duyệt ngay', 'Hủy').then((result: any) => {
+        this.alertService.confirm(title, this.t.instant('TRANSACTIONS.APPROVE_CONFIRM', { msg }), this.t.instant('TRANSACTIONS.YES_APPROVE'), this.t.instant('COMMON.CANCEL')).then((result: any) => {
             if (result.isConfirmed) {
                 this.transactionService.approveTransaction(id).subscribe({
                     next: (res: any) => {
-                        this.alertService.success('Thành công', 'Đã duyệt phiếu và cập nhật tồn kho thành công!');
+                        this.alertService.success(this.t.instant('COMMON.SUCCESS'), this.t.instant('TRANSACTIONS.APPROVE_SUCCESS'));
                         this.fetchTransactions(); // Reload data
                     },
                     error: (err: any) => {
                         console.error(err);
-                        this.alertService.error('Lỗi', 'Không thể duyệt phiếu: ' + (err.error?.message || err.message));
+                        this.alertService.error(this.t.instant('COMMON.ERROR'), this.t.instant('TRANSACTIONS.APPROVE_ERROR') + ' ' + (err.error?.message || err.message));
                     }
                 });
             }
@@ -165,16 +167,16 @@ export class TransactionsComponent implements OnInit {
     }
 
     deleteTransaction(id: string) {
-        this.alertService.confirm('Xóa phiếu giao dịch', 'Bạn có chắc chắn muốn xóa vĩnh viễn phiếu giao dịch này? Hành động này không thể hoàn tác.', 'Có, xóa ngay', 'Hủy').then((result: any) => {
+        this.alertService.confirm(this.t.instant('TRANSACTIONS.DELETE_TITLE'), this.t.instant('TRANSACTIONS.DELETE_CONFIRM'), this.t.instant('TRANSACTIONS.YES_DELETE'), this.t.instant('COMMON.CANCEL')).then((result: any) => {
             if (result.isConfirmed) {
                 this.transactionService.deleteTransaction(id).subscribe({
                     next: (res: any) => {
-                        this.alertService.success('Thành công', 'Đã xóa phiếu giao dịch!');
+                        this.alertService.success(this.t.instant('COMMON.SUCCESS'), this.t.instant('TRANSACTIONS.DELETE_SUCCESS'));
                         this.fetchTransactions();
                     },
                     error: (err: any) => {
                         console.error(err);
-                        this.alertService.error('Lỗi', 'Không thể xóa phiếu: ' + (err.error?.message || err.message));
+                        this.alertService.error(this.t.instant('COMMON.ERROR'), this.t.instant('TRANSACTIONS.DELETE_ERROR') + ' ' + (err.error?.message || err.message));
                     }
                 });
             }
