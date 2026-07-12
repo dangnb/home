@@ -52,7 +52,7 @@ export interface PaginatedList<T> {
 })
 export class ReturnOrderService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api/v1/return-orders`;
+  private apiUrl = `${environment.apiUrl}/return-orders`;
 
   getReturnOrders(page: number, pageSize: number, searchTerm?: string): Observable<PaginatedList<ReturnOrderDto>> {
     let params = new HttpParams()

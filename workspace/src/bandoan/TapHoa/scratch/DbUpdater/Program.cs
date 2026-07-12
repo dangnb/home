@@ -1,21 +1,24 @@
 using System;
-using System.IO;
+using System.Data;
 using MySqlConnector;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        string sqlPath = @"E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\update2.sql";
-        string sql = File.ReadAllText(sqlPath);
-        
         string connectionString = "Server=localhost;Database=TapHoaWMS;User=root;Password=12345678;AllowUserVariables=true;UseAffectedRows=false;";
         using var connection = new MySqlConnection(connectionString);
         connection.Open();
-        
-        using var command = new MySqlCommand(sql, connection);
-        int rowsAffected = command.ExecuteNonQuery();
-        
-        Console.WriteLine($"SQL executed successfully! Rows affected: {rowsAffected}");
+
+        try
+        {
+            using var killCommand = new MySqlCommand("KILL 11", connection);
+            killCommand.ExecuteNonQuery();
+            Console.WriteLine("Killed process 11");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error killing process 11: " + ex.Message);
+        }
     }
 }

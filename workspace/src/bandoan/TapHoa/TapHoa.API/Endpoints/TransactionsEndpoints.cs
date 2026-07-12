@@ -146,6 +146,24 @@ public static class TransactionsEndpoints
         .WithDescription("Gets suggested batches for outbound based on FEFO")
         .RequireAuthorization();
 
+        group.MapGet("/inventory-report", async ([FromQuery] DateTime fromDate, [FromQuery] DateTime toDate, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetInventoryReportQuery(fromDate, toDate));
+            return Results.Ok(result);
+        })
+        .WithName("GetInventoryReport")
+        .WithDescription("Gets inventory report with opening/closing stock for a period")
+        .RequireAuthorization();
+
+        group.MapGet("/stock-detail/{productId:guid}", async (Guid productId, [FromServices] ISender sender) =>
+        {
+            var result = await sender.Send(new TapHoa.Application.Warehouse.Queries.GetProductStockDetailQuery(productId));
+            return Results.Ok(result);
+        })
+        .WithName("GetProductStockDetail")
+        .WithDescription("Gets detailed stock movements with running balance for a product")
+        .RequireAuthorization();
+
         return group;
     }
 }

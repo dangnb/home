@@ -55,6 +55,10 @@ export const routes: Routes = [
                 path: 'inventory/wastage', 
                 loadComponent: () => import('./admin/inventory/wastage-list/wastage-list.component').then(m => m.WastageListComponent) 
             },
+            {
+                path: 'inventory/:productId',
+                loadComponent: () => import('./admin/inventory/inventory-detail/inventory-detail.component').then(m => m.InventoryDetailComponent)
+            },
             { 
                 path: 'inventory/wastage/create', 
                 loadComponent: () => import('./admin/inventory/wastage-create/wastage-create.component').then(m => m.WastageCreateComponent) 

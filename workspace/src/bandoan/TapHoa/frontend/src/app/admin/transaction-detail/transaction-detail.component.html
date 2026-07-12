@@ -1,91 +1,107 @@
-<div class="premium-card" style="min-height: 400px;">
+<div class="txn-detail" style="min-height: 400px;">
   @if (isLoading) {
-    <div class="p-5 text-center">
-      <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-2 text-muted">Đang tải dữ liệu phiếu kho...</p>
+    <div class="txn-detail__loading">
+      <div class="txn-spinner"></div>
+      <span>Đang tải dữ liệu phiếu kho...</span>
     </div>
   }
 
   @if (!isLoading && error) {
-    <div class="p-5 text-center">
-      <h4 class="text-danger">⚠️ Lỗi</h4>
-      <p>{{ error }}</p>
-      <button class="btn btn-light btn-sm mt-2 fw-bold px-4" routerLink="/admin/transactions">Quay Lại</button>
+    <div class="txn-detail__error">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p class="txn-detail__error-msg">{{ error }}</p>
+      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">Quay Lại</button>
     </div>
   }
 
   @if (!isLoading && transaction) {
-    <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
-      <h5 class="mb-0 fw-bold text-dark fs-5">
-        <span class="me-2 fs-5">📋</span>Chi Tiết Phiếu Kho
-      </h5>
-      <button class="btn btn-light fw-bold px-4" routerLink="/admin/transactions">
+    <!-- Header -->
+    <div class="txn-detail__header">
+      <div class="txn-detail__header-left">
+        <div class="txn-detail__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+        </div>
+        <span class="txn-detail__title">Chi Tiết Phiếu Kho</span>
+      </div>
+      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
         Trở về Sổ Cái
       </button>
     </div>
-    <div class="card-body mt-3">
-      <div class="row bg-light rounded-4 p-4 mb-4 mx-0">
-        <div class="col-md-3">
-          <p class="text-muted fw-bold small text-uppercase mb-1">Mã Phiếu</p>
-          <h5 class="fw-bold text-primary">{{ transaction.code }}</h5>
-        </div>
-        <div class="col-md-3">
-          <p class="text-muted fw-bold small text-uppercase mb-1">Loại Chứng Từ</p>
-          <h5 class="fw-bold">{{ getTypeLabel(transaction.type) }}</h5>
-        </div>
-        <div class="col-md-3">
-          <p class="text-muted fw-bold small text-uppercase mb-1">Trạng Thái</p>
-          <span class="badge rounded-pill fw-bold" [ngClass]="getStatusBadgeClass(transaction.status)">
-            {{ getStatusLabel(transaction.status) }}
-          </span>
-        </div>
-        <div class="col-md-3">
-          <p class="text-muted fw-bold small text-uppercase mb-1">Tổng Giá Trị</p>
-          <h5 class="fw-bold text-success">{{ totalAmount | currency:'VND' }}</h5>
-        </div>
+
+    <!-- Summary Row -->
+    <div class="txn-detail__summary">
+      <div class="txn-detail__summary-item">
+        <span class="txn-detail__label">Mã Phiếu</span>
+        <span class="txn-detail__value txn-detail__value--primary">{{ transaction.code }}</span>
       </div>
-      <div class="row mb-4 px-2">
-        <div class="col-md-4">
-          <p class="text-muted fw-bold small mb-1">Người Tạo:</p>
-          <p class="fw-medium">&#64;{{ transaction.createdBy }}</p>
-        </div>
-        <div class="col-md-4">
-          <p class="text-muted fw-bold small mb-1">Thời Gian Tạo:</p>
-          <p class="fw-medium">{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</p>
-        </div>
-        <div class="col-md-4">
-          <p class="text-muted fw-bold small mb-1">Tham Chiếu / Ghi Chú:</p>
-          <p class="fw-medium">{{ transaction.referenceId }} <br> <span class="text-muted">{{
-          transaction.notes }}</span></p>
-        </div>
+      <div class="txn-detail__summary-item">
+        <span class="txn-detail__label">Loại Chứng Từ</span>
+        <span class="txn-detail__value">{{ getTypeLabel(transaction.type) }}</span>
       </div>
-      <h5 class="fw-bold text-primary mb-3">📦 Danh Sách Tiết</h5>
+      <div class="txn-detail__summary-item">
+        <span class="txn-detail__label">Trạng Thái</span>
+        <span class="txn-status" [ngClass]="getStatusBadgeClass(transaction.status)">
+          {{ getStatusLabel(transaction.status) }}
+        </span>
+      </div>
+      <div class="txn-detail__summary-item">
+        <span class="txn-detail__label">Tổng Giá Trị</span>
+        <span class="txn-detail__value txn-detail__value--success">{{ totalAmount | currency:'VND' }}</span>
+      </div>
+    </div>
+
+    <!-- Meta Info -->
+    <div class="txn-detail__meta">
+      <div class="txn-detail__meta-item">
+        <span class="txn-detail__label">Người Tạo</span>
+        <span>&#64;{{ transaction.createdBy }}</span>
+      </div>
+      <div class="txn-detail__meta-item">
+        <span class="txn-detail__label">Thời Gian Tạo</span>
+        <span>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+      </div>
+      <div class="txn-detail__meta-item">
+        <span class="txn-detail__label">Tham Chiếu / Ghi Chú</span>
+        <span>{{ transaction.referenceId }} <br> <span class="txn-muted">{{ transaction.notes }}</span></span>
+      </div>
+    </div>
+
+    <!-- Lines Table -->
+    <div class="txn-detail__lines">
+      <div class="txn-detail__lines-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Danh Sách Chi Tiết
+      </div>
       <div class="table-responsive">
-        <table class="table align-middle">
-          <thead class="table-light text-muted small text-uppercase">
+        <table class="txn-table">
+          <thead>
             <tr>
               <th class="ps-3">Sản phẩm</th>
               <th class="text-center">Số lượng</th>
               <th class="text-end">Đơn giá vốn</th>
-              <th class="text-end">Thành tiền</th>
+              <th class="text-end pe-3">Thành tiền</th>
             </tr>
           </thead>
           <tbody>
             @for (l of transaction.lines; track l) {
               <tr>
-                <td class="ps-3 fw-medium">[{{ l.productId }}] {{ l.productName }}</td>
-                <td class="text-center">{{ l.quantity }}</td>
-                <td class="text-end">{{ l.unitCost | currency:'VND' }}</td>
-                <td class="text-end fw-bold">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
+                <td class="ps-3 fw-medium">{{ l.productName || l.productId }}</td>
+                <td class="text-center txn-num">{{ l.quantity }}</td>
+                <td class="text-end txn-money">{{ l.unitCost | currency:'VND' }}</td>
+                <td class="text-end pe-3 txn-money txn-money--bold">{{ (l.quantity * l.unitCost) | currency:'VND' }}</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
       @if (transaction.lines.length === 0) {
-        <div class="text-center p-3 text-muted">
-          Phiếu không có mặt hàng nào.
-        </div>
+        <div class="txn-detail__empty">Phiếu không có mặt hàng nào.</div>
       }
     </div>
   }
