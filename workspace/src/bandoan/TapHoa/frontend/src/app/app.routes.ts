@@ -98,6 +98,18 @@ export const routes: Routes = [
                 path: 'transactions/create', 
                 loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) 
             },
+            {
+                path: 'purchase-orders',
+                loadComponent: () => import('./admin/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent)
+            },
+            {
+                path: 'purchase-orders/create',
+                loadComponent: () => import('./admin/purchase-orders/purchase-order-create/purchase-order-create.component').then(m => m.PurchaseOrderCreateComponent)
+            },
+            {
+                path: 'purchase-orders/:id',
+                loadComponent: () => import('./admin/purchase-orders/purchase-order-detail/purchase-order-detail.component').then(m => m.PurchaseOrderDetailComponent)
+            },
             { 
                 path: 'transactions/edit/:id', 
                 loadComponent: () => import('./admin/transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) 

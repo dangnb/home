@@ -137,14 +137,15 @@ public class Promotion : BaseAuditableEntity<Guid>
     /// <summary>
     /// Calculate the actual discount amount for a given subtotal.
     /// </summary>
-    public decimal CalculateDiscount(decimal subTotal)
+    public decimal CalculateDiscount(decimal targetSubTotal, decimal? orderTotal = null)
     {
-        if (subTotal < MinOrderAmount) return 0;
+        var totalToCheck = orderTotal ?? targetSubTotal;
+        if (totalToCheck < MinOrderAmount) return 0;
 
         decimal discount = Type switch
         {
             PromotionType.PercentageOff or PromotionType.CategoryDiscount =>
-                subTotal * (DiscountValue / 100),
+                targetSubTotal * (DiscountValue / 100),
             PromotionType.FixedAmountOff or PromotionType.CouponCode =>
                 DiscountValue,
             _ => 0
@@ -157,6 +158,6 @@ public class Promotion : BaseAuditableEntity<Guid>
         }
 
         // Never discount more than the subtotal
-        return Math.Min(discount, subTotal);
+        return Math.Min(discount, targetSubTotal);
     }
 }

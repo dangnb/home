@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 
@@ -29,13 +29,25 @@ import { trigger, transition, style, animate } from '@angular/animations';
         ])
     ]
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit, OnDestroy {
     @Input() title: string = '';
     @Input() subtitle: string = '';
     @Input() size: string = 'lg'; // 'sm', 'md', 'lg', 'xl', 'full'
     @Input() noPadding: boolean = false;
     @Input() closeOnBackdrop: boolean = true;
     @Output() closeDialog = new EventEmitter<void>();
+
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+    ngOnInit(): void {
+        this.renderer.appendChild(document.body, this.el.nativeElement);
+    }
+
+    ngOnDestroy(): void {
+        if (this.el.nativeElement && this.el.nativeElement.parentNode) {
+            this.renderer.removeChild(document.body, this.el.nativeElement);
+        }
+    }
 
     onBackdropClick(): void {
         if (this.closeOnBackdrop) {

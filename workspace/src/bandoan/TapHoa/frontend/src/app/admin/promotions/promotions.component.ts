@@ -8,6 +8,8 @@ import { AlertService } from '../../services/alert.service';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { NumberFormatDirective } from '../../shared/directives/number-format.directive';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category';
 
 @Component({
   selector: 'app-promotions',
@@ -20,8 +22,10 @@ export class PromotionsComponent implements OnInit {
   private promotionService = inject(PromotionService);
   private alertService = inject(AlertService);
   private translate = inject(TranslateService);
+  private categoryService = inject(CategoryService);
 
   promotions: Promotion[] = [];
+  categories: Category[] = [];
   searchTerm = '';
   activeDropdownRowId: string | null = null;
   
@@ -41,6 +45,18 @@ export class PromotionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPromotions();
+    this.loadCategories();
+  }
+
+  loadCategories() {
+    this.categoryService.getAll().subscribe({
+      next: (res: Category[]) => {
+        this.categories = res || [];
+      },
+      error: (err: any) => {
+        console.error('Failed to load categories', err);
+      }
+    });
   }
 
   loadPromotions() {

@@ -59,7 +59,7 @@
               </span>
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products', item.id]" title="Chỉnh sửa sản phẩm">
+              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" title="Chỉnh sửa sản phẩm">
                 <i class="bi bi-pencil"></i>
               </button>
             </td>
