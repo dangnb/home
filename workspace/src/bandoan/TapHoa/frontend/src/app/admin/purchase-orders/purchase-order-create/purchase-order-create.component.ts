@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { PurchaseOrderService, CreatePurchaseOrderDto } from '../../../services/purchase-order.service';
 import { SupplierService } from '../../../services/supplier.service';
 import { ProductService } from '../../../services/product.service';
@@ -12,7 +12,7 @@ import { NumberFormatDirective } from '../../../shared/directives/number-format.
 @Component({
   selector: 'app-purchase-order-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NumberFormatDirective, TranslateModule],
+  imports: [CommonModule, FormsModule, RouterLink, NumberFormatDirective, TranslatePipe],
   templateUrl: './purchase-order-create.component.html',
   styleUrl: './purchase-order-create.component.scss'
 })

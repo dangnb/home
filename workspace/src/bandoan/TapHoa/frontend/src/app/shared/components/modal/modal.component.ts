@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, Renderer2, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, Renderer2, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 
