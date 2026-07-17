@@ -52,4 +52,9 @@ public class User : BaseEntity<Guid>
             Roles.Add(role);
         }
     }
+
+    public void UpdatePassword(string passwordHash)
+    {
+        PasswordHash = passwordHash;
+    }
 }

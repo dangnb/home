@@ -105,5 +105,33 @@ public static class HREndpoints
             return Results.Ok(new { importedCount = count });
         })
         .DisableAntiforgery();
+
+        group.MapPost("/employees/{id:guid}/create-user", async (IMediator mediator, Guid id, [FromBody] CreateUserForEmployeeCommand command) =>
+        {
+            if (id != command.EmployeeId) return Results.BadRequest();
+            try
+            {
+                var userId = await mediator.Send(command);
+                return Results.Ok(new { userId });
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { message = ex.Message });
+            }
+        });
+
+        group.MapPost("/employees/{id:guid}/reset-password", async (IMediator mediator, Guid id, [FromBody] ResetUserPasswordForEmployeeCommand command) =>
+        {
+            if (id != command.EmployeeId) return Results.BadRequest();
+            try
+            {
+                await mediator.Send(command);
+                return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { message = ex.Message });
+            }
+        });
     }
 }

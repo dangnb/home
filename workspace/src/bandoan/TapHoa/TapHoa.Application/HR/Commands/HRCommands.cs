@@ -17,6 +17,8 @@ public record CreateEmployeeCommand(string EmployeeCode, string FullName, string
 public record UpdateEmployeeCommand(Guid Id, string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, string? Email, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, Guid? PositionId, Guid? UserId) : IRequest<Unit>;
 public record DeleteEmployeeCommand(Guid Id) : IRequest<Unit>;
 public record ImportEmployeesCommand(string FileContent) : IRequest<int>;
+public record CreateUserForEmployeeCommand(Guid EmployeeId, string Username, string Password, List<string>? Roles) : IRequest<Guid>;
+public record ResetUserPasswordForEmployeeCommand(Guid EmployeeId, string NewPassword) : IRequest<Unit>;
 
 public class HRCommandsHandler : 
     IRequestHandler<CreateDepartmentCommand, Guid>,
@@ -28,7 +30,9 @@ public class HRCommandsHandler :
     IRequestHandler<CreateEmployeeCommand, Guid>,
     IRequestHandler<UpdateEmployeeCommand, Unit>,
     IRequestHandler<DeleteEmployeeCommand, Unit>,
-    IRequestHandler<ImportEmployeesCommand, int>
+    IRequestHandler<ImportEmployeesCommand, int>,
+    IRequestHandler<CreateUserForEmployeeCommand, Guid>,
+    IRequestHandler<ResetUserPasswordForEmployeeCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
 
@@ -177,5 +181,71 @@ public class HRCommandsHandler :
         }
         
         return count;
+    }
+
+    public async Task<Guid> Handle(CreateUserForEmployeeCommand request, CancellationToken cancellationToken)
+    {
+        var employee = await _context.Employees.FindAsync(new object[] { request.EmployeeId }, cancellationToken);
+        if (employee == null) throw new Exception("Không tìm thấy nhân viên");
+
+        if (employee.UserId.HasValue)
+        {
+            throw new Exception("Nhân viên này đã được cấp tài khoản");
+        }
+
+        // Check if username already exists
+        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+        if (existingUser != null)
+        {
+            throw new Exception("Tên đăng nhập đã tồn tại trong hệ thống");
+        }
+
+        // Create new user
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var user = new TapHoa.Domain.Entities.Identity.User(
+            request.Username, 
+            passwordHash, 
+            employee.FullName, 
+            employee.Email ?? "", 
+            employee.CompanyId,
+            employee.PhoneNumber,
+            employee.CitizenId,
+            employee.Address
+        );
+
+        // Assign roles
+        if (request.Roles != null && request.Roles.Any())
+        {
+            var roles = await _context.Roles.Where(r => request.Roles.Contains(r.Name)).ToListAsync(cancellationToken);
+            foreach (var role in roles)
+            {
+                user.AssignRole(role);
+            }
+        }
+
+        _context.Users.Add(user);
+        
+        // Link to employee
+        employee.LinkUserAccount(user.Id);
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return user.Id;
+    }
+
+    public async Task<Unit> Handle(ResetUserPasswordForEmployeeCommand request, CancellationToken cancellationToken)
+    {
+        var employee = await _context.Employees
+            .Include(e => e.User)
+            .FirstOrDefaultAsync(e => e.Id == request.EmployeeId, cancellationToken);
+            
+        if (employee == null) throw new Exception("Không tìm thấy nhân viên");
+        if (employee.User == null) throw new Exception("Nhân viên này chưa có tài khoản đăng nhập");
+
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+        employee.User.UpdatePassword(passwordHash);
+
+        await _context.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

@@ -51,6 +51,43 @@ public static class AttendancesEndpoints
         })
         .WithName("CreateAttendance");
 
+        // Admin: Import Attendances via Excel
+        group.MapPost("/import", async (Microsoft.AspNetCore.Http.HttpRequest request, ISender sender) =>
+        {
+            if (!request.HasFormContentType)
+                return Results.BadRequest("Unsupported media type.");
+
+            var form = await request.ReadFormAsync();
+            var file = form.Files.GetFile("file");
+
+            if (file == null || file.Length == 0)
+                return Results.BadRequest("No file uploaded.");
+
+            using var stream = file.OpenReadStream();
+            var command = new ImportAttendanceCommand { FileStream = stream };
+            
+            var result = await sender.Send(command);
+            
+            return Results.Ok(result);
+        })
+        .WithName("ImportAttendances");
+
+        // Admin: Download Attendance Template
+        group.MapGet("/template", () =>
+        {
+            var records = new[]
+            {
+                new { Username = "NV001", Date = DateTime.Today.ToString("yyyy-MM-dd"), CheckIn = "08:00", CheckOut = "17:00", Notes = "Đi làm đúng giờ" }
+            };
+            
+            var stream = new MemoryStream();
+            MiniExcelLibs.MiniExcel.SaveAs(stream, records);
+            stream.Position = 0;
+            
+            return Results.File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Attendance_Import_Template.xlsx");
+        })
+        .WithName("DownloadAttendanceTemplate");
+
         return group;
     }
 }

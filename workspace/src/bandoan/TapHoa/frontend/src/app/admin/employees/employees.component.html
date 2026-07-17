@@ -28,6 +28,7 @@
               <th class="py-3 border-0">Email</th>
               <th class="py-3 border-0">Ngày Sinh</th>
               <th class="py-3 border-0">Lương CB</th>
+              <th class="py-3 border-0 text-center">Tài Khoản</th>
               <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
             </tr>
           </thead>
@@ -60,6 +61,22 @@
                   <td class="py-3">{{ item.email || '--' }}</td>
                   <td class="py-3">{{ item.dateOfBirth ? (item.dateOfBirth | date:'dd/MM/yyyy') : '--' }}</td>
                   <td class="py-3 fw-medium">{{ item.baseSalary | number:'1.0-0' }} đ</td>
+                  <td class="py-3 text-center">
+                    @if (item.userId) {
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 mb-1">
+                          <i class="bi bi-check-circle me-1"></i> {{ item.username || 'Đã cấp' }}
+                        </span>
+                        <button class="btn btn-sm btn-link text-primary p-0" (click)="openResetPasswordModal(item)">
+                          <small><i class="bi bi-key me-1"></i>Đổi MK</small>
+                        </button>
+                      </div>
+                    } @else {
+                      <button class="btn btn-sm btn-outline-primary rounded-pill px-3" (click)="openCreateUserModal(item)">
+                        <i class="bi bi-person-plus me-1"></i> Cấp TK
+                      </button>
+                    }
+                  </td>
                   <td class="pe-4 py-3 text-end">
                     <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(item)">
                       <i class="bi bi-pencil"></i>
@@ -228,6 +245,100 @@
               Đang xử lý...
             } @else {
               Xác nhận Import
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Tạo User Từ Nhân Viên -->
+@if (showCreateUserModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">Cấp Tài Khoản Đăng Nhập</h5>
+          <button type="button" class="btn-close" (click)="closeCreateUserModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <p class="text-muted mb-4">Bạn đang cấp tài khoản cho nhân viên: <strong class="text-primary">{{ selectedEmployee()?.fullName }}</strong></p>
+          
+          <form (ngSubmit)="submitCreateUser()" #createUserForm="ngForm" id="createUserForm">
+            <div class="mb-3">
+              <label class="form-label fw-medium">Tên đăng nhập <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="username" [(ngModel)]="userForm.username" required>
+              <div class="form-text">Gợi ý: Dùng mã nhân viên ({{ selectedEmployee()?.employeeCode }}) làm tên đăng nhập.</div>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label fw-medium">Mật khẩu <span class="text-danger">*</span></label>
+              <input type="password" class="form-control rounded-3" name="password" [(ngModel)]="userForm.password" required placeholder="Nhập mật khẩu">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-medium mb-2">Vai trò (Roles)</label>
+              <div class="border rounded-3 p-3 bg-light" style="max-height: 150px; overflow-y: auto;">
+                @if (availableRoles().length === 0) {
+                  <p class="text-muted small mb-0">Đang tải danh sách vai trò...</p>
+                } @else {
+                  @for (role of availableRoles(); track role.id) {
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" [id]="'role_' + role.id" (change)="toggleRole(role.name, $event)">
+                      <label class="form-check-label" [for]="'role_' + role.id">
+                        {{ role.name }} <span class="text-muted small">({{ role.description }})</span>
+                      </label>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeCreateUserModal()">Hủy</button>
+          <button type="submit" form="createUserForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!createUserForm.valid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang tạo...
+            } @else {
+              Tạo Tài Khoản
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Đặt lại Mật Khẩu -->
+@if (showResetPasswordModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">Đặt Lại Mật Khẩu</h5>
+          <button type="button" class="btn-close" (click)="closeResetPasswordModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <p class="text-muted mb-3 small">Mật khẩu mới cho tài khoản của: <strong class="text-primary">{{ selectedEmployee()?.fullName }}</strong></p>
+          
+          <form (ngSubmit)="submitResetPassword()" #resetForm="ngForm" id="resetForm">
+            <div class="mb-3">
+              <label class="form-label fw-medium">Mật khẩu mới <span class="text-danger">*</span></label>
+              <input type="password" class="form-control rounded-3" name="newPassword" [(ngModel)]="resetPasswordForm.newPassword" required placeholder="Nhập mật khẩu mới">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-2 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-3 py-2 border-0" (click)="closeResetPasswordModal()">Hủy</button>
+          <button type="submit" form="resetForm" class="btn btn-warning text-dark fw-bold rounded-pill px-3 py-2 border-0" [disabled]="!resetForm.valid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang lưu...
+            } @else {
+              Cập Nhật
             }
           </button>
         </div>
