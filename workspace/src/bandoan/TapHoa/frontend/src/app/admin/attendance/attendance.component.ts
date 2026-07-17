@@ -143,6 +143,52 @@ export class AttendanceComponent implements OnInit {
     this.showModal.set(true);
   }
 
+  // Import
+  showImportModal = signal(false);
+  selectedFile = signal<File | null>(null);
+  isUploading = signal(false);
+  importResult = signal<{ successCount: number; errorCount: number; errors: string[] } | null>(null);
+
+  openImportModal() {
+    this.importResult.set(null);
+    this.selectedFile.set(null);
+    this.showImportModal.set(true);
+  }
+
+  downloadTemplate() {
+    this.payrollService.downloadAttendanceTemplate();
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile.set(file);
+    }
+  }
+
+  uploadFile() {
+    const file = this.selectedFile();
+    if (!file) return;
+
+    this.isUploading.set(true);
+    this.importResult.set(null);
+
+    this.payrollService.importAttendance(file).subscribe({
+      next: (result) => {
+        this.importResult.set(result);
+        this.isUploading.set(false);
+        if (result.successCount > 0) {
+          this.alertService.success(`Import thành công ${result.successCount} bản ghi`);
+          this.loadData();
+        }
+      },
+      error: (err) => {
+        this.isUploading.set(false);
+        this.alertService.error(err?.error?.message || 'Lỗi khi upload file');
+      }
+    });
+  }
+
   saveAttendance() {
     this.payrollService.createAttendance(this.editingAttendance).subscribe({
       next: () => {

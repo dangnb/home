@@ -33,4 +33,12 @@ export class EmployeeService extends BaseCrudService<Employee> {
     formData.append('file', file);
     return this.http.post<{importedCount: number}>(`${this.apiUrl}/upload`, formData);
   }
+
+  createUserForEmployee(employeeId: string, data: any) {
+    return this.http.post<{userId: string}>(`${this.apiUrl}/${employeeId}/create-user`, data);
+  }
+
+  resetUserPassword(employeeId: string, data: any) {
+    return this.http.post(`${this.apiUrl}/${employeeId}/reset-password`, data);
+  }
 }

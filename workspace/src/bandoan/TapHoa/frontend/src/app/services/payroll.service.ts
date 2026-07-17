@@ -119,6 +119,16 @@ export class PayrollService {
     return this.http.post<{ id: string; message: string }>(`${this.attendanceUrl}/manual`, command);
   }
 
+  importAttendance(file: File): Observable<{ successCount: number; errorCount: number; errors: string[] }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ successCount: number; errorCount: number; errors: string[] }>(`${this.attendanceUrl}/import`, formData);
+  }
+
+  downloadAttendanceTemplate(): void {
+    window.open(`${this.attendanceUrl}/template`, '_blank');
+  }
+
   // ── Payroll ──
   getPayrollPeriods(year?: number): Observable<PayrollPeriodDto[]> {
     let params = new HttpParams();

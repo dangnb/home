@@ -2277,3 +2277,579 @@ ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
 2026-07-17 23:13:49.162 +07:00 [INF] HTTP GET /api/v1/roles responded 200 in 4.0749 ms
 2026-07-17 23:14:49.080 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0968 ms
 2026-07-17 23:14:49.100 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 18.3150 ms
+2026-07-17 23:24:44.601 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:24:44.631 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:24:44.631 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:24:44.631 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:24:44.740 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-17 23:24:45.166 +07:00 [ERR] Failed executing DbCommand (90ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-17 23:24:45.184 +07:00 [ERR] Failed executing DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-17 23:24:45.240 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-17 23:24:45.248 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-17 23:24:45.261 +07:00 [ERR] Failed executing DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-17 23:24:45.290 +07:00 [ERR] Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-17 23:24:45.296 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-17 23:25:38.152 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 12.9520 ms
+2026-07-17 23:25:38.152 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 12.9416 ms
+2026-07-17 23:25:38.152 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 12.9439 ms
+2026-07-17 23:25:38.311 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-17 23:25:38.324 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:25:38.324 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:25:38.324 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:25:38.515 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 338.4264 ms
+2026-07-17 23:25:38.968 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 790.8525 ms
+2026-07-17 23:25:38.969 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 792.1557 ms
+2026-07-17 23:25:42.228 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.1799 ms
+2026-07-17 23:25:42.228 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.1801 ms
+2026-07-17 23:25:42.228 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inventory-report responded 204 in 0.1819 ms
+2026-07-17 23:25:42.270 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 35.3653 ms
+2026-07-17 23:25:42.270 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 35.3651 ms
+2026-07-17 23:25:42.493 +07:00 [INF] HTTP GET /api/v1/transactions/inventory-report responded 200 in 258.4860 ms
+2026-07-17 23:25:45.490 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.1579 ms
+2026-07-17 23:25:45.490 +07:00 [INF] HTTP OPTIONS /api/v1/hr/departments responded 204 in 0.1566 ms
+2026-07-17 23:25:45.491 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0453 ms
+2026-07-17 23:25:45.492 +07:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.0769 ms
+2026-07-17 23:25:45.493 +07:00 [INF] HTTP OPTIONS /api/v1/hr/employees responded 204 in 0.0607 ms
+2026-07-17 23:25:45.495 +07:00 [INF] HTTP GET /api/v1/users responded 404 in 0.7533 ms
+2026-07-17 23:25:45.508 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 13.3979 ms
+2026-07-17 23:25:45.513 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 18.9702 ms
+2026-07-17 23:25:45.607 +07:00 [INF] HTTP GET /api/v1/hr/employees responded 200 in 111.2973 ms
+2026-07-17 23:25:45.611 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 116.8213 ms
+2026-07-17 23:25:49.694 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 4.5612 ms
+2026-07-17 23:25:52.627 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.4092 ms
+2026-07-17 23:25:52.634 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 4.0022 ms
+2026-07-17 23:25:56.957 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.1628 ms
+2026-07-17 23:25:56.957 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0667 ms
+2026-07-17 23:25:57.020 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 59.6484 ms
+2026-07-17 23:25:57.075 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 115.2679 ms
+2026-07-17 23:26:05.785 +07:00 [INF] HTTP OPTIONS /api/v1/hr/departments responded 204 in 0.1929 ms
+2026-07-17 23:26:05.785 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.1430 ms
+2026-07-17 23:26:05.786 +07:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.0326 ms
+2026-07-17 23:26:05.786 +07:00 [INF] HTTP OPTIONS /api/v1/hr/employees responded 204 in 0.0399 ms
+2026-07-17 23:26:05.786 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0474 ms
+2026-07-17 23:26:05.790 +07:00 [INF] HTTP GET /api/v1/users responded 404 in 1.0429 ms
+2026-07-17 23:26:05.795 +07:00 [INF] HTTP GET /api/v1/hr/employees responded 200 in 5.6573 ms
+2026-07-17 23:26:05.808 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 13.1145 ms
+2026-07-17 23:26:05.810 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 15.6039 ms
+2026-07-17 23:26:05.810 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 15.8080 ms
+2026-07-17 23:26:44.170 +07:00 [INF] HTTP OPTIONS /api/v1/hr/departments responded 204 in 0.2095 ms
+2026-07-17 23:26:44.176 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 3.6317 ms
+2026-07-17 23:26:47.684 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.1081 ms
+2026-07-17 23:26:47.702 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 15.4039 ms
+2026-07-17 23:26:48.076 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.1052 ms
+2026-07-17 23:26:48.082 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 5.0459 ms
+2026-07-17 23:26:48.092 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 12.7865 ms
+2026-07-17 23:26:50.472 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.0974 ms
+2026-07-17 23:26:50.472 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0488 ms
+2026-07-17 23:26:50.495 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 20.7147 ms
+2026-07-17 23:26:50.580 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 98.6347 ms
+2026-07-17 23:26:50.736 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 3.3581 ms
+2026-07-17 23:28:06.995 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0892 ms
+2026-07-17 23:28:07.000 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 3.5474 ms
+2026-07-17 23:28:08.255 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.1060 ms
+2026-07-17 23:28:08.349 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 92.1978 ms
+2026-07-17 23:28:09.354 +07:00 [INF] HTTP OPTIONS /api/v1/attendances responded 204 in 0.0907 ms
+2026-07-17 23:28:09.354 +07:00 [INF] HTTP OPTIONS /api/v1/attendances/today responded 204 in 0.0234 ms
+2026-07-17 23:28:09.368 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 11.9465 ms
+2026-07-17 23:28:09.368 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 12.0129 ms
+2026-07-17 23:28:10.131 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.0680 ms
+2026-07-17 23:28:10.136 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 2.8951 ms
+2026-07-17 23:28:10.544 +07:00 [INF] HTTP GET /api/v1/attendances responded 200 in 5.4164 ms
+2026-07-17 23:28:10.545 +07:00 [INF] HTTP GET /api/v1/attendances/today responded 200 in 5.9534 ms
+2026-07-17 23:28:10.969 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 8.0662 ms
+2026-07-17 23:28:14.765 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/9193679d-b9ab-45aa-93bf-4318a77d310b responded 204 in 0.0878 ms
+2026-07-17 23:28:14.892 +07:00 [INF] HTTP GET /api/v1/payroll/periods/9193679d-b9ab-45aa-93bf-4318a77d310b responded 200 in 124.7477 ms
+2026-07-17 23:28:18.067 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.1083 ms
+2026-07-17 23:28:18.071 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 2.1749 ms
+2026-07-17 23:28:36.124 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.3865 ms
+2026-07-17 23:28:36.537 +07:00 [INF] Audit Logged: Create by admin - CreateSalaryTemplateCommand
+2026-07-17 23:28:36.654 +07:00 [INF] HTTP POST /api/v1/salary-templates responded 200 in 527.5629 ms
+2026-07-17 23:28:36.682 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 5.0291 ms
+2026-07-17 23:28:44.990 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.1862 ms
+2026-07-17 23:28:44.998 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 6.4669 ms
+2026-07-17 23:28:47.952 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/9193679d-b9ab-45aa-93bf-4318a77d310b responded 204 in 0.0675 ms
+2026-07-17 23:28:47.961 +07:00 [INF] HTTP GET /api/v1/payroll/periods/9193679d-b9ab-45aa-93bf-4318a77d310b responded 200 in 7.2257 ms
+2026-07-17 23:28:49.251 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0479 ms
+2026-07-17 23:28:49.255 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 2.2945 ms
+2026-07-17 23:28:50.113 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0479 ms
+2026-07-17 23:28:50.120 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 5.7344 ms
+2026-07-17 23:29:22.477 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0472 ms
+2026-07-17 23:29:22.477 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0404 ms
+2026-07-17 23:29:22.484 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 5.1863 ms
+2026-07-17 23:29:22.485 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 5.8245 ms
+2026-07-17 23:29:22.493 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0381 ms
+2026-07-17 23:29:22.497 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.1606 ms
+2026-07-17 23:30:23.067 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0620 ms
+2026-07-17 23:30:23.068 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0277 ms
+2026-07-17 23:30:23.073 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.9411 ms
+2026-07-17 23:30:23.074 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 4.4104 ms
+2026-07-17 23:30:23.082 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0378 ms
+2026-07-17 23:30:23.086 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 3.2372 ms
+2026-07-17 23:31:14.337 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:31:14.372 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:31:14.372 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:31:14.372 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:31:14.482 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-17 23:31:14.922 +07:00 [ERR] Failed executing DbCommand (79ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-17 23:31:14.937 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-17 23:31:14.993 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-17 23:31:15.002 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-17 23:31:15.013 +07:00 [ERR] Failed executing DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-17 23:31:15.051 +07:00 [ERR] Failed executing DbCommand (37ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-17 23:31:15.056 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-17 23:31:44.168 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 10.9450 ms
+2026-07-17 23:31:44.168 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 10.9324 ms
+2026-07-17 23:31:44.168 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 10.9386 ms
+2026-07-17 23:31:44.297 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-17 23:31:44.306 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:31:44.306 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:31:44.306 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 23:31:44.447 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 257.6638 ms
+2026-07-17 23:31:44.961 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 772.1170 ms
+2026-07-17 23:31:44.965 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 776.0331 ms
+2026-07-17 23:31:49.671 +07:00 [INF] HTTP OPTIONS /api/v1/auth/login responded 204 in 0.1397 ms
+2026-07-17 23:31:50.043 +07:00 [INF] Audit Logged: Unknown by admin - LoginCommand
+2026-07-17 23:31:51.181 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 1506.0952 ms
+2026-07-17 23:31:51.229 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.1058 ms
+2026-07-17 23:31:51.229 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.1053 ms
+2026-07-17 23:31:51.234 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.1323 ms
+2026-07-17 23:31:51.258 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 23.0948 ms
+2026-07-17 23:31:51.279 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 44.5306 ms
+2026-07-17 23:31:51.336 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 92.1782 ms
+2026-07-17 23:32:35.741 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.1924 ms
+2026-07-17 23:32:35.741 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1928 ms
+2026-07-17 23:32:35.746 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.9078 ms
+2026-07-17 23:32:35.774 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 27.7548 ms
+2026-07-17 23:32:35.791 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 42.5547 ms
+2026-07-17 23:32:35.826 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 11.2855 ms
+2026-07-17 23:32:39.215 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.4768 ms
+2026-07-17 23:32:39.223 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 5.7872 ms
+2026-07-17 23:32:39.755 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inventory-report responded 204 in 0.3797 ms
+2026-07-17 23:32:39.757 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.1234 ms
+2026-07-17 23:32:39.757 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.1249 ms
+2026-07-17 23:32:39.770 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 8.7817 ms
+2026-07-17 23:32:39.770 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 8.7799 ms
+2026-07-17 23:32:39.919 +07:00 [INF] HTTP GET /api/v1/transactions/inventory-report responded 200 in 161.6516 ms
+2026-07-17 23:32:40.149 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.1585 ms
+2026-07-17 23:32:40.169 +07:00 [ERR] HTTP GET /api/v1/transactions responded 500 in 17.6225 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 't.StoreId' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 38
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:32:40.211 +07:00 [ERR] An exception occurred: Unknown column 't.StoreId' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 't.StoreId' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 38
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:32:41.423 +07:00 [INF] HTTP OPTIONS /api/v1/shifts/current responded 204 in 0.1013 ms
+2026-07-17 23:32:41.423 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0563 ms
+2026-07-17 23:32:41.423 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0405 ms
+2026-07-17 23:32:41.435 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 6.9875 ms
+2026-07-17 23:32:41.441 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 13.5510 ms
+2026-07-17 23:32:41.461 +07:00 [INF] HTTP GET /api/v1/shifts/current responded 200 in 32.0269 ms
+2026-07-17 23:32:41.872 +07:00 [ERR] HTTP GET /api/v1/transactions responded 500 in 3.4320 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 't.StoreId' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 38
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:32:41.875 +07:00 [ERR] An exception occurred: Unknown column 't.StoreId' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 't.StoreId' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 38
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:32:42.302 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0844 ms
+2026-07-17 23:32:42.384 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 80.0477 ms
+2026-07-17 23:32:43.990 +07:00 [INF] HTTP OPTIONS /api/v1/hr/departments responded 204 in 0.1225 ms
+2026-07-17 23:32:43.990 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0284 ms
+2026-07-17 23:32:43.991 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.0366 ms
+2026-07-17 23:32:43.994 +07:00 [INF] HTTP OPTIONS /api/v1/hr/employees responded 204 in 0.0809 ms
+2026-07-17 23:32:43.995 +07:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.0325 ms
+2026-07-17 23:32:44.002 +07:00 [INF] HTTP GET /api/v1/users responded 404 in 1.0485 ms
+2026-07-17 23:32:44.007 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 12.2585 ms
+2026-07-17 23:32:44.013 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 19.2907 ms
+2026-07-17 23:32:44.029 +07:00 [INF] HTTP GET /api/v1/hr/employees responded 200 in 32.9965 ms
+2026-07-17 23:32:44.030 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 34.6131 ms
+2026-07-17 23:32:47.975 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 17.6448 ms
+2026-07-17 23:32:49.490 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0238 ms
+2026-07-17 23:32:49.490 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.1384 ms
+2026-07-17 23:32:49.496 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 4.2888 ms
+2026-07-17 23:32:49.504 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 12.0555 ms
+2026-07-17 23:32:49.845 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 3.3800 ms
+2026-07-17 23:32:50.275 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.0922 ms
+2026-07-17 23:32:50.275 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0215 ms
+2026-07-17 23:32:50.283 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 5.3896 ms
+2026-07-17 23:32:50.388 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 110.7935 ms
+2026-07-17 23:33:22.665 +07:00 [INF] HTTP OPTIONS /api/v1/return-orders responded 204 in 0.1108 ms
+2026-07-17 23:33:22.904 +07:00 [INF] HTTP GET /api/v1/return-orders responded 200 in 235.4897 ms
+2026-07-17 23:33:25.179 +07:00 [INF] HTTP OPTIONS /api/v1/dashboard/summary responded 204 in 0.0798 ms
+2026-07-17 23:33:25.208 +07:00 [INF] HTTP GET /api/v1/dashboard/summary responded 200 in 25.8316 ms
+2026-07-17 23:33:26.248 +07:00 [INF] HTTP OPTIONS /api/v1/reports/revenue responded 204 in 0.0952 ms
+2026-07-17 23:33:26.250 +07:00 [INF] HTTP OPTIONS /api/v1/reports/top-products responded 204 in 0.0674 ms
+2026-07-17 23:33:26.341 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 90.9029 ms
+2026-07-17 23:33:26.351 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 99.9542 ms
+2026-07-17 23:33:27.361 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1035 ms
+2026-07-17 23:33:27.361 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0272 ms
+2026-07-17 23:33:27.362 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0133 ms
+2026-07-17 23:33:27.366 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 2.3340 ms
+2026-07-17 23:33:27.366 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.0775 ms
+2026-07-17 23:33:27.367 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.2151 ms
+2026-07-17 23:33:28.140 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0283 ms
+2026-07-17 23:33:28.143 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 1.8330 ms
+2026-07-17 23:33:30.581 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0562 ms
+2026-07-17 23:33:30.652 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 67.8692 ms
+2026-07-17 23:33:34.199 +07:00 [INF] HTTP OPTIONS /api/v1/roles responded 204 in 0.0537 ms
+2026-07-17 23:33:34.208 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 7.7777 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:33:34.279 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:33:35.766 +07:00 [INF] HTTP OPTIONS /api/v1/audits responded 204 in 0.0535 ms
+2026-07-17 23:33:35.804 +07:00 [INF] HTTP GET /api/v1/audits responded 200 in 37.1349 ms
+2026-07-17 23:33:36.373 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 4.4177 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:33:36.376 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:36:05.441 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.1109 ms
+2026-07-17 23:36:05.442 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0127 ms
+2026-07-17 23:36:05.447 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.6728 ms
+2026-07-17 23:36:05.449 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 5.4831 ms
+2026-07-17 23:36:05.456 +07:00 [INF] HTTP OPTIONS /api/v1/roles responded 204 in 0.0731 ms
+2026-07-17 23:36:05.460 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 3.3194 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:36:05.463 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:36:24.340 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 0.0528 ms
+2026-07-17 23:36:24.340 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.0206 ms
+2026-07-17 23:36:24.345 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2.7682 ms
+2026-07-17 23:36:24.347 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 4.6711 ms
+2026-07-17 23:36:24.351 +07:00 [INF] HTTP OPTIONS /api/v1/roles responded 204 in 0.0559 ms
+2026-07-17 23:36:24.356 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 3.2512 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-17 23:36:24.359 +07:00 [ERR] An exception occurred: Unknown column 'IsDeleted' in 'WHERE'
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'IsDeleted' in 'WHERE'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 434
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 26
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-17 23:38:16.626 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:38:16.654 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:38:16.654 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:38:16.654 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 23:38:16.744 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-17 23:38:17.131 +07:00 [ERR] Failed executing DbCommand (89ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-17 23:38:17.147 +07:00 [ERR] Failed executing DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-17 23:38:17.209 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-17 23:38:17.218 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-17 23:38:17.228 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-17 23:38:17.259 +07:00 [ERR] Failed executing DbCommand (31ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-17 23:38:17.265 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;

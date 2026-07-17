@@ -192,8 +192,126 @@ export class EmployeesComponent implements OnInit {
     link.setAttribute('href', url);
     link.setAttribute('download', 'employee_import_template.csv');
     link.style.visibility = 'hidden';
-    document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  // --- Create User logic ---
+  showCreateUserModal = signal<boolean>(false);
+  selectedEmployee = signal<Employee | null>(null);
+  userForm = {
+    username: '',
+    password: '',
+    roles: [] as string[]
+  };
+  availableRoles = signal<any[]>([]);
+
+  openCreateUserModal(emp: Employee) {
+    this.selectedEmployee.set(emp);
+    this.userForm = {
+      username: emp.employeeCode || '',
+      password: '',
+      roles: []
+    };
+    
+    // Fetch roles if not loaded
+    if (this.availableRoles().length === 0) {
+      this.http.get<any[]>(`${environment.apiUrl}/roles`).subscribe(data => {
+        this.availableRoles.set(data);
+      });
+    }
+    
+    this.showCreateUserModal.set(true);
+  }
+
+  closeCreateUserModal() {
+    this.showCreateUserModal.set(false);
+    this.selectedEmployee.set(null);
+  }
+
+  toggleRole(roleName: string, event: any) {
+    if (event.target.checked) {
+      if (!this.userForm.roles.includes(roleName)) {
+        this.userForm.roles.push(roleName);
+      }
+    } else {
+      this.userForm.roles = this.userForm.roles.filter(r => r !== roleName);
+    }
+  }
+
+  submitCreateUser() {
+    const emp = this.selectedEmployee();
+    if (!emp) return;
+
+    if (!this.userForm.username || !this.userForm.password) {
+      this.alertService.error('Vui lòng nhập Tên đăng nhập và Mật khẩu');
+      return;
+    }
+
+    this.isSubmitting.set(true);
+    const payload = {
+      employeeId: emp.id,
+      username: this.userForm.username,
+      password: this.userForm.password,
+      roles: this.userForm.roles
+    };
+
+    this.employeeService.createUserForEmployee(emp.id, payload).subscribe({
+      next: () => {
+        this.alertService.success('Cấp tài khoản thành công!');
+        this.loadData();
+        this.closeCreateUserModal();
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        this.alertService.error(err?.error?.message || 'Có lỗi xảy ra khi tạo tài khoản');
+        this.isSubmitting.set(false);
+      }
+    });
+  }
+
+  // --- Reset Password logic ---
+  showResetPasswordModal = signal<boolean>(false);
+  resetPasswordForm = {
+    newPassword: ''
+  };
+
+  openResetPasswordModal(emp: Employee) {
+    this.selectedEmployee.set(emp);
+    this.resetPasswordForm.newPassword = '';
+    this.showResetPasswordModal.set(true);
+  }
+
+  closeResetPasswordModal() {
+    this.showResetPasswordModal.set(false);
+    this.selectedEmployee.set(null);
+  }
+
+  submitResetPassword() {
+    const emp = this.selectedEmployee();
+    if (!emp) return;
+
+    if (!this.resetPasswordForm.newPassword) {
+      this.alertService.error('Vui lòng nhập mật khẩu mới');
+      return;
+    }
+
+    this.isSubmitting.set(true);
+    const payload = {
+      employeeId: emp.id,
+      newPassword: this.resetPasswordForm.newPassword
+    };
+
+    this.employeeService.resetUserPassword(emp.id, payload).subscribe({
+      next: () => {
+        this.alertService.success('Đặt lại mật khẩu thành công!');
+        this.closeResetPasswordModal();
+        this.isSubmitting.set(false);
+      },
+      error: (err) => {
+        this.alertService.error(err?.error?.message || 'Có lỗi xảy ra khi đặt lại mật khẩu');
+        this.isSubmitting.set(false);
+      }
+    });
   }
 }

@@ -6,6 +6,9 @@
       <p class="view-subtitle">{{ 'ATTENDANCE.SUBTITLE' | translate }}</p>
     </div>
     <div class="header-actions">
+      <button class="btn btn-outline-primary me-2" (click)="openImportModal()">
+        <i class="bi bi-file-earmark-excel"></i> Import Chấm Công
+      </button>
       <button class="btn btn-primary" (click)="openCreateModal()">
         <i class="bi bi-plus-circle"></i> {{ 'ATTENDANCE.ADD_MANUAL' | translate }}
       </button>
@@ -229,6 +232,57 @@
       <div class="modal-footer-custom">
         <button class="btn btn-outline-secondary" (click)="showModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
         <button class="btn btn-primary" (click)="saveAttendance()">{{ 'COMMON.SAVE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Import Attendance Modal -->
+@if (showImportModal()) {
+  <div class="modal-backdrop" (click)="showImportModal.set(false)"></div>
+  <div class="modal-container">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h5><i class="bi bi-cloud-upload"></i> Import Dữ liệu Chấm công</h5>
+        <button class="btn-close" (click)="showImportModal.set(false)"></button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="alert alert-info py-2" role="alert">
+          <i class="bi bi-info-circle me-1"></i> Tải xuống <a href="javascript:void(0)" (click)="downloadTemplate()" class="fw-bold text-decoration-underline">File Mẫu Excel</a> để xem định dạng chuẩn.
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label fw-bold">Chọn File Excel (*.xlsx)</label>
+          <input type="file" class="form-control" accept=".xlsx,.xls" (change)="onFileSelected($event)">
+        </div>
+        
+        @if (importResult()) {
+          <div class="mt-4">
+            <h6>Kết quả Import:</h6>
+            <div class="d-flex gap-3 mb-2">
+              <span class="text-success"><i class="bi bi-check-circle"></i> Thành công: <strong>{{ importResult()?.successCount }}</strong></span>
+              <span class="text-danger"><i class="bi bi-x-circle"></i> Thất bại: <strong>{{ importResult()?.errorCount }}</strong></span>
+            </div>
+            @if (importResult()?.errors?.length) {
+              <div class="alert alert-danger p-2 mb-0" style="max-height: 150px; overflow-y: auto; font-size: 0.85rem;">
+                <ul class="mb-0 ps-3">
+                  @for (err of importResult()?.errors; track err) {
+                    <li>{{ err }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="modal-footer-custom">
+        <button class="btn btn-outline-secondary" (click)="showImportModal.set(false)">Đóng</button>
+        <button class="btn btn-primary" (click)="uploadFile()" [disabled]="!selectedFile() || isUploading()">
+          @if (isUploading()) {
+            <span class="spinner-border spinner-border-sm me-1"></span> Đang xử lý...
+          } @else {
+            <i class="bi bi-upload"></i> Bắt đầu Import
+          }
+        </button>
       </div>
     </div>
   </div>
