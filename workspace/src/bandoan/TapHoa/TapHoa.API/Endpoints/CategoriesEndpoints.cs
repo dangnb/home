@@ -23,7 +23,7 @@ public static class CategoriesEndpoints
         })
         .WithName("GetCategories")
         .WithDescription("Gets all categories")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewCategories);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewCategories);
 
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
@@ -32,7 +32,7 @@ public static class CategoriesEndpoints
         })
         .WithName("GetCategoryById")
         .WithDescription("Gets a specific category by ID")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewCategories);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewCategories);
 
         group.MapPost("/", async ([FromBody] CreateCategoryCommand command, [FromServices] ISender sender) =>
         {
@@ -41,7 +41,7 @@ public static class CategoriesEndpoints
         })
         .WithName("CreateCategory")
         .WithDescription("Creates a new category")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateCategories);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.CreateCategories);
 
         group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateCategoryCommand command, [FromServices] ISender sender) =>
         {
@@ -52,7 +52,7 @@ public static class CategoriesEndpoints
         })
         .WithName("UpdateCategory")
         .WithDescription("Updates an existing category")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.UpdateCategories);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.UpdateCategories);
 
         group.MapDelete("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
@@ -61,7 +61,7 @@ public static class CategoriesEndpoints
         })
         .WithName("DeleteCategory")
         .WithDescription("Deletes a category")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.DeleteCategories);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.DeleteCategories);
 
         return group;
     }

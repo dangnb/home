@@ -15,12 +15,9 @@ public class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
         {
             var permissionPart = policyName.Substring(RequirePermissionAttribute.PolicyPrefix.Length);
             
-            if (long.TryParse(permissionPart, out var requiredPermission))
-            {
-                var builder = new AuthorizationPolicyBuilder();
-                builder.AddRequirements(new PermissionRequirement(requiredPermission));
-                return builder.Build();
-            }
+            var builder = new AuthorizationPolicyBuilder();
+            builder.AddRequirements(new PermissionRequirement(permissionPart));
+            return builder.Build();
         }
 
         return policy;

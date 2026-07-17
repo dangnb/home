@@ -249,6 +249,17 @@ using (var scope = app.Services.CreateScope())
     try
     {
         context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Roles` MODIFY `Permissions` LONGTEXT NULL;
+            UPDATE `Roles` SET `Permissions` = '[""*""]' WHERE `Name` = 'Admin';
+            UPDATE `Roles` SET `Permissions` = '[""Permissions.POS.View"", ""Permissions.POS.CreateOrder"", ""Permissions.Products.View"", ""Permissions.Categories.View""]' WHERE `Name` = 'Staff';
+            UPDATE `Roles` SET `Permissions` = '[""Permissions.POS.View"", ""Permissions.POS.CreateOrder"", ""Permissions.Products.View"", ""Permissions.Categories.View"", ""Permissions.Inventory.View""]' WHERE `Name` = 'Manager';
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
             CREATE TABLE IF NOT EXISTS `Shifts` (
                 `Id` char(36) NOT NULL,
                 `Username` longtext NOT NULL,
@@ -482,5 +493,6 @@ app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersi
 app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
 app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(apiVersionSet).MapSalaryTemplateEndpoints();
 app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
+app.MapRoleEndpoints();
 
 app.Run();

@@ -9,11 +9,11 @@ public class RequirePermissionAttribute : AuthorizeAttribute
 {
     public const string PolicyPrefix = "Permission_";
 
-    public RequirePermissionAttribute(AppPermissions permission)
+    public RequirePermissionAttribute(string permission)
     {
         Permission = permission;
-        Policy = $"{PolicyPrefix}{(long)permission}";
+        Policy = $"{PolicyPrefix}{permission}";
     }
 
-    public AppPermissions Permission { get; }
+    public string Permission { get; }
 }

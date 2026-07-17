@@ -25,7 +25,7 @@ public static class TransactionsEndpoints
         })
         .WithName("CreateInboundTransaction")
         .WithDescription("Creates a new inbound transaction (Draft)")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts); // For now tying it to CreateProducts permission
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.CreateProducts); // For now tying it to CreateProducts permission
 
         group.MapPost("/outbound", async ([FromBody] CreateOutboundTransactionCommand command, [FromServices] ISender sender, System.Security.Claims.ClaimsPrincipal user) =>
         {

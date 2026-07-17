@@ -1,6 +1,6 @@
 export interface Role {
-    id: string;
+    id?: string;
     name: string;
     description: string;
-    permissions: number; // Bitmask value
+    permissions: string[];
 }

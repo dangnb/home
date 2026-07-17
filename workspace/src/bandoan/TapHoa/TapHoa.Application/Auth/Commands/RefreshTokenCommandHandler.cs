@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using TapHoa.Application.Auth.DTOs;
 using TapHoa.Application.Interfaces;
 using TapHoa.Domain.Interfaces;
@@ -45,17 +46,39 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, A
 
         // Generate new JWT 
         var roles = user.Roles.Select(r => r.Name).ToList();
-        long packedPermissions = 0;
-        foreach (var r in user.Roles) packedPermissions |= r.Permissions;
+        
+        var allPermissions = new HashSet<string>();
+        foreach (var r in user.Roles)
+        {
+            if (!string.IsNullOrEmpty(r.Permissions))
+            {
+                try
+                {
+                    var perms = JsonSerializer.Deserialize<List<string>>(r.Permissions);
+                    if (perms != null)
+                    {
+                        foreach(var p in perms) allPermissions.Add(p);
+                    }
+                }
+                catch { } // Ignore malformed JSON
+            }
+        }
 
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim("FullName", user.FullName),
-            new Claim("CompanyId", user.CompanyId.ToString()),
-            new Claim("Permissions", packedPermissions.ToString())
+            new Claim("CompanyId", user.CompanyId.ToString())
         };
+
+        var permissionsJson = JsonSerializer.Serialize(allPermissions);
+        claims.Add(new Claim("Permissions", permissionsJson)); 
+
+        foreach (var p in allPermissions)
+        {
+            claims.Add(new Claim("Permission", p));
+        }
         foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
 
         var keyString = _config["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
@@ -84,7 +107,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, A
             Username = user.Username,
             FullName = user.FullName,
             Roles = roles,
-            Permissions = new List<string> { packedPermissions.ToString() }
+            Permissions = allPermissions.ToList()
         };
     }
 }

@@ -23,16 +23,30 @@ export const permissionGuard: CanActivateFn = (route, state) => {
         }).join('')));
 
         // Extract required permission from route data
-        const requiredPermission = route.data?.['permission'] as number;
+        const requiredPermission = route.data?.['permission'] as string;
         if (!requiredPermission) {
             // If no permission is required, let it pass
             return true;
         }
 
-        const userPermissions = Number(payload.Permissions) || 0;
+        let userPermissions: string[] = [];
+        if (payload.Permissions) {
+            try {
+                // Permissions is a JSON string of array
+                var parsed = JSON.parse(payload.Permissions);
+                if (Array.isArray(parsed)) {
+                    userPermissions = parsed;
+                } else if (typeof parsed === 'string') {
+                    // Just in case it's a single string instead of array
+                    userPermissions = [parsed];
+                }
+            } catch {
+                userPermissions = [];
+            }
+        }
 
-        // Check if user has the required permission
-        if ((userPermissions & requiredPermission) === requiredPermission) {
+        // Check if user has wildcard or the required permission
+        if (userPermissions && (userPermissions.includes('*') || userPermissions.includes(requiredPermission))) {
             return true;
         }
 

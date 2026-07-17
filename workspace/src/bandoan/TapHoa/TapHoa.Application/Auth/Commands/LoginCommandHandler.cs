@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using TapHoa.Application.Auth.DTOs;
 using TapHoa.Domain.Interfaces;
 
@@ -35,11 +36,22 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
         user = await _userRepository.GetUserWithRolesAsync(user.Id, cancellationToken);
         var roles = user!.Roles.Select(r => r.Name).ToList();
 
-        // Calculate bitwise permissions by ORing all role permissions
-        long packedPermissions = 0;
+        // Calculate permissions by combining all role permissions
+        var allPermissions = new HashSet<string>();
         foreach (var r in user.Roles)
         {
-            packedPermissions |= r.Permissions;
+            if (!string.IsNullOrEmpty(r.Permissions))
+            {
+                try
+                {
+                    var perms = JsonSerializer.Deserialize<List<string>>(r.Permissions);
+                    if (perms != null)
+                    {
+                        foreach(var p in perms) allPermissions.Add(p);
+                    }
+                }
+                catch { } // Ignore malformed JSON
+            }
         }
 
         var claims = new List<Claim>
@@ -47,9 +59,17 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim("FullName", user.FullName),
-            new Claim("CompanyId", user.CompanyId.ToString()),
-            new Claim("Permissions", packedPermissions.ToString()) // Pack bits into 1 string claim
+            new Claim("CompanyId", user.CompanyId.ToString())
         };
+
+        // Add string array as JSON claim for easier frontend parsing, and add individual claims for backend Policy matching
+        var permissionsJson = JsonSerializer.Serialize(allPermissions);
+        claims.Add(new Claim("Permissions", permissionsJson)); 
+
+        foreach (var p in allPermissions)
+        {
+            claims.Add(new Claim("Permission", p));
+        }
 
         foreach (var role in roles) claims.Add(new Claim(ClaimTypes.Role, role));
 
@@ -80,7 +100,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResultDto>
             Username = user.Username,
             FullName = user.FullName,
             Roles = roles,
-            Permissions = new List<string> { packedPermissions.ToString() }
+            Permissions = allPermissions.ToList()
         };
     }
 }
