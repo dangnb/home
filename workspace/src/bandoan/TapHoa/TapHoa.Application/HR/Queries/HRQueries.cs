@@ -8,7 +8,7 @@ namespace TapHoa.Application.HR.Queries;
 // DTOs
 public record DepartmentDto(Guid Id, string Name, string? Description, Guid? ParentId, string? ParentName);
 public record PositionDto(Guid Id, string Name, string? Description);
-public record EmployeeDto(Guid Id, string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, string? DepartmentName, Guid? PositionId, string? PositionName, Guid? UserId, string? Username);
+public record EmployeeDto(Guid Id, string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, string? Email, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, string? DepartmentName, Guid? PositionId, string? PositionName, Guid? UserId, string? Username);
 
 // Queries
 public record GetDepartmentsQuery() : IRequest<IEnumerable<DepartmentDto>>;
@@ -50,7 +50,7 @@ public class HRQueriesHandler :
             .Include(e => e.Position)
             .Include(e => e.User)
             .Select(e => new EmployeeDto(
-                e.Id, e.EmployeeCode, e.FullName, e.PhoneNumber, e.CitizenId, e.Address, e.DateOfBirth, e.Gender, 
+                e.Id, e.EmployeeCode, e.FullName, e.PhoneNumber, e.CitizenId, e.Address, e.DateOfBirth, e.Gender, e.Email,
                 e.BaseSalary, e.SalaryTemplateId, 
                 e.DepartmentId, e.Department != null ? e.Department.Name : null, 
                 e.PositionId, e.Position != null ? e.Position.Name : null, 

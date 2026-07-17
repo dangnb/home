@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Department, DepartmentService } from '../../services/department.service';
 import { AlertService } from '../../services/alert.service';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 export interface DepartmentNode extends Department {
     children: DepartmentNode[];
@@ -14,7 +13,7 @@ export interface DepartmentNode extends Department {
 @Component({
   selector: 'app-departments',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './departments.component.html',
   styleUrls: ['./departments.component.scss']
 })

@@ -422,6 +422,15 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+
+    try
+    {
+        // Add Email to existing Employees table if it wasn't there
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
