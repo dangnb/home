@@ -5,8 +5,7 @@
       <p class="text-muted mb-0">Quản lý hồ sơ, phòng ban và chức vụ của nhân viên</p>
     </div>
     <div>
-      <input type="file" #fileInput (change)="handleFileUpload($event)" accept=".csv" class="d-none">
-      <button class="btn btn-outline-primary rounded-pill px-4 me-2" (click)="triggerFileInput()">
+      <button class="btn btn-outline-primary rounded-pill px-4 me-2" (click)="openUploadModal()">
         <i class="bi bi-file-earmark-arrow-up me-2"></i> Nhập từ file
       </button>
       <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
@@ -183,6 +182,52 @@
               Đang lưu...
             } @else {
               Lưu Nhân Viên
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Nhập từ file (Upload) -->
+@if (showUploadModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">Nhập Nhân Viên từ file Excel/CSV</h5>
+          <button type="button" class="btn-close" (click)="closeUploadModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <div class="alert alert-info border-0 bg-info-subtle rounded-3 mb-4">
+            <h6 class="fw-bold mb-2"><i class="bi bi-info-circle me-2"></i>Hướng dẫn:</h6>
+            <ul class="mb-0 ps-3">
+              <li>Tải file mẫu về máy và điền thông tin nhân viên theo các cột có sẵn.</li>
+              <li>Chỉ hỗ trợ định dạng file <strong>.csv</strong>.</li>
+              <li>Các mã nhân viên đã tồn tại sẽ được tự động bỏ qua.</li>
+            </ul>
+          </div>
+          
+          <div class="mb-4 text-center">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2" (click)="downloadTemplate()">
+              <i class="bi bi-download me-2"></i> Tải file mẫu (.csv)
+            </button>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-medium">Chọn file dữ liệu <span class="text-danger">*</span></label>
+            <input type="file" class="form-control form-control-lg rounded-3" accept=".csv" (change)="onFileSelected($event)">
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeUploadModal()">Hủy</button>
+          <button type="button" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!selectedFile || isSubmitting()" (click)="confirmUpload()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang xử lý...
+            } @else {
+              Xác nhận Import
             }
           </button>
         </div>
