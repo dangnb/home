@@ -1,0 +1,95 @@
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using TapHoa.Application.HR.Commands;
+using TapHoa.Application.HR.Queries;
+
+namespace TapHoa.API.Endpoints;
+
+public static class HREndpoints
+{
+    public static void MapHREndpoints(this IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup("").RequireAuthorization();
+
+        // Departments
+        group.MapGet("/departments", async (IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetDepartmentsQuery());
+            return Results.Ok(result);
+        });
+
+        group.MapPost("/departments", async (IMediator mediator, [FromBody] CreateDepartmentCommand command) =>
+        {
+            var id = await mediator.Send(command);
+            return Results.Ok(id);
+        });
+
+        group.MapPut("/departments/{id:guid}", async (IMediator mediator, Guid id, [FromBody] UpdateDepartmentCommand command) =>
+        {
+            if (id != command.Id) return Results.BadRequest();
+            await mediator.Send(command);
+            return Results.NoContent();
+        });
+
+        group.MapDelete("/departments/{id:guid}", async (IMediator mediator, Guid id) =>
+        {
+            await mediator.Send(new DeleteDepartmentCommand(id));
+            return Results.NoContent();
+        });
+
+        // Positions
+        group.MapGet("/positions", async (IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetPositionsQuery());
+            return Results.Ok(result);
+        });
+
+        group.MapPost("/positions", async (IMediator mediator, [FromBody] CreatePositionCommand command) =>
+        {
+            var id = await mediator.Send(command);
+            return Results.Ok(id);
+        });
+
+        group.MapPut("/positions/{id:guid}", async (IMediator mediator, Guid id, [FromBody] UpdatePositionCommand command) =>
+        {
+            if (id != command.Id) return Results.BadRequest();
+            await mediator.Send(command);
+            return Results.NoContent();
+        });
+
+        group.MapDelete("/positions/{id:guid}", async (IMediator mediator, Guid id) =>
+        {
+            await mediator.Send(new DeletePositionCommand(id));
+            return Results.NoContent();
+        });
+
+        // Employees
+        group.MapGet("/employees", async (IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetEmployeesQuery());
+            return Results.Ok(result);
+        });
+
+        group.MapPost("/employees", async (IMediator mediator, [FromBody] CreateEmployeeCommand command) =>
+        {
+            var id = await mediator.Send(command);
+            return Results.Ok(id);
+        });
+
+        group.MapPut("/employees/{id:guid}", async (IMediator mediator, Guid id, [FromBody] UpdateEmployeeCommand command) =>
+        {
+            if (id != command.Id) return Results.BadRequest();
+            await mediator.Send(command);
+            return Results.NoContent();
+        });
+
+        group.MapDelete("/employees/{id:guid}", async (IMediator mediator, Guid id) =>
+        {
+            await mediator.Send(new DeleteEmployeeCommand(id));
+            return Results.NoContent();
+        });
+    }
+}

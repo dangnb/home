@@ -1,0 +1,115 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="h3 mb-0 text-gray-800 fw-bold">Quản Lý Phòng Ban</h2>
+      <p class="text-muted mb-0">Danh sách các phòng ban trong công ty</p>
+    </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
+      <i class="bi bi-plus-lg me-2"></i> Thêm Mới
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4 py-3 border-0 rounded-start-3">Tên Phòng Ban</th>
+              <th class="py-3 border-0">Phòng Ban Cha</th>
+              <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (isLoading()) {
+              <tr>
+                <td colspan="4" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Đang tải...</span>
+                  </div>
+                </td>
+              </tr>
+            } @else if (departments().length === 0) {
+              <tr>
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có phòng ban nào
+                </td>
+              </tr>
+            } @else {
+              @for (item of departments(); track item.id) {
+                <tr>
+                  <td class="ps-4 py-3 fw-medium">{{ item.name }}</td>
+                  <td class="py-3 text-muted">{{ item.description || '--' }}</td>
+                  <td class="py-3">
+                    @if (item.parentName) {
+                      <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3">{{ item.parentName }}</span>
+                    } @else {
+                      <span class="text-muted">--</span>
+                    }
+                  </td>
+                  <td class="pe-4 py-3 text-end">
+                    <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(item)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-light rounded-circle text-danger" (click)="deleteDepartment(item.id)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa -->
+@if (showModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Phòng Ban' : 'Thêm Phòng Ban' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <form (ngSubmit)="saveDepartment()" #form="ngForm" id="deptForm">
+            <div class="mb-3">
+              <label class="form-label fw-medium">Tên phòng ban <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="name" [(ngModel)]="editingDepartment.name" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Phòng ban cha</label>
+              <select class="form-select rounded-3" name="parentId" [(ngModel)]="editingDepartment.parentId">
+                <option [ngValue]="null">--- Không có ---</option>
+                @for (dept of departments(); track dept.id) {
+                  @if (dept.id !== editingDepartment.id) {
+                    <option [value]="dept.id">{{ dept.name }}</option>
+                  }
+                }
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Mô tả</label>
+              <textarea class="form-control rounded-3" rows="3" name="description" [(ngModel)]="editingDepartment.description"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="deptForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang lưu...
+            } @else {
+              Lưu
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

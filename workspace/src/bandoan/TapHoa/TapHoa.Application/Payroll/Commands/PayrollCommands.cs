@@ -123,27 +123,32 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
             .Where(a => a.Date >= period.StartDate && a.Date <= period.EndDate && !a.IsDeleted)
             .ToListAsync(cancellationToken);
 
-        // Get all active users
-        var users = await _context.Users
-            .Where(u => u.IsActive)
+        // Get all active employees with linked users
+        var employees = await _context.Employees
+            .Include(e => e.SalaryTemplate)
+            .Include(e => e.User)
+            .Where(e => e.User != null && e.User.IsActive)
             .ToListAsync(cancellationToken);
 
-        // Calculate hourly rate from base salary (assuming 22 working days * 8 hours)
-        var hourlyRate = request.DefaultBaseSalary / (22m * 8m);
-
-        foreach (var user in users)
+        foreach (var employee in employees)
         {
-            var userAttendances = attendances.Where(a => a.Username == user.Username).ToList();
+            var username = employee.User!.Username;
+            var userAttendances = attendances.Where(a => a.Username == username).ToList();
 
             var workDays = userAttendances.Count(a => a.Status != AttendanceStatus.Absent && a.Status != AttendanceStatus.DayOff);
             var totalHours = userAttendances.Sum(a => a.TotalHours);
             var overtimeHours = userAttendances.Sum(a => a.OvertimeHours);
 
+            var baseSalary = employee.BaseSalary > 0 ? employee.BaseSalary : request.DefaultBaseSalary;
+            var formula = employee.SalaryTemplate?.Formula ?? period.Formula;
+
+            // Calculate hourly rate from base salary (assuming 22 working days * 8 hours)
+            var hourlyRate = baseSalary / (22m * 8m);
             var overtimePay = Math.Round(overtimeHours * hourlyRate * request.OvertimeRate, 0);
 
             var netSalary = PayrollCalculatorHelper.EvaluateNetSalary(
-                formula: period.Formula,
-                baseSalary: request.DefaultBaseSalary,
+                formula: formula,
+                baseSalary: baseSalary,
                 workDays: workDays,
                 totalHours: totalHours,
                 overtimeHours: overtimeHours,
@@ -156,12 +161,12 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
 
             var entry = new PayrollEntry(
                 payrollPeriodId: period.Id,
-                username: user.Username,
-                employeeName: user.FullName,
+                username: username,
+                employeeName: employee.FullName,
                 workDays: workDays,
                 totalHours: totalHours,
                 overtimeHours: overtimeHours,
-                baseSalary: request.DefaultBaseSalary,
+                baseSalary: baseSalary,
                 overtimePay: overtimePay,
                 allowance: request.DefaultAllowance,
                 netSalary: netSalary

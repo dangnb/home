@@ -1,0 +1,112 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="h3 mb-0 text-gray-800 fw-bold">Mẫu Tính Lương</h2>
+      <p class="text-muted mb-0">Quản lý các công thức tính lương cho nhân viên</p>
+    </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
+      <i class="bi bi-plus-lg me-2"></i> Thêm Mẫu Mới
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4 py-3 border-0 rounded-start-3">Tên Mẫu</th>
+              <th class="py-3 border-0">Công Thức</th>
+              <th class="py-3 border-0">Trạng Thái</th>
+              <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (isLoading()) {
+              <tr>
+                <td colspan="4" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Đang tải...</span>
+                  </div>
+                </td>
+              </tr>
+            } @else if (templates().length === 0) {
+              <tr>
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có mẫu lương nào
+                </td>
+              </tr>
+            } @else {
+              @for (item of templates(); track item.id) {
+                <tr>
+                  <td class="ps-4 py-3 fw-medium">{{ item.name }}</td>
+                  <td class="py-3 text-muted" style="font-family: monospace;">{{ item.formula }}</td>
+                  <td class="py-3">
+                    @if (item.isActive) {
+                      <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">Hoạt động</span>
+                    } @else {
+                      <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3">Ngừng HĐ</span>
+                    }
+                  </td>
+                  <td class="pe-4 py-3 text-end">
+                    <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(item)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-light rounded-circle text-danger" (click)="deleteTemplate(item.id)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa -->
+@if (showModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Mẫu Lương' : 'Thêm Mẫu Lương' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <form (ngSubmit)="saveTemplate()" #form="ngForm" id="templateForm">
+            <div class="mb-3">
+              <label class="form-label fw-medium">Tên mẫu lương <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="name" [(ngModel)]="editingTemplate.name" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Công thức (DynamicExpresso) <span class="text-danger">*</span></label>
+              <textarea class="form-control rounded-3" rows="3" name="formula" [(ngModel)]="editingTemplate.formula" required style="font-family: monospace;"></textarea>
+              <div class="form-text mt-2">
+                <strong>Biến hệ thống:</strong> BaseSalary, WorkDays, TotalHours, OvertimeHours, OvertimePay, Allowance, Bonus, Deduction.<br>
+                <strong>Ví dụ:</strong> <code>(BaseSalary / 22 * WorkDays) + OvertimePay + Allowance</code>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Ghi chú</label>
+              <textarea class="form-control rounded-3" rows="2" name="notes" [(ngModel)]="editingTemplate.notes"></textarea>
+            </div>
+            <div class="form-check form-switch mt-4">
+              <input class="form-check-input" type="checkbox" role="switch" id="isActiveSwitch" name="isActive" [(ngModel)]="editingTemplate.isActive">
+              <label class="form-check-label fw-medium ms-2" for="isActiveSwitch">Kích hoạt</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-4 pb-4 pe-4">
+          <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="templateForm" class="btn btn-primary rounded-pill px-4" [disabled]="form.invalid || isSubmitting()">
+            <i class="bi" [ngClass]="isSubmitting() ? 'bi-hourglass-split' : 'bi-check-lg'"></i> Lưu Lại
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

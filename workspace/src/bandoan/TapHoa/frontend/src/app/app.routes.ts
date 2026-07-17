@@ -179,6 +179,23 @@ export const routes: Routes = [
                 path: 'payroll',
                 loadComponent: () => import('./admin/payroll/payroll.component').then(m => m.PayrollComponent),
                 data: { title: 'Tính Lương' }
+            },
+            {
+                path: 'salary-templates',
+                loadComponent: () => import('./admin/salary-templates/salary-templates.component').then(m => m.SalaryTemplatesComponent),
+                data: { title: 'Mẫu Lương' }
+            },
+            {
+                path: 'employees',
+                loadComponent: () => import('./admin/employees/employees.component').then(m => m.EmployeesComponent)
+            },
+            {
+                path: 'departments',
+                loadComponent: () => import('./admin/departments/departments.component').then(m => m.DepartmentsComponent)
+            },
+            {
+                path: 'positions',
+                loadComponent: () => import('./admin/positions/positions.component').then(m => m.PositionsComponent)
             }
         ]
     }

@@ -38,6 +38,10 @@ public interface IApplicationDbContext
     DbSet<Attendance> Attendances { get; }
     DbSet<PayrollPeriod> PayrollPeriods { get; }
     DbSet<PayrollEntry> PayrollEntries { get; }
+    DbSet<SalaryTemplate> SalaryTemplates { get; }
+    DbSet<Employee> Employees { get; }
+    DbSet<Department> Departments { get; }
+    DbSet<Position> Positions { get; }
 
     Guid CurrentCompanyId { get; }
 
