@@ -1,5 +1,5 @@
+using Dapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TapHoa.Application.Interfaces;
 
 namespace TapHoa.Application.Roles;
@@ -8,16 +8,22 @@ public record GetRolesQuery() : IRequest<List<RoleDto>>;
 
 public class RoleQueriesHandler : IRequestHandler<GetRolesQuery, List<RoleDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public RoleQueriesHandler(IApplicationDbContext context)
+    public RoleQueriesHandler(ISqlConnectionFactory sqlConnectionFactory)
     {
-        _context = context;
+        _sqlConnectionFactory = sqlConnectionFactory;
     }
 
     public async Task<List<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
-        var roles = await _context.Roles.ToListAsync(cancellationToken);
-        return roles.Select(RoleDto.FromEntity).ToList();
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT Id, Name, Description, Permissions
+            FROM Roles
+            WHERE IsDeleted = 0
+        ";
+        var roles = await connection.QueryAsync<RoleDto>(sql);
+        return roles.ToList();
     }
 }

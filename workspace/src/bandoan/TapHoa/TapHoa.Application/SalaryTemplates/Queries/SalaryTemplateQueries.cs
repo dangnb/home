@@ -1,7 +1,6 @@
+using Dapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TapHoa.Application.Interfaces;
-using TapHoa.Domain.Entities;
 
 namespace TapHoa.Application.SalaryTemplates.Queries;
 
@@ -18,25 +17,22 @@ public class GetSalaryTemplatesQuery : IRequest<List<SalaryTemplateDto>> { }
 
 public class GetSalaryTemplatesQueryHandler : IRequestHandler<GetSalaryTemplatesQuery, List<SalaryTemplateDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    public GetSalaryTemplatesQueryHandler(IApplicationDbContext context)
+    public GetSalaryTemplatesQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
     {
-        _context = context;
+        _sqlConnectionFactory = sqlConnectionFactory;
     }
 
     public async Task<List<SalaryTemplateDto>> Handle(GetSalaryTemplatesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.SalaryTemplates
-            .Where(t => !t.IsDeleted)
-            .Select(t => new SalaryTemplateDto
-            {
-                Id = t.Id,
-                Name = t.Name,
-                Formula = t.Formula,
-                Notes = t.Notes,
-                IsActive = t.IsActive
-            })
-            .ToListAsync(cancellationToken);
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT Id, Name, Formula, Notes, IsActive
+            FROM SalaryTemplates
+            WHERE IsDeleted = 0
+        ";
+        var templates = await connection.QueryAsync<SalaryTemplateDto>(sql);
+        return templates.ToList();
     }
 }

@@ -2,6 +2,7 @@ using MediatR;
 using TapHoa.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TapHoa.Domain.Entities;
+using Dapper;
 
 namespace TapHoa.Application.HR.Queries;
 
@@ -21,40 +22,57 @@ public class HRQueriesHandler :
     IRequestHandler<GetPositionsQuery, IEnumerable<PositionDto>>,
     IRequestHandler<GetEmployeesQuery, IEnumerable<EmployeeDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
+    private readonly ICurrentUserService _currentUserService;
 
-    public HRQueriesHandler(IApplicationDbContext context)
+    public HRQueriesHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
     {
-        _context = context;
+        _sqlConnectionFactory = sqlConnectionFactory;
+        _currentUserService = currentUserService;
     }
 
     public async Task<IEnumerable<DepartmentDto>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Departments
-            .Include(d => d.ParentDepartment)
-            .Select(d => new DepartmentDto(d.Id, d.Name, d.Description, d.ParentId, d.ParentDepartment != null ? d.ParentDepartment.Name : null))
-            .ToListAsync(cancellationToken);
+        var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT d.Id, d.Name, d.Description, d.ParentId, p.Name as ParentName
+            FROM Departments d
+            LEFT JOIN Departments p ON d.ParentId = p.Id
+            WHERE d.IsDeleted = 0 AND d.CompanyId = @CompanyId
+        ";
+        return await connection.QueryAsync<DepartmentDto>(sql, new { CompanyId = companyId.ToString() });
     }
 
     public async Task<IEnumerable<PositionDto>> Handle(GetPositionsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Positions
-            .Select(p => new PositionDto(p.Id, p.Name, p.Description))
-            .ToListAsync(cancellationToken);
+        var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT Id, Name, Description
+            FROM Positions
+            WHERE IsDeleted = 0 AND CompanyId = @CompanyId
+        ";
+        return await connection.QueryAsync<PositionDto>(sql, new { CompanyId = companyId.ToString() });
     }
 
     public async Task<IEnumerable<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Employees
-            .Include(e => e.Department)
-            .Include(e => e.Position)
-            .Include(e => e.User)
-            .Select(e => new EmployeeDto(
+        var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT 
                 e.Id, e.EmployeeCode, e.FullName, e.PhoneNumber, e.CitizenId, e.Address, e.DateOfBirth, e.Gender, e.Email,
-                e.BaseSalary, e.SalaryTemplateId, 
-                e.DepartmentId, e.Department != null ? e.Department.Name : null, 
-                e.PositionId, e.Position != null ? e.Position.Name : null, 
-                e.UserId, e.User != null ? e.User.Username : null))
-            .ToListAsync(cancellationToken);
+                e.BaseSalary, e.SalaryTemplateId,
+                e.DepartmentId, d.Name as DepartmentName,
+                e.PositionId, p.Name as PositionName,
+                e.UserId, u.Username as Username
+            FROM Employees e
+            LEFT JOIN Departments d ON e.DepartmentId = d.Id
+            LEFT JOIN Positions p ON e.PositionId = p.Id
+            LEFT JOIN Users u ON e.UserId = u.Id
+            WHERE e.IsDeleted = 0 AND e.CompanyId = @CompanyId
+        ";
+        return await connection.QueryAsync<EmployeeDto>(sql, new { CompanyId = companyId.ToString() });
     }
 }

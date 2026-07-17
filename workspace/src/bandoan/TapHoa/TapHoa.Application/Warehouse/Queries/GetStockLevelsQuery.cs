@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TapHoa.Application.Interfaces;
+using Dapper;
 
 namespace TapHoa.Application.Warehouse.Queries;
 
@@ -18,30 +19,34 @@ public class StockLevelDto
 
 public class GetStockLevelsQueryHandler : IRequestHandler<GetStockLevelsQuery, List<StockLevelDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
+    private readonly ICurrentUserService _currentUserService;
 
-    public GetStockLevelsQueryHandler(IApplicationDbContext context)
+    public GetStockLevelsQueryHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
     {
-        _context = context;
+        _sqlConnectionFactory = sqlConnectionFactory;
+        _currentUserService = currentUserService;
     }
 
     public async Task<List<StockLevelDto>> Handle(GetStockLevelsQuery request, CancellationToken cancellationToken)
     {
-        var companyId = _context.CurrentCompanyId;
+        var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
         
-        var query = from s in _context.StockLevels
-                    join p in _context.Products on s.ProductId equals p.Id
-                    where s.StoreId == companyId
-                    select new StockLevelDto
-                    {
-                        ProductId = s.ProductId,
-                        ProductName = p.Name,
-                        Barcode = p.Id.ToString().Substring(0, 8).ToUpper(), // Mocking barcode for UI using ID prefix
-                        QuantityOnHand = s.QuantityOnHand,
-                        AvailableQuantity = s.AvailableQuantity,
-                        LastRestockedAt = s.LastRestockedAt
-                    };
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT 
+                s.ProductId, 
+                p.Name as ProductName, 
+                SUBSTRING(CAST(p.Id AS CHAR(36)), 1, 8) as Barcode, 
+                s.QuantityOnHand, 
+                s.AvailableQuantity, 
+                s.LastRestockedAt
+            FROM StockLevels s
+            JOIN Products p ON s.ProductId = p.Id
+            WHERE s.StoreId = @CompanyId
+        ";
 
-        return await query.ToListAsync(cancellationToken);
+        var result = await connection.QueryAsync<StockLevelDto>(sql, new { CompanyId = companyId.ToString() });
+        return result.ToList();
     }
 }

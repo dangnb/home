@@ -113,5 +113,28 @@ export const AppPermissionsList = [
             { name: 'CreateOrderPOS', label: 'Tạo Đơn Hàng', value: AppPermissions.CreateOrderPOS },
             { name: 'ViewOrders', label: 'Xem Đơn Hàng', value: AppPermissions.ViewOrders }
         ]
+    },
+    {
+        group: 'Đối tác', items: [
+            { name: 'ViewCustomers', label: 'Xem Khách hàng', value: AppPermissions.ViewCustomers },
+            { name: 'CreateCustomers', label: 'Tạo Khách hàng', value: AppPermissions.CreateCustomers },
+            { name: 'UpdateCustomers', label: 'Cập nhật Khách hàng', value: AppPermissions.UpdateCustomers },
+            { name: 'DeleteCustomers', label: 'Xóa Khách hàng', value: AppPermissions.DeleteCustomers },
+            { name: 'ViewSuppliers', label: 'Xem Nhà cung cấp', value: AppPermissions.ViewSuppliers },
+            { name: 'CreateSuppliers', label: 'Tạo Nhà cung cấp', value: AppPermissions.CreateSuppliers },
+            { name: 'UpdateSuppliers', label: 'Cập nhật Nhà cung cấp', value: AppPermissions.UpdateSuppliers },
+            { name: 'DeleteSuppliers', label: 'Xóa Nhà cung cấp', value: AppPermissions.DeleteSuppliers }
+        ]
+    },
+    {
+        group: 'Tiền lương', items: [
+            { name: 'ViewPayroll', label: 'Xem bảng lương', value: AppPermissions.ViewPayroll },
+            { name: 'ManagePayroll', label: 'Quản lý tính lương', value: AppPermissions.ManagePayroll }
+        ]
+    },
+    {
+        group: 'Báo cáo', items: [
+            { name: 'ViewReports', label: 'Xem Báo cáo', value: AppPermissions.ViewReports }
+        ]
     }
 ];
