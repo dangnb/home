@@ -27,7 +27,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetProducts")
         .WithDescription("Gets all products using Dapper")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/paged", async (
             [FromQuery] int pageIndex,
@@ -42,7 +42,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetPagedProducts")
         .WithDescription("Gets paged products with search and category filters")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/low-stock", async ([FromServices] ISender sender) =>
         {
@@ -51,7 +51,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetProductsLowStock")
         .WithDescription("Gets a list of products that have stock quantity less than or equal to their min stock level.")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
@@ -60,7 +60,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetProductById")
         .WithDescription("Gets a specific product by ID")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/{id:guid}/batches", async (Guid id, [FromServices] ISender sender) =>
         {
@@ -69,7 +69,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetProductBatches")
         .WithDescription("Gets all active batches for a specific product")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/expiring-batches", async ([FromQuery] int? days, [FromServices] ISender sender) =>
         {
@@ -78,7 +78,7 @@ public static class ProductsEndpoints
         })
         .WithName("GetProductExpiringBatches")
         .WithDescription("Gets all batches expiring within a threshold")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.ViewProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapPost("/", async ([FromBody] CreateProductCommand command, [FromServices] ISender sender) =>
         {
@@ -87,7 +87,7 @@ public static class ProductsEndpoints
         })
         .WithName("CreateProduct")
         .WithDescription("Creates a new product")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.CreateProducts);
 
         group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateProductCommand command, [FromServices] ISender sender) =>
         {
@@ -98,7 +98,7 @@ public static class ProductsEndpoints
         })
         .WithName("UpdateProduct")
         .WithDescription("Updates an existing product")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.UpdateProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.UpdateProducts);
 
         group.MapDelete("/{id:guid}", async (Guid id, [FromServices] ISender sender) =>
         {
@@ -107,7 +107,7 @@ public static class ProductsEndpoints
         })
         .WithName("DeleteProduct")
         .WithDescription("Deletes a product")
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.DeleteProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.DeleteProducts);
 
         group.MapPost("/upload-image", async (Microsoft.AspNetCore.Http.IFormFile file, [FromServices] Microsoft.AspNetCore.Hosting.IWebHostEnvironment env) =>
         {
@@ -131,7 +131,7 @@ public static class ProductsEndpoints
         .WithName("UploadProductImage")
         .WithDescription("Uploads an image for a product")
         .DisableAntiforgery()
-        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + (long)AppPermissions.CreateProducts);
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.CreateProducts);
 
         return group;
     }

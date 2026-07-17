@@ -225,13 +225,13 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
             .HasForeignKey(l => l.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Seed Roles with Bitwise Permissions
-        var allPermissions = (long)TapHoa.Domain.Enums.AppPermissions.All;
-        var managerPermissions = (long)(TapHoa.Domain.Enums.AppPermissions.ViewProducts | TapHoa.Domain.Enums.AppPermissions.CreateProducts | TapHoa.Domain.Enums.AppPermissions.UpdateProducts | TapHoa.Domain.Enums.AppPermissions.ViewCategories | TapHoa.Domain.Enums.AppPermissions.ViewUsers);
-        var cashierPermissions = (long)(TapHoa.Domain.Enums.AppPermissions.ViewProducts | TapHoa.Domain.Enums.AppPermissions.ViewCategories);
+        // Seed Roles with String Permissions
+        var adminPermissions = "[\"*\"]";
+        var managerPermissions = "[\"Permissions.Products.View\",\"Permissions.Products.Create\",\"Permissions.Products.Update\",\"Permissions.Categories.View\",\"Permissions.Users.View\"]";
+        var cashierPermissions = "[\"Permissions.Products.View\",\"Permissions.Categories.View\"]";
 
         modelBuilder.Entity<Role>().HasData(
-            new { Id = adminRoleId, Name = "Admin", Description = "System Administrator", Permissions = allPermissions },
+            new { Id = adminRoleId, Name = "Admin", Description = "System Administrator", Permissions = adminPermissions },
             new { Id = managerRoleId, Name = "Manager", Description = "Store Manager", Permissions = managerPermissions },
             new { Id = cashierRoleId, Name = "Cashier", Description = "Store Cashier", Permissions = cashierPermissions }
         );

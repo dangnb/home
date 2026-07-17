@@ -1,32 +1,40 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { Role } from '../models/role';
+import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+export interface Role {
+  id?: string;
+  name: string;
+  description: string;
+  permissions: string[];
+}
+
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class RoleService {
-    // We will connect to real API later, for now we can mock if endpoint doesn't exist, 
-    // but building the real API endpoint is better. We will point to real API.
-    private apiUrl = `${environment.apiUrl}/roles`;
+  private apiUrl = `${environment.apiUrl}/roles`;
 
-  private http = inject(HttpClient);
+  constructor(private http: HttpClient) {}
 
-    getRoles(): Observable<Role[]> {
-        return this.http.get<Role[]>(this.apiUrl);
-    }
+  getAllRoles(): Observable<Role[]> {
+    return this.http.get<Role[]>(this.apiUrl);
+  }
 
-    createRole(role: Role): Observable<Role> {
-        return this.http.post<Role>(this.apiUrl, role);
-    }
+  createRole(role: Role): Observable<any> {
+    return this.http.post(this.apiUrl, role);
+  }
 
-    updateRole(id: string, role: Role): Observable<void> {
-        return this.http.put<void>(`${this.apiUrl}/${id}`, role);
-    }
+  updateRole(id: string, role: Role): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, role);
+  }
 
-    deleteRole(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
+  deleteRole(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getAllPermissions(): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiUrl}/permissions`);
+  }
 }

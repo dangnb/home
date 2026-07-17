@@ -23,14 +23,7 @@ export class RolesComponent implements OnInit {
   showModal = false;
   isEditMode = false;
   isSubmitting = false;
-  editingRole: Role = { id: "", name: '', description: '', permissions: 0 };
-
-  // Temporary mock data since we haven't implemented full backend GET /roles yet
-  mockRoles: Role[] = [
-    { id: "1", name: 'Admin', description: 'Quản trị viên hệ thống', permissions: -1 }, // All
-    { id: "2", name: 'Manager', description: 'Quản lý cửa hàng', permissions: AppPermissions.ViewProducts | AppPermissions.CreateProducts | AppPermissions.ViewCategories },
-    { id: "3", name: 'Cashier', description: 'Nhân viên thu ngân', permissions: AppPermissions.ViewProducts }
-  ];
+  editingRole: Role = { id: "", name: '', description: '', permissions: [] };
 
   private roleService = inject(RoleService);
   private alertService = inject(AlertService);
@@ -42,19 +35,27 @@ export class RolesComponent implements OnInit {
   }
 
   loadRoles() {
-    // Override with Mock Data for demonstration until API is fully ready
-    this.roles = [...this.mockRoles];
+    this.roleService.getAllRoles().subscribe({
+      next: (data) => {
+        this.roles = data;
+      },
+      error: (err) => {
+        console.error('Error loading roles', err);
+        this.alertService.error('Lỗi', 'Không thể tải danh sách vai trò');
+      }
+    });
   }
 
   openAddModal() {
     this.isEditMode = false;
-    this.editingRole = { id: "", name: '', description: '', permissions: 0 };
+    this.editingRole = { id: "", name: '', description: '', permissions: [] };
     this.showModal = true;
   }
 
   openEditModal(role: Role) {
     this.isEditMode = true;
     this.editingRole = { ...role };
+    this.editingRole.permissions = [...(role.permissions || [])]; // Ensure it's a new array
     this.showModal = true;
   }
 
@@ -67,21 +68,31 @@ export class RolesComponent implements OnInit {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
 
-    // Simulate API delay
-    setTimeout(() => {
-      if (this.isEditMode) {
-        const index = this.roles.findIndex(r => r.id === this.editingRole.id);
-        if (index !== -1) {
-          this.roles[index] = { ...this.editingRole };
-          this.mockRoles[index] = { ...this.editingRole };
+    if (this.isEditMode) {
+      this.roleService.updateRole(this.editingRole.id!, this.editingRole).subscribe({
+        next: () => {
+          this.loadRoles();
+          this.closeModal();
+          this.alertService.success('Thành công', 'Đã cập nhật vai trò');
+        },
+        error: () => {
+          this.isSubmitting = false;
+          this.alertService.error('Lỗi', 'Không thể cập nhật vai trò');
         }
-      } else {
-        this.editingRole.id = Date.now().toString();
-        this.roles.push({ ...this.editingRole });
-        this.mockRoles.push({ ...this.editingRole });
-      }
-      this.closeModal();
-    }, 300);
+      });
+    } else {
+      this.roleService.createRole(this.editingRole).subscribe({
+        next: () => {
+          this.loadRoles();
+          this.closeModal();
+          this.alertService.success('Thành công', 'Đã thêm vai trò');
+        },
+        error: () => {
+          this.isSubmitting = false;
+          this.alertService.error('Lỗi', 'Không thể thêm vai trò');
+        }
+      });
+    }
   }
 
   deleteRole(id: string) {
@@ -89,34 +100,54 @@ export class RolesComponent implements OnInit {
     const confirmMsg = this.translateService.instant('ROLES.CONFIRM_DELETE') || 'Bạn có chắc chắn muốn xóa vai trò này không?';
     this.alertService.confirm(confirmTitle, confirmMsg).then((result: any) => {
       if (result.isConfirmed) {
-        this.roles = this.roles.filter(r => r.id !== id);
-        this.mockRoles = this.mockRoles.filter(r => r.id !== id);
-        const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
-        const successMsg = this.translateService.instant('ROLES.MSG_DELETE_SUCCESS') || 'Đã xóa vai trò.';
-        this.alertService.success(successTitle, successMsg);
+        this.roleService.deleteRole(id).subscribe({
+          next: () => {
+            this.loadRoles();
+            this.alertService.success('Thành công', 'Đã xóa vai trò');
+          },
+          error: () => {
+            this.alertService.error('Lỗi', 'Không thể xóa vai trò');
+          }
+        });
       }
     });
   }
 
-  // --- BITWISE MATRIX LOGIC ---
+  // --- STRING ARRAY LOGIC ---
 
-  hasPermission(rolePermissions: number, permissionValue: number): boolean {
-    if (rolePermissions === -1) return true; // Admin master bypass
-    return (rolePermissions & permissionValue) === permissionValue;
+  hasPermission(rolePermissions: string[], permissionValue: string): boolean {
+    if (!rolePermissions) return false;
+    if (rolePermissions.includes('*')) return true; // Admin master bypass
+    return rolePermissions.includes(permissionValue);
   }
 
-  togglePermission(event: Event, permissionValue: number) {
+  togglePermission(event: Event, permissionValue: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
 
-    // Safety check for Admin Master
-    if (this.editingRole.permissions === -1 && !isChecked) {
-      this.editingRole.permissions = 0; // Break out of master mode if they uncheck anything
+    if (!this.editingRole.permissions) {
+      this.editingRole.permissions = [];
     }
 
     if (isChecked) {
-      this.editingRole.permissions |= permissionValue; // Turn ON bit
+      if (!this.editingRole.permissions.includes(permissionValue)) {
+        this.editingRole.permissions.push(permissionValue);
+      }
     } else {
-      this.editingRole.permissions &= ~permissionValue; // Turn OFF bit
+      // If admin master bypass is unchecked, remove wildcard and rebuild?
+      // Normally Admin doesn't get edited here, but let's handle standard remove
+      const index = this.editingRole.permissions.indexOf(permissionValue);
+      if (index !== -1) {
+        this.editingRole.permissions.splice(index, 1);
+      }
+      
+      // If they had wildcard and unchecked something, we should probably strip wildcard. 
+      // But for simplicity, we don't expose "*" in the checkboxes, only specific claims.
+      const wildcardIndex = this.editingRole.permissions.indexOf('*');
+      if (wildcardIndex !== -1) {
+        this.editingRole.permissions.splice(wildcardIndex, 1);
+        // Add everything back EXCEPT the unchecked one?
+        // This is complex. For now, just removing '*' if they uncheck anything while having '*'.
+      }
     }
   }
 }
