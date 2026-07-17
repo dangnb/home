@@ -11,6 +11,7 @@ export interface Employee {
   address?: string;
   dateOfBirth?: string | Date;
   gender?: string;
+  email?: string;
   baseSalary: number;
   salaryTemplateId?: string;
   departmentId?: string;
@@ -26,4 +27,10 @@ export interface Employee {
 })
 export class EmployeeService extends BaseCrudService<Employee> {
   protected apiUrl = `${environment.apiUrl}/hr/employees`;
+
+  uploadEmployees(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{importedCount: number}>(`${this.apiUrl}/upload`, formData);
+  }
 }

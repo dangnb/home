@@ -4,9 +4,15 @@
       <h2 class="h3 mb-0 text-gray-800 fw-bold">Quản Lý Nhân Viên</h2>
       <p class="text-muted mb-0">Quản lý hồ sơ, phòng ban và chức vụ của nhân viên</p>
     </div>
-    <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
-      <i class="bi bi-person-plus me-2"></i> Thêm Nhân Viên
-    </button>
+    <div>
+      <input type="file" #fileInput (change)="handleFileUpload($event)" accept=".csv" class="d-none">
+      <button class="btn btn-outline-primary rounded-pill px-4 me-2" (click)="triggerFileInput()">
+        <i class="bi bi-file-earmark-arrow-up me-2"></i> Nhập từ file
+      </button>
+      <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
+        <i class="bi bi-person-plus me-2"></i> Thêm Nhân Viên
+      </button>
+    </div>
   </div>
 
   <div class="card shadow-sm border-0 rounded-4">
@@ -20,6 +26,8 @@
               <th class="py-3 border-0">Phòng Ban</th>
               <th class="py-3 border-0">Chức Vụ</th>
               <th class="py-3 border-0">SĐT</th>
+              <th class="py-3 border-0">Email</th>
+              <th class="py-3 border-0">Ngày Sinh</th>
               <th class="py-3 border-0">Lương CB</th>
               <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
             </tr>
@@ -27,7 +35,7 @@
           <tbody>
             @if (isLoading()) {
               <tr>
-                <td colspan="7" class="text-center py-5">
+                <td colspan="9" class="text-center py-5">
                   <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Đang tải...</span>
                   </div>
@@ -35,7 +43,7 @@
               </tr>
             } @else if (employees().length === 0) {
               <tr>
-                <td colspan="7" class="text-center py-5 text-muted">
+                <td colspan="9" class="text-center py-5 text-muted">
                   <span class="fs-1 d-block mb-3">👥</span>
                   Chưa có nhân viên nào
                 </td>
@@ -50,6 +58,8 @@
                   </td>
                   <td class="py-3 text-muted">{{ item.positionName || '--' }}</td>
                   <td class="py-3">{{ item.phoneNumber || '--' }}</td>
+                  <td class="py-3">{{ item.email || '--' }}</td>
+                  <td class="py-3">{{ item.dateOfBirth ? (item.dateOfBirth | date:'dd/MM/yyyy') : '--' }}</td>
                   <td class="py-3 fw-medium">{{ item.baseSalary | number:'1.0-0' }} đ</td>
                   <td class="pe-4 py-3 text-end">
                     <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(item)">
@@ -140,6 +150,14 @@
               <div class="col-md-6">
                 <label class="form-label fw-medium">CCCD/CMND</label>
                 <input type="text" class="form-control rounded-3" name="citizenId" [(ngModel)]="editingEmployee.citizenId">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Email</label>
+                <input type="email" class="form-control rounded-3" name="email" [(ngModel)]="editingEmployee.email">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Ngày Sinh</label>
+                <input type="date" class="form-control rounded-3" name="dateOfBirth" [ngModel]="editingEmployee.dateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="editingEmployee.dateOfBirth = $event">
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-medium">Giới tính</label>

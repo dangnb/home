@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Employee, EmployeeService } from '../../services/employee.service';
 import { Department, DepartmentService } from '../../services/department.service';
@@ -13,11 +13,13 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DatePipe],
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   employees = signal<Employee[]>([]);
   departments = signal<Department[]>([]);
   positions = signal<Position[]>([]);
@@ -28,6 +30,8 @@ export class EmployeesComponent implements OnInit {
   isSubmitting = signal<boolean>(false);
   
   showModal = signal<boolean>(false);
+  showUploadModal = signal<boolean>(false);
+  selectedFile: File | null = null;
   isEditMode = signal<boolean>(false);
   editingEmployee: Partial<Employee> = {};
 
@@ -142,5 +146,55 @@ export class EmployeesComponent implements OnInit {
         });
       }
     });
+  }
+
+    });
+  }
+
+  openUploadModal() {
+    this.selectedFile = null;
+    this.showUploadModal.set(true);
+  }
+
+  closeUploadModal() {
+    this.showUploadModal.set(false);
+    this.selectedFile = null;
+  }
+
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  confirmUpload() {
+    if (this.selectedFile) {
+      this.isSubmitting.set(true);
+      this.employeeService.uploadEmployees(this.selectedFile).subscribe({
+        next: (res) => {
+          this.alertService.success(`Nhập thành công ${res.importedCount} nhân viên`);
+          this.loadData();
+          this.closeUploadModal();
+          this.isSubmitting.set(false);
+        },
+        error: () => {
+          this.alertService.error('Có lỗi xảy ra khi nhập file');
+          this.isSubmitting.set(false);
+        }
+      });
+    }
+  }
+
+  downloadTemplate() {
+    const templateContent = 'Mã NV, Họ Tên, SĐT, Email, Ngày Sinh (YYYY-MM-DD), Lương CB\nNV001, Nguyễn Văn A, 0987654321, nva@example.com, 1990-01-01, 10000000\nNV002, Trần Thị B, 0912345678, ttb@example.com, 1995-05-20, 8500000';
+    const blob = new Blob([templateContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'employee_import_template.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

@@ -12,6 +12,7 @@ public class Employee : BaseAuditableEntity<Guid>
     public string? Address { get; private set; }
     public DateTime? DateOfBirth { get; private set; }
     public string? Gender { get; private set; }
+    public string? Email { get; private set; }
 
     public decimal BaseSalary { get; private set; }
     public Guid? SalaryTemplateId { get; private set; }
@@ -30,7 +31,7 @@ public class Employee : BaseAuditableEntity<Guid>
 
     private Employee() { }
 
-    public Employee(string employeeCode, string fullName, Guid companyId, string? phoneNumber = null, string? citizenId = null, string? address = null, DateTime? dateOfBirth = null, string? gender = null, decimal baseSalary = 0)
+    public Employee(string employeeCode, string fullName, Guid companyId, string? phoneNumber = null, string? citizenId = null, string? address = null, DateTime? dateOfBirth = null, string? gender = null, string? email = null, decimal baseSalary = 0)
     {
         Id = Guid.NewGuid();
         EmployeeCode = employeeCode;
@@ -41,10 +42,11 @@ public class Employee : BaseAuditableEntity<Guid>
         Address = address;
         DateOfBirth = dateOfBirth;
         Gender = gender;
+        Email = email;
         BaseSalary = baseSalary;
     }
 
-    public void UpdateProfile(string fullName, string? phoneNumber, string? citizenId, string? address, DateTime? dateOfBirth, string? gender)
+    public void UpdateProfile(string fullName, string? phoneNumber, string? citizenId, string? address, DateTime? dateOfBirth, string? gender, string? email)
     {
         FullName = fullName;
         PhoneNumber = phoneNumber;
@@ -52,6 +54,7 @@ public class Employee : BaseAuditableEntity<Guid>
         Address = address;
         DateOfBirth = dateOfBirth;
         Gender = gender;
+        Email = email;
     }
 
     public void AssignToDepartment(Guid? departmentId, Guid? positionId)

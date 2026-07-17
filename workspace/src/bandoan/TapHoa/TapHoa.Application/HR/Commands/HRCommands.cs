@@ -13,9 +13,10 @@ public record CreatePositionCommand(string Name, string? Description) : IRequest
 public record UpdatePositionCommand(Guid Id, string Name, string? Description) : IRequest<Unit>;
 public record DeletePositionCommand(Guid Id) : IRequest<Unit>;
 
-public record CreateEmployeeCommand(string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, Guid? PositionId, Guid? UserId) : IRequest<Guid>;
-public record UpdateEmployeeCommand(Guid Id, string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, Guid? PositionId, Guid? UserId) : IRequest<Unit>;
+public record CreateEmployeeCommand(string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, string? Email, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, Guid? PositionId, Guid? UserId) : IRequest<Guid>;
+public record UpdateEmployeeCommand(Guid Id, string EmployeeCode, string FullName, string? PhoneNumber, string? CitizenId, string? Address, DateTime? DateOfBirth, string? Gender, string? Email, decimal BaseSalary, Guid? SalaryTemplateId, Guid? DepartmentId, Guid? PositionId, Guid? UserId) : IRequest<Unit>;
 public record DeleteEmployeeCommand(Guid Id) : IRequest<Unit>;
+public record ImportEmployeesCommand(string FileContent) : IRequest<int>;
 
 public class HRCommandsHandler : 
     IRequestHandler<CreateDepartmentCommand, Guid>,
@@ -26,7 +27,8 @@ public class HRCommandsHandler :
     IRequestHandler<DeletePositionCommand, Unit>,
     IRequestHandler<CreateEmployeeCommand, Guid>,
     IRequestHandler<UpdateEmployeeCommand, Unit>,
-    IRequestHandler<DeleteEmployeeCommand, Unit>
+    IRequestHandler<DeleteEmployeeCommand, Unit>,
+    IRequestHandler<ImportEmployeesCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
@@ -93,7 +95,7 @@ public class HRCommandsHandler :
 
     public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var employee = new Employee(request.EmployeeCode, request.FullName, _context.CurrentCompanyId, request.PhoneNumber, request.CitizenId, request.Address, request.DateOfBirth, request.Gender, request.BaseSalary);
+        var employee = new Employee(request.EmployeeCode, request.FullName, _context.CurrentCompanyId, request.PhoneNumber, request.CitizenId, request.Address, request.DateOfBirth, request.Gender, request.Email, request.BaseSalary);
         employee.AssignToDepartment(request.DepartmentId, request.PositionId);
         employee.AssignSalary(request.BaseSalary, request.SalaryTemplateId);
         employee.LinkUserAccount(request.UserId);
@@ -108,7 +110,7 @@ public class HRCommandsHandler :
         var employee = await _context.Employees.FindAsync(new object[] { request.Id }, cancellationToken);
         if (employee == null) throw new Exception("Employee not found");
         
-        employee.UpdateProfile(request.FullName, request.PhoneNumber, request.CitizenId, request.Address, request.DateOfBirth, request.Gender);
+        employee.UpdateProfile(request.FullName, request.PhoneNumber, request.CitizenId, request.Address, request.DateOfBirth, request.Gender, request.Email);
         employee.AssignToDepartment(request.DepartmentId, request.PositionId);
         employee.AssignSalary(request.BaseSalary, request.SalaryTemplateId);
         employee.LinkUserAccount(request.UserId);
@@ -126,5 +128,54 @@ public class HRCommandsHandler :
             await _context.SaveChangesAsync(cancellationToken);
         }
         return Unit.Value;
+    }
+
+    public async Task<int> Handle(ImportEmployeesCommand request, CancellationToken cancellationToken)
+    {
+        int count = 0;
+        var lines = request.FileContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        // Bỏ qua dòng tiêu đề
+        for (int i = 1; i < lines.Length; i++)
+        {
+            var line = lines[i];
+            var parts = line.Split(',');
+            if (parts.Length >= 6)
+            {
+                var employeeCode = parts[0].Trim();
+                var fullName = parts[1].Trim();
+                var phoneNumber = parts[2].Trim();
+                var email = parts[3].Trim();
+                var dateOfBirthStr = parts[4].Trim();
+                var baseSalaryStr = parts[5].Trim();
+
+                DateTime? dateOfBirth = null;
+                if (DateTime.TryParse(dateOfBirthStr, out var parsedDate))
+                {
+                    dateOfBirth = parsedDate;
+                }
+
+                decimal baseSalary = 0;
+                if (decimal.TryParse(baseSalaryStr, out var parsedSalary))
+                {
+                    baseSalary = parsedSalary;
+                }
+
+                // Check if employee code already exists
+                var existing = await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeCode == employeeCode, cancellationToken);
+                if (existing == null)
+                {
+                    var employee = new Employee(employeeCode, fullName, _context.CurrentCompanyId, phoneNumber, null, null, dateOfBirth, null, email, baseSalary);
+                    _context.Employees.Add(employee);
+                    count++;
+                }
+            }
+        }
+        
+        if (count > 0)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        
+        return count;
     }
 }

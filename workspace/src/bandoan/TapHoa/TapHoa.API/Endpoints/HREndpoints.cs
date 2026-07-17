@@ -91,5 +91,19 @@ public static class HREndpoints
             await mediator.Send(new DeleteEmployeeCommand(id));
             return Results.NoContent();
         });
+
+        group.MapPost("/employees/upload", async (IMediator mediator, HttpRequest request) =>
+        {
+            if (!request.HasFormContentType || !request.Form.Files.Any())
+                return Results.BadRequest("No file uploaded.");
+
+            var file = request.Form.Files[0];
+            using var reader = new System.IO.StreamReader(file.OpenReadStream());
+            var content = await reader.ReadToEndAsync();
+            
+            var count = await mediator.Send(new ImportEmployeesCommand(content));
+            return Results.Ok(new { importedCount = count });
+        })
+        .DisableAntiforgery();
     }
 }

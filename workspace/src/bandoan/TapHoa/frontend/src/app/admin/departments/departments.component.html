@@ -1,184 +1,144 @@
-<div class="container-fluid py-5 min-vh-100 bg-light">
-  <div class="max-w-6xl mx-auto">
-    <!-- Header Section -->
-    <div class="row align-items-center mb-5 g-4">
-      <div class="col-12 col-md-6">
-        <h2 class="fw-bolder text-dark mb-2 fs-2" style="letter-spacing: -0.5px;">Quản Lý Phòng Ban</h2>
-        <p class="text-secondary mb-0 fs-6">Sơ đồ tổ chức các phòng ban trong công ty</p>
-      </div>
-      <div class="col-12 col-md-6 d-flex justify-content-md-end gap-3 align-items-center">
-        <!-- Search Input -->
-        <div class="search-input-wrapper">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" class="w-100" placeholder="Tìm kiếm phòng ban..." [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event); onSearch()">
-        </div>
-
-        <!-- Add Button -->
-        <button class="btn-primary-gradient d-flex align-items-center gap-2" (click)="openAddModal()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          Thêm Mới
-        </button>
-      </div>
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="h3 mb-0 text-gray-800 fw-bold">Quản Lý Phòng Ban</h2>
+      <p class="text-muted mb-0">Danh sách các phòng ban trong công ty</p>
     </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
+      <i class="bi bi-plus-lg me-2"></i> Thêm Mới
+    </button>
+  </div>
 
-    <!-- Tree Card -->
-    @if (filteredDepartmentNodes().length > 0) {
-    <div class="premium-card">
-      <div class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom bg-white">
-        <span class="text-muted fw-bold text-uppercase fs-8" style="letter-spacing: 1px;">CẤU TRÚC PHÒNG BAN</span>
-        <span class="text-muted fw-bold text-uppercase fs-8 text-end pe-4" style="letter-spacing: 1px;">THAO TÁC</span>
-      </div>
-
-      <div class="bg-white p-3">
-        <!-- Recursive Template for Tree Rows -->
-        <ng-template #departmentTree let-nodes="nodes" let-level="level">
-          <ul class="tree-list list-unstyled m-0 p-0" [class.child-list]="level > 0">
-            @for (node of nodes; track node.id; let first = $first; let last = $last) {
-            <li class="tree-node" [class.last-node]="last" [class.first-node]="first" [class.child-node]="level > 0">
-              <div class="tree-row d-flex align-items-center justify-content-between p-2 rounded-3 mb-1 position-relative" style="z-index: 2; background: white;">
-                
-                <div class="d-flex align-items-center gap-3 w-100">
-                  <!-- Indentation -->
-                  <div *ngIf="level > 0" [style.width.px]="level * 32"></div>
-
-                  <!-- Expand/Collapse Toggle -->
-                  <button class="btn btn-sm text-muted rounded-circle d-flex align-items-center justify-content-center p-0"
-                    style="width: 24px; height: 24px; background: transparent; border: none;"
-                    [style.visibility]="node.children.length === 0 ? 'hidden' : 'visible'"
-                    (click)="toggleExpand(node)">
-                    <svg *ngIf="node.expanded" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                    <svg *ngIf="!node.expanded" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                  </button>
-
-                  <!-- Icon -->
-                  <div [class]="level === 0 ? 'icon-wrapper' : 'icon-wrapper-sub'">
-                    🏢
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4 py-3 border-0 rounded-start-3" style="width: 40%">Tên Phòng Ban</th>
+              <th class="py-3 border-0">Phòng Ban Cha</th>
+              <th class="py-3 border-0">Mô Tả</th>
+              <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (isLoading()) {
+              <tr>
+                <td colspan="4" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Đang tải...</span>
                   </div>
-
-                  <!-- Info -->
-                  <div class="d-flex flex-column">
-                    <div class="d-flex align-items-center gap-2">
-                      <span class="fw-bold text-dark" [ngClass]="level === 0 ? 'fs-5' : 'fs-6'">{{ node.name }}</span>
-                      @if (node.children.length > 0) {
-                        <span class="badge-count">{{ node.children.length }} phòng ban con</span>
+                </td>
+              </tr>
+            } @else if (filteredDepartmentNodes().length === 0) {
+              <tr>
+                <td colspan="4" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">📭</span>
+                  Chưa có phòng ban nào
+                </td>
+              </tr>
+            } @else {
+              <!-- Recursive Template for Tree Rows -->
+              <ng-template #departmentTree let-nodes="nodes">
+                @for (node of nodes; track node.id) {
+                  <tr>
+                    <td class="ps-4 py-3 fw-medium">
+                      <div class="d-flex align-items-center">
+                        <div [style.width.px]="node.level * 30"></div>
+                        
+                        <button class="btn btn-sm text-muted rounded-circle d-flex align-items-center justify-content-center p-0 me-2"
+                          style="width: 24px; height: 24px; border: none; background: transparent;"
+                          [style.visibility]="node.children.length === 0 ? 'hidden' : 'visible'"
+                          (click)="toggleExpand(node)">
+                          <i class="bi" [ngClass]="node.expanded ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                        </button>
+                        
+                        <div class="d-flex align-items-center gap-2">
+                          <i class="bi" [ngClass]="node.level === 0 ? 'bi-building text-primary' : 'bi-diagram-3 text-secondary'"></i>
+                          <span>{{ node.name }}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3">
+                      @if (node.parentName) {
+                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-3">{{ node.parentName }}</span>
+                      } @else {
+                        <span class="text-muted">--</span>
                       }
-                    </div>
-                    <span class="text-secondary mt-1 text-truncate" style="font-size: 0.8rem; max-width: 300px;">
-                      {{ node.description || 'Không có mô tả' }}
-                    </span>
-                  </div>
-                </div>
+                    </td>
+                    <td class="py-3 text-muted">{{ node.description || '--' }}</td>
+                    <td class="pe-4 py-3 text-end">
+                      <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openAddModal(node.id)" title="Thêm phòng ban con">
+                        <i class="bi bi-plus-lg"></i>
+                      </button>
+                      <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(node)" title="Sửa">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-sm btn-light rounded-circle text-danger" (click)="deleteDepartment(node.id!)" title="Xóa">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  
+                  @if (node.expanded && node.children.length > 0) {
+                    <ng-container *ngTemplateOutlet="departmentTree; context: { nodes: node.children }"></ng-container>
+                  }
+                }
+              </ng-template>
 
-                <!-- Actions -->
-                <div class="row-actions d-flex align-items-center gap-2 pe-2 bg-white">
-                  <button class="btn-add" (click)="openAddModal(node.id)" title="Thêm phòng ban con">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
-                  <button class="btn-edit" (click)="openEditModal(node)" title="Sửa">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                  </button>
-                  <button class="btn-delete" (click)="deleteDepartment(node.id!)" title="Xóa">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      <line x1="10" y1="11" x2="10" y2="17"></line>
-                      <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Children Container -->
-              <div class="tree-children-container" [class.d-none]="!node.expanded" *ngIf="node.children.length > 0">
-                <ng-container *ngTemplateOutlet="departmentTree; context: { nodes: node.children, level: level + 1 }"></ng-container>
-              </div>
-            </li>
+              <ng-container *ngTemplateOutlet="departmentTree; context: { nodes: filteredDepartmentNodes() }"></ng-container>
             }
-          </ul>
-        </ng-template>
-
-        <!-- Init Tree -->
-        <ng-container *ngTemplateOutlet="departmentTree; context: { nodes: filteredDepartmentNodes(), level: 0 }"></ng-container>
-      </div>
-      
-      <!-- Footer -->
-      <div class="bg-light px-4 py-3 border-top text-center text-muted fs-8 fw-medium">
-        Tổng số phòng ban cấp cao: {{ filteredDepartmentNodes().length }}
+          </tbody>
+        </table>
       </div>
     </div>
-    }
-
-    <!-- Empty State -->
-    @if (filteredDepartmentNodes().length === 0) {
-    <div class="premium-card p-5 text-center my-5 d-flex flex-column align-items-center justify-content-center" style="background-color: #fcfdfe; border-style: dashed;">
-      <div class="rounded-circle d-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px; background: #f1f5f9;">
-        <span class="fs-1 opacity-50">🏢</span>
-      </div>
-      <h3 class="fw-bold text-dark mb-2 fs-4">Chưa có phòng ban nào</h3>
-      <p class="text-secondary mb-4" style="max-width: 350px;">Bắt đầu bằng cách tạo một phòng ban mới cho công ty của bạn.</p>
-      <button class="btn-primary-gradient px-4 py-2" (click)="openAddModal()">
-        Tạo Ngay
-      </button>
-    </div>
-    }
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Thêm/Sửa -->
 @if (showModal()) {
-<app-modal [title]="isEditMode() ? 'Sửa Phòng Ban' : 'Thêm Phòng Ban'" size="md" (closeDialog)="closeModal()">
-  <form (ngSubmit)="saveDepartment()" #departmentForm="ngForm" id="departmentNgForm">
-    <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-      <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">Thông tin phòng ban</h6>
-      <div class="row g-3">
-        <div class="col-12">
-          <label class="form-label small fw-bold text-dark mb-1">Tên phòng ban <span class="text-danger">*</span></label>
-          <input type="text" class="form-control form-control-solid rounded-3 py-2" name="name"
-            [(ngModel)]="editingDepartment.name" required placeholder="Nhập tên phòng ban...">
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Phòng Ban' : 'Thêm Phòng Ban' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
         </div>
-        <div class="col-12">
-          <label class="form-label small fw-bold text-dark mb-1">Phòng ban cha</label>
-          <select class="form-select form-control-solid rounded-3 py-2" name="parentId" [(ngModel)]="editingDepartment.parentId">
-            <option [ngValue]="null">--- Phòng ban gốc ---</option>
-            @for (dept of departments(); track dept.id) {
-              @if (dept.id !== editingDepartment.id) {
-                <option [value]="dept.id">{{ dept.name }}</option>
-              }
+        <div class="modal-body pb-0">
+          <form (ngSubmit)="saveDepartment()" #form="ngForm" id="deptForm">
+            <div class="mb-3">
+              <label class="form-label fw-medium">Tên phòng ban <span class="text-danger">*</span></label>
+              <input type="text" class="form-control rounded-3" name="name" [(ngModel)]="editingDepartment.name" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Phòng ban cha</label>
+              <select class="form-select rounded-3" name="parentId" [(ngModel)]="editingDepartment.parentId">
+                <option [ngValue]="null">--- Không có ---</option>
+                @for (dept of departments(); track dept.id) {
+                  @if (dept.id !== editingDepartment.id) {
+                    <option [value]="dept.id">{{ dept.name }}</option>
+                  }
+                }
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Mô tả</label>
+              <textarea class="form-control rounded-3" rows="3" name="description" [(ngModel)]="editingDepartment.description"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="deptForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang lưu...
+            } @else {
+              Lưu
             }
-          </select>
-        </div>
-        <div class="col-12">
-          <label class="form-label small fw-bold text-dark mb-1">Mô tả</label>
-          <textarea class="form-control form-control-solid rounded-3 py-2" name="description"
-            [(ngModel)]="editingDepartment.description" rows="3" placeholder="Mô tả chức năng phòng ban..."></textarea>
+          </button>
         </div>
       </div>
     </div>
-  </form>
-  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
-    <button type="submit" form="departmentNgForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!departmentForm.form.valid || isSubmitting()">
-      @if (isSubmitting()) {
-        <span class="spinner-border spinner-border-sm me-2"></span>
-      }
-      {{ isEditMode() ? 'Cập nhật' : 'Thêm mới' }}
-    </button>
   </div>
-</app-modal>
 }
