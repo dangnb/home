@@ -1845,3 +1845,52 @@ ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
 2026-07-17 22:34:46.183 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 1.9927 ms
 2026-07-17 22:34:46.191 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.0412 ms
 2026-07-17 22:34:46.195 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 2.2365 ms
+2026-07-17 22:35:38.023 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 22:35:38.052 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 22:35:38.052 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 22:35:38.052 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-17 22:35:38.152 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-17 22:35:38.808 +07:00 [ERR] Failed executing DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-17 22:35:38.823 +07:00 [ERR] Failed executing DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-17 22:35:38.863 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-17 22:35:38.871 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-17 22:35:38.882 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-17 22:35:38.927 +07:00 [ERR] Failed executing DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 6.8583 ms
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 6.8453 ms
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 6.8328 ms
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 6.8479 ms
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 6.8425 ms
+2026-07-17 22:36:53.632 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 6.8474 ms
+2026-07-17 22:36:55.627 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-17 22:36:55.633 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 22:36:55.633 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 22:36:55.633 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-17 22:36:55.724 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 2082.2073 ms
+2026-07-17 22:36:55.726 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2083.9421 ms
+2026-07-17 22:36:56.034 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 2392.1729 ms
+2026-07-17 22:36:59.302 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.1117 ms
+2026-07-17 22:36:59.432 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 127.6750 ms
+2026-07-17 22:37:02.331 +07:00 [INF] HTTP OPTIONS /api/v1/hr/departments responded 204 in 0.0969 ms
+2026-07-17 22:37:02.331 +07:00 [INF] HTTP OPTIONS /api/v1/hr/positions responded 204 in 0.0968 ms
+2026-07-17 22:37:02.331 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.0326 ms
+2026-07-17 22:37:02.331 +07:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.0489 ms
+2026-07-17 22:37:02.332 +07:00 [INF] HTTP OPTIONS /api/v1/hr/employees responded 204 in 0.0404 ms
+2026-07-17 22:37:02.334 +07:00 [INF] HTTP GET /api/v1/users responded 404 in 0.6757 ms
+2026-07-17 22:37:02.355 +07:00 [INF] HTTP GET /api/v1/hr/positions responded 200 in 21.8450 ms
+2026-07-17 22:37:02.357 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 24.1162 ms
+2026-07-17 22:37:02.369 +07:00 [INF] HTTP GET /api/v1/hr/departments responded 200 in 36.0930 ms
+2026-07-17 22:37:02.371 +07:00 [INF] HTTP GET /api/v1/hr/employees responded 200 in 37.5826 ms

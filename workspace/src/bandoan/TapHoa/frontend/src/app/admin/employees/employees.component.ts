@@ -28,7 +28,7 @@ export class EmployeesComponent implements OnInit {
 
   isLoading = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
-  
+
   showModal = signal<boolean>(false);
   showUploadModal = signal<boolean>(false);
   selectedFile: File | null = null;
@@ -42,7 +42,7 @@ export class EmployeesComponent implements OnInit {
     private salaryTemplateService: SalaryTemplateService,
     private alertService: AlertService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadData();
@@ -50,12 +50,12 @@ export class EmployeesComponent implements OnInit {
 
   loadData() {
     this.isLoading.set(true);
-    
+
     // Load lists for dropdowns
     this.departmentService.getAll().subscribe(data => this.departments.set(data));
     this.positionService.getAll().subscribe(data => this.positions.set(data));
     this.salaryTemplateService.getTemplates().subscribe((data: any) => this.salaryTemplates.set(data));
-    
+
     // Fetch users for linking
     this.http.get<any[]>(`${environment.apiUrl}/users`).subscribe(data => this.users.set(data));
 
@@ -74,9 +74,9 @@ export class EmployeesComponent implements OnInit {
 
   openAddModal() {
     this.isEditMode.set(false);
-    this.editingEmployee = { 
-      employeeCode: '', 
-      fullName: '', 
+    this.editingEmployee = {
+      employeeCode: '',
+      fullName: '',
       baseSalary: 0,
       departmentId: null as any,
       positionId: null as any,
@@ -148,8 +148,7 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-    });
-  }
+
 
   openUploadModal() {
     this.selectedFile = null;
