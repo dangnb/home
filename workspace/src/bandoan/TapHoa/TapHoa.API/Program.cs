@@ -307,6 +307,121 @@ using (var scope = app.Services.CreateScope())
         context.Database.ExecuteSqlRaw(@"ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;");
     }
     catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `SalaryTemplates` (
+                `Id` char(36) NOT NULL,
+                `Name` longtext NOT NULL,
+                `Formula` longtext NOT NULL,
+                `Notes` longtext NULL,
+                `IsActive` tinyint(1) NOT NULL,
+                `CompanyId` char(36) NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Departments` (
+                `Id` char(36) NOT NULL,
+                `Name` longtext NOT NULL,
+                `Description` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                `ParentId` char(36) NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Positions` (
+                `Id` char(36) NOT NULL,
+                `Name` longtext NOT NULL,
+                `Description` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `Employees` (
+                `Id` char(36) NOT NULL,
+                `EmployeeCode` longtext NOT NULL,
+                `FullName` longtext NOT NULL,
+                `PhoneNumber` longtext NULL,
+                `CitizenId` longtext NULL,
+                `Address` longtext NULL,
+                `DateOfBirth` datetime(6) NULL,
+                `Gender` longtext NULL,
+                `BaseSalary` decimal(18,2) NOT NULL,
+                `SalaryTemplateId` char(36) NULL,
+                `DepartmentId` char(36) NULL,
+                `PositionId` char(36) NULL,
+                `UserId` char(36) NULL,
+                `CompanyId` char(36) NOT NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        // Add ParentId to existing Departments table if it wasn't there
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+        ");
+    }
+    catch { }
+
+    try
+    {
+        // Add foreign key for ParentId
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
@@ -356,5 +471,7 @@ app.MapGroup("api/v{version:apiVersion}/shift-schedules").WithApiVersionSet(apiV
 app.MapGroup("api/v{version:apiVersion}/purchase-orders").WithApiVersionSet(apiVersionSet).MapPurchaseOrdersEndpoints();
 app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersionSet).MapAttendancesEndpoints();
 app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
+app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(apiVersionSet).MapSalaryTemplateEndpoints();
+app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
 
 app.Run();

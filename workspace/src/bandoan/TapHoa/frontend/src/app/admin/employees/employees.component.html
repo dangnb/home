@@ -1,0 +1,174 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="h3 mb-0 text-gray-800 fw-bold">Quản Lý Nhân Viên</h2>
+      <p class="text-muted mb-0">Quản lý hồ sơ, phòng ban và chức vụ của nhân viên</p>
+    </div>
+    <button class="btn btn-primary rounded-pill px-4" (click)="openAddModal()">
+      <i class="bi bi-person-plus me-2"></i> Thêm Nhân Viên
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light">
+            <tr>
+              <th class="ps-4 py-3 border-0 rounded-start-3">Mã NV</th>
+              <th class="py-3 border-0">Họ và Tên</th>
+              <th class="py-3 border-0">Phòng Ban</th>
+              <th class="py-3 border-0">Chức Vụ</th>
+              <th class="py-3 border-0">SĐT</th>
+              <th class="py-3 border-0">Lương CB</th>
+              <th class="pe-4 py-3 border-0 rounded-end-3 text-end">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (isLoading()) {
+              <tr>
+                <td colspan="7" class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Đang tải...</span>
+                  </div>
+                </td>
+              </tr>
+            } @else if (employees().length === 0) {
+              <tr>
+                <td colspan="7" class="text-center py-5 text-muted">
+                  <span class="fs-1 d-block mb-3">👥</span>
+                  Chưa có nhân viên nào
+                </td>
+              </tr>
+            } @else {
+              @for (item of employees(); track item.id) {
+                <tr>
+                  <td class="ps-4 py-3 fw-medium text-primary">{{ item.employeeCode }}</td>
+                  <td class="py-3 fw-bold">{{ item.fullName }}</td>
+                  <td class="py-3">
+                    <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3">{{ item.departmentName || '--' }}</span>
+                  </td>
+                  <td class="py-3 text-muted">{{ item.positionName || '--' }}</td>
+                  <td class="py-3">{{ item.phoneNumber || '--' }}</td>
+                  <td class="py-3 fw-medium">{{ item.baseSalary | number:'1.0-0' }} đ</td>
+                  <td class="pe-4 py-3 text-end">
+                    <button class="btn btn-sm btn-light rounded-circle me-2" (click)="openEditModal(item)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-light rounded-circle text-danger" (click)="deleteEmployee(item.id)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm/Sửa -->
+@if (showModal()) {
+  <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5);" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Nhân Viên' : 'Thêm Nhân Viên Mới' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body pb-0">
+          <form (ngSubmit)="saveEmployee()" #form="ngForm" id="empForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Mã Nhân Viên <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="employeeCode" [(ngModel)]="editingEmployee.employeeCode" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Họ và Tên <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="fullName" [(ngModel)]="editingEmployee.fullName" required>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Phòng Ban</label>
+                <select class="form-select rounded-3" name="departmentId" [(ngModel)]="editingEmployee.departmentId">
+                  <option [ngValue]="null">--- Chọn Phòng Ban ---</option>
+                  @for (dept of departments(); track dept.id) {
+                    <option [value]="dept.id">{{ dept.name }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Chức Vụ</label>
+                <select class="form-select rounded-3" name="positionId" [(ngModel)]="editingEmployee.positionId">
+                  <option [ngValue]="null">--- Chọn Chức Vụ ---</option>
+                  @for (pos of positions(); track pos.id) {
+                    <option [value]="pos.id">{{ pos.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Lương Cơ Bản (VNĐ) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control rounded-3" name="baseSalary" [(ngModel)]="editingEmployee.baseSalary" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Mẫu Tính Lương</label>
+                <select class="form-select rounded-3" name="salaryTemplateId" [(ngModel)]="editingEmployee.salaryTemplateId">
+                  <option [ngValue]="null">--- Chọn Mẫu Lương ---</option>
+                  @for (st of salaryTemplates(); track st.id) {
+                    <option [value]="st.id">{{ st.name }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Liên kết Tài khoản (User)</label>
+                <select class="form-select rounded-3" name="userId" [(ngModel)]="editingEmployee.userId">
+                  <option [ngValue]="null">--- Không liên kết ---</option>
+                  @for (u of users(); track u.id) {
+                    <option [value]="u.id">{{ u.username }} ({{ u.fullName }})</option>
+                  }
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Số điện thoại</label>
+                <input type="text" class="form-control rounded-3" name="phoneNumber" [(ngModel)]="editingEmployee.phoneNumber">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-medium">CCCD/CMND</label>
+                <input type="text" class="form-control rounded-3" name="citizenId" [(ngModel)]="editingEmployee.citizenId">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-medium">Giới tính</label>
+                <select class="form-select rounded-3" name="gender" [(ngModel)]="editingEmployee.gender">
+                  <option value="">--- Chọn ---</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-medium">Địa chỉ</label>
+                <input type="text" class="form-control rounded-3" name="address" [(ngModel)]="editingEmployee.address">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-top-0 pt-0 mt-4 d-flex justify-content-end gap-2">
+          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="empForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Đang lưu...
+            } @else {
+              Lưu Nhân Viên
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

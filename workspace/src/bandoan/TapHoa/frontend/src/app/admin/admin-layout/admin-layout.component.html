@@ -107,6 +107,21 @@
       <!-- NHÂN SỰ -->
       <li class="nav-divider">{{ 'SIDEBAR.HR_SECTION' | translate }}</li>
       <li>
+        <a routerLink="/admin/employees" routerLinkActive="active" title="Nhân viên">
+          <span class="icon"><i class="bi bi-people"></i></span> <span class="nav-text">Nhân viên</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/departments" routerLinkActive="active" title="Phòng ban">
+          <span class="icon"><i class="bi bi-building"></i></span> <span class="nav-text">Phòng ban</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/positions" routerLinkActive="active" title="Chức vụ">
+          <span class="icon"><i class="bi bi-person-lines-fill"></i></span> <span class="nav-text">Chức vụ</span>
+        </a>
+      </li>
+      <li>
         <a routerLink="/admin/attendance" routerLinkActive="active" title="Chấm công">
           <span class="icon"><i class="bi bi-calendar-check"></i></span> <span class="nav-text">{{ 'SIDEBAR.ATTENDANCE' | translate }}</span>
         </a>
@@ -114,6 +129,11 @@
       <li>
         <a routerLink="/admin/payroll" routerLinkActive="active" title="Tính lương">
           <span class="icon"><i class="bi bi-wallet2"></i></span> <span class="nav-text">{{ 'SIDEBAR.PAYROLL' | translate }}</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/salary-templates" routerLinkActive="active" title="Mẫu lương">
+          <span class="icon"><i class="bi bi-file-earmark-spreadsheet"></i></span> <span class="nav-text">Mẫu lương</span>
         </a>
       </li>
       <li class="nav-divider">{{ 'SIDEBAR.SYSTEM_SECTION' | translate }}</li>

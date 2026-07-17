@@ -280,7 +280,7 @@
       </div>
       <div class="modal-body-custom">
         <div class="input-group-fancy mb-3">
-          <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }}</label>
+          <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }} <small class="text-muted fw-normal">(Mặc định nếu chưa gán)</small></label>
           <div class="input-with-suffix">
             <input type="number" class="form-control" [(ngModel)]="calcConfig.defaultBaseSalary" step="100000">
             <span class="input-suffix">VNĐ</span>
@@ -316,7 +316,7 @@
           </button>
         </div>
         <div class="input-group-fancy mb-3">
-          <label class="form-label">Công thức tính (DynamicExpresso)</label>
+          <label class="form-label">Công thức tính (DynamicExpresso) <small class="text-muted fw-normal">(Mặc định nếu chưa gán mẫu)</small></label>
           <textarea class="form-control" rows="2" [(ngModel)]="calcConfig.formula" style="font-family: monospace;"></textarea>
           <div class="form-text text-muted" style="font-size: 0.8rem; margin-top: 6px;">
             <strong>Biến hỗ trợ:</strong> BaseSalary, WorkDays, TotalHours, OvertimeHours, OvertimePay, Allowance, Bonus, Deduction.

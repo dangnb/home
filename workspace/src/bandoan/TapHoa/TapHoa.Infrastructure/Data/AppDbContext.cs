@@ -58,6 +58,12 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     public DbSet<Attendance> Attendances => Set<Attendance>();
     public DbSet<PayrollPeriod> PayrollPeriods => Set<PayrollPeriod>();
     public DbSet<PayrollEntry> PayrollEntries => Set<PayrollEntry>();
+    public DbSet<SalaryTemplate> SalaryTemplates => Set<SalaryTemplate>();
+
+    // HR
+    public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<Position> Positions => Set<Position>();
 
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
@@ -116,6 +122,11 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         modelBuilder.Entity<PayrollPeriod>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<PayrollEntry>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
 
+        // HR
+        modelBuilder.Entity<Employee>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<Department>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+        modelBuilder.Entity<Position>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
+
         modelBuilder.Entity<Attendance>()
             .HasIndex(a => new { a.Username, a.Date, a.CompanyId })
             .IsUnique()
@@ -150,6 +161,12 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
             .HasIndex(p => p.Barcode)
             .IsUnique()
             .HasFilter("Barcode IS NOT NULL AND IsDeleted = 0");
+
+        modelBuilder.Entity<Department>()
+            .HasOne(d => d.ParentDepartment)
+            .WithMany(d => d.SubDepartments)
+            .HasForeignKey(d => d.ParentId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<CustomerDebt>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
         modelBuilder.Entity<CustomerDebtTransaction>().HasQueryFilter(x => !x.IsDeleted && x.CompanyId == CurrentCompanyId);
@@ -223,7 +240,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
         var adminPasswordHash = "$2a$11$8rpnI.9n7caa2N3lLrkVeOyfSDUH1LlRGHt4.64Z6c0uGaFs8q0xy";
 
         modelBuilder.Entity<User>().HasData(
-            new { Id = adminUserId, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", PhoneNumber = (string?)null, CitizenId = (string?)null, Address = (string?)null, IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), CompanyId = companyId }
+            new { Id = adminUserId, Username = "admin", PasswordHash = adminPasswordHash, FullName = "System Admin", Email = "admin@taphoa.com", PhoneNumber = (string?)null, CitizenId = (string?)null, Address = (string?)null, IsActive = true, CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), CompanyId = companyId, BaseSalary = 10000000m }
         );
 
         // Seed initial data using anonymous objects since Product has private setters

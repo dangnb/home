@@ -14,7 +14,6 @@ public class User : BaseEntity<Guid>
     public DateTime CreatedAt { get; private set; }
     public Guid CompanyId { get; private set; }
     
-    // Additional Profile Info
     public string? PhoneNumber { get; private set; }
     public string? CitizenId { get; private set; }
     public string? Address { get; private set; }
@@ -33,6 +32,14 @@ public class User : BaseEntity<Guid>
         IsActive = true;
         CreatedAt = DateTime.UtcNow;
         CompanyId = companyId;
+        PhoneNumber = phoneNumber;
+        CitizenId = citizenId;
+        Address = address;
+    }
+
+    public void UpdateProfile(string fullName, string? phoneNumber, string? citizenId, string? address)
+    {
+        FullName = fullName;
         PhoneNumber = phoneNumber;
         CitizenId = citizenId;
         Address = address;

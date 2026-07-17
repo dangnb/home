@@ -11,9 +11,14 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
 
     try {
-        // Fix Base64Url decoding (replace - with +, _ with /)
         const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        
+        // Pad the base64 string with '=' so its length is a multiple of 4
+        while (base64.length % 4) {
+            base64 += '=';
+        }
+
         const payload = JSON.parse(decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join('')));

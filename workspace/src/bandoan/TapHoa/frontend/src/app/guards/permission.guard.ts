@@ -12,11 +12,16 @@ export const permissionGuard: CanActivateFn = (route, state) => {
 
     try {
         const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+        while (base64.length % 4) {
+            base64 += '=';
+        }
+
         const payload = JSON.parse(decodeURIComponent(atob(base64).split('').map(function (c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join('')));
-        
+
         // Extract required permission from route data
         const requiredPermission = route.data?.['permission'] as number;
         if (!requiredPermission) {
@@ -25,7 +30,7 @@ export const permissionGuard: CanActivateFn = (route, state) => {
         }
 
         const userPermissions = Number(payload.Permissions) || 0;
-        
+
         // Check if user has the required permission
         if ((userPermissions & requiredPermission) === requiredPermission) {
             return true;
