@@ -1,31 +1,41 @@
+using Dapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using TapHoa.Domain.Interfaces;
+using TapHoa.Application.Interfaces;
 
 namespace TapHoa.Application.Warehouse.Queries;
 
 public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery, List<TransactionListDto>>
 {
-    private readonly IInventoryTransactionRepository _transactionRepository;
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
+    private readonly ICurrentUserService _currentUserService;
 
-    public GetTransactionsQueryHandler(IInventoryTransactionRepository transactionRepository)
+    public GetTransactionsQueryHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
     {
-        _transactionRepository = transactionRepository;
+        _sqlConnectionFactory = sqlConnectionFactory;
+        _currentUserService = currentUserService;
     }
 
     public async Task<List<TransactionListDto>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
     {
-        var txs = await _transactionRepository.GetAllWithLinesAsync(cancellationToken);
-        
-        return txs.OrderByDescending(x => x.CreatedAt).Select(tx => new TransactionListDto(
-            tx.Id,
-            tx.Code,
-            tx.Type,
-            tx.CreatedBy,
-            tx.Lines?.Count ?? 0,
-            tx.Lines?.Sum(l => l.Quantity * l.UnitCost) ?? 0m,
-            tx.CreatedAt,
-            tx.Status
-        )).ToList();
+        var companyId = _currentUserService.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
+
+        using var connection = _sqlConnectionFactory.CreateConnection();
+        const string sql = @"
+            SELECT 
+                t.Id, 
+                t.Code, 
+                t.Type, 
+                t.CreatedBy, 
+                (SELECT COUNT(*) FROM InventoryTransactionLines l WHERE l.TransactionId = t.Id) as ItemsCount,
+                (SELECT COALESCE(SUM(l.Quantity * l.UnitCost), 0) FROM InventoryTransactionLines l WHERE l.TransactionId = t.Id) as TotalCost,
+                t.CreatedAt, 
+                t.Status
+            FROM InventoryTransactions t
+            WHERE t.StoreId = @CompanyId
+            ORDER BY t.CreatedAt DESC
+        ";
+
+        var txs = await connection.QueryAsync<TransactionListDto>(sql, new { CompanyId = companyId.ToString() });
+        return txs.ToList();
     }
 }

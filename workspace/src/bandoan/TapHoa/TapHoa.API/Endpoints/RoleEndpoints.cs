@@ -17,7 +17,7 @@ public static class RoleEndpoints
             var result = await mediator.Send(new GetRolesQuery());
             return Results.Ok(result);
         })
-        .RequireAuthorization(policy => policy.RequireClaim("Permission", AppPermissions.ViewRoles));
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewRoles);
 
         // Create role
         group.MapPost("/", async (CreateRoleCommand command, IMediator mediator) =>
@@ -25,7 +25,7 @@ public static class RoleEndpoints
             var id = await mediator.Send(command);
             return Results.Created($"/api/roles/{id}", id);
         })
-        .RequireAuthorization(policy => policy.RequireClaim("Permission", AppPermissions.CreateRoles));
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.CreateRoles);
 
         // Update role
         group.MapPut("/{id:guid}", async (Guid id, UpdateRoleCommand command, IMediator mediator) =>
@@ -34,7 +34,7 @@ public static class RoleEndpoints
             await mediator.Send(command);
             return Results.NoContent();
         })
-        .RequireAuthorization(policy => policy.RequireClaim("Permission", AppPermissions.UpdateRoles));
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.UpdateRoles);
 
         // Delete role
         group.MapDelete("/{id:guid}", async (Guid id, IMediator mediator) =>
@@ -42,7 +42,7 @@ public static class RoleEndpoints
             await mediator.Send(new DeleteRoleCommand(id));
             return Results.NoContent();
         })
-        .RequireAuthorization(policy => policy.RequireClaim("Permission", AppPermissions.DeleteRoles));
+        .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.DeleteRoles);
 
         // Get all available permissions in the system
         app.MapGet("/api/v1/permissions", () =>
