@@ -43,6 +43,10 @@ public interface IApplicationDbContext
     DbSet<Department> Departments { get; }
     DbSet<Position> Positions { get; }
 
+    // Finance & Cash Management
+    DbSet<CashBookEntry> CashBookEntries { get; }
+    DbSet<OperatingExpense> OperatingExpenses { get; }
+
     Guid CurrentCompanyId { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

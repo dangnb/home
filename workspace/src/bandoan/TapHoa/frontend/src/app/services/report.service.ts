@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { RevenueProfitReport, TopProductReport } from '../models/report.model';
+import { RevenueProfitReport, TopProductReport, ProfitLossReport } from '../models/report.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +29,13 @@ export class ReportService {
       .set('orderBy', orderBy);
 
     return this.http.get<TopProductReport[]>(`${this.apiUrl}/top-products`, { params });
+  }
+
+  getProfitLossReport(month: number, year: number): Observable<ProfitLossReport> {
+    const params = new HttpParams()
+      .set('month', month.toString())
+      .set('year', year.toString());
+
+    return this.http.get<ProfitLossReport>(`${this.apiUrl}/profit-loss`, { params });
   }
 }

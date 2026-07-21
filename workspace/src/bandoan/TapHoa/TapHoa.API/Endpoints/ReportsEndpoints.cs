@@ -54,5 +54,22 @@ public static class ReportsEndpoints
         .RequireAuthorization()
         .WithName("GetTopProductsReport")
         .WithDescription("Gets top selling products report");
+        group.MapGet("/profit-loss", async (
+            [FromQuery] int month,
+            [FromQuery] int year,
+            IMediator mediator) =>
+        {
+            var query = new TapHoa.Application.Reports.Queries.GetProfitLossReportQuery
+            {
+                Month = month,
+                Year = year
+            };
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        })
+        .WithTags("Reports")
+        .RequireAuthorization()
+        .WithName("GetProfitLossReport")
+        .WithDescription("Gets profit and loss report for a specific month");
     }
 }

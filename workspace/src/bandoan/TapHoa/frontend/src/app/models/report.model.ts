@@ -20,3 +20,35 @@ export interface TopProductReport {
     totalQuantitySold: number;
     totalRevenue: number;
 }
+
+export interface ProfitLossReport {
+    month: number;
+    year: number;
+    grossRevenue: number;
+    returnAmount: number;
+    discountAmount: number;
+    netRevenue: number;
+    costOfGoodsSold: number;
+    grossProfit: number;
+    grossProfitMargin: number;
+    fixedExpenses: number;
+    variableExpenses: number;
+    salaryExpenses: number;
+    totalOperatingExpenses: number;
+    netProfit: number;
+    netProfitMargin: number;
+    expenseBreakdown: ProfitLossLineItem[];
+    monthlyTrend: MonthlyTrendItem[];
+}
+
+export interface ProfitLossLineItem {
+    name: string;
+    amount: number;
+}
+
+export interface MonthlyTrendItem {
+    month: number;
+    year: number;
+    revenue: number;
+    profit: number;
+}
