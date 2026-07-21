@@ -198,17 +198,20 @@ export class ProductsComponent implements OnInit {
     this.isEditMode = false;
     this.editingProduct = this.getEmptyProduct();
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   openEditModal(product: Product) {
     this.isEditMode = true;
     this.editingProduct = { ...product };
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   closeModal() {
     this.showModal = false;
     this.isSubmitting = false;
+    this.cdr.detectChanges();
   }
 
   openHistoryModal(product: Product) {
@@ -233,6 +236,7 @@ export class ProductsComponent implements OnInit {
     this.showHistoryModal = false;
     this.productHistory = [];
     this.historyProduct = null;
+    this.cdr.detectChanges();
   }
 
   saveProduct() {
@@ -287,6 +291,7 @@ export class ProductsComponent implements OnInit {
     if (file) {
       this.productService.uploadImage(file).subscribe(res => {
         this.editingProduct.mainImageUrl = res.url;
+        this.cdr.detectChanges();
       });
     }
   }
@@ -298,6 +303,7 @@ export class ProductsComponent implements OnInit {
       this.productService.uploadImage(file).subscribe(res => {
         this.editingProduct.additionalImages = this.editingProduct.additionalImages || [];
         this.editingProduct.additionalImages.push(res.url);
+        this.cdr.detectChanges();
       });
     }
   }
@@ -305,6 +311,7 @@ export class ProductsComponent implements OnInit {
   removeAdditionalImage(index: number) {
     if (this.editingProduct.additionalImages) {
       this.editingProduct.additionalImages.splice(index, 1);
+      this.cdr.detectChanges();
     }
   }
 
@@ -317,11 +324,13 @@ export class ProductsComponent implements OnInit {
       conversionFactor: 1,
       price: 0
     });
+    this.cdr.detectChanges();
   }
 
   removeUnit(index: number) {
     if (this.editingProduct.units) {
       this.editingProduct.units.splice(index, 1);
+      this.cdr.detectChanges();
     }
   }
 

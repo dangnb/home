@@ -43,6 +43,27 @@ export class PurchaseOrdersComponent implements OnInit {
     });
   }
 
+  autoDraft(): void {
+    if (!confirm('Bạn có chắc chắn muốn hệ thống tự động quét tồn kho và tạo Phiếu Nhập nháp?')) {
+      return;
+    }
+    
+    this.isLoading = true;
+    this.poService.autoDraftPurchaseOrders().subscribe({
+      next: (res) => {
+        alert(res.message);
+        this.loadPurchaseOrders();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Có lỗi xảy ra: ' + (err.error?.title || err.message));
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadPurchaseOrders();

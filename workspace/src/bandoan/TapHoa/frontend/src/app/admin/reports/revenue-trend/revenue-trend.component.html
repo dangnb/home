@@ -1,0 +1,90 @@
+<div class="card mb-5 mb-xl-8">
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bold fs-3 mb-1">Xu Hướng Doanh Thu</span>
+      <span class="text-muted mt-1 fw-semibold fs-7">Biểu đồ doanh thu và lợi nhuận theo thời gian</span>
+    </h3>
+    <div class="card-toolbar">
+      <div class="d-flex align-items-center gap-2">
+        <select class="form-select form-select-solid form-select-sm" [(ngModel)]="groupBy" (change)="loadReport()">
+          <option value="day">Theo ngày</option>
+          <option value="week">Theo tuần</option>
+          <option value="month">Theo tháng</option>
+        </select>
+        <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="fromDate" (change)="loadReport()">
+        <span>-</span>
+        <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="toDate" (change)="loadReport()">
+        <button class="btn btn-sm btn-primary" (click)="loadReport()" [disabled]="isLoading">
+          <i class="ki-duotone ki-arrows-circle fs-3" *ngIf="!isLoading">
+            <span class="path1"></span><span class="path2"></span>
+          </i>
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm align-middle me-2"></span>
+          Tải lại
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body py-3">
+    <!-- Summary Cards -->
+    <div class="row g-5 g-xl-8 mb-8" *ngIf="report">
+      <div class="col-xl-4">
+        <div class="bg-light-primary rounded border-primary border border-dashed p-6">
+          <div class="d-flex align-items-center">
+            <i class="ki-duotone ki-wallet fs-3x text-primary me-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+            <div class="flex-grow-1">
+              <span class="text-muted fw-semibold fs-5">Tổng Doanh Thu</span>
+              <div class="fw-bold fs-2 text-dark">{{ report.totalRevenue | currency:'VND':'symbol':'1.0-0':'vi-VN' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="bg-light-success rounded border-success border border-dashed p-6">
+          <div class="d-flex align-items-center">
+            <i class="ki-duotone ki-chart-line-up fs-3x text-success me-5"><span class="path1"></span><span class="path2"></span></i>
+            <div class="flex-grow-1">
+              <span class="text-muted fw-semibold fs-5">Tổng Lợi Nhuận</span>
+              <div class="fw-bold fs-2 text-dark">{{ report.totalProfit | currency:'VND':'symbol':'1.0-0':'vi-VN' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="bg-light-info rounded border-info border border-dashed p-6">
+          <div class="d-flex align-items-center">
+            <i class="ki-duotone ki-handcart fs-3x text-info me-5"></i>
+            <div class="flex-grow-1">
+              <span class="text-muted fw-semibold fs-5">Số Đơn Hàng</span>
+              <div class="fw-bold fs-2 text-dark">{{ report.totalOrders }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div *ngIf="isLoading" class="d-flex justify-content-center p-10">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && report?.chartData?.length">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [dataLabels]="chartOptions.dataLabels"
+        [stroke]="chartOptions.stroke"
+        [colors]="chartOptions.colors"
+        [tooltip]="chartOptions.tooltip"
+      ></apx-chart>
+    </div>
+
+    <div *ngIf="!isLoading && !report?.chartData?.length" class="text-center p-10 text-muted">
+      Không có dữ liệu trong khoảng thời gian này.
+    </div>
+  </div>
+</div>

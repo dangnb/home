@@ -1,10 +1,14 @@
-﻿<div class="card">
+<div class="card">
   <div class="card-header border-0 pt-6">
     <h5 class="mb-0 fw-bold text-dark fs-5">
       <i class="ki-duotone ki-handcart fs-2 me-2 text-primary"></i> {{ 'PURCHASE_ORDERS.TITLE' | translate }}
     </h5>
     
     <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-warning d-flex align-items-center gap-2 px-4 shadow-sm" (click)="autoDraft()" [disabled]="isLoading">
+        <i class="bi bi-robot"></i>
+        <span>Tự động đặt hàng</span>
+      </button>
       <button class="btn btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders/create">
         <i class="bi bi-plus-lg"></i>
         <span>{{ 'PURCHASE_ORDERS.CREATE_BTN' | translate }}</span>

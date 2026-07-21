@@ -96,6 +96,7 @@ export class PromotionsComponent implements OnInit {
     this.isEditMode = false;
     this.editingPromotion = this.getEmptyPromotion();
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   openEditModal(promotion: Promotion) {
@@ -112,11 +113,13 @@ export class PromotionsComponent implements OnInit {
     }
     
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   closeModal() {
     this.showModal = false;
     this.isSubmitting = false;
+    this.cdr.detectChanges();
   }
 
   savePromotion() {

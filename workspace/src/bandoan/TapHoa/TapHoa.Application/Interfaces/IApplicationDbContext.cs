@@ -46,6 +46,7 @@ public interface IApplicationDbContext
     // Finance & Cash Management
     DbSet<CashBookEntry> CashBookEntries { get; }
     DbSet<OperatingExpense> OperatingExpenses { get; }
+    DbSet<Notification> Notifications { get; }
 
     Guid CurrentCompanyId { get; }
 

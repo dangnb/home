@@ -35,6 +35,12 @@ public static class PurchaseOrdersEndpoints
             return success ? Results.NoContent() : Results.NotFound();
         });
 
+        group.MapPost("/auto-draft", async (IMediator mediator) =>
+        {
+            var ids = await mediator.Send(new AutoDraftPurchaseOrderCommand());
+            return Results.Ok(new { message = $"Đã tạo {ids.Count} đơn đặt hàng nháp tự động.", data = ids });
+        });
+
         return group;
     }
 }

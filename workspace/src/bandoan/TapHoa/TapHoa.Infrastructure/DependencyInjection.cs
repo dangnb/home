@@ -56,6 +56,9 @@ public static class DependencyInjection
         DapperConfiguration.RegisterTypeHandlers();
         services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(dbConnectionString));
 
+        // Background Services
+        services.AddHostedService<TapHoa.Infrastructure.BackgroundServices.NotificationGeneratorService>();
+
         return services;
     }
 }

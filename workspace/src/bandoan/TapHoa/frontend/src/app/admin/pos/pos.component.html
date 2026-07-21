@@ -1,4 +1,4 @@
-﻿<div class="row g-0 pos-container m-0">
+<div class="row g-0 pos-container m-0">
   <!-- Shift Modals -->
   <app-shift-open-modal *ngIf="needsShiftOpen" (shiftOpened)="onShiftOpened()"></app-shift-open-modal>
   <app-shift-close-modal #closeModal [currentShift]="currentShift" (shiftClosed)="onShiftClosed()"></app-shift-close-modal>
@@ -280,6 +280,101 @@
         <span>{{ 'POS.BTN_CHECKOUT' | translate }}</span>
         <i class="bi bi-arrow-right-circle fs-4"></i>
       </button>
+    </div>
+  </div>
+
+  <!-- QR Payment Modal -->
+  <div class="modal fade show" tabindex="-1" *ngIf="showQrModal" style="display: block; background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold">Thanh toán quét mã VietQR</h5>
+          <button type="button" class="btn-close" (click)="showQrModal = false"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="text-muted mb-4">Vui lòng quét mã QR dưới đây để thanh toán</p>
+          <div class="bg-light p-3 rounded d-inline-block border">
+            <img [src]="qrCodeUrl" alt="VietQR" class="img-fluid rounded" style="max-width: 300px;">
+          </div>
+          <h3 class="mt-4 fw-bolder text-primary">{{ getTotal() | number:'1.0-0' }} đ</h3>
+          <p class="fw-medium text-dark mt-2 mb-0">Nội dung: Thanh toan TapHoa</p>
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <button type="button" class="btn btn-light" (click)="showQrModal = false">Hủy</button>
+          <button type="button" class="btn btn-primary px-4 shadow" (click)="checkout()">
+            <i class="bi bi-check2-circle me-1"></i> Đã nhận được tiền
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Receipt Printing View (Hidden unless printing) -->
+  <div class="receipt-print-container" *ngIf="lastOrderData">
+    <div class="receipt-header text-center">
+      <h4 class="fw-bolder mb-1">TẠP HÓA DEMO</h4>
+      <p class="mb-1" style="font-size: 12px;">Số 1, Đường ABC, TP HCM</p>
+      <p class="mb-2" style="font-size: 12px;">SĐT: 0123.456.789</p>
+      <h5 class="fw-bold my-3 border-top border-bottom py-2">HÓA ĐƠN BÁN HÀNG</h5>
+    </div>
+    
+    <div class="receipt-info mb-3" style="font-size: 13px;">
+      <div class="d-flex justify-content-between"><span class="text-muted">Mã ĐH:</span> <span class="fw-medium">{{ lastOrderData.orderCode }}</span></div>
+      <div class="d-flex justify-content-between"><span class="text-muted">Ngày:</span> <span>{{ lastOrderData.date | date:'dd/MM/yyyy HH:mm' }}</span></div>
+      <div class="d-flex justify-content-between"><span class="text-muted">Khách hàng:</span> <span>{{ lastOrderData.customerName }}</span></div>
+    </div>
+
+    <table class="table table-borderless table-sm receipt-table mb-2" style="font-size: 13px;">
+      <thead class="border-bottom border-dark">
+        <tr>
+          <th class="ps-0 py-1">Tên món</th>
+          <th class="text-center py-1">SL</th>
+          <th class="text-end pe-0 py-1">T.Tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of lastOrderData.items" class="border-bottom border-light">
+          <td class="ps-0 py-2">{{ item.product.name }}</td>
+          <td class="text-center py-2">{{ item.quantity }}</td>
+          <td class="text-end pe-0 py-2">{{ (item.product.price * item.quantity) | number:'1.0-0' }}đ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="receipt-summary" style="font-size: 13px;">
+      <div class="d-flex justify-content-between mb-1"><span>Cộng tiền hàng:</span> <span>{{ lastOrderData.subTotal | number:'1.0-0' }}đ</span></div>
+      <div class="d-flex justify-content-between mb-1" *ngIf="lastOrderData.discount > 0"><span>Giảm giá:</span> <span>-{{ lastOrderData.discount | number:'1.0-0' }}đ</span></div>
+      <div class="d-flex justify-content-between mb-1" *ngIf="lastOrderData.pointDiscount > 0"><span>Trừ điểm:</span> <span>-{{ lastOrderData.pointDiscount | number:'1.0-0' }}đ</span></div>
+      <div class="d-flex justify-content-between fw-bold fs-6 mt-2 border-top border-dark pt-2">
+        <span>TỔNG CỘNG:</span> 
+        <span>{{ lastOrderData.total | number:'1.0-0' }}đ</span>
+      </div>
+    </div>
+    
+    <div class="receipt-footer text-center mt-4">
+      <p class="fst-italic mb-1" style="font-size: 13px;">Cảm ơn Quý khách & Hẹn gặp lại!</p>
+      <p style="font-size: 11px;">Phần mềm quản lý bởi TapHoaWMS</p>
+    </div>
+  </div>
+
+  <!-- Receipt Action Modal (Non-printable) -->
+  <div class="modal fade show" tabindex="-1" *ngIf="showReceiptModal" style="display: block; background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content text-center p-4 border-0 rounded-4">
+        <div class="mb-3">
+          <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+        </div>
+        <h4 class="fw-bold mb-1">Thanh toán hoàn tất!</h4>
+        <p class="text-muted mb-4">Đơn hàng của bạn đã được ghi nhận thành công.</p>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary d-print-none shadow-sm" (click)="printReceipt()">
+            <i class="bi bi-printer"></i> In Hóa Đơn
+          </button>
+          <button class="btn btn-light d-print-none fw-medium" (click)="closeReceiptModal()">
+            Đóng
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

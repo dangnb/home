@@ -52,3 +52,27 @@ export interface MonthlyTrendItem {
     revenue: number;
     profit: number;
 }
+
+export interface DeadStockReport {
+    productId: string;
+    productName: string;
+    categoryName: string;
+    availableQuantity: number;
+    daysSinceLastSale: number;
+}
+
+export interface CustomerAnalytics {
+    customerId?: string;
+    customerName: string;
+    phoneNumber: string;
+    totalOrders: number;
+    totalSpent: number;
+    lastPurchaseDate?: string;
+}
+
+export interface EmployeePerformance {
+    username: string;
+    fullName: string;
+    totalOrders: number;
+    totalRevenue: number;
+}

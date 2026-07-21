@@ -2,6 +2,7 @@ using MediatR;
 using Dapper;
 using TapHoa.Application.Interfaces;
 using TapHoa.Application.OperatingExpenses.DTOs;
+using TapHoa.Application.Common.Models;
 using TapHoa.Application.Common;
 
 namespace TapHoa.Application.OperatingExpenses.Queries;

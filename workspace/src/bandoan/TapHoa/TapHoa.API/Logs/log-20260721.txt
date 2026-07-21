@@ -6623,3 +6623,895 @@ ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
 2026-07-21 16:16:58.707 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.2025 ms
 2026-07-21 16:17:06.579 +07:00 [INF] HTTP GET /api/v1/roles responded 200 in 1.2839 ms
 2026-07-21 16:17:06.727 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 1.7981 ms
+2026-07-21 16:24:05.014 +07:00 [INF] HTTP GET /api/v1/roles responded 200 in 15.8385 ms
+2026-07-21 16:24:08.649 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.9300 ms
+2026-07-21 16:24:15.600 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 3.1160 ms
+2026-07-21 16:24:17.318 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.1700 ms
+2026-07-21 16:24:17.319 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0525 ms
+2026-07-21 16:24:17.319 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0450 ms
+2026-07-21 16:24:17.327 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 5.8112 ms
+2026-07-21 16:24:17.351 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 30.8333 ms
+2026-07-21 16:24:17.363 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 42.2702 ms
+2026-07-21 16:24:20.805 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.8971 ms
+2026-07-21 16:24:20.805 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 2.2194 ms
+2026-07-21 16:24:20.806 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.9791 ms
+2026-07-21 16:24:22.970 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.8058 ms
+2026-07-21 16:24:22.970 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.6000 ms
+2026-07-21 16:24:22.970 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.5092 ms
+2026-07-21 16:24:24.357 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0582 ms
+2026-07-21 16:24:25.193 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.9727 ms
+2026-07-21 16:24:25.193 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9880 ms
+2026-07-21 16:24:25.194 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6343 ms
+2026-07-21 16:24:28.747 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.1179 ms
+2026-07-21 16:24:28.749 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.4753 ms
+2026-07-21 16:24:28.819 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 70.9540 ms
+2026-07-21 16:24:32.649 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.8926 ms
+2026-07-21 16:24:32.649 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1113 ms
+2026-07-21 16:24:32.650 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6966 ms
+2026-07-21 16:24:33.759 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.2529 ms
+2026-07-21 16:24:33.759 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.2216 ms
+2026-07-21 16:24:33.761 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.4252 ms
+2026-07-21 16:24:35.118 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.3328 ms
+2026-07-21 16:24:35.120 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 3.5043 ms
+2026-07-21 16:24:37.736 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0304 ms
+2026-07-21 16:24:37.736 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0380 ms
+2026-07-21 16:24:37.736 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inventory-report responded 204 in 0.0726 ms
+2026-07-21 16:24:37.746 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 7.0750 ms
+2026-07-21 16:24:37.746 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 7.0947 ms
+2026-07-21 16:24:37.844 +07:00 [INF] HTTP GET /api/v1/transactions/inventory-report responded 200 in 105.2313 ms
+2026-07-21 16:24:39.273 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.6377 ms
+2026-07-21 16:24:39.273 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.0884 ms
+2026-07-21 16:24:39.274 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.8333 ms
+2026-07-21 16:25:21.512 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 2.1150 ms
+2026-07-21 16:25:21.512 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 3.4792 ms
+2026-07-21 16:25:21.513 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 4.1949 ms
+2026-07-21 16:25:21.916 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.0901 ms
+2026-07-21 16:25:35.880 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.2479 ms
+2026-07-21 16:25:35.880 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.6112 ms
+2026-07-21 16:25:35.881 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 2.3432 ms
+2026-07-21 16:25:36.652 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0460 ms
+2026-07-21 16:25:36.655 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.5272 ms
+2026-07-21 16:50:08.439 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.1609 ms
+2026-07-21 16:50:08.440 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0519 ms
+2026-07-21 16:50:08.462 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 20.9732 ms
+2026-07-21 16:50:08.489 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 47.6860 ms
+2026-07-21 16:50:57.911 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.8532 ms
+2026-07-21 16:50:57.912 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 2.0144 ms
+2026-07-21 16:50:57.917 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0420 ms
+2026-07-21 16:50:57.920 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 1.4903 ms
+2026-07-21 16:51:13.862 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.7996 ms
+2026-07-21 16:51:13.863 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 1.9397 ms
+2026-07-21 16:51:16.514 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/inventory-report responded 204 in 0.1072 ms
+2026-07-21 16:51:16.514 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/low-stock responded 204 in 0.0190 ms
+2026-07-21 16:51:16.515 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/expiring-batches responded 204 in 0.0896 ms
+2026-07-21 16:51:16.518 +07:00 [INF] HTTP GET /api/v1/transactions/low-stock responded 200 in 2.2125 ms
+2026-07-21 16:51:16.518 +07:00 [INF] HTTP GET /api/v1/transactions/expiring-batches responded 200 in 1.7880 ms
+2026-07-21 16:51:16.522 +07:00 [INF] HTTP GET /api/v1/transactions/inventory-report responded 200 in 5.8789 ms
+2026-07-21 16:51:18.178 +07:00 [INF] HTTP OPTIONS /api/v1/stock-takes responded 204 in 0.0520 ms
+2026-07-21 16:51:18.237 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 57.9363 ms
+2026-07-21 16:51:20.164 +07:00 [INF] HTTP OPTIONS /api/v1/transactions responded 204 in 0.0510 ms
+2026-07-21 16:51:20.169 +07:00 [ERR] HTTP GET /api/v1/transactions responded 500 in 4.5830 ms
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3528
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3359
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetTypeDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3313
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1978
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 37
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 16:51:20.188 +07:00 [ERR] An exception occurred: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3528
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3359
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetTypeDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3313
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1978
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 37
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 16:51:22.107 +07:00 [INF] HTTP OPTIONS /api/v1/products responded 204 in 0.0638 ms
+2026-07-21 16:51:22.123 +07:00 [INF] HTTP GET /api/v1/products responded 200 in 14.5280 ms
+2026-07-21 16:51:32.930 +07:00 [INF] HTTP GET /api/v1/stock-takes responded 200 in 4.1236 ms
+2026-07-21 16:51:33.679 +07:00 [ERR] HTTP GET /api/v1/transactions responded 500 in 2.2901 ms
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3528
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3359
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetTypeDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3313
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1978
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 37
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 16:51:33.680 +07:00 [ERR] An exception occurred: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Guid Id, System.String Code, System.Int32 Type, System.String CreatedBy, System.Int64 ItemsCount, System.Decimal TotalCost, System.DateTime CreatedAt, System.Int32 Status) is required for TapHoa.Application.Warehouse.Queries.TransactionListDto materialization
+   at Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3528
+   at Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3359
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Dapper.SqlMapper.TypeDeserializerCache.GetReader(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Dapper.SqlMapper.GetTypeDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3313
+   at Dapper.SqlMapper.GetDeserializer(Type type, DbDataReader reader, Int32 startBound, Int32 length, Boolean returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1978
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 442
+   at TapHoa.Application.Warehouse.Queries.GetTransactionsQueryHandler.Handle(GetTransactionsQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Warehouse\Queries\GetTransactionsQueryHandler.cs:line 37
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.TransactionsEndpoints.<>c.<<MapTransactionsEndpoints>b__0_7>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\TransactionsEndpoints.cs:line 91
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 16:51:36.464 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0424 ms
+2026-07-21 16:51:36.472 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 6.7518 ms
+2026-07-21 16:51:37.290 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0522 ms
+2026-07-21 16:51:37.293 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 2.2448 ms
+2026-07-21 16:51:37.296 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 5.6538 ms
+2026-07-21 16:51:40.691 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0330 ms
+2026-07-21 16:51:40.694 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.1273 ms
+2026-07-21 16:51:56.157 +07:00 [INF] HTTP OPTIONS /api/v1/supplier-ledger responded 204 in 0.0444 ms
+2026-07-21 16:51:56.159 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 1.2058 ms
+2026-07-21 16:51:56.171 +07:00 [INF] HTTP GET /api/v1/supplier-ledger responded 200 in 13.7222 ms
+2026-07-21 16:51:57.046 +07:00 [INF] HTTP OPTIONS /api/v1/purchase-orders responded 204 in 0.0485 ms
+2026-07-21 16:51:57.095 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[@ef_filter__CurrentCompanyId='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `p`.`Id`, `p`.`AmountPaid`, `p`.`CompanyId`, `p`.`CreatedBy`, `p`.`CreatedDate`, `p`.`DeletedBy`, `p`.`DeletedDate`, `p`.`ExpectedDeliveryDate`, `p`.`IsDeleted`, `p`.`ModifiedBy`, `p`.`ModifiedDate`, `p`.`Notes`, `p`.`OrderCode`, `p`.`OrderDate`, `p`.`Status`, `p`.`SupplierId`, `p`.`TotalAmount`, `s0`.`Id`, `s0`.`Address`, `s0`.`BankAccountNumber`, `s0`.`BankName`, `s0`.`CompanyId`, `s0`.`CreatedBy`, `s0`.`CreatedDate`, `s0`.`DeletedBy`, `s0`.`DeletedDate`, `s0`.`Email`, `s0`.`FullName`, `s0`.`IsDeleted`, `s0`.`ModifiedBy`, `s0`.`ModifiedDate`, `s0`.`Notes`, `s0`.`PhoneNumber`
+FROM `PurchaseOrders` AS `p`
+INNER JOIN (
+    SELECT `s`.`Id`, `s`.`Address`, `s`.`BankAccountNumber`, `s`.`BankName`, `s`.`CompanyId`, `s`.`CreatedBy`, `s`.`CreatedDate`, `s`.`DeletedBy`, `s`.`DeletedDate`, `s`.`Email`, `s`.`FullName`, `s`.`IsDeleted`, `s`.`ModifiedBy`, `s`.`ModifiedDate`, `s`.`Notes`, `s`.`PhoneNumber`
+    FROM `Suppliers` AS `s`
+    WHERE NOT (`s`.`IsDeleted`) AND (`s`.`CompanyId` = @ef_filter__CurrentCompanyId)
+) AS `s0` ON `p`.`SupplierId` = `s0`.`Id`
+WHERE NOT (`p`.`IsDeleted`) AND (`p`.`CompanyId` = @ef_filter__CurrentCompanyId)
+ORDER BY `p`.`OrderDate` DESC
+2026-07-21 16:51:57.101 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-07-21 16:51:57.104 +07:00 [ERR] HTTP GET /api/v1/purchase-orders responded 500 in 56.5819 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 16:51:57.108 +07:00 [ERR] An exception occurred: Table 'taphoawms.purchaseorders' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 17:08:03.416 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0875 ms
+2026-07-21 17:08:03.417 +07:00 [INF] HTTP OPTIONS /api/v1/purchase-orders responded 204 in 0.0432 ms
+2026-07-21 17:08:03.443 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 25.7586 ms
+2026-07-21 17:08:03.444 +07:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[@ef_filter__CurrentCompanyId='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `p`.`Id`, `p`.`AmountPaid`, `p`.`CompanyId`, `p`.`CreatedBy`, `p`.`CreatedDate`, `p`.`DeletedBy`, `p`.`DeletedDate`, `p`.`ExpectedDeliveryDate`, `p`.`IsDeleted`, `p`.`ModifiedBy`, `p`.`ModifiedDate`, `p`.`Notes`, `p`.`OrderCode`, `p`.`OrderDate`, `p`.`Status`, `p`.`SupplierId`, `p`.`TotalAmount`, `s0`.`Id`, `s0`.`Address`, `s0`.`BankAccountNumber`, `s0`.`BankName`, `s0`.`CompanyId`, `s0`.`CreatedBy`, `s0`.`CreatedDate`, `s0`.`DeletedBy`, `s0`.`DeletedDate`, `s0`.`Email`, `s0`.`FullName`, `s0`.`IsDeleted`, `s0`.`ModifiedBy`, `s0`.`ModifiedDate`, `s0`.`Notes`, `s0`.`PhoneNumber`
+FROM `PurchaseOrders` AS `p`
+INNER JOIN (
+    SELECT `s`.`Id`, `s`.`Address`, `s`.`BankAccountNumber`, `s`.`BankName`, `s`.`CompanyId`, `s`.`CreatedBy`, `s`.`CreatedDate`, `s`.`DeletedBy`, `s`.`DeletedDate`, `s`.`Email`, `s`.`FullName`, `s`.`IsDeleted`, `s`.`ModifiedBy`, `s`.`ModifiedDate`, `s`.`Notes`, `s`.`PhoneNumber`
+    FROM `Suppliers` AS `s`
+    WHERE NOT (`s`.`IsDeleted`) AND (`s`.`CompanyId` = @ef_filter__CurrentCompanyId)
+) AS `s0` ON `p`.`SupplierId` = `s0`.`Id`
+WHERE NOT (`p`.`IsDeleted`) AND (`p`.`CompanyId` = @ef_filter__CurrentCompanyId)
+ORDER BY `p`.`OrderDate` DESC
+2026-07-21 17:08:03.445 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-07-21 17:08:03.448 +07:00 [ERR] HTTP GET /api/v1/purchase-orders responded 500 in 30.6528 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 17:08:03.452 +07:00 [ERR] An exception occurred: Table 'taphoawms.purchaseorders' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 17:11:28.943 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[@ef_filter__CurrentCompanyId='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `p`.`Id`, `p`.`AmountPaid`, `p`.`CompanyId`, `p`.`CreatedBy`, `p`.`CreatedDate`, `p`.`DeletedBy`, `p`.`DeletedDate`, `p`.`ExpectedDeliveryDate`, `p`.`IsDeleted`, `p`.`ModifiedBy`, `p`.`ModifiedDate`, `p`.`Notes`, `p`.`OrderCode`, `p`.`OrderDate`, `p`.`Status`, `p`.`SupplierId`, `p`.`TotalAmount`, `s0`.`Id`, `s0`.`Address`, `s0`.`BankAccountNumber`, `s0`.`BankName`, `s0`.`CompanyId`, `s0`.`CreatedBy`, `s0`.`CreatedDate`, `s0`.`DeletedBy`, `s0`.`DeletedDate`, `s0`.`Email`, `s0`.`FullName`, `s0`.`IsDeleted`, `s0`.`ModifiedBy`, `s0`.`ModifiedDate`, `s0`.`Notes`, `s0`.`PhoneNumber`
+FROM `PurchaseOrders` AS `p`
+INNER JOIN (
+    SELECT `s`.`Id`, `s`.`Address`, `s`.`BankAccountNumber`, `s`.`BankName`, `s`.`CompanyId`, `s`.`CreatedBy`, `s`.`CreatedDate`, `s`.`DeletedBy`, `s`.`DeletedDate`, `s`.`Email`, `s`.`FullName`, `s`.`IsDeleted`, `s`.`ModifiedBy`, `s`.`ModifiedDate`, `s`.`Notes`, `s`.`PhoneNumber`
+    FROM `Suppliers` AS `s`
+    WHERE NOT (`s`.`IsDeleted`) AND (`s`.`CompanyId` = @ef_filter__CurrentCompanyId)
+) AS `s0` ON `p`.`SupplierId` = `s0`.`Id`
+WHERE NOT (`p`.`IsDeleted`) AND (`p`.`CompanyId` = @ef_filter__CurrentCompanyId)
+ORDER BY `p`.`OrderDate` DESC
+2026-07-21 17:11:28.944 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-07-21 17:11:28.947 +07:00 [ERR] HTTP GET /api/v1/purchase-orders responded 500 in 8.2107 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 17:11:28.951 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.4707 ms
+2026-07-21 17:11:28.951 +07:00 [ERR] An exception occurred: Table 'taphoawms.purchaseorders' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 17:23:10.573 +07:00 [INF] HTTP OPTIONS /api/v1/purchase-orders responded 204 in 0.0894 ms
+2026-07-21 17:23:10.596 +07:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[@ef_filter__CurrentCompanyId='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `p`.`Id`, `p`.`AmountPaid`, `p`.`CompanyId`, `p`.`CreatedBy`, `p`.`CreatedDate`, `p`.`DeletedBy`, `p`.`DeletedDate`, `p`.`ExpectedDeliveryDate`, `p`.`IsDeleted`, `p`.`ModifiedBy`, `p`.`ModifiedDate`, `p`.`Notes`, `p`.`OrderCode`, `p`.`OrderDate`, `p`.`Status`, `p`.`SupplierId`, `p`.`TotalAmount`, `s0`.`Id`, `s0`.`Address`, `s0`.`BankAccountNumber`, `s0`.`BankName`, `s0`.`CompanyId`, `s0`.`CreatedBy`, `s0`.`CreatedDate`, `s0`.`DeletedBy`, `s0`.`DeletedDate`, `s0`.`Email`, `s0`.`FullName`, `s0`.`IsDeleted`, `s0`.`ModifiedBy`, `s0`.`ModifiedDate`, `s0`.`Notes`, `s0`.`PhoneNumber`
+FROM `PurchaseOrders` AS `p`
+INNER JOIN (
+    SELECT `s`.`Id`, `s`.`Address`, `s`.`BankAccountNumber`, `s`.`BankName`, `s`.`CompanyId`, `s`.`CreatedBy`, `s`.`CreatedDate`, `s`.`DeletedBy`, `s`.`DeletedDate`, `s`.`Email`, `s`.`FullName`, `s`.`IsDeleted`, `s`.`ModifiedBy`, `s`.`ModifiedDate`, `s`.`Notes`, `s`.`PhoneNumber`
+    FROM `Suppliers` AS `s`
+    WHERE NOT (`s`.`IsDeleted`) AND (`s`.`CompanyId` = @ef_filter__CurrentCompanyId)
+) AS `s0` ON `p`.`SupplierId` = `s0`.`Id`
+WHERE NOT (`p`.`IsDeleted`) AND (`p`.`CompanyId` = @ef_filter__CurrentCompanyId)
+ORDER BY `p`.`OrderDate` DESC
+2026-07-21 17:23:10.597 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-07-21 17:23:10.600 +07:00 [ERR] HTTP GET /api/v1/purchase-orders responded 500 in 25.4330 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 17:23:10.603 +07:00 [ERR] An exception occurred: Table 'taphoawms.purchaseorders' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.purchaseorders' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Application.PurchaseOrders.Queries.GetPurchaseOrdersQueryHandler.Handle(GetPurchaseOrdersQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\PurchaseOrders\Queries\GetPurchaseOrdersQuery.cs:line 21
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.PurchaseOrdersEndpoints.<>c.<<MapPurchaseOrdersEndpoints>b__0_0>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PurchaseOrdersEndpoints.cs:line 16
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 503
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 17:23:16.029 +07:00 [INF] HTTP OPTIONS /api/v1/promotions responded 204 in 0.0375 ms
+2026-07-21 17:23:16.030 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0439 ms
+2026-07-21 17:23:16.034 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 3.6607 ms
+2026-07-21 17:23:16.041 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 10.5143 ms
+2026-07-21 17:23:17.451 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0573 ms
+2026-07-21 17:23:17.451 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0195 ms
+2026-07-21 17:23:17.453 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 0.9700 ms
+2026-07-21 17:23:17.454 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 0.8423 ms
+2026-07-21 17:23:17.454 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.6543 ms
+2026-07-21 17:23:24.622 +07:00 [INF] HTTP OPTIONS /api/v1/transactions/product/01950000-0000-7000-8000-000000002002 responded 204 in 0.0359 ms
+2026-07-21 17:23:24.667 +07:00 [INF] HTTP GET /api/v1/transactions/product/01950000-0000-7000-8000-000000002002 responded 200 in 43.9771 ms
+2026-07-21 17:23:32.021 +07:00 [INF] HTTP OPTIONS /api/v1/products/upload-image responded 204 in 0.0369 ms
+2026-07-21 17:23:32.045 +07:00 [INF] HTTP POST /api/v1/products/upload-image responded 200 in 22.2788 ms
+2026-07-21 17:23:35.262 +07:00 [INF] HTTP OPTIONS /api/v1/products/01950000-0000-7000-8000-000000002002 responded 204 in 0.0295 ms
+2026-07-21 17:23:35.277 +07:00 [INF] HTTP GET /uploads/products/868a9cd4-2fed-4cd6-8514-c502920fce5b.jpeg responded 200 in 9.9745 ms
+2026-07-21 17:23:35.482 +07:00 [INF] Audit Logged: Update by admin - UpdateProductCommand
+2026-07-21 17:23:35.603 +07:00 [INF] HTTP PUT /api/v1/products/01950000-0000-7000-8000-000000002002 responded 204 in 340.1000 ms
+2026-07-21 17:23:35.608 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 1.8089 ms
+2026-07-21 17:23:38.575 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 1.1352 ms
+2026-07-21 17:23:38.577 +07:00 [INF] HTTP GET /api/v1/promotions responded 200 in 2.7454 ms
+2026-07-21 17:23:41.936 +07:00 [INF] HTTP OPTIONS /api/v1/reports/revenue responded 204 in 0.0588 ms
+2026-07-21 17:23:41.937 +07:00 [INF] HTTP OPTIONS /api/v1/reports/top-products responded 204 in 0.0420 ms
+2026-07-21 17:23:41.963 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 25.4544 ms
+2026-07-21 17:23:41.975 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 37.0790 ms
+2026-07-21 17:23:51.817 +07:00 [INF] HTTP OPTIONS /api/v1/customers responded 204 in 0.0392 ms
+2026-07-21 17:23:51.820 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.8398 ms
+2026-07-21 17:23:52.820 +07:00 [INF] HTTP OPTIONS /api/v1/customer-ledger responded 204 in 0.0489 ms
+2026-07-21 17:23:52.822 +07:00 [INF] HTTP GET /api/v1/customers responded 200 in 1.0129 ms
+2026-07-21 17:23:52.823 +07:00 [INF] HTTP GET /api/v1/customer-ledger responded 200 in 1.3620 ms
+2026-07-21 17:24:25.088 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 3.4042 ms
+2026-07-21 17:24:25.100 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 14.7009 ms
+2026-07-21 17:25:42.800 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 2.6962 ms
+2026-07-21 17:25:42.808 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 10.6171 ms
+2026-07-21 17:27:46.244 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.0471 ms
+2026-07-21 17:27:46.247 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 2.0018 ms
+2026-07-21 17:27:46.279 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 2.1136 ms
+2026-07-21 17:27:46.289 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 11.9195 ms
+2026-07-21 17:28:54.503 +07:00 [INF] HTTP OPTIONS /api/v1/reports/revenue responded 204 in 0.0502 ms
+2026-07-21 17:28:54.503 +07:00 [INF] HTTP OPTIONS /api/v1/reports/top-products responded 204 in 0.0138 ms
+2026-07-21 17:28:54.506 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 1.7333 ms
+2026-07-21 17:28:54.514 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 10.0500 ms
+2026-07-21 17:28:59.912 +07:00 [INF] HTTP OPTIONS /api/v1/reports/profit-loss responded 204 in 0.0356 ms
+2026-07-21 17:28:59.914 +07:00 [INF] HTTP GET /api/v1/reports/profit-loss responded 404 in 0.5877 ms
+2026-07-21 17:29:02.616 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 1.9742 ms
+2026-07-21 17:29:02.625 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 10.8696 ms
+2026-07-21 17:29:04.630 +07:00 [INF] HTTP GET /api/v1/reports/profit-loss responded 404 in 0.1706 ms
+2026-07-21 17:29:06.654 +07:00 [INF] HTTP OPTIONS /api/v1/reports/profit-loss responded 204 in 0.0590 ms
+2026-07-21 17:29:06.656 +07:00 [INF] HTTP GET /api/v1/reports/profit-loss responded 404 in 0.4404 ms
+2026-07-21 17:29:17.074 +07:00 [INF] HTTP GET /api/v1/reports/profit-loss responded 404 in 0.2981 ms
+2026-07-21 17:31:01.288 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-21 17:31:01.310 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-21 17:31:01.310 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-21 17:31:01.310 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-21 17:31:01.376 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-21 17:31:01.620 +07:00 [ERR] Failed executing DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-21 17:31:01.627 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-21 17:31:01.646 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-21 17:31:01.647 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-21 17:31:01.651 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-21 17:31:01.658 +07:00 [ERR] Failed executing DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-21 17:31:01.661 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-21 17:32:18.044 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-21 17:32:18.122 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-21 17:32:18.409 +07:00 [ERR] HTTP GET /api/v1/reports/profit-loss responded 500 in 367.2325 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.payrollentries' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarInternalAsync(CancellationToken cancellationToken)
+   at Dapper.SqlMapper.ExecuteScalarImplAsync[T](IDbConnection cnn, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 1242
+   at TapHoa.Application.Reports.Queries.GetProfitLossReportQueryHandler.Handle(GetProfitLossReportQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Reports\Queries\GetProfitLossReport\GetProfitLossReportQuery.cs:line 132
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.ReportsEndpoints.<>c.<<MapReportsEndpoints>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ReportsEndpoints.cs:line 67
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 559
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 17:32:18.429 +07:00 [ERR] An exception occurred: Table 'taphoawms.payrollentries' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.payrollentries' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarInternalAsync(CancellationToken cancellationToken)
+   at Dapper.SqlMapper.ExecuteScalarImplAsync[T](IDbConnection cnn, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 1242
+   at TapHoa.Application.Reports.Queries.GetProfitLossReportQueryHandler.Handle(GetProfitLossReportQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Reports\Queries\GetProfitLossReport\GetProfitLossReportQuery.cs:line 132
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.ReportsEndpoints.<>c.<<MapReportsEndpoints>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ReportsEndpoints.cs:line 67
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 559
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-21 17:32:24.339 +07:00 [ERR] HTTP GET /api/v1/reports/profit-loss responded 500 in 10.2458 ms
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.payrollentries' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarInternalAsync(CancellationToken cancellationToken)
+   at Dapper.SqlMapper.ExecuteScalarImplAsync[T](IDbConnection cnn, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 1242
+   at TapHoa.Application.Reports.Queries.GetProfitLossReportQueryHandler.Handle(GetProfitLossReportQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Reports\Queries\GetProfitLossReport\GetProfitLossReportQuery.cs:line 132
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.ReportsEndpoints.<>c.<<MapReportsEndpoints>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ReportsEndpoints.cs:line 67
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 559
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-21 17:32:24.343 +07:00 [ERR] An exception occurred: Table 'taphoawms.payrollentries' doesn't exist
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'taphoawms.payrollentries' doesn't exist
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarInternalAsync(CancellationToken cancellationToken)
+   at Dapper.SqlMapper.ExecuteScalarImplAsync[T](IDbConnection cnn, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 1242
+   at TapHoa.Application.Reports.Queries.GetProfitLossReportQueryHandler.Handle(GetProfitLossReportQuery request, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Reports\Queries\GetProfitLossReport\GetProfitLossReportQuery.cs:line 132
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.Application.Behaviors.AntiXssBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AntiXssBehavior.cs:line 41
+   at TapHoa.API.Endpoints.ReportsEndpoints.<>c.<<MapReportsEndpoints>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\ReportsEndpoints.cs:line 67
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Program.<>c.<<<Main>$>b__0_2>d.MoveNext() in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Program.cs:line 559
+--- End of stack trace from previous location ---
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
