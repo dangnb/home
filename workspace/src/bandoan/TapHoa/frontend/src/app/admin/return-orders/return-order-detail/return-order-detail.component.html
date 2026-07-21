@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+﻿<div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="h3 mb-0 text-gray-800">{{ 'RETURN_ORDERS.TXT_4' | translate }}</h2>
   <div>
     <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm me-2">
@@ -14,7 +14,7 @@
 
 @if (isLoading) {
   <div class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
+    <div class="spinner-border text-primary">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
@@ -31,9 +31,9 @@
             @if (returnOrder.status === 1) {
               <span class="badge bg-warning text-dark">Pending</span>
             } @else if (returnOrder.status === 2) {
-              <span class="badge bg-success">Approved</span>
+              <span class="badge badge-light-success">Approved</span>
             } @else {
-              <span class="badge bg-danger">Cancelled</span>
+              <span class="badge badge-light-danger">Cancelled</span>
             }
           </div>
           <div class="mb-3">
@@ -71,11 +71,11 @@
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURN_ORDERS.TXT_15' | translate }}</h6>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body py-4">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead class="table-light">
-                <tr>
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+              <thead>
+                <tr class="fw-bold text-muted">
                   <th>{{ 'RETURN_ORDERS.TXT_16' | translate }}</th>
                   <th class="text-end">{{ 'RETURN_ORDERS.TXT_17' | translate }}</th>
                   <th class="text-center">{{ 'RETURN_ORDERS.TXT_18' | translate }}</th>

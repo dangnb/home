@@ -1,0 +1,17 @@
+<!--begin::Logo-->
+<a routerLink="/dashboard" class="d-flex align-items-center">
+  <span class="app-sidebar-logo-default fs-3 fw-bold text-white">🌿 Thu Phí</span>
+  <span class="app-sidebar-logo-minimize fs-2">🌿</span>
+</a>
+<!--end::Logo-->
+
+<ng-container *ngIf="toggleEnabled">
+  <!--begin::Sidebar toggle-->
+  <div id="kt_app_sidebar_toggle"
+    class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
+    [ngClass]="toggleButtonClass" data-kt-toggle="true" [attr.data-kt-toggle-state]="toggleState"
+    data-kt-toggle-target="body" [attr.data-kt-toggle-name]="toggleAttr">
+    <app-keenicon name="double-left" class="fs-2 rotate-180"></app-keenicon>
+  </div>
+  <!--end::Sidebar toggle-->
+</ng-container>

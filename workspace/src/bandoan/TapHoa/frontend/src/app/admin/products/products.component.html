@@ -1,135 +1,145 @@
-<div class="premium-card mb-4">
-  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
-    <h5 class="mb-0 fw-bold text-dark fs-5">
-      <span class="me-2 fs-5">📦</span>{{ 'PRODUCTS.TITLE' | translate }}
-    </h5>
-    
-    <div class="d-flex align-items-center gap-3">
-      <div class="search-input-wrapper">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" class="w-100" [placeholder]="'PRODUCTS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+<!--begin::Products-->
+<div class="card">
+  <!--begin::Card header-->
+  <div class="card-header border-0 pt-6">
+    <div class="card-title">
+      <div class="d-flex align-items-center position-relative my-1">
+        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+          <span class="path1"></span><span class="path2"></span>
+        </i>
+        <input type="text" class="form-control form-control-solid w-250px ps-13"
+          [placeholder]="'PRODUCTS.SEARCH_PLACEHOLDER' | translate"
+          [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
-      
-      <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()" class="form-select form-control-solid rounded-3" style="width: 200px;">
-        <option value="">{{ 'PRODUCTS.ALL_CATEGORIES' | translate }}</option>
-        @for (cat of flatCategories; track cat.id) {
-        <option [value]="cat.id">{{ cat.name }}</option>
-        }
-      </select>
-      
-      <button class="btn-primary-gradient d-flex align-items-center gap-2 text-nowrap" (click)="openAddModal()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
+      <div class="ms-3">
+        <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()"
+          class="form-select form-select-solid w-200px">
+          <option value="">{{ 'PRODUCTS.ALL_CATEGORIES' | translate }}</option>
+          @for (cat of flatCategories; track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-primary" (click)="openAddModal()">
+        <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'PRODUCTS.ADD_PRODUCT' | translate }}
       </button>
     </div>
   </div>
+  <!--end::Card header-->
 
-  <div class="bg-white p-3">
+  <!--begin::Card body-->
+  <div class="card-body py-4">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
-            <th class="ps-4 d-none d-lg-table-cell">{{ 'PRODUCTS.COL_ID' | translate }}</th>
-            <th>{{ 'PRODUCTS.COL_IMAGE' | translate }}</th>
-            <th>{{ 'PRODUCTS.COL_NAME' | translate }}</th>
-            <th class="d-none d-md-table-cell">{{ 'PRODUCTS.COL_CATEGORY' | translate }}</th>
-            <th>{{ 'PRODUCTS.COL_PRICE' | translate }}</th>
-            <th>{{ 'PRODUCTS.COL_STOCK' | translate }}</th>
-            <th class="d-none d-lg-table-cell">{{ 'PRODUCTS.COL_STATUS' | translate }}</th>
-            <th class="text-end pe-4">{{ 'PRODUCTS.COL_ACTIONS' | translate }}</th>
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted">
+            <th class="w-25px d-none d-lg-table-cell">{{ 'PRODUCTS.COL_ID' | translate }}</th>
+            <th class="w-50px">{{ 'PRODUCTS.COL_IMAGE' | translate }}</th>
+            <th class="min-w-200px">{{ 'PRODUCTS.COL_NAME' | translate }}</th>
+            <th class="min-w-150px d-none d-md-table-cell">{{ 'PRODUCTS.COL_CATEGORY' | translate }}</th>
+            <th class="min-w-100px">{{ 'PRODUCTS.COL_PRICE' | translate }}</th>
+            <th class="min-w-80px">{{ 'PRODUCTS.COL_STOCK' | translate }}</th>
+            <th class="min-w-100px d-none d-lg-table-cell">{{ 'PRODUCTS.COL_STATUS' | translate }}</th>
+            <th class="text-end min-w-80px">{{ 'PRODUCTS.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @for (p of products; track p) {
-          <tr>
-            <td class="ps-4 text-muted fw-bold d-none d-lg-table-cell">#SP00{{p.id}}</td>
-            <td>
-              @if (p.mainImageUrl) {
-              <img [src]="fileUrl + p.mainImageUrl"
-                style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb;" />
-              } @else {
-              <div class="d-flex align-items-center justify-content-center bg-light rounded" style="width: 40px; height: 40px;">
-                <span class="fs-6">📦</span>
-              </div>
-              }
-            </td>
-            <td class="fw-medium text-dark">{{p.name}}</td>
-            <td class="d-none d-md-table-cell">
-              <span class="badge bg-light text-dark border d-block mb-1">{{p.categoryName || ('PRODUCTS.NO_CATEGORY' | translate)}}</span>
-              @if(p.supplierName) {
-                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25"><i class="bi bi-truck me-1"></i>{{p.supplierName}}</span>
-              }
-            </td>
-            <td class="fw-bold text-primary">{{p.price | number:'1.0-0'}} ₫</td>
-            <td>{{p.stockQuantity}} <span class="text-muted d-none d-sm-inline">{{p.unit}}</span></td>
-            <td class="d-none d-lg-table-cell">
-              <span class="badge rounded-pill px-3 py-2" [ngClass]="p.status === 'Active' ? 'bg-success bg-opacity-10 text-success' : (p.status === 'OutOfStock' ? 'bg-warning bg-opacity-10 text-warning' : 'bg-secondary bg-opacity-10 text-secondary')">
-                {{ p.status === 'Active' ? ('PRODUCTS.STATUS_ACTIVE' | translate) : (p.status === 'OutOfStock' ? ('PRODUCTS.STATUS_OUT_OF_STOCK' | translate) : (p.status === 'Discontinued' ? ('PRODUCTS.STATUS_DISCONTINUED' | translate) : (p.status === 'Draft' ? ('PRODUCTS.STATUS_DRAFT' | translate) : p.status))) }}
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <div class="dropdown" [class.show]="activeDropdownRowId === p.id">
-                <button
-                  class="btn btn-icon btn-sm btn-light border-0 shadow-sm rounded-circle d-flex align-items-center justify-content-center ms-auto"
-                  type="button" (click)="toggleDropdown(p.id, $event)" style="width:32px; height:32px;">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="1"></circle>
-                    <circle cx="12" cy="5" r="1"></circle>
-                    <circle cx="12" cy="19" r="1"></circle>
-                  </svg>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" [class.show]="activeDropdownRowId === p.id"
-                  style="border-radius: 12px; position: absolute; right: 0; z-index: 1000;">
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
-                      (click)="openHistoryModal(p)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                      </svg>
-                      {{ 'PRODUCTS.ACTION_STOCK_CARD' | translate }}
-                    </a></li>
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 fw-medium text-dark" href="javascript:void(0)"
-                      (click)="openEditModal(p)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                      {{ 'PRODUCTS.ACTION_EDIT' | translate }}
-                    </a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item py-2 d-flex align-items-center gap-2 text-danger fw-medium" href="javascript:void(0)"
-                      (click)="deleteProduct(p.id)">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
-                      {{ 'PRODUCTS.ACTION_DELETE' | translate }}
-                    </a></li>
-                </ul>
-              </div>
-            </td>
-          </tr>
+            <tr>
+              <td class="text-muted fw-semibold d-none d-lg-table-cell">
+                <span class="badge badge-light" title="{{p.id}}">
+                  {{ p.id ? p.id.toString().substring(0, 8).toUpperCase() : ('#' + ($index + 1)) }}
+                </span>
+              </td>
+              <td>
+                @if (p.mainImageUrl) {
+                  <div class="symbol symbol-40px">
+                    <img [src]="fileUrl + p.mainImageUrl"
+                      class="symbol-label object-fit-cover"
+                      (error)="onImgError($event)" />
+                    <span class="symbol-label bg-light-primary img-fallback" style="display:none">
+                      <i class="ki-duotone ki-package fs-3 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    </span>
+                  </div>
+                } @else {
+                  <div class="symbol symbol-40px">
+                    <span class="symbol-label bg-light-primary">
+                      <i class="ki-duotone ki-package fs-3 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    </span>
+                  </div>
+                }
+              </td>
+              <td>
+                <span class="text-gray-900 fw-bold d-block fs-6">{{p.name}}</span>
+              </td>
+              <td class="d-none d-md-table-cell">
+                <span class="badge badge-light">{{p.categoryName || ('PRODUCTS.NO_CATEGORY' | translate)}}</span>
+                @if(p.supplierName) {
+                  <span class="badge badge-light-info ms-1">{{p.supplierName}}</span>
+                }
+              </td>
+              <td>
+                <span class="text-primary fw-bold">{{p.price | number:'1.0-0'}} ₫</span>
+              </td>
+              <td>
+                <span class="text-gray-900 fw-semibold">{{p.stockQuantity}}</span>
+                <span class="text-muted d-none d-sm-inline ms-1">{{p.unit}}</span>
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <span class="badge"
+                  [ngClass]="p.status === 'Active' ? 'badge-light-success' : (p.status === 'OutOfStock' ? 'badge-light-warning' : 'badge-light-secondary')">
+                  {{ p.status === 'Active' ? ('PRODUCTS.STATUS_ACTIVE' | translate) :
+                     (p.status === 'OutOfStock' ? ('PRODUCTS.STATUS_OUT_OF_STOCK' | translate) :
+                     (p.status === 'Discontinued' ? ('PRODUCTS.STATUS_DISCONTINUED' | translate) :
+                     (p.status === 'Draft' ? ('PRODUCTS.STATUS_DRAFT' | translate) : p.status))) }}
+                </span>
+              </td>
+              <td class="text-end">
+                <div class="dropdown" [class.show]="activeDropdownRowId === p.id">
+                  <button class="btn btn-sm btn-icon btn-light btn-active-light-primary"
+                    type="button" (click)="toggleDropdown(p.id, $event)">
+                    <i class="ki-duotone ki-element-plus fs-2">
+                      <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+                    </i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" [class.show]="activeDropdownRowId === p.id"
+                    style="position: absolute; right: 0; z-index: 1000;">
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="openHistoryModal(p)">
+                        <i class="ki-duotone ki-calendar fs-4 me-2 text-primary"><span class="path1"></span><span class="path2"></span></i>
+                        {{ 'PRODUCTS.ACTION_STOCK_CARD' | translate }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0)" (click)="openEditModal(p)">
+                        <i class="ki-duotone ki-pencil fs-4 me-2 text-warning"><span class="path1"></span><span class="path2"></span></i>
+                        {{ 'PRODUCTS.ACTION_EDIT' | translate }}
+                      </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                      <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="deleteProduct(p.id)">
+                        <i class="ki-duotone ki-trash fs-4 me-2 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                        {{ 'PRODUCTS.ACTION_DELETE' | translate }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
           }
           @if (products.length === 0) {
-          <tr>
-            <td colspan="8" class="text-center py-5 text-muted">
-              <span class="fs-1 d-block mb-3">📭</span>
-              {{ 'PRODUCTS.TXT_65' | translate }}
-            </td>
-          </tr>
+            <tr>
+              <td colspan="8">
+                <div class="d-flex flex-column align-items-center justify-content-center py-10">
+                  <i class="ki-duotone ki-package fs-3x text-gray-300 mb-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                  <span class="text-gray-500 fs-6">{{ 'PRODUCTS.TXT_65' | translate }}</span>
+                </div>
+              </td>
+            </tr>
           }
         </tbody>
       </table>
@@ -141,238 +151,264 @@
       </app-pagination>
     </div>
   </div>
+  <!--end::Card body-->
 </div>
+<!--end::Products-->
 
 @if (showModal) {
 <app-modal [title]="isEditMode ? ('PRODUCTS.TITLE_EDIT' | translate) : ('PRODUCTS.TITLE_ADD' | translate)" size="xl" (closeDialog)="closeModal()">
   <form (ngSubmit)="saveProduct()" #productForm="ngForm" id="productNgForm">
     <div class="row g-4 mb-4">
-      <!-- Cột trái: Thông tin chính -->
+      <!--begin::Left col-->
       <div class="col-12 col-lg-8">
-        <!-- Panel Thông tin cơ bản -->
-        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_BASIC' | translate }}</h6>
-          <div class="row g-3">
-            <div class="col-12">
-              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.COL_NAME' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid rounded-3 py-2" required>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COL_CATEGORY' | translate }} <span class="text-danger">*</span></label>
-              <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select bg-light border-0 rounded-3 py-2" required>
-                @for (cat of flatCategories; track cat.id) {
-                <option [value]="cat.id">{{ cat.name }}</option>
-                }
-              </select>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.SUPPLIER' | translate }}</label>
-              <select [(ngModel)]="editingProduct.supplierId" name="supplierId" class="form-select bg-light border-0 rounded-3 py-2">
-                <option [value]="undefined">{{ 'PRODUCTS.NO_SELECTION' | translate }}</option>
-                @for (sup of suppliers; track sup.id) {
-                <option [value]="sup.id">{{ sup.fullName }}</option>
-                }
-              </select>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.BASE_UNIT' | translate }}</label>
-              <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-control-solid rounded-3 py-2">
-                <option value="kg">{{ 'PRODUCTS.UNIT_KG' | translate }}</option>
-                <option value="bó">{{ 'PRODUCTS.UNIT_BUNCH' | translate }}</option>
-                <option value="hộp">{{ 'PRODUCTS.UNIT_BOX' | translate }}</option>
-                <option value="chai">{{ 'PRODUCTS.UNIT_BOTTLE' | translate }}</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.SYSTEM_CODE' | translate }}</label>
-              <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid rounded-3 py-2 bg-light text-muted" disabled>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COST_PRICE' | translate }} (₫)</label>
-              <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control bg-light border-0 rounded-3 py-2" required>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.WHOLESALE_PRICE' | translate }} (₫)</label>
-              <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control bg-light border-0 rounded-3 py-2" required>
-            </div>
-            <div class="col-12 col-md-4">
-              <label class="form-label text-muted fs-8 text-uppercase fw-bold">{{ 'PRODUCTS.COL_PRICE' | translate }} (₫) <span class="text-danger">*</span></label>
-              <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control bg-light border-0 rounded-3 py-2" required>
+        <!--begin::Basic Info-->
+        <div class="card card-flush mb-4">
+          <div class="card-header pt-5">
+            <h3 class="card-title align-items-start flex-column">
+              <span class="card-label fw-bold text-gray-900">{{ 'PRODUCTS.INFO_BASIC' | translate }}</span>
+            </h3>
+          </div>
+          <div class="card-body pt-0">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label required">{{ 'PRODUCTS.COL_NAME' | translate }}</label>
+                <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label required">{{ 'PRODUCTS.COL_CATEGORY' | translate }}</label>
+                <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select form-select-solid" required>
+                  @for (cat of flatCategories; track cat.id) {
+                    <option [value]="cat.id">{{ cat.name }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">{{ 'PRODUCTS.SUPPLIER' | translate }}</label>
+                <select [(ngModel)]="editingProduct.supplierId" name="supplierId" class="form-select form-select-solid">
+                  <option [value]="undefined">{{ 'PRODUCTS.NO_SELECTION' | translate }}</option>
+                  @for (sup of suppliers; track sup.id) {
+                    <option [value]="sup.id">{{ sup.fullName }}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">{{ 'PRODUCTS.BASE_UNIT' | translate }}</label>
+                <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-select-solid">
+                  <option value="kg">{{ 'PRODUCTS.UNIT_KG' | translate }}</option>
+                  <option value="bó">{{ 'PRODUCTS.UNIT_BUNCH' | translate }}</option>
+                  <option value="hộp">{{ 'PRODUCTS.UNIT_BOX' | translate }}</option>
+                  <option value="chai">{{ 'PRODUCTS.UNIT_BOTTLE' | translate }}</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">{{ 'PRODUCTS.SYSTEM_CODE' | translate }}</label>
+                <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid bg-light text-muted" disabled>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">{{ 'PRODUCTS.COST_PRICE' | translate }} (₫)</label>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control form-control-solid" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">{{ 'PRODUCTS.WHOLESALE_PRICE' | translate }} (₫)</label>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control form-control-solid" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label required">{{ 'PRODUCTS.COL_PRICE' | translate }} (₫)</label>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control form-control-solid" required>
+              </div>
             </div>
           </div>
         </div>
+        <!--end::Basic Info-->
 
-        <!-- Panel Hình ảnh -->
-        <div class="border rounded-4 p-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_IMAGES' | translate }}</h6>
-          <div class="mb-4">
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MAIN_IMAGE' | translate }}</label>
-            <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
-            @if (editingProduct.mainImageUrl) {
-            <div class="mt-3">
-              <img [src]="fileUrl + editingProduct.mainImageUrl" height="100" class="rounded-3 border shadow-sm" style="object-fit: cover;">
-            </div>
-            }
+        <!--begin::Images-->
+        <div class="card card-flush">
+          <div class="card-header pt-5">
+            <h3 class="card-title">
+              <span class="card-label fw-bold text-gray-900">{{ 'PRODUCTS.INFO_IMAGES' | translate }}</span>
+            </h3>
           </div>
-          <div>
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}</label>
-            <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-solid rounded-3">
-            @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
-            <div class="d-flex gap-2 flex-wrap mt-3">
-              @for (url of editingProduct.additionalImages; track url; let i = $index) {
-              <div class="position-relative">
-                <img [src]="fileUrl + url" width="80" height="80" class="rounded-3 border shadow-sm" style="object-fit: cover;">
-                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-0 d-flex align-items-center justify-content-center shadow" style="width: 20px; height: 20px; transform: translate(30%, -30%);" (click)="removeAdditionalImage(i)">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-              </div>
+          <div class="card-body pt-0">
+            <div class="mb-4">
+              <label class="form-label">{{ 'PRODUCTS.MAIN_IMAGE' | translate }}</label>
+              <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-solid">
+              @if (editingProduct.mainImageUrl) {
+                <div class="mt-3">
+                  <img [src]="fileUrl + editingProduct.mainImageUrl" height="100" class="rounded border shadow-sm object-fit-cover">
+                </div>
               }
             </div>
-            }
-          </div>
-        </div>
-      </div>
-
-      <!-- Cột phải: Thuộc tính mở rộng -->
-      <div class="col-12 col-lg-4">
-        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-          <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'PRODUCTS.INFO_STATUS_STOCK' | translate }}</h6>
-          <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.CURRENT_STOCK' | translate }}</label>
-            <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid rounded-3 py-2">
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MIN_STOCK' | translate }}</label>
-            <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-solid rounded-3 py-2">
-          </div>
-          <div class="mb-3">
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.MAX_STOCK' | translate }}</label>
-            <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-solid rounded-3 py-2">
-          </div>
-          <div>
-            <label class="form-label fw-bold text-dark fs-7">{{ 'PRODUCTS.BUSINESS_STATUS' | translate }}</label>
-            <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-control-solid rounded-3 py-2">
-              <option value="Active">{{ 'PRODUCTS.STATUS_ACTIVE' | translate }}</option>
-              <option value="OutOfStock">{{ 'PRODUCTS.STATUS_OUT_OF_STOCK' | translate }}</option>
-              <option value="Discontinued">{{ 'PRODUCTS.STATUS_DISCONTINUED' | translate }}</option>
-              <option value="Draft">{{ 'PRODUCTS.STATUS_DRAFT' | translate }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="border rounded-4 p-4 mb-4 bg-white shadow-sm">
-          <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-            <h6 class="fw-bold mb-0 text-primary">{{ 'PRODUCTS.CONVERSION_UNITS' | translate }}</h6>
-            <button type="button" class="btn btn-sm btn-light fw-bold text-primary rounded-pill px-3" (click)="addUnit()">{{ 'PRODUCTS.ADD_UNIT' | translate }}</button>
-          </div>
-          
-          @if (!editingProduct.units || editingProduct.units.length === 0) {
-            <div class="text-center py-3 bg-light rounded-3">
-              <span class="text-muted small">{{ 'PRODUCTS.NO_ADDITIONAL_UNITS' | translate }}</span>
+            <div>
+              <label class="form-label">{{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}</label>
+              <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-solid">
+              @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
+                <div class="d-flex gap-2 flex-wrap mt-3">
+                  @for (url of editingProduct.additionalImages; track url; let i = $index) {
+                    <div class="position-relative">
+                      <img [src]="fileUrl + url" width="80" height="80" class="rounded border shadow-sm object-fit-cover">
+                      <button type="button" class="btn btn-sm btn-icon btn-danger position-absolute top-0 end-0"
+                        style="width:20px;height:20px;transform:translate(30%,-30%);" (click)="removeAdditionalImage(i)">
+                        <i class="ki-duotone ki-cross fs-4"><span class="path1"></span><span class="path2"></span></i>
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
             </div>
-          }
-          
-          <div class="d-flex flex-column gap-3">
-            @for (u of editingProduct.units; track u; let i = $index) {
-              <div class="position-relative bg-light p-3 rounded-4 border">
-                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-0 d-flex align-items-center justify-content-center shadow" style="width: 20px; height: 20px; transform: translate(30%, -30%);" (click)="removeUnit(i)">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-                <div class="mb-2">
-                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.UNIT_NAME' | translate }}</label>
-                  <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid rounded-3" [placeholder]="'PRODUCTS.TXT_66' | translate">
-                </div>
-                <div class="mb-2">
-                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.CONVERSION' | translate }}</label>
-                  <div class="input-group input-group-sm">
-                    <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid border-end-0">
-                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">{{ editingProduct.unit || ('PRODUCTS.BASE' | translate) }}</span>
-                  </div>
-                </div>
-                <div>
-                  <label class="form-label small fw-bold text-dark mb-1">{{ 'PRODUCTS.SEPARATE_PRICE' | translate }}</label>
-                  <div class="input-group input-group-sm">
-                    <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid border-end-0">
-                    <span class="input-group-text bg-white border-start-0 text-muted fw-bold">₫</span>
-                  </div>
-                </div>
-              </div>
-            }
           </div>
         </div>
+        <!--end::Images-->
       </div>
+      <!--end::Left col-->
+
+      <!--begin::Right col-->
+      <div class="col-12 col-lg-4">
+        <!--begin::Status & Stock-->
+        <div class="card card-flush mb-4">
+          <div class="card-header pt-5">
+            <h3 class="card-title">
+              <span class="card-label fw-bold text-gray-900">{{ 'PRODUCTS.INFO_STATUS_STOCK' | translate }}</span>
+            </h3>
+          </div>
+          <div class="card-body pt-0">
+            <div class="mb-3">
+              <label class="form-label">{{ 'PRODUCTS.CURRENT_STOCK' | translate }}</label>
+              <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">{{ 'PRODUCTS.MIN_STOCK' | translate }}</label>
+              <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-solid">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">{{ 'PRODUCTS.MAX_STOCK' | translate }}</label>
+              <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-solid">
+            </div>
+            <div>
+              <label class="form-label">{{ 'PRODUCTS.BUSINESS_STATUS' | translate }}</label>
+              <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-select-solid">
+                <option value="Active">{{ 'PRODUCTS.STATUS_ACTIVE' | translate }}</option>
+                <option value="OutOfStock">{{ 'PRODUCTS.STATUS_OUT_OF_STOCK' | translate }}</option>
+                <option value="Discontinued">{{ 'PRODUCTS.STATUS_DISCONTINUED' | translate }}</option>
+                <option value="Draft">{{ 'PRODUCTS.STATUS_DRAFT' | translate }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--end::Status & Stock-->
+
+        <!--begin::Conversion Units-->
+        <div class="card card-flush">
+          <div class="card-header pt-5">
+            <h3 class="card-title">
+              <span class="card-label fw-bold text-gray-900">{{ 'PRODUCTS.CONVERSION_UNITS' | translate }}</span>
+            </h3>
+            <div class="card-toolbar">
+              <button type="button" class="btn btn-sm btn-light-primary" (click)="addUnit()">
+                <i class="ki-duotone ki-plus fs-3"></i>
+                {{ 'PRODUCTS.ADD_UNIT' | translate }}
+              </button>
+            </div>
+          </div>
+          <div class="card-body pt-0">
+            @if (!editingProduct.units || editingProduct.units.length === 0) {
+              <div class="py-4 text-center text-muted fs-7">{{ 'PRODUCTS.NO_ADDITIONAL_UNITS' | translate }}</div>
+            }
+            <div class="d-flex flex-column gap-3">
+              @for (u of editingProduct.units; track u; let i = $index) {
+                <div class="position-relative bg-light rounded p-3">
+                  <button type="button" class="btn btn-sm btn-icon btn-danger position-absolute top-0 end-0"
+                    style="width:20px;height:20px;transform:translate(30%,-30%);" (click)="removeUnit(i)">
+                    <i class="ki-duotone ki-cross fs-4"><span class="path1"></span><span class="path2"></span></i>
+                  </button>
+                  <div class="mb-2">
+                    <label class="form-label">{{ 'PRODUCTS.UNIT_NAME' | translate }}</label>
+                    <input type="text" [(ngModel)]="u.unitName" name="unitName{{i}}" class="form-control form-control-sm form-control-solid"
+                      [placeholder]="'PRODUCTS.TXT_66' | translate">
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">{{ 'PRODUCTS.CONVERSION' | translate }}</label>
+                    <div class="input-group input-group-sm">
+                      <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid">
+                      <span class="input-group-text">{{ editingProduct.unit || ('PRODUCTS.BASE' | translate) }}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="form-label">{{ 'PRODUCTS.SEPARATE_PRICE' | translate }}</label>
+                    <div class="input-group input-group-sm">
+                      <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid">
+                      <span class="input-group-text">₫</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <!--end::Conversion Units-->
+      </div>
+      <!--end::Right col-->
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0" (click)="closeModal()">{{ 'PRODUCTS.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="productNgForm" class="btn btn-danger text-white fw-bold rounded-pill px-4 py-2 border-0" style="background: linear-gradient(135deg, #ef4444, #dc2626);" [disabled]="!productForm.form.valid || isSubmitting">
-      @if (isSubmitting) {
-        <span class="spinner-border spinner-border-sm me-2"></span>
-      }
+    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'PRODUCTS.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="productNgForm" class="btn btn-primary"
+      [disabled]="!productForm.form.valid || isSubmitting">
+      @if (isSubmitting) { <span class="spinner-border spinner-border-sm align-middle me-2"></span> }
       {{ isEditMode ? ('PRODUCTS.BTN_SAVE_CHANGES' | translate) : ('PRODUCTS.BTN_CREATE_PRODUCT' | translate) }}
     </button>
   </div>
 </app-modal>
 }
 
-<!-- History Modal -->
+<!--begin::History Modal-->
 @if (showHistoryModal) {
 <app-modal [title]="'PRODUCTS.TX_HISTORY_TITLE' | translate: { name: historyProduct?.name }" size="lg" [noPadding]="true" (closeDialog)="closeHistoryModal()">
   @if (isHistoryLoading) {
-  <div class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2 text-muted">{{ 'PRODUCTS.LOADING_STOCK_CARD' | translate }}</p>
-  </div>
+    <div class="d-flex flex-column align-items-center justify-content-center py-10">
+      <span class="spinner-border text-primary mb-3"></span>
+      <p class="text-muted">{{ 'PRODUCTS.LOADING_STOCK_CARD' | translate }}</p>
+    </div>
   }
   @if (!isHistoryLoading) {
-  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-    <table class="table table-hover align-middle mb-0">
-      <thead class="table-light sticky-top shadow-sm">
-        <tr>
-          <th class="ps-4 py-3">{{ 'PRODUCTS.COL_TX_CODE' | translate }}</th>
-          <th class="py-3">{{ 'PRODUCTS.COL_TX_TIME' | translate }}</th>
-          <th class="py-3">{{ 'PRODUCTS.COL_TX_TYPE' | translate }}</th>
-          <th class="text-center py-3">{{ 'PRODUCTS.COL_TX_QTY' | translate }}</th>
-          <th class="text-end pe-4 py-3">{{ 'PRODUCTS.COL_TX_PRICE' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (tx of productHistory; track tx.transactionId) {
-        <tr>
-          <td class="ps-4 fw-bold text-primary">{{ tx.transactionCode }}</td>
-          <td>{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>
-            @if (tx.type === 0) {
-            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_INBOUND' | translate }}</span>
-            }
-            @if (tx.type === 1) {
-            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_OUTBOUND' | translate }}</span>
-            }
-            @if (tx.type === 2) {
-            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">{{ 'PRODUCTS.TX_TYPE_ADJUSTMENT' | translate }}</span>
-            }
-          </td>
-          <td class="text-center">
-            <span class="fw-bold"
-              [ngClass]="tx.quantity > 0 ? 'text-success' : (tx.quantity < 0 ? 'text-danger' : 'text-muted')">
-              {{ tx.quantity > 0 ? '+' : '' }}{{ tx.quantity }}
-            </span>
-          </td>
-          <td class="text-end pe-4" style="font-family: monospace;">{{ tx.unitCost | number:'1.0-0' }} ₫</td>
-        </tr>
-        }
-        @if (productHistory.length === 0) {
-        <tr>
-          <td colspan="5" class="text-center py-4 text-muted">{{ 'PRODUCTS.NO_TX_HISTORY' | translate }}</td>
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead class="sticky-top bg-white">
+          <tr class="fw-bold text-muted">
+            <th class="ps-4 py-3">{{ 'PRODUCTS.COL_TX_CODE' | translate }}</th>
+            <th class="py-3">{{ 'PRODUCTS.COL_TX_TIME' | translate }}</th>
+            <th class="py-3">{{ 'PRODUCTS.COL_TX_TYPE' | translate }}</th>
+            <th class="text-center py-3">{{ 'PRODUCTS.COL_TX_QTY' | translate }}</th>
+            <th class="text-end pe-4 py-3">{{ 'PRODUCTS.COL_TX_PRICE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tx of productHistory; track tx.transactionId) {
+            <tr>
+              <td class="ps-4"><span class="text-primary fw-bold">{{ tx.transactionCode }}</span></td>
+              <td>{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                @if (tx.type === 0) { <span class="badge badge-light-success">{{ 'PRODUCTS.TX_TYPE_INBOUND' | translate }}</span> }
+                @if (tx.type === 1) { <span class="badge badge-light-danger">{{ 'PRODUCTS.TX_TYPE_OUTBOUND' | translate }}</span> }
+                @if (tx.type === 2) { <span class="badge badge-light-warning">{{ 'PRODUCTS.TX_TYPE_ADJUSTMENT' | translate }}</span> }
+              </td>
+              <td class="text-center">
+                <span class="fw-bold" [ngClass]="tx.quantity > 0 ? 'text-success' : (tx.quantity < 0 ? 'text-danger' : 'text-muted')">
+                  {{ tx.quantity > 0 ? '+' : '' }}{{ tx.quantity }}
+                </span>
+              </td>
+              <td class="text-end pe-4">{{ tx.unitCost | number:'1.0-0' }} ₫</td>
+            </tr>
+          }
+          @if (productHistory.length === 0) {
+            <tr><td colspan="5" class="text-center py-5 text-muted">{{ 'PRODUCTS.NO_TX_HISTORY' | translate }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
   }
-
   <div modal-footer>
     <button class="btn btn-light" (click)="closeHistoryModal()">{{ 'PRODUCTS.BTN_CLOSE' | translate }}</button>
   </div>
 </app-modal>
 }
+<!--end::History Modal-->

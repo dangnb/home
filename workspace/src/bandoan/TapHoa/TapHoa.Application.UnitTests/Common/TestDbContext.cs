@@ -44,6 +44,10 @@ public class TestDbContext : DbContext, IApplicationDbContext
     public DbSet<Attendance> Attendances => Set<Attendance>();
     public DbSet<PayrollPeriod> PayrollPeriods => Set<PayrollPeriod>();
     public DbSet<PayrollEntry> PayrollEntries => Set<PayrollEntry>();
+    public DbSet<SalaryTemplate> SalaryTemplates => Set<SalaryTemplate>();
+    public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<Position> Positions => Set<Position>();
 
     public Guid CurrentCompanyId { get; set; } = Guid.Parse("01950000-0000-7000-8000-000000000000");
 

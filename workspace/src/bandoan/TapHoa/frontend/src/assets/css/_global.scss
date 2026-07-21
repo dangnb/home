@@ -420,26 +420,9 @@ body {
 }
 
 /* ============================================
-   CARD SYSTEM (Apple-like: clean, minimal borders)
+   PREMIUM CARD — store-front utility
+   (Admin pages dùng Metronic .card classes)
    ============================================ */
-.card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-light) !important;
-    border-radius: var(--radius-lg) !important;
-    box-shadow: var(--shadow-card) !important;
-    transition: box-shadow var(--transition-base), transform var(--transition-base);
-}
-
-.card:hover {
-    box-shadow: var(--shadow-sm) !important;
-}
-
-.card-header {
-    background: transparent !important;
-    border-bottom: 1px solid var(--border-light) !important;
-    padding: 1.25rem 1.5rem 1rem !important;
-}
-
 .premium-card {
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
@@ -454,30 +437,9 @@ body {
 }
 
 /* ============================================
-   BUTTON SYSTEM (Apple-like: clean, rounded)
+   BUTTON — store-front custom utilities
+   (Admin dùng Metronic btn-* classes)
    ============================================ */
-.btn {
-    font-weight: 600 !important;
-    border-radius: var(--radius-md);
-    letter-spacing: -0.01em;
-    transition: all var(--transition-fast);
-    padding: 0.6rem 1.25rem;
-    font-size: 0.88rem;
-    line-height: 1.4;
-}
-
-.btn-primary {
-    background-color: var(--primary) !important;
-    border-color: var(--primary) !important;
-    box-shadow: none !important;
-
-    &:hover {
-        background-color: var(--primary-hover) !important;
-        transform: translateY(-0.5px);
-        box-shadow: var(--shadow-sm) !important;
-    }
-}
-
 .btn-primary-gradient {
     background: var(--primary);
     border: none;
@@ -495,58 +457,12 @@ body {
     }
 }
 
-.btn-premium-cancel {
-    background-color: var(--gray-100);
-    color: var(--gray-600);
-    border: 0;
-    padding: 0.65rem 1.75rem;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    transition: all var(--transition-fast);
-
-    &:hover {
-        background-color: var(--gray-200);
-        color: var(--gray-700);
-    }
-}
-
-.btn-premium-danger {
-    background: var(--danger);
-    color: white;
-    border: 0;
-    padding: 0.65rem 1.75rem;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    transition: all var(--transition-fast);
-
-    &:hover {
-        background: #E0342A;
-        transform: translateY(-0.5px);
-        box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
-    }
-}
-
 /* ============================================
-   FORM SYSTEM (Apple-like: clean, spacious)
+   FORM SYSTEM — store-front utility
+   (Admin pages dùng Metronic form-control-solid)
    ============================================ */
-.form-control,
-.form-select {
-    border-radius: var(--radius-md) !important;
-    border: 1.5px solid var(--border-color) !important;
-    padding: 0.7rem 1rem !important;
-    font-size: 0.9rem;
-    color: var(--text);
-    background-color: var(--bg-surface);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.10) !important;
-    outline: none;
-}
-
+/* Note: .form-control và .form-select được xử lý bởi Metronic sass */
+/* Giữ lại .form-control-solid override cho compatibility */
 .form-control-solid {
     background-color: var(--gray-50) !important;
     border: 1.5px solid transparent !important;

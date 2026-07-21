@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+﻿<div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="h3 mb-0 text-gray-800">{{ 'RETURNS.TITLE' | translate }}</h2>
   <a routerLink="/admin/return-orders/create" class="btn btn-primary shadow-sm">
     <i class="bi bi-plus-circle me-2"></i>{{ 'COMMON.CREATE' | translate }}
@@ -12,15 +12,15 @@
       <input type="text" class="form-control" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate" 
              [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
       <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
-        <i class="bi bi-search"></i>
+        <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
       </button>
     </div>
   </div>
-  <div class="card-body p-0">
+  <div class="card-body py-4">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
-          <tr>
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted">
             <th>{{ 'RETURNS.COL_RETURN_ID' | translate }}</th>
             <th>{{ 'RETURNS.COL_ORDER_ID' | translate }}</th>
             <th>{{ 'CUSTOMER_DEBTS.COL_CUSTOMER' | translate }}</th>
@@ -42,9 +42,9 @@
                 @if (item.status === 1) {
                   <span class="badge bg-warning text-dark">{{ 'RETURNS.STATUS_PENDING' | translate }}</span>
                 } @else if (item.status === 2) {
-                  <span class="badge bg-success">{{ 'RETURNS.STATUS_COMPLETED' | translate }}</span>
+                  <span class="badge badge-light-success">{{ 'RETURNS.STATUS_COMPLETED' | translate }}</span>
                 } @else {
-                  <span class="badge bg-danger">Cancelled</span>
+                  <span class="badge badge-light-danger">Cancelled</span>
                 }
               </td>
               <td class="text-end">

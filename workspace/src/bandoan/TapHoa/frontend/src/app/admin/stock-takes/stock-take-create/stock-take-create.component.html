@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+﻿<div class="row justify-content-center">
   <div class="col-md-8 col-lg-6">
     <div class="card glass-panel border-0 shadow-sm">
       <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
@@ -13,13 +13,13 @@
         <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
           
           <div class="mb-4">
-            <label class="form-label fw-medium">{{ 'STOCK_TAKE.TXT_18' | translate }} <span class="text-danger">*</span></label>
+            <label class="form-label">{{ 'STOCK_TAKE.TXT_18' | translate }} <span class="text-danger">*</span></label>
             <input type="text" class="form-control form-control-lg bg-light" formControlName="documentNo" readonly>
             <div class="form-text">{{ 'STOCK_TAKE.TXT_19' | translate }}</div>
           </div>
 
           <div class="mb-4">
-            <label class="form-label fw-medium">{{ 'STOCK_TAKE.TXT_20' | translate }}</label>
+            <label class="form-label">{{ 'STOCK_TAKE.TXT_20' | translate }}</label>
             <select class="form-select form-select-lg" formControlName="categoryId">
               <option [ngValue]="null">{{ 'STOCK_TAKE.TXT_21' | translate }}</option>
               <option *ngFor="let cat of categories" [value]="cat.id">
@@ -30,7 +30,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="form-label fw-medium">{{ 'STOCK_TAKE.TXT_23' | translate }}</label>
+            <label class="form-label">{{ 'STOCK_TAKE.TXT_23' | translate }}</label>
             <textarea class="form-control" formControlName="notes" rows="3" [placeholder]="'STOCK_TAKE.TXT_25' | translate"></textarea>
           </div>
 

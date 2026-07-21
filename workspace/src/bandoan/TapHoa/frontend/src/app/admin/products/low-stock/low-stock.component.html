@@ -1,12 +1,12 @@
-<div class="card glass-panel border-0 shadow-sm">
+﻿<div class="card glass-panel border-0 shadow-sm">
   <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
     <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> {{ 'PRODUCTS.TXT_67' | translate }}</h5>
   </div>
-  <div class="card-body p-0">
+  <div class="card-body py-4">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light text-muted">
-          <tr>
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted">
             <th class="ps-4 fw-semibold border-0">{{ 'PRODUCTS.TXT_68' | translate }}</th>
             <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_69' | translate }}</th>
             <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_70' | translate }}</th>
@@ -60,7 +60,7 @@
             </td>
             <td class="text-end pe-4">
               <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" [title]="'PRODUCTS.TXT_75' | translate">
-                <i class="bi bi-pencil"></i>
+                <i class="ki-duotone ki-pencil fs-4"><span class="path1"></span><span class="path2"></span></i>
               </button>
             </td>
           </tr>

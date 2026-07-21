@@ -1,5 +1,5 @@
-<div *ngIf="isLoading" class="text-center py-5">
-  <div class="spinner-border text-primary" role="status">
+﻿<div *ngIf="isLoading" class="text-center py-5">
+  <div class="spinner-border text-primary">
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
@@ -47,14 +47,14 @@
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="mb-0 fw-bold"><i class="bi bi-list-check text-primary me-2"></i> {{ 'STOCK_TAKE.TXT_6' | translate }}</h5>
           <div class="input-group" style="width: 300px;">
-            <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
+            <span class="input-group-text bg-light border-end-0"><i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i></span>
             <input type="text" class="form-control bg-light border-start-0" [placeholder]="'STOCK_TAKE.TXT_14' | translate" [(ngModel)]="searchQuery">
           </div>
         </div>
       </div>
-      <div class="card-body p-0">
+      <div class="card-body py-4">
         <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
-          <table class="table table-hover align-middle mb-0">
+          <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
             <thead class="table-light text-muted sticky-top">
               <tr>
                 <th class="ps-4 fw-semibold border-0">{{ 'STOCK_TAKE.TXT_7' | translate }}</th>
