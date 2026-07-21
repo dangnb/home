@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { Package, Calendar, MapPin, Phone, CreditCard } from 'lucide-react';
+import { orderService } from '@/services/orderService';
 
 export default function ProfilePage() {
   const { customer, token } = useAuthStore();
@@ -18,15 +19,8 @@ export default function ProfilePage() {
 
     async function fetchOrders() {
       try {
-        const res = await fetch('http://localhost:5222/api/v1/online-store/orders/me?pageIndex=1&pageSize=50', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setOrders(data.items || []);
-        }
+        const result = await orderService.getMyOrders(1, 50);
+        setOrders(result.items || []);
       } catch (error) {
         console.error('Failed to fetch orders', error);
       } finally {

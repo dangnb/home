@@ -60,7 +60,7 @@ public class ExceptionHandlingMiddleware
                 response = new 
                 { 
                     error = "Internal Server Error", 
-                    details = new List<string> { "An unexpected error occurred." } 
+                    details = new List<string> { exception.Message, exception.StackTrace ?? "" } 
                 };
                 break;
         }

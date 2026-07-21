@@ -1,0 +1,6 @@
+2026-07-22 00:00:11.527 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 0.9125 ms
+2026-07-22 00:00:11.531 +07:00 [INF] HTTP GET /uploads/products/6c80cb42-1e26-4203-a7b0-14fe2d92f6e4.jpg responded 304 in 0.2037 ms
+2026-07-22 00:00:11.541 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0358 ms
+2026-07-22 00:00:11.543 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 1.1720 ms
+2026-07-22 00:00:16.093 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0289 ms
+2026-07-22 00:00:16.095 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 1.3374 ms

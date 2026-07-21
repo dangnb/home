@@ -7,6 +7,7 @@ namespace TapHoa.Domain.Entities;
 public class Product : BaseAuditableEntity<Guid>
 {
     public string Name { get; private set; }
+    public string Slug { get; private set; }
     public Guid? CategoryId { get; private set; }
     public virtual Category? CategoryObj { get; private set; }
     public Guid? SupplierId { get; private set; }
@@ -21,6 +22,7 @@ public class Product : BaseAuditableEntity<Guid>
     public int MaxStockLevel { get; private set; }
     public string Unit { get; private set; }
     public string? Barcode { get; private set; }
+    public string? Description { get; private set; }
     public ProductStatus Status { get; private set; }
 
     private readonly List<ProductUnit> _units = new();
@@ -29,9 +31,10 @@ public class Product : BaseAuditableEntity<Guid>
     // Private parameterless constructor for EF Core
     private Product() { }
 
-    private Product(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
+    private Product(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0, string? description = null)
     {
         Name = name;
+        Slug = SlugHelper.GenerateSlug(name);
         CategoryId = categoryId;
         SupplierId = supplierId;
         CostPrice = costPrice;
@@ -42,12 +45,13 @@ public class Product : BaseAuditableEntity<Guid>
         MaxStockLevel = maxStockLevel;
         Unit = unit;
         Barcode = barcode;
+        Description = description;
         MainImageUrl = mainImageUrl;
         AdditionalImages = additionalImages ?? new List<string>();
         Status = status;
     }
 
-    public static Product Create(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
+    public static Product Create(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0, string? description = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -61,10 +65,10 @@ public class Product : BaseAuditableEntity<Guid>
         if (minStockLevel < 0 || maxStockLevel < 0 || (maxStockLevel > 0 && minStockLevel > maxStockLevel))
             throw new DomainException("Ngưỡng tồn kho không hợp lệ.");
 
-        return new Product(name, categoryId, supplierId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode, minStockLevel, maxStockLevel);
+        return new Product(name, categoryId, supplierId, costPrice, wholesalePrice, price, stockQuantity, unit, mainImageUrl, additionalImages, status, barcode, minStockLevel, maxStockLevel, description);
     }
 
-    public void Update(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0)
+    public void Update(string name, Guid? categoryId, Guid? supplierId, decimal costPrice, decimal wholesalePrice, decimal price, int stockQuantity, string unit, string? mainImageUrl, List<string> additionalImages, ProductStatus status, string? barcode = null, int minStockLevel = 0, int maxStockLevel = 0, string? description = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên sản phẩm không được để trống.");
@@ -79,6 +83,7 @@ public class Product : BaseAuditableEntity<Guid>
             throw new DomainException("Ngưỡng tồn kho không hợp lệ.");
 
         Name = name;
+        Slug = SlugHelper.GenerateSlug(name);
         CategoryId = categoryId;
         SupplierId = supplierId;
         CostPrice = costPrice;
@@ -89,6 +94,7 @@ public class Product : BaseAuditableEntity<Guid>
         MaxStockLevel = maxStockLevel;
         Unit = unit;
         Barcode = barcode;
+        Description = description;
         MainImageUrl = mainImageUrl;
         AdditionalImages = additionalImages ?? new List<string>();
         Status = status;
