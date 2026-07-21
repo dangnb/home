@@ -1,4 +1,4 @@
-<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
+﻿<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
   <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -183,7 +183,7 @@
       <div class="topbar-center">
         <div class="search-box">
           <span class="search-icon">
-            <i class="bi bi-search"></i>
+            <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
           </span>
           <input type="text" [placeholder]="'HEADER.SEARCH_PLACEHOLDER' | translate">
         </div>
@@ -241,7 +241,7 @@
           <div *ngIf="showNotifications" class="notification-dropdown position-absolute end-0 mt-2 bg-white rounded-3 shadow-lg border" style="width: 350px; z-index: 1000;">
             <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
               <h6 class="mb-0 fw-bold">{{ 'COMMON.TXT_34' | translate }}</h6>
-              <span class="badge bg-danger rounded-pill">{{ totalNotifications }}</span>
+              <span class="badge badge-light-danger">{{ totalNotifications }}</span>
             </div>
             <div class="list-group list-group-flush" style="max-height: 400px; overflow-y: auto;">
               <div *ngIf="totalNotifications === 0" class="p-4 text-center text-muted">

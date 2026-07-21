@@ -1,4 +1,4 @@
-<div class="row g-0 pos-container m-0">
+﻿<div class="row g-0 pos-container m-0">
   <!-- Shift Modals -->
   <app-shift-open-modal *ngIf="needsShiftOpen" (shiftOpened)="onShiftOpened()"></app-shift-open-modal>
   <app-shift-close-modal #closeModal [currentShift]="currentShift" (shiftClosed)="onShiftClosed()"></app-shift-close-modal>
@@ -16,7 +16,7 @@
       </h4>
       <div class="pos-search-wrapper">
         <div class="search-icon-box">
-          <i class="bi bi-search"></i>
+          <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
         </div>
         <input type="text" class="pos-search-input" [placeholder]="'POS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
         <button class="pos-scan-btn" [title]="'POS.SCAN_BARCODE' | translate">

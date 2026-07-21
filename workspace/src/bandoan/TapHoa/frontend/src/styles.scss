@@ -1,10 +1,348 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style.scss";
+@import './assets/sass/plugins.scss';
+@import "./assets/sass/style.angular.scss";
 
+// Keenicons - High quality and pixel perfect font icons available in 3 styles, duotone, outline and solid for Metronic elements
+@import "./assets/plugins/keenicons/duotone/style.css";
+@import "./assets/plugins/keenicons/outline/style.css";
+@import "./assets/plugins/keenicons/solid/style.css";
+
+/* Existing TapHoa Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "./assets/css/global";
 @import "./assets/css/shared-wms";
 
 /* Ensure tables have enough height to show dropdown menus without clipping */
 .table-responsive {
   min-height: 250px;
+}
+
+// ============================================================
+// Sidebar Menu - Premium Custom Styling
+// ============================================================
+
+// Section label divider
+.menu-section-label {
+  display: flex;
+  align-items: center;
+  padding: 18px 8px 6px;
+  gap: 8px;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 1px;
+    flex-shrink: 0;
+  }
+
+  > span {
+    font-size: 0.63rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap;
+    opacity: 0.5;
+  }
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    opacity: 0.12;
+  }
+}
+
+// ─── Light sidebar variant ─────────────────────────────────
+[data-kt-app-layout="light-sidebar"] {
+  .menu-section-label {
+    &::before { background: #252F4A; }
+    > span { color: #252F4A; }
+    &::after { background: #252F4A; }
+  }
+
+  #kt_app_sidebar_menu .menu-item .menu-link {
+    border-radius: 10px;
+    padding: 10px 12px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+
+    .menu-icon {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(37, 47, 74, 0.06);
+      transition: all 0.2s ease;
+      margin-right: 10px;
+
+      i[class*="ki-"] {
+        font-size: 1.05rem !important;
+        color: #7E8299 !important;
+        transition: color 0.2s ease;
+      }
+    }
+
+    .menu-title {
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+      color: #2D3748 !important;
+      transition: color 0.2s ease;
+    }
+
+    .menu-arrow {
+      color: #B5B5C3 !important;
+    }
+
+    &:hover:not(.active) {
+      background: rgba(99, 102, 241, 0.06) !important;
+
+      .menu-icon {
+        background: rgba(99, 102, 241, 0.12);
+        i[class*="ki-"] { color: #6366f1 !important; }
+      }
+
+      .menu-title { color: #6366f1 !important; }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.08) 100%) !important;
+      box-shadow: inset 3px 0 0 #6366f1;
+
+      .menu-icon {
+        background: rgba(99, 102, 241, 0.15) !important;
+        i[class*="ki-"] { color: #6366f1 !important; }
+      }
+
+      .menu-title {
+        color: #6366f1 !important;
+        font-weight: 600 !important;
+      }
+    }
+  }
+
+  #kt_app_sidebar_menu .menu-item.here > .menu-link {
+    background: rgba(99,102,241,0.07) !important;
+
+    .menu-icon {
+      background: rgba(99, 102, 241, 0.12) !important;
+      i[class*="ki-"] { color: #6366f1 !important; }
+    }
+
+    .menu-title {
+      color: #6366f1 !important;
+      font-weight: 600 !important;
+    }
+
+    .menu-arrow { color: #6366f1 !important; }
+  }
+
+  #kt_app_sidebar_menu .menu-sub .menu-item .menu-link {
+    padding: 8px 12px 8px 14px;
+
+    .menu-bullet .bullet-dot {
+      background: #DBDFE9 !important;
+      transition: all 0.2s ease;
+    }
+
+    .menu-title {
+      font-size: 0.83rem !important;
+      color: #78829D !important;
+    }
+
+    &:hover:not(.active) {
+      background: rgba(99,102,241,0.05) !important;
+      .menu-bullet .bullet-dot { background: #6366f1 !important; }
+      .menu-title { color: #6366f1 !important; }
+    }
+
+    &.active {
+      background: rgba(99,102,241,0.08) !important;
+      .menu-bullet .bullet-dot {
+        background: #6366f1 !important;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+      }
+      .menu-title {
+        color: #6366f1 !important;
+        font-weight: 500 !important;
+      }
+    }
+  }
+
+  // Dashboard item - special green accent (light)
+  #kt_app_sidebar_menu .menu-item.menu-dashboard > .menu-link {
+    background: rgba(16,185,129,0.07) !important;
+    border: 1px solid rgba(16,185,129,0.15);
+
+    .menu-icon {
+      background: rgba(16,185,129,0.12) !important;
+      i[class*="ki-"] { color: #059669 !important; }
+    }
+
+    .menu-title { color: #065F46 !important; }
+
+    &:hover, &.active {
+      background: rgba(16,185,129,0.14) !important;
+      box-shadow: inset 3px 0 0 #10b981 !important;
+
+      .menu-icon {
+        background: rgba(16,185,129,0.2) !important;
+        i[class*="ki-"] { color: #059669 !important; }
+      }
+
+      .menu-title {
+        color: #047857 !important;
+        font-weight: 600 !important;
+      }
+    }
+  }
+}
+
+// ─── Dark sidebar variant ─────────────────────────────────
+[data-kt-app-layout="dark-sidebar"] {
+  .menu-section-label {
+    &::before { background: rgba(255,255,255,0.15); }
+    > span { color: rgba(255,255,255,0.32) !important; }
+    &::after { background: rgba(255,255,255,0.08); }
+  }
+
+  #kt_app_sidebar_menu .menu-item .menu-link {
+    border-radius: 10px;
+    padding: 10px 12px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+
+    .menu-icon {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+      transition: all 0.2s ease;
+      margin-right: 10px;
+
+      i[class*="ki-"] {
+        font-size: 1.05rem !important;
+        color: rgba(255,255,255,0.55) !important;
+        transition: color 0.2s ease;
+      }
+    }
+
+    .menu-title {
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+      color: rgba(255,255,255,0.65) !important;
+    }
+
+    .menu-arrow { color: rgba(255,255,255,0.3) !important; }
+
+    &:hover:not(.active) {
+      background: rgba(255,255,255,0.07) !important;
+      .menu-icon {
+        background: rgba(99,102,241,0.25);
+        i[class*="ki-"] { color: rgba(255,255,255,0.9) !important; }
+      }
+      .menu-title { color: rgba(255,255,255,0.92) !important; }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, rgba(99,102,241,0.35) 0%, rgba(139,92,246,0.2) 100%) !important;
+      box-shadow: inset 3px 0 0 #6366f1;
+
+      .menu-icon {
+        background: rgba(99,102,241,0.5) !important;
+        box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+        i[class*="ki-"] { color: #fff !important; }
+      }
+
+      .menu-title {
+        color: #fff !important;
+        font-weight: 600 !important;
+      }
+    }
+  }
+
+  #kt_app_sidebar_menu .menu-item.here > .menu-link {
+    background: rgba(99,102,241,0.18) !important;
+
+    .menu-icon {
+      background: rgba(99,102,241,0.35) !important;
+      i[class*="ki-"] { color: #c4b5fd !important; }
+    }
+
+    .menu-title {
+      color: rgba(255,255,255,0.9) !important;
+      font-weight: 600 !important;
+    }
+
+    .menu-arrow { color: rgba(255,255,255,0.7) !important; }
+  }
+
+  #kt_app_sidebar_menu .menu-sub .menu-item .menu-link {
+    padding: 8px 12px 8px 14px;
+
+    .menu-bullet .bullet-dot {
+      background: rgba(255,255,255,0.22) !important;
+      transition: all 0.2s ease;
+    }
+
+    .menu-title {
+      font-size: 0.83rem !important;
+      color: rgba(255,255,255,0.48) !important;
+    }
+
+    &:hover:not(.active) {
+      background: rgba(255,255,255,0.05) !important;
+      .menu-bullet .bullet-dot {
+        background: #818cf8 !important;
+        transform: scale(1.4);
+      }
+      .menu-title { color: rgba(255,255,255,0.82) !important; }
+    }
+
+    &.active {
+      background: rgba(99,102,241,0.15) !important;
+      .menu-bullet .bullet-dot {
+        background: #a78bfa !important;
+        box-shadow: 0 0 6px rgba(167,139,250,0.5);
+      }
+      .menu-title {
+        color: #c4b5fd !important;
+        font-weight: 500 !important;
+      }
+    }
+  }
+
+  // Dashboard item - special green accent (dark)
+  #kt_app_sidebar_menu .menu-item.menu-dashboard > .menu-link {
+    background: rgba(16,185,129,0.12) !important;
+    border: 1px solid rgba(16,185,129,0.12);
+
+    .menu-icon {
+      background: rgba(16,185,129,0.2) !important;
+      i[class*="ki-"] { color: #34d399 !important; }
+    }
+
+    .menu-title { color: rgba(255,255,255,0.82) !important; }
+
+    &:hover, &.active {
+      background: rgba(16,185,129,0.22) !important;
+      box-shadow: inset 3px 0 0 #10b981, 0 2px 10px rgba(16,185,129,0.15) !important;
+
+      .menu-icon {
+        background: rgba(16,185,129,0.35) !important;
+        i[class*="ki-"] { color: #6ee7b7 !important; }
+      }
+    }
+
+    .menu-title {
+      color: #ecfdf5 !important;
+      font-weight: 600 !important;
+    }
+  }
 }

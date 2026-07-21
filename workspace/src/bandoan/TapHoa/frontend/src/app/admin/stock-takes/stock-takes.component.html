@@ -1,15 +1,15 @@
-<div class="card glass-panel border-0 shadow-sm">
+﻿<div class="card glass-panel border-0 shadow-sm">
   <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
     <h5 class="mb-0 fw-bold"><i class="bi bi-clipboard-check text-primary me-2"></i> {{ 'STOCK_TAKES.TITLE' | translate }}</h5>
     <button class="btn btn-primary btn-sm rounded-pill px-3" routerLink="/admin/stock-takes/create">
       <i class="bi bi-plus-lg me-1"></i> {{ 'STOCK_TAKES.BTN_CREATE' | translate }}
     </button>
   </div>
-  <div class="card-body p-0">
+  <div class="card-body py-4">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light text-muted">
-          <tr>
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted">
             <th class="ps-4 fw-semibold border-0">{{ 'STOCK_TAKES.COL_DOCUMENT_NO' | translate }}</th>
             <th class="fw-semibold border-0">{{ 'STOCK_TAKES.COL_CREATED_DATE' | translate }}</th>
             <th class="fw-semibold border-0">{{ 'STOCK_TAKES.COL_STATUS' | translate }}</th>
@@ -21,7 +21,7 @@
         <tbody>
           <tr *ngIf="isLoading">
             <td colspan="6" class="text-center py-4">
-              <div class="spinner-border text-primary" role="status">
+              <div class="spinner-border text-primary">
                 <span class="visually-hidden">{{ 'COMMON.LOADING' | translate }}</span>
               </div>
             </td>

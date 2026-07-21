@@ -36,6 +36,13 @@ export class ProductsComponent implements OnInit {
 
   activeDropdownRowId: string | null = null;
 
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+    const fallback = img.nextElementSibling as HTMLElement;
+    if (fallback) fallback.style.display = 'flex';
+  }
+
   toggleDropdown(id: string, event: Event) {
     event.stopPropagation();
     this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;

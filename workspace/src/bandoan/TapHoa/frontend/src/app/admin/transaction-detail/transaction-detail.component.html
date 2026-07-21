@@ -1,4 +1,4 @@
-<div class="txn-detail" style="min-height: 400px;">
+﻿<div class="txn-detail" style="min-height: 400px;">
   @if (isLoading) {
     <div class="txn-detail__loading">
       <div class="txn-spinner"></div>
@@ -81,7 +81,7 @@
       <div class="table-responsive">
         <table class="txn-table">
           <thead>
-            <tr>
+            <tr class="fw-bold text-muted">
               <th class="ps-3">{{ 'TRANSACTION_DETAIL.COL_PRODUCT' | translate }}</th>
               <th class="text-center">{{ 'TRANSACTION_DETAIL.COL_QUANTITY' | translate }}</th>
               <th class="text-end">{{ 'TRANSACTION_DETAIL.COL_UNIT_COST' | translate }}</th>

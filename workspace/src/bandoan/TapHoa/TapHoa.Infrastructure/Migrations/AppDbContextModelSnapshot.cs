@@ -402,6 +402,137 @@ namespace TapHoa.Infrastructure.Migrations
                     b.ToTable("CustomerDebtTransactions");
                 });
 
+            modelBuilder.Entity("TapHoa.Domain.Entities.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("TapHoa.Domain.Entities.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("BaseSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CitizenId")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EmployeeCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("PositionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("SalaryTemplateId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("SalaryTemplateId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("TapHoa.Domain.Entities.EmployeeShift", b =>
                 {
                     b.Property<Guid>("Id")
@@ -471,8 +602,9 @@ namespace TapHoa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<long>("Permissions")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Permissions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -484,21 +616,21 @@ namespace TapHoa.Infrastructure.Migrations
                             Id = new Guid("01950000-0000-7000-8000-000000000001"),
                             Description = "System Administrator",
                             Name = "Admin",
-                            Permissions = -1L
+                            Permissions = "[\"*\"]"
                         },
                         new
                         {
                             Id = new Guid("01950000-0000-7000-8000-000000000002"),
                             Description = "Store Manager",
                             Name = "Manager",
-                            Permissions = 24117249L
+                            Permissions = "[\"Permissions.Products.View\",\"Permissions.Products.Create\",\"Permissions.Products.Update\",\"Permissions.Categories.View\",\"Permissions.Users.View\"]"
                         },
                         new
                         {
                             Id = new Guid("01950000-0000-7000-8000-000000000003"),
                             Description = "Store Cashier",
                             Name = "Cashier",
-                            Permissions = 17825792L
+                            Permissions = "[\"Permissions.Products.View\",\"Permissions.Categories.View\"]"
                         });
                 });
 
@@ -510,9 +642,6 @@ namespace TapHoa.Infrastructure.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
-
-                    b.Property<decimal>("BaseSalary")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CitizenId")
                         .HasColumnType("longtext");
@@ -541,16 +670,11 @@ namespace TapHoa.Infrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("SalaryTemplateId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SalaryTemplateId");
 
                     b.ToTable("Users");
 
@@ -558,7 +682,6 @@ namespace TapHoa.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("01950000-0000-7000-8000-000000000004"),
-                            BaseSalary = 10000000m,
                             CompanyId = new Guid("01950000-0000-7000-8000-000000000000"),
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@taphoa.com",
@@ -875,6 +998,48 @@ namespace TapHoa.Infrastructure.Migrations
                         .HasFilter("IsDeleted = 0");
 
                     b.ToTable("PayrollPeriods");
+                });
+
+            modelBuilder.Entity("TapHoa.Domain.Entities.Position", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Product", b =>
@@ -2006,13 +2171,41 @@ namespace TapHoa.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TapHoa.Domain.Entities.Identity.User", b =>
+            modelBuilder.Entity("TapHoa.Domain.Entities.Department", b =>
                 {
+                    b.HasOne("TapHoa.Domain.Entities.Department", "ParentDepartment")
+                        .WithMany("SubDepartments")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ParentDepartment");
+                });
+
+            modelBuilder.Entity("TapHoa.Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("TapHoa.Domain.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("TapHoa.Domain.Entities.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId");
+
                     b.HasOne("TapHoa.Domain.Entities.SalaryTemplate", "SalaryTemplate")
                         .WithMany()
                         .HasForeignKey("SalaryTemplateId");
 
+                    b.HasOne("TapHoa.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Position");
+
                     b.Navigation("SalaryTemplate");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Identity.UserToken", b =>
@@ -2261,6 +2454,11 @@ namespace TapHoa.Infrastructure.Migrations
             modelBuilder.Entity("TapHoa.Domain.Entities.Category", b =>
                 {
                     b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("TapHoa.Domain.Entities.Department", b =>
+                {
+                    b.Navigation("SubDepartments");
                 });
 
             modelBuilder.Entity("TapHoa.Domain.Entities.Order", b =>
