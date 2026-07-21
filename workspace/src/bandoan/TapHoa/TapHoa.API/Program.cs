@@ -453,6 +453,62 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+
+    // ── Pha 1: Sổ quỹ + Chi phí vận hành ──────────────────────────────────────
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `CashBookEntries` (
+                `Id` char(36) NOT NULL,
+                `EntryDate` datetime(6) NOT NULL,
+                `Type` int NOT NULL,
+                `Category` longtext NOT NULL,
+                `Amount` decimal(18,2) NOT NULL,
+                `Description` longtext NULL,
+                `ReferenceId` longtext NULL,
+                `ReferenceType` longtext NULL,
+                `ShiftId` char(36) NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL DEFAULT 0,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS `OperatingExpenses` (
+                `Id` char(36) NOT NULL,
+                `Name` longtext NOT NULL,
+                `Type` int NOT NULL,
+                `Amount` decimal(18,2) NOT NULL,
+                `Month` int NOT NULL,
+                `Year` int NOT NULL,
+                `DueDate` datetime(6) NULL,
+                `PaidDate` datetime(6) NULL,
+                `PaymentStatus` int NOT NULL DEFAULT 1,
+                `Notes` longtext NULL,
+                `CreatedDate` datetime(6) NULL,
+                `CreatedBy` longtext NULL,
+                `ModifiedDate` datetime(6) NULL,
+                `ModifiedBy` longtext NULL,
+                `IsDeleted` tinyint(1) NOT NULL DEFAULT 0,
+                `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
+                `CompanyId` char(36) NOT NULL,
+                PRIMARY KEY (`Id`)
+            );
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
@@ -549,6 +605,8 @@ app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersi
 app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
 app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(apiVersionSet).MapSalaryTemplateEndpoints();
 app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
+app.MapGroup("api/v{version:apiVersion}/cashbook").WithApiVersionSet(apiVersionSet).MapCashBookEndpoints();
+app.MapGroup("api/v{version:apiVersion}/expenses").WithApiVersionSet(apiVersionSet).MapOperatingExpenseEndpoints();
 app.MapRoleEndpoints();
 
 app.Run();
