@@ -1,6 +1,6 @@
 ﻿<div class="page-header d-flex justify-content-between align-items-center">
   <h2>{{ 'AUDITS.TITLE' | translate }}</h2>
-  <button class="btn btn-outline-secondary" (click)="loadAudits()">
+  <button class="btn btn-sm btn-outline-secondary" (click)="loadAudits()">
     <i class="bi bi-arrow-clockwise"></i> {{ 'COMMON.REFRESH' | translate }}
   </button>
 </div>
@@ -8,10 +8,10 @@
 <div class="card p-3 mb-4 shadow-sm border-0 rounded-3">
   <div class="row g-3">
     <div class="col-md-4">
-      <input type="text" class="form-control" [placeholder]="'AUDITS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      <input type="text" class="form-control form-control-sm" [placeholder]="'AUDITS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
     </div>
     <div class="col-md-3">
-      <select class="form-select" [(ngModel)]="actionFilter" (ngModelChange)="onSearchChange()">
+      <select class="form-select form-select-sm" [(ngModel)]="actionFilter" (ngModelChange)="onSearchChange()">
         <option value="">{{ 'AUDITS.TXT_9' | translate }}</option>
         <option value="Create">{{ 'AUDITS.TXT_10' | translate }}</option>
         <option value="Update">{{ 'AUDITS.TXT_11' | translate }}</option>

@@ -10,7 +10,7 @@
     <div class="txn-detail__error">
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       <p class="txn-detail__error-msg">{{ error }}</p>
-      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">{{ 'COMMON.BACK' | translate }}</button>
+      <button class="txn-btn btn-sm txn-btn--light" routerLink="/admin/transactions">{{ 'COMMON.BACK' | translate }}</button>
     </div>
   }
 
@@ -28,7 +28,7 @@
         </div>
         <span class="txn-detail__title">{{ 'TRANSACTION_DETAIL.TITLE' | translate }}</span>
       </div>
-      <button class="txn-btn txn-btn--light" routerLink="/admin/transactions">
+      <button class="txn-btn btn-sm txn-btn--light" routerLink="/admin/transactions">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
         {{ 'TRANSACTION_DETAIL.BACK_TO_LEDGER' | translate }}
       </button>

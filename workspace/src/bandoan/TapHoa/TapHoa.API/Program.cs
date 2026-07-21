@@ -632,6 +632,7 @@ app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).Ma
 app.MapGroup("api/v{version:apiVersion}/cashbook").WithApiVersionSet(apiVersionSet).MapCashBookEndpoints();
 app.MapGroup("api/v{version:apiVersion}/expenses").WithApiVersionSet(apiVersionSet).MapOperatingExpenseEndpoints();
 app.MapGroup("api/v{version:apiVersion}/notifications").WithApiVersionSet(apiVersionSet).MapNotificationsEndpoints();
+app.MapGroup("api/v{version:apiVersion}/online-store").WithApiVersionSet(apiVersionSet).MapOnlineStoreEndpoints();
 app.MapRoleEndpoints();
 
 app.Run();

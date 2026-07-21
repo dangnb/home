@@ -4,7 +4,7 @@
       <h2 class="fs-3 fw-bold text-gray-900 mb-0">Mẫu Tính Lương</h2>
       <p class="text-muted mb-0">Quản lý các công thức tính lương cho nhân viên</p>
     </div>
-    <button class="btn btn-primary" (click)="openAddModal()">
+    <button class="btn btn-sm btn-primary" (click)="openAddModal()">
       <i class="bi bi-plus-lg me-2"></i> Thêm Mẫu Mới
     </button>
   </div>
@@ -74,17 +74,17 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Mẫu Lương' : 'Thêm Mẫu Lương' }}</h5>
-          <button type="button" class="btn-close" (click)="closeModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <form (ngSubmit)="saveTemplate()" #form="ngForm" id="templateForm">
             <div class="mb-3">
               <label class="form-label">Tên mẫu lương <span class="text-danger">*</span></label>
-              <input type="text" class="form-control form-control-solid" name="name" [(ngModel)]="editingTemplate.name" required>
+              <input type="text" class="form-control form-control-sm form-control-solid" name="name" [(ngModel)]="editingTemplate.name" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Công thức (DynamicExpresso) <span class="text-danger">*</span></label>
-              <textarea class="form-control form-control-solid" rows="3" name="formula" [(ngModel)]="editingTemplate.formula" required style="font-family: monospace;"></textarea>
+              <textarea class="form-control form-control-sm form-control-solid" rows="3" name="formula" [(ngModel)]="editingTemplate.formula" required style="font-family: monospace;"></textarea>
               <div class="form-text mt-2">
                 <strong>Biến hệ thống:</strong> BaseSalary, WorkDays, TotalHours, OvertimeHours, OvertimePay, Allowance, Bonus, Deduction.<br>
                 <strong>Ví dụ:</strong> <code>(BaseSalary / 22 * WorkDays) + OvertimePay + Allowance</code>
@@ -92,7 +92,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Ghi chú</label>
-              <textarea class="form-control form-control-solid" rows="2" name="notes" [(ngModel)]="editingTemplate.notes"></textarea>
+              <textarea class="form-control form-control-sm form-control-solid" rows="2" name="notes" [(ngModel)]="editingTemplate.notes"></textarea>
             </div>
             <div class="form-check form-switch mt-4">
               <input class="form-check-input" type="checkbox" role="switch" id="isActiveSwitch" name="isActive" [(ngModel)]="editingTemplate.isActive">
@@ -101,8 +101,8 @@
           </form>
         </div>
         <div class="modal-footer border-top-0 pt-4 pb-4 pe-4">
-          <button type="button" class="btn btn-light rounded-pill px-4" (click)="closeModal()">Hủy</button>
-          <button type="submit" form="templateForm" class="btn btn-primary" [disabled]="form.invalid || isSubmitting()">
+          <button type="button" class="btn btn-sm btn-light rounded-pill px-4" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="templateForm" class="btn btn-sm btn-primary" [disabled]="form.invalid || isSubmitting()">
             <i class="bi" [ngClass]="isSubmitting() ? 'bi-hourglass-split' : 'bi-check-lg'"></i> Lưu Lại
           </button>
         </div>

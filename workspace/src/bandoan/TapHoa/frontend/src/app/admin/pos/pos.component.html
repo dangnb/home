@@ -19,7 +19,7 @@
           <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
         </div>
         <input type="text" class="pos-search-input" [placeholder]="'POS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
-        <button class="pos-scan-btn" [title]="'POS.SCAN_BARCODE' | translate">
+        <button class="pos-scan-btn btn-sm" [title]="'POS.SCAN_BARCODE' | translate">
           <i class="bi bi-upc-scan"></i>
         </button>
       </div>
@@ -27,11 +27,11 @@
 
     <!-- Danh mục nhanh (Mock) -->
     <div class="d-flex gap-2 mb-4 overflow-auto pb-2" style="white-space: nowrap;">
-      <button class="btn btn-primary rounded-pill px-4 fw-medium shadow-sm">{{ 'POS.CAT_ALL' | translate }}</button>
-      <button class="btn btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_DRINKS' | translate }}</button>
-      <button class="btn btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_SNACKS' | translate }}</button>
-      <button class="btn btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_PERSONAL_CARE' | translate }}</button>
-      <button class="btn btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_SPICES' | translate }}</button>
+      <button class="btn btn-sm btn-primary rounded-pill px-4 fw-medium shadow-sm">{{ 'POS.CAT_ALL' | translate }}</button>
+      <button class="btn btn-sm btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_DRINKS' | translate }}</button>
+      <button class="btn btn-sm btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_SNACKS' | translate }}</button>
+      <button class="btn btn-sm btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_PERSONAL_CARE' | translate }}</button>
+      <button class="btn btn-sm btn-light bg-white rounded-pill px-4 fw-medium border shadow-sm text-muted">{{ 'POS.CAT_SPICES' | translate }}</button>
     </div>
 
     <!-- Loading Skeleton -->
@@ -110,15 +110,15 @@
       <div class="cart-item">
         <div class="d-flex justify-content-between align-items-start mb-2">
           <div class="fw-bold text-dark pe-2">{{ item.product.name }}</div>
-          <button class="btn btn-link text-danger p-0 border-0" (click)="removeFromCart(i)"><i class="bi bi-x-circle-fill fs-5"></i></button>
+          <button class="btn btn-sm btn-link text-danger p-0 border-0" (click)="removeFromCart(i)"><i class="bi bi-x-circle-fill fs-5"></i></button>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2">
           <div class="d-flex align-items-center bg-light rounded-pill border px-2 py-1">
-            <button class="btn btn-light qty-btn text-primary shadow-sm" type="button" (click)="decreaseQuantity(i)">
+            <button class="btn btn-sm btn-light qty-btn text-primary shadow-sm" type="button" (click)="decreaseQuantity(i)">
               <i class="bi bi-dash"></i>
             </button>
             <input type="number" class="qty-input" [(ngModel)]="item.quantity" (change)="calculateDefaultAmountPaid()">
-            <button class="btn btn-light qty-btn text-primary shadow-sm" type="button" (click)="increaseQuantity(i)">
+            <button class="btn btn-sm btn-light qty-btn text-primary shadow-sm" type="button" (click)="increaseQuantity(i)">
               <i class="bi bi-plus"></i>
             </button>
           </div>
@@ -138,7 +138,7 @@
       <!-- Khách hàng -->
       <div class="mb-3 position-relative">
         <i class="bi bi-person position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-        <select class="form-select form-control-solid rounded-3 ps-5 py-2 border-0 shadow-sm fw-medium text-dark bg-light" [(ngModel)]="selectedCustomerId" (ngModelChange)="onCustomerChange()">
+        <select class="form-select form-select-sm form-control form-control-sm-solid rounded-3 ps-5 py-2 border-0 shadow-sm fw-medium text-dark bg-light" [(ngModel)]="selectedCustomerId" (ngModelChange)="onCustomerChange()">
           <option [ngValue]="null">{{ 'POS.CUSTOMER_DEFAULT' | translate }}</option>
           @for (cus of customers; track cus.id) {
           <option [ngValue]="cus.id">{{ cus.name || cus.fullName }} - {{ cus.phoneNumber }}</option>
@@ -171,7 +171,7 @@
         <div class="mt-2" *ngIf="usePoints">
           <div class="input-group input-group-sm">
             <span class="input-group-text bg-light text-muted border-0">{{ 'POS.TXT_29' | translate }}</span>
-            <input type="number" class="form-control border-0 bg-light fw-bold text-primary" [(ngModel)]="pointsToUse" (change)="togglePoints()" [max]="selectedCustomerObj.loyaltyPoints" min="0">
+            <input type="number" class="form-control form-control-sm border-0 bg-light fw-bold text-primary" [(ngModel)]="pointsToUse" (change)="togglePoints()" [max]="selectedCustomerObj.loyaltyPoints" min="0">
             <span class="input-group-text bg-light border-0 text-success fw-bold">-{{ (pointsToUse * 100) | number }}₫</span>
           </div>
         </div>
@@ -183,7 +183,7 @@
         <div class="d-flex gap-2 mb-2">
           <div class="input-group input-group-sm">
             <span class="input-group-text bg-light border-0"><i class="bi bi-ticket-perforated text-primary"></i></span>
-            <input type="text" class="form-control border-0 bg-light fw-medium" [placeholder]="'POS.TXT_34' | translate" [(ngModel)]="couponCode" (keyup.enter)="applyCoupon()">
+            <input type="text" class="form-control form-control-sm border-0 bg-light fw-medium" [placeholder]="'POS.TXT_34' | translate" [(ngModel)]="couponCode" (keyup.enter)="applyCoupon()">
           </div>
           <button class="btn btn-sm btn-primary rounded-pill px-3 fw-bold text-nowrap shadow-sm" (click)="applyCoupon()" [disabled]="!couponCode.trim()">
             <i class="bi bi-check2-circle me-1"></i>{{ 'POS.TXT_30' | translate }}
@@ -244,16 +244,16 @@
 
       <!-- Phương thức thanh toán -->
       <div class="payment-method-selector mb-3">
-        <div class="payment-btn" [class.active]="paymentMethod === PaymentMethod.Cash" (click)="paymentMethod = PaymentMethod.Cash; onPaymentMethodChange()">
+        <div class="payment-btn btn-sm" [class.active]="paymentMethod === PaymentMethod.Cash" (click)="paymentMethod = PaymentMethod.Cash; onPaymentMethodChange()">
           <i class="bi bi-cash d-block mb-1 fs-5"></i> {{ 'POS.PAYMENT_CASH' | translate }}
         </div>
-        <div class="payment-btn" [class.active]="paymentMethod === PaymentMethod.BankTransfer" (click)="paymentMethod = PaymentMethod.BankTransfer; onPaymentMethodChange()">
+        <div class="payment-btn btn-sm" [class.active]="paymentMethod === PaymentMethod.BankTransfer" (click)="paymentMethod = PaymentMethod.BankTransfer; onPaymentMethodChange()">
           <i class="bi bi-qr-code-scan d-block mb-1 fs-5"></i> {{ 'POS.PAYMENT_TRANSFER' | translate }}
         </div>
-        <div class="payment-btn" [class.active]="paymentMethod === PaymentMethod.Card" (click)="paymentMethod = PaymentMethod.Card; onPaymentMethodChange()">
+        <div class="payment-btn btn-sm" [class.active]="paymentMethod === PaymentMethod.Card" (click)="paymentMethod = PaymentMethod.Card; onPaymentMethodChange()">
           <i class="bi bi-credit-card d-block mb-1 fs-5"></i> {{ 'POS.PAYMENT_CARD' | translate }}
         </div>
-        <div class="payment-btn" [class.active]="paymentMethod === PaymentMethod.Debt" (click)="paymentMethod = PaymentMethod.Debt; onPaymentMethodChange()">
+        <div class="payment-btn btn-sm" [class.active]="paymentMethod === PaymentMethod.Debt" (click)="paymentMethod = PaymentMethod.Debt; onPaymentMethodChange()">
           <i class="bi bi-journal-minus d-block mb-1 fs-5"></i> {{ 'POS.PAYMENT_DEBT' | translate }}
         </div>
       </div>
@@ -264,19 +264,19 @@
           <label class="form-label small fw-bold text-dark mb-0">{{ 'POS.CUSTOMER_PAID' | translate }}</label>
           <span class="badge bg-warning text-dark fw-bold" *ngIf="amountPaid > getTotal()">{{ 'POS.CHANGE_DUE' | translate }}: {{ (amountPaid - getTotal()) | number:'1.0-0' }}đ</span>
         </div>
-        <div class="input-group">
-          <input type="text" class="form-control form-control-lg text-end fw-bolder text-dark border-0 shadow-sm bg-light" [(ngModel)]="amountPaid" appNumberFormat>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control form-control-sm text-end fw-bolder text-dark border-0 shadow-sm bg-light" [(ngModel)]="amountPaid" appNumberFormat>
           <span class="input-group-text bg-light border-0 shadow-sm fw-bold">{{ 'POS.TXT_33' | translate }}</span>
         </div>
       </div>
 
       <!-- Ghi chú -->
       <div class="mb-4">
-        <input type="text" class="form-control form-control-solid bg-light border-0 shadow-sm py-2" [placeholder]="'POS.NOTES_PLACEHOLDER' | translate" [(ngModel)]="notes">
+        <input type="text" class="form-control form-control-sm form-control-solid bg-light border-0 shadow-sm py-2" [placeholder]="'POS.NOTES_PLACEHOLDER' | translate" [(ngModel)]="notes">
       </div>
 
       <!-- Nút Thanh toán -->
-      <button class="checkout-btn w-100 shadow d-flex justify-content-between align-items-center px-4" (click)="checkout()">
+      <button class="checkout-btn btn-sm w-100 shadow d-flex justify-content-between align-items-center px-4" (click)="checkout()">
         <span>{{ 'POS.BTN_CHECKOUT' | translate }}</span>
         <i class="bi bi-arrow-right-circle fs-4"></i>
       </button>
@@ -289,7 +289,7 @@
       <div class="modal-content">
         <div class="modal-header border-0 pb-0">
           <h5 class="modal-title fw-bold">Thanh toán quét mã VietQR</h5>
-          <button type="button" class="btn-close" (click)="showQrModal = false"></button>
+          <button type="button" class="btn btn-sm-close" (click)="showQrModal = false"></button>
         </div>
         <div class="modal-body text-center">
           <p class="text-muted mb-4">Vui lòng quét mã QR dưới đây để thanh toán</p>
@@ -300,8 +300,8 @@
           <p class="fw-medium text-dark mt-2 mb-0">Nội dung: Thanh toan TapHoa</p>
         </div>
         <div class="modal-footer border-0 d-flex justify-content-between">
-          <button type="button" class="btn btn-light" (click)="showQrModal = false">Hủy</button>
-          <button type="button" class="btn btn-primary px-4 shadow" (click)="checkout()">
+          <button type="button" class="btn btn-sm btn-light" (click)="showQrModal = false">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary px-4 shadow" (click)="checkout()">
             <i class="bi bi-check2-circle me-1"></i> Đã nhận được tiền
           </button>
         </div>
@@ -367,10 +367,10 @@
         <h4 class="fw-bold mb-1">Thanh toán hoàn tất!</h4>
         <p class="text-muted mb-4">Đơn hàng của bạn đã được ghi nhận thành công.</p>
         <div class="d-grid gap-2">
-          <button class="btn btn-primary d-print-none shadow-sm" (click)="printReceipt()">
+          <button class="btn btn-sm btn-primary d-print-none shadow-sm" (click)="printReceipt()">
             <i class="bi bi-printer"></i> In Hóa Đơn
           </button>
-          <button class="btn btn-light d-print-none fw-medium" (click)="closeReceiptModal()">
+          <button class="btn btn-sm btn-light d-print-none fw-medium" (click)="closeReceiptModal()">
             Đóng
           </button>
         </div>

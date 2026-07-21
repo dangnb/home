@@ -6,10 +6,10 @@
       <p class="view-subtitle">{{ 'ATTENDANCE.SUBTITLE' | translate }}</p>
     </div>
     <div class="header-actions">
-      <button class="btn btn-outline-primary me-2" (click)="openImportModal()">
+      <button class="btn btn-sm btn-outline-primary me-2" (click)="openImportModal()">
         <i class="bi bi-file-earmark-excel"></i> Import Chấm Công
       </button>
-      <button class="btn btn-primary" (click)="openCreateModal()">
+      <button class="btn btn-sm btn-primary" (click)="openCreateModal()">
         <i class="bi bi-plus-circle"></i> {{ 'ATTENDANCE.ADD_MANUAL' | translate }}
       </button>
     </div>
@@ -29,13 +29,13 @@
       </div>
       <div class="checkin-actions">
         @if (!todayAttendance() || !todayAttendance()?.checkIn) {
-          <button class="btn btn-success" [disabled]="checkingIn()" (click)="doCheckIn()">
+          <button class="btn btn-sm btn-success" [disabled]="checkingIn()" (click)="doCheckIn()">
             <i class="bi bi-box-arrow-in-right"></i>
             {{ checkingIn() ? '...' : ('ATTENDANCE.CHECK_IN' | translate) }}
           </button>
         } @else if (!todayAttendance()?.checkOut) {
           <span class="badge-checkin"><i class="bi bi-check-circle-fill"></i> {{ formatTime(todayAttendance()!.checkIn) }}</span>
-          <button class="btn btn-warning" [disabled]="checkingOut()" (click)="doCheckOut()">
+          <button class="btn btn-sm btn-warning" [disabled]="checkingOut()" (click)="doCheckOut()">
             <i class="bi bi-box-arrow-right"></i>
             {{ checkingOut() ? '...' : ('ATTENDANCE.CHECK_OUT' | translate) }}
           </button>
@@ -97,12 +97,12 @@
   <!-- Filters -->
   <div class="filter-bar">
     <div class="filter-group">
-      <select class="form-select" [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChange()" [value]="selectedMonth()">
+      <select class="form-select form-select-sm" [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChange()" [value]="selectedMonth()">
         @for (m of months; track m) {
           <option [value]="m">{{ 'COMMON.MONTH' | translate }} {{ m }}</option>
         }
       </select>
-      <select class="form-select" [(ngModel)]="selectedYear" (ngModelChange)="onMonthChange()" [value]="selectedYear()">
+      <select class="form-select form-select-sm" [(ngModel)]="selectedYear" (ngModelChange)="onMonthChange()" [value]="selectedYear()">
         @for (y of years; track y) {
           <option [value]="y">{{ y }}</option>
         }
@@ -189,35 +189,35 @@
     <div class="modal-card">
       <div class="modal-header-custom">
         <h5>{{ editingAttendance.id ? ('ATTENDANCE.EDIT' | translate) : ('ATTENDANCE.ADD_MANUAL' | translate) }}</h5>
-        <button class="btn-close" (click)="showModal.set(false)"></button>
+        <button class="btn btn-sm-close" (click)="showModal.set(false)"></button>
       </div>
       <div class="modal-body-custom">
         <div class="mb-3">
           <label class="form-label">{{ 'ATTENDANCE.EMPLOYEE' | translate }}</label>
-          <input type="text" class="form-control" [(ngModel)]="editingAttendance.username" [disabled]="!!editingAttendance.id">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="editingAttendance.username" [disabled]="!!editingAttendance.id">
         </div>
         <div class="mb-3">
           <label class="form-label">{{ 'ATTENDANCE.DATE' | translate }}</label>
-          <input type="date" class="form-control" [(ngModel)]="editingAttendance.date" [disabled]="!!editingAttendance.id">
+          <input type="date" class="form-control form-control-sm" [(ngModel)]="editingAttendance.date" [disabled]="!!editingAttendance.id">
         </div>
         <div class="row g-3 mb-3">
           <div class="col-6">
             <label class="form-label">{{ 'ATTENDANCE.HOURS' | translate }}</label>
-            <input type="number" class="form-control" [(ngModel)]="editingAttendance.totalHours" step="0.5">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editingAttendance.totalHours" step="0.5">
           </div>
           <div class="col-6">
             <label class="form-label">{{ 'ATTENDANCE.OVERTIME' | translate }}</label>
-            <input type="number" class="form-control" [(ngModel)]="editingAttendance.overtimeHours" step="0.5">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editingAttendance.overtimeHours" step="0.5">
           </div>
         </div>
         <div class="row g-3 mb-3">
           <div class="col-6">
             <label class="form-label">{{ 'ATTENDANCE.LATE_MINS' | translate }}</label>
-            <input type="number" class="form-control" [(ngModel)]="editingAttendance.lateMinutes">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editingAttendance.lateMinutes">
           </div>
           <div class="col-6">
             <label class="form-label">{{ 'ATTENDANCE.STATUS_COL' | translate }}</label>
-            <select class="form-select" [(ngModel)]="editingAttendance.status">
+            <select class="form-select form-select-sm" [(ngModel)]="editingAttendance.status">
               @for (s of statusOptions; track s.value) {
                 <option [value]="s.value">{{ s.label }}</option>
               }
@@ -226,12 +226,12 @@
         </div>
         <div class="mb-3">
           <label class="form-label">{{ 'COMMON.NOTES' | translate }}</label>
-          <textarea class="form-control" rows="2" [(ngModel)]="editingAttendance.notes"></textarea>
+          <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="editingAttendance.notes"></textarea>
         </div>
       </div>
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary" (click)="showModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
-        <button class="btn btn-primary" (click)="saveAttendance()">{{ 'COMMON.SAVE' | translate }}</button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="showModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-sm btn-primary" (click)="saveAttendance()">{{ 'COMMON.SAVE' | translate }}</button>
       </div>
     </div>
   </div>
@@ -244,7 +244,7 @@
     <div class="modal-card">
       <div class="modal-header-custom">
         <h5><i class="bi bi-cloud-upload"></i> Import Dữ liệu Chấm công</h5>
-        <button class="btn-close" (click)="showImportModal.set(false)"></button>
+        <button class="btn btn-sm-close" (click)="showImportModal.set(false)"></button>
       </div>
       <div class="modal-body-custom">
         <div class="alert alert-info py-2" role="alert">
@@ -252,7 +252,7 @@
         </div>
         <div class="mb-3 mt-3">
           <label class="form-label fw-bold">Chọn File Excel (*.xlsx)</label>
-          <input type="file" class="form-control" accept=".xlsx,.xls" (change)="onFileSelected($event)">
+          <input type="file" class="form-control form-control-sm" accept=".xlsx,.xls" (change)="onFileSelected($event)">
         </div>
         
         @if (importResult()) {
@@ -275,8 +275,8 @@
         }
       </div>
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary" (click)="showImportModal.set(false)">Đóng</button>
-        <button class="btn btn-primary" (click)="uploadFile()" [disabled]="!selectedFile() || isUploading()">
+        <button class="btn btn-sm btn-outline-secondary" (click)="showImportModal.set(false)">Đóng</button>
+        <button class="btn btn-sm btn-primary" (click)="uploadFile()" [disabled]="!selectedFile() || isUploading()">
           @if (isUploading()) {
             <span class="spinner-border spinner-border-sm me-1"></span> Đang xử lý...
           } @else {

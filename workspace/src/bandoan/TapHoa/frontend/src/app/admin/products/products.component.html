@@ -7,13 +7,13 @@
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
-        <input type="text" class="form-control form-control-solid w-250px ps-13"
+        <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
           [placeholder]="'PRODUCTS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
       <div class="ms-3">
         <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()"
-          class="form-select form-select-solid w-200px">
+          class="form-select form-select-sm form-select-solid w-200px">
           <option value="">{{ 'PRODUCTS.ALL_CATEGORIES' | translate }}</option>
           @for (cat of flatCategories; track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="card-toolbar">
-      <button type="button" class="btn btn-primary" (click)="openAddModal()">
+      <button type="button" class="btn btn-sm btn-primary" (click)="openAddModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'PRODUCTS.ADD_PRODUCT' | translate }}
       </button>
@@ -172,11 +172,11 @@
             <div class="row g-3">
               <div class="col-12">
                 <label class="form-label required">{{ 'PRODUCTS.COL_NAME' | translate }}</label>
-                <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-solid" required>
+                <input type="text" [(ngModel)]="editingProduct.name" name="name" class="form-control form-control-sm form-control-solid" required>
               </div>
               <div class="col-12 col-md-6">
                 <label class="form-label required">{{ 'PRODUCTS.COL_CATEGORY' | translate }}</label>
-                <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select form-select-solid" required>
+                <select [(ngModel)]="editingProduct.categoryId" name="categoryId" class="form-select form-select-sm form-select-solid" required>
                   @for (cat of flatCategories; track cat.id) {
                     <option [value]="cat.id">{{ cat.name }}</option>
                   }
@@ -184,7 +184,7 @@
               </div>
               <div class="col-12 col-md-6">
                 <label class="form-label">{{ 'PRODUCTS.SUPPLIER' | translate }}</label>
-                <select [(ngModel)]="editingProduct.supplierId" name="supplierId" class="form-select form-select-solid">
+                <select [(ngModel)]="editingProduct.supplierId" name="supplierId" class="form-select form-select-sm form-select-solid">
                   <option [value]="undefined">{{ 'PRODUCTS.NO_SELECTION' | translate }}</option>
                   @for (sup of suppliers; track sup.id) {
                     <option [value]="sup.id">{{ sup.fullName }}</option>
@@ -193,7 +193,7 @@
               </div>
               <div class="col-12 col-md-6">
                 <label class="form-label">{{ 'PRODUCTS.BASE_UNIT' | translate }}</label>
-                <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-select-solid">
+                <select [(ngModel)]="editingProduct.unit" name="unit" class="form-select form-select-sm form-select-solid">
                   <option value="kg">{{ 'PRODUCTS.UNIT_KG' | translate }}</option>
                   <option value="bó">{{ 'PRODUCTS.UNIT_BUNCH' | translate }}</option>
                   <option value="hộp">{{ 'PRODUCTS.UNIT_BOX' | translate }}</option>
@@ -202,19 +202,19 @@
               </div>
               <div class="col-12 col-md-6">
                 <label class="form-label">{{ 'PRODUCTS.SYSTEM_CODE' | translate }}</label>
-                <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-solid bg-light text-muted" disabled>
+                <input type="text" [value]="'#SP00' + editingProduct.id" class="form-control form-control-sm form-control-solid bg-light text-muted" disabled>
               </div>
               <div class="col-12 col-md-4">
                 <label class="form-label">{{ 'PRODUCTS.COST_PRICE' | translate }} (₫)</label>
-                <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control form-control-solid" required>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.costPrice" name="costPrice" class="form-control form-control-sm form-control-solid" required>
               </div>
               <div class="col-12 col-md-4">
                 <label class="form-label">{{ 'PRODUCTS.WHOLESALE_PRICE' | translate }} (₫)</label>
-                <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control form-control-solid" required>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.wholesalePrice" name="wholesalePrice" class="form-control form-control-sm form-control-solid" required>
               </div>
               <div class="col-12 col-md-4">
                 <label class="form-label required">{{ 'PRODUCTS.COL_PRICE' | translate }} (₫)</label>
-                <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control form-control-solid" required>
+                <input type="text" appNumberFormat [(ngModel)]="editingProduct.price" name="price" class="form-control form-control-sm form-control-solid" required>
               </div>
             </div>
           </div>
@@ -231,7 +231,7 @@
           <div class="card-body pt-0">
             <div class="mb-4">
               <label class="form-label">{{ 'PRODUCTS.MAIN_IMAGE' | translate }}</label>
-              <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-solid">
+              <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-sm form-control-solid">
               @if (editingProduct.mainImageUrl) {
                 <div class="mt-3">
                   <img [src]="fileUrl + editingProduct.mainImageUrl" height="100" class="rounded border shadow-sm object-fit-cover">
@@ -240,7 +240,7 @@
             </div>
             <div>
               <label class="form-label">{{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}</label>
-              <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-solid">
+              <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-sm form-control-solid">
               @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
                 <div class="d-flex gap-2 flex-wrap mt-3">
                   @for (url of editingProduct.additionalImages; track url; let i = $index) {
@@ -273,19 +273,19 @@
           <div class="card-body pt-0">
             <div class="mb-3">
               <label class="form-label">{{ 'PRODUCTS.CURRENT_STOCK' | translate }}</label>
-              <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-solid">
+              <input type="text" appNumberFormat [(ngModel)]="editingProduct.stockQuantity" name="stockQuantity" class="form-control form-control-sm form-control-solid">
             </div>
             <div class="mb-3">
               <label class="form-label">{{ 'PRODUCTS.MIN_STOCK' | translate }}</label>
-              <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-solid">
+              <input type="number" [(ngModel)]="editingProduct.minStockLevel" name="minStockLevel" class="form-control form-control-sm form-control-solid">
             </div>
             <div class="mb-3">
               <label class="form-label">{{ 'PRODUCTS.MAX_STOCK' | translate }}</label>
-              <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-solid">
+              <input type="number" [(ngModel)]="editingProduct.maxStockLevel" name="maxStockLevel" class="form-control form-control-sm form-control-solid">
             </div>
             <div>
               <label class="form-label">{{ 'PRODUCTS.BUSINESS_STATUS' | translate }}</label>
-              <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-select-solid">
+              <select [(ngModel)]="editingProduct.status" name="status" class="form-select form-select-sm form-select-solid">
                 <option value="Active">{{ 'PRODUCTS.STATUS_ACTIVE' | translate }}</option>
                 <option value="OutOfStock">{{ 'PRODUCTS.STATUS_OUT_OF_STOCK' | translate }}</option>
                 <option value="Discontinued">{{ 'PRODUCTS.STATUS_DISCONTINUED' | translate }}</option>
@@ -328,14 +328,14 @@
                   <div class="mb-2">
                     <label class="form-label">{{ 'PRODUCTS.CONVERSION' | translate }}</label>
                     <div class="input-group input-group-sm">
-                      <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-solid">
+                      <input type="text" appNumberFormat [(ngModel)]="u.conversionFactor" name="conversionFactor{{i}}" class="form-control form-control-sm form-control-solid">
                       <span class="input-group-text">{{ editingProduct.unit || ('PRODUCTS.BASE' | translate) }}</span>
                     </div>
                   </div>
                   <div>
                     <label class="form-label">{{ 'PRODUCTS.SEPARATE_PRICE' | translate }}</label>
                     <div class="input-group input-group-sm">
-                      <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-solid">
+                      <input type="text" appNumberFormat [(ngModel)]="u.price" name="unitPrice{{i}}" class="form-control form-control-sm form-control-solid">
                       <span class="input-group-text">₫</span>
                     </div>
                   </div>
@@ -350,8 +350,8 @@
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'PRODUCTS.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="productNgForm" class="btn btn-primary"
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'PRODUCTS.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="productNgForm" class="btn btn-sm btn-primary"
       [disabled]="!productForm.form.valid || isSubmitting">
       @if (isSubmitting) { <span class="spinner-border spinner-border-sm align-middle me-2"></span> }
       {{ isEditMode ? ('PRODUCTS.BTN_SAVE_CHANGES' | translate) : ('PRODUCTS.BTN_CREATE_PRODUCT' | translate) }}
@@ -407,7 +407,7 @@
     </div>
   }
   <div modal-footer>
-    <button class="btn btn-light" (click)="closeHistoryModal()">{{ 'PRODUCTS.BTN_CLOSE' | translate }}</button>
+    <button class="btn btn-sm btn-light" (click)="closeHistoryModal()">{{ 'PRODUCTS.BTN_CLOSE' | translate }}</button>
   </div>
 </app-modal>
 }

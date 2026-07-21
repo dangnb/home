@@ -13,9 +13,9 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="form-control form-control-solid" [placeholder]="'CUSTOMER_DEBTS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        <input type="text" class="form-control form-control-sm form-control-solid" [placeholder]="'CUSTOMER_DEBTS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
-      <button class="btn btn-primary d-flex align-items-center gap-2 text-nowrap" (click)="openRecordModal()">
+      <button class="btn btn-sm btn-primary d-flex align-items-center gap-2 text-nowrap" (click)="openRecordModal()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -189,7 +189,7 @@
     }
   </div>
   <div modal-footer class="w-100 d-flex justify-content-end">
-    <button type="button" class="btn btn-light" (click)="showDetailModal = false">{{ 'COMMON.CLOSE' | translate }}</button>
+    <button type="button" class="btn btn-sm btn-light" (click)="showDetailModal = false">{{ 'COMMON.CLOSE' | translate }}</button>
   </div>
 </app-modal>
 }
@@ -203,39 +203,39 @@
         <div class="col-12">
           <label class="form-label">{{ 'CUSTOMER_DEBTS.COL_CUSTOMER' | translate }} <span class="text-danger">*</span></label>
           @if (modalMode === 'record') {
-            <select class="form-select form-select-solid" name="customerId" [(ngModel)]="formData.customerId" required>
+            <select class="form-select form-select-sm form-select-solid" name="customerId" [(ngModel)]="formData.customerId" required>
               <option value="" disabled>{{ 'CUSTOMER_DEBTS.TXT_29' | translate }}</option>
               @for (customer of customers; track customer.id) {
                 <option [value]="customer.id">{{ customer.fullName }} {{ customer.phoneNumber ? ' - ' + customer.phoneNumber : '' }}</option>
               }
             </select>
           } @else {
-            <input type="text" class="form-control form-control-solid" [value]="getCustomerName(formData.customerId)" disabled>
+            <input type="text" class="form-control form-control-sm form-control-solid" [value]="getCustomerName(formData.customerId)" disabled>
           }
         </div>
         <div class="col-12">
           <label class="form-label">{{ 'CUSTOMER_DEBTS.LBL_PAY_AMOUNT' | translate }} <span class="text-danger">*</span></label>
           <div class="input-group input-group-solid">
-            <input type="text" appNumberFormat class="form-control form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
+            <input type="text" appNumberFormat class="form-control form-control-sm form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
             <span class="input-group-text bg-light border-0 rounded-end-3">{{ 'CUSTOMER_DEBTS.TXT_30' | translate }}</span>
           </div>
         </div>
         @if (modalMode === 'record') {
           <div class="col-12">
             <label class="form-label">{{ 'CUSTOMER_DEBTS.TXT_31' | translate }}</label>
-            <input type="date" class="form-control form-control-solid" name="dueDate" [(ngModel)]="formData.dueDate">
+            <input type="date" class="form-control form-control-sm form-control-solid" name="dueDate" [(ngModel)]="formData.dueDate">
           </div>
         }
         <div class="col-12">
           <label class="form-label">{{ 'CUSTOMER_DEBTS.LBL_NOTE' | translate }}</label>
-          <textarea class="form-control form-control-solid" rows="3" name="note" [(ngModel)]="formData.note"></textarea>
+          <textarea class="form-control form-control-sm form-control-solid" rows="3" name="note" [(ngModel)]="formData.note"></textarea>
         </div>
       </div>
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'COMMON.CANCEL' | translate }}</button>
-    <button type="submit" form="debtNgForm" class="btn btn-primary" [disabled]="!debtForm.form.valid || isSubmitting">
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button type="submit" form="debtNgForm" class="btn btn-sm btn-primary" [disabled]="!debtForm.form.valid || isSubmitting">
       {{ 'COMMON.SAVE' | translate }}
     </button>
   </div>

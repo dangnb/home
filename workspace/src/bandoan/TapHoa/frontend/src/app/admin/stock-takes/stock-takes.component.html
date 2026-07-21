@@ -58,7 +58,7 @@
       <span class="text-muted small">
         {{ 'STOCK_TAKES.PAGINATION' | translate:{pageIndex: pageIndex, totalPages: totalPages, totalCount: totalCount} }}
       </span>
-      <div class="btn-group">
+      <div class="btn btn-sm-group">
         <button class="btn btn-sm btn-outline-secondary" (click)="previousPage()" [disabled]="pageIndex === 1">{{ 'STOCK_TAKES.BTN_PREV' | translate }}</button>
         <button class="btn btn-sm btn-outline-secondary" (click)="nextPage()" [disabled]="pageIndex === totalPages">{{ 'STOCK_TAKES.BTN_NEXT' | translate }}</button>
       </div>

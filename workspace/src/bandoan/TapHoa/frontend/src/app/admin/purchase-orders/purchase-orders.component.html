@@ -5,11 +5,11 @@
     </h5>
     
     <div class="d-flex align-items-center gap-3">
-      <button class="btn btn-warning d-flex align-items-center gap-2 px-4 shadow-sm" (click)="autoDraft()" [disabled]="isLoading">
+      <button class="btn btn-sm btn-warning d-flex align-items-center gap-2 px-4 shadow-sm" (click)="autoDraft()" [disabled]="isLoading">
         <i class="bi bi-robot"></i>
         <span>Tự động đặt hàng</span>
       </button>
-      <button class="btn btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders/create">
+      <button class="btn btn-sm btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders/create">
         <i class="bi bi-plus-lg"></i>
         <span>{{ 'PURCHASE_ORDERS.CREATE_BTN' | translate }}</span>
       </button>

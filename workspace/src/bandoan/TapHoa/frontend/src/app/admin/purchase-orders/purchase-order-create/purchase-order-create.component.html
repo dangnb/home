@@ -5,11 +5,11 @@
     </h5>
     
     <div class="d-flex align-items-center gap-2">
-      <button class="btn btn-light d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders">
+      <button class="btn btn-sm btn-light d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders">
         <i class="bi bi-x-lg"></i>
         <span>{{ 'COMMON.CANCEL' | translate }}</span>
       </button>
-      <button class="btn btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" (click)="save()" [disabled]="isSubmitting">
+      <button class="btn btn-sm btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" (click)="save()" [disabled]="isSubmitting">
         <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         <i class="bi bi-save" *ngIf="!isSubmitting"></i>
         <span>{{ 'PURCHASE_ORDERS.CREATE.SAVE_BTN' | translate }}</span>
@@ -22,18 +22,18 @@
     <div class="row g-4 mb-4">
       <div class="col-md-4">
         <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.SUPPLIER' | translate }} <span class="text-danger">*</span></label>
-        <select class="form-select" [(ngModel)]="dto.supplierId">
+        <select class="form-select form-select-sm" [(ngModel)]="dto.supplierId">
           <option value="" disabled selected>{{ 'PURCHASE_ORDERS.CREATE.SELECT_SUPPLIER' | translate }}</option>
           <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }}</option>
         </select>
       </div>
       <div class="col-md-4">
         <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.EXPECTED_DATE' | translate }}</label>
-        <input type="date" class="form-control" [(ngModel)]="dto.expectedDeliveryDate">
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="dto.expectedDeliveryDate">
       </div>
       <div class="col-md-4">
         <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.NOTES' | translate }}</label>
-        <input type="text" class="form-control" [placeholder]="'PURCHASE_ORDERS.CREATE.NOTES_PLACEHOLDER' | translate" [(ngModel)]="dto.notes">
+        <input type="text" class="form-control form-control-sm" [placeholder]="'PURCHASE_ORDERS.CREATE.NOTES_PLACEHOLDER' | translate" [(ngModel)]="dto.notes">
       </div>
     </div>
 
@@ -57,7 +57,7 @@
         <div class="col-md-3">
           <label class="form-label small fw-semibold text-secondary mb-1">{{ 'PURCHASE_ORDERS.CREATE.COST_PRICE' | translate }}</label>
           <div class="input-group input-group-sm">
-            <input type="text" class="form-control" [(ngModel)]="selectedCostPrice" appNumberFormat>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="selectedCostPrice" appNumberFormat>
             <span class="input-group-text bg-white">₫</span>
           </div>
         </div>

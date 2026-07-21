@@ -74,4 +74,19 @@ export class OrdersComponent implements OnInit {
     this.currentPage = 1;
     this.loadOrders();
   }
+
+  approveOrder(id: string) {
+    if (confirm('Bạn có chắc chắn muốn duyệt đơn hàng này không?')) {
+      this.orderService.approveOrder(id).subscribe({
+        next: (res) => {
+          alert('Duyệt đơn hàng thành công!');
+          this.loadOrders();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Có lỗi xảy ra khi duyệt đơn hàng: ' + (err.error?.message || err.message));
+        }
+      });
+    }
+  }
 }

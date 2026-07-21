@@ -7,13 +7,13 @@
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
-        <input type="text" class="form-control form-control-solid w-250px ps-13"
+        <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
           [placeholder]="'CUSTOMERS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
     </div>
     <div class="card-toolbar">
-      <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+      <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'CUSTOMERS.ADD_NEW' | translate }}
       </button>
@@ -117,44 +117,44 @@
     <div class="row g-3">
       <div class="col-12">
         <label class="form-label required">{{ 'CUSTOMERS.NAME' | translate }}</label>
-        <input type="text" class="form-control form-control-solid" name="fullName"
+        <input type="text" class="form-control form-control-sm form-control-solid" name="fullName"
           [(ngModel)]="formData.fullName" required [placeholder]="'CUSTOMERS.NAME_PLACEHOLDER' | translate">
       </div>
       <div class="col-md-6 col-12">
         <label class="form-label">{{ 'CUSTOMERS.PHONE' | translate }}</label>
-        <input type="text" class="form-control form-control-solid" name="phoneNumber"
+        <input type="text" class="form-control form-control-sm form-control-solid" name="phoneNumber"
           [(ngModel)]="formData.phoneNumber" [placeholder]="'CUSTOMERS.PHONE_PLACEHOLDER' | translate">
       </div>
       <div class="col-md-6 col-12">
         <label class="form-label">Email</label>
-        <input type="email" class="form-control form-control-solid" name="email"
+        <input type="email" class="form-control form-control-sm form-control-solid" name="email"
           [(ngModel)]="formData.email" [placeholder]="'CUSTOMERS.EMAIL_PLACEHOLDER' | translate">
       </div>
       <div class="col-md-6 col-12">
         <label class="form-label">{{ 'CUSTOMERS.BANK_NAME' | translate }}</label>
-        <input type="text" class="form-control form-control-solid" name="bankName"
+        <input type="text" class="form-control form-control-sm form-control-solid" name="bankName"
           [(ngModel)]="formData.bankName" [placeholder]="'CUSTOMERS.BANK_NAME_PLACEHOLDER' | translate">
       </div>
       <div class="col-md-6 col-12">
         <label class="form-label">{{ 'CUSTOMERS.BANK_ACCOUNT' | translate }}</label>
-        <input type="text" class="form-control form-control-solid" name="bankAccountNumber"
+        <input type="text" class="form-control form-control-sm form-control-solid" name="bankAccountNumber"
           [(ngModel)]="formData.bankAccountNumber" [placeholder]="'CUSTOMERS.BANK_ACCOUNT_PLACEHOLDER' | translate">
       </div>
       <div class="col-12">
         <label class="form-label">{{ 'CUSTOMERS.COL_ADDRESS' | translate }}</label>
-        <input type="text" class="form-control form-control-solid" name="address"
+        <input type="text" class="form-control form-control-sm form-control-solid" name="address"
           [(ngModel)]="formData.address" [placeholder]="'CUSTOMERS.ADDRESS_PLACEHOLDER' | translate">
       </div>
       <div class="col-12">
         <label class="form-label">{{ 'CUSTOMERS.COL_NOTES' | translate }}</label>
-        <textarea class="form-control form-control-solid" name="notes" rows="3"
+        <textarea class="form-control form-control-sm form-control-solid" name="notes" rows="3"
           [(ngModel)]="formData.notes" [placeholder]="'CUSTOMERS.NOTES_PLACEHOLDER' | translate"></textarea>
       </div>
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'CUSTOMERS.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="customerNgForm" class="btn btn-primary"
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'CUSTOMERS.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="customerNgForm" class="btn btn-sm btn-primary"
       [disabled]="!customerForm.form.valid || isSubmitting">
       @if (isSubmitting) { <span class="spinner-border spinner-border-sm align-middle me-2"></span> }
       {{ editingCustomer ? ('CUSTOMERS.BTN_SAVE' | translate) : ('CUSTOMERS.BTN_CREATE' | translate) }}

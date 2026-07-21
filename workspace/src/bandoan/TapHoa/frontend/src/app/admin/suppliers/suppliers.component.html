@@ -5,13 +5,13 @@
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
-        <input type="text" class="form-control form-control-solid w-250px ps-13"
+        <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
           [placeholder]="'SUPPLIERS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
     </div>
     <div class="card-toolbar">
-      <button class="btn btn-primary" (click)="openCreateModal()">
+      <button class="btn btn-sm btn-primary" (click)="openCreateModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'SUPPLIERS.ADD_NEW' | translate }}
       </button>
@@ -106,27 +106,27 @@
           <div class="card-body pt-0">
             <div class="col-12">
               <label class="form-label">{{ 'SUPPLIERS.NAME' | translate }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control form-control-solid" name="fullName" [(ngModel)]="formData.fullName" required [placeholder]="'SUPPLIERS.NAME_PLACEHOLDER' | translate">
+              <input type="text" class="form-control form-control-sm form-control-solid" name="fullName" [(ngModel)]="formData.fullName" required [placeholder]="'SUPPLIERS.NAME_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-6 col-12">
               <label class="form-label">{{ 'SUPPLIERS.PHONE' | translate }}</label>
-              <input type="text" class="form-control form-control-solid" name="phoneNumber" [(ngModel)]="formData.phoneNumber" [placeholder]="'SUPPLIERS.PHONE_PLACEHOLDER' | translate">
+              <input type="text" class="form-control form-control-sm form-control-solid" name="phoneNumber" [(ngModel)]="formData.phoneNumber" [placeholder]="'SUPPLIERS.PHONE_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-6 col-12">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control form-control-solid" name="email" [(ngModel)]="formData.email" [placeholder]="'SUPPLIERS.EMAIL_PLACEHOLDER' | translate">
+              <input type="email" class="form-control form-control-sm form-control-solid" name="email" [(ngModel)]="formData.email" [placeholder]="'SUPPLIERS.EMAIL_PLACEHOLDER' | translate">
             </div>
             <div class="col-12">
               <label class="form-label">{{ 'SUPPLIERS.ADDRESS' | translate }}</label>
-              <input type="text" class="form-control form-control-solid" name="address" [(ngModel)]="formData.address" [placeholder]="'SUPPLIERS.ADDRESS_PLACEHOLDER' | translate">
+              <input type="text" class="form-control form-control-sm form-control-solid" name="address" [(ngModel)]="formData.address" [placeholder]="'SUPPLIERS.ADDRESS_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-6 col-12">
               <label class="form-label">{{ 'SUPPLIERS.BANK_NAME' | translate }}</label>
-              <input type="text" class="form-control form-control-solid" name="bankName" [(ngModel)]="formData.bankName" [placeholder]="'SUPPLIERS.BANK_NAME_PLACEHOLDER' | translate">
+              <input type="text" class="form-control form-control-sm form-control-solid" name="bankName" [(ngModel)]="formData.bankName" [placeholder]="'SUPPLIERS.BANK_NAME_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-6 col-12">
               <label class="form-label">{{ 'SUPPLIERS.BANK_ACCOUNT' | translate }}</label>
-              <input type="text" class="form-control form-control-solid" name="bankAccountNumber" [(ngModel)]="formData.bankAccountNumber" [placeholder]="'SUPPLIERS.BANK_ACCOUNT_PLACEHOLDER' | translate">
+              <input type="text" class="form-control form-control-sm form-control-solid" name="bankAccountNumber" [(ngModel)]="formData.bankAccountNumber" [placeholder]="'SUPPLIERS.BANK_ACCOUNT_PLACEHOLDER' | translate">
             </div>
 
           </div>
@@ -142,7 +142,7 @@
           <div class="card-body pt-0">
             <div class="col-12">
               <label class="form-label">{{ 'SUPPLIERS.NOTES' | translate }}</label>
-              <textarea class="form-control form-control-solid" name="notes" rows="6" [(ngModel)]="formData.notes" [placeholder]="'SUPPLIERS.NOTES_PLACEHOLDER' | translate"></textarea>
+              <textarea class="form-control form-control-sm form-control-solid" name="notes" rows="6" [(ngModel)]="formData.notes" [placeholder]="'SUPPLIERS.NOTES_PLACEHOLDER' | translate"></textarea>
             </div>
           </div>
         </div>
@@ -151,8 +151,8 @@
     
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'SUPPLIERS.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="supplierNgForm" class="btn btn-primary" [disabled]="!supplierForm.form.valid || isSubmitting">
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'SUPPLIERS.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="supplierNgForm" class="btn btn-sm btn-primary" [disabled]="!supplierForm.form.valid || isSubmitting">
       @if (isSubmitting) {
         <span class="spinner-border spinner-border-sm me-2"></span>
       }

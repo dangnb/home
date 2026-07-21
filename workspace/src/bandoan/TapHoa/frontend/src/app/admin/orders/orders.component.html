@@ -16,13 +16,13 @@
           <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
             <span class="path1"></span><span class="path2"></span>
           </i>
-          <input type="text" class="form-control form-control-solid ps-13"
+          <input type="text" class="form-control form-control-sm form-control-solid ps-13"
             [placeholder]="'ORDERS.SEARCH_PLACEHOLDER' | translate"
             [(ngModel)]="searchTerm" (keyup.enter)="onSearchChange()">
         </div>
       </div>
       <div class="col-md-2">
-        <select class="form-select form-select-solid" [(ngModel)]="status" (change)="onSearchChange()">
+        <select class="form-select form-select-sm form-select-solid" [(ngModel)]="status" (change)="onSearchChange()">
           <option [ngValue]="null">{{ 'ORDERS.STATUS_ALL' | translate }}</option>
           <option [ngValue]="OrderStatus.Pending">{{ 'ORDERS.STATUS_PENDING' | translate }}</option>
           <option [ngValue]="OrderStatus.Completed">{{ 'ORDERS.STATUS_COMPLETED' | translate }}</option>
@@ -30,13 +30,13 @@
         </select>
       </div>
       <div class="col-md-2">
-        <input type="date" class="form-control form-control-solid" [(ngModel)]="fromDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_FROM' | translate">
+        <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="fromDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_FROM' | translate">
       </div>
       <div class="col-md-2">
-        <input type="date" class="form-control form-control-solid" [(ngModel)]="toDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_TO' | translate">
+        <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="toDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_TO' | translate">
       </div>
       <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="button" (click)="onSearchChange()">
+        <button class="btn btn-sm btn-primary w-100" type="button" (click)="onSearchChange()">
           <i class="ki-duotone ki-filter fs-3 me-1"><span class="path1"></span><span class="path2"></span></i>
           {{ 'ORDERS.BTN_FILTER' | translate }}
         </button>
@@ -58,6 +58,7 @@
             <th class="text-center min-w-120px">{{ 'ORDERS.COL_PAYMENT' | translate }}</th>
             <th class="text-center min-w-100px">{{ 'ORDERS.COL_STATUS' | translate }}</th>
             <th class="min-w-120px">{{ 'ORDERS.COL_CREATED_BY' | translate }}</th>
+            <th class="text-end min-w-100px">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -88,6 +89,13 @@
                 }
               </td>
               <td><span class="text-gray-600">{{ order.createdBy }}</span></td>
+              <td class="text-end">
+                @if (order.status === OrderStatus.Pending) {
+                  <button class="btn btn-sm btn-icon btn-light-primary" title="Duyệt đơn" (click)="approveOrder(order.id)">
+                    <i class="ki-duotone ki-check fs-2"><span class="path1"></span><span class="path2"></span></i>
+                  </button>
+                }
+              </td>
             </tr>
           } @empty {
             <tr>

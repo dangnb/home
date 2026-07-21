@@ -1,6 +1,6 @@
 ﻿<div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="h3 mb-0 text-gray-800">{{ 'RETURN_ORDERS.TXT_21' | translate }}</h2>
-  <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm">
+  <a routerLink="/admin/return-orders" class="btn btn-sm btn-secondary shadow-sm">
     <i class="bi bi-arrow-left me-2"></i>{{ 'RETURN_ORDERS.TXT_22' | translate }}
   </a>
 </div>
@@ -14,9 +14,9 @@
       </div>
       <div class="card-body">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" [placeholder]="'RETURN_ORDERS.TXT_41' | translate" 
+          <input type="text" class="form-control form-control-sm" [placeholder]="'RETURN_ORDERS.TXT_41' | translate" 
                  [(ngModel)]="searchOrderCode" (keyup.enter)="searchOrder()">
-          <button class="btn btn-primary" type="button" (click)="searchOrder()">{{ 'RETURN_ORDERS.TXT_24' | translate }}</button>
+          <button class="btn btn-sm btn-primary" type="button" (click)="searchOrder()">{{ 'RETURN_ORDERS.TXT_24' | translate }}</button>
         </div>
         
         @if (orderData) {
@@ -72,7 +72,7 @@
                       <td class="text-end">{{ item.get('unitPrice')?.value | number:'1.0-0' }}đ</td>
                       <td class="text-center">
                         <div class="input-group input-group-sm">
-                          <input type="number" class="form-control text-center" 
+                          <input type="number" class="form-control form-control-sm text-center" 
                                  formControlName="returnQuantity" min="1" [max]="item.get('maxQuantity')?.value"
                                  [attr.disabled]="!item.get('selected')?.value ? true : null">
                           <span class="input-group-text bg-light text-muted">/ {{ item.get('maxQuantity')?.value }}</span>
@@ -99,7 +99,7 @@
 
             <div class="mb-4">
               <label class="form-label fw-bold">{{ 'RETURN_ORDERS.TXT_38' | translate }}</label>
-              <textarea class="form-control" formControlName="reason" rows="3" [placeholder]="'RETURN_ORDERS.TXT_42' | translate"></textarea>
+              <textarea class="form-control form-control-sm" formControlName="reason" rows="3" [placeholder]="'RETURN_ORDERS.TXT_42' | translate"></textarea>
             </div>
 
             <div class="d-flex justify-content-end">

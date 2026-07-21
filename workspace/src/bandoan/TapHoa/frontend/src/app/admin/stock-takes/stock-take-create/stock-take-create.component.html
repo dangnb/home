@@ -3,7 +3,7 @@
     <div class="card glass-panel border-0 shadow-sm">
       <div class="card-header bg-transparent border-bottom-0 pt-4 pb-0">
         <div class="d-flex align-items-center">
-          <a routerLink="/admin/stock-takes" class="btn btn-icon btn-light rounded-circle me-3">
+          <a routerLink="/admin/stock-takes" class="btn btn-sm btn-icon btn-light rounded-circle me-3">
             <i class="bi bi-arrow-left"></i>
           </a>
           <h4 class="mb-0 fw-bold">{{ 'STOCK_TAKE.TXT_17' | translate }}</h4>
@@ -14,13 +14,13 @@
           
           <div class="mb-4">
             <label class="form-label">{{ 'STOCK_TAKE.TXT_18' | translate }} <span class="text-danger">*</span></label>
-            <input type="text" class="form-control form-control-lg bg-light" formControlName="documentNo" readonly>
+            <input type="text" class="form-control form-control-sm form-control-lg bg-light" formControlName="documentNo" readonly>
             <div class="form-text">{{ 'STOCK_TAKE.TXT_19' | translate }}</div>
           </div>
 
           <div class="mb-4">
             <label class="form-label">{{ 'STOCK_TAKE.TXT_20' | translate }}</label>
-            <select class="form-select form-select-lg" formControlName="categoryId">
+            <select class="form-select form-select-sm form-select-lg" formControlName="categoryId">
               <option [ngValue]="null">{{ 'STOCK_TAKE.TXT_21' | translate }}</option>
               <option *ngFor="let cat of categories" [value]="cat.id">
                 Chỉ kiểm kê danh mục: {{ cat.name }}
@@ -31,7 +31,7 @@
 
           <div class="mb-4">
             <label class="form-label">{{ 'STOCK_TAKE.TXT_23' | translate }}</label>
-            <textarea class="form-control" formControlName="notes" rows="3" [placeholder]="'STOCK_TAKE.TXT_25' | translate"></textarea>
+            <textarea class="form-control form-control-sm" formControlName="notes" rows="3" [placeholder]="'STOCK_TAKE.TXT_25' | translate"></textarea>
           </div>
 
           <div class="d-grid mt-5">
