@@ -133,6 +133,7 @@ export class ProductsComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.getSuppliers().subscribe(data => {
       this.suppliers = data;
+      this.cdr.detectChanges();
     });
   }
 
@@ -141,6 +142,7 @@ export class ProductsComponent implements OnInit {
       this.categories = data;
       const tree = this.buildTree(data);
       this.flatCategories = this.flattenTree(tree);
+      this.cdr.detectChanges();
     });
   }
 
@@ -186,6 +188,8 @@ export class ProductsComponent implements OnInit {
       if (this.currentPage > maxPage && maxPage > 0) {
         this.currentPage = maxPage;
         this.loadProducts();
+      } else {
+        this.cdr.detectChanges();
       }
     });
   }
@@ -243,6 +247,7 @@ export class ProductsComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -254,6 +259,7 @@ export class ProductsComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     }
@@ -269,6 +275,7 @@ export class ProductsComponent implements OnInit {
           },
           error: (err) => {
             this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
+            this.cdr.detectChanges();
           }
         });
       }
