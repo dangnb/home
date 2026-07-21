@@ -70,7 +70,7 @@ export class LayoutService {
   private attrs: BehaviorSubject<HTMLAttributesType> =
     new BehaviorSubject<HTMLAttributesType>(getEmptyHTMLAttributes());
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   getProp(path: string, config?: ILayout): string | boolean | undefined | Object {
     if (config) {

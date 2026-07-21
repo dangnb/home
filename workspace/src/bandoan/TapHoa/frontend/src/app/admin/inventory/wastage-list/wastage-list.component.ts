@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { TransactionService, TransactionDetailDto } from '../../../services/transaction.service';
 
 @Component({
@@ -44,23 +44,22 @@ export class WastageListComponent implements OnInit {
     });
   }
 
-  private t = inject(TranslateService);
 
   getStatusText(status: number): string {
     switch(status) {
-      case 0: return this.t.instant('WASTAGE.STATUS_DRAFT');
-      case 1: return this.t.instant('WASTAGE.STATUS_PENDING');
-      case 2: return this.t.instant('WASTAGE.STATUS_COMPLETED');
-      default: return this.t.instant('WASTAGE.STATUS_UNKNOWN');
+      case 0: return 'Nháp';
+      case 1: return 'Chờ duyệt';
+      case 2: return 'Hoàn thành';
+      default: return 'Không rõ';
     }
   }
 
   getStatusClass(status: number): string {
     switch(status) {
-      case 0: return 'bg-secondary-subtle text-secondary';
-      case 1: return 'bg-warning-subtle text-warning';
-      case 2: return 'bg-success-subtle text-success';
-      default: return 'bg-light text-dark';
+      case 0: return 'badge-light-secondary';
+      case 1: return 'badge-light-warning';
+      case 2: return 'badge-light-success';
+      default: return 'badge-light';
     }
   }
 }
