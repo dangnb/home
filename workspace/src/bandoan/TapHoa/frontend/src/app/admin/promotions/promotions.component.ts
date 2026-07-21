@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ export class PromotionsComponent implements OnInit {
   private alertService = inject(AlertService);
   private translate = inject(TranslateService);
   private categoryService = inject(CategoryService);
+  private cdr = inject(ChangeDetectorRef);
 
   promotions: Promotion[] = [];
   categories: Category[] = [];
@@ -52,9 +53,11 @@ export class PromotionsComponent implements OnInit {
     this.categoryService.getAll().subscribe({
       next: (res: Category[]) => {
         this.categories = res || [];
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Failed to load categories', err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -64,9 +67,11 @@ export class PromotionsComponent implements OnInit {
       next: (res: any) => {
         this.promotions = res.items;
         this.totalCount = res.totalCount;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -135,6 +140,7 @@ export class PromotionsComponent implements OnInit {
         error: (err: any) => {
           this.alertService.error(this.translate.instant('COMMON.ERROR'), err.error?.title || 'Lỗi cập nhật');
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -148,6 +154,7 @@ export class PromotionsComponent implements OnInit {
         error: (err: any) => {
           this.alertService.error(this.translate.instant('COMMON.ERROR'), err.error?.title || 'Lỗi tạo mới');
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     }
@@ -159,9 +166,11 @@ export class PromotionsComponent implements OnInit {
       next: () => {
         promotion.isActive = newStatus;
         this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Đã thay đổi trạng thái');
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Không thể thay đổi trạng thái');
+        this.cdr.detectChanges();
       }
     });
   }
@@ -176,6 +185,7 @@ export class PromotionsComponent implements OnInit {
           },
           error: (err: any) => {
             this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Không thể xóa khuyến mãi');
+            this.cdr.detectChanges();
           }
         });
       }
