@@ -23,10 +23,13 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(assembly);
             
             // Khai báo tập hợp các Pipeline Behavior sẽ chèn ngang vào giữa mỗi luồng thực thi CQRS
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AntiXssBehavior<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuditBehavior<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
         });
+
+        services.AddSingleton<TapHoa.Application.Common.Security.IHtmlSanitizerService, TapHoa.Application.Common.Security.HtmlSanitizerService>();
 
         return services;
     }
