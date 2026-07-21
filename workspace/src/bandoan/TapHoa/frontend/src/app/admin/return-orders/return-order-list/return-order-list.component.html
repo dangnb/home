@@ -1,6 +1,6 @@
 ﻿<div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="h3 mb-0 text-gray-800">{{ 'RETURNS.TITLE' | translate }}</h2>
-  <a routerLink="/admin/return-orders/create" class="btn btn-primary shadow-sm">
+  <a routerLink="/admin/return-orders/create" class="btn btn-sm btn-primary shadow-sm">
     <i class="bi bi-plus-circle me-2"></i>{{ 'COMMON.CREATE' | translate }}
   </a>
 </div>
@@ -9,9 +9,9 @@
   <div class="card-header py-3 d-flex justify-content-between align-items-center">
     <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURNS.TITLE' | translate }}</h6>
     <div class="input-group" style="width: 300px;">
-      <input type="text" class="form-control" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate" 
+      <input type="text" class="form-control form-control-sm" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate" 
              [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
-      <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="onSearch()">
         <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
       </button>
     </div>

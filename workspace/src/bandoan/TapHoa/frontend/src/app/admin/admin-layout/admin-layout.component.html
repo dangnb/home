@@ -1,4 +1,4 @@
-﻿<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
+<div class="admin-container" [class.sidebar-collapsed]="isSidebarCollapsed">
   <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -172,7 +172,7 @@
   <div class="main-wrapper">
     <header class="topbar">
       <div class="topbar-left">
-        <button class="btn-toggle-sidebar" (click)="toggleSidebar()">
+        <button class="btn btn-sm btn-light fs-5 px-2 py-1" (click)="toggleSidebar()">
           <i class="bi bi-list"></i>
         </button>
         <div class="breadcrumb d-none d-md-block">
@@ -190,32 +190,29 @@
       </div>
 
       <div class="topbar-right">
-        <div class="font-size-controls"
-          style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-right: 6px;">
-          <button class="btn-icon"
-            style="padding: 4px 8px; font-size: 13px; font-weight:bold; border-right: 1px solid var(--border-color);"
+        <div class="font-size-controls border rounded overflow-hidden me-2 d-flex">
+          <button class="btn btn-sm btn-light border-0 border-end rounded-0 px-2 py-1 fw-bold fs-6"
           (click)="changeFontSize(-1)" [title]="'COMMON.TXT_60' | translate">A-</button>
-          <button class="btn-icon" style="padding: 4px 8px; font-size: 15px; font-weight:bold;"
+          <button class="btn btn-sm btn-light border-0 rounded-0 px-2 py-1 fw-bold fs-5"
           (click)="changeFontSize(1)" [title]="'COMMON.TXT_61' | translate">A+</button>
         </div>
 
         <!-- Language Switcher -->
-        <div class="lang-switcher position-relative" style="margin-right: 4px;">
-          <button class="btn-icon" (click)="showLangDropdown = !showLangDropdown; $event.stopPropagation()" style="font-size: 16px; padding: 4px 6px;" title="Language">
+        <div class="lang-switcher position-relative me-1">
+          <button class="btn btn-sm btn-light px-2 py-1 fs-5" (click)="showLangDropdown = !showLangDropdown; $event.stopPropagation()" title="Language">
             {{ langService.getCurrentLanguage().flag }}
           </button>
           @if (showLangDropdown) {
           <div class="position-absolute end-0 mt-1 bg-white rounded-3 shadow-lg border" style="z-index: 1000; min-width: 160px; overflow: hidden;">
             @for (lang of languages; track lang.code) {
-            <button class="d-flex align-items-center gap-2 w-100 border-0 bg-transparent px-3 py-2"
-              [style.background]="lang.code === langService.getCurrentLang() ? 'var(--gray-50)' : 'transparent'"
-              [style.font-weight]="lang.code === langService.getCurrentLang() ? '700' : '400'"
-              style="font-size: 13px; font-family: var(--font-family); cursor: pointer;"
+            <button class="d-flex align-items-center gap-2 w-100 border-0 bg-transparent px-3 py-2 cursor-pointer"
+              [class.bg-light]="lang.code === langService.getCurrentLang()"
+              [class.fw-bold]="lang.code === langService.getCurrentLang()"
               (click)="langService.setLanguage(lang.code); showLangDropdown = false">
-              <span style="font-size: 18px;">{{ lang.flag }}</span>
-              <span>{{ lang.name }}</span>
+              <span class="fs-5">{{ lang.flag }}</span>
+              <span class="fs-6">{{ lang.name }}</span>
               @if (lang.code === langService.getCurrentLang()) {
-              <span style="margin-left: auto; color: var(--primary);">✓</span>
+              <span class="ms-auto text-primary">✓</span>
               }
             </button>
             }
@@ -223,7 +220,7 @@
           }
         </div>
 
-        <button class="btn-icon" (click)="toggleTheme()" [title]="'COMMON.TXT_62' | translate">
+        <button class="btn btn-sm btn-light px-2 py-1 fs-5 ms-1" (click)="toggleTheme()" [title]="'COMMON.TXT_62' | translate">
           @if (!isDarkMode) {
             <i class="bi bi-moon"></i>
           }
@@ -232,7 +229,7 @@
           }
         </button>
         <div class="notification-container position-relative">
-          <button class="btn-icon position-relative" (click)="toggleNotifications($event)" [title]="'COMMON.TXT_63' | translate">
+          <button class="btn btn-sm btn-light px-2 py-1 fs-5 ms-1 position-relative" (click)="toggleNotifications($event)" [title]="'COMMON.TXT_63' | translate">
             <i class="bi bi-bell"></i>
             <span *ngIf="totalNotifications > 0" class="notification-dot"></span>
           </button>

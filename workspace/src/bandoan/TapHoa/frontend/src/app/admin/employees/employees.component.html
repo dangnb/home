@@ -5,10 +5,10 @@
       <p class="text-muted mb-0">Quản lý hồ sơ, phòng ban và chức vụ của nhân viên</p>
     </div>
     <div>
-      <button class="btn btn-light-primary me-2" (click)="openUploadModal()">
+      <button class="btn btn-sm btn-light-primary me-2" (click)="openUploadModal()">
         <i class="ki-duotone ki-file-up fs-2 me-2"><span class="path1"></span><span class="path2"></span></i> Nhập từ file
       </button>
-      <button class="btn btn-primary" (click)="openAddModal()">
+      <button class="btn btn-sm btn-primary" (click)="openAddModal()">
         <i class="ki-duotone ki-profile-add fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> Thêm Nhân Viên
       </button>
     </div>
@@ -102,23 +102,23 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Nhân Viên' : 'Thêm Nhân Viên Mới' }}</h5>
-          <button type="button" class="btn-close" (click)="closeModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <form (ngSubmit)="saveEmployee()" #form="ngForm" id="empForm">
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">Mã Nhân Viên <span class="text-danger">*</span></label>
-                <input type="text" class="form-control form-control-solid" name="employeeCode" [(ngModel)]="editingEmployee.employeeCode" required>
+                <input type="text" class="form-control form-control-sm form-control-solid" name="employeeCode" [(ngModel)]="editingEmployee.employeeCode" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Họ và Tên <span class="text-danger">*</span></label>
-                <input type="text" class="form-control form-control-solid" name="fullName" [(ngModel)]="editingEmployee.fullName" required>
+                <input type="text" class="form-control form-control-sm form-control-solid" name="fullName" [(ngModel)]="editingEmployee.fullName" required>
               </div>
               
               <div class="col-md-6">
                 <label class="form-label">Phòng Ban</label>
-                <select class="form-select form-select-solid" name="departmentId" [(ngModel)]="editingEmployee.departmentId">
+                <select class="form-select form-select-sm form-select-solid" name="departmentId" [(ngModel)]="editingEmployee.departmentId">
                   <option [ngValue]="null">--- Chọn Phòng Ban ---</option>
                   @for (dept of departments(); track dept.id) {
                     <option [value]="dept.id">{{ dept.name }}</option>
@@ -127,7 +127,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Chức Vụ</label>
-                <select class="form-select form-select-solid" name="positionId" [(ngModel)]="editingEmployee.positionId">
+                <select class="form-select form-select-sm form-select-solid" name="positionId" [(ngModel)]="editingEmployee.positionId">
                   <option [ngValue]="null">--- Chọn Chức Vụ ---</option>
                   @for (pos of positions(); track pos.id) {
                     <option [value]="pos.id">{{ pos.name }}</option>
@@ -137,11 +137,11 @@
 
               <div class="col-md-6">
                 <label class="form-label">Lương Cơ Bản (VNĐ) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control form-control-solid" name="baseSalary" [(ngModel)]="editingEmployee.baseSalary" required>
+                <input type="number" class="form-control form-control-sm form-control-solid" name="baseSalary" [(ngModel)]="editingEmployee.baseSalary" required>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Mẫu Tính Lương</label>
-                <select class="form-select form-select-solid" name="salaryTemplateId" [(ngModel)]="editingEmployee.salaryTemplateId">
+                <select class="form-select form-select-sm form-select-solid" name="salaryTemplateId" [(ngModel)]="editingEmployee.salaryTemplateId">
                   <option [ngValue]="null">--- Chọn Mẫu Lương ---</option>
                   @for (st of salaryTemplates(); track st.id) {
                     <option [value]="st.id">{{ st.name }}</option>
@@ -151,7 +151,7 @@
 
               <div class="col-md-6">
                 <label class="form-label">Liên kết Tài khoản (User)</label>
-                <select class="form-select form-select-solid" name="userId" [(ngModel)]="editingEmployee.userId">
+                <select class="form-select form-select-sm form-select-solid" name="userId" [(ngModel)]="editingEmployee.userId">
                   <option [ngValue]="null">--- Không liên kết ---</option>
                   @for (u of users(); track u.id) {
                     <option [value]="u.id">{{ u.username }} ({{ u.fullName }})</option>
@@ -160,24 +160,24 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Số điện thoại</label>
-                <input type="text" class="form-control form-control-solid" name="phoneNumber" [(ngModel)]="editingEmployee.phoneNumber">
+                <input type="text" class="form-control form-control-sm form-control-solid" name="phoneNumber" [(ngModel)]="editingEmployee.phoneNumber">
               </div>
 
               <div class="col-md-6">
                 <label class="form-label">CCCD/CMND</label>
-                <input type="text" class="form-control form-control-solid" name="citizenId" [(ngModel)]="editingEmployee.citizenId">
+                <input type="text" class="form-control form-control-sm form-control-solid" name="citizenId" [(ngModel)]="editingEmployee.citizenId">
               </div>
               <div class="col-md-6">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control form-control-solid" name="email" [(ngModel)]="editingEmployee.email">
+                <input type="email" class="form-control form-control-sm form-control-solid" name="email" [(ngModel)]="editingEmployee.email">
               </div>
               <div class="col-md-6">
                 <label class="form-label">Ngày Sinh</label>
-                <input type="date" class="form-control form-control-solid" name="dateOfBirth" [ngModel]="editingEmployee.dateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="editingEmployee.dateOfBirth = $event">
+                <input type="date" class="form-control form-control-sm form-control-solid" name="dateOfBirth" [ngModel]="editingEmployee.dateOfBirth | date:'yyyy-MM-dd'" (ngModelChange)="editingEmployee.dateOfBirth = $event">
               </div>
               <div class="col-md-6">
                 <label class="form-label">Giới tính</label>
-                <select class="form-select form-select-solid" name="gender" [(ngModel)]="editingEmployee.gender">
+                <select class="form-select form-select-sm form-select-solid" name="gender" [(ngModel)]="editingEmployee.gender">
                   <option value="">--- Chọn ---</option>
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
@@ -186,14 +186,14 @@
 
               <div class="col-12">
                 <label class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control form-control-solid" name="address" [(ngModel)]="editingEmployee.address">
+                <input type="text" class="form-control form-control-sm form-control-solid" name="address" [(ngModel)]="editingEmployee.address">
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer border-top-0 pt-0 mt-4 d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-light" (click)="closeModal()">Hủy</button>
-          <button type="submit" form="empForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="empForm" class="btn btn-sm btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
             @if (isSubmitting()) {
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Đang lưu...
@@ -214,7 +214,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">Nhập Nhân Viên từ file Excel/CSV</h5>
-          <button type="button" class="btn-close" (click)="closeUploadModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeUploadModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <div class="alert alert-info border-0 bg-info-subtle rounded-3 mb-4">
@@ -227,19 +227,19 @@
           </div>
           
           <div class="mb-4 text-center">
-            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2" (click)="downloadTemplate()">
+            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-4 py-2" (click)="downloadTemplate()">
               <i class="bi bi-download me-2"></i> Tải file mẫu (.csv)
             </button>
           </div>
 
           <div class="mb-3">
             <label class="form-label">Chọn file dữ liệu <span class="text-danger">*</span></label>
-            <input type="file" class="form-control form-control-lg rounded-3" accept=".csv" (change)="onFileSelected($event)">
+            <input type="file" class="form-control form-control-sm form-control-lg rounded-3" accept=".csv" (change)="onFileSelected($event)">
           </div>
         </div>
         <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-light" (click)="closeUploadModal()">Hủy</button>
-          <button type="button" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!selectedFile || isSubmitting()" (click)="confirmUpload()">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeUploadModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!selectedFile || isSubmitting()" (click)="confirmUpload()">
             @if (isSubmitting()) {
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Đang xử lý...
@@ -260,7 +260,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">Cấp Tài Khoản Đăng Nhập</h5>
-          <button type="button" class="btn-close" (click)="closeCreateUserModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeCreateUserModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <p class="text-muted mb-4">Bạn đang cấp tài khoản cho nhân viên: <strong class="text-primary">{{ selectedEmployee()?.fullName }}</strong></p>
@@ -268,13 +268,13 @@
           <form (ngSubmit)="submitCreateUser()" #createUserForm="ngForm" id="createUserForm">
             <div class="mb-3">
               <label class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
-              <input type="text" class="form-control form-control-solid" name="username" [(ngModel)]="userForm.username" required>
+              <input type="text" class="form-control form-control-sm form-control-solid" name="username" [(ngModel)]="userForm.username" required>
               <div class="form-text">Gợi ý: Dùng mã nhân viên ({{ selectedEmployee()?.employeeCode }}) làm tên đăng nhập.</div>
             </div>
             
             <div class="mb-3">
               <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-              <input type="password" class="form-control form-control-solid" name="password" [(ngModel)]="userForm.password" required placeholder="Nhập mật khẩu">
+              <input type="password" class="form-control form-control-sm form-control-solid" name="password" [(ngModel)]="userForm.password" required placeholder="Nhập mật khẩu">
             </div>
 
             <div class="mb-3">
@@ -297,8 +297,8 @@
           </form>
         </div>
         <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-light" (click)="closeCreateUserModal()">Hủy</button>
-          <button type="submit" form="createUserForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!createUserForm.valid || isSubmitting()">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeCreateUserModal()">Hủy</button>
+          <button type="submit" form="createUserForm" class="btn btn-sm btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!createUserForm.valid || isSubmitting()">
             @if (isSubmitting()) {
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Đang tạo...
@@ -319,7 +319,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">Đặt Lại Mật Khẩu</h5>
-          <button type="button" class="btn-close" (click)="closeResetPasswordModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeResetPasswordModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <p class="text-muted mb-3 small">Mật khẩu mới cho tài khoản của: <strong class="text-primary">{{ selectedEmployee()?.fullName }}</strong></p>
@@ -327,13 +327,13 @@
           <form (ngSubmit)="submitResetPassword()" #resetForm="ngForm" id="resetForm">
             <div class="mb-3">
               <label class="form-label">Mật khẩu mới <span class="text-danger">*</span></label>
-              <input type="password" class="form-control form-control-solid" name="newPassword" [(ngModel)]="resetPasswordForm.newPassword" required placeholder="Nhập mật khẩu mới">
+              <input type="password" class="form-control form-control-sm form-control-solid" name="newPassword" [(ngModel)]="resetPasswordForm.newPassword" required placeholder="Nhập mật khẩu mới">
             </div>
           </form>
         </div>
         <div class="modal-footer border-top-0 pt-0 mt-2 d-flex justify-content-end gap-2">
-          <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-3 py-2 border-0" (click)="closeResetPasswordModal()">Hủy</button>
-          <button type="submit" form="resetForm" class="btn btn-warning text-dark fw-bold rounded-pill px-3 py-2 border-0" [disabled]="!resetForm.valid || isSubmitting()">
+          <button type="button" class="btn btn-sm bg-light text-dark fw-bold rounded-pill px-3 py-2 border-0" (click)="closeResetPasswordModal()">Hủy</button>
+          <button type="submit" form="resetForm" class="btn btn-sm btn-warning text-dark fw-bold rounded-pill px-3 py-2 border-0" [disabled]="!resetForm.valid || isSubmitting()">
             @if (isSubmitting()) {
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Đang lưu...

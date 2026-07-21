@@ -57,16 +57,16 @@
               <span class="input-icon">🔒</span>
               <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="loginData.password" required
                 placeholder="••••••••" autocomplete="off" />
-              <button type="button" class="toggle-password-btn" (click)="showPassword = !showPassword" tabindex="-1">
+              <button type="button" class="toggle-password-btn btn-sm" (click)="showPassword = !showPassword" tabindex="-1">
                 {{ showPassword ? '👁️' : '🙈' }}
               </button>
             </div>
             </div>
 
-            <button type="submit" class="btn-login" [class.loading]="isLoading"
+            <button type="submit" class="btn btn-sm-login" [class.loading]="isLoading"
               [disabled]="!loginForm.form.valid || isLoading">
               @if (!isLoading) {
-                <span class="btn-text">{{ 'AUTH.TXT_13' | translate }}</span>
+                <span class="btn btn-sm-text">{{ 'AUTH.TXT_13' | translate }}</span>
               }
               @if (isLoading) {
                 <span class="loader"></span>

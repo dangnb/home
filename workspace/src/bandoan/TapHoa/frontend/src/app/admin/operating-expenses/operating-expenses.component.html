@@ -5,7 +5,7 @@
     <h2 class="fs-3 fw-bold text-gray-900 mb-1">Chi phí vận hành</h2>
     <p class="text-muted fs-6 mb-0">Quản lý các chi phí thuê mặt bằng, điện, nước...</p>
   </div>
-  <button class="btn btn-primary" (click)="openAddModal()">
+  <button class="btn btn-sm btn-primary" (click)="openAddModal()">
     <i class="ki-duotone ki-plus fs-2 me-1"></i> Thêm chi phí
   </button>
 </div>
@@ -52,12 +52,12 @@
   <div class="card-header border-0 pt-6">
     <div class="card-title">
       <div class="d-flex align-items-center gap-2">
-        <select class="form-select form-select-solid w-125px" [(ngModel)]="filterMonth" (change)="applyFilter()">
+        <select class="form-select form-select-sm form-select-solid w-125px" [(ngModel)]="filterMonth" (change)="applyFilter()">
           <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12]" [ngValue]="m">Tháng {{ m }}</option>
         </select>
-        <input type="number" class="form-control form-control-solid w-100px" [(ngModel)]="filterYear" (change)="applyFilter()">
+        <input type="number" class="form-control form-control-sm form-control-solid w-100px" [(ngModel)]="filterYear" (change)="applyFilter()">
         
-        <select class="form-select form-select-solid w-150px" [(ngModel)]="filterStatus" (change)="applyFilter()">
+        <select class="form-select form-select-sm form-select-solid w-150px" [(ngModel)]="filterStatus" (change)="applyFilter()">
           <option [ngValue]="null">Tất cả trạng thái</option>
           <option [ngValue]="1">Chưa thanh toán</option>
           <option [ngValue]="2">Đã thanh toán</option>
@@ -68,7 +68,7 @@
           <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3 top-50 translate-middle-y">
             <span class="path1"></span><span class="path2"></span>
           </i>
-          <input type="text" class="form-control form-control-solid w-250px ps-10" placeholder="Tìm tên chi phí..." [(ngModel)]="searchTerm" (change)="applyFilter()">
+          <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-10" placeholder="Tìm tên chi phí..." [(ngModel)]="searchTerm" (change)="applyFilter()">
         </div>
       </div>
     </div>
@@ -118,10 +118,10 @@
               <button *ngIf="expense.paymentStatus !== 2" class="btn btn-sm btn-light-success me-2" (click)="markAsPaid(expense.id)">
                 T.Toán
               </button>
-              <button class="btn btn-icon btn-active-light-primary w-30px h-30px me-2" (click)="openEditModal(expense)">
+              <button class="btn btn-sm btn-icon btn-active-light-primary w-30px h-30px me-2" (click)="openEditModal(expense)">
                 <i class="ki-duotone ki-pencil fs-3"></i>
               </button>
-              <button class="btn btn-icon btn-active-light-danger w-30px h-30px" (click)="deleteExpense(expense.id)">
+              <button class="btn btn-sm btn-icon btn-active-light-danger w-30px h-30px" (click)="deleteExpense(expense.id)">
                 <i class="ki-duotone ki-trash fs-3"></i>
               </button>
             </td>
@@ -172,43 +172,43 @@
         <div class="row g-4">
           <div class="col-12">
             <label class="required form-label">Tên chi phí</label>
-            <input type="text" class="form-control" [(ngModel)]="editingExpense.name" placeholder="Ví dụ: Tiền điện, Mua giấy in..." />
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="editingExpense.name" placeholder="Ví dụ: Tiền điện, Mua giấy in..." />
           </div>
           <div class="col-6">
             <label class="required form-label">Số tiền</label>
-            <input type="number" class="form-control" [(ngModel)]="editingExpense.amount" min="0" />
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editingExpense.amount" min="0" />
           </div>
           <div class="col-6">
             <label class="required form-label">Loại</label>
-            <select class="form-select" [(ngModel)]="editingExpense.type">
+            <select class="form-select form-select-sm" [(ngModel)]="editingExpense.type">
               <option [ngValue]="1">Cố định</option>
               <option [ngValue]="2">Phát sinh</option>
             </select>
           </div>
           <div class="col-6">
             <label class="required form-label">Tháng</label>
-            <select class="form-select" [(ngModel)]="editingExpense.month">
+            <select class="form-select form-select-sm" [(ngModel)]="editingExpense.month">
               <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12]" [ngValue]="m">Tháng {{ m }}</option>
             </select>
           </div>
           <div class="col-6">
             <label class="required form-label">Năm</label>
-            <input type="number" class="form-control" [(ngModel)]="editingExpense.year" />
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editingExpense.year" />
           </div>
           <div class="col-12">
             <label class="form-label">Hạn thanh toán (Tùy chọn)</label>
-            <input type="date" class="form-control" [(ngModel)]="editingExpense.dueDate" />
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="editingExpense.dueDate" />
           </div>
           <div class="col-12">
             <label class="form-label">Ghi chú</label>
-            <textarea class="form-control" [(ngModel)]="editingExpense.notes" rows="2"></textarea>
+            <textarea class="form-control form-control-sm" [(ngModel)]="editingExpense.notes" rows="2"></textarea>
           </div>
         </div>
       </div>
 
       <div class="modal-footer border-0">
-        <button type="button" class="btn btn-light" (click)="closeModal()" [disabled]="isSubmitting">Đóng</button>
-        <button type="button" class="btn btn-primary" (click)="saveExpense()" [disabled]="isSubmitting">
+        <button type="button" class="btn btn-sm btn-light" (click)="closeModal()" [disabled]="isSubmitting">Đóng</button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="saveExpense()" [disabled]="isSubmitting">
           <span class="indicator-label" *ngIf="!isSubmitting">Lưu thông tin</span>
           <span class="indicator-progress" *ngIf="isSubmitting">
             Đang lưu... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

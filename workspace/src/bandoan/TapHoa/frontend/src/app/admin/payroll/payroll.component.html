@@ -4,7 +4,7 @@
     <div class="page-title-area">
       <h2>
         @if (showDetail()) {
-          <button class="btn-back" (click)="backToList()"><i class="bi bi-arrow-left"></i></button>
+          <button class="btn btn-sm-back" (click)="backToList()"><i class="bi bi-arrow-left"></i></button>
         }
         <i class="bi bi-wallet2"></i> {{ 'PAYROLL.TITLE' | translate }}
       </h2>
@@ -12,7 +12,7 @@
     </div>
     @if (!showDetail()) {
       <div class="header-actions">
-        <button class="btn btn-primary" (click)="openCreateModal()">
+        <button class="btn btn-sm btn-primary" (click)="openCreateModal()">
           <i class="bi bi-plus-circle"></i> {{ 'PAYROLL.CREATE_PERIOD' | translate }}
         </button>
       </div>
@@ -23,7 +23,7 @@
   @if (!showDetail()) {
     <!-- Year Filter -->
     <div class="filter-bar">
-      <select class="form-select" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange()" style="max-width: 160px;">
+      <select class="form-select form-select-sm" [(ngModel)]="selectedYear" (ngModelChange)="onYearChange()" style="max-width: 160px;">
         @for (y of years; track y) { <option [value]="y">{{ y }}</option> }
       </select>
     </div>
@@ -127,11 +127,11 @@
         </div>
         @if (detail()!.period.status === 1 || detail()!.period.status === 2) {
           <div class="banner-actions">
-            <button class="btn btn-primary btn-glow" (click)="openCalcModal(detail()!.period.id)">
+            <button class="btn btn-sm btn-primary btn-glow" (click)="openCalcModal(detail()!.period.id)">
               <i class="bi bi-calculator"></i> {{ 'PAYROLL.CALCULATE' | translate }}
             </button>
             @if (detail()!.period.status === 2) {
-              <button class="btn btn-success btn-glow" (click)="doApprove(detail()!.period.id)">
+              <button class="btn btn-sm btn-success btn-glow" (click)="doApprove(detail()!.period.id)">
                 <i class="bi bi-check-circle"></i> {{ 'PAYROLL.APPROVE' | translate }}
               </button>
             }
@@ -201,7 +201,7 @@
                     </td>
                     <td class="text-center">
                       @if (detail()!.period.status !== 4) {
-                        <button class="edit-btn" (click)="openEditEntry(e)" title="Chỉnh sửa">
+                        <button class="edit-btn btn-sm" (click)="openEditEntry(e)" title="Chỉnh sửa">
                           <i class="bi bi-pencil-square"></i>
                         </button>
                       }
@@ -238,27 +238,27 @@
           <div class="modal-icon"><i class="bi bi-calendar-plus"></i></div>
           <h5>{{ 'PAYROLL.CREATE_PERIOD' | translate }}</h5>
         </div>
-        <button class="btn-close-custom" (click)="showCreateModal.set(false)"><i class="bi bi-x-lg"></i></button>
+        <button class="btn btn-sm-close-custom" (click)="showCreateModal.set(false)"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-custom">
         <div class="row g-3">
           <div class="col-6">
             <label class="form-label">{{ 'COMMON.MONTH' | translate }}</label>
-            <select class="form-select" [(ngModel)]="newPeriodMonth">
+            <select class="form-select form-select-sm" [(ngModel)]="newPeriodMonth">
               @for (m of months; track m) { <option [value]="m">{{ 'COMMON.MONTH' | translate }} {{ m }}</option> }
             </select>
           </div>
           <div class="col-6">
             <label class="form-label">{{ 'COMMON.YEAR' | translate }}</label>
-            <select class="form-select" [(ngModel)]="newPeriodYear">
+            <select class="form-select form-select-sm" [(ngModel)]="newPeriodYear">
               @for (y of years; track y) { <option [value]="y">{{ y }}</option> }
             </select>
           </div>
         </div>
       </div>
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary" (click)="showCreateModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
-        <button class="btn btn-primary" (click)="createPeriod()">
+        <button class="btn btn-sm btn-outline-secondary" (click)="showCreateModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-sm btn-primary" (click)="createPeriod()">
           <i class="bi bi-check-lg"></i> {{ 'COMMON.SAVE' | translate }}
         </button>
       </div>
@@ -276,27 +276,27 @@
           <div class="modal-icon modal-icon-calc"><i class="bi bi-calculator"></i></div>
           <h5>{{ 'PAYROLL.CALCULATE' | translate }}</h5>
         </div>
-        <button class="btn-close-custom" (click)="showCalcModal.set(false)"><i class="bi bi-x-lg"></i></button>
+        <button class="btn btn-sm-close-custom" (click)="showCalcModal.set(false)"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-custom">
         <div class="input-group-fancy mb-3">
           <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }} <small class="text-muted fw-normal">(Mặc định nếu chưa gán)</small></label>
           <div class="input-with-suffix">
-            <input type="number" class="form-control" [(ngModel)]="calcConfig.defaultBaseSalary" step="100000">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="calcConfig.defaultBaseSalary" step="100000">
             <span class="input-suffix">VNĐ</span>
           </div>
         </div>
         <div class="input-group-fancy mb-3">
           <label class="form-label">{{ 'PAYROLL.OVERTIME_RATE' | translate }}</label>
           <div class="input-with-suffix">
-            <input type="number" class="form-control" [(ngModel)]="calcConfig.overtimeRate" step="0.1">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="calcConfig.overtimeRate" step="0.1">
             <span class="input-suffix">x</span>
           </div>
         </div>
         <div class="input-group-fancy mb-3">
           <label class="form-label">{{ 'PAYROLL.ALLOWANCE' | translate }}</label>
           <div class="input-with-suffix">
-            <input type="number" class="form-control" [(ngModel)]="calcConfig.defaultAllowance" step="100000">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="calcConfig.defaultAllowance" step="100000">
             <span class="input-suffix">VNĐ</span>
           </div>
         </div>
@@ -317,15 +317,15 @@
         </div>
         <div class="input-group-fancy mb-3">
           <label class="form-label">Công thức tính (DynamicExpresso) <small class="text-muted fw-normal">(Mặc định nếu chưa gán mẫu)</small></label>
-          <textarea class="form-control" rows="2" [(ngModel)]="calcConfig.formula" style="font-family: monospace;"></textarea>
+          <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="calcConfig.formula" style="font-family: monospace;"></textarea>
           <div class="form-text text-muted" style="font-size: 0.8rem; margin-top: 6px;">
             <strong>Biến hỗ trợ:</strong> BaseSalary, WorkDays, TotalHours, OvertimeHours, OvertimePay, Allowance, Bonus, Deduction.
           </div>
         </div>
       </div>
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary" (click)="showCalcModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
-        <button class="btn btn-primary" (click)="doCalculate()">
+        <button class="btn btn-sm btn-outline-secondary" (click)="showCalcModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-sm btn-primary" (click)="doCalculate()">
           <i class="bi bi-calculator"></i> {{ 'PAYROLL.DO_CALCULATE' | translate }}
         </button>
       </div>
@@ -346,13 +346,13 @@
             <span class="modal-subtitle">{{ editEntry?.employeeName }}</span>
           </div>
         </div>
-        <button class="btn-close-custom" (click)="showEditModal.set(false)"><i class="bi bi-x-lg"></i></button>
+        <button class="btn btn-sm-close-custom" (click)="showEditModal.set(false)"><i class="bi bi-x-lg"></i></button>
       </div>
       <div class="modal-body-custom">
         <div class="input-group-fancy mb-3">
           <label class="form-label">{{ 'PAYROLL.BASE_SALARY' | translate }}</label>
           <div class="input-with-suffix">
-            <input type="number" class="form-control" [(ngModel)]="editForm.baseSalary" step="100000">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editForm.baseSalary" step="100000">
             <span class="input-suffix">VNĐ</span>
           </div>
         </div>
@@ -361,7 +361,7 @@
             <div class="input-group-fancy">
               <label class="form-label">{{ 'PAYROLL.BONUS' | translate }}</label>
               <div class="input-with-suffix input-positive">
-                <input type="number" class="form-control" [(ngModel)]="editForm.bonus" step="50000">
+                <input type="number" class="form-control form-control-sm" [(ngModel)]="editForm.bonus" step="50000">
                 <span class="input-suffix">VNĐ</span>
               </div>
             </div>
@@ -370,7 +370,7 @@
             <div class="input-group-fancy">
               <label class="form-label">{{ 'PAYROLL.DEDUCTION' | translate }}</label>
               <div class="input-with-suffix input-negative">
-                <input type="number" class="form-control" [(ngModel)]="editForm.deduction" step="50000">
+                <input type="number" class="form-control form-control-sm" [(ngModel)]="editForm.deduction" step="50000">
                 <span class="input-suffix">VNĐ</span>
               </div>
             </div>
@@ -379,18 +379,18 @@
         <div class="input-group-fancy mb-3">
           <label class="form-label">{{ 'PAYROLL.ALLOWANCE' | translate }}</label>
           <div class="input-with-suffix">
-            <input type="number" class="form-control" [(ngModel)]="editForm.allowance" step="50000">
+            <input type="number" class="form-control form-control-sm" [(ngModel)]="editForm.allowance" step="50000">
             <span class="input-suffix">VNĐ</span>
           </div>
         </div>
         <div class="mb-3">
           <label class="form-label">{{ 'COMMON.NOTES' | translate }}</label>
-          <textarea class="form-control" rows="2" [(ngModel)]="editForm.notes" placeholder="Ghi chú bổ sung..."></textarea>
+          <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="editForm.notes" placeholder="Ghi chú bổ sung..."></textarea>
         </div>
       </div>
       <div class="modal-footer-custom">
-        <button class="btn btn-outline-secondary" (click)="showEditModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
-        <button class="btn btn-primary" (click)="saveEntry()">
+        <button class="btn btn-sm btn-outline-secondary" (click)="showEditModal.set(false)">{{ 'COMMON.CANCEL' | translate }}</button>
+        <button class="btn btn-sm btn-primary" (click)="saveEntry()">
           <i class="bi bi-check-lg"></i> {{ 'COMMON.SAVE' | translate }}
         </button>
       </div>

@@ -22,7 +22,7 @@
         </div>
       </div>
       <div>
-        <button class="btn btn-success rounded-pill px-4" 
+        <button class="btn btn-sm btn-success rounded-pill px-4" 
                 *ngIf="stockTake.status !== StockTakeStatus.Completed && stockTake.status !== StockTakeStatus.Cancelled"
                 [disabled]="isCompleting || !isReadyToComplete"
                 [title]="!isReadyToComplete ? 'Vui lòng nhập đầy đủ số lượng thực tế' : ''"
@@ -48,7 +48,7 @@
           <h5 class="mb-0 fw-bold"><i class="bi bi-list-check text-primary me-2"></i> {{ 'STOCK_TAKE.TXT_6' | translate }}</h5>
           <div class="input-group" style="width: 300px;">
             <span class="input-group-text bg-light border-end-0"><i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i></span>
-            <input type="text" class="form-control bg-light border-start-0" [placeholder]="'STOCK_TAKE.TXT_14' | translate" [(ngModel)]="searchQuery">
+            <input type="text" class="form-control form-control-sm bg-light border-start-0" [placeholder]="'STOCK_TAKE.TXT_14' | translate" [(ngModel)]="searchQuery">
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
                 <td class="text-muted"><small>{{ line.sku }}</small></td>
                 <td class="text-center text-primary fw-bold bg-light" style="width: 120px;">{{ line.expectedQuantity }}</td>
                 <td class="text-center">
-                  <input type="number" class="form-control text-center fw-bold" 
+                  <input type="number" class="form-control form-control-sm text-center fw-bold" 
                          [ngClass]="{'border-danger': line.actualQuantity === null || line.actualQuantity === undefined, 'border-success': line.actualQuantity !== null && line.actualQuantity !== undefined}"
                          [(ngModel)]="line.actualQuantity" 
                          (change)="onQuantityChange(line)"

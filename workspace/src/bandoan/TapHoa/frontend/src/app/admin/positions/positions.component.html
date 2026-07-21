@@ -4,7 +4,7 @@
       <h2 class="fs-3 fw-bold text-gray-900 mb-0">Quản Lý Chức Vụ</h2>
       <p class="text-muted mb-0">Danh sách các chức vụ trong công ty</p>
     </div>
-    <button class="btn btn-primary" (click)="openAddModal()">
+    <button class="btn btn-sm btn-primary" (click)="openAddModal()">
       <i class="bi bi-plus-lg me-2"></i> Thêm Mới
     </button>
   </div>
@@ -66,23 +66,23 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bold">{{ isEditMode() ? 'Sửa Chức Vụ' : 'Thêm Chức Vụ' }}</h5>
-          <button type="button" class="btn-close" (click)="closeModal()"></button>
+          <button type="button" class="btn btn-sm-close" (click)="closeModal()"></button>
         </div>
         <div class="modal-body pb-0">
           <form (ngSubmit)="savePosition()" #form="ngForm" id="posForm">
             <div class="mb-3">
               <label class="form-label">Tên chức vụ <span class="text-danger">*</span></label>
-              <input type="text" class="form-control form-control-solid" name="name" [(ngModel)]="editingPosition.name" required>
+              <input type="text" class="form-control form-control-sm form-control-solid" name="name" [(ngModel)]="editingPosition.name" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Mô tả</label>
-              <textarea class="form-control form-control-solid" rows="3" name="description" [(ngModel)]="editingPosition.description"></textarea>
+              <textarea class="form-control form-control-sm form-control-solid" rows="3" name="description" [(ngModel)]="editingPosition.description"></textarea>
             </div>
           </form>
         </div>
         <div class="modal-footer border-top-0 pt-0 mt-3 d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-light" (click)="closeModal()">Hủy</button>
-          <button type="submit" form="posForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">Hủy</button>
+          <button type="submit" form="posForm" class="btn btn-sm btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!form.valid || isSubmitting()">
             @if (isSubmitting()) {
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
               Đang lưu...

@@ -10,11 +10,11 @@
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
-        <input type="text" class="form-control form-control-solid w-200px ps-13"
+        <input type="text" class="form-control form-control-sm form-control-solid w-200px ps-13"
           [placeholder]="'CATEGORIES.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
       </div>
-      <button class="btn btn-primary" (click)="openAddModal()">
+      <button class="btn btn-sm btn-primary" (click)="openAddModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'CATEGORIES.ADD_NEW' | translate }}
       </button>
@@ -80,19 +80,19 @@
 
                 <!-- Actions -->
                 <div class="row-actions d-flex align-items-center gap-2 pe-2 bg-white">
-                  <button class="btn-add" (click)="openAddModal(node.id)" [title]="'CATEGORIES.ADD_SUBCATEGORY' | translate">
+                  <button class="btn btn-sm-add" (click)="openAddModal(node.id)" [title]="'CATEGORIES.ADD_SUBCATEGORY' | translate">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
                   </button>
-                  <button class="btn-edit" (click)="openEditModal(node)" [title]="'CATEGORIES.EDIT' | translate">
+                  <button class="btn btn-sm-edit" (click)="openEditModal(node)" [title]="'CATEGORIES.EDIT' | translate">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                     </svg>
                   </button>
-                  <button class="btn-delete" (click)="deleteCategory(node.id)" [title]="'CATEGORIES.DELETE' | translate">
+                  <button class="btn btn-sm-delete" (click)="deleteCategory(node.id)" [title]="'CATEGORIES.DELETE' | translate">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="3 6 5 6 21 6"></polyline>
                       <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -133,7 +133,7 @@
       </div>
       <h3 class="fw-bold text-gray-900 mb-2 fs-4">{{ 'CATEGORIES.EMPTY_STATE_TITLE' | translate }}</h3>
       <p class="text-muted mb-5" style="max-width: 350px; text-align: center;">{{ 'CATEGORIES.EMPTY_STATE_DESC' | translate }}</p>
-      <button class="btn btn-primary" (click)="openAddModal()">
+      <button class="btn btn-sm btn-primary" (click)="openAddModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
         {{ 'CATEGORIES.BTN_CREATE_NOW' | translate }}
       </button>
@@ -152,17 +152,17 @@
       <div class="row g-3">
         <div class="col-12">
           <label class="form-label">{{ 'CATEGORIES.NAME' | translate }} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control form-control-solid" name="name"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="name"
             [(ngModel)]="editingCategory.name" required [placeholder]="'CATEGORIES.NAME_PLACEHOLDER' | translate">
         </div>
         <div class="col-12">
           <label class="form-label">{{ 'CATEGORIES.ICON' | translate }}</label>
-          <input type="text" class="form-control form-control-solid" name="icon"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="icon"
             [(ngModel)]="editingCategory.icon" placeholder="📁, 🍎, 📦...">
         </div>
         <div class="col-12">
           <label class="form-label">{{ 'CATEGORIES.PARENT' | translate }}</label>
-          <select class="form-select form-select-solid" name="parentId" [(ngModel)]="editingCategory.parentId">
+          <select class="form-select form-select-sm form-select-solid" name="parentId" [(ngModel)]="editingCategory.parentId">
             <option value="">{{ 'CATEGORIES.ROOT_CATEGORY' | translate }}</option>
             @for (cat of flattenedCategoriesForSelect; track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
@@ -171,7 +171,7 @@
         </div>
         <div class="col-12">
           <label class="form-label">{{ 'CATEGORIES.DESCRIPTION' | translate }}</label>
-          <textarea class="form-control form-control-solid" name="description"
+          <textarea class="form-control form-control-sm form-control-solid" name="description"
             [(ngModel)]="editingCategory.description" rows="3" [placeholder]="'CATEGORIES.DESC_PLACEHOLDER' | translate"></textarea>
         </div>
       </div>
@@ -179,8 +179,8 @@
     
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'CATEGORIES.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="categoryNgForm" class="btn btn-primary" [disabled]="!categoryForm.form.valid || isSubmitting">
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'CATEGORIES.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="categoryNgForm" class="btn btn-sm btn-primary" [disabled]="!categoryForm.form.valid || isSubmitting">
       @if (isSubmitting) {
         <span class="spinner-border spinner-border-sm me-2"></span>
       }

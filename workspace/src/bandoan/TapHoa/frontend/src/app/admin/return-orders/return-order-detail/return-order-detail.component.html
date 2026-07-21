@@ -1,11 +1,11 @@
 ﻿<div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="h3 mb-0 text-gray-800">{{ 'RETURN_ORDERS.TXT_4' | translate }}</h2>
   <div>
-    <a routerLink="/admin/return-orders" class="btn btn-secondary shadow-sm me-2">
+    <a routerLink="/admin/return-orders" class="btn btn-sm btn-secondary shadow-sm me-2">
       <i class="bi bi-arrow-left me-2"></i>{{ 'RETURN_ORDERS.TXT_5' | translate }}
     </a>
     @if (returnOrder?.status === 1) {
-      <button class="btn btn-success shadow-sm" (click)="approve()">
+      <button class="btn btn-sm btn-success shadow-sm" (click)="approve()">
         <i class="bi bi-check-circle me-2"></i>{{ 'RETURN_ORDERS.TXT_6' | translate }}
       </button>
     }

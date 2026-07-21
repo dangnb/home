@@ -13,9 +13,9 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="form-control form-control-solid" [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        <input type="text" class="form-control form-control-sm form-control-solid" [placeholder]="'USERS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
-      <button class="btn btn-primary d-flex align-items-center gap-2 text-nowrap" (click)="openAddModal()">
+      <button class="btn btn-sm btn-primary d-flex align-items-center gap-2 text-nowrap" (click)="openAddModal()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="12" y1="5" x2="12" y2="19"></line>
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -135,22 +135,22 @@
       <div class="row g-4">
         <div class="col-12">
           <label class="form-label">{{ 'USERS.LBL_FULLNAME' | translate }} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control form-control-solid" name="fullName"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="fullName"
             [(ngModel)]="editingUser.fullName" required>
         </div>
         <div class="col-md-6">
           <label class="form-label">{{ 'USERS.LBL_USERNAME' | translate }} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control form-control-solid" name="username"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="username"
             [(ngModel)]="editingUser.username" required [disabled]="isEditMode">
         </div>
         <div class="col-md-6">
           <label class="form-label">{{ 'USERS.LBL_EMAIL' | translate }} <span class="text-danger">*</span></label>
-          <input type="email" class="form-control form-control-solid" name="email"
+          <input type="email" class="form-control form-control-sm form-control-solid" name="email"
             [(ngModel)]="editingUser.email" required>
         </div>
         <div class="col-md-6">
           <label class="form-label">{{ 'USERS.LBL_ROLE' | translate }} <span class="text-danger">*</span></label>
-          <select class="form-select form-select-solid" name="roleId" [(ngModel)]="editingUser.roleId" required>
+          <select class="form-select form-select-sm form-select-solid" name="roleId" [(ngModel)]="editingUser.roleId" required>
             @for (role of roles; track role) {
             <option [value]="role.id">{{ role.name }}</option>
             }
@@ -158,17 +158,17 @@
         </div>
         <div class="col-md-6">
           <label class="form-label">{{ 'USERS.LBL_PHONE' | translate }}</label>
-          <input type="text" class="form-control form-control-solid" name="phoneNumber"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="phoneNumber"
             [(ngModel)]="editingUser.phoneNumber">
         </div>
         <div class="col-md-6">
           <label class="form-label">{{ 'USERS.TXT_30' | translate }}</label>
-          <input type="text" class="form-control form-control-solid" name="citizenId"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="citizenId"
             [(ngModel)]="editingUser.citizenId" [placeholder]="'USERS.TXT_32' | translate">
         </div>
         <div class="col-12">
           <label class="form-label">{{ 'USERS.TXT_31' | translate }}</label>
-          <input type="text" class="form-control form-control-solid" name="address"
+          <input type="text" class="form-control form-control-sm form-control-solid" name="address"
             [(ngModel)]="editingUser.address" [placeholder]="'USERS.TXT_33' | translate">
         </div>
         <div class="col-md-6 d-flex align-items-center mb-2 mt-4">
@@ -184,8 +184,8 @@
     </div>
   </form>
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'USERS.BTN_CANCEL' | translate }}</button>
-    <button type="submit" form="userNgForm" class="btn btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!userForm.form.valid || isSubmitting">
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'USERS.BTN_CANCEL' | translate }}</button>
+    <button type="submit" form="userNgForm" class="btn btn-sm btn-primary text-white fw-bold rounded-pill px-4 py-2 border-0" [disabled]="!userForm.form.valid || isSubmitting">
       {{ 'USERS.BTN_SAVE' | translate }}
     </button>
   </div>

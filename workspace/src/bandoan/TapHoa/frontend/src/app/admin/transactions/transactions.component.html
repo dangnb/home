@@ -6,7 +6,7 @@
     <h2 class="fs-3 fw-bold text-gray-900 mb-1">{{ 'TRANSACTIONS.TITLE' | translate }}</h2>
     <p class="text-muted fs-6 mb-0">{{ 'TRANSACTIONS.SUBTITLE' | translate }}</p>
   </div>
-  <a class="btn btn-primary" routerLink="/admin/transactions/create">
+  <a class="btn btn-sm btn-primary" routerLink="/admin/transactions/create">
     <i class="ki-duotone ki-plus fs-2 me-1"></i>
     {{ 'TRANSACTIONS.CREATE_INBOUND' | translate }}
   </a>
@@ -21,7 +21,7 @@
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
-        <input type="text" class="form-control form-control-solid w-250px ps-13"
+        <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
           [placeholder]="'TRANSACTIONS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>

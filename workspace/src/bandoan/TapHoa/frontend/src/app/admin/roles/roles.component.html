@@ -6,7 +6,7 @@
       </h5>
       <span class="text-muted fw-semibold fs-7">{{ 'ROLES.DESC' | translate }}</span>
     </div>
-    <button class="btn btn-primary d-flex align-items-center gap-2" (click)="openAddModal()">
+    <button class="btn btn-sm btn-primary d-flex align-items-center gap-2" (click)="openAddModal()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="12" y1="5" x2="12" y2="19"></line>
         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -60,12 +60,12 @@
     <div class="row g-4 mb-4">
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'ROLES.LBL_NAME' | translate }}</label>
-        <input type="text" class="form-control" name="name"
+        <input type="text" class="form-control form-control-sm" name="name"
           [(ngModel)]="editingRole.name" required [disabled]="editingRole.name === 'Admin'">
       </div>
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'ROLES.LBL_DESC' | translate }}</label>
-        <input type="text" class="form-control" name="description"
+        <input type="text" class="form-control form-control-sm" name="description"
           [(ngModel)]="editingRole.description" required>
       </div>
     </div>
@@ -106,8 +106,8 @@
   </form>
 
   <div modal-footer>
-    <button type="button" class="btn btn-light" (click)="closeModal()">{{ 'USERS.BTN_CANCEL' | translate }}</button>
-    <button type="button" class="btn btn-primary" (click)="saveRole()"
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'USERS.BTN_CANCEL' | translate }}</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="saveRole()"
       [disabled]="isSubmitting">
       {{ 'USERS.BTN_SAVE' | translate }}
     </button>

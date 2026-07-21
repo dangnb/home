@@ -7,18 +7,18 @@
     </div>
     
     <div class="month-navigation">
-      <button class="btn-nav" (click)="previousMonth()" [title]="'SHIFTS.TXT_16' | translate">
+      <button class="btn btn-sm-nav" (click)="previousMonth()" [title]="'SHIFTS.TXT_16' | translate">
         <i class="bi bi-chevron-left"></i>
       </button>
       <h3 class="current-month-label">
         Tháng {{ currentMonth.getMonth() + 1 }} - {{ currentMonth.getFullYear() }}
       </h3>
-      <button class="btn-nav" (click)="nextMonth()" [title]="'SHIFTS.TXT_17' | translate">
+      <button class="btn btn-sm-nav" (click)="nextMonth()" [title]="'SHIFTS.TXT_17' | translate">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
 
-    <button (click)="openAddModal()" class="btn-create-shift">
+    <button (click)="openAddModal()" class="btn btn-sm-create-shift">
       <i class="bi bi-plus-lg"></i>
       {{ 'SHIFTS.TXT_3' | translate }}
     </button>
@@ -28,7 +28,7 @@
   <div class="filters-card">
     <div class="filter-group" style="flex: 1;">
       <label>{{ 'SHIFTS.TXT_4' | translate }}</label>
-      <select [(ngModel)]="selectedUsername" (change)="onFilterChange()" class="form-select">
+      <select [(ngModel)]="selectedUsername" (change)="onFilterChange()" class="form-select form-select-sm">
         <option value="">{{ 'SHIFTS.TXT_5' | translate }}</option>
         <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
       </select>
@@ -60,7 +60,7 @@
              (drop)="onDrop($event, day.date)">
           <div class="day-top">
             <span class="day-number">{{ day.date | date:'d' }}</span>
-            <button class="btn-add-quick" (click)="openAddModal(formatDate(day.date))" [title]="'SHIFTS.TXT_18' | translate">
+            <button class="btn btn-sm-add-quick" (click)="openAddModal(formatDate(day.date))" [title]="'SHIFTS.TXT_18' | translate">
               <i class="bi bi-plus"></i>
             </button>
           </div>
@@ -81,7 +81,7 @@
                 <span class="shift-time">{{ shift.startTime | slice:0:5 }} - {{ shift.endTime | slice:0:5 }}</span>
                 <span class="shift-user">{{ shift.username }}</span>
               </div>
-              <button class="btn-delete-mini" (click)="deleteSchedule(shift.id); $event.stopPropagation()" [title]="'SHIFTS.TXT_19' | translate">
+              <button class="btn btn-sm-delete-mini" (click)="deleteSchedule(shift.id); $event.stopPropagation()" [title]="'SHIFTS.TXT_19' | translate">
                 <i class="bi bi-x"></i>
               </button>
             </div>
@@ -97,7 +97,7 @@
   <div class="modal-body p-0 modal-animate-enter">
     <div class="mb-4">
       <label class="form-label fw-bold">{{ 'SHIFTS.TXT_7' | translate }} <span class="text-danger">*</span></label>
-      <select [(ngModel)]="form.username" class="form-select border-2">
+      <select [(ngModel)]="form.username" class="form-select form-select-sm border-2">
         <option value="">{{ 'SHIFTS.TXT_8' | translate }}</option>
         <option *ngFor="let u of users" [value]="u.username">{{ u.fullName }} ({{ u.username }})</option>
       </select>
@@ -106,11 +106,11 @@
     <div class="row mb-4">
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'SHIFTS.TXT_9' | translate }} <span class="text-danger">*</span></label>
-        <input type="date" [(ngModel)]="form.shiftDate" class="form-control border-2">
+        <input type="date" [(ngModel)]="form.shiftDate" class="form-control form-control-sm border-2">
       </div>
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'SHIFTS.TXT_10' | translate }} <span class="text-danger">*</span></label>
-        <select [(ngModel)]="form.shiftType" (change)="onShiftTypeChange()" class="form-select border-2">
+        <select [(ngModel)]="form.shiftType" (change)="onShiftTypeChange()" class="form-select form-select-sm border-2">
           <option *ngFor="let type of shiftTypes" [value]="type">{{ type }}</option>
         </select>
       </div>
@@ -119,24 +119,24 @@
     <div class="row mb-4">
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'SHIFTS.TXT_11' | translate }} <span class="text-danger">*</span></label>
-        <input type="time" [(ngModel)]="form.startTime" class="form-control border-2">
+        <input type="time" [(ngModel)]="form.startTime" class="form-control form-control-sm border-2">
       </div>
       <div class="col-md-6">
         <label class="form-label fw-bold">{{ 'SHIFTS.TXT_12' | translate }} <span class="text-danger">*</span></label>
-        <input type="time" [(ngModel)]="form.endTime" class="form-control border-2">
+        <input type="time" [(ngModel)]="form.endTime" class="form-control form-control-sm border-2">
       </div>
     </div>
 
     <div class="mb-4">
       <label class="form-label fw-bold">{{ 'SHIFTS.TXT_13' | translate }}</label>
-      <textarea [(ngModel)]="form.notes" rows="3" class="form-control border-2" [placeholder]="'SHIFTS.TXT_15' | translate"></textarea>
+      <textarea [(ngModel)]="form.notes" rows="3" class="form-control form-control-sm border-2" [placeholder]="'SHIFTS.TXT_15' | translate"></textarea>
     </div>
 
     <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
-      <button type="button" class="btn btn-light px-4 py-2 fw-bold rounded-3" (click)="closeModal()">
+      <button type="button" class="btn btn-sm btn-light px-4 py-2 fw-bold rounded-3" (click)="closeModal()">
         {{ 'SHIFTS.TXT_14' | translate }}
       </button>
-      <button type="button" class="btn btn-primary px-4 py-2 fw-bold rounded-3 shadow-sm" (click)="saveSchedule()" [disabled]="isSubmitting">
+      <button type="button" class="btn btn-sm btn-primary px-4 py-2 fw-bold rounded-3 shadow-sm" (click)="saveSchedule()" [disabled]="isSubmitting">
         <i class="bi bi-save me-2"></i> {{ isSubmitting ? 'Đang xử lý...' : 'Xác nhận Lưu' }}
       </button>
     </div>
