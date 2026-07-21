@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
@@ -15,7 +15,7 @@ import { NumberFormatDirective } from '../../shared/directives/number-format.dir
     selector: 'app-transaction-create',
     imports: [CommonModule, FormsModule, RouterModule, NumberFormatDirective, TranslatePipe],
     templateUrl: './transaction-create.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './transaction-create.component.scss'
 })
 export class TransactionCreateComponent implements OnInit {
@@ -27,6 +27,7 @@ export class TransactionCreateComponent implements OnInit {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     private t = inject(TranslateService);
+    private cdr = inject(ChangeDetectorRef);
 
     isEditMode = false;
     editTransactionId: string | null = null;
@@ -68,8 +69,8 @@ export class TransactionCreateComponent implements OnInit {
     hideDropdownTimeout: any;
 
     ngOnInit(): void {
-        this.customerService.getCustomers().subscribe(res => this.customers = res);
-        this.supplierService.getSuppliers().subscribe(res => this.suppliers = res);
+        this.customerService.getCustomers().subscribe(res => { this.customers = res; this.cdr.detectChanges(); });
+        this.supplierService.getSuppliers().subscribe(res => { this.suppliers = res; this.cdr.detectChanges(); });
 
         this.productService.getProducts().subscribe((res) => {
             this.availableProducts = res;
@@ -80,6 +81,8 @@ export class TransactionCreateComponent implements OnInit {
                     this.isEditMode = true;
                     this.editTransactionId = id;
                     this.loadTransactionForEditing(id);
+                } else {
+                    this.cdr.detectChanges();
                 }
             });
         });
@@ -102,9 +105,11 @@ export class TransactionCreateComponent implements OnInit {
                     quantity: l.quantity,
                     unitCost: l.unitCost
                 }));
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 this.alertService.error(this.t.instant('COMMON.ERROR'), this.t.instant('TRANSACTIONS.LOAD_ERROR'));
+                this.cdr.detectChanges();
                 this.router.navigate(['/admin/transactions']);
             }
         });

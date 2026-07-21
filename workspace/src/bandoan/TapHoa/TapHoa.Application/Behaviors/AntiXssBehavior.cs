@@ -22,6 +22,10 @@ public class AntiXssBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         foreach (var property in properties)
         {
+            // Bỏ qua các trường mật khẩu vì ký tự đặc biệt (<, >) là hợp lệ trong mật khẩu
+            if (property.Name.Contains("Password", StringComparison.OrdinalIgnoreCase))
+                continue;
+
             var currentValue = property.GetValue(request) as string;
             if (!string.IsNullOrEmpty(currentValue))
             {

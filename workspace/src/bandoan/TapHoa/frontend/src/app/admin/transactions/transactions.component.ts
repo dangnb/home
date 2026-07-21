@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy, HostListener } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,13 +10,14 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
     selector: 'app-transactions',
     imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
     templateUrl: './transactions.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './transactions.component.scss'
 })
 export class TransactionsComponent implements OnInit {
     private transactionService = inject(TransactionService);
     private alertService = inject(AlertService);
     private t = inject(TranslateService);
+    private cdr = inject(ChangeDetectorRef);
 
     transactions: any[] = [];
     paginatedTransactions: any[] = [];
@@ -35,11 +36,13 @@ export class TransactionsComponent implements OnInit {
     toggleDropdown(id: string, event: Event) {
         event.stopPropagation();
         this.activeDropdownRowId = this.activeDropdownRowId === id ? null : id;
+        this.cdr.detectChanges();
     }
 
     @HostListener('document:click')
     closeDropdown() {
         this.activeDropdownRowId = null;
+        this.cdr.detectChanges();
     }
 
     get paginationArray() {
@@ -67,11 +70,13 @@ export class TransactionsComponent implements OnInit {
                 this.transactions = data || [];
                 this.onSearchChange();
                 this.isLoading = false;
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 console.error(err);
                 this.error = this.t.instant('TRANSACTIONS.LOAD_ERROR');
                 this.isLoading = false;
+                this.cdr.detectChanges();
             }
         });
     }

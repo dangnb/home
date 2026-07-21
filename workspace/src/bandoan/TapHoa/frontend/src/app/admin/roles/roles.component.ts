@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
@@ -12,7 +12,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
   selector: 'app-roles',
   imports: [FormsModule, ModalComponent, TranslatePipe],
   templateUrl: './roles.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.Default,
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
@@ -27,6 +27,7 @@ export class RolesComponent implements OnInit {
 
   private roleService = inject(RoleService);
   private alertService = inject(AlertService);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor() { }
 
@@ -38,6 +39,7 @@ export class RolesComponent implements OnInit {
     this.roleService.getAllRoles().subscribe({
       next: (data) => {
         this.roles = data;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading roles', err);
@@ -77,6 +79,7 @@ export class RolesComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
           this.alertService.error('Lỗi', 'Không thể cập nhật vai trò');
         }
       });
@@ -89,6 +92,7 @@ export class RolesComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
           this.alertService.error('Lỗi', 'Không thể thêm vai trò');
         }
       });
@@ -107,6 +111,7 @@ export class RolesComponent implements OnInit {
           },
           error: () => {
             this.alertService.error('Lỗi', 'Không thể xóa vai trò');
+            this.cdr.detectChanges();
           }
         });
       }

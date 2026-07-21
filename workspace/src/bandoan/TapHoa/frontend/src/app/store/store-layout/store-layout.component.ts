@@ -6,7 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     selector: 'app-store-layout',
     imports: [RouterOutlet, RouterLink, TranslatePipe],
     templateUrl: './store-layout.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrl: './store-layout.component.scss'
+    changeDetection: ChangeDetectionStrategy.Default,
+    styleUrls: ['./store-layout.component.scss']
 })
 export class StoreLayoutComponent { }
