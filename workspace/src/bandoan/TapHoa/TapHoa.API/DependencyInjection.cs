@@ -137,6 +137,18 @@ public static class DependencyInjection
 
                 options.Events = new JwtBearerEvents
                 {
+                    OnMessageReceived = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+                        logger.LogInformation("SECURITY: OnMessageReceived. Token Length: {Length}", context.Token?.Length ?? 0);
+                        return Task.CompletedTask;
+                    },
+                    OnChallenge = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+                        logger.LogWarning("SECURITY: OnChallenge. Error: {Error}, ErrorDesc: {ErrorDesc}", context.Error, context.ErrorDescription);
+                        return Task.CompletedTask;
+                    },
                     OnTokenValidated = async context =>
                     {
                         var dbContext = context.HttpContext.RequestServices

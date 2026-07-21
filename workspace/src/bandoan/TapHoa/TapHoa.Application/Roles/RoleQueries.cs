@@ -21,7 +21,6 @@ public class RoleQueriesHandler : IRequestHandler<GetRolesQuery, List<RoleDto>>
         const string sql = @"
             SELECT Id, Name, Description, Permissions
             FROM Roles
-            WHERE IsDeleted = 0
         ";
         var roles = await connection.QueryAsync<RoleDto>(sql);
         return roles.ToList();

@@ -84,6 +84,11 @@ using (var scope = app.Services.CreateScope())
                 `CompanyId` char(36) NOT NULL,
                 PRIMARY KEY (`Id`)
             );
+            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `CouponCode` longtext NULL;
+            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `MaxUsageCount` int NULL;
+            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `CurrentUsageCount` int NOT NULL DEFAULT 0;
+            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `ApplicableCategoryId` char(36) NULL;
+            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `MaxDiscountAmount` decimal(18,2) NULL;
             INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710204132_AddPromotionsAndLoyalty', '10.0.9');
         ");
     }

@@ -10,7 +10,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
   selector: 'app-users',
   imports: [CommonModule, FormsModule, PaginationComponent, ModalComponent, TranslatePipe],
   templateUrl: './users.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.Default,
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
