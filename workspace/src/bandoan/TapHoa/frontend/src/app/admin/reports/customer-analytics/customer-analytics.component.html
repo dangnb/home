@@ -1,0 +1,84 @@
+<div class="card mb-5 mb-xl-8">
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bold fs-3 mb-1">Khách Hàng Thân Thiết</span>
+      <span class="text-muted mt-1 fw-semibold fs-7">Top khách hàng mang lại nhiều doanh thu nhất</span>
+    </h3>
+    <div class="card-toolbar">
+      <div class="d-flex align-items-center gap-2">
+        <select class="form-select form-select-solid form-select-sm" [(ngModel)]="limit" (change)="loadData()">
+          <option [ngValue]="10">Top 10</option>
+          <option [ngValue]="50">Top 50</option>
+          <option [ngValue]="100">Top 100</option>
+        </select>
+        <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="fromDate" (change)="loadData()">
+        <span>-</span>
+        <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="toDate" (change)="loadData()">
+        <button class="btn btn-sm btn-primary" (click)="loadData()" [disabled]="isLoading">
+          <i class="ki-duotone ki-arrows-circle fs-3" *ngIf="!isLoading">
+            <span class="path1"></span><span class="path2"></span>
+          </i>
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm align-middle me-2"></span>
+          Tải lại
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body py-3">
+    <div *ngIf="isLoading" class="d-flex justify-content-center p-10">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="table-responsive" *ngIf="!isLoading">
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted bg-light">
+            <th class="ps-4 min-w-50px rounded-start">Hạng</th>
+            <th class="min-w-200px">Khách hàng</th>
+            <th class="min-w-100px text-center">Số đơn</th>
+            <th class="min-w-150px text-end">Tổng chi tiêu</th>
+            <th class="min-w-150px text-end rounded-end">Mua lần cuối</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of customers; let i = index">
+            <td class="ps-4">
+              <span class="badge" 
+                    [ngClass]="{'badge-light-warning': i === 0, 'badge-light-primary': i === 1, 'badge-light-info': i === 2, 'badge-light-secondary': i > 2}">
+                #{{ i + 1 }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="symbol symbol-45px me-5">
+                  <span class="symbol-label bg-light-primary text-primary fw-bold">
+                    {{ item.customerName.charAt(0).toUpperCase() }}
+                  </span>
+                </div>
+                <div class="d-flex justify-content-start flex-column">
+                  <a class="text-dark fw-bold text-hover-primary fs-6">{{ item.customerName }}</a>
+                  <span class="text-muted fw-semibold text-muted d-block fs-7">{{ item.phoneNumber || 'Không có SĐT' }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="text-dark fw-bold d-block fs-6">{{ item.totalOrders }}</span>
+            </td>
+            <td class="text-end">
+              <span class="text-success fw-bold d-block fs-6">{{ item.totalSpent | currency:'VND':'symbol':'1.0-0':'vi-VN' }}</span>
+            </td>
+            <td class="text-end">
+              <span class="text-muted fw-bold d-block fs-7">{{ item.lastPurchaseDate ? (item.lastPurchaseDate | date:'dd/MM/yyyy HH:mm') : 'N/A' }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="customers.length === 0">
+            <td colspan="5" class="text-center text-muted p-10">Không có dữ liệu trong khoảng thời gian này.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

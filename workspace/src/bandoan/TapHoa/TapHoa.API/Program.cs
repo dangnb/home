@@ -41,6 +41,26 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<TapHoa.Infrastructure.Data.AppDbContext>();
     try
     {
+        var script = System.IO.File.ReadAllText(@"d:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\mysql_script.sql");
+        var commands = script.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var cmd in commands)
+        {
+            if (string.IsNullOrWhiteSpace(cmd)) continue;
+            try
+            {
+                context.Database.ExecuteSqlRaw(cmd);
+            }
+            catch (Exception ex) { 
+                Console.WriteLine($"SQL Error: {ex.Message}");
+            }
+        }
+    }
+    catch (Exception ex) { 
+        Console.WriteLine($"File Error: {ex.Message}");
+    }
+
+    try
+    {
         context.Database.ExecuteSqlRaw(@"
             ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
             ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
@@ -288,9 +308,13 @@ using (var scope = app.Services.CreateScope())
                 `ModifiedBy` longtext NULL,
                 `IsDeleted` tinyint(1) NOT NULL,
                 `DeletedDate` datetime(6) NULL,
+                `DeletedBy` longtext NULL,
                 `CompanyId` char(36) NOT NULL,
                 PRIMARY KEY (`Id`)
             );
+        ");
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `Shifts` ADD IF NOT EXISTS `DeletedBy` longtext NULL;
         ");
     }
     catch { }
@@ -607,6 +631,7 @@ app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(api
 app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
 app.MapGroup("api/v{version:apiVersion}/cashbook").WithApiVersionSet(apiVersionSet).MapCashBookEndpoints();
 app.MapGroup("api/v{version:apiVersion}/expenses").WithApiVersionSet(apiVersionSet).MapOperatingExpenseEndpoints();
+app.MapGroup("api/v{version:apiVersion}/notifications").WithApiVersionSet(apiVersionSet).MapNotificationsEndpoints();
 app.MapRoleEndpoints();
 
 app.Run();

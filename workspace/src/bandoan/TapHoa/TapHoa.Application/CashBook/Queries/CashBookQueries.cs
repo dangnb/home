@@ -2,6 +2,7 @@ using MediatR;
 using Dapper;
 using TapHoa.Application.Interfaces;
 using TapHoa.Application.CashBook.DTOs;
+using TapHoa.Application.Common.Models;
 using TapHoa.Application.Common;
 
 namespace TapHoa.Application.CashBook.Queries;

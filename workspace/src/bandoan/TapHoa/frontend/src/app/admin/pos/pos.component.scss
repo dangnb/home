@@ -392,3 +392,57 @@
     padding-bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* ============================================
+   RECEIPT PRINTING (80mm Thermal Printer)
+   ============================================ */
+.receipt-print-container {
+  display: none;
+}
+
+@media print {
+  /* Hide everything else */
+  body * {
+    visibility: hidden !important;
+  }
+  
+  /* Reset background and margins for printing */
+  @page { margin: 0; size: 80mm auto; }
+  body { margin: 0; padding: 10px; background: white; }
+  
+  /* Show only receipt */
+  .receipt-print-container, .receipt-print-container * {
+    visibility: visible !important;
+  }
+  
+  .receipt-print-container {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 72mm; /* 80mm width minus some margin */
+    color: black;
+    font-family: 'Courier New', Courier, monospace; /* typical for thermal printers */
+  }
+
+  /* Adjust typography for thermal printer legibility */
+  .receipt-print-container h4,
+  .receipt-print-container h5,
+  .receipt-print-container .fw-bold,
+  .receipt-print-container .fw-bolder {
+    font-weight: bold !important;
+    color: black !important;
+  }
+  
+  .receipt-print-container .text-muted {
+    color: black !important;
+  }
+  
+  .receipt-print-container .border-bottom {
+    border-bottom: 1px dashed black !important;
+  }
+  
+  .receipt-print-container .border-top {
+    border-top: 1px dashed black !important;
+  }
+}

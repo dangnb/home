@@ -1,0 +1,111 @@
+<div class="row g-5 g-xl-8">
+  <!-- Top Selling Products -->
+  <div class="col-xl-6">
+    <div class="card card-xl-stretch mb-5 mb-xl-8">
+      <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label fw-bold fs-3 mb-1">Top Sản Phẩm Bán Chạy</span>
+          <span class="text-muted mt-1 fw-semibold fs-7">Sản phẩm bán chạy nhất trong kỳ</span>
+        </h3>
+        <div class="card-toolbar">
+          <select class="form-select form-select-solid form-select-sm me-2 w-125px" [(ngModel)]="topOrderBy" (change)="loadTopProducts()">
+            <option value="quantity">Theo số lượng</option>
+            <option value="revenue">Theo doanh thu</option>
+          </select>
+        </div>
+      </div>
+      <div class="card-body py-3">
+        <div class="d-flex mb-4 gap-2">
+          <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="fromDate" (change)="loadTopProducts()">
+          <input type="date" class="form-control form-control-solid form-control-sm" [(ngModel)]="toDate" (change)="loadTopProducts()">
+        </div>
+
+        <div *ngIf="isLoadingTop" class="d-flex justify-content-center p-5">
+          <div class="spinner-border text-primary" role="status"></div>
+        </div>
+
+        <div class="table-responsive" *ngIf="!isLoadingTop">
+          <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <thead>
+              <tr class="fw-bold text-muted bg-light">
+                <th class="ps-4 min-w-150px rounded-start">Tên sản phẩm</th>
+                <th class="min-w-100px text-end">Đã bán</th>
+                <th class="min-w-150px text-end rounded-end">Doanh thu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of topProducts">
+                <td class="ps-4">
+                  <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ item.productName }}</span>
+                  <span class="text-muted fw-semibold text-muted d-block fs-7">{{ item.categoryName }}</span>
+                </td>
+                <td class="text-end">
+                  <span class="text-dark fw-bold d-block fs-6">{{ item.totalQuantitySold }} {{ item.unit }}</span>
+                </td>
+                <td class="text-end">
+                  <span class="text-success fw-bold d-block fs-6">{{ item.totalRevenue | currency:'VND':'symbol':'1.0-0':'vi-VN' }}</span>
+                </td>
+              </tr>
+              <tr *ngIf="topProducts.length === 0">
+                <td colspan="3" class="text-center text-muted p-5">Không có dữ liệu.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dead Stock -->
+  <div class="col-xl-6">
+    <div class="card card-xl-stretch mb-5 mb-xl-8">
+      <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label fw-bold fs-3 mb-1">Hàng Chậm Luân Chuyển</span>
+          <span class="text-muted mt-1 fw-semibold fs-7">Sản phẩm tồn kho lâu chưa bán được</span>
+        </h3>
+        <div class="card-toolbar">
+          <div class="d-flex align-items-center">
+            <span class="text-muted fw-semibold fs-7 me-2">Ngưỡng (ngày):</span>
+            <input type="number" class="form-control form-control-solid form-control-sm w-75px" 
+                   [(ngModel)]="deadStockDaysThreshold" (change)="loadDeadStock()">
+          </div>
+        </div>
+      </div>
+      <div class="card-body py-3 mt-4">
+        <div *ngIf="isLoadingDeadStock" class="d-flex justify-content-center p-5">
+          <div class="spinner-border text-danger" role="status"></div>
+        </div>
+
+        <div class="table-responsive" *ngIf="!isLoadingDeadStock">
+          <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <thead>
+              <tr class="fw-bold text-muted bg-light">
+                <th class="ps-4 min-w-150px rounded-start">Tên sản phẩm</th>
+                <th class="min-w-100px text-end">Tồn kho</th>
+                <th class="min-w-100px text-end rounded-end">Ngày ế</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of deadStock">
+                <td class="ps-4">
+                  <span class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{ item.productName }}</span>
+                  <span class="text-muted fw-semibold text-muted d-block fs-7">{{ item.categoryName }}</span>
+                </td>
+                <td class="text-end">
+                  <span class="text-dark fw-bold d-block fs-6">{{ item.availableQuantity }}</span>
+                </td>
+                <td class="text-end">
+                  <span class="badge badge-light-danger fw-bold fs-6">{{ item.daysSinceLastSale }} ngày</span>
+                </td>
+              </tr>
+              <tr *ngIf="deadStock.length === 0">
+                <td colspan="3" class="text-center text-muted p-5">Tuyệt vời, không có hàng chậm luân chuyển!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

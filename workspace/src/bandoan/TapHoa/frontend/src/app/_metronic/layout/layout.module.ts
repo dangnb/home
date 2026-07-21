@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { RouterModule, Routes } from '@angular/router';
@@ -38,6 +38,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import { SharedModule } from "../shared/shared.module";
+import { NotificationBellComponent } from '../../shared/components/notification-bell/notification-bell.component';
 
 const routes: Routes = [
   {
@@ -84,7 +85,8 @@ const routes: Routes = [
     NgbTooltipModule,
     
     ThemeModeModule,
-    SharedModule
+    SharedModule,
+    NotificationBellComponent
   ],
   exports: [RouterModule],
 })

@@ -303,6 +303,14 @@ export class PosComponent implements OnInit {
     this.calculateDefaultAmountPaid();
   }
 
+  // QR Payment State
+  showQrModal: boolean = false;
+  qrCodeUrl: string = '';
+
+  // Receipt Printing State
+  showReceiptModal: boolean = false;
+  lastOrderData: any = null;
+
   checkout() {
     if (this.cart.length === 0) {
       this.alertService.warning('Cảnh báo', this.translate.instant('POS.CART_EMPTY'));
@@ -311,6 +319,12 @@ export class PosComponent implements OnInit {
 
     if (this.paymentMethod === PaymentMethod.Debt && !this.selectedCustomerId) {
       this.alertService.warning('Khách hàng', 'Vui lòng chọn khách hàng để ghi nợ.');
+      return;
+    }
+
+    // Nếu thanh toán chuyển khoản và chưa mở QR, hiển thị QR trước
+    if (this.paymentMethod === PaymentMethod.BankTransfer && !this.showQrModal) {
+      this.generateQrCode();
       return;
     }
 
@@ -332,12 +346,56 @@ export class PosComponent implements OnInit {
     this.orderService.createOrder(command).subscribe({
       next: (res) => {
         this.alertService.success(this.translate.instant('COMMON.SUCCESS'), 'Thanh toán đơn hàng thành công');
+        this.showQrModal = false;
+        
+        // Lưu dữ liệu để in hóa đơn
+        this.lastOrderData = {
+          orderId: res, // Assuming res is Order ID
+          orderCode: 'ORD-' + new Date().getTime().toString().slice(-6), // Tạm thời
+          date: new Date(),
+          customerName: this.selectedCustomerObj?.fullName || 'Khách lẻ',
+          items: [...this.cart],
+          subTotal: this.getSubTotal(),
+          discount: this.discountAmount,
+          pointsUsed: this.pointsToUse,
+          pointDiscount: this.pointsToUse * 100,
+          total: this.getTotal(),
+          amountPaid: this.amountPaid,
+          change: this.amountPaid - this.getTotal()
+        };
+        
+        this.showReceiptModal = true;
         this.resetForm();
       },
       error: (err) => {
         this.alertService.error(this.translate.instant('COMMON.ERROR'), 'Lỗi thanh toán: ' + (err.error?.title || err.message));
       }
     });
+  }
+
+  generateQrCode() {
+    const amount = this.getTotal();
+    if (amount <= 0) {
+        this.checkout(); // Skip QR if total is 0
+        return;
+    }
+    
+    const bankId = '970415'; // Vietinbank
+    const accountNo = '113366668888';
+    const accountName = 'TAP HOA DEMO';
+    const addInfo = `Thanh toan TapHoa`; 
+
+    this.qrCodeUrl = `https://img.vietqr.io/image/${bankId}-${accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    this.showQrModal = true;
+  }
+
+  printReceipt() {
+    window.print();
+  }
+
+  closeReceiptModal() {
+    this.showReceiptModal = false;
+    this.lastOrderData = null;
   }
 
   resetForm() {

@@ -1,4 +1,4 @@
-﻿import { Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { ProductsComponent } from './products/products.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { RolesComponent } from './roles/roles.component';
@@ -90,12 +90,49 @@ export const adminRoutes: Routes = [
         loadComponent: () => import('./purchase-orders/purchase-order-detail/purchase-order-detail.component').then(m => m.PurchaseOrderDetailComponent)
     },
     { 
-        path: 'transactions/edit/:id', 
+        path: 'transactions', 
+        loadComponent: () => import('./transactions/transactions.component').then(m => m.TransactionsComponent) 
+    },
+    { 
+        path: 'transactions/create/:type', 
         loadComponent: () => import('./transaction-create/transaction-create.component').then(m => m.TransactionCreateComponent) 
     },
     { 
         path: 'transactions/:id', 
         loadComponent: () => import('./transaction-detail/transaction-detail.component').then(m => m.TransactionDetailComponent) 
+    },
+    {
+        path: 'cashbook',
+        loadComponent: () => import('./cashbook/cashbook.component').then(m => m.CashbookComponent)
+    },
+    {
+        path: 'expenses',
+        loadComponent: () => import('./operating-expenses/operating-expenses.component').then(m => m.OperatingExpensesComponent)
+    },
+    {
+        path: 'reports/pl-report',
+        loadComponent: () => import('./reports/pl-report/pl-report.component').then(m => m.PlReportComponent),
+        data: { title: 'Báo cáo Lãi Lỗ' }
+    },
+    {
+        path: 'reports/advanced/revenue-trend',
+        loadComponent: () => import('./reports/revenue-trend/revenue-trend.component').then(m => m.RevenueTrendComponent),
+        data: { title: 'Xu Hướng Doanh Thu' }
+    },
+    {
+        path: 'reports/advanced/product-analytics',
+        loadComponent: () => import('./reports/product-analytics/product-analytics.component').then(m => m.ProductAnalyticsComponent),
+        data: { title: 'Phân Tích Sản Phẩm' }
+    },
+    {
+        path: 'reports/advanced/customer-analytics',
+        loadComponent: () => import('./reports/customer-analytics/customer-analytics.component').then(m => m.CustomerAnalyticsComponent),
+        data: { title: 'Khách Hàng Thân Thiết' }
+    },
+    {
+        path: 'reports/advanced/employee-performance',
+        loadComponent: () => import('./reports/employee-performance/employee-performance.component').then(m => m.EmployeePerformanceComponent),
+        data: { title: 'Hiệu Suất Nhân Viên' }
     },
     { 
         path: 'roles', 

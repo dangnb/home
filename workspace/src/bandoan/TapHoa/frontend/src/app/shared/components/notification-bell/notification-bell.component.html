@@ -1,0 +1,53 @@
+<div class="notification-wrapper">
+  <button class="bell-btn" (click)="toggleDropdown()">
+    <i class='bx bx-bell'></i>
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
+  </button>
+
+  <div class="dropdown-menu" *ngIf="isOpen" @dropdownState>
+    <div class="dropdown-header">
+      <h4>Thông báo</h4>
+      <button class="mark-all-btn" (click)="markAllAsRead($event)" *ngIf="unreadCount > 0">
+        Đánh dấu tất cả đã đọc
+      </button>
+    </div>
+
+    <div class="dropdown-body">
+      <div class="loading" *ngIf="isLoading">
+        <i class='bx bx-loader-alt bx-spin'></i> Đang tải...
+      </div>
+      
+      <div class="empty-state" *ngIf="!isLoading && notifications.length === 0">
+        <i class='bx bx-bell-off'></i>
+        <p>Không có thông báo mới</p>
+      </div>
+
+      <div class="notification-list" *ngIf="!isLoading && notifications.length > 0">
+        <div class="notification-item" 
+             *ngFor="let notif of notifications"
+             [class.unread]="!notif.isRead"
+             (click)="markAsRead(notif, $event)">
+          
+          <div class="notif-icon" [ngClass]="notif.type">
+            <i class='bx' [ngClass]="getIconForType(notif.type)"></i>
+          </div>
+          
+          <div class="notif-content">
+            <div class="notif-title">{{ notif.title }}</div>
+            <div class="notif-message">{{ notif.message }}</div>
+            <div class="notif-time">{{ notif.createdDate | timeAgo }}</div>
+          </div>
+          
+          <div class="notif-action" *ngIf="!notif.isRead">
+            <span class="unread-dot"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dropdown-footer">
+      <a routerLink="/admin/notifications" (click)="isOpen = false">Xem tất cả thông báo</a>
+    </div>
+  </div>
+</div>
+

@@ -68,6 +68,7 @@ public class AppDbContext : DbContext, TapHoa.Application.Interfaces.IApplicatio
     // Finance & Cash Management
     public DbSet<CashBookEntry> CashBookEntries => Set<CashBookEntry>();
     public DbSet<OperatingExpense> OperatingExpenses => Set<OperatingExpense>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     public Guid CurrentCompanyId => _currentUserService?.CompanyId ?? Guid.Parse("01950000-0000-7000-8000-000000000000");
 
