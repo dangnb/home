@@ -4,3 +4,580 @@
 2026-07-22 00:00:11.543 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 1.1720 ms
 2026-07-22 00:00:16.093 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0289 ms
 2026-07-22 00:00:16.095 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 1.3374 ms
+2026-07-22 00:04:13.886 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 0.1711 ms
+2026-07-22 00:04:13.893 +07:00 [INF] HTTP GET /uploads/products/e7bf310e-19ef-4936-a2de-8fe07e92a29d.jpg responded 304 in 0.6938 ms
+2026-07-22 00:04:13.935 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0365 ms
+2026-07-22 00:04:13.935 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0251 ms
+2026-07-22 00:04:14.176 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 0.0373 ms
+2026-07-22 00:04:14.179 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 0.0407 ms
+2026-07-22 00:04:14.207 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0578 ms
+2026-07-22 00:04:14.207 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0296 ms
+2026-07-22 00:04:14.415 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 0.0473 ms
+2026-07-22 00:04:14.442 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0398 ms
+2026-07-22 00:04:14.442 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.0183 ms
+2026-07-22 00:05:06.483 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-22 00:05:06.507 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-22 00:05:06.507 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-22 00:05:06.507 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-22 00:05:06.578 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-22 00:05:06.831 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+ALTER TABLE `Promotions` ADD `ApplicableCategoryId` char(36) NULL
+2026-07-22 00:05:06.838 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Promotions` ADD `CouponCode` longtext NULL
+2026-07-22 00:05:06.840 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Promotions` ADD `CurrentUsageCount` int NOT NULL DEFAULT 0
+2026-07-22 00:05:06.843 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Promotions` ADD `MaxDiscountAmount` decimal(18,2) NULL
+2026-07-22 00:05:06.846 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Promotions` ADD `MaxUsageCount` int NULL
+2026-07-22 00:05:06.850 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Orders` ADD `PointDiscountAmount` decimal(18,2) NOT NULL DEFAULT 0.0
+2026-07-22 00:05:06.853 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Orders` ADD `PointsEarned` int NOT NULL DEFAULT 0
+2026-07-22 00:05:06.858 +07:00 [ERR] Failed executing DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Orders` ADD `PointsUsed` int NOT NULL DEFAULT 0
+2026-07-22 00:05:06.860 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Customers` ADD `Tier` int NOT NULL DEFAULT 0
+2026-07-22 00:05:06.863 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `Customers` ADD `TotalAccumulatedPoints` int NOT NULL DEFAULT 0
+2026-07-22 00:05:06.864 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `EmployeeShifts` (
+    `Id` char(36) NOT NULL,
+    `Username` longtext NOT NULL,
+    `ShiftDate` datetime(6) NOT NULL,
+    `ShiftType` longtext NOT NULL,
+    `StartTime` time(6) NOT NULL,
+    `EndTime` time(6) NOT NULL,
+    `Notes` longtext NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.864 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `Shifts` (
+    `Id` char(36) NOT NULL,
+    `Username` longtext NOT NULL,
+    `StartTime` datetime(6) NOT NULL,
+    `EndTime` datetime(6) NULL,
+    `StartingCash` decimal(18,2) NOT NULL,
+    `ExpectedCash` decimal(18,2) NULL,
+    `ActualCash` decimal(18,2) NULL,
+    `Difference` decimal(18,2) NULL,
+    `Notes` longtext NULL,
+    `Status` int NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.865 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260712122235_AddLoyaltyMembership', '10.0.9')
+2026-07-22 00:05:06.865 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `PurchaseOrders` (
+    `Id` char(36) NOT NULL,
+    `OrderCode` longtext NOT NULL,
+    `SupplierId` char(36) NOT NULL,
+    `OrderDate` datetime(6) NOT NULL,
+    `ExpectedDeliveryDate` datetime(6) NULL,
+    `TotalAmount` decimal(18,2) NOT NULL,
+    `AmountPaid` decimal(18,2) NOT NULL,
+    `Status` int NOT NULL,
+    `Notes` longtext NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_PurchaseOrders_Suppliers_SupplierId` FOREIGN KEY (`SupplierId`) REFERENCES `Suppliers` (`Id`) ON DELETE CASCADE
+)
+2026-07-22 00:05:06.866 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `PurchaseOrderDetails` (
+    `Id` char(36) NOT NULL,
+    `PurchaseOrderId` char(36) NOT NULL,
+    `ProductId` char(36) NOT NULL,
+    `Quantity` int NOT NULL,
+    `CostPrice` decimal(18,2) NOT NULL,
+    `SubTotal` decimal(18,2) NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_PurchaseOrderDetails_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_PurchaseOrderDetails_PurchaseOrders_PurchaseOrderId` FOREIGN KEY (`PurchaseOrderId`) REFERENCES `PurchaseOrders` (`Id`) ON DELETE CASCADE
+)
+2026-07-22 00:05:06.869 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_PurchaseOrderDetails_ProductId` ON `PurchaseOrderDetails` (`ProductId`)
+2026-07-22 00:05:06.872 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_PurchaseOrderDetails_PurchaseOrderId` ON `PurchaseOrderDetails` (`PurchaseOrderId`)
+2026-07-22 00:05:06.875 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_PurchaseOrders_SupplierId` ON `PurchaseOrders` (`SupplierId`)
+2026-07-22 00:05:06.876 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260712134813_AddPurchaseOrders', '10.0.9')
+2026-07-22 00:05:06.876 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `Attendances` (
+    `Id` char(36) NOT NULL,
+    `Username` varchar(255) NOT NULL,
+    `Date` datetime(6) NOT NULL,
+    `CheckIn` datetime(6) NULL,
+    `CheckOut` datetime(6) NULL,
+    `TotalHours` decimal(18,2) NOT NULL,
+    `OvertimeHours` decimal(18,2) NOT NULL,
+    `LateMinutes` int NOT NULL,
+    `EarlyLeaveMinutes` int NOT NULL,
+    `Status` int NOT NULL,
+    `Notes` longtext NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.877 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `PayrollPeriods` (
+    `Id` char(36) NOT NULL,
+    `Month` int NOT NULL,
+    `Year` int NOT NULL,
+    `StartDate` datetime(6) NOT NULL,
+    `EndDate` datetime(6) NOT NULL,
+    `Status` int NOT NULL,
+    `Notes` longtext NULL,
+    `Formula` longtext NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.877 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `PayrollEntries` (
+    `Id` char(36) NOT NULL,
+    `PayrollPeriodId` char(36) NOT NULL,
+    `Username` longtext NOT NULL,
+    `EmployeeName` longtext NOT NULL,
+    `WorkDays` int NOT NULL,
+    `TotalHours` decimal(18,2) NOT NULL,
+    `OvertimeHours` decimal(18,2) NOT NULL,
+    `BaseSalary` decimal(18,2) NOT NULL,
+    `OvertimePay` decimal(18,2) NOT NULL,
+    `Allowance` decimal(18,2) NOT NULL,
+    `Bonus` decimal(18,2) NOT NULL,
+    `Deduction` decimal(18,2) NOT NULL,
+    `NetSalary` decimal(18,2) NOT NULL,
+    `Notes` longtext NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_PayrollEntries_PayrollPeriods_PayrollPeriodId` FOREIGN KEY (`PayrollPeriodId`) REFERENCES `PayrollPeriods` (`Id`) ON DELETE CASCADE
+)
+2026-07-22 00:05:06.880 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE UNIQUE INDEX `IX_Attendances_Username_Date_CompanyId` ON `Attendances` (`Username`, `Date`, `CompanyId`)
+2026-07-22 00:05:06.882 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_PayrollEntries_PayrollPeriodId` ON `PayrollEntries` (`PayrollPeriodId`)
+2026-07-22 00:05:06.885 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE UNIQUE INDEX `IX_PayrollPeriods_Month_Year_CompanyId` ON `PayrollPeriods` (`Month`, `Year`, `CompanyId`)
+2026-07-22 00:05:06.885 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260712164102_AddFormulaToPayrollPeriod', '10.0.9')
+2026-07-22 00:05:06.900 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL
+2026-07-22 00:05:06.901 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `SalaryTemplates` (
+    `Id` char(36) NOT NULL,
+    `Name` longtext NOT NULL,
+    `Formula` longtext NOT NULL,
+    `Notes` longtext NULL,
+    `IsActive` tinyint(1) NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.922 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260717142917_AddSalaryTemplates', '10.0.9')
+2026-07-22 00:05:06.964 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `Departments` (
+    `Id` char(36) NOT NULL,
+    `Name` longtext NOT NULL,
+    `Description` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    `ParentId` char(36) NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT
+)
+2026-07-22 00:05:06.965 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `Positions` (
+    `Id` char(36) NOT NULL,
+    `Name` longtext NOT NULL,
+    `Description` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.966 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `Employees` (
+    `Id` char(36) NOT NULL,
+    `EmployeeCode` longtext NOT NULL,
+    `FullName` longtext NOT NULL,
+    `PhoneNumber` longtext NULL,
+    `CitizenId` longtext NULL,
+    `Address` longtext NULL,
+    `DateOfBirth` datetime(6) NULL,
+    `Gender` longtext NULL,
+    `Email` longtext NULL,
+    `BaseSalary` decimal(18,2) NOT NULL,
+    `SalaryTemplateId` char(36) NULL,
+    `DepartmentId` char(36) NULL,
+    `PositionId` char(36) NULL,
+    `UserId` char(36) NULL,
+    `CompanyId` char(36) NOT NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_Employees_Departments_DepartmentId` FOREIGN KEY (`DepartmentId`) REFERENCES `Departments` (`Id`),
+    CONSTRAINT `FK_Employees_Positions_PositionId` FOREIGN KEY (`PositionId`) REFERENCES `Positions` (`Id`),
+    CONSTRAINT `FK_Employees_SalaryTemplates_SalaryTemplateId` FOREIGN KEY (`SalaryTemplateId`) REFERENCES `SalaryTemplates` (`Id`),
+    CONSTRAINT `FK_Employees_Users_UserId` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`)
+)
+2026-07-22 00:05:06.972 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+
+CREATE INDEX `IX_Departments_ParentId` ON `Departments` (`ParentId`)
+2026-07-22 00:05:06.974 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_Employees_DepartmentId` ON `Employees` (`DepartmentId`)
+2026-07-22 00:05:06.977 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_Employees_PositionId` ON `Employees` (`PositionId`)
+2026-07-22 00:05:06.979 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_Employees_SalaryTemplateId` ON `Employees` (`SalaryTemplateId`)
+2026-07-22 00:05:06.981 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE INDEX `IX_Employees_UserId` ON `Employees` (`UserId`)
+2026-07-22 00:05:06.982 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260720153022_UpdateMissingFields', '10.0.9')
+2026-07-22 00:05:06.983 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `CashBookEntries` (
+    `Id` char(36) NOT NULL,
+    `EntryDate` datetime(6) NOT NULL,
+    `Type` int NOT NULL,
+    `Category` longtext NOT NULL,
+    `Amount` decimal(18,2) NOT NULL,
+    `Description` longtext NOT NULL,
+    `ReferenceId` longtext NULL,
+    `ReferenceType` longtext NULL,
+    `ShiftId` char(36) NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.983 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+CREATE TABLE `OperatingExpenses` (
+    `Id` char(36) NOT NULL,
+    `Name` longtext NOT NULL,
+    `Type` int NOT NULL,
+    `Amount` decimal(18,2) NOT NULL,
+    `Month` int NOT NULL,
+    `Year` int NOT NULL,
+    `DueDate` datetime(6) NULL,
+    `PaidDate` datetime(6) NULL,
+    `PaymentStatus` int NOT NULL,
+    `Notes` longtext NULL,
+    `CreatedDate` datetime(6) NULL,
+    `CreatedBy` longtext NULL,
+    `ModifiedDate` datetime(6) NULL,
+    `ModifiedBy` longtext NULL,
+    `IsDeleted` tinyint(1) NOT NULL,
+    `DeletedDate` datetime(6) NULL,
+    `DeletedBy` longtext NULL,
+    `CompanyId` char(36) NOT NULL,
+    PRIMARY KEY (`Id`)
+)
+2026-07-22 00:05:06.984 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260721103553_AddPayrollAndHR', '10.0.9')
+2026-07-22 00:05:06.985 +07:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+
+\ n C R E A T E   T A B L E   \ N o t i f i c a t i o n s \   ( 
+         \ I d \   c h a r ( 3 6 )   N O T   N U L L , 
+         \ T y p e \   i n t   N O T   N U L L , 
+         \ T i t l e \   l o n g t e x t   N O T   N U L L , 
+         \ M e s s a g e \   l o n g t e x t   N O T   N U L L , 
+         \ R e f e r e n c e I d \   l o n g t e x t   N U L L , 
+         \ I s R e a d \   t i n y i n t ( 1 )   N O T   N U L L , 
+         \ R e a d A t \   d a t e t i m e ( 6 )   N U L L , 
+         \ C r e a t e d D a t e \   d a t e t i m e ( 6 )   N U L L , 
+         \ C r e a t e d B y \   l o n g t e x t   N U L L , 
+         \ M o d i f i e d D a t e \   d a t e t i m e ( 6 )   N U L L , 
+         \ M o d i f i e d B y \   l o n g t e x t   N U L L , 
+         \ I s D e l e t e d \   t i n y i n t ( 1 )   N O T   N U L L , 
+         \ D e l e t e d D a t e \   d a t e t i m e ( 6 )   N U L L , 
+         \ D e l e t e d B y \   l o n g t e x t   N U L L , 
+         \ C o m p a n y I d \   c h a r ( 3 6 )   N O T   N U L L , 
+         P R I M A R Y   K E Y   ( \ I d \ ) 
+ ) 
+2026-07-22 00:05:06.987 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+  
+ 
+2026-07-22 00:05:06.989 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-22 00:05:06.991 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-22 00:05:07.017 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-22 00:05:07.019 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-22 00:05:07.022 +07:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-22 00:05:07.030 +07:00 [ERR] Failed executing DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-22 00:05:07.033 +07:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-22 00:05:07.068 +07:00 [INF] NotificationGeneratorService is starting.
+2026-07-22 00:05:07.379 +07:00 [ERR] Failed executing DbCommand (20ms) [Parameters=[@ef_filter__CurrentCompanyId='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `s`.`Id`, `s`.`AvailableQuantity`, `s`.`BatchId`, `s`.`LastRestockedAt`, `s`.`LocationId`, `s`.`MovingAverageCost`, `s`.`ProductId`, `s`.`QuantityOnHand`, `s`.`ReorderPoint`, `s`.`ReservedQuantity`, `s`.`RowVersion`, `s`.`StoreId`, `p0`.`Id`, `p0`.`AdditionalImages`, `p0`.`Barcode`, `p0`.`CategoryId`, `p0`.`CompanyId`, `p0`.`CostPrice`, `p0`.`CreatedBy`, `p0`.`CreatedDate`, `p0`.`DeletedBy`, `p0`.`DeletedDate`, `p0`.`Description`, `p0`.`IsDeleted`, `p0`.`MainImageUrl`, `p0`.`MaxStockLevel`, `p0`.`MinStockLevel`, `p0`.`ModifiedBy`, `p0`.`ModifiedDate`, `p0`.`Name`, `p0`.`Price`, `p0`.`Slug`, `p0`.`Status`, `p0`.`StockQuantity`, `p0`.`SupplierId`, `p0`.`Unit`, `p0`.`WholesalePrice`
+FROM `StockLevels` AS `s`
+INNER JOIN (
+    SELECT `p`.`Id`, `p`.`AdditionalImages`, `p`.`Barcode`, `p`.`CategoryId`, `p`.`CompanyId`, `p`.`CostPrice`, `p`.`CreatedBy`, `p`.`CreatedDate`, `p`.`DeletedBy`, `p`.`DeletedDate`, `p`.`Description`, `p`.`IsDeleted`, `p`.`MainImageUrl`, `p`.`MaxStockLevel`, `p`.`MinStockLevel`, `p`.`ModifiedBy`, `p`.`ModifiedDate`, `p`.`Name`, `p`.`Price`, `p`.`Slug`, `p`.`Status`, `p`.`StockQuantity`, `p`.`SupplierId`, `p`.`Unit`, `p`.`WholesalePrice`
+    FROM `Products` AS `p`
+    WHERE NOT (`p`.`IsDeleted`) AND (`p`.`CompanyId` = @ef_filter__CurrentCompanyId)
+) AS `p0` ON `s`.`ProductId` = `p0`.`Id`
+WHERE (`s`.`AvailableQuantity` <= `s`.`ReorderPoint`) AND (`s`.`AvailableQuantity` > 0)
+2026-07-22 00:05:07.390 +07:00 [ERR] An exception occurred while iterating over the results of a query for context type 'TapHoa.Infrastructure.Data.AppDbContext'.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'p.Description' in 'SELECT'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'p.Description' in 'SELECT'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2026-07-22 00:05:07.394 +07:00 [ERR] Error occurred while generating notifications.
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'p.Description' in 'SELECT'
+   at MySql.Data.MySqlClient.MySqlStream.CheckForServerError()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync()
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultInternalAsync(CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderInternalAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.BackgroundServices.NotificationGeneratorService.CheckLowStock(AppDbContext context, CancellationToken stoppingToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\BackgroundServices\NotificationGeneratorService.cs:line 57
+   at TapHoa.Infrastructure.BackgroundServices.NotificationGeneratorService.GenerateNotifications(CancellationToken stoppingToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\BackgroundServices\NotificationGeneratorService.cs:line 49
+   at TapHoa.Infrastructure.BackgroundServices.NotificationGeneratorService.ExecuteAsync(CancellationToken stoppingToken) in D:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\BackgroundServices\NotificationGeneratorService.cs:line 30
+2026-07-22 00:05:07.539 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-22 00:05:07.548 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 10.6095 ms
+2026-07-22 00:05:07.548 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 10.6158 ms
+2026-07-22 00:05:07.548 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 10.6041 ms
+2026-07-22 00:05:07.548 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/categories responded 204 in 10.6143 ms
+2026-07-22 00:05:07.580 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-22 00:05:07.580 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-22 00:05:07.743 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 183.2803 ms
+2026-07-22 00:05:07.743 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 183.2833 ms
+2026-07-22 00:05:08.927 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 6.1616 ms
+2026-07-22 00:05:10.470 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 5.7967 ms
+2026-07-22 00:05:12.017 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 2.0140 ms
+2026-07-22 00:05:12.526 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 1.8950 ms
+2026-07-22 00:05:13.892 +07:00 [INF] HTTP OPTIONS /api/v1/online-store/products responded 204 in 0.1192 ms
+2026-07-22 00:05:13.898 +07:00 [INF] HTTP GET /api/v1/online-store/products responded 200 in 4.3463 ms
+2026-07-22 00:05:24.718 +07:00 [INF] HTTP GET /api/v1/online-store/categories responded 200 in 1.5645 ms

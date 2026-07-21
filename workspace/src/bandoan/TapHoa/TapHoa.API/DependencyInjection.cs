@@ -91,7 +91,7 @@ public static class DependencyInjection
                 policy => policy
                     .WithOrigins(allowedOrigins)
                     .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                    .WithHeaders("Authorization", "Content-Type", "X-Requested-With", "X-CSRF-Token")
+                    .WithHeaders("Authorization", "Content-Type", "X-Requested-With", "X-CSRF-Token", "X-API-Key")
                     .AllowCredentials()          // Needed for HttpOnly cookie (refresh token)
                     .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
         });
