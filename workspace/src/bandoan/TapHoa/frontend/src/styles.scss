@@ -37,24 +37,21 @@
 // Page Layout Spacing — Khoảng cách header-card & body-card
 // ============================================================
 
-// Page title (h1, h2) trong content-area phải có margin-bottom rõ ràng
-// trước card/table bên dưới
-.content-area {
-  // h1/h2 là page title → cần tách với card bên dưới
-  > h1:first-child,
-  > h2:first-child,
-  > .page-title:first-child {
-    margin-bottom: 1.5rem !important;
-  }
+// Tăng khoảng cách giữa page title (toolbar) và nội dung (card) bên dưới
+// Áp dụng cho Metronic layout (tất cả màn hình quản lý)
+#kt_app_toolbar {
+  margin-bottom: 1.5rem !important;
+}
 
-  // Tăng gap giữa các khối trong layout flex-column của các trang quản lý
+// Tăng khoảng cách giữa các khối (card) khi dùng flex-column
+.app-content, .content-area {
   .d-flex.flex-column.gap-7 {
     gap: 2rem !important;
   }
-
   .d-flex.flex-column.gap-5 { gap: 1.5rem !important; }
   .d-flex.flex-column.gap-6 { gap: 1.75rem !important; }
 }
+
 
 // ============================================================
 // Dark Mode - Admin (data-bs-theme="dark" on <html> or <body>)

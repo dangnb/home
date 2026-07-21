@@ -14,6 +14,12 @@ using TapHoa.API.Endpoints;
 /// </summary>
 var builder = WebApplication.CreateBuilder(args);
 
+// Hide Server header for security
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.AddServerHeader = false;
+});
+
 // Configure Serilog
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
