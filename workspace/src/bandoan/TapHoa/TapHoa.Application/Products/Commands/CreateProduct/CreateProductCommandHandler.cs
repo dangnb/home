@@ -32,7 +32,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             request.Status,
             request.Barcode,
             request.MinStockLevel,
-            request.MaxStockLevel
+            request.MaxStockLevel,
+            request.Description
         );
 
         foreach (var unit in request.Units)
@@ -59,6 +60,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             StockQuantity = product.StockQuantity,
             Unit = product.Unit,
             Barcode = product.Barcode,
+            Description = product.Description,
             Status = product.Status,
             Units = product.Units.Select(u => new ProductUnitDto
             {

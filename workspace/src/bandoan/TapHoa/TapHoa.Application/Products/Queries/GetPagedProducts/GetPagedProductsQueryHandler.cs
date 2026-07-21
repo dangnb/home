@@ -43,7 +43,7 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
 
         var dataSql = @"
             SELECT 
-                p.Id, p.Name, p.CategoryId, c.Name AS CategoryName,
+                p.Id, p.Slug, p.Name, p.CategoryId, c.Name AS CategoryName,
                 p.SupplierId, s.FullName AS SupplierName,
                 p.MainImageUrl, p.CostPrice, p.WholesalePrice, p.Price, 
                 p.StockQuantity, p.MinStockLevel, p.MaxStockLevel, p.Unit, p.Barcode, p.Status,

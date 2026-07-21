@@ -66,6 +66,15 @@ public static class DependencyInjection
                 opt.AutoReplenishment = true;
             });
 
+            // Storefront limiter — prevent excessive scraping (30 requests / 10 seconds per IP)
+            options.AddFixedWindowLimiter("storefront-policy", opt =>
+            {
+                opt.PermitLimit   = 30;
+                opt.Window        = TimeSpan.FromSeconds(10);
+                opt.QueueLimit    = 2;
+                opt.AutoReplenishment = true;
+            });
+
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
         });
 

@@ -1,160 +1,183 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
-import { useCartStore, Product } from '@/store/cartStore';
+import { useEffect, useState, useCallback } from 'react';
+import { useCartStore } from '@/store/cartStore';
+import { Product } from '@/types/models';
+import { productService } from '@/services/productService';
+import { ProductGrid } from '@/components/features/products/ProductGrid';
+import Pagination from '@/components/ui/Pagination';
+import HeroBanner from '@/components/ui/HeroBanner';
+import CategoryStrip from '@/components/ui/CategoryStrip';
+import TrustBadges from '@/components/ui/TrustBadges';
+import PromoBanners from '@/components/ui/PromoBanners';
+import FlashSale from '@/components/ui/FlashSale';
+import Testimonials from '@/components/ui/Testimonials';
+import AppDownload from '@/components/ui/AppDownload';
+import FAQ from '@/components/ui/FAQ';
+import Newsletter from '@/components/ui/Newsletter';
+import { useInView } from '@/hooks/useInView';
+import { useToast } from '@/components/ui/ToastProvider';
+import { Flame } from 'lucide-react';
 
-export default function Home() {
+/* ============================================
+   Lazy-loaded Product Section with Pagination
+   ============================================ */
+function ProductSection({ title, subtitle, icon, pageSize = 20, categoryId }: {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  pageSize?: number;
+  categoryId?: string;
+}) {
+  const { ref, isInView } = useInView({ rootMargin: '200px' });
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetched, setFetched] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const addItem = useCartStore(state => state.addItem);
+  const { showToast } = useToast();
 
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const fetchProducts = useCallback(async (page: number) => {
+    setLoading(true);
+    try {
+      const result = await productService.getProducts(page, pageSize, categoryId);
+      setProducts(result.items || []);
+      setTotalPages(result.totalPages || 1);
+      setTotalCount(result.totalCount || 0);
+      setCurrentPage(result.pageIndex || page);
+    } catch (error) {
+      console.error('Failed to fetch products', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [pageSize, categoryId]);
 
   useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const res = await fetch('http://localhost:5222/api/v1/online-store/categories');
-        if (res.ok) {
-          const data = await res.json();
-          setCategories(data || []);
-        }
-      } catch (error) {
-        console.error('Failed to fetch categories', error);
-      }
+    if (isInView && !fetched) {
+      setFetched(true);
+      fetchProducts(1);
     }
-    fetchCategories();
-  }, []);
+  }, [isInView, fetched, fetchProducts]);
 
-  useEffect(() => {
-    async function fetchProducts() {
-      setLoading(true);
-      try {
-        let url = 'http://localhost:5222/api/v1/online-store/products?pageIndex=1&pageSize=24';
-        if (selectedCategory) {
-          url += `&categoryId=${selectedCategory}`;
-        }
-        const res = await fetch(url);
-        if (res.ok) {
-          const data = await res.json();
-          setProducts(data.items || []);
-        }
-      } catch (error) {
-        console.error('Failed to fetch products', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProducts();
-  }, [selectedCategory]);
+  const handlePageChange = (page: number) => {
+    fetchProducts(page);
+    const el = document.getElementById('products');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const handleAdd = (product: Product) => {
+    addItem(product);
+    showToast(`Đã thêm "${product.name}" vào giỏ hàng`);
+  };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Banner */}
-      <div className="bg-emerald-600 rounded-3xl p-8 md:p-12 text-white mb-12 flex flex-col md:flex-row items-center justify-between">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Siêu thị tại nhà</h1>
-          <p className="text-emerald-100 text-lg max-w-md">
-            Khám phá hàng ngàn sản phẩm tạp hóa với giá siêu hấp dẫn, giao hàng tận nơi.
-          </p>
-          <button className="mt-8 bg-white text-emerald-600 font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-colors">
-            Mua sắm ngay
-          </button>
-        </div>
-        <div className="mt-8 md:mt-0 opacity-50 md:opacity-100 text-9xl">
-          🛍️
-        </div>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Sidebar Categories */}
-        <div className="w-full md:w-64 flex-shrink-0">
-          <div className="bg-white rounded-2xl p-4 sticky top-24 border shadow-sm">
-            <h3 className="font-bold text-lg mb-4 pb-2 border-b">Danh mục sản phẩm</h3>
-            <div className="space-y-1">
-              <button 
-                onClick={() => setSelectedCategory(null)}
-                className={`w-full text-left px-4 py-2 rounded-xl text-sm font-medium transition-colors ${selectedCategory === null ? 'bg-emerald-50 text-emerald-600' : 'hover:bg-gray-50 text-gray-700'}`}
-              >
-                Tất cả sản phẩm
-              </button>
-              {categories.map(category => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`w-full text-left px-4 py-2 rounded-xl text-sm font-medium transition-colors ${selectedCategory === category.id ? 'bg-emerald-50 text-emerald-600' : 'hover:bg-gray-50 text-gray-700'}`}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </div>
+    <section ref={ref} id="products">
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+            {icon}
+          </div>
+          <div>
+            <h2 className="text-xl font-black text-gray-800">{title}</h2>
+            <p className="text-xs text-gray-400">{subtitle}</p>
           </div>
         </div>
-
-        {/* Product Grid */}
-        <div className="flex-1">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">
-              {selectedCategory 
-                ? categories.find(c => c.id === selectedCategory)?.name || 'Sản phẩm'
-                : 'Sản phẩm nổi bật'}
-            </h2>
-          </div>
-
-          {loading ? (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                <div key={i} className="bg-white rounded-2xl p-4 animate-pulse">
-                  <div className="bg-gray-200 aspect-square rounded-xl mb-4"></div>
-                  <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
-                  <div className="bg-gray-200 h-4 rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {products.map(product => (
-                <div key={product.id} className="bg-white border rounded-2xl p-4 hover:shadow-xl transition-shadow group flex flex-col">
-                  <Link href={`/product/${product.id}`} className="aspect-square bg-gray-50 rounded-xl mb-4 overflow-hidden flex items-center justify-center relative cursor-pointer">
-                    {product.imageUrl ? (
-                      <img src={product.imageUrl.startsWith('http') ? product.imageUrl : `http://localhost:5222${product.imageUrl}`} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    ) : (
-                      <span className="text-6xl group-hover:scale-110 transition-transform duration-300">📦</span>
-                    )}
-                  </Link>
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addItem(product);
-                    }}
-                    className="absolute z-10 bottom-36 right-6 bg-emerald-500 text-white p-3 rounded-full shadow-lg hover:bg-emerald-600 hover:scale-110 transition-all opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0"
-                  >
-                    <ShoppingCart className="w-5 h-5" />
-                  </button>
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <Link href={`/product/${product.id}`}>
-                        <h3 className="font-semibold text-gray-800 line-clamp-2 text-sm md:text-base hover:text-emerald-600 transition-colors" title={product.name}>
-                          {product.name}
-                        </h3>
-                      </Link>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="font-black text-emerald-600 text-lg">{product.price.toLocaleString('vi-VN')}₫</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {products.length === 0 && (
-                <div className="col-span-full py-12 text-center text-gray-500 bg-white rounded-2xl border">
-                  <div className="text-4xl mb-4">🛒</div>
-                  <p>Không có sản phẩm nào trong danh mục này.</p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        {totalCount > 0 && !loading && (
+          <span className="text-xs text-gray-400 font-medium">{totalCount} sản phẩm</span>
+        )}
       </div>
+
+      {isInView ? (
+        <>
+          <ProductGrid products={products} loading={loading} onAdd={handleAdd} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        </>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl overflow-hidden border border-gray-100">
+              <div className="aspect-square skeleton" />
+              <div className="p-4 space-y-3">
+                <div className="skeleton h-4 w-4/5" />
+                <div className="skeleton h-3 w-1/2" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ============================================
+   Stats Bar
+   ============================================ */
+function StatsBar() {
+  return (
+    <section className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 text-center">
+        <div className="text-2xl md:text-3xl font-black text-emerald-600">1000+</div>
+        <div className="text-xs text-gray-500 font-medium mt-1">Sản phẩm</div>
+      </div>
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 text-center">
+        <div className="text-2xl md:text-3xl font-black text-emerald-600">2h</div>
+        <div className="text-xs text-gray-500 font-medium mt-1">Giao hàng</div>
+      </div>
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 text-center">
+        <div className="text-2xl md:text-3xl font-black text-emerald-600">5000+</div>
+        <div className="text-xs text-gray-500 font-medium mt-1">Khách hàng</div>
+      </div>
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 md:p-5 text-center">
+        <div className="text-2xl md:text-3xl font-black text-emerald-600">4.9⭐</div>
+        <div className="text-xs text-gray-500 font-medium mt-1">Đánh giá</div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================
+   Main Homepage
+   ============================================ */
+export default function Home() {
+  return (
+    <div className="container mx-auto px-4 py-6 md:py-8 space-y-8 md:space-y-10">
+      {/* 1. Hero Banner */}
+      <HeroBanner />
+
+      {/* 2. Category Strip */}
+      <CategoryStrip />
+
+      {/* 3. Trust Badges */}
+      <TrustBadges />
+
+      {/* 4. Flash Sale — countdown + product row */}
+      <FlashSale />
+
+      {/* 5. Promotional Banners */}
+      <PromoBanners />
+
+      {/* 6. Product Grid — paginated */}
+      <ProductSection 
+        title="Sản phẩm nổi bật" 
+        subtitle="Tươi ngon mỗi ngày, giá cực yêu"
+        icon={<Flame className="w-5 h-5 text-emerald-600" />}
+      />
+
+      {/* 7. Stats Bar */}
+      <StatsBar />
+
+      {/* 8. Testimonials */}
+      <Testimonials />
+
+      {/* 9. App Download CTA */}
+      <AppDownload />
+
+      {/* 10. FAQ */}
+      <FAQ />
+
+      {/* 11. Newsletter */}
+      <Newsletter />
     </div>
   );
 }

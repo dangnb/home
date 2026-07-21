@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
+import { orderService } from '@/services/orderService';
+
 export default function CheckoutPage() {
   const cart = useCartStore();
   const { customer } = useAuthStore();
@@ -38,14 +40,17 @@ export default function CheckoutPage() {
 
   if (success) {
     return (
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center text-center">
-        <CheckCircle2 className="w-24 h-24 text-emerald-500 mb-6" />
-        <h1 className="text-3xl font-black mb-4">Đặt hàng thành công!</h1>
-        <p className="text-gray-600 max-w-md mb-8">
-          Cảm ơn bạn đã mua sắm tại TapHoa. Đơn hàng của bạn đang chờ phê duyệt. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
+      <div className="container mx-auto px-4 py-16 max-w-2xl text-center">
+        <div className="bg-emerald-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+        </div>
+        <h1 className="text-3xl font-bold mb-4">Đặt hàng thành công!</h1>
+        <p className="text-gray-600 mb-8">
+          Cảm ơn bạn đã mua sắm. Đơn hàng của bạn đang được xử lý và sẽ sớm được giao.
         </p>
-        <Link href="/" className="bg-emerald-600 text-white font-bold py-3 px-8 rounded-full hover:bg-emerald-700 transition-colors">
-          Tiếp tục mua sắm
+        <Link href="/" className="inline-flex items-center text-emerald-600 font-medium hover:text-emerald-700">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Quay lại cửa hàng
         </Link>
       </div>
     );
@@ -83,21 +88,12 @@ export default function CheckoutPage() {
         }))
       };
 
-      const res = await fetch('http://localhost:5222/api/v1/online-store/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        setSuccess(true);
-        cart.clearCart();
-      } else {
-        alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.');
-      }
+      await orderService.createOrder(payload);
+      setSuccess(true);
+      cart.clearCart();
     } catch (error) {
       console.error(error);
-      alert('Có lỗi xảy ra. Không thể kết nối tới máy chủ.');
+      alert('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }
@@ -193,8 +189,8 @@ export default function CheckoutPage() {
                 <div key={item.product.id} className="flex justify-between">
                   <div className="flex gap-3">
                     <div className="w-12 h-12 bg-gray-100 rounded flex-shrink-0 flex items-center justify-center">
-                      {item.product.imageUrl ? (
-                        <img src={item.product.imageUrl.startsWith('http') ? item.product.imageUrl : `http://localhost:5222${item.product.imageUrl}`} alt="" className="w-full h-full object-cover rounded" />
+                      {item.product.mainImageUrl ? (
+                        <img src={item.product.mainImageUrl.startsWith('http') ? item.product.mainImageUrl : `http://localhost:5222${item.product.mainImageUrl}`} alt={item.product.name} className="w-full h-full object-cover rounded" />
                       ) : (
                         <span className="text-xs text-gray-400">Ảnh</span>
                       )}

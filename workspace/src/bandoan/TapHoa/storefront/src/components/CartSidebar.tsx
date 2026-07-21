@@ -49,11 +49,15 @@ export default function CartSidebar({ isOpen, onClose }: { isOpen: boolean; onCl
             <div className="space-y-4">
               {cart.items.map((item) => (
                 <div key={item.product.id} className="flex gap-4 border-b pb-4">
-                  <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
-                    {item.product.imageUrl ? (
-                      <img src={item.product.imageUrl} alt={item.product.name} className="w-full h-full object-cover" />
+                  <div className="w-20 h-20 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden">
+                    {item.product.mainImageUrl ? (
+                      <img 
+                        src={item.product.mainImageUrl.startsWith('http') ? item.product.mainImageUrl : `http://localhost:5222${item.product.mainImageUrl}`} 
+                        alt={item.product.name} 
+                        className="w-full h-full object-cover" 
+                      />
                     ) : (
-                      <span className="text-gray-400 text-xs">No image</span>
+                      <span className="text-2xl">📦</span>
                     )}
                   </div>
                   <div className="flex-1 flex flex-col justify-between">
