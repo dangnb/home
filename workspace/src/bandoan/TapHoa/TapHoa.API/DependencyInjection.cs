@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Asp.Versioning;
 using TapHoa.Application.Interfaces;
@@ -23,36 +25,71 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
+        // ══════════════════════════════════════════════════════════
+        // RATE LIMITING
+        // ══════════════════════════════════════════════════════════
         var permitLimit = configuration.GetValue<int>("Security:RateLimiting:PermitLimit", 100);
         var window = configuration.GetValue<int>("Security:RateLimiting:Window", 60);
-        var queueLimit = configuration.GetValue<int>("Security:RateLimiting:QueueLimit", 10);
+        var queueLimit = configuration.GetValue<int>("Security:RateLimiting:QueueLimit", 0);
 
         services.AddRateLimiter(options =>
         {
-            options.GlobalLimiter = System.Threading.RateLimiting.PartitionedRateLimiter.Create<Microsoft.AspNetCore.Http.HttpContext, string>(httpContext =>
-                System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
-                    factory: partition => new System.Threading.RateLimiting.FixedWindowRateLimiterOptions
+            // Global rate limiter (per user or IP)
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: httpContext.User.Identity?.Name
+                                  ?? httpContext.Connection.RemoteIpAddress?.ToString()
+                                  ?? "anonymous",
+                    factory: _ => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
-                        PermitLimit = permitLimit,
-                        QueueLimit = queueLimit,
-                        Window = TimeSpan.FromSeconds(window)
+                        PermitLimit       = permitLimit,
+                        QueueLimit        = queueLimit,
+                        Window            = TimeSpan.FromSeconds(window)
                     }));
-            options.RejectionStatusCode = 429;
+
+            // Strict limiter for /auth/login — prevent brute-force (5 requests/minute per IP)
+            options.AddFixedWindowLimiter("login-policy", opt =>
+            {
+                opt.PermitLimit   = 5;
+                opt.Window        = TimeSpan.FromMinutes(1);
+                opt.QueueLimit    = 0;
+                opt.AutoReplenishment = true;
+            });
+
+            // Strict limiter for /auth/refresh-token (10/minute)
+            options.AddFixedWindowLimiter("refresh-policy", opt =>
+            {
+                opt.PermitLimit   = 10;
+                opt.Window        = TimeSpan.FromMinutes(1);
+                opt.QueueLimit    = 0;
+                opt.AutoReplenishment = true;
+            });
+
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
         });
 
-        var allowedOrigins = configuration.GetSection("Security:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:4200" };
+        // ══════════════════════════════════════════════════════════
+        // CORS
+        // ══════════════════════════════════════════════════════════
+        var allowedOrigins = configuration
+            .GetSection("Security:AllowedOrigins")
+            .Get<string[]>() ?? ["http://localhost:4200"];
+
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll",
-                policy => policy.WithOrigins(allowedOrigins)
-                                .AllowAnyMethod()
-                                .AllowAnyHeader()
-                                .AllowCredentials());
+            options.AddPolicy("TapHoaCorsPolicy",
+                policy => policy
+                    .WithOrigins(allowedOrigins)
+                    .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                    .WithHeaders("Authorization", "Content-Type", "X-Requested-With", "X-CSRF-Token")
+                    .AllowCredentials()          // Needed for HttpOnly cookie (refresh token)
+                    .SetPreflightMaxAge(TimeSpan.FromMinutes(10)));
         });
 
-        // Setup API Versioning
+        // ══════════════════════════════════════════════════════════
+        // API VERSIONING
+        // ══════════════════════════════════════════════════════════
         services.AddApiVersioning(options =>
         {
             options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -65,48 +102,96 @@ public static class DependencyInjection
             options.SubstituteApiVersionInUrl = true;
         });
 
-        // Configure JWT Authentication
-        var jwtKey = configuration["Security:JwtKey"] ?? configuration["Jwt:Key"] ?? "super_secret_key_that_is_very_long_and_secure_12345!";
+        // ══════════════════════════════════════════════════════════
+        // JWT AUTHENTICATION
+        // Priority: User Secrets > Environment Variables > appsettings
+        // ══════════════════════════════════════════════════════════
+        var jwtKey = configuration["Security:JwtKey"]
+                  ?? configuration["Jwt:Key"]
+                  ?? throw new InvalidOperationException(
+                        "JWT key is not configured. Set 'Security:JwtKey' via environment variable or User Secrets.");
+
+        if (jwtKey == "SET_VIA_ENV_VAR_OR_USER_SECRETS" || jwtKey.Length < 32)
+        {
+            throw new InvalidOperationException(
+                "JWT key is missing or too short (minimum 32 chars). " +
+                "Set 'Security:JwtKey' via environment variable or dotnet user-secrets.");
+        }
+
+        var jwtExpiry = configuration.GetValue<int>("Security:JwtExpiryMinutes", 30);
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateIssuer           = true,
+                    ValidateAudience         = true,
+                    ValidateLifetime         = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "TapHoaApi",
-                    ValidAudience = "TapHoaFrontend",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                    ClockSkew                = TimeSpan.FromSeconds(30), // Reduce from default 5 min
+                    ValidIssuer              = "TapHoaApi",
+                    ValidAudience            = "TapHoaFrontend",
+                    IssuerSigningKey         = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                 };
-                
+
                 options.Events = new JwtBearerEvents
                 {
                     OnTokenValidated = async context =>
                     {
-                        var dbContext = context.HttpContext.RequestServices.GetRequiredService<IApplicationDbContext>();
+                        var dbContext = context.HttpContext.RequestServices
+                            .GetRequiredService<IApplicationDbContext>();
                         var token = context.SecurityToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
                         if (token != null)
                         {
                             // Check if this raw token is blacklisted in DB
-                            var isRevoked = await dbContext.UserTokens.AnyAsync(t => t.Token == token.RawData && t.IsRevoked);
+                            var isRevoked = await dbContext.UserTokens
+                                .AnyAsync(t => t.Token == token.RawData && t.IsRevoked);
                             if (isRevoked)
                             {
-                                context.Fail("This token has been revoked by the system.");
+                                context.Fail("This token has been revoked.");
                             }
                         }
+                    },
+
+                    OnAuthenticationFailed = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices
+                            .GetRequiredService<ILogger<JwtBearerEvents>>();
+                        logger.LogWarning(
+                            "SECURITY: JWT authentication failed from IP {IP} — {Error}",
+                            context.HttpContext.Connection.RemoteIpAddress,
+                            context.Exception?.Message);
+                        return Task.CompletedTask;
+                    },
+
+                    OnForbidden = context =>
+                    {
+                        var logger = context.HttpContext.RequestServices
+                            .GetRequiredService<ILogger<JwtBearerEvents>>();
+                        logger.LogWarning(
+                            "SECURITY: Access forbidden for user {User} on {Path} from IP {IP}",
+                            context.HttpContext.User.Identity?.Name ?? "anonymous",
+                            context.HttpContext.Request.Path,
+                            context.HttpContext.Connection.RemoteIpAddress);
+                        return Task.CompletedTask;
                     }
                 };
             });
 
+        // ══════════════════════════════════════════════════════════
+        // AUTHORIZATION
+        // ══════════════════════════════════════════════════════════
         services.AddAuthorization();
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
+        // ══════════════════════════════════════════════════════════
+        // INFRASTRUCTURE SERVICES
+        // ══════════════════════════════════════════════════════════
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
-        
+
         // ASP.NET Core 9+ OpenAPI
         services.AddOpenApi();
 

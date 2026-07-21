@@ -18,6 +18,287 @@
   min-height: 250px;
 }
 
+// Footer spacing — tạo khoảng cách giữa content và footer
+#kt_app_content,
+#kt_app_content_container {
+  padding-bottom: 40px !important;
+}
+
+#kt_app_footer,
+.app-footer {
+  margin-top: 24px;
+  border-top: 1px solid var(--bs-border-color, #e9ecef);
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+
+// ============================================================
+// Page Layout Spacing — Khoảng cách header-card & body-card
+// ============================================================
+
+// Page title (h1, h2) trong content-area phải có margin-bottom rõ ràng
+// trước card/table bên dưới
+.content-area {
+  // h1/h2 là page title → cần tách với card bên dưới
+  > h1:first-child,
+  > h2:first-child,
+  > .page-title:first-child {
+    margin-bottom: 1.5rem !important;
+  }
+
+  // Tăng gap giữa các khối trong layout flex-column của các trang quản lý
+  .d-flex.flex-column.gap-7 {
+    gap: 2rem !important;
+  }
+
+  .d-flex.flex-column.gap-5 { gap: 1.5rem !important; }
+  .d-flex.flex-column.gap-6 { gap: 1.75rem !important; }
+}
+
+// ============================================================
+// Dark Mode - Admin (data-bs-theme="dark" on <html> or <body>)
+// ============================================================
+:is([data-bs-theme="dark"], body[data-bs-theme="dark"]) {
+  // ── CSS variables override ─────────────────────────────
+  --kt-body-bg: #13131a;
+  --kt-body-color: #cdcfe4;
+  --kt-card-bg: #1e1e2d;
+  --kt-card-border-color: rgba(255,255,255,0.07);
+
+  // ── App body background ────────────────────────────────
+  #kt_app_body,
+  body {
+    background-color: #13131a !important;
+  }
+
+  // ── App wrapper & content area ─────────────────────────
+  #kt_app_content_container,
+  #kt_app_content,
+  .app-main,
+  .app-wrapper {
+    background-color: #13131a !important;
+  }
+
+  // ── Header ────────────────────────────────────────────
+  #kt_app_header,
+  .app-header {
+    background-color: #1e1e2d !important;
+    border-bottom-color: rgba(255,255,255,0.07) !important;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.05) !important;
+
+    .page-title .fw-bold { color: #cdcfe4 !important; }
+
+    .breadcrumb-item,
+    .breadcrumb-item.text-muted { color: rgba(205,207,228,0.5) !important; }
+    .breadcrumb-item + .breadcrumb-item::before { color: rgba(205,207,228,0.3) !important; }
+
+    .btn-icon { color: rgba(205,207,228,0.7) !important; }
+    .btn-icon:hover { background: rgba(255,255,255,0.08) !important; }
+  }
+
+  // ── Toolbar ───────────────────────────────────────────
+  #kt_app_toolbar,
+  .app-toolbar {
+    background-color: #1e1e2d !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+
+    .page-title .fw-bold,
+    .page-title h1,
+    .page-title .text-dark { color: #e8e9f5 !important; }
+
+    .breadcrumb-item { color: rgba(205,207,228,0.55) !important; }
+    .breadcrumb-item.text-muted { color: rgba(205,207,228,0.4) !important; }
+  }
+
+  // ── Cards ─────────────────────────────────────────────
+  .card,
+  .card-flush,
+  .card.card-flush {
+    background-color: #1e1e2d !important;
+    border-color: rgba(255,255,255,0.07) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+
+    .card-header {
+      background-color: transparent !important;
+      border-bottom-color: rgba(255,255,255,0.07) !important;
+
+      .card-title,
+      .card-title .fw-bold,
+      .fw-bolder { color: #e8e9f5 !important; }
+    }
+
+    .card-body { color: #cdcfe4; }
+    .card-footer {
+      background-color: transparent !important;
+      border-top-color: rgba(255,255,255,0.07) !important;
+    }
+  }
+
+  // ── Tables ────────────────────────────────────────────
+  .table,
+  .table-row-dashed {
+    color: #cdcfe4 !important;
+
+    thead th {
+      color: rgba(205,207,228,0.6) !important;
+      border-bottom-color: rgba(255,255,255,0.1) !important;
+      background: transparent !important;
+    }
+
+    tr td { border-bottom-color: rgba(255,255,255,0.06) !important; }
+    tr:hover td { background-color: rgba(255,255,255,0.04) !important; }
+
+    .fw-bold { color: #e8e9f5 !important; }
+    .text-gray-600 { color: rgba(205,207,228,0.55) !important; }
+    .text-gray-400,
+    .text-muted { color: rgba(205,207,228,0.4) !important; }
+  }
+
+  // ── Separator ─────────────────────────────────────────
+  .separator { border-top-color: rgba(255,255,255,0.08) !important; }
+
+  // ── Form Controls ─────────────────────────────────────
+  .form-control,
+  .form-select,
+  .form-control-solid,
+  input.form-control {
+    background-color: #252535 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #cdcfe4 !important;
+
+    &::placeholder { color: rgba(205,207,228,0.35) !important; }
+    &:focus {
+      background-color: #2d2d42 !important;
+      border-color: rgba(99,102,241,0.5) !important;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
+    }
+  }
+
+  .input-group-text {
+    background-color: #252535 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: rgba(205,207,228,0.6) !important;
+  }
+
+  // ── Buttons ───────────────────────────────────────────
+  .btn-light,
+  .btn-secondary {
+    background-color: #252535 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #cdcfe4 !important;
+
+    &:hover {
+      background-color: #2d2d42 !important;
+      color: #e8e9f5 !important;
+    }
+  }
+
+  .btn-white {
+    background-color: #252535 !important;
+    color: #cdcfe4 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+  }
+
+  // ── Dropdowns ─────────────────────────────────────────
+  .dropdown-menu,
+  .menu.menu-sub-dropdown,
+  [data-kt-menu="true"] {
+    background-color: #1e1e2d !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+
+    .dropdown-item,
+    .menu-link {
+      color: #cdcfe4 !important;
+      &:hover {
+        background-color: rgba(255,255,255,0.07) !important;
+        color: #e8e9f5 !important;
+      }
+    }
+
+    .menu-item .menu-link .menu-title { color: #cdcfe4 !important; }
+    .separator { border-top-color: rgba(255,255,255,0.08) !important; }
+  }
+
+  // ── Modals ────────────────────────────────────────────
+  .modal-content {
+    background-color: #1e1e2d !important;
+    border-color: rgba(255,255,255,0.1) !important;
+
+    .modal-header {
+      border-bottom-color: rgba(255,255,255,0.08) !important;
+      .modal-title { color: #e8e9f5 !important; }
+      .btn-close { filter: invert(1) opacity(0.6); }
+    }
+
+    .modal-body { color: #cdcfe4; }
+    .modal-footer { border-top-color: rgba(255,255,255,0.08) !important; }
+  }
+
+  .modal-backdrop { opacity: 0.7; }
+
+  // ── Badges ────────────────────────────────────────────
+  .badge.badge-light-primary { background: rgba(99,102,241,0.2) !important; color: #818cf8 !important; }
+  .badge.badge-light-success { background: rgba(16,185,129,0.2) !important; color: #34d399 !important; }
+  .badge.badge-light-danger  { background: rgba(239,68,68,0.2)  !important; color: #f87171 !important; }
+  .badge.badge-light-warning { background: rgba(245,158,11,0.2) !important; color: #fbbf24 !important; }
+  .badge.badge-light-info    { background: rgba(6,182,212,0.2)  !important; color: #22d3ee !important; }
+
+  // ── Text ──────────────────────────────────────────────
+  .text-dark    { color: #e8e9f5 !important; }
+  .text-gray-900 { color: #e8e9f5 !important; }
+  .text-gray-800 { color: #cdcfe4 !important; }
+  .text-gray-700 { color: #b0b3cc !important; }
+  .text-gray-600 { color: rgba(205,207,228,0.6) !important; }
+  .text-gray-500 { color: rgba(205,207,228,0.5) !important; }
+  .text-gray-400 { color: rgba(205,207,228,0.4) !important; }
+
+  // ── Backgrounds ───────────────────────────────────────
+  .bg-body    { background-color: #13131a !important; }
+  .bg-white   { background-color: #1e1e2d !important; }
+  .bg-light   { background-color: #252535 !important; }
+  .bg-gray-100 { background-color: #1e1e2d !important; }
+  .bg-gray-200 { background-color: #252535 !important; }
+  .bg-light-primary { background-color: rgba(99,102,241,0.15) !important; }
+  .bg-light-success { background-color: rgba(16,185,129,0.12) !important; }
+  .bg-light-danger  { background-color: rgba(239,68,68,0.12)  !important; }
+  .bg-light-warning { background-color: rgba(245,158,11,0.12) !important; }
+  .bg-light-info    { background-color: rgba(6,182,212,0.12)  !important; }
+
+  // ── Borders ───────────────────────────────────────────
+  .border       { border-color: rgba(255,255,255,0.1) !important; }
+  .border-top   { border-top-color: rgba(255,255,255,0.08) !important; }
+  .border-bottom { border-bottom-color: rgba(255,255,255,0.08) !important; }
+
+  // ── Select2 / Custom selects ───────────────────────────
+  .select2-container--bootstrap-5 .select2-selection {
+    background-color: #252535 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #cdcfe4 !important;
+  }
+
+  // ── Pagination ────────────────────────────────────────
+  .page-link {
+    background-color: #252535 !important;
+    border-color: rgba(255,255,255,0.1) !important;
+    color: #cdcfe4 !important;
+  }
+  .page-item.active .page-link { background-color: #6366f1 !important; border-color: #6366f1 !important; }
+
+  // ── Footer ────────────────────────────────────────────
+  #kt_app_footer,
+  .app-footer {
+    background-color: #1e1e2d !important;
+    border-top-color: rgba(255,255,255,0.07) !important;
+    color: rgba(205,207,228,0.5) !important;
+
+    a { color: rgba(205,207,228,0.5) !important; }
+    a:hover { color: #6366f1 !important; }
+  }
+}
+
+
 // ============================================================
 // Sidebar Menu - Premium Custom Styling
 // ============================================================

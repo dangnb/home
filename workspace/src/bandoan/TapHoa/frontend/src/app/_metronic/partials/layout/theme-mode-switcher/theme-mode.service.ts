@@ -49,12 +49,17 @@ export class ThemeModeService {
   public updateMode(_mode: ThemeModeType) {
     const updatedMode = _mode === 'system' ? systemMode : _mode;
     this.mode.next(updatedMode);
+    this.menuMode.next(updatedMode);
+
     if (localStorage) {
       localStorage.setItem(themeModeLSKey, updatedMode);
+      localStorage.setItem(themeMenuModeLSKey, updatedMode);
     }
 
+    // Apply data-bs-theme to <html> element — CSS [data-bs-theme="dark"] selectors respond to this
     document.documentElement.setAttribute('data-bs-theme', updatedMode);
-    ThemeModeComponent.init();
+    // Also apply to body for broader compatibility
+    document.body.setAttribute('data-bs-theme', updatedMode);
   }
 
   public updateMenuMode(_menuMode: ThemeModeType) {
@@ -65,16 +70,12 @@ export class ThemeModeService {
   }
 
   public init() {
-    this.updateMode(this.mode.value);
-    this.updateMenuMode(this.menuMode.value);
+    const savedMode = getThemeModeFromLocalStorage(themeModeLSKey);
+    this.updateMode(savedMode);
   }
 
+  /** Toggle: saves to localStorage AND applies theme immediately (no reload needed) */
   public switchMode(_mode: ThemeModeType) {
-    if (localStorage) {
-      const updatedMode = _mode === 'system' ? systemMode : _mode;
-      localStorage.setItem(themeModeLSKey, updatedMode);
-      localStorage.setItem(themeMenuModeLSKey, _mode);
-    }
-    document.location.reload();
+    this.updateMode(_mode);
   }
 }

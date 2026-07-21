@@ -419,11 +419,16 @@
     }
 
     .content-area {
-        padding: 1.75rem;
+        padding: 2.25rem 1.75rem 2rem 1.75rem; // top: 2.25rem để tạo khoảng cách rõ hơn với topbar
         flex: 1;
         max-width: 1600px;
         margin: 0 auto;
         width: 100%;
+
+        // Spacing giữa các card/section trong cùng một trang quản lý
+        > * + * {
+            margin-top: 1.5rem;
+        }
     }
 }
 

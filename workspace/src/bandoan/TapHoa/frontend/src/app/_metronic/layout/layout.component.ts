@@ -91,6 +91,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
           this.layout.currentLayoutTypeSubject.next(nextLayoutType);
           this.initService.reInitProps(nextLayoutType);
         }
+
+        // Re-init KT components after each navigation so menus & dropdowns work
+        menuReinitialization();
       }
     });
   }

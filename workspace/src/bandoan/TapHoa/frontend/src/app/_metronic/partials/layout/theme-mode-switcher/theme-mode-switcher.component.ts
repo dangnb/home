@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ThemeModeService, ThemeModeType } from './theme-mode.service';
 
@@ -9,8 +9,6 @@ import { ThemeModeService, ThemeModeType } from './theme-mode.service';
 export class ThemeModeSwitcherComponent implements OnInit {
   @Input() toggleBtnClass: string = '';
   @Input() toggleBtnIconClass: string = 'svg-icon-2';
-  @Input() menuPlacement: string = 'bottom-end';
-  @Input() menuTrigger: string = "{default: 'click', lg: 'hover'}";
   mode$: Observable<ThemeModeType>;
   menuMode$: Observable<ThemeModeType>;
 
@@ -19,6 +17,12 @@ export class ThemeModeSwitcherComponent implements OnInit {
   ngOnInit(): void {
     this.mode$ = this.modeService.mode.asObservable();
     this.menuMode$ = this.modeService.menuMode.asObservable();
+  }
+
+  /** Simple toggle: light → dark → light */
+  toggleMode(currentMode: ThemeModeType): void {
+    const nextMode: ThemeModeType = currentMode === 'dark' ? 'light' : 'dark';
+    this.modeService.switchMode(nextMode);
   }
 
   switchMode(_mode: ThemeModeType): void {

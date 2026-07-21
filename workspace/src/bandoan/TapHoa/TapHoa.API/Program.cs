@@ -449,8 +449,54 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// ── Security Headers Middleware ─────────────────────────────────────────────
+// Thêm các HTTP security headers vào mọi response để chống XSS, Clickjacking,
+// MIME sniffing và tấn công thông qua thông tin referrer.
+app.Use(async (context, next) =>
+{
+    var headers = context.Response.Headers;
+
+    // Chống Clickjacking — ngăn nhúng trong iframe
+    headers.Append("X-Frame-Options", "DENY");
+
+    // Chống MIME-type sniffing
+    headers.Append("X-Content-Type-Options", "nosniff");
+
+    // Kiểm soát thông tin Referrer khi navigate ra ngoài site
+    headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+
+    // Chặn Permissions không cần thiết (camera, mic, geolocation...)
+    headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+
+    // Content Security Policy — Chỉ cho phép tài nguyên từ source tin cậy
+    // Điều chỉnh 'connect-src' nếu API host thay đổi
+    headers.Append("Content-Security-Policy",
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline'; " +  // unsafe-inline cần cho Angular
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+        "font-src 'self' https://fonts.gstatic.com data:; " +
+        "img-src 'self' data: blob: https:; " +
+        "connect-src 'self' http://localhost:5000 http://localhost:5001 ws://localhost:* wss://localhost:*; " +
+        "frame-ancestors 'none'");
+
+    // HSTS — Bắt buộc HTTPS (chỉ có hiệu lực khi dùng HTTPS)
+    if (context.Request.IsHttps)
+    {
+        headers.Append("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    }
+
+    // Ẩn thông tin server technology
+    headers.Remove("Server");
+    headers.Remove("X-Powered-By");
+
+    await next();
+});
+
+// ── Middleware Pipeline Order ────────────────────────────────────────────────
+app.UseHttpsRedirection();
 app.UseRateLimiter();
-app.UseCors("AllowAll");
+app.UseCors("TapHoaCorsPolicy");   // Đã fix: explicit methods + headers
+
 var webRootPath = builder.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 if (!Directory.Exists(webRootPath)) Directory.CreateDirectory(webRootPath);
 
@@ -462,17 +508,16 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
 
-// Map Minimal API Endpoints
+// ── Map Minimal API Endpoints ────────────────────────────────────────────────
 var apiVersionSet = app.NewApiVersionSet()
     .HasApiVersion(new Asp.Versioning.ApiVersion(1, 0))
     .ReportApiVersions()
     .Build();
 
-
 app.MapGroup("api/v{version:apiVersion}/products").WithApiVersionSet(apiVersionSet).MapProductsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/categories").WithApiVersionSet(apiVersionSet).MapCategoriesEndpoints();
+// Auth group: áp dụng strict rate-limit cho login & refresh endpoints bên trong
 app.MapGroup("api/v{version:apiVersion}/auth").WithApiVersionSet(apiVersionSet).MapAuthEndpoints();
 app.MapGroup("api/v{version:apiVersion}/transactions").WithApiVersionSet(apiVersionSet).MapTransactionsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/stock-takes").WithApiVersionSet(apiVersionSet).MapStockTakesEndpoints();
