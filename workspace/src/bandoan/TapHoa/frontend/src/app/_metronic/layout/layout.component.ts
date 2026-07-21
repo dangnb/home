@@ -1,6 +1,7 @@
-﻿import {
+import {
   Component,
   OnInit,
+  AfterViewInit,
   ViewChild,
   ElementRef,
   OnDestroy,
@@ -10,13 +11,14 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';
 import { ILayout, LayoutType } from './core/configs/config';
+import { menuReinitialization } from '../kt/kt-helpers';
 
 @Component({ standalone: false,
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
 
   // Public variables
@@ -100,6 +102,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.updateProps(config);
       });
     this.unsubscribe.push(subscr);
+  }
+
+  ngAfterViewInit() {
+    // Initialize Metronic KT components (MenuComponent, DrawerComponent, etc.)
+    // so dropdowns, drawers, and theme switcher work correctly
+    menuReinitialization();
   }
 
   updateProps(config: ILayout) {
