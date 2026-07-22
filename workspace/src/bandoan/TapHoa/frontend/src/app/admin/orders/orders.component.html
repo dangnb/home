@@ -1,48 +1,58 @@
 <!--begin::Orders-->
-<div class="card">
-  <!--begin::Card header-->
-  <div class="card-header border-0 pt-6 flex-column gap-3">
-    <div class="d-flex justify-content-between align-items-center w-100">
-      <h3 class="card-title">
-        <i class="ki-duotone ki-receipt-square fs-2 me-2 text-primary">
-          <span class="path1"></span><span class="path2"></span>
-        </i>
-        {{ 'ORDERS.TITLE' | translate }}
-      </h3>
-    </div>
-    <div class="row g-3 align-items-center w-100">
-      <div class="col-md-4">
-        <div class="d-flex align-items-center position-relative">
-          <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+<div class="app-card">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="ki-duotone ki-receipt-square fs-2 me-2 text-primary">
             <span class="path1"></span><span class="path2"></span>
           </i>
-          <input type="text" class="form-control form-control-sm form-control-solid ps-13"
-            [placeholder]="'ORDERS.SEARCH_PLACEHOLDER' | translate"
-            [(ngModel)]="searchTerm" (keyup.enter)="onSearchChange()">
-        </div>
+          {{ 'ORDERS.TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ totalCount || orders.length }} đơn hàng</span>
       </div>
-      <div class="col-md-2">
-        <select class="form-select form-select-sm form-select-solid" [(ngModel)]="status" (change)="onSearchChange()">
-          <option [ngValue]="null">{{ 'ORDERS.STATUS_ALL' | translate }}</option>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <i class="ki-duotone ki-magnifier search-icon">
+          <span class="path1"></span><span class="path2"></span>
+        </i>
+        <input type="text" class="search-input"
+          [placeholder]="'ORDERS.SEARCH_PLACEHOLDER' | translate"
+          [(ngModel)]="searchTerm" (keyup.enter)="onSearchChange()">
+        @if (searchTerm) {
+          <button type="button" class="clear-search-btn" (click)="searchTerm = ''; onSearchChange()">
+            <i class="ki-duotone ki-cross fs-6"><span class="path1"></span><span class="path2"></span></i>
+          </button>
+        }
+      </div>
+
+      <div class="select-wrapper">
+        <select class="form-select-app" [(ngModel)]="status" (change)="onSearchChange()">
+          <option [ngValue]="null">-- Tất cả trạng thái --</option>
           <option [ngValue]="OrderStatus.Pending">{{ 'ORDERS.STATUS_PENDING' | translate }}</option>
           <option [ngValue]="OrderStatus.Completed">{{ 'ORDERS.STATUS_COMPLETED' | translate }}</option>
           <option [ngValue]="OrderStatus.Cancelled">{{ 'ORDERS.STATUS_CANCELLED' | translate }}</option>
         </select>
       </div>
-      <div class="col-md-2">
-        <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="fromDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_FROM' | translate">
+
+      <div class="select-wrapper" style="min-width: 140px;">
+        <input type="date" class="form-select-app" [(ngModel)]="fromDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_FROM' | translate">
       </div>
-      <div class="col-md-2">
-        <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="toDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_TO' | translate">
+
+      <div class="select-wrapper" style="min-width: 140px;">
+        <input type="date" class="form-select-app" [(ngModel)]="toDate" (change)="onSearchChange()" [title]="'ORDERS.DATE_TO' | translate">
       </div>
-      <div class="col-md-2">
-        <button class="btn btn-sm btn-primary w-100" type="button" (click)="onSearchChange()">
-          <i class="ki-duotone ki-filter fs-3 me-1"><span class="path1"></span><span class="path2"></span></i>
-          {{ 'ORDERS.BTN_FILTER' | translate }}
-        </button>
-      </div>
+
+      <button class="btn-advanced-filter active" type="button" (click)="onSearchChange()">
+        <i class="ki-duotone ki-filter fs-4 me-1"><span class="path1"></span><span class="path2"></span></i>
+        Lọc
+      </button>
     </div>
   </div>
+  <!--end::Toolbar Header-->
   <!--end::Card header-->
 
   <!--begin::Card body-->

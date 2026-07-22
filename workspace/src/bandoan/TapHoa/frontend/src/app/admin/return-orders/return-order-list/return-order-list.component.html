@@ -1,58 +1,74 @@
-﻿<div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="h3 mb-0 text-gray-800">{{ 'RETURNS.TITLE' | translate }}</h2>
-  <a routerLink="/admin/return-orders/create" class="btn btn-sm btn-primary shadow-sm">
-    <i class="bi bi-plus-circle me-2"></i>{{ 'COMMON.CREATE' | translate }}
-  </a>
-</div>
+<div class="app-card">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="ki-duotone ki-arrow-left fs-2 me-2 text-primary"><span class="path1"></span><span class="path2"></span></i>
+          {{ 'RETURNS.TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ totalCount || returnOrders.length }} phiếu trả</span>
+      </div>
 
-<div class="card shadow mb-4">
-  <div class="card-header py-3 d-flex justify-content-between align-items-center">
-    <h6 class="m-0 font-weight-bold text-primary">{{ 'RETURNS.TITLE' | translate }}</h6>
-    <div class="input-group" style="width: 300px;">
-      <input type="text" class="form-control form-control-sm" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate" 
-             [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="onSearch()">
-        <i class="ki-duotone ki-magnifier fs-3"><span class="path1"></span><span class="path2"></span></i>
-      </button>
+      <div class="actions-group">
+        <a routerLink="/admin/return-orders/create" class="btn btn-sm btn-primary fw-bold">
+          <i class="ki-duotone ki-plus fs-2 me-1"></i> {{ 'COMMON.CREATE' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <i class="ki-duotone ki-magnifier search-icon"><span class="path1"></span><span class="path2"></span></i>
+        <input type="text" class="search-input" [placeholder]="'RETURNS.SEARCH_PLACEHOLDER' | translate"
+               [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
+        @if (searchTerm) {
+          <button type="button" class="clear-search-btn" (click)="searchTerm = ''; onSearch()">
+            <i class="ki-duotone ki-cross fs-6"><span class="path1"></span><span class="path2"></span></i>
+          </button>
+        }
+      </div>
     </div>
   </div>
+  <!--end::Toolbar Header-->
+
   <div class="card-body py-4">
     <div class="table-responsive">
       <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
         <thead>
           <tr class="fw-bold text-muted">
-            <th>{{ 'RETURNS.COL_RETURN_ID' | translate }}</th>
+            <th class="ps-4">{{ 'RETURNS.COL_RETURN_ID' | translate }}</th>
             <th>{{ 'RETURNS.COL_ORDER_ID' | translate }}</th>
             <th>{{ 'CUSTOMER_DEBTS.COL_CUSTOMER' | translate }}</th>
-            <th>{{ 'RETURNS.COL_DATE' | translate }}</th>
+            <th class="d-none d-md-table-cell">{{ 'RETURNS.COL_DATE' | translate }}</th>
             <th>{{ 'RETURNS.COL_REFUND' | translate }}</th>
             <th>{{ 'RETURNS.COL_STATUS' | translate }}</th>
-            <th class="text-end">{{ 'RETURNS.COL_ACTIONS' | translate }}</th>
+            <th class="text-end pe-4">{{ 'RETURNS.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @for (item of returnOrders; track item.id) {
             <tr>
-              <td><span class="fw-medium">{{ item.returnCode }}</span></td>
+              <td class="ps-4 fw-medium">{{ item.returnCode }}</td>
               <td><span class="text-primary">{{ item.originalOrderCode }}</span></td>
               <td>{{ item.customerName }}</td>
-              <td>{{ item.returnDate | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td class="d-none d-md-table-cell">{{ item.returnDate | date:'dd/MM/yyyy HH:mm' }}</td>
               <td><span class="text-danger fw-bold">{{ item.refundAmount | number:'1.0-0' }}đ</span></td>
               <td>
                 @if (item.status === 1) {
-                  <span class="badge bg-warning text-dark">{{ 'RETURNS.STATUS_PENDING' | translate }}</span>
+                  <span class="badge badge-light-warning">{{ 'RETURNS.STATUS_PENDING' | translate }}</span>
                 } @else if (item.status === 2) {
                   <span class="badge badge-light-success">{{ 'RETURNS.STATUS_COMPLETED' | translate }}</span>
                 } @else {
                   <span class="badge badge-light-danger">Cancelled</span>
                 }
               </td>
-              <td class="text-end">
-                <a [routerLink]="['/admin/return-orders', item.id]" class="btn btn-sm btn-outline-info me-1" [title]="'RETURN_ORDERS.TXT_2' | translate">
+              <td class="text-end pe-4">
+                <a [routerLink]="['/admin/return-orders', item.id]" class="btn btn-sm btn-icon btn-light-primary me-1" [title]="'RETURN_ORDERS.TXT_2' | translate">
                   <i class="bi bi-eye"></i>
                 </a>
                 @if (item.status === 1) {
-                  <button class="btn btn-sm btn-outline-success" (click)="approve(item.id)" [title]="'RETURN_ORDERS.TXT_3' | translate">
+                  <button class="btn btn-sm btn-icon btn-light-success" (click)="approve(item.id)" [title]="'RETURN_ORDERS.TXT_3' | translate">
                     <i class="bi bi-check-circle"></i>
                   </button>
                 }
@@ -61,7 +77,8 @@
           }
           @if (returnOrders.length === 0) {
             <tr>
-              <td colspan="7" class="text-center py-4 text-muted">
+              <td colspan="7" class="text-center py-10 text-muted">
+                <i class="ki-duotone ki-package fs-3x text-gray-300 d-block mb-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 {{ 'RETURNS.NO_DATA' | translate }}
               </td>
             </tr>
@@ -69,10 +86,10 @@
         </tbody>
       </table>
     </div>
-    
+
     <!-- Pagination -->
     @if (totalPages > 1) {
-      <div class="card-footer border-0 bg-white d-flex justify-content-end py-3">
+      <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end py-3">
         <nav aria-label="Page navigation">
           <ul class="pagination mb-0">
             <li class="page-item" [class.disabled]="pageNumber === 1">

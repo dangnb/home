@@ -1,23 +1,27 @@
-﻿<div class="page-container">
-  <!-- Header -->
-  <div class="page-header">
-    <div class="page-title-area">
-      <h2>
-        @if (showDetail()) {
-          <button class="btn btn-sm-back" (click)="backToList()"><i class="bi bi-arrow-left"></i></button>
-        }
-        <i class="bi bi-wallet2"></i> {{ 'PAYROLL.TITLE' | translate }}
-      </h2>
-      <p class="view-subtitle">{{ showDetail() ? ('PAYROLL.DETAIL_SUBTITLE' | translate) : ('PAYROLL.SUBTITLE' | translate) }}</p>
-    </div>
-    @if (!showDetail()) {
-      <div class="header-actions">
-        <button class="btn btn-sm btn-primary" (click)="openCreateModal()">
-          <i class="bi bi-plus-circle"></i> {{ 'PAYROLL.CREATE_PERIOD' | translate }}
-        </button>
+<div class="app-card">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          @if (showDetail()) {
+            <button class="btn btn-sm btn-icon btn-light-primary me-2" (click)="backToList()"><i class="bi bi-arrow-left"></i></button>
+          }
+          <i class="bi bi-wallet2 me-2 text-primary"></i> {{ 'PAYROLL.TITLE' | translate }}
+        </h3>
       </div>
-    }
+      @if (!showDetail()) {
+        <div class="actions-group">
+          <button class="btn btn-sm btn-primary fw-bold" (click)="openCreateModal()">
+            <i class="ki-duotone ki-plus fs-2 me-1"></i> {{ 'PAYROLL.CREATE_PERIOD' | translate }}
+          </button>
+        </div>
+      }
+    </div>
   </div>
+  <!--end::Toolbar Header-->
+
+  <div class="card-body py-4">
 
   <!-- ════════════════ PERIOD LIST VIEW ════════════════ -->
   @if (!showDetail()) {
@@ -226,6 +230,7 @@
       }
     }
   }
+  </div>
 </div>
 
 <!-- ════════════════ CREATE PERIOD MODAL ════════════════ -->

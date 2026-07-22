@@ -1,154 +1,86 @@
-<div class="d-flex flex-column gap-7">
+<div class="app-card">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="ki-duotone ki-trash fs-2 me-2 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+          {{ 'WASTAGE.TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ transactions.length }} phiếu hủy</span>
+      </div>
 
-  <!-- Page Header -->
-  <div class="d-flex justify-content-between align-items-center mb-6">
-    <div>
-      <h2 class="fs-3 fw-bold text-gray-900 mb-1">{{ 'WASTAGE.TITLE' | translate }}</h2>
-      <p class="text-muted fs-6 mb-0">{{ 'WASTAGE.SUBTITLE' | translate }}</p>
+      <div class="actions-group">
+        <a class="btn btn-sm btn-danger fw-bold" routerLink="/admin/inventory/wastage/create">
+          <i class="ki-duotone ki-plus fs-2 me-1"></i> {{ 'WASTAGE.CREATE_BTN' | translate }}
+        </a>
+      </div>
     </div>
-    <a class="btn btn-sm btn-danger" routerLink="/admin/inventory/wastage/create">
-      <i class="ki-duotone ki-plus fs-2 me-1"></i>
-      {{ 'WASTAGE.CREATE_BTN' | translate }}
-    </a>
   </div>
+  <!--end::Toolbar Header-->
 
-  <!-- Table Card -->
-  <div class="card">
-    <!-- Card Header: filter/search bar -->
-    <div class="card-header border-0 pt-6">
-      <div class="card-title">
-        <div class="d-flex align-items-center position-relative my-1">
-          <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-            <span class="path1"></span><span class="path2"></span>
-          </i>
-          <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
-                 placeholder="{{ 'COMMON.SEARCH' | translate }}" />
-        </div>
-      </div>
-
-      <!-- Stats chips -->
-      <div class="card-toolbar d-flex align-items-center gap-3">
-        <span class="text-muted fw-semibold fs-7">
-          Đang hiển thị <strong class="text-gray-900">{{ transactions.length }}</strong> phiếu hủy
-        </span>
-      </div>
-    </div>
-
-    <!-- Card Body / Table -->
-    <div class="card-body py-4">
-      <div class="table-responsive">
-        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-          <thead>
-            <tr class="fw-bold text-muted">
-              <th class="ps-4 min-w-200px">{{ 'WASTAGE.COL_CODE' | translate }}</th>
-              <th class="min-w-140px">{{ 'WASTAGE.COL_DATE' | translate }}</th>
-              <th class="min-w-120px">{{ 'WASTAGE.COL_CREATED_BY' | translate }}</th>
-              <th class="min-w-100px">{{ 'WASTAGE.COL_STATUS' | translate }}</th>
-              <th class="min-w-200px">{{ 'WASTAGE.COL_NOTES' | translate }}</th>
-              <th class="min-w-80px text-end pe-4">{{ 'WASTAGE.COL_ACTIONS' | translate }}</th>
+  <div class="card-body py-4">
+    <div class="table-responsive">
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <thead>
+          <tr class="fw-bold text-muted">
+            <th class="ps-4">{{ 'WASTAGE.COL_CODE' | translate }}</th>
+            <th>{{ 'WASTAGE.COL_DATE' | translate }}</th>
+            <th class="d-none d-md-table-cell">{{ 'WASTAGE.COL_CREATED_BY' | translate }}</th>
+            <th>{{ 'WASTAGE.COL_STATUS' | translate }}</th>
+            <th class="d-none d-lg-table-cell">{{ 'WASTAGE.COL_NOTES' | translate }}</th>
+            <th class="text-end pe-4">{{ 'WASTAGE.COL_ACTIONS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (isLoading) {
+            <tr>
+              <td colspan="6" class="text-center py-10">
+                <span class="spinner-border text-danger me-2"></span>
+                <span class="text-muted fs-6">{{ 'COMMON.LOADING' | translate }}</span>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-
-            <!-- Loading State -->
-            @if (isLoading) {
-              <tr>
-                <td colspan="6" class="text-center py-15">
-                  <span class="spinner-border spinner-border-sm text-danger me-2"></span>
-                  <span class="text-muted fs-6">{{ 'COMMON.LOADING' | translate }}</span>
-                </td>
-              </tr>
-            }
-
-            <!-- Empty State -->
-            @if (!isLoading && transactions.length === 0) {
-              <tr>
-                <td colspan="6">
-                  <div class="d-flex flex-column align-items-center justify-content-center py-15 gap-5">
-                    <div class="d-flex align-items-center justify-content-center w-80px h-80px rounded-circle bg-danger bg-opacity-10">
-                      <i class="ki-duotone ki-trash fs-2tx text-danger">
-                        <span class="path1"></span><span class="path2"></span>
-                        <span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                      </i>
-                    </div>
-                    <div class="text-center">
-                      <h4 class="text-gray-800 fw-bold mb-2">{{ 'WASTAGE.NO_DATA' | translate }}</h4>
-                      <p class="text-muted fs-6 mb-0">Chưa có phiếu hủy hàng nào được tạo</p>
-                    </div>
-                    <a routerLink="/admin/inventory/wastage/create" class="btn btn-sm btn-danger">
-                      <i class="ki-duotone ki-plus fs-5"><span class="path1"></span><span class="path2"></span></i>
-                      {{ 'WASTAGE.CREATE_BTN' | translate }}
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            }
-
-            <!-- Data Rows -->
-            @for (item of transactions; track item.id) {
-              <tr>
-                <td class="ps-4">
-                  <div class="d-flex align-items-center gap-3">
-                    <div class="symbol symbol-40px">
-                      <div class="symbol-label bg-danger bg-opacity-10">
-                        <i class="ki-duotone ki-trash fs-4 text-danger">
-                          <span class="path1"></span><span class="path2"></span>
-                          <span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                        </i>
-                      </div>
-                    </div>
-                    <div>
-                      <a [routerLink]="['/admin/transactions', item.id]"
-                         class="text-gray-900 fw-bold text-hover-danger fs-6">#{{ item.code }}</a>
-                      <span class="text-muted fw-semibold d-block fs-7">Phiếu hủy hàng</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span class="text-gray-700 fw-semibold d-block fs-7">
-                    {{ item.createdAt | date:'dd/MM/yyyy' }}
-                  </span>
-                  <span class="text-muted fw-semibold d-block fs-8">
-                    {{ item.createdAt | date:'HH:mm' }}
-                  </span>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <div class="symbol symbol-30px">
-                      <div class="symbol-label bg-primary bg-opacity-10 fw-bold text-primary fs-8">
-                        {{ (item.createdBy || 'U').charAt(0).toUpperCase() }}
-                      </div>
-                    </div>
-                    <span class="text-gray-700 fw-semibold fs-7">{{ item.createdBy }}</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="badge py-3 px-4 fs-8 fw-bold" [ngClass]="getStatusClass(item.status)">
-                    {{ getStatusText(item.status) }}
-                  </span>
-                </td>
-                <td>
-                  <span class="text-muted fw-semibold fs-7 text-truncate d-block" style="max-width:200px"
-                        [title]="item.notes || ''">
-                    {{ item.notes || '—' }}
-                  </span>
-                </td>
-                <td class="text-end pe-4">
-                  <a [routerLink]="['/admin/transactions', item.id]"
-                     class="btn btn-sm btn-icon btn-light btn-active-light-danger"
-                     [title]="'WASTAGE.TXT_15' | translate">
-                    <i class="ki-duotone ki-eye fs-5">
-                      <span class="path1"></span><span class="path2"></span><span class="path3"></span>
-                    </i>
-                  </a>
-                </td>
-              </tr>
-            }
-
-          </tbody>
-        </table>
-      </div>
+          }
+          @if (!isLoading && transactions.length === 0) {
+            <tr>
+              <td colspan="6" class="text-center py-10 text-muted">
+                <i class="ki-duotone ki-trash fs-3x text-gray-300 d-block mb-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                {{ 'WASTAGE.NO_DATA' | translate }}
+              </td>
+            </tr>
+          }
+          @for (item of transactions; track item.id) {
+            <tr>
+              <td class="ps-4">
+                <a [routerLink]="['/admin/transactions', item.id]" class="text-gray-900 fw-bold text-hover-danger fs-6">#{{ item.code }}</a>
+                <span class="text-muted fw-semibold d-block fs-7">Phiếu hủy hàng</span>
+              </td>
+              <td>
+                <span class="text-gray-700 fw-semibold d-block fs-7">{{ item.createdAt | date:'dd/MM/yyyy' }}</span>
+                <span class="text-muted fw-semibold d-block fs-8">{{ item.createdAt | date:'HH:mm' }}</span>
+              </td>
+              <td class="d-none d-md-table-cell">
+                <span class="text-gray-700 fw-semibold fs-7">{{ item.createdBy }}</span>
+              </td>
+              <td>
+                <span class="badge py-2 px-3 fs-8 fw-bold" [ngClass]="getStatusClass(item.status)">
+                  {{ getStatusText(item.status) }}
+                </span>
+              </td>
+              <td class="d-none d-lg-table-cell">
+                <span class="text-muted fw-semibold fs-7 text-truncate d-block" style="max-width:200px" [title]="item.notes || ''">
+                  {{ item.notes || '—' }}
+                </span>
+              </td>
+              <td class="text-end pe-4">
+                <a [routerLink]="['/admin/transactions', item.id]" class="btn btn-sm btn-icon btn-light-primary" [title]="'WASTAGE.TXT_15' | translate">
+                  <i class="ki-duotone ki-eye fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
-
 </div>

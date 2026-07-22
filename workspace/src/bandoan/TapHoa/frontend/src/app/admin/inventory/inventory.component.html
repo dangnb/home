@@ -1,47 +1,59 @@
-﻿<div class="inv-page" (click)="activeDropdownRowId = null">
-  <!-- ===== HEADER BAR ===== -->
-  <div class="inv-header">
-    <div class="inv-header__left">
-      <div class="inv-header__icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-          <line x1="12" y1="22.08" x2="12" y2="12"></line>
-        </svg>
+<div class="app-card" (click)="activeDropdownRowId = null">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="ki-duotone ki-box fs-2 me-2 text-primary">
+            <span class="path1"></span><span class="path2"></span>
+          </i>
+          {{ 'INVENTORY.TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ reportSummary?.totalSku || filteredItems.length }} mặt hàng</span>
       </div>
-      <div>
-        <h4 class="inv-header__title">{{ 'INVENTORY.TITLE' | translate }}</h4>
-        <p class="inv-header__sub">{{ 'INVENTORY.SUBTITLE' | translate }}</p>
+
+      <div class="actions-group">
+        <button class="btn btn-sm btn-primary fw-bold" (click)="applyFilter()">
+          <i class="ki-duotone ki-arrows-loop fs-4 me-1"></i> Làm mới
+        </button>
       </div>
     </div>
-    <div class="inv-header__actions">
-      <select class="inv-select" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
-        <option value="today">📅 {{ 'INVENTORY.FILTER_TODAY' | translate }}</option>
-        <option value="thisWeek">📆 {{ 'INVENTORY.FILTER_THIS_WEEK' | translate }}</option>
-        <option value="thisMonth">🗓️ {{ 'INVENTORY.FILTER_THIS_MONTH' | translate }}</option>
-        <option value="lastMonth">⏪ {{ 'INVENTORY.FILTER_LAST_MONTH' | translate }}</option>
-        <option value="thisYear">📊 {{ 'INVENTORY.FILTER_THIS_YEAR' | translate }}</option>
-        <option value="custom">🔧 {{ 'INVENTORY.FILTER_CUSTOM' | translate }}</option>
-      </select>
-      @if (filterType === 'custom') {
-      <input type="date" class="inv-date-input" [(ngModel)]="customFromDate" (change)="onFilterChange()">
-      <span class="inv-date-arrow">→</span>
-      <input type="date" class="inv-date-input" [(ngModel)]="customToDate" (change)="onFilterChange()">
-      }
-      <div class="inv-search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" [placeholder]="'INVENTORY.SEARCH_PRODUCT' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <i class="ki-duotone ki-magnifier search-icon">
+          <span class="path1"></span><span class="path2"></span>
+        </i>
+        <input type="text" class="search-input" [placeholder]="'INVENTORY.SEARCH_PRODUCT' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        @if (searchTerm) {
+          <button type="button" class="clear-search-btn" (click)="searchTerm = ''; onSearchChange()">
+            <i class="ki-duotone ki-cross fs-6"><span class="path1"></span><span class="path2"></span></i>
+          </button>
+        }
       </div>
-      <button class="inv-btn btn-sm-refresh" (click)="applyFilter()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-          <path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
-        </svg>
-      </button>
+
+      <div class="select-wrapper">
+        <select class="form-select-app" [(ngModel)]="filterType" (ngModelChange)="onFilterChange()">
+          <option value="today">📅 {{ 'INVENTORY.FILTER_TODAY' | translate }}</option>
+          <option value="thisWeek">📆 {{ 'INVENTORY.FILTER_THIS_WEEK' | translate }}</option>
+          <option value="thisMonth">🗓️ {{ 'INVENTORY.FILTER_THIS_MONTH' | translate }}</option>
+          <option value="lastMonth">⏪ {{ 'INVENTORY.FILTER_LAST_MONTH' | translate }}</option>
+          <option value="thisYear">📊 {{ 'INVENTORY.FILTER_THIS_YEAR' | translate }}</option>
+          <option value="custom">🔧 {{ 'INVENTORY.FILTER_CUSTOM' | translate }}</option>
+        </select>
+      </div>
+
+      @if (filterType === 'custom') {
+        <div class="select-wrapper" style="min-width: 140px;">
+          <input type="date" class="form-select-app" [(ngModel)]="customFromDate" (change)="onFilterChange()">
+        </div>
+        <div class="select-wrapper" style="min-width: 140px;">
+          <input type="date" class="form-select-app" [(ngModel)]="customToDate" (change)="onFilterChange()">
+        </div>
+      }
     </div>
   </div>
+  <!--end::Toolbar Header-->
 
   <!-- ===== KPI CARDS ===== -->
   @if (reportSummary) {
@@ -127,87 +139,89 @@
   }
 
   <!-- ===== DATA TABLE ===== -->
-  <div class="inv-table-wrap">
+  <div class="card-body py-4">
     <div class="table-responsive">
-      <table class="inv-table">
+      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
         <thead>
           <tr class="fw-bold text-muted">
-            <th class="inv-table__th--product">{{ 'INVENTORY.COL_PRODUCT' | translate }}</th>
+            <th class="ps-4">{{ 'INVENTORY.COL_PRODUCT' | translate }}</th>
             <th class="d-none d-lg-table-cell">{{ 'INVENTORY.COL_UNIT' | translate }}</th>
             <th class="text-center">{{ 'INVENTORY.COL_OPENING' | translate }}</th>
-            <th class="text-center inv-th--in">{{ 'INVENTORY.COL_INBOUND' | translate }}</th>
-            <th class="text-center inv-th--out">{{ 'INVENTORY.COL_OUTBOUND' | translate }}</th>
+            <th class="text-center text-success">{{ 'INVENTORY.COL_INBOUND' | translate }}</th>
+            <th class="text-center text-danger">{{ 'INVENTORY.COL_OUTBOUND' | translate }}</th>
             <th class="text-center d-none d-md-table-cell">{{ 'INVENTORY.COL_WASTAGE' | translate }}</th>
             <th class="text-center d-none d-lg-table-cell">{{ 'INVENTORY.COL_ADJUSTMENT' | translate }}</th>
-            <th class="text-center inv-th--closing">{{ 'INVENTORY.COL_CLOSING' | translate }}</th>
+            <th class="text-center text-info">{{ 'INVENTORY.COL_CLOSING' | translate }}</th>
             <th class="text-end d-none d-xl-table-cell">{{ 'INVENTORY.COL_AVG_COST' | translate }}</th>
             <th class="text-end d-none d-xl-table-cell">{{ 'INVENTORY.COL_VALUE' | translate }}</th>
             <th class="d-none d-lg-table-cell text-center">{{ 'INVENTORY.COL_STATUS' | translate }}</th>
-            <th class="text-end">{{ 'INVENTORY.COL_ACTIONS' | translate }}</th>
+            <th class="text-end pe-4">{{ 'INVENTORY.COL_ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @if (isLoading) {
-          <tr><td colspan="12" class="inv-table__empty">
-            <div class="inv-spinner"></div>
-            <span>{{ 'COMMON.LOADING' | translate }}</span>
-          </td></tr>
+          <tr>
+            <td colspan="12" class="text-center py-4">
+              <div class="spinner-border text-primary"></div>
+              <div class="mt-2 text-muted">{{ 'COMMON.LOADING' | translate }}</div>
+            </td>
+          </tr>
           }
           @for (item of filteredItems; track item.productId) {
-          <tr class="inv-table__row">
-            <td class="inv-table__td--product">
+          <tr>
+            <td class="ps-4">
               <a [routerLink]="['/admin/inventory', item.productId]" class="inv-product-link">
                 <span class="inv-product-link__name">{{ item.productName }}</span>
                 <span class="inv-product-link__code">{{ item.barcode }}</span>
               </a>
             </td>
             <td class="text-muted d-none d-lg-table-cell">{{ item.unit }}</td>
-            <td class="text-center inv-num inv-num--muted">{{ item.openingStock }}</td>
-            <td class="text-center inv-num inv-num--in">
-              @if (item.totalInbound > 0) { +{{ item.totalInbound }} } @else { <span class="inv-num--dash">—</span> }
+            <td class="text-center fw-semibold text-gray-600">{{ item.openingStock }}</td>
+            <td class="text-center fw-bold text-success">
+              @if (item.totalInbound > 0) { +{{ item.totalInbound }} } @else { <span class="text-gray-300">—</span> }
             </td>
-            <td class="text-center inv-num inv-num--out">
-              @if (item.totalOutbound > 0) { -{{ item.totalOutbound }} } @else { <span class="inv-num--dash">—</span> }
+            <td class="text-center fw-bold text-danger">
+              @if (item.totalOutbound > 0) { -{{ item.totalOutbound }} } @else { <span class="text-gray-300">—</span> }
             </td>
-            <td class="text-center d-none d-md-table-cell inv-num">
-              @if (item.totalWastage > 0) { <span class="inv-num--out">-{{ item.totalWastage }}</span> } @else { <span class="inv-num--dash">—</span> }
+            <td class="text-center d-none d-md-table-cell fw-bold text-danger">
+              @if (item.totalWastage > 0) { -{{ item.totalWastage }} } @else { <span class="text-gray-300">—</span> }
             </td>
-            <td class="text-center d-none d-lg-table-cell inv-num">
+            <td class="text-center d-none d-lg-table-cell fw-bold">
               @if (item.totalAdjustment !== 0) {
-              <span [ngClass]="{'inv-num--in': item.totalAdjustment > 0, 'inv-num--out': item.totalAdjustment < 0}">
+              <span [ngClass]="{'text-success': item.totalAdjustment > 0, 'text-danger': item.totalAdjustment < 0}">
                 {{ item.totalAdjustment > 0 ? '+' : '' }}{{ item.totalAdjustment }}
               </span>
-              } @else { <span class="inv-num--dash">—</span> }
+              } @else { <span class="text-gray-300">—</span> }
             </td>
-            <td class="text-center inv-num inv-num--closing" [ngClass]="{'inv-num--danger': item.closingStock <= 0, 'inv-num--warning': item.closingStock > 0 && item.closingStock <= item.reorderPoint}">
+            <td class="text-center fw-bold fs-6" [ngClass]="{'text-danger': item.closingStock <= 0, 'text-warning': item.closingStock > 0 && item.closingStock <= item.reorderPoint}">
               {{ item.closingStock }}
             </td>
-            <td class="text-end d-none d-xl-table-cell inv-money">{{ item.averageCost | number:'1.0-0' }}₫</td>
-            <td class="text-end d-none d-xl-table-cell inv-money inv-money--bold">{{ item.inventoryValue | number:'1.0-0' }}₫</td>
+            <td class="text-end d-none d-xl-table-cell text-muted">{{ item.averageCost | number:'1.0-0' }}₫</td>
+            <td class="text-end d-none d-xl-table-cell fw-bold text-gray-900">{{ item.inventoryValue | number:'1.0-0' }}₫</td>
             <td class="d-none d-lg-table-cell text-center">
-              <span class="inv-status" [ngClass]="getStockBadgeClass(item)">{{ getStockStatus(item) }}</span>
+              <span class="badge rounded-pill fw-semibold px-3 py-2" [ngClass]="getStockBadgeClass(item)">{{ getStockStatus(item) }}</span>
             </td>
-            <td class="text-end">
+            <td class="text-end pe-4">
               <div class="dropdown" [class.show]="activeDropdownRowId === item.productId">
-                <button class="inv-action-btn btn-sm" type="button" (click)="toggleDropdown(item.productId, $event)">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                <button class="btn btn-sm btn-icon btn-light-primary" type="button" (click)="toggleDropdown(item.productId, $event)">
+                  <i class="ki-duotone ki-dots-vertical fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
                 </button>
-                <ul class="inv-dropdown" [class.show]="activeDropdownRowId === item.productId">
+                <ul class="dropdown-menu dropdown-menu-end p-2 shadow-sm" [class.show]="activeDropdownRowId === item.productId">
                   <li>
-                    <a [routerLink]="['/admin/inventory', item.productId]" class="inv-dropdown__item">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <a [routerLink]="['/admin/inventory', item.productId]" class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2">
+                      <i class="ki-duotone ki-eye fs-4 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                       {{ 'COMMON.VIEW_DETAIL' | translate }}
                     </a>
                   </li>
                   <li>
-                    <button class="inv-dropdown__item inv-dropdown__item--warning" (click)="adjustStock(item)">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    <button class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2 text-warning" (click)="adjustStock(item)">
+                      <i class="ki-duotone ki-pencil fs-4 text-warning"><span class="path1"></span><span class="path2"></span></i>
                       {{ 'INVENTORY.STOCK_TAKE' | translate }}
                     </button>
                   </li>
                   <li>
-                    <button class="inv-dropdown__item inv-dropdown__item--danger" (click)="reportWastage(item)">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <button class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2 text-danger" (click)="reportWastage(item)">
+                      <i class="ki-duotone ki-trash fs-4 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                       {{ 'INVENTORY.REPORT_WASTAGE' | translate }}
                     </button>
                   </li>
@@ -217,10 +231,12 @@
           </tr>
           }
           @if (!isLoading && filteredItems.length === 0) {
-          <tr><td colspan="12" class="inv-table__empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-            <span>{{ 'INVENTORY.NO_PRODUCT_FOUND' | translate }}</span>
-          </td></tr>
+          <tr>
+            <td colspan="12" class="text-center py-10 text-muted">
+              <i class="ki-duotone ki-box fs-3x text-gray-300 mb-2 d-block"><span class="path1"></span><span class="path2"></span></i>
+              <span>{{ 'INVENTORY.NO_PRODUCT_FOUND' | translate }}</span>
+            </td>
+          </tr>
           }
         </tbody>
       </table>
