@@ -17,21 +17,24 @@ export const ApiConfig = {
     // Products
     products: {
       list: '/products',
-      detail: (slug: string) => `/products/${slug}`,
-      flashSale: '/products/flash-sale',
-      popular: '/products/popular',
-      search: '/products/search',
+      detail: (id: string) => `/products/${id}`,
+      detailBySlug: (slug: string) => `/products/slug/${slug}`,
+      flashSale: '/products?pageSize=8',
+      popular: '/products?pageSize=8',
+      search: '/products',
     },
 
     // Categories
     categories: {
       list: '/categories',
+      detailBySlug: (slug: string) => `/categories/slug/${slug}`,
       subcategories: (id: string) => `/categories/${id}/subcategories`,
     },
 
     // Orders
     orders: {
       create: '/orders',
+      myOrders: '/orders/me',
       tracking: '/orders/tracking',
     },
 

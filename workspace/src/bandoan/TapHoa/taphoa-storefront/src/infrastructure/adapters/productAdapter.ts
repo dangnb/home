@@ -1,54 +1,69 @@
 /**
  * Product Adapter
- * Maps API DTOs to Domain Entities
+ * Maps API DTOs (from .NET Backend) to Domain Entities
  */
 
 import { Product, Category } from '@/domain/entities/Product';
 
 // ========================================
 // API DTOs (what the backend returns)
-// Adjust these interfaces to match your actual API response
+// Handles camelCase from .NET Minimal API
 // ========================================
 
 export interface ApiProductDTO {
   id: string;
   name: string;
-  slug: string;
+  slug?: string;
   price: number;
+  costPrice?: number;
+  wholesalePrice?: number;
+  originalPrice?: number | null;
   original_price?: number | null;
+  discountPercent?: number | null;
   discount_percent?: number | null;
-  category_id: string;
-  category_name: string;
-  image: string;
-  images?: string[];
+  categoryId?: string | null;
+  category_id?: string | null;
+  categoryName?: string;
+  category_name?: string;
+  mainImageUrl?: string | null;
+  image?: string;
+  additionalImages?: string[];
   unit: string;
-  stock: number;
-  rating: number;
-  sold_count: number;
-  description: string;
+  stockQuantity?: number;
+  stock?: number;
+  rating?: number;
+  soldCount?: number;
+  sold_count?: number;
+  description?: string;
   origin?: string | null;
+  isFlashSale?: boolean;
   is_flash_sale?: boolean;
+  isPopular?: boolean;
   is_popular?: boolean;
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface ApiCategoryDTO {
   id: string;
   name: string;
   slug: string;
-  icon_name: string;
-  image?: string;
+  description?: string;
+  icon?: string;
+  iconName?: string;
+  icon_name?: string;
+  parentId?: string | null;
   parent_id?: string | null;
-  sort_order?: number;
 }
 
 export interface ApiPaginatedResponse<T> {
   items: T[];
-  total: number;
-  page: number;
-  page_size: number;
-  total_pages: number;
+  totalCount?: number;
+  total?: number;
+  pageIndex?: number;
+  page?: number;
+  pageSize?: number;
+  page_size?: number;
+  totalPages?: number;
+  total_pages?: number;
 }
 
 // ========================================
@@ -56,24 +71,35 @@ export interface ApiPaginatedResponse<T> {
 // ========================================
 
 export function toProduct(dto: ApiProductDTO): Product {
+  let image = dto.mainImageUrl || dto.image || '';
+  if (!image || image.trim() === '' || image.includes('placeholder')) {
+    image = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&auto=format&fit=crop&q=80';
+  } else if (image.startsWith('/uploads')) {
+    image = `http://localhost:5222${image}`;
+  }
+  const stock = dto.stockQuantity ?? dto.stock ?? 0;
+  const categoryId = dto.categoryId ?? dto.category_id ?? '';
+  const categoryName = dto.categoryName ?? dto.category_name ?? '';
+  const slug = dto.slug || dto.id;
+
   return {
     id: dto.id,
     name: dto.name,
-    slug: dto.slug,
+    slug: slug,
     price: dto.price,
-    originalPrice: dto.original_price ?? undefined,
-    discountPercent: dto.discount_percent ?? undefined,
-    categoryId: dto.category_id,
-    categoryName: dto.category_name,
-    image: dto.image,
-    unit: dto.unit,
-    stock: dto.stock,
-    rating: dto.rating,
-    soldCount: dto.sold_count,
-    description: dto.description,
+    originalPrice: dto.originalPrice ?? dto.original_price ?? undefined,
+    discountPercent: dto.discountPercent ?? dto.discount_percent ?? undefined,
+    categoryId: categoryId,
+    categoryName: categoryName,
+    image: image,
+    unit: dto.unit || 'Cái',
+    stock: stock,
+    rating: dto.rating ?? 5,
+    soldCount: dto.soldCount ?? dto.sold_count ?? 0,
+    description: dto.description || '',
     origin: dto.origin ?? undefined,
-    isFlashSale: dto.is_flash_sale ?? false,
-    isPopular: dto.is_popular ?? false,
+    isFlashSale: dto.isFlashSale ?? dto.is_flash_sale ?? false,
+    isPopular: dto.isPopular ?? dto.is_popular ?? false,
   };
 }
 
@@ -82,7 +108,7 @@ export function toCategory(dto: ApiCategoryDTO): Category {
     id: dto.id,
     name: dto.name,
     slug: dto.slug,
-    iconName: dto.icon_name,
+    iconName: dto.icon || dto.iconName || dto.icon_name || 'ShoppingBag',
     itemCount: 0,
   };
 }
@@ -100,10 +126,10 @@ export function toApiProductQuery(params: {
   sortBy?: string;
 }): Record<string, string | number | boolean | undefined> {
   return {
-    page: params.page,
-    page_size: params.pageSize,
-    category_id: params.categoryId,
-    search: params.searchQuery,
-    sort_by: params.sortBy,
+    pageIndex: params.page,
+    pageSize: params.pageSize,
+    categoryId: params.categoryId,
+    searchTerm: params.searchQuery,
+    sortBy: params.sortBy,
   };
 }

@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useCartStore } from '@/presentation/store/useCartStore';
+import { useRouter } from 'next/navigation';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 import {
   ShoppingCart, Search, User, Phone, ChevronDown, ChevronRight, Menu, X,
   Home, Heart, Baby, Sparkles, ChefHat, Coffee, SprayCan, BookOpen, Zap, MapPin, Headphones
@@ -26,6 +28,7 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export function Header() {
+  const router = useRouter();
   const { getTotalItems, openCart } = useCartStore();
   const totalItems = getTotalItems();
   const [mounted, setMounted] = useState(false);
@@ -36,6 +39,14 @@ export function Header() {
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [hoveredCat, setHoveredCat] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (searchQuery.trim()) {
+      setShowDropdown(false);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -109,19 +120,29 @@ export function Header() {
 
           {/* Search */}
           <div className="flex-1 max-w-xl relative" ref={dropdownRef}>
-            <div className="relative flex">
+            <form onSubmit={handleSearchSubmit} className="relative flex w-full">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearchSubmit(e);
+                  }
+                }}
                 placeholder="Tìm kiếm sản phẩm, danh mục..."
                 className="w-full pl-4 pr-12 py-2.5 border-2 border-[#00904a] rounded-xl text-[13px] text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00904a]/20 focus:border-[#00904a] transition-all"
               />
-              <button className="absolute right-0 top-0 bottom-0 px-4 bg-gradient-to-r from-[#00904a] to-[#007a3e] text-white rounded-r-xl hover:from-[#007a3e] hover:to-[#006633] transition-all">
+              <button
+                type="submit"
+                onClick={handleSearchSubmit}
+                aria-label="Tìm kiếm"
+                className="absolute right-0 top-0 bottom-0 px-4 bg-gradient-to-r from-[#00904a] to-[#007a3e] text-white rounded-r-xl hover:from-[#007a3e] hover:to-[#006633] transition-all flex items-center justify-center cursor-pointer"
+              >
                 <Search className="w-4 h-4" />
               </button>
-            </div>
+            </form>
 
             {showDropdown && searchResults.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 p-2 z-50 animate-scale-in">
@@ -133,13 +154,20 @@ export function Header() {
                     onClick={() => setShowDropdown(false)}
                     className="flex items-center gap-3 p-2.5 hover:bg-green-50 rounded-lg transition-colors"
                   >
-                    <img src={p.image} alt={p.name} className="w-10 h-10 object-cover rounded-lg border border-gray-100" />
+                    <ProductImage src={p.image} alt={p.name} width={40} height={40} className="w-10 h-10 object-cover rounded-lg border border-gray-100 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-semibold text-gray-800 truncate">{p.name}</div>
                       <div className="text-xs price-tag">{p.price.toLocaleString('vi-VN')}₫</div>
                     </div>
                   </Link>
                 ))}
+                <button
+                  type="button"
+                  onClick={handleSearchSubmit}
+                  className="w-full text-center py-2 text-xs font-bold text-[#00904a] hover:bg-green-50 rounded-lg transition-colors border-t border-gray-100 mt-1"
+                >
+                  Xem tất cả kết quả cho &ldquo;{searchQuery}&rdquo; →
+                </button>
               </div>
             )}
           </div>

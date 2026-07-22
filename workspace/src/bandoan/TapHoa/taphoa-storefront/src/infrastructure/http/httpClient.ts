@@ -38,7 +38,9 @@ export function clearAuthToken(): void {
  * Build full URL with query params
  */
 function buildUrl(endpoint: string, params?: Record<string, string | number | boolean | undefined>): string {
-  const url = new URL(endpoint, ApiConfig.baseUrl);
+  const cleanBase = ApiConfig.baseUrl.replace(/\/+$/, '');
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = new URL(`${cleanBase}${cleanEndpoint}`);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -122,13 +124,14 @@ async function request<T>(
   options: RequestOptions = {},
 ): Promise<T> {
   const url = buildUrl(
-    `${ApiConfig.baseUrl}${endpoint}`,
+    endpoint,
     method === 'GET' ? (options.params as Record<string, string | number | boolean | undefined>) : undefined,
   );
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'X-API-Key': process.env.NEXT_PUBLIC_STOREFRONT_API_KEY || 'taphoa-sf-key-2026-secure-random',
     ...options.headers,
   };
 

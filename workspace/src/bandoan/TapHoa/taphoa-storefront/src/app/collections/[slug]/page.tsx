@@ -4,7 +4,7 @@ import { use, useEffect, useState } from 'react';
 import { MOCK_CATEGORIES, MOCK_SUBCATEGORIES } from '@/infrastructure/repositories/MockProductRepository';
 import { getProductRepository } from '@/infrastructure/di/container';
 import { GetProductsUseCase } from '@/application/use-cases/GetProductsUseCase';
-import { Product } from '@/domain/entities/Product';
+import { Product, Category } from '@/domain/entities/Product';
 import { ProductCard } from '@/presentation/components/features/ProductCard';
 import { SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -15,25 +15,30 @@ const getProductsUseCase = new GetProductsUseCase(productRepo);
 export default function CollectionPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'popular' | 'price-asc' | 'price-desc' | 'discount'>('popular');
 
-  const category = MOCK_CATEGORIES.find(c => c.slug === slug);
-  const subcats = category ? MOCK_SUBCATEGORIES.filter(s => s.parentId === category.id) : [];
+  const currentCategory = categories.find(c => c.slug === slug);
+  const subcats = currentCategory ? MOCK_SUBCATEGORIES.filter(s => s.parentId === currentCategory.id) : [];
 
   useEffect(() => {
-    async function loadProducts() {
+    async function loadData() {
       setLoading(true);
+      const cats = await productRepo.getCategories();
+      setCategories(cats);
+      const cat = cats.find(c => c.slug === slug);
+
       const res = await getProductsUseCase.execute({
-        categoryId: category?.id,
+        categoryId: cat?.id,
         pageSize: 24,
         sortBy,
       });
       setProducts(res.items);
       setLoading(false);
     }
-    loadProducts();
-  }, [category?.id, sortBy]);
+    loadData();
+  }, [slug, sortBy]);
 
   return (
     <div className="space-y-3">
@@ -41,7 +46,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
       <nav className="text-xs text-gray-400 font-medium flex items-center gap-1.5">
         <Link href="/" className="hover:text-[#00904a]">Trang chủ</Link>
         <span>/</span>
-        <span className="text-gray-700 font-semibold">{category?.name || slug}</span>
+        <span className="text-gray-700 font-semibold">{currentCategory?.name || slug}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
@@ -52,7 +57,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
               <h3 className="text-sm font-bold text-gray-900">Tất Cả Danh Mục</h3>
             </div>
             <div className="py-1">
-              {(subcats.length > 0 ? subcats : MOCK_CATEGORIES).map((cat) => (
+              {(subcats.length > 0 ? subcats : (categories.length > 0 ? categories : MOCK_CATEGORIES)).map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/collections/${cat.slug}`}
@@ -76,17 +81,18 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
           <div className="bg-[#ededed] rounded-sm px-4 py-2.5 flex items-center gap-3">
             <span className="text-[13px] text-gray-500 font-medium">Sắp xếp theo</span>
             {[
-              { value: 'popular', label: 'Phổ Biến' },
-              { value: 'price-asc', label: 'Giá' },
-              { value: 'discount', label: 'Khuyến Mãi' },
+              { value: 'popular', label: 'Phổ biến' },
+              { value: 'discount', label: 'Khuyến mãi' },
+              { value: 'price-asc', label: 'Giá ↑' },
+              { value: 'price-desc', label: 'Giá ↓' },
             ].map((opt) => (
               <button
                 key={opt.value}
                 onClick={() => setSortBy(opt.value as any)}
-                className={`px-4 py-1.5 rounded-sm text-[13px] font-medium transition-all ${
+                className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-all ${
                   sortBy === opt.value
-                    ? 'bg-[#00904a] text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-[#00904a] text-white shadow-sm'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-100'
                 }`}
               >
                 {opt.label}

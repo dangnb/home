@@ -34,9 +34,10 @@ public static class ProductsEndpoints
             [FromQuery] int pageSize,
             [FromQuery] string? searchTerm,
             [FromQuery] Guid? categoryId,
+            [FromQuery] string? sortBy,
             [FromServices] ISender sender) =>
         {
-            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, categoryId);
+            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, categoryId, sortBy);
             var result = await sender.Send(query);
             return Results.Ok(result);
         })

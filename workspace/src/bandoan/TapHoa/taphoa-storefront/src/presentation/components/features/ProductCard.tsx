@@ -4,7 +4,7 @@ import { useCartStore } from '@/presentation/store/useCartStore';
 import { useToastStore } from '@/presentation/store/useToastStore';
 import { Star, ShoppingCart, Flame } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 
 interface ProductCardProps {
   product: Product;
@@ -43,7 +43,7 @@ export function ProductCard({ product, showSoldBar = false }: ProductCardProps) 
 
       {/* Product Image */}
       <div className="relative aspect-square bg-gray-50 overflow-hidden">
-        <Image
+        <ProductImage
           src={product.image}
           alt={product.name}
           fill
@@ -94,11 +94,10 @@ export function ProductCard({ product, showSoldBar = false }: ProductCardProps) 
         {showSoldBar && (
           <div className="relative h-[16px] bg-[#ffeee8] rounded-full overflow-hidden">
             <div
-              className={`absolute left-0 top-0 h-full rounded-full transition-all duration-700 ${
-                isAlmostGone
-                  ? 'bg-gradient-to-r from-[#ff424e] to-[#ee4d2d]'
-                  : 'bg-gradient-to-r from-[#ff6633] to-[#ee4d2d]'
-              }`}
+              className={`absolute left-0 top-0 h-full rounded-full transition-all duration-700 ${isAlmostGone
+                ? 'bg-gradient-to-r from-[#ff424e] to-[#ee4d2d]'
+                : 'bg-gradient-to-r from-[#ff6633] to-[#ee4d2d]'
+                }`}
               style={{ width: `${soldPercent}%` }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -116,9 +115,8 @@ export function ProductCard({ product, showSoldBar = false }: ProductCardProps) 
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-2.5 h-2.5 ${
-                    i < Math.floor(product.rating) ? 'fill-[#ffce3d] text-[#ffce3d]' : 'fill-gray-200 text-gray-200'
-                  }`}
+                  className={`w-2.5 h-2.5 ${i < Math.floor(product.rating) ? 'fill-[#ffce3d] text-[#ffce3d]' : 'fill-gray-200 text-gray-200'
+                    }`}
                 />
               ))}
               <span className="text-[10px] text-gray-400 ml-0.5">{product.rating}</span>

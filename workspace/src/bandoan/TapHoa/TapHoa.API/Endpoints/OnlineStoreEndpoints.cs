@@ -26,7 +26,11 @@ public static class OnlineStoreEndpoints
             var config = httpContext.RequestServices.GetRequiredService<IConfiguration>();
             var expectedKey = config["Security:StorefrontApiKey"];
 
-            // Skip API key check if not configured (dev mode)
+            var env = httpContext.RequestServices.GetService<IHostEnvironment>();
+            if (env != null && env.IsDevelopment())
+                return await next(context);
+
+            // Skip API key check if not configured
             if (string.IsNullOrEmpty(expectedKey))
                 return await next(context);
 
@@ -46,11 +50,12 @@ public static class OnlineStoreEndpoints
         });
 
         group.MapGet("/products", async (
-            [FromQuery] int pageIndex,
-            [FromQuery] int pageSize,
-            [FromQuery] string? searchTerm,
-            [FromQuery] Guid? categoryId,
-            [FromServices] ISender sender) =>
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 24,
+            [FromQuery] string? searchTerm = null,
+            [FromQuery] string? categoryId = null,
+            [FromQuery] string? sortBy = null,
+            [FromServices] ISender sender = null!) =>
         {
             // Sanitize & clamp pageSize to prevent excessive data fetching
             var safePage = Math.Max(1, pageIndex);
@@ -61,7 +66,13 @@ public static class OnlineStoreEndpoints
                 ? null 
                 : searchTerm.Trim().Length > 100 ? searchTerm.Trim()[..100] : searchTerm.Trim();
 
-            var query = new GetPagedProductsQuery(safePage, safeSize, safeSearch, categoryId);
+            Guid? catGuid = null;
+            if (!string.IsNullOrWhiteSpace(categoryId) && Guid.TryParse(categoryId, out var parsedGuid))
+            {
+                catGuid = parsedGuid;
+            }
+
+            var query = new GetPagedProductsQuery(safePage, safeSize, safeSearch, catGuid, sortBy);
             var result = await sender.Send(query);
             return Results.Ok(result);
         })
@@ -148,10 +159,10 @@ public static class OnlineStoreEndpoints
         .WithDescription("Get current logged in customer info");
 
         authenticatedGroup.MapGet("/orders/me", async (
-            [FromQuery] int pageIndex,
-            [FromQuery] int pageSize,
-            System.Security.Claims.ClaimsPrincipal user, 
-            [FromServices] ISender sender) =>
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10,
+            System.Security.Claims.ClaimsPrincipal user = null!, 
+            [FromServices] ISender sender = null!) =>
         {
             var customerIdStr = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(customerIdStr) || !Guid.TryParse(customerIdStr, out var customerId))

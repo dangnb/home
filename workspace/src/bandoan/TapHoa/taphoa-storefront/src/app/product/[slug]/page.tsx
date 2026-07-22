@@ -9,7 +9,7 @@ import { useToastStore } from '@/presentation/store/useToastStore';
 import { ProductCard } from '@/presentation/components/features/ProductCard';
 import { Star, ShieldCheck, Truck, RefreshCw, ShoppingCart, Plus, Minus, ArrowLeft, Heart, Share2, Check, Tag } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 
 const productRepo = getProductRepository();
 const getProductsUseCase = new GetProductsUseCase(productRepo);
@@ -114,7 +114,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         <div className="space-y-3">
           {/* Main image */}
           <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-50 border border-gray-100 group">
-            <Image
+            <ProductImage
               src={galleryImages[selectedImage] || product.image}
               alt={product.name}
               fill
@@ -143,7 +143,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                     : 'border-gray-200 hover:border-gray-300 opacity-70 hover:opacity-100'
                 }`}
               >
-                <Image src={img} alt={`${product.name} - ${i + 1}`} width={64} height={64} className="object-cover w-full h-full" />
+                <ProductImage src={img} alt={`${product.name} - ${i + 1}`} width={64} height={64} className="object-cover w-full h-full" />
               </button>
             ))}
           </div>
