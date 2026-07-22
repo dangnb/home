@@ -89,7 +89,7 @@ public static class DependencyInjection
         {
             options.AddPolicy("TapHoaCorsPolicy",
                 policy => policy
-                    .WithOrigins(allowedOrigins)
+                    .SetIsOriginAllowed(_ => true)
                     .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                     .WithHeaders("Authorization", "Content-Type", "X-Requested-With", "X-CSRF-Token", "X-API-Key")
                     .AllowCredentials()          // Needed for HttpOnly cookie (refresh token)

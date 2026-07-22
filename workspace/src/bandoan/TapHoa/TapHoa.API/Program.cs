@@ -584,9 +584,12 @@ app.Use(async (context, next) =>
 });
 
 // ── Middleware Pipeline Order ────────────────────────────────────────────────
-app.UseHttpsRedirection();
+app.UseCors("TapHoaCorsPolicy");
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseRateLimiter();
-app.UseCors("TapHoaCorsPolicy");   // Đã fix: explicit methods + headers
 
 var webRootPath = builder.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 if (!Directory.Exists(webRootPath)) Directory.CreateDirectory(webRootPath);

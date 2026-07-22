@@ -54,7 +54,7 @@ export function CategoryStrip({ categories, selectedCategory, onSelectCategory }
               selectedCategory === cat.id ? 'text-[#00904a] bg-green-50/50' : 'text-gray-500'
             }`}
           >
-            {iconMap[cat.iconName] || <LayoutGrid className="w-6 h-6" />}
+            {iconMap[cat.iconName] || (cat.iconName ? <span className="text-xl">{cat.iconName}</span> : <LayoutGrid className="w-6 h-6" />)}
             <span className="text-[11px] font-medium leading-tight text-center line-clamp-2">{cat.name}</span>
           </button>
         ))}

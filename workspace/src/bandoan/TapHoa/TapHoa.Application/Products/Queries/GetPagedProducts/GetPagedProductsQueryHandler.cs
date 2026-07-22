@@ -41,7 +41,16 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
             Offset = (request.PageIndex - 1) * request.PageSize
         };
 
-        var dataSql = @"
+        var orderByClause = request.SortBy switch
+        {
+            "price-asc" or "price_asc" => "ORDER BY p.Price ASC",
+            "price-desc" or "price_desc" => "ORDER BY p.Price DESC",
+            "discount" => "ORDER BY (p.Price - p.CostPrice) DESC, p.Price DESC",
+            "popular" => "ORDER BY p.StockQuantity DESC, p.Name ASC",
+            _ => "ORDER BY p.CreatedDate DESC, p.Name ASC"
+        };
+
+        var dataSql = $@"
             SELECT 
                 p.Id, p.Slug, p.Name, p.CategoryId, c.Name AS CategoryName,
                 p.SupplierId, s.FullName AS SupplierName,
@@ -55,7 +64,7 @@ public class GetPagedProductsQueryHandler : IRequestHandler<GetPagedProductsQuer
               AND p.CompanyId = @CompanyId
               AND (@SearchPattern IS NULL OR p.Name LIKE @SearchPattern OR p.Barcode LIKE @SearchPattern)
               AND (@CategoryId IS NULL OR p.CategoryId = @CategoryId)
-            ORDER BY p.CreatedDate DESC, p.Name ASC
+            {orderByClause}
             LIMIT @PageSize OFFSET @Offset;";
 
         return await connection.QueryPagedAsync<ProductDto>(
