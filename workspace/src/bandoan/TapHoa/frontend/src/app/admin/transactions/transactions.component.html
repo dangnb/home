@@ -1,44 +1,43 @@
 <!--begin::Transactions-->
+<div class="app-card" (click)="activeDropdownRowId = null">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="ki-duotone ki-document fs-2 me-2 text-primary"><span class="path1"></span><span class="path2"></span></i>
+          {{ 'TRANSACTIONS.TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ filteredTransactions.length }} giao dịch</span>
+      </div>
 
-<!--begin::Header-->
-<div class="d-flex justify-content-between align-items-center mb-6">
-  <div>
-    <h2 class="fs-3 fw-bold text-gray-900 mb-1">{{ 'TRANSACTIONS.TITLE' | translate }}</h2>
-    <p class="text-muted fs-6 mb-0">{{ 'TRANSACTIONS.SUBTITLE' | translate }}</p>
-  </div>
-  <a class="btn btn-sm btn-primary" routerLink="/admin/transactions/create">
-    <i class="ki-duotone ki-plus fs-2 me-1"></i>
-    {{ 'TRANSACTIONS.CREATE_INBOUND' | translate }}
-  </a>
-</div>
-
-<!--begin::Main Card-->
-<div class="card" (click)="activeDropdownRowId = null">
-  <!--begin::Card header-->
-  <div class="card-header border-0 pt-6">
-    <div class="card-title">
-      <div class="d-flex align-items-center position-relative my-1">
-        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-          <span class="path1"></span><span class="path2"></span>
-        </i>
-        <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-13"
-          [placeholder]="'TRANSACTIONS.SEARCH_PLACEHOLDER' | translate"
-          [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+      <div class="actions-group">
+        <button class="btn btn-sm btn-light-primary fw-bold">
+          <i class="ki-duotone ki-exit-down fs-3 me-1"><span class="path1"></span><span class="path2"></span></i>
+          {{ 'TRANSACTIONS.EXPORT' | translate }}
+        </button>
+        <a class="btn btn-sm btn-primary fw-bold" routerLink="/admin/transactions/create">
+          <i class="ki-duotone ki-plus fs-2 me-1"></i>
+          {{ 'TRANSACTIONS.CREATE_INBOUND' | translate }}
+        </a>
       </div>
     </div>
-    <div class="card-toolbar d-flex align-items-center gap-3">
-      <span class="text-muted fw-semibold fs-7">
-        {{ 'TRANSACTIONS.SHOWING' | translate }} <strong class="text-gray-900">{{ paginatedTransactions.length }}</strong>
-        {{ 'TRANSACTIONS.OF' | translate }} <strong class="text-gray-900">{{ filteredTransactions.length }}</strong>
-        {{ 'TRANSACTIONS.RECORDS_LC' | translate }}
-      </span>
-      <button class="btn btn-sm btn-light-primary fw-bold">
-        <i class="ki-duotone ki-exit-down fs-3 me-1"><span class="path1"></span><span class="path2"></span></i>
-        {{ 'TRANSACTIONS.EXPORT' | translate }}
-      </button>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <i class="ki-duotone ki-magnifier search-icon"><span class="path1"></span><span class="path2"></span></i>
+        <input type="text" class="search-input"
+          [placeholder]="'TRANSACTIONS.SEARCH_PLACEHOLDER' | translate"
+          [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        @if (searchTerm) {
+          <button type="button" class="clear-search-btn" (click)="searchTerm = ''; onSearchChange()">
+            <i class="ki-duotone ki-cross fs-6"><span class="path1"></span><span class="path2"></span></i>
+          </button>
+        }
+      </div>
     </div>
   </div>
-  <!--end::Card header-->
+  <!--end::Toolbar Header-->
 
   <!--begin::Card body-->
   <div class="card-body py-4">
@@ -54,21 +53,21 @@
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
             <tr class="fw-bold text-muted">
-              <th class="min-w-150px">{{ 'TRANSACTIONS.COL_CODE' | translate }}</th>
+              <th class="ps-4 min-w-150px">{{ 'TRANSACTIONS.COL_CODE' | translate }}</th>
               <th class="min-w-120px">{{ 'TRANSACTIONS.COL_TYPE' | translate }}</th>
               <th class="min-w-120px d-none d-lg-table-cell">{{ 'TRANSACTIONS.COL_CREATED_BY' | translate }}</th>
               <th class="min-w-80px d-none d-sm-table-cell text-end">{{ 'TRANSACTIONS.COL_QTY' | translate }}</th>
               <th class="min-w-120px text-end">{{ 'TRANSACTIONS.COL_TOTAL' | translate }}</th>
               <th class="min-w-130px d-none d-md-table-cell">{{ 'TRANSACTIONS.COL_TIME' | translate }}</th>
               <th class="min-w-100px d-none d-xl-table-cell">{{ 'TRANSACTIONS.COL_STATUS' | translate }}</th>
-              <th class="text-end min-w-80px">{{ 'COMMON.ACTIONS' | translate }}</th>
+              <th class="text-end pe-4 min-w-80px">{{ 'COMMON.ACTIONS' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             @for (tx of paginatedTransactions; track tx) {
               <tr>
-                <td>
-                  <a href="javascript:void(0)" class="text-primary fw-bold fs-6 text-decoration-none">
+                <td class="ps-4">
+                  <a [routerLink]="['/admin/transactions', tx.id]" class="text-primary fw-bold fs-6 text-decoration-none">
                     {{ tx.code || ('TX-20260626-000' + ($index + 1)) }}
                   </a>
                 </td>
@@ -99,40 +98,38 @@
                     <span class="badge badge-light-danger">Đã hủy</span>
                   }
                 </td>
-                <td class="text-end">
+                <td class="text-end pe-4">
                   <div class="dropdown" [class.show]="activeDropdownRowId === tx.id">
-                    <button class="btn btn-sm btn-icon btn-light btn-active-light-primary"
+                    <button class="btn btn-sm btn-icon btn-light-primary"
                       type="button" (click)="toggleDropdown(tx.id, $event)">
-                      <i class="ki-duotone ki-element-plus fs-2">
-                        <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                      </i>
+                      <i class="ki-duotone ki-dots-vertical fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" [class.show]="activeDropdownRowId === tx.id"
+                    <ul class="dropdown-menu dropdown-menu-end p-2 shadow-sm" [class.show]="activeDropdownRowId === tx.id"
                       style="position: absolute; right: 0; z-index: 1000;">
                       @if (tx.status === 0 || tx.status === 1) {
                         <li>
-                          <a class="dropdown-item" href="javascript:void(0)" (click)="approveTransaction(tx.id, tx.type)">
-                            <i class="ki-duotone ki-check fs-4 me-2 text-success"><span class="path1"></span><span class="path2"></span></i>
+                          <a class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2" href="javascript:void(0)" (click)="approveTransaction(tx.id, tx.type)">
+                            <i class="ki-duotone ki-check fs-4 text-success"><span class="path1"></span><span class="path2"></span></i>
                             {{ 'TRANSACTIONS.BTN_APPROVE' | translate }}
                           </a>
                         </li>
                         <li>
-                          <a class="dropdown-item" [routerLink]="['/admin/transactions/edit', tx.id]">
-                            <i class="ki-duotone ki-pencil fs-4 me-2 text-warning"><span class="path1"></span><span class="path2"></span></i>
+                          <a class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2" [routerLink]="['/admin/transactions/edit', tx.id]">
+                            <i class="ki-duotone ki-pencil fs-4 text-warning"><span class="path1"></span><span class="path2"></span></i>
                             {{ 'TRANSACTIONS.BTN_EDIT' | translate }}
                           </a>
                         </li>
                       }
                       <li>
-                        <a class="dropdown-item" [routerLink]="['/admin/transactions', tx.id]">
-                          <i class="ki-duotone ki-eye fs-4 me-2 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <a class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2" [routerLink]="['/admin/transactions', tx.id]">
+                          <i class="ki-duotone ki-eye fs-4 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                           {{ 'COMMON.VIEW_DETAIL' | translate }}
                         </a>
                       </li>
                       <li><hr class="dropdown-divider"></li>
                       <li>
-                        <a class="dropdown-item text-danger" href="javascript:void(0)" (click)="deleteTransaction(tx.id)">
-                          <i class="ki-duotone ki-trash fs-4 me-2 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                        <a class="dropdown-item rounded-2 d-flex align-items-center gap-2 py-2 text-danger" href="javascript:void(0)" (click)="deleteTransaction(tx.id)">
+                          <i class="ki-duotone ki-trash fs-4 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                           {{ 'COMMON.DELETE' | translate }}
                         </a>
                       </li>
@@ -143,11 +140,9 @@
             }
             @if (filteredTransactions.length === 0 && !isLoading) {
               <tr>
-                <td colspan="8">
-                  <div class="d-flex flex-column align-items-center justify-content-center py-10">
-                    <i class="ki-duotone ki-document fs-3x text-gray-300 mb-3"><span class="path1"></span><span class="path2"></span></i>
-                    <span class="text-gray-500 fs-6">{{ 'TRANSACTIONS.NO_DATA' | translate }}</span>
-                  </div>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <i class="ki-duotone ki-document fs-3x text-gray-300 mb-3 d-block"><span class="path1"></span><span class="path2"></span></i>
+                  {{ 'TRANSACTIONS.NO_DATA' | translate }}
                 </td>
               </tr>
             }
@@ -160,7 +155,7 @@
 
   <!--begin::Card footer pagination-->
   @if (totalPages >= 1) {
-    <div class="card-footer border-0 py-4 d-flex justify-content-end">
+    <div class="card-footer bg-transparent border-top-0 py-4 d-flex justify-content-end">
       <div class="d-flex gap-2">
         <button class="btn btn-sm btn-icon btn-light" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
           <i class="ki-duotone ki-left fs-3"><span class="path1"></span><span class="path2"></span></i>
@@ -177,6 +172,4 @@
   }
   <!--end::Card footer-->
 </div>
-<!--end::Main Card-->
-
 <!--end::Transactions-->

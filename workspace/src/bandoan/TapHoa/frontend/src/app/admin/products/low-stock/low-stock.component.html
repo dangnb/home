@@ -1,37 +1,43 @@
-﻿<div class="card glass-panel border-0 shadow-sm">
-  <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center py-3">
-    <h5 class="mb-0 fw-bold text-danger"><i class="bi bi-exclamation-triangle text-danger me-2"></i> {{ 'PRODUCTS.TXT_67' | translate }}</h5>
+<div class="app-card">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="bi bi-exclamation-triangle text-danger me-2"></i> {{ 'PRODUCTS.TXT_67' | translate }}
+        </h3>
+        <span class="count-badge">{{ products.length }} sản phẩm</span>
+      </div>
+    </div>
   </div>
+  <!--end::Toolbar Header-->
+
   <div class="card-body py-4">
     <div class="table-responsive">
       <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
         <thead>
           <tr class="fw-bold text-muted">
-            <th class="ps-4 fw-semibold border-0">{{ 'PRODUCTS.TXT_68' | translate }}</th>
-            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_69' | translate }}</th>
-            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_70' | translate }}</th>
-            <th class="fw-semibold border-0">{{ 'PRODUCTS.TXT_71' | translate }}</th>
-            <th class="fw-semibold border-0 text-end pe-4">{{ 'PRODUCTS.TXT_72' | translate }}</th>
+            <th class="ps-4">{{ 'PRODUCTS.TXT_68' | translate }}</th>
+            <th>{{ 'PRODUCTS.TXT_69' | translate }}</th>
+            <th>{{ 'PRODUCTS.TXT_70' | translate }}</th>
+            <th>{{ 'PRODUCTS.TXT_71' | translate }}</th>
+            <th class="text-end pe-4">{{ 'PRODUCTS.TXT_72' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="isLoading">
-            <td colspan="5" class="text-center py-4">
-              <div class="spinner-border text-danger" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+            <td colspan="5" class="text-center py-10">
+              <span class="spinner-border text-danger me-2"></span>
+              <span class="text-muted">Loading...</span>
             </td>
           </tr>
           <tr *ngIf="!isLoading && products.length === 0">
-            <td colspan="5" class="text-center py-5 text-muted">
-              <div class="d-flex flex-column align-items-center">
-                <i class="bi bi-check-circle-fill text-success fs-1 mb-2"></i>
-                <h6 class="fw-medium">{{ 'PRODUCTS.TXT_73' | translate }}</h6>
-                <p class="small text-muted mb-0">{{ 'PRODUCTS.TXT_74' | translate }}</p>
-              </div>
+            <td colspan="5" class="text-center py-10 text-muted">
+              <i class="bi bi-check-circle-fill text-success fs-1 d-block mb-2"></i>
+              {{ 'PRODUCTS.TXT_73' | translate }}
             </td>
           </tr>
-          <tr *ngFor="let item of products" class="border-bottom">
+          <tr *ngFor="let item of products">
             <td class="ps-4">
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0" *ngIf="item.mainImageUrl">
@@ -59,7 +65,7 @@
               </span>
             </td>
             <td class="text-end pe-4">
-              <button class="btn btn-sm btn-outline-primary rounded-circle" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" [title]="'PRODUCTS.TXT_75' | translate">
+              <button class="btn btn-sm btn-icon btn-light-primary" [routerLink]="['/admin/products']" [queryParams]="{editProductId: item.id}" [title]="'PRODUCTS.TXT_75' | translate">
                 <i class="ki-duotone ki-pencil fs-4"><span class="path1"></span><span class="path2"></span></i>
               </button>
             </td>
