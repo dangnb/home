@@ -4,7 +4,7 @@ import { useCartStore } from '@/presentation/store/useCartStore';
 import { useToastStore } from '@/presentation/store/useToastStore';
 import { ShoppingBag, Minus, Plus, Trash2, ArrowRight, Tag, ShieldCheck, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 import { useState } from 'react';
 
 export default function CartPage() {
@@ -82,7 +82,7 @@ export default function CartPage() {
               className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex gap-4 items-center"
             >
               <div className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden relative flex-shrink-0 border border-gray-100">
-                <Image
+                <ProductImage
                   src={item.product.image}
                   alt={item.product.name}
                   fill

@@ -2,7 +2,7 @@
 import { useCartStore } from '@/presentation/store/useCartStore';
 import { X, Plus, Minus, Trash2, ShoppingCart, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 
 export function CartDrawer() {
   const { items, isCartOpen, closeCart, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCartStore();
@@ -48,7 +48,7 @@ export function CartDrawer() {
               <div key={item.product.id} className="flex gap-3 bg-gray-50 rounded-lg p-3 border border-gray-100">
                 {/* Image */}
                 <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-white border border-gray-100">
-                  <Image
+                  <ProductImage
                     src={item.product.image}
                     alt={item.product.name}
                     width={64}
