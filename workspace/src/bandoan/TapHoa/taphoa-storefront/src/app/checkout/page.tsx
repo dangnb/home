@@ -9,7 +9,7 @@ import { CreateOrderUseCase } from '@/application/use-cases/CreateOrderUseCase';
 import { Order, PaymentMethod } from '@/domain/entities/Order';
 import { ShieldCheck, Truck, CreditCard, CheckCircle2, ArrowRight, PackageCheck } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { ProductImage } from '@/presentation/components/ui/ProductImage';
 
 const orderRepo = new MockOrderRepository();
 const createOrderUseCase = new CreateOrderUseCase(orderRepo);
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <div key={item.product.id} className="flex items-center gap-3 text-xs">
                 <div className="w-12 h-12 bg-gray-50 rounded-lg overflow-hidden relative flex-shrink-0 border border-gray-100">
-                  <Image src={item.product.image} alt={item.product.name} fill className="object-cover" />
+                  <ProductImage src={item.product.image} alt={item.product.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-gray-800 truncate">{item.product.name}</div>

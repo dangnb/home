@@ -28,6 +28,24 @@ export class ProductsComponent implements OnInit {
   // Search & Filter
   searchTerm = '';
   selectedCategory = '';
+  selectedSupplier = '';
+  selectedStatus: number | '' = '';
+  selectedStockFilter = '';
+  sortBy = 'newest';
+  showAdvancedFilters = false;
+
+  toggleAdvancedFilters() {
+    this.showAdvancedFilters = !this.showAdvancedFilters;
+  }
+
+  get activeFilterCount(): number {
+    let count = 0;
+    if (this.selectedSupplier) count++;
+    if (this.selectedStatus !== '') count++;
+    if (this.selectedStockFilter) count++;
+    if (this.sortBy && this.sortBy !== 'newest') count++;
+    return count;
+  }
 
   // Pagination State
   currentPage = 1;
@@ -177,8 +195,12 @@ export class ProductsComponent implements OnInit {
 
   loadProducts() {
     this.productService.getPaged(this.currentPage, this.pageSize, {
-      searchTerm: this.searchTerm,
-      categoryId: this.selectedCategory || undefined
+      searchTerm: this.searchTerm || undefined,
+      categoryId: this.selectedCategory || undefined,
+      supplierId: this.selectedSupplier || undefined,
+      status: this.selectedStatus !== '' ? this.selectedStatus : undefined,
+      stockFilter: this.selectedStockFilter || undefined,
+      sortBy: this.sortBy || undefined
     }).subscribe(res => {
       this.products = res.items;
       this.totalCount = res.totalCount;
@@ -192,6 +214,17 @@ export class ProductsComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  resetFilters() {
+    this.searchTerm = '';
+    this.selectedCategory = '';
+    this.selectedSupplier = '';
+    this.selectedStatus = '';
+    this.selectedStockFilter = '';
+    this.sortBy = 'newest';
+    this.currentPage = 1;
+    this.loadProducts();
   }
 
   openAddModal() {

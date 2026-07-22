@@ -2,8 +2,9 @@
 <div class="card">
   <!--begin::Card header-->
   <div class="card-header border-0 pt-6">
-    <div class="card-title">
-      <div class="d-flex align-items-center position-relative my-1">
+    <div class="card-title d-flex align-items-center gap-3 my-1">
+      <!-- Search Input -->
+      <div class="d-flex align-items-center position-relative">
         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
           <span class="path1"></span><span class="path2"></span>
         </i>
@@ -11,16 +12,41 @@
           [placeholder]="'PRODUCTS.SEARCH_PLACEHOLDER' | translate"
           [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
       </div>
-      <div class="ms-3">
+
+      <!-- Category Filter (Always Quick Visible) -->
+      <div>
         <select [(ngModel)]="selectedCategory" (ngModelChange)="onSearchChange()"
           class="form-select form-select-sm form-select-solid w-200px">
-          <option value="">{{ 'PRODUCTS.ALL_CATEGORIES' | translate }}</option>
+          <option value="">-- {{ 'PRODUCTS.ALL_CATEGORIES' | translate }} --</option>
           @for (cat of flatCategories; track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
           }
         </select>
       </div>
+
+      <!-- Toggle Advanced Search Button -->
+      <button type="button" 
+        class="btn btn-sm"
+        [ngClass]="showAdvancedFilters || activeFilterCount > 0 ? 'btn-light-primary border-primary' : 'btn-light-secondary'"
+        (click)="toggleAdvancedFilters()">
+        <i class="ki-duotone ki-filter fs-3">
+          <span class="path1"></span><span class="path2"></span>
+        </i>
+        Lọc nâng cao
+        @if (activeFilterCount > 0) {
+          <span class="badge badge-circle badge-primary ms-1 fs-8">{{ activeFilterCount }}</span>
+        }
+      </button>
+
+      <!-- Quick Reset Button when any filter active -->
+      @if (searchTerm || selectedCategory || selectedSupplier || selectedStatus !== '' || selectedStockFilter || sortBy !== 'newest') {
+        <button type="button" class="btn btn-sm btn-light-danger" (click)="resetFilters()" title="Xóa bộ lọc">
+          <i class="ki-duotone ki-cross fs-3"><span class="path1"></span><span class="path2"></span></i>
+          Xóa lọc
+        </button>
+      }
     </div>
+
     <div class="card-toolbar">
       <button type="button" class="btn btn-sm btn-primary" (click)="openAddModal()">
         <i class="ki-duotone ki-plus fs-2"></i>
@@ -29,6 +55,66 @@
     </div>
   </div>
   <!--end::Card header-->
+
+  <!--begin::Advanced Filter Collapsible Panel-->
+  @if (showAdvancedFilters) {
+    <div class="px-8 py-4 bg-light-secondary border-top border-bottom">
+      <div class="row g-3 align-items-center">
+        <!-- Supplier Filter -->
+        <div class="col-md-3 col-sm-6">
+          <label class="form-label fs-8 font-semibold text-gray-600 mb-1">Nhà cung cấp</label>
+          <select [(ngModel)]="selectedSupplier" (ngModelChange)="onSearchChange()"
+            class="form-select form-select-sm form-select-solid">
+            <option value="">-- Tất cả nhà cung cấp --</option>
+            @for (sup of suppliers; track sup.id) {
+              <option [value]="sup.id">{{ sup.fullName || sup.name }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="col-md-3 col-sm-6">
+          <label class="form-label fs-8 font-semibold text-gray-600 mb-1">Trạng thái kinh doanh</label>
+          <select [(ngModel)]="selectedStatus" (ngModelChange)="onSearchChange()"
+            class="form-select form-select-sm form-select-solid">
+            <option value="">-- Tất cả trạng thái --</option>
+            <option [value]="0">🟢 Đang kinh doanh</option>
+            <option [value]="1">🟡 Tạm ngưng</option>
+            <option [value]="2">🔴 Hết hàng</option>
+          </select>
+        </div>
+
+        <!-- Stock Filter -->
+        <div class="col-md-3 col-sm-6">
+          <label class="form-label fs-8 font-semibold text-gray-600 mb-1">Tình trạng tồn kho</label>
+          <select [(ngModel)]="selectedStockFilter" (ngModelChange)="onSearchChange()"
+            class="form-select form-select-sm form-select-solid">
+            <option value="">-- Tất cả tồn kho --</option>
+            <option value="in-stock">📦 Còn hàng</option>
+            <option value="low-stock">⚠️ Tồn kho thấp (&lt;= định mức)</option>
+            <option value="out-of-stock">❌ Hết hàng (0)</option>
+          </select>
+        </div>
+
+        <!-- Sort By -->
+        <div class="col-md-3 col-sm-6">
+          <label class="form-label fs-8 font-semibold text-gray-600 mb-1">Sắp xếp theo</label>
+          <select [(ngModel)]="sortBy" (ngModelChange)="onSearchChange()"
+            class="form-select form-select-sm form-select-solid">
+            <option value="newest">🕒 Mới nhất</option>
+            <option value="oldest">⏳ Cũ nhất</option>
+            <option value="name-asc">🔤 Tên (A-Z)</option>
+            <option value="name-desc">🔠 Tên (Z-A)</option>
+            <option value="price-asc">💵 Giá (Thấp ➔ Cao)</option>
+            <option value="price-desc">💎 Giá (Cao ➔ Thấp)</option>
+            <option value="stock-desc">📈 Tồn kho (Nhiều ➔ Ít)</option>
+            <option value="stock-asc">📉 Tồn kho (Ít ➔ Nhiều)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  }
+  <!--end::Advanced Filter Collapsible Panel-->
 
   <!--begin::Card body-->
   <div class="card-body py-4">

@@ -30,14 +30,17 @@ public static class ProductsEndpoints
         .RequireAuthorization(RequirePermissionAttribute.PolicyPrefix + AppPermissions.ViewProducts);
 
         group.MapGet("/paged", async (
-            [FromQuery] int pageIndex,
-            [FromQuery] int pageSize,
-            [FromQuery] string? searchTerm,
-            [FromQuery] Guid? categoryId,
-            [FromQuery] string? sortBy,
-            [FromServices] ISender sender) =>
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string? searchTerm = null,
+            [FromQuery] Guid? categoryId = null,
+            [FromQuery] string? sortBy = null,
+            [FromQuery] Guid? supplierId = null,
+            [FromQuery] int? status = null,
+            [FromQuery] string? stockFilter = null,
+            [FromServices] ISender sender = null!) =>
         {
-            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, categoryId, sortBy);
+            var query = new GetPagedProductsQuery(pageIndex, pageSize, searchTerm, categoryId, sortBy, supplierId, status, stockFilter);
             var result = await sender.Send(query);
             return Results.Ok(result);
         })
