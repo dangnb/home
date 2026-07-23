@@ -20,15 +20,59 @@ export class StockTakeDetailComponent implements OnInit {
   isCompleting = false;
   StockTakeStatus = StockTakeStatus;
   searchQuery = '';
+  activeFilterTab: 'all' | 'unchecked' | 'matched' | 'discrepancy' = 'all';
+
+  get totalItems(): number {
+    return this.stockTake?.lines.length || 0;
+  }
+
+  get checkedCount(): number {
+    return this.stockTake?.lines.filter(l => l.actualQuantity !== null && l.actualQuantity !== undefined).length || 0;
+  }
+
+  get matchedCount(): number {
+    return this.stockTake?.lines.filter(l => l.actualQuantity !== null && l.actualQuantity !== undefined && l.difference === 0).length || 0;
+  }
+
+  get discrepancyCount(): number {
+    return this.stockTake?.lines.filter(l => l.actualQuantity !== null && l.actualQuantity !== undefined && l.difference !== 0).length || 0;
+  }
+
+  get surplusCount(): number {
+    return this.stockTake?.lines.filter(l => (l.difference ?? 0) > 0).length || 0;
+  }
+
+  get deficitCount(): number {
+    return this.stockTake?.lines.filter(l => (l.difference ?? 0) < 0).length || 0;
+  }
+
+  get progressPercentage(): number {
+    if (!this.totalItems) return 0;
+    return Math.round((this.checkedCount / this.totalItems) * 100);
+  }
 
   get filteredLines(): StockTakeLineDto[] {
     if (!this.stockTake) return [];
-    if (!this.searchQuery) return this.stockTake.lines;
-    const q = this.searchQuery.toLowerCase();
-    return this.stockTake.lines.filter(l =>
-      l.productName.toLowerCase().includes(q) ||
-      l.sku.toLowerCase().includes(q)
-    );
+    let lines = this.stockTake.lines;
+
+    // Filter by active tab
+    if (this.activeFilterTab === 'unchecked') {
+      lines = lines.filter(l => l.actualQuantity === null || l.actualQuantity === undefined);
+    } else if (this.activeFilterTab === 'matched') {
+      lines = lines.filter(l => l.actualQuantity !== null && l.actualQuantity !== undefined && l.difference === 0);
+    } else if (this.activeFilterTab === 'discrepancy') {
+      lines = lines.filter(l => l.actualQuantity !== null && l.actualQuantity !== undefined && l.difference !== 0);
+    }
+
+    // Filter by search query
+    if (this.searchQuery.trim()) {
+      const q = this.searchQuery.toLowerCase().trim();
+      lines = lines.filter(l =>
+        (l.productName && l.productName.toLowerCase().includes(q)) ||
+        (l.sku && l.sku.toLowerCase().includes(q))
+      );
+    }
+    return lines;
   }
 
   get isReadyToComplete(): boolean {
@@ -75,10 +119,39 @@ export class StockTakeDetailComponent implements OnInit {
     this.saveLine(line);
   }
 
+  adjustQuantity(line: StockTakeLineDto, delta: number): void {
+    if (this.stockTake?.status === StockTakeStatus.Completed || this.stockTake?.status === StockTakeStatus.Cancelled) return;
+    const current = line.actualQuantity ?? line.expectedQuantity ?? 0;
+    line.actualQuantity = Math.max(0, current + delta);
+    this.onQuantityChange(line);
+  }
+
+  quickFillMatching(): void {
+    if (!this.stockTake || this.stockTake.status === StockTakeStatus.Completed || this.stockTake.status === StockTakeStatus.Cancelled) return;
+
+    Swal.fire({
+      title: 'Tự động điền khớp kho?',
+      text: 'Hệ thống sẽ gán Số lượng thực tế = Tồn dự kiến cho các mặt hàng chưa kiểm kê.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Đồng ý',
+      cancelButtonText: 'Hủy'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.stockTake!.lines.forEach(line => {
+          if (line.actualQuantity === null || line.actualQuantity === undefined) {
+            line.actualQuantity = line.expectedQuantity;
+            line.difference = 0;
+            this.saveLine(line);
+          }
+        });
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   saveLine(line: StockTakeLineDto): void {
     if (!this.stockTake) return;
-
-    // Only save if actualQuantity is filled
     if (line.actualQuantity === null || line.actualQuantity === undefined) return;
 
     this.isSaving = true;
@@ -89,7 +162,6 @@ export class StockTakeDetailComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.isSaving = false;
-        // Optionally update the overall status locally if it just transitioned from Draft to InProgress
         if (this.stockTake!.status === StockTakeStatus.Draft) {
           this.stockTake!.status = StockTakeStatus.InProgress;
         }
@@ -113,7 +185,7 @@ export class StockTakeDetailComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Đồng ý',
+      confirmButtonText: 'Đồng ý hoàn tất',
       cancelButtonText: 'Hủy'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -125,7 +197,7 @@ export class StockTakeDetailComponent implements OnInit {
             this.cdr.detectChanges();
             Swal.fire(
               'Thành công!',
-              'Phiếu kiểm kê đã hoàn tất và kho đã được điều chỉnh!',
+              'Phiếu kiểm kê đã hoàn tất và kho đã được điều chỉnh thành công!',
               'success'
             ).then(() => {
               this.router.navigate(['/admin/stock-takes']);
@@ -136,7 +208,6 @@ export class StockTakeDetailComponent implements OnInit {
             this.isCompleting = false;
             this.cdr.detectChanges();
             
-            // Try to extract error message from response
             let errorMsg = 'Có lỗi xảy ra khi hoàn tất phiếu kiểm kê.';
             if (err.error) {
               if (typeof err.error === 'string') {
@@ -161,11 +232,11 @@ export class StockTakeDetailComponent implements OnInit {
 
   getStatusClass(status: StockTakeStatus): string {
     switch (status) {
-      case StockTakeStatus.Draft: return 'badge-secondary';
-      case StockTakeStatus.InProgress: return 'badge-primary';
-      case StockTakeStatus.Completed: return 'badge-success';
-      case StockTakeStatus.Cancelled: return 'badge-danger';
-      default: return 'badge-secondary';
+      case StockTakeStatus.Draft: return 'badge-light-secondary text-gray-700';
+      case StockTakeStatus.InProgress: return 'badge-light-primary text-primary';
+      case StockTakeStatus.Completed: return 'badge-light-success text-success';
+      case StockTakeStatus.Cancelled: return 'badge-light-danger text-danger';
+      default: return 'badge-light-secondary';
     }
   }
 

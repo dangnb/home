@@ -335,31 +335,77 @@
             </h3>
           </div>
           <div class="card-body pt-0">
-            <div class="mb-4">
-              <label class="form-label">{{ 'PRODUCTS.MAIN_IMAGE' | translate }}</label>
-              <input type="file" (change)="onMainImageSelected($event)" accept="image/*" class="form-control form-control-sm form-control-solid">
+            <!-- Main Image Custom Dropzone -->
+            <div class="mb-5">
+              <label class="form-label fw-bold fs-7 text-gray-700 mb-2">
+                <i class="ki-duotone ki-picture text-primary fs-5 me-1"><span class="path1"></span><span class="path2"></span></i>
+                {{ 'PRODUCTS.MAIN_IMAGE' | translate }}
+              </label>
+              
+              <!-- Hidden file input -->
+              <input type="file" #mainFileInput (change)="onMainImageSelected($event)" accept="image/*" class="d-none">
+
               @if (editingProduct.mainImageUrl) {
-                <div class="mt-3">
-                  <img [src]="fileUrl + editingProduct.mainImageUrl" height="100" class="rounded border shadow-sm object-fit-cover">
+                <!-- Main Image Preview with overlay controls -->
+                <div class="image-preview-container position-relative rounded-3 overflow-hidden border shadow-sm style-main-preview">
+                  <img [src]="fileUrl + editingProduct.mainImageUrl" class="w-100 h-100 object-fit-cover">
+                  <div class="image-overlay d-flex align-items-center justify-content-center gap-2">
+                    <button type="button" class="btn btn-sm btn-light-primary fw-bold shadow-sm" (click)="mainFileInput.click()">
+                      <i class="ki-duotone ki-pencil fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> Thay ảnh
+                    </button>
+                    <button type="button" class="btn btn-sm btn-light-danger fw-bold shadow-sm" (click)="removeMainImage()">
+                      <i class="ki-duotone ki-trash fs-4 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i> Xóa
+                    </button>
+                  </div>
+                </div>
+              } @else {
+                <!-- Custom Upload Box -->
+                <div class="custom-file-dropzone d-flex flex-column align-items-center justify-content-center p-6 rounded-3 text-center"
+                     (click)="mainFileInput.click()">
+                  <div class="dropzone-icon mb-3 bg-light-primary rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="ki-duotone ki-cloud-add fs-2x text-primary"><span class="path1"></span><span class="path2"></span></i>
+                  </div>
+                  <span class="fw-bold text-gray-800 fs-6 mb-1">Tải ảnh đại diện sản phẩm</span>
+                  <span class="text-muted fs-8">Nhấp vào đây để chọn tệp (PNG, JPG, WEBP)</span>
                 </div>
               }
             </div>
+
+            <!-- Additional Images Section -->
             <div>
-              <label class="form-label">{{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}</label>
-              <input type="file" multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="form-control form-control-sm form-control-solid">
-              @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
-                <div class="d-flex gap-2 flex-wrap mt-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <label class="form-label fw-bold fs-7 text-gray-700 m-0">
+                  <i class="ki-duotone ki-element-11 text-primary fs-5 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                  {{ 'PRODUCTS.ADDITIONAL_IMAGES' | translate }}
+                </label>
+                <button type="button" class="btn btn-sm btn-light-primary fw-bold py-1 px-3" (click)="addFileInput.click()">
+                  <i class="ki-duotone ki-plus fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> Thêm ảnh
+                </button>
+              </div>
+
+              <!-- Hidden multiple file input -->
+              <input type="file" #addFileInput multiple (change)="onAdditionalImageSelected($event)" accept="image/*" class="d-none">
+
+              <div class="additional-images-grid d-flex gap-3 flex-wrap mt-3">
+                @if (editingProduct.additionalImages && editingProduct.additionalImages.length > 0) {
                   @for (url of editingProduct.additionalImages; track url; let i = $index) {
-                    <div class="position-relative">
-                      <img [src]="fileUrl + url" width="80" height="80" class="rounded border shadow-sm object-fit-cover">
-                      <button type="button" class="btn btn-sm btn-icon btn-danger position-absolute top-0 end-0"
-                        style="width:20px;height:20px;transform:translate(30%,-30%);" (click)="removeAdditionalImage(i)">
-                        <i class="ki-duotone ki-cross fs-4"><span class="path1"></span><span class="path2"></span></i>
+                    <div class="position-relative additional-thumb-container rounded-3 overflow-hidden border shadow-sm">
+                      <img [src]="fileUrl + url" width="80" height="80" class="w-100 h-100 object-fit-cover">
+                      <button type="button" class="btn btn-icon btn-danger btn-sm remove-thumb-btn position-absolute top-0 end-0 m-1"
+                        (click)="removeAdditionalImage(i)" title="Xóa ảnh này">
+                        <i class="ki-duotone ki-cross fs-5"><span class="path1"></span><span class="path2"></span></i>
                       </button>
                     </div>
                   }
+                }
+                
+                <!-- Add more thumbnail button chip -->
+                <div class="add-thumb-chip d-flex flex-column align-items-center justify-content-center rounded-3 border border-dashed"
+                     (click)="addFileInput.click()" title="Thêm ảnh phụ">
+                  <i class="ki-duotone ki-plus fs-2 text-gray-400"><span class="path1"></span><span class="path2"></span></i>
+                  <span class="fs-9 text-muted fw-semibold mt-1">Thêm</span>
                 </div>
-              }
+              </div>
             </div>
           </div>
         </div>

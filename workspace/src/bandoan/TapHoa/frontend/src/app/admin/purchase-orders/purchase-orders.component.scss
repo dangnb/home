@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.table {
+  thead {
+    tr {
+      background-color: #f8fafc;
+      th {
+        color: #334155 !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #cbd5e1 !important;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #e2e8f0;
+      transition: background-color 0.15s ease;
+      &:hover {
+        background-color: #f8fafc;
+      }
+    }
+  }
+}
+
+.badge-light-secondary {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.badge-light-primary {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.badge-light-success {
+  background-color: #f0fdf4 !important;
+  color: #16a34a !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+.badge-light-danger {
+  background-color: #fef2f2 !important;
+  color: #dc2626 !important;
+  border: 1px solid #fecaca !important;
+}

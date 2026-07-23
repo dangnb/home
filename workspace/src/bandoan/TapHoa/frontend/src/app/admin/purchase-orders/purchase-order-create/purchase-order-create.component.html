@@ -1,115 +1,273 @@
-﻿<div class="card">
-  <div class="card-header border-0 pt-6">
-    <h5 class="mb-0 fw-bold text-dark fs-5">
-      <span class="me-2 fs-5">📝</span> {{ 'PURCHASE_ORDERS.CREATE.TITLE' | translate }}
-    </h5>
-    
-    <div class="d-flex align-items-center gap-2">
-      <button class="btn btn-sm btn-light d-flex align-items-center gap-2 px-4 shadow-sm" routerLink="/admin/purchase-orders">
-        <i class="bi bi-x-lg"></i>
-        <span>{{ 'COMMON.CANCEL' | translate }}</span>
-      </button>
-      <button class="btn btn-sm btn-primary d-flex align-items-center gap-2 px-4 shadow-sm" (click)="save()" [disabled]="isSubmitting">
-        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        <i class="bi bi-save" *ngIf="!isSubmitting"></i>
-        <span>{{ 'PURCHASE_ORDERS.CREATE.SAVE_BTN' | translate }}</span>
-      </button>
+<div class="app-card mb-5">
+  <!--begin::Header Navigation Bar-->
+  <div class="toolbar-header">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <a routerLink="/admin/purchase-orders" class="text-muted text-hover-primary fw-semibold fs-7 d-inline-flex align-items-center mb-2">
+          <i class="ki-duotone ki-arrow-left fs-4 me-1"><span class="path1"></span><span class="path2"></span></i>
+          Quay lại Danh sách Đơn mua hàng
+        </a>
+        <div class="d-flex align-items-center gap-3">
+          <h2 class="main-title me-2">Tạo Đơn Mua Hàng Mới</h2>
+          <span class="badge bg-light-primary text-primary px-3 py-2 fw-bold rounded-pill fs-8">
+            #PO-DRAFT
+          </span>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-light fw-bold px-4 rounded-3" routerLink="/admin/purchase-orders">
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button class="btn btn-sm btn-primary fw-bold px-5 rounded-3 d-flex align-items-center gap-2 shadow-sm"
+                (click)="save()" [disabled]="isSubmitting">
+          @if (isSubmitting) {
+            <span class="spinner-border spinner-border-sm me-1"></span>
+          } @else {
+            <i class="ki-duotone ki-check-circle fs-2 me-1"><span class="path1"></span><span class="path2"></span></i>
+          }
+          <span>{{ 'PURCHASE_ORDERS.CREATE.SAVE_BTN' | translate }}</span>
+        </button>
+      </div>
     </div>
   </div>
+  <!--end::Header Navigation Bar-->
 
-  <div class="card-body p-4">
-    <!-- Header Form -->
-    <div class="row g-4 mb-4">
-      <div class="col-md-4">
-        <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.SUPPLIER' | translate }} <span class="text-danger">*</span></label>
-        <select class="form-select form-select-sm" [(ngModel)]="dto.supplierId">
-          <option value="" disabled selected>{{ 'PURCHASE_ORDERS.CREATE.SELECT_SUPPLIER' | translate }}</option>
-          <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }}</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.EXPECTED_DATE' | translate }}</label>
-        <input type="date" class="form-control form-control-sm" [(ngModel)]="dto.expectedDeliveryDate">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label fw-semibold text-secondary">{{ 'PURCHASE_ORDERS.CREATE.NOTES' | translate }}</label>
-        <input type="text" class="form-control form-control-sm" [placeholder]="'PURCHASE_ORDERS.CREATE.NOTES_PLACEHOLDER' | translate" [(ngModel)]="dto.notes">
-      </div>
-    </div>
+  <!--begin::Card Body Content-->
+  <div class="card-body py-5 px-6">
+    <div class="row g-5">
+      <!--begin::Left Column (Products & Items Table)-->
+      <div class="col-12 col-lg-8">
+        
+        <!--begin::Add Product Box-->
+        <div class="card card-flush p-5 mb-5 rounded-3 border bg-light-subtle">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="ki-duotone ki-element-plus text-primary fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+            <h5 class="fw-bold text-gray-900 m-0">Chọn Sản Phẩm Mua</h5>
+          </div>
 
-    <hr class="text-muted opacity-25 my-4">
+          <div class="row g-3 align-items-end">
+            <!-- Product Select -->
+            <div class="col-12 col-md-5">
+              <label class="form-label mb-1">Sản phẩm <span class="text-danger">*</span></label>
+              <select class="form-select form-select-sm" [(ngModel)]="selectedProductId" (change)="onProductSelectChange()">
+                <option value="" disabled selected>{{ 'PURCHASE_ORDERS.CREATE.SELECT_PRODUCT' | translate }}</option>
+                @for (p of products; track p.id) {
+                  <option [value]="p.id">{{ p.name }} (Tồn: {{ p.stockQuantity || 0 }} {{ p.unit || '' }})</option>
+                }
+              </select>
+            </div>
 
-    <!-- Add Product Section -->
-    <div class="bg-light rounded-3 p-4 mb-4 border border-1 border-opacity-10 shadow-sm">
-      <h6 class="fw-bold mb-3">{{ 'PURCHASE_ORDERS.CREATE.DETAILS_TITLE' | translate }}</h6>
-      <div class="row g-3 align-items-end">
-        <div class="col-md-5">
-          <label class="form-label small fw-semibold text-secondary mb-1">{{ 'PURCHASE_ORDERS.CREATE.PRODUCT' | translate }}</label>
-          <select class="form-select form-select-sm" [(ngModel)]="selectedProductId" (change)="onProductSelectChange()">
-            <option value="" disabled selected>{{ 'PURCHASE_ORDERS.CREATE.SELECT_PRODUCT' | translate }}</option>
-            <option *ngFor="let p of products" [value]="p.id">{{ p.name }} - Tồn: {{ p.stockQuantity }}</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label small fw-semibold text-secondary mb-1">{{ 'PURCHASE_ORDERS.CREATE.QUANTITY' | translate }}</label>
-          <input type="number" class="form-control form-control-sm" [(ngModel)]="selectedQuantity" min="1">
-        </div>
-        <div class="col-md-3">
-          <label class="form-label small fw-semibold text-secondary mb-1">{{ 'PURCHASE_ORDERS.CREATE.COST_PRICE' | translate }}</label>
-          <div class="input-group input-group-sm">
-            <input type="text" class="form-control form-control-sm" [(ngModel)]="selectedCostPrice" appNumberFormat>
-            <span class="input-group-text bg-white">₫</span>
+            <!-- Quantity -->
+            <div class="col-6 col-md-3">
+              <label class="form-label mb-1">Số lượng nhập</label>
+              <input type="number" class="form-control form-control-sm" [(ngModel)]="selectedQuantity" min="1">
+            </div>
+
+            <!-- Cost Price -->
+            <div class="col-6 col-md-4">
+              <label class="form-label mb-1">Giá nhập dự kiến (₫)</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control form-control-sm text-end" [(ngModel)]="selectedCostPrice" appNumberFormat>
+                <span class="input-group-text bg-light border-start-0 text-dark fw-bold fs-8">₫</span>
+              </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="col-12 text-end pt-1">
+              <button class="btn btn-sm btn-primary fw-bold px-4 rounded-3 d-inline-flex align-items-center gap-1 py-2 shadow-sm" (click)="addProduct()">
+                <i class="ki-duotone ki-plus fs-3"><span class="path1"></span><span class="path2"></span></i>
+                Thêm Vào Đơn Hàng
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col-md-2">
-          <button class="btn btn-sm btn-primary w-100 d-flex align-items-center justify-content-center gap-2 shadow-sm" (click)="addProduct()">
-            <i class="bi bi-plus-circle"></i> {{ 'PURCHASE_ORDERS.CREATE.ADD_BTN' | translate }}
-          </button>
+        <!--end::Add Product Box-->
+
+        <!--begin::Items Table Card-->
+        <div class="card card-flush border rounded-3 overflow-hidden">
+          <div class="card-header py-3 px-5 border-bottom bg-white d-flex align-items-center justify-content-between">
+            <h5 class="card-title fw-bold text-gray-900 m-0 fs-6">
+              <i class="ki-duotone ki-bill text-primary fs-3 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+              Danh Sách Sản Phẩm Trong Đơn ({{ dto.details.length }})
+            </h5>
+            @if (dto.details.length > 0) {
+              <span class="badge bg-light-primary text-primary fw-bold fs-8">Tổng số lượng: {{ totalQuantityCount }}</span>
+            }
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table align-middle gs-0 gy-2 mb-0">
+                <thead>
+                  <tr class="fs-8 text-uppercase">
+                    <th class="ps-4 py-2.5 w-50px">STT</th>
+                    <th class="py-2.5 min-w-200px">Sản Phẩm</th>
+                    <th class="text-center py-2.5 min-w-140px">Số Lượng Nhập</th>
+                    <th class="text-end py-2.5 min-w-130px">Đơn Giá Nhập</th>
+                    <th class="text-end py-2.5 min-w-120px">Thành Tiền</th>
+                    <th class="text-center py-2.5 w-60px pe-4">Xóa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @if (dto.details.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center py-8 text-muted fs-7">
+                        <i class="ki-duotone ki-basket fs-2x text-gray-400 d-block mb-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                        Chưa có sản phẩm nào trong đơn mua hàng.
+                      </td>
+                    </tr>
+                  }
+
+                  @for (item of dto.details; track item.productId; let i = $index) {
+                    <tr class="po-item-row">
+                      <td class="ps-4 fw-semibold text-slate fs-8">{{ i + 1 }}</td>
+                      <td>
+                        <div class="d-flex flex-column">
+                          <span class="fw-bold text-gray-900 fs-7">{{ getProductName(item.productId) }}</span>
+                          <span class="text-muted fs-8">SKU: <code class="text-dark bg-light px-1 rounded border">{{ getProductSku(item.productId) }}</code> | Tồn: {{ getProductStock(item.productId) }}</span>
+                        </div>
+                      </td>
+
+                      <!-- Quantity Stepper -->
+                      <td class="text-center">
+                        <div class="d-inline-flex align-items-center gap-1 qty-stepper-box">
+                          <button type="button" class="btn btn-sm btn-icon btn-light btn-stepper" (click)="adjustDetailQuantity(i, -1)">
+                            <i class="ki-duotone ki-minus fs-4"><span class="path1"></span></i>
+                          </button>
+                          <input type="number" class="form-control form-control-sm text-center fw-bold qty-input"
+                                 [(ngModel)]="item.quantity" min="1">
+                          <button type="button" class="btn btn-sm btn-icon btn-light btn-stepper" (click)="adjustDetailQuantity(i, 1)">
+                            <i class="ki-duotone ki-plus fs-4"><span class="path1"></span><span class="path2"></span></i>
+                          </button>
+                        </div>
+                      </td>
+
+                      <!-- Cost Price -->
+                      <td class="text-end">
+                        <div class="input-group input-group-sm ms-auto" style="max-width: 120px;">
+                          <input type="text" class="form-control form-control-sm text-end fw-semibold"
+                                 [(ngModel)]="item.costPrice" appNumberFormat>
+                          <span class="input-group-text bg-light border-start-0 text-dark fs-8">₫</span>
+                        </div>
+                      </td>
+
+                      <!-- Total Line Amount -->
+                      <td class="text-end fw-bold text-primary fs-7">
+                        {{ (item.quantity * item.costPrice) | number:'1.0-0' }} ₫
+                      </td>
+
+                      <!-- Remove Button -->
+                      <td class="text-center pe-4">
+                        <button type="button" class="btn btn-sm btn-icon btn-light-danger" (click)="removeProduct(i)" title="Xóa dòng này" style="width:28px; height:28px;">
+                          <i class="ki-duotone ki-trash fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+        <!--end::Items Table Card-->
+
       </div>
-    </div>
+      <!--end::Left Column-->
 
-    <!-- Product List Table -->
-    <div class="table-responsive rounded-3 border">
-      <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-        <thead>
-          <tr class="fw-bold text-muted">
-            <th class="ps-4 fw-semibold border-0">STT</th>
-            <th class="fw-semibold border-0">{{ 'PURCHASE_ORDERS.CREATE.COL_PRODUCT' | translate }}</th>
-            <th class="fw-semibold border-0 text-center">{{ 'PURCHASE_ORDERS.CREATE.COL_QUANTITY' | translate }}</th>
-            <th class="fw-semibold border-0 text-end">{{ 'PURCHASE_ORDERS.CREATE.COL_COST_PRICE' | translate }}</th>
-            <th class="fw-semibold border-0 text-end">{{ 'PURCHASE_ORDERS.CREATE.COL_TOTAL' | translate }}</th>
-            <th class="fw-semibold border-0 text-center pe-4">{{ 'PURCHASE_ORDERS.CREATE.COL_ACTION' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of dto.details; let i = index">
-            <td class="ps-4">{{ i + 1 }}</td>
-            <td class="fw-bold">{{ getProductName(item.productId) }}</td>
-            <td class="text-center">{{ item.quantity }}</td>
-            <td class="text-end text-success">{{ item.costPrice | number:'1.0-0' }} ₫</td>
-            <td class="text-end fw-bold text-primary">{{ (item.quantity * item.costPrice) | number:'1.0-0' }} ₫</td>
-            <td class="text-center pe-4">
-              <button class="btn btn-sm btn-outline-danger border-0" (click)="removeProduct(i)">
-                <i class="ki-duotone ki-trash fs-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="dto.details.length === 0">
-            <td colspan="6" class="text-center py-4 text-muted">
-              {{ 'COMMON.NO_DATA' | translate }}
-            </td>
-          </tr>
-        </tbody>
-        <tfoot *ngIf="dto.details.length > 0" class="table-light fw-bold text-dark fs-5">
-          <tr>
-            <td colspan="4" class="text-end py-3">{{ 'PURCHASE_ORDERS.CREATE.TOTAL_AMOUNT' | translate }}</td>
-            <td class="text-end py-3 text-primary">{{ getTotalAmount() | number:'1.0-0' }} ₫</td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
+      <!--begin::Right Column (Supplier Info & Summary)-->
+      <div class="col-12 col-lg-4">
+        
+        <!--begin::Supplier & Meta Card-->
+        <div class="card card-flush p-4 mb-4 border rounded-3 bg-white">
+          <h6 class="fw-bold text-gray-900 border-bottom pb-2 mb-3 d-flex align-items-center gap-2 fs-6">
+            <i class="ki-duotone ki-truck text-primary fs-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+            Thông Tin Nhà Cung Cấp
+          </h6>
 
+          <!-- Supplier Select -->
+          <div class="mb-3">
+            <label class="form-label mb-1">Nhà cung cấp <span class="text-danger">*</span></label>
+            <select class="form-select form-select-sm" [(ngModel)]="dto.supplierId">
+              <option value="" disabled selected>{{ 'PURCHASE_ORDERS.CREATE.SELECT_SUPPLIER' | translate }}</option>
+              @for (s of suppliers; track s.id) {
+                <option [value]="s.id">{{ s.fullName || s.name }} {{ s.phoneNumber ? '(' + s.phoneNumber + ')' : '' }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Selected Supplier Details Preview Card -->
+          @if (selectedSupplier) {
+            <div class="p-2.5 px-3 bg-light-primary rounded-3 border border-primary-subtle mb-3">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <i class="ki-duotone ki-profile-circle fs-4 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                <span class="fw-bold text-gray-900 fs-7">{{ selectedSupplier.fullName || selectedSupplier.name }}</span>
+              </div>
+              <div class="text-muted fs-8">
+                @if (selectedSupplier.phoneNumber) {
+                  <div class="text-dark">📞 {{ selectedSupplier.phoneNumber }}</div>
+                }
+                @if (selectedSupplier.address) {
+                  <div class="text-truncate text-dark">📍 {{ selectedSupplier.address }}</div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Expected Delivery Date -->
+          <div class="mb-3">
+            <label class="form-label mb-1">
+              <i class="ki-duotone ki-calendar text-primary fs-6 me-1"><span class="path1"></span><span class="path2"></span></i>
+              {{ 'PURCHASE_ORDERS.CREATE.EXPECTED_DATE' | translate }}
+            </label>
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="dto.expectedDeliveryDate">
+          </div>
+
+          <!-- Notes -->
+          <div class="mb-1">
+            <label class="form-label mb-1">
+              <i class="ki-duotone ki-note-2 text-primary fs-6 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+              {{ 'PURCHASE_ORDERS.CREATE.NOTES' | translate }}
+            </label>
+            <textarea class="form-control form-control-sm" rows="2"
+                      [placeholder]="'PURCHASE_ORDERS.CREATE.NOTES_PLACEHOLDER' | translate" [(ngModel)]="dto.notes"></textarea>
+          </div>
+        </div>
+        <!--end::Supplier & Meta Card-->
+
+        <!--begin::Summary Card-->
+        <div class="card card-flush p-4 border rounded-3 bg-light-subtle">
+          <h6 class="fw-bold text-gray-900 border-bottom pb-2 mb-2 d-flex align-items-center gap-2 fs-6">
+            <i class="ki-duotone ki-wallet text-primary fs-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+            Tóm Tắt Thanh Toán
+          </h6>
+
+          <div class="d-flex justify-content-between align-items-center py-1.5 border-bottom border-dashed fs-8">
+            <span class="text-gray-600">Số dòng sản phẩm:</span>
+            <span class="fw-bold text-gray-900">{{ totalItemsCount }} mã</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center py-1.5 border-bottom border-dashed fs-8">
+            <span class="text-gray-600">Tổng số lượng mua:</span>
+            <span class="fw-bold text-gray-900">{{ totalQuantityCount }} sản phẩm</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center py-2 my-1">
+            <span class="fw-bold text-gray-900 fs-7">Tổng Tiền Nhập Hàng:</span>
+            <span class="fw-bolder fs-4 text-primary">{{ getTotalAmount() | number:'1.0-0' }} ₫</span>
+          </div>
+
+          <div class="p-2.5 bg-white rounded-3 border border-dashed text-gray-600 fs-8">
+            <i class="ki-duotone ki-information-2 me-1 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+            Đơn mua hàng sau khi tạo sẽ ở trạng thái Bản nháp. Tồn kho và Công nợ NCC chỉ được ghi nhận khi đơn được duyệt nhập kho.
+          </div>
+        </div>
+        <!--end::Summary Card-->
+
+      </div>
+      <!--end::Right Column-->
+    </div>
   </div>
+  <!--end::Card Body Content-->
 </div>
+

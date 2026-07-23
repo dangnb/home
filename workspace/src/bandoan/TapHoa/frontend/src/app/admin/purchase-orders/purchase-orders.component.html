@@ -53,8 +53,8 @@
             <td class="text-end fw-bold text-success">{{ order.totalAmount | number:'1.0-0' }} ₫</td>
             <td class="text-end d-none d-lg-table-cell">{{ order.amountPaid | number:'1.0-0' }} ₫</td>
             <td class="text-center">
-              <span class="badge rounded-pill px-3 py-2" [ngClass]="getStatusBadgeClass(order.status)">
-                {{ 'PURCHASE_ORDERS.STATUS.' + getEnumString(order.status) | translate }}
+              <span class="badge px-3 py-2 fs-8 rounded-pill" [ngClass]="getStatusBadgeClass(order.status)">
+                {{ getStatusText(order.status) }}
               </span>
             </td>
             <td class="text-end pe-4">
