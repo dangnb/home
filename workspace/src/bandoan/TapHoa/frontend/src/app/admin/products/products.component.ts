@@ -329,6 +329,11 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  removeMainImage() {
+    this.editingProduct.mainImageUrl = '';
+    this.cdr.detectChanges();
+  }
+
   onAdditionalImageSelected(event: any) {
     const files = event.target.files;
     for (let i = 0; i < files.length; i++) {

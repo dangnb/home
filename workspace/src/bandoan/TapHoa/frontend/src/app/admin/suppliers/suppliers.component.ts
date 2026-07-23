@@ -99,7 +99,10 @@ export class SuppliersComponent implements OnInit {
 
   saveSupplier() {
     if (!this.formData.fullName?.trim()) {
-      this.alertService.error('Lỗi', 'Vui lòng nhập tên nhà cung cấp');
+      this.alertService.error(
+        this.translate.instant('COMMON.ERROR'),
+        this.translate.instant('SUPPLIERS.NAME_REQUIRED') || 'Vui lòng nhập tên nhà cung cấp'
+      );
       return;
     }
     

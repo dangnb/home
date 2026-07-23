@@ -95,11 +95,40 @@ export class PurchaseOrderCreateComponent implements OnInit {
     return this.dto.details.reduce((sum, d) => sum + (d.quantity * d.costPrice), 0);
   }
 
+  get selectedSupplier(): any {
+    return this.suppliers.find(s => s.id === this.dto.supplierId);
+  }
+
+  get totalItemsCount(): number {
+    return this.dto.details.length;
+  }
+
+  get totalQuantityCount(): number {
+    return this.dto.details.reduce((sum, d) => sum + (d.quantity || 0), 0);
+  }
+
+  getProductSku(id: string): string {
+    const p = this.products.find(prod => prod.id === id);
+    return p ? (p.sku || (p.id ? p.id.toString().substring(0, 8).toUpperCase() : '')) : '';
+  }
+
+  getProductStock(id: string): number {
+    return this.products.find(prod => prod.id === id)?.stockQuantity || 0;
+  }
+
+  adjustDetailQuantity(index: number, delta: number): void {
+    if (this.dto.details[index]) {
+      const current = this.dto.details[index].quantity || 1;
+      this.dto.details[index].quantity = Math.max(1, current + delta);
+      this.cdr.detectChanges();
+    }
+  }
+
   onProductSelectChange(): void {
     if (this.selectedProductId) {
       const product = this.products.find(p => p.id === this.selectedProductId);
       if (product) {
-        this.selectedCostPrice = product.costPrice;
+        this.selectedCostPrice = product.costPrice || 0;
       }
     }
   }

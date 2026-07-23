@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Category } from '../../models/category';
@@ -32,11 +32,19 @@ export class CategoriesComponent implements OnInit {
     isSubmitting = false;
     editingCategory: Category = this.getEmptyCategory();
 
+    presetIcons: string[] = ['📁', '📦', '🏷️', '🍎', '🥦', '🥛', '🥩', '🥤', '🧼', '💊', '⚡', '🎒', '🏠', '🛒', '🎮', '📱'];
+
     private categoryService = inject(CategoryService);
     private alertService = inject(AlertService);
     private translate = inject(TranslateService);
+    private cdr = inject(ChangeDetectorRef);
 
     constructor() { }
+
+    selectPresetIcon(icon: string) {
+        this.editingCategory.icon = icon;
+        this.cdr.detectChanges();
+    }
 
     ngOnInit() {
         this.loadCategories();
@@ -48,9 +56,11 @@ export class CategoriesComponent implements OnInit {
                 this.categories = data;
                 this.categoryNodes = this.buildTree(data);
                 this.applyFilter();
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR'));
+                this.cdr.detectChanges();
             }
         });
     }
@@ -62,10 +72,12 @@ export class CategoriesComponent implements OnInit {
     private applyFilter() {
         if (!this.searchTerm.trim()) {
             this.filteredCategoryNodes = this.categoryNodes;
+            this.cdr.detectChanges();
             return;
         }
         const term = this.searchTerm.toLowerCase().trim();
         this.filteredCategoryNodes = this.filterTreeNodes(this.categoryNodes, term);
+        this.cdr.detectChanges();
     }
 
     private filterTreeNodes(nodes: CategoryNode[], term: string): CategoryNode[] {
@@ -93,6 +105,7 @@ export class CategoriesComponent implements OnInit {
 
     toggleExpand(node: CategoryNode) {
         node.expanded = !node.expanded;
+        this.cdr.detectChanges();
     }
 
     openAddModal(parentId?: string) {
@@ -102,17 +115,20 @@ export class CategoriesComponent implements OnInit {
             this.editingCategory.parentId = parentId;
         }
         this.showModal = true;
+        this.cdr.detectChanges();
     }
 
     openEditModal(category: Category) {
         this.isEditMode = true;
         this.editingCategory = { ...category };
         this.showModal = true;
+        this.cdr.detectChanges();
     }
 
     closeModal() {
         this.showModal = false;
         this.isSubmitting = false;
+        this.cdr.detectChanges();
     }
 
     saveCategory() {
@@ -124,6 +140,7 @@ export class CategoriesComponent implements OnInit {
         }
 
         this.isSubmitting = true;
+        this.cdr.detectChanges();
 
         if (this.isEditMode) {
             this.categoryService.updateCategory(payload.id, payload).subscribe({
@@ -135,6 +152,7 @@ export class CategoriesComponent implements OnInit {
                 error: (err) => {
                     this.isSubmitting = false;
                     this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
+                    this.cdr.detectChanges();
                 }
             });
         } else {
@@ -147,6 +165,7 @@ export class CategoriesComponent implements OnInit {
                 error: (err) => {
                     this.isSubmitting = false;
                     this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.SAVE_ERROR') + ': ' + (err.error?.title || err.message));
+                    this.cdr.detectChanges();
                 }
             });
         }
@@ -162,6 +181,7 @@ export class CategoriesComponent implements OnInit {
                   },
                   error: (err) => {
                       this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.DELETE_ERROR') + ': ' + (err.error?.title || err.message));
+                      this.cdr.detectChanges();
                   }
                 });
             }
