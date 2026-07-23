@@ -139,6 +139,16 @@ export class SupplierDebtsComponent implements OnInit {
     this.showModal = true;
   }
 
+  get totalDebtForSelectedSupplier(): number {
+    if (!this.selectedSupplierForDetail) return 0;
+    const debt = this.debts.find(d => d.supplierId === this.selectedSupplierForDetail);
+    return debt ? debt.totalDebt : 0;
+  }
+
+  get overdueCountForSelectedSupplier(): number {
+    return this.supplierTransactions.filter(tx => tx.type === 0 && (tx.amount - tx.paidAmount > 0) && this.isOverdue(tx.dueDate)).length;
+  }
+
   openDetailModal(supplierId: string) {
     this.selectedSupplierForDetail = supplierId;
     this.showDetailModal = true;
