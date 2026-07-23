@@ -139,6 +139,16 @@ export class CustomerDebtsComponent implements OnInit {
     this.showModal = true;
   }
 
+  get totalDebtForSelectedCustomer(): number {
+    if (!this.selectedCustomerForDetail) return 0;
+    const debt = this.debts.find(d => d.customerId === this.selectedCustomerForDetail);
+    return debt ? debt.totalDebt : 0;
+  }
+
+  get overdueCountForSelectedCustomer(): number {
+    return this.customerTransactions.filter(tx => tx.type === 0 && (tx.amount - tx.paidAmount > 0) && this.isOverdue(tx.dueDate)).length;
+  }
+
   openDetailModal(customerId: string) {
     this.selectedCustomerForDetail = customerId;
     this.showDetailModal = true;

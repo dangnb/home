@@ -122,71 +122,113 @@
 </div>
 
 @if (showDetailModal) {
-<app-modal [title]="('SUPPLIER_DEBTS.MODAL_HISTORY_TITLE' | translate) + ': ' + getSupplierName(selectedSupplierForDetail || '')" size="lg" (closeDialog)="showDetailModal = false">
-  <div class="bg-white rounded-3">
+<app-modal [title]="'Lịch Sử Công Nợ: ' + getSupplierName(selectedSupplierForDetail || '')" size="lg" (closeDialog)="showDetailModal = false">
+  <div class="bg-white rounded-3 p-1">
+    <!-- Partner Debt KPI Header -->
+    <div class="p-3 bg-light-subtle rounded-3 border mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="symbol symbol-40px bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bolder fs-5">
+          {{ getSupplierName(selectedSupplierForDetail || '').substring(0, 1).toUpperCase() }}
+        </div>
+        <div>
+          <h6 class="fw-bolder text-gray-900 mb-0 fs-6">{{ getSupplierName(selectedSupplierForDetail || '') }}</h6>
+          <span class="text-muted fs-8">Tổng hợp lịch sử phát sinh & thanh toán công nợ</span>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="text-end">
+          <span class="text-muted fs-8 d-block fw-semibold">Tổng Dư Nợ Hiện Tại</span>
+          <span class="fw-bolder fs-5 text-danger">{{ totalDebtForSelectedSupplier | number:'1.0-0' }} ₫</span>
+        </div>
+        @if (overdueCountForSelectedSupplier > 0) {
+          <span class="badge bg-light-danger text-danger border border-danger-subtle fw-bold fs-8 px-2.5 py-1.5 rounded-pill">
+            ⚠️ {{ overdueCountForSelectedSupplier }} khoản quá hạn
+          </span>
+        }
+      </div>
+    </div>
+
     @if (isLoadingTransactions) {
       <div class="p-5 text-center text-muted">
-        <span class="spinner-border text-primary me-3"></span> {{ 'COMMON.LOADING' | translate }}
+        <span class="spinner-border text-primary me-3"></span> Đang tải lịch sử giao dịch...
       </div>
     } @else {
-      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-        <table class="table table-hover table-sm align-middle mb-0">
-          <thead class="table-light sticky-top">
-            <tr>
-              <th>{{ 'SUPPLIER_DEBTS.COL_DATE' | translate }}</th>
-              <th>{{ 'SUPPLIER_DEBTS.TXT_25' | translate }}</th>
-              <th>{{ 'SUPPLIER_DEBTS.COL_TYPE' | translate }}</th>
-              <th class="text-end">{{ 'SUPPLIER_DEBTS.COL_AMOUNT' | translate }}</th>
-              <th class="text-end">{{ 'SUPPLIER_DEBTS.TXT_26' | translate }}</th>
-              <th class="text-end">{{ 'SUPPLIER_DEBTS.TXT_27' | translate }}</th>
-              <th>{{ 'SUPPLIER_DEBTS.COL_NOTE' | translate }}</th>
-              <th class="text-center">{{ 'SUPPLIER_DEBTS.COL_ACTIONS' | translate }}</th>
+      <div class="table-responsive rounded-3 border" style="max-height: 420px; overflow-y: auto;">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light sticky-top">
+            <tr class="fs-8 text-uppercase fw-bold text-gray-800">
+              <th class="ps-3 py-3">Ngày Giao Dịch</th>
+              <th class="py-3">Hạn Trả</th>
+              <th class="py-3 text-center">Loại</th>
+              <th class="text-end py-3">Số Tiền</th>
+              <th class="text-end py-3">Đã Trả</th>
+              <th class="text-end py-3">Còn Lại</th>
+              <th class="py-3 min-w-120px">Ghi Chú</th>
+              <th class="text-center py-3 pe-3">Thao Tác</th>
             </tr>
           </thead>
           <tbody>
             @for (tx of supplierTransactions; track tx.id) {
-              <tr>
-                <td class="text-nowrap">{{ tx.createdDate | date:'dd/MM/yyyy HH:mm' }}</td>
+              <tr class="fs-7">
+                <td class="ps-3 fw-medium text-gray-800 text-nowrap">
+                  <i class="ki-duotone ki-calendar text-gray-500 me-1"><span class="path1"></span><span class="path2"></span></i>
+                  {{ tx.createdDate | date:'dd/MM/yyyy HH:mm' }}
+                </td>
                 <td class="text-nowrap" [class.text-danger]="isOverdue(tx.dueDate)">
-                  {{ tx.dueDate ? (tx.dueDate | date:'dd/MM/yyyy') : '-' }}
-                </td>
-                <td>
-                  <span class="badge" [ngClass]="tx.type === 0 ? 'bg-danger' : 'bg-success'">
-                    {{ tx.type === 0 ? ('SUPPLIER_DEBTS.TYPE_ADD' | translate) : ('SUPPLIER_DEBTS.TYPE_PAY' | translate) }}
-                  </span>
-                </td>
-                <td class="text-end fw-bold" [ngClass]="tx.type === 0 ? 'text-danger' : 'text-success'">
-                  {{ tx.amount | number:'1.0-0' }}
-                </td>
-                <td class="text-end">
-                  @if (tx.type === 0) {
-                    {{ tx.paidAmount | number:'1.0-0' }}
+                  @if (tx.dueDate) {
+                    <span [class.fw-bold]="isOverdue(tx.dueDate)">
+                      {{ tx.dueDate | date:'dd/MM/yyyy' }}
+                      <small *ngIf="isOverdue(tx.dueDate)" class="d-block text-danger fs-9">Quá hạn</small>
+                    </span>
                   } @else {
-                    -
+                    <span class="text-muted">-</span>
                   }
-                </td>
-                <td class="text-end fw-bold">
-                  @if (tx.type === 0) {
-                    {{ (tx.amount - tx.paidAmount) | number:'1.0-0' }}
-                  } @else {
-                    -
-                  }
-                </td>
-                <td class="text-muted small" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="tx.note || ''">
-                  {{ tx.note || '-' }}
                 </td>
                 <td class="text-center">
+                  <span class="badge rounded-pill px-3 py-1 fs-8 fw-bold" 
+                        [ngClass]="tx.type === 0 ? 'badge-light-danger text-danger border border-danger-subtle' : 'badge-light-success text-success border border-success-subtle'">
+                    {{ tx.type === 0 ? 'Ghi nợ' : 'Thanh toán' }}
+                  </span>
+                </td>
+                <td class="text-end fw-bolder fs-7" [ngClass]="tx.type === 0 ? 'text-danger' : 'text-success'">
+                  {{ tx.amount | number:'1.0-0' }} ₫
+                </td>
+                <td class="text-end fw-semibold text-gray-800">
+                  @if (tx.type === 0) {
+                    {{ tx.paidAmount | number:'1.0-0' }} ₫
+                  } @else {
+                    -
+                  }
+                </td>
+                <td class="text-end fw-bolder text-primary">
+                  @if (tx.type === 0) {
+                    {{ (tx.amount - tx.paidAmount) | number:'1.0-0' }} ₫
+                  } @else {
+                    -
+                  }
+                </td>
+                <td class="text-gray-700 fs-8" style="max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="tx.note || ''">
+                  {{ tx.note || '-' }}
+                </td>
+                <td class="text-center pe-3">
                   @if (tx.type === 0 && tx.amount - tx.paidAmount > 0) {
-                    <button class="btn btn-sm btn-outline-success rounded-pill py-1 px-3 fs-8 fw-bold" (click)="openPaySpecificModal(tx)">
-                      {{ 'SUPPLIER_DEBTS.PAY_DEBT' | translate }}
+                    <button class="btn btn-xs btn-light-success border border-success-subtle rounded-pill py-1 px-3 fs-8 fw-bold d-inline-flex align-items-center gap-1 shadow-xs" (click)="openPaySpecificModal(tx)">
+                      <i class="ki-duotone ki-dollar fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                      Thanh toán nợ
                     </button>
+                  } @else {
+                    <span class="text-muted fs-8">-</span>
                   }
                 </td>
               </tr>
             }
             @if (supplierTransactions.length === 0) {
               <tr>
-                <td colspan="8" class="text-center py-4 text-muted">{{ 'COMMON.NO_DATA' | translate }}</td>
+                <td colspan="8" class="text-center py-5 text-muted">
+                  <i class="ki-duotone ki-package fs-3x text-gray-300 d-block mb-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                  Chưa có lịch sử giao dịch công nợ nào
+                </td>
               </tr>
             }
           </tbody>
@@ -194,8 +236,10 @@
       </div>
     }
   </div>
-  <div modal-footer class="w-100 d-flex justify-content-end">
-    <button type="button" class="btn btn-sm btn-light" (click)="showDetailModal = false">{{ 'COMMON.CLOSE' | translate }}</button>
+  <div modal-footer class="w-100 d-flex justify-content-end border-top pt-2">
+    <button type="button" class="btn btn-sm btn-light fw-bold px-4 rounded-3" (click)="showDetailModal = false">
+      Đóng
+    </button>
   </div>
 </app-modal>
 }
