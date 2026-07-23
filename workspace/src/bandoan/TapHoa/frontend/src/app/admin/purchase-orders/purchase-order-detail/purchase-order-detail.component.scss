@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+// KPI Overview Cards
+.kpi-card {
+  transition: all 0.2s ease;
+  border-color: #cbd5e1 !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+  }
+}
+
+// High Contrast Info Rows
+.info-row {
+  .info-label {
+    color: #475569 !important; // Slate gray label
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+  }
+
+  .info-value {
+    color: #0f172a !important; // Slate dark text value
+    font-weight: 700 !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+// Table Styling
+.table {
+  thead {
+    tr {
+      background-color: #f1f5f9 !important;
+      th {
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #cbd5e1 !important;
+        font-size: 0.78rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  tbody {
+    tr.po-item-row {
+      border-bottom: 1px solid #e2e8f0 !important;
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background-color: #f8fafc !important;
+      }
+    }
+  }
+}
+
+// Vibrant High Contrast Status Badges
+.badge-light-warning {
+  background-color: #fffbebf5 !important;
+  color: #d97706 !important;
+  border-color: #fde68a !important;
+}
+
+.badge-light-primary {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+  border-color: #bfdbfe !important;
+}
+
+.badge-light-success {
+  background-color: #f0fdf4 !important;
+  color: #16a34a !important;
+  border-color: #bbf7d0 !important;
+}
+
+.badge-light-danger {
+  background-color: #fef2f2 !important;
+  color: #dc2626 !important;
+  border-color: #fecaca !important;
+}
+
+// Custom shadow utility
+.shadow-xs {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}

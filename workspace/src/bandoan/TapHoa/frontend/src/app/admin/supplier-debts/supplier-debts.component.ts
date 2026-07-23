@@ -174,6 +174,11 @@ export class SupplierDebtsComponent implements OnInit {
     this.showModal = true;
   }
 
+  setPresetAmount(val: number): void {
+    this.formData.amount = val;
+    this.cdr.detectChanges();
+  }
+
   closeModal() {
     this.showModal = false;
     this.isSubmitting = false;

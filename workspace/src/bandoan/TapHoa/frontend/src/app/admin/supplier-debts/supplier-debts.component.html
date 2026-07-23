@@ -201,50 +201,116 @@
 }
 
 @if (showModal) {
-<app-modal [title]="modalMode === 'record' ? ('SUPPLIER_DEBTS.TYPE_ADD' | translate) : ('SUPPLIER_DEBTS.MODAL_PAY_TITLE' | translate)" size="md" (closeDialog)="closeModal()">
+<app-modal [title]="modalMode === 'record' ? 'Tạo Ghi Nợ Mới' : (modalMode === 'paySpecific' ? 'Thanh Toán Khoản Nợ Cụ Thể' : 'Thanh Toán Công Nợ')" size="md" (closeDialog)="closeModal()">
   <form (ngSubmit)="submitForm()" #debtForm="ngForm" id="debtNgForm">
-    <div class="card card-flush mb-4">
-      <h6 class="fw-bold mb-4 text-primary border-bottom pb-2">{{ 'SUPPLIER_DEBTS.LBL_TRANSACTION_INFO' | translate }}</h6>
+    <div class="p-1">
+      
+      <!-- Transaction Type Badge Indicator -->
+      <div class="mb-4 p-3 rounded-3 border d-flex align-items-center justify-content-between"
+           [ngClass]="modalMode === 'record' ? 'bg-light-danger border-danger-subtle' : 'bg-light-success border-success-subtle'">
+        <div class="d-flex align-items-center gap-2">
+          <i class="ki-duotone fs-2" [ngClass]="modalMode === 'record' ? 'ki-plus-circle text-danger' : 'ki-check-circle text-success'">
+            <span class="path1"></span><span class="path2"></span>
+          </i>
+          <div>
+            <span class="fw-bold fs-7 d-block" [ngClass]="modalMode === 'record' ? 'text-danger' : 'text-success'">
+              {{ modalMode === 'record' ? 'Ghi Nợ Phát Sinh Mới' : 'Thanh Toán Khoản Nợ' }}
+            </span>
+            <span class="text-muted fs-8">
+              {{ modalMode === 'record' ? 'Ghi nhận số tiền phát sinh cần trả cho nhà cung cấp' : 'Thực hiện chi trả giảm công nợ nhà cung cấp' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
       <div class="row g-3">
+        <!-- Supplier Select / Name -->
         <div class="col-12">
-          <label class="form-label">{{ 'SUPPLIER_DEBTS.COL_SUPPLIER' | translate }} <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold fs-7 text-gray-900 mb-1">
+            Nhà cung cấp <span class="text-danger">*</span>
+          </label>
           @if (modalMode === 'record') {
-            <select class="form-select form-select-sm form-select-solid" name="supplierId" [(ngModel)]="formData.supplierId" required>
-              <option value="" disabled>{{ 'SUPPLIER_DEBTS.LBL_SELECT_SUPPLIER' | translate }}</option>
+            <select class="form-select form-select-sm rounded-3" name="supplierId" [(ngModel)]="formData.supplierId" required>
+              <option value="" disabled selected>-- Chọn nhà cung cấp --</option>
               @for (supplier of suppliers; track supplier.id) {
-                <option [value]="supplier.id">{{ supplier.fullName }} {{ supplier.phoneNumber ? ' - ' + supplier.phoneNumber : '' }}</option>
+                <option [value]="supplier.id">{{ supplier.fullName }} {{ supplier.phoneNumber ? '(' + supplier.phoneNumber + ')' : '' }}</option>
               }
             </select>
           } @else {
-            <input type="text" class="form-control form-control-sm form-control-solid" [value]="getSupplierName(formData.supplierId)" disabled>
+            <div class="form-control form-control-sm bg-light fw-bold text-gray-900 rounded-3 border">
+              {{ getSupplierName(formData.supplierId) }}
+            </div>
           }
         </div>
+
+        <!-- Amount Input with Presets -->
         <div class="col-12">
-          <label class="form-label">{{ 'SUPPLIER_DEBTS.LBL_PAY_AMOUNT' | translate }} <span class="text-danger">*</span></label>
-          <div class="input-group input-group-solid">
-            <input type="text" appNumberFormat class="form-control form-control-sm form-control-solid rounded-start-3 py-2 text-end" name="amount" [(ngModel)]="formData.amount" required>
-            <span class="input-group-text bg-light border-0 rounded-end-3">{{ 'SUPPLIER_DEBTS.TXT_28' | translate }}</span>
+          <label class="form-label fw-bold fs-7 text-gray-900 mb-1">
+            {{ modalMode === 'record' ? 'Số tiền nợ phát sinh' : 'Số tiền thanh toán' }} <span class="text-danger">*</span>
+          </label>
+          <div class="input-group input-group-sm mb-2">
+            <input type="text" appNumberFormat class="form-control form-control-sm text-end fw-bold fs-5 text-primary rounded-start-3"
+                   name="amount" [(ngModel)]="formData.amount" required placeholder="0">
+            <span class="input-group-text bg-light text-dark fw-bold border-start-0 rounded-end-3 fs-7">₫</span>
+          </div>
+
+          <!-- Quick Amount Chips -->
+          <div class="d-flex flex-wrap align-items-center gap-1">
+            <span class="text-muted fs-8 me-1">Gợi ý nhanh:</span>
+            <button type="button" class="btn btn-xs btn-outline-secondary py-0.5 px-2 rounded-2 fs-8" (click)="setPresetAmount(500000)">500k</button>
+            <button type="button" class="btn btn-xs btn-outline-secondary py-0.5 px-2 rounded-2 fs-8" (click)="setPresetAmount(1000000)">1 Triệu</button>
+            <button type="button" class="btn btn-xs btn-outline-secondary py-0.5 px-2 rounded-2 fs-8" (click)="setPresetAmount(2000000)">2 Triệu</button>
+            <button type="button" class="btn btn-xs btn-outline-secondary py-0.5 px-2 rounded-2 fs-8" (click)="setPresetAmount(5000000)">5 Triệu</button>
+            <button type="button" class="btn btn-xs btn-outline-secondary py-0.5 px-2 rounded-2 fs-8" (click)="setPresetAmount(10000000)">10 Triệu</button>
           </div>
         </div>
+
+        <!-- Due Date if record mode -->
         @if (modalMode === 'record') {
           <div class="col-12">
-            <label class="form-label">{{ 'SUPPLIER_DEBTS.TXT_29' | translate }}</label>
-            <input type="date" class="form-control form-control-sm form-control-solid" name="dueDate" [(ngModel)]="formData.dueDate">
+            <label class="form-label fw-bold fs-7 text-gray-900 mb-1">
+              <i class="ki-duotone ki-calendar text-primary fs-6 me-1"><span class="path1"></span><span class="path2"></span></i>
+              Hạn thanh toán (Tùy chọn)
+            </label>
+            <input type="date" class="form-control form-control-sm rounded-3" name="dueDate" [(ngModel)]="formData.dueDate">
           </div>
         }
+
+        <!-- Note -->
         <div class="col-12">
-          <label class="form-label">{{ 'SUPPLIER_DEBTS.LBL_NOTE' | translate }}</label>
-          <textarea class="form-control form-control-sm form-control-solid" rows="3" name="note" [(ngModel)]="formData.note"></textarea>
+          <label class="form-label fw-bold fs-7 text-gray-900 mb-1">
+            <i class="ki-duotone ki-note-2 text-primary fs-6 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+            Ghi chú giao dịch
+          </label>
+          <textarea class="form-control form-control-sm rounded-3" rows="2.5" name="note" [(ngModel)]="formData.note" placeholder="Nhập ghi chú chi tiết về khoản nợ..."></textarea>
         </div>
+
+        <!-- Transaction Preview -->
+        @if (formData.amount > 0 && formData.supplierId) {
+          <div class="col-12">
+            <div class="p-3 bg-light rounded-3 border border-dashed d-flex justify-content-between align-items-center fs-8">
+              <span class="text-gray-700">Giá trị phát sinh:</span>
+              <span class="fw-bolder fs-6" [class.text-danger]="modalMode === 'record'" [class.text-success]="modalMode !== 'record'">
+                {{ modalMode === 'record' ? '+' : '-' }}{{ formData.amount | number:'1.0-0' }} ₫
+              </span>
+            </div>
+          </div>
+        }
       </div>
     </div>
   </form>
-  <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'COMMON.CANCEL' | translate }}</button>
-    <button type="submit" form="debtNgForm" class="btn btn-sm btn-primary" [disabled]="!debtForm.form.valid || isSubmitting">
-      {{ 'COMMON.SAVE' | translate }}
+  <div modal-footer class="w-100 d-flex justify-content-end gap-2 pt-2 border-top">
+    <button type="button" class="btn btn-sm btn-light fw-bold px-4 rounded-3" (click)="closeModal()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button type="submit" form="debtNgForm" class="btn btn-sm btn-primary fw-bold px-4 rounded-3 d-inline-flex align-items-center gap-1 shadow-sm" [disabled]="!debtForm.form.valid || isSubmitting">
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-1"></span>
+      } @else {
+        <i class="ki-duotone ki-check-circle fs-3"><span class="path1"></span><span class="path2"></span></i>
+      }
+      <span>Lưu Giao Dịch</span>
     </button>
   </div>
 </app-modal>
 }
+
 
