@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { t, getStoredLocale, type Locale } from '@/lib/i18n';
-import { GraduationCap, Github, Twitter, Youtube, Mail, Heart } from 'lucide-react';
+import { GraduationCap, Code2, ExternalLink, Globe2, Mail, Heart } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -26,9 +26,9 @@ export default function Footer() {
           </Link>
           <p className={styles.brandDesc}>{t('footer.aboutText', locale)}</p>
           <div className={styles.socials}>
-            <a href="#" className={styles.socialLink} aria-label="GitHub"><Github size={18} /></a>
-            <a href="#" className={styles.socialLink} aria-label="Twitter"><Twitter size={18} /></a>
-            <a href="#" className={styles.socialLink} aria-label="YouTube"><Youtube size={18} /></a>
+            <a href="#" className={styles.socialLink} aria-label="GitHub"><Code2 size={18} /></a>
+            <a href="#" className={styles.socialLink} aria-label="Twitter"><ExternalLink size={18} /></a>
+            <a href="#" className={styles.socialLink} aria-label="YouTube"><Globe2 size={18} /></a>
             <a href="#" className={styles.socialLink} aria-label="Email"><Mail size={18} /></a>
           </div>
         </div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { t, getStoredLocale, type Locale } from '@/lib/i18n';
 import { setStoredUser, demoAccounts } from '@/lib/storage';
-import { GraduationCap, Mail, Lock, Github, Eye, EyeOff } from 'lucide-react';
+import { GraduationCap, Mail, Lock, Code2, Eye, EyeOff } from 'lucide-react';
 import styles from './page.module.css';
 
 export default function LoginPage() {
@@ -27,7 +27,6 @@ export default function LoginPage() {
     setLoading(true);
 
     setTimeout(() => {
-      // Demo login
       if (email === 'admin@eduvn.com') {
         setStoredUser(demoAccounts.admin);
       } else {
@@ -55,7 +54,6 @@ export default function LoginPage() {
       <div className={`glow-orb glow-orb-cyan ${styles.orb2}`} />
 
       <div className={styles.card}>
-        {/* Logo */}
         <Link href="/" className={styles.logo}>
           <GraduationCap size={28} />
           <span>
@@ -123,12 +121,10 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Divider */}
         <div className={styles.divider}>
           <span>{t('auth.orLoginWith', locale)}</span>
         </div>
 
-        {/* Social buttons */}
         <div className={styles.socialBtns}>
           <button className={styles.socialBtn}>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -140,12 +136,11 @@ export default function LoginPage() {
             Google
           </button>
           <button className={styles.socialBtn}>
-            <Github size={18} />
+            <Code2 size={18} />
             GitHub
           </button>
         </div>
 
-        {/* Demo login */}
         <div className={styles.demoSection}>
           <p className={styles.demoTitle}>
             {locale === 'vi' ? '🔑 Tài khoản demo:' : '🔑 Demo accounts:'}
