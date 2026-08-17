@@ -144,7 +144,19 @@ public class CalculatePayrollCommandHandler : IRequestHandler<CalculatePayrollCo
 
             // Calculate hourly rate from base salary (assuming 22 working days * 8 hours)
             var hourlyRate = baseSalary / (22m * 8m);
-            var overtimePay = Math.Round(overtimeHours * hourlyRate * request.OvertimeRate, 0);
+            
+            // Calculate overtime pay accurately based on each attendance's multiplier
+            var overtimePay = 0m;
+            foreach(var att in userAttendances)
+            {
+                if (att.OvertimeHours > 0)
+                {
+                    // If the shift has a custom multiplier, use it. Otherwise, fallback to the global OvertimeRate
+                    var rateToUse = att.SalaryMultiplier > 1.0m ? att.SalaryMultiplier : request.OvertimeRate;
+                    overtimePay += att.OvertimeHours * hourlyRate * rateToUse;
+                }
+            }
+            overtimePay = Math.Round(overtimePay, 0);
 
             var netSalary = PayrollCalculatorHelper.EvaluateNetSalary(
                 formula: formula,

@@ -15,6 +15,11 @@ public class Attendance : BaseAuditableEntity<Guid>
     public int EarlyLeaveMinutes { get; private set; }
     public AttendanceStatus Status { get; private set; }
     public string? Notes { get; private set; }
+    
+    // Shift tracking
+    public Guid? ShiftId { get; private set; }
+    public bool IsOvertimeShift { get; private set; }
+    public decimal SalaryMultiplier { get; private set; }
 
     private Attendance() { } // EF Core
 
@@ -23,7 +28,7 @@ public class Attendance : BaseAuditableEntity<Guid>
     /// </summary>
     public static Attendance CreateManual(string username, DateTime date, DateTime? checkIn, DateTime? checkOut,
         decimal totalHours, decimal overtimeHours, int lateMinutes, int earlyLeaveMinutes,
-        AttendanceStatus status, string? notes)
+        AttendanceStatus status, string? notes, Guid? shiftId = null, bool isOvertimeShift = false, decimal salaryMultiplier = 1.0m)
     {
         return new Attendance
         {
@@ -37,14 +42,17 @@ public class Attendance : BaseAuditableEntity<Guid>
             LateMinutes = lateMinutes,
             EarlyLeaveMinutes = earlyLeaveMinutes,
             Status = status,
-            Notes = notes
+            Notes = notes,
+            ShiftId = shiftId,
+            IsOvertimeShift = isOvertimeShift,
+            SalaryMultiplier = salaryMultiplier
         };
     }
 
     /// <summary>
     /// Employee checks in. Detects late automatically.
     /// </summary>
-    public static Attendance CheckInNow(string username, TimeSpan shiftStart, int lateThresholdMinutes = 15)
+    public static Attendance CheckInNow(string username, TimeSpan shiftStart, int lateThresholdMinutes = 15, Guid? shiftId = null, bool isOvertimeShift = false, decimal salaryMultiplier = 1.0m)
     {
         var now = DateTime.UtcNow;
         var scheduledStart = now.Date.Add(shiftStart);
@@ -67,7 +75,10 @@ public class Attendance : BaseAuditableEntity<Guid>
             OvertimeHours = 0,
             LateMinutes = lateMinutes,
             EarlyLeaveMinutes = 0,
-            Status = status
+            Status = status,
+            ShiftId = shiftId,
+            IsOvertimeShift = isOvertimeShift,
+            SalaryMultiplier = salaryMultiplier
         };
     }
 
@@ -83,7 +94,17 @@ public class Attendance : BaseAuditableEntity<Guid>
 
         var worked = (decimal)(CheckOut.Value - CheckIn.Value).TotalHours;
         TotalHours = Math.Round(Math.Max(0, worked), 2);
-        OvertimeHours = Math.Round(Math.Max(0, TotalHours - standardHoursPerDay), 2);
+        
+        if (IsOvertimeShift)
+        {
+            // If it's an explicitly scheduled overtime shift, all hours are overtime
+            OvertimeHours = TotalHours;
+        }
+        else
+        {
+            // Standard shift, only hours beyond standard day are overtime
+            OvertimeHours = Math.Round(Math.Max(0, TotalHours - standardHoursPerDay), 2);
+        }
 
         var scheduledEnd = Date.Add(shiftEnd);
         if (CheckOut.Value < scheduledEnd.AddMinutes(-15))

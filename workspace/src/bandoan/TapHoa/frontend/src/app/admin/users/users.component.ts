@@ -5,6 +5,8 @@ import { PaginationComponent } from '../../shared/components/pagination/paginati
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { AlertService } from '../../services/alert.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { UserService } from '../../services/user.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-users',
@@ -16,52 +18,67 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 export class UsersComponent implements OnInit {
   private alertService = inject(AlertService);
   private translateService = inject(TranslateService);
+  private userService = inject(UserService);
+  private roleService = inject(RoleService);
+
   users: any[] = [];
-  roles: any[] = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Manager' },
-    { id: 3, name: 'Cashier' }
-  ];
+  roles: any[] = [];
 
   showModal = false;
   isEditMode = false;
   isSubmitting = false;
-  editingUser: any = { id: 0, username: '', fullName: '', email: '', roleId: 0, isActive: true, phoneNumber: '', citizenId: '', address: '' };
+  editingUser: any = { id: 0, username: '', password: '', fullName: '', email: '', roles: [], isActive: true, phoneNumber: '', citizenId: '', address: '' };
 
   searchTerm: string = '';
-  activeDropdownRowId: number | null = null;
+  activeDropdownRowId: string | null = null;
 
   // Pagination state
   currentPage = 1;
   pageSize = 5;
   totalUsers = 0;
 
-  // Mock data until Users API is fully connected
-  mockUsers = [
-    { id: 1, username: 'admin', fullName: 'System Admin', email: 'admin@taphoa.com', roleId: 1, isActive: true },
-    { id: 2, username: 'dat.dao', fullName: 'Đào Tiến Đạt', email: 'dat@taphoa.com', roleId: 2, isActive: true },
-    { id: 3, username: 'thu ngân 1', fullName: 'Nhân viên 1', email: 'nv1@taphoa.com', roleId: 3, isActive: true }
-  ];
+  // Real data
+  allUsers: any[] = [];
+  
+  selectedRoles: { [key: string]: boolean } = {};
 
   ngOnInit() {
-    // Generate some extra mock users for pagination demo
-    const generated = Array.from({ length: 22 }, (_, i) => ({
-      id: i + 4, username: `user${i}`, fullName: `Nhân viên ${i + 4}`, email: `nv${i + 4}@taphoa.com`, roleId: 3, isActive: true
-    }));
-    this.mockUsers = [...this.mockUsers, ...generated];
+    this.loadRoles();
+    this.loadData();
+  }
 
-    this.totalUsers = this.mockUsers.length;
-    this.updatePaginatedUsers();
+  loadRoles() {
+    this.roleService.getAllRoles().subscribe({
+      next: (res: any) => {
+        this.roles = res;
+      },
+      error: (err) => {
+        console.error('Failed to load roles', err);
+      }
+    });
+  }
+
+  loadData() {
+    this.userService.getAllUsers().subscribe({
+      next: (res: any) => {
+        this.allUsers = res;
+        this.totalUsers = this.allUsers.length;
+        this.updatePaginatedUsers();
+      },
+      error: (err) => {
+        console.error('Failed to load users', err);
+      }
+    });
   }
 
   updatePaginatedUsers() {
-    let filtered = this.mockUsers;
+    let filtered = this.allUsers;
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      filtered = this.mockUsers.filter(u => 
-        u.fullName.toLowerCase().includes(term) || 
-        u.username.toLowerCase().includes(term) || 
-        u.email.toLowerCase().includes(term)
+      filtered = this.allUsers.filter(u => 
+        u.fullName?.toLowerCase().includes(term) || 
+        u.username?.toLowerCase().includes(term) || 
+        u.email?.toLowerCase().includes(term)
       );
     }
     
@@ -87,7 +104,7 @@ export class UsersComponent implements OnInit {
     this.updatePaginatedUsers();
   }
 
-  toggleDropdown(id: number, event: Event) {
+  toggleDropdown(id: string, event: Event) {
     event.stopPropagation();
     if (this.activeDropdownRowId === id) {
       this.activeDropdownRowId = null;
@@ -96,19 +113,22 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  getRoleName(roleId: string) {
-    return this.roles.find(r => r.id == roleId)?.name || 'N/A';
-  }
-
   openAddModal() {
     this.isEditMode = false;
-    this.editingUser = { id: 0, username: '', fullName: '', email: '', roleId: this.roles[0]?.id, isActive: true, phoneNumber: '', citizenId: '', address: '' };
+    this.editingUser = { username: '', password: '', fullName: '', email: '', roles: [], isActive: true, phoneNumber: '', citizenId: '', address: '' };
+    this.selectedRoles = {};
     this.showModal = true;
   }
 
   openEditModal(user: any) {
     this.isEditMode = true;
     this.editingUser = { ...user };
+    this.selectedRoles = {};
+    if (user.roles && Array.isArray(user.roles)) {
+      user.roles.forEach((r: string) => {
+        this.selectedRoles[r] = true;
+      });
+    }
     this.showModal = true;
   }
 
@@ -117,25 +137,52 @@ export class UsersComponent implements OnInit {
     this.isSubmitting = false;
   }
 
+  onRoleChange(roleName: string, event: any) {
+    if (event.target.checked) {
+      this.selectedRoles[roleName] = true;
+    } else {
+      delete this.selectedRoles[roleName];
+    }
+  }
+
   saveUser() {
     if (this.isSubmitting) return;
+
+    const payload = { ...this.editingUser };
+    payload.roles = Object.keys(this.selectedRoles).filter(key => this.selectedRoles[key]);
+
+    if (!this.isEditMode && (!payload.username || !payload.password || !payload.fullName)) {
+      this.alertService.error('Vui lòng nhập đủ thông tin bắt buộc');
+      return;
+    }
+
     this.isSubmitting = true;
 
-    // Simulate API delay
-    setTimeout(() => {
-      if (this.isEditMode) {
-        const index = this.mockUsers.findIndex(u => u.id === this.editingUser.id);
-        if (index > -1) {
-          this.mockUsers[index] = { ...this.editingUser };
+    if (this.isEditMode) {
+      this.userService.update(this.editingUser.id, payload).subscribe({
+        next: () => {
+          this.alertService.success('Cập nhật người dùng thành công');
+          this.loadData();
+          this.closeModal();
+        },
+        error: (err) => {
+          this.alertService.error(err?.error?.message || 'Có lỗi xảy ra');
+          this.isSubmitting = false;
         }
-      } else {
-        this.editingUser.id = Math.max(0, ...this.mockUsers.map(u => u.id)) + 1;
-        this.mockUsers.unshift({ ...this.editingUser }); // add to top
-      }
-
-      this.updatePaginatedUsers();
-      this.closeModal();
-    }, 300);
+      });
+    } else {
+      this.userService.create(payload).subscribe({
+        next: () => {
+          this.alertService.success('Thêm mới người dùng thành công');
+          this.loadData();
+          this.closeModal();
+        },
+        error: (err) => {
+          this.alertService.error(err?.error?.message || 'Có lỗi xảy ra');
+          this.isSubmitting = false;
+        }
+      });
+    }
   }
 
   deleteUser(id: string) {
@@ -143,18 +190,17 @@ export class UsersComponent implements OnInit {
     const confirmMsg = this.translateService.instant('USERS.CONFIRM_DELETE') || 'Bạn có chắc chắn muốn khóa/xóa User này?';
     this.alertService.confirm(confirmTitle, confirmMsg).then((result: any) => {
       if (result.isConfirmed) {
-        this.mockUsers = this.mockUsers.filter(u => u.id !== (id as any));
-
-        // Prevent current page from being empty if possible
-        const maxPage = Math.ceil(this.mockUsers.length / this.pageSize);
-        if (this.currentPage > maxPage && maxPage > 0) {
-          this.currentPage = maxPage;
-        }
-
-        this.updatePaginatedUsers();
-        const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
-        const successMsg = this.translateService.instant('USERS.MSG_DELETE_SUCCESS') || 'Đã xóa người dùng thành công.';
-        this.alertService.success(successTitle, successMsg);
+        this.userService.delete(id).subscribe({
+          next: () => {
+            const successTitle = this.translateService.instant('COMMON.SUCCESS') || 'Thành công';
+            const successMsg = this.translateService.instant('USERS.MSG_DELETE_SUCCESS') || 'Đã xóa người dùng thành công.';
+            this.alertService.success(successTitle, successMsg);
+            this.loadData();
+          },
+          error: (err) => {
+            this.alertService.error('Lỗi khi xóa người dùng');
+          }
+        });
       }
     });
   }

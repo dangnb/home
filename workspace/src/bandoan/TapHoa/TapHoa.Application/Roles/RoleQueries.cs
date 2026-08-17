@@ -19,11 +19,41 @@ public class RoleQueriesHandler : IRequestHandler<GetRolesQuery, List<RoleDto>>
     {
         using var connection = _sqlConnectionFactory.CreateConnection();
         const string sql = @"
-            SELECT Id, Name, Description, Permissions
+            SELECT Id, Name, Description, Permissions as PermissionsJson
             FROM Roles
-            WHERE IsDeleted = 0
         ";
-        var roles = await connection.QueryAsync<RoleDto>(sql);
-        return roles.ToList();
+        var roles = await connection.QueryAsync<RoleEntityTemp>(sql);
+        
+        var result = new List<RoleDto>();
+        foreach(var role in roles)
+        {
+            var dto = new RoleDto
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description
+            };
+            
+            if (!string.IsNullOrEmpty(role.PermissionsJson))
+            {
+                try
+                {
+                    var perms = System.Text.Json.JsonSerializer.Deserialize<List<string>>(role.PermissionsJson);
+                    if (perms != null) dto.Permissions = perms;
+                }
+                catch { }
+            }
+            result.Add(dto);
+        }
+        
+        return result;
+    }
+    
+    private class RoleEntityTemp 
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string PermissionsJson { get; set; } = string.Empty;
     }
 }

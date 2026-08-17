@@ -15,22 +15,38 @@ public class EmployeeShift : BaseAuditableEntity<Guid>
     public TimeSpan StartTime { get; private set; }
     public TimeSpan EndTime { get; private set; }
     
+    // Overtime flags and multiplier
+    public bool IsOvertime { get; private set; }
+    public decimal SalaryMultiplier { get; private set; }
+    
     public string? Notes { get; private set; }
 
     private EmployeeShift() { } // EF Core
 
-    public EmployeeShift(string username, DateTime shiftDate, string shiftType, TimeSpan startTime, TimeSpan endTime, string? notes = null)
+    public EmployeeShift(string username, DateTime shiftDate, string shiftType, TimeSpan startTime, TimeSpan endTime, bool isOvertime = false, decimal salaryMultiplier = 1.0m, string? notes = null)
     {
         Username = username;
         ShiftDate = shiftDate.Date; // Store date only
         ShiftType = shiftType;
         StartTime = startTime;
         EndTime = endTime;
+        IsOvertime = isOvertime;
+        SalaryMultiplier = salaryMultiplier;
         Notes = notes;
     }
 
     public void MoveToDate(DateTime newDate)
     {
         ShiftDate = newDate.Date;
+    }
+    
+    public void UpdateDetails(string shiftType, TimeSpan startTime, TimeSpan endTime, bool isOvertime, decimal salaryMultiplier, string? notes)
+    {
+        ShiftType = shiftType;
+        StartTime = startTime;
+        EndTime = endTime;
+        IsOvertime = isOvertime;
+        SalaryMultiplier = salaryMultiplier;
+        Notes = notes;
     }
 }

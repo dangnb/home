@@ -442,6 +442,18 @@ using (var scope = app.Services.CreateScope())
         ");
     }
     catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
+            ALTER TABLE `EmployeeShifts` ADD `IsOvertime` tinyint(1) NOT NULL DEFAULT 0;
+            ALTER TABLE `EmployeeShifts` ADD `SalaryMultiplier` decimal(18,2) NOT NULL DEFAULT 1.0;
+            ALTER TABLE `Attendances` ADD `IsOvertimeShift` tinyint(1) NOT NULL DEFAULT 0;
+            ALTER TABLE `Attendances` ADD `SalaryMultiplier` decimal(18,2) NOT NULL DEFAULT 1.0;
+            ALTER TABLE `Attendances` ADD `ShiftId` char(36) NULL;
+        ");
+    }
+    catch { }
 }
 
 if (app.Environment.IsDevelopment())
@@ -493,6 +505,7 @@ app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersi
 app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
 app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(apiVersionSet).MapSalaryTemplateEndpoints();
 app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
+app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet).MapUserEndpoints();
 app.MapRoleEndpoints();
 
 app.Run();

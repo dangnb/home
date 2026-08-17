@@ -57,4 +57,19 @@ public class User : BaseEntity<Guid>
     {
         PasswordHash = passwordHash;
     }
+
+    public void UpdateEmail(string email)
+    {
+        Email = email;
+    }
+
+    public void Activate()
+    {
+        IsActive = true;
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+    }
 }
