@@ -462,7 +462,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRateLimiter();
-app.UseCors("AllowAll");
+app.UseCors("TapHoaCorsPolicy");
 var webRootPath = builder.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 if (!Directory.Exists(webRootPath)) Directory.CreateDirectory(webRootPath);
 
@@ -474,7 +474,10 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Map Minimal API Endpoints
 var apiVersionSet = app.NewApiVersionSet()
