@@ -1,0 +1,57 @@
+<div class="approvals-container">
+  <div class="header-bar">
+    <div>
+      <span class="badge badge-warning">ADVANCED FEATURE #4</span>
+      <h2>Quy Trình Phê Duyệt 2 Cấp (.NET 9 + Angular 19)</h2>
+      <p class="subtitle">Kiểm soát các giao dịch tài chính nhạy cảm: Phiếu thu giá trị lớn & Hoàn cọc bảo đảm</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">Đang tải danh sách chờ duyệt...</div>
+  } @else {
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Mã Đề Xuất</th>
+            <th>Loại Nghiệp Vụ</th>
+            <th>Học Viên</th>
+            <th>Số Tiền Đề Xuất</th>
+            <th>Người Đề Xuất</th>
+            <th>Thời Gian Tạo</th>
+            <th>Trạng Thái 2 Cấp</th>
+            <th>Thao Tác Phê Duyệt</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of approvals(); track item.id) {
+            <tr>
+              <td><strong>{{ item.id }}</strong></td>
+              <td><span class="badge badge-info">{{ item.requestType }}</span></td>
+              <td><strong>{{ item.studentName }}</strong> ({{ item.contractId }})</td>
+              <td><strong class="text-success">{{ item.amount | currency:'VND':'symbol':'1.0-0' }}</strong></td>
+              <td>{{ item.proposerName }}</td>
+              <td>{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <div class="sub-status">{{ item.statusLevel1 }}</div>
+                <div class="sub-status text-warning"><strong>{{ item.statusLevel2 }}</strong></div>
+              </td>
+              <td>
+                @if (item.status === 'Chờ duyệt') {
+                  <button class="btn btn-success" (click)="approve(item.id)">
+                    ✔ Duyệt (Giám Đốc)
+                  </button>
+                } @else {
+                  <span class="badge badge-success">Đã duyệt</span>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="8">Không có đề xuất nào chờ duyệt.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

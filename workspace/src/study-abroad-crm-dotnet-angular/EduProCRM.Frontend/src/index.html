@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduPro CRM - Angular 19 Client & .NET Clean Architecture Backend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-sidebar: #111827;
+      --bg-card: #1f2937;
+      --bg-surface: #17202d;
+      --border-color: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #06b6d4;
+      --teal: #14b8a6;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-main); color: var(--text-main); font-size: 14px; line-height: 1.5; }
+
+    .app-layout { display: flex; min-height: 100vh; }
+    
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      z-index: 100;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; padding: 20px; border-bottom: 1px solid var(--border-color); }
+    .brand-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; }
+    .brand-text h2 { font-size: 15px; font-weight: 800; }
+    .brand-text span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .nav-menu { flex: 1; padding: 16px 12px; overflow-y: auto; }
+    .nav-section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin: 16px 12px 8px 12px; }
+
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: var(--text-muted); text-decoration: none; border-radius: 6px; font-weight: 500; margin-bottom: 4px; cursor: pointer; transition: all 0.2s ease; }
+    .nav-item:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--text-main); }
+    .nav-item.active { background-color: var(--primary); color: #ffffff; font-weight: 600; }
+    .nav-item.highlight-nav { border: 1px dashed var(--warning); background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+    .nav-item.highlight-nav.active { background-color: var(--warning); color: #111827; }
+
+    /* Main Content */
+    .main-content { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .top-header { height: 64px; background-color: var(--bg-sidebar); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; position: sticky; top: 0; z-index: 90; }
+
+    .global-search-box { position: relative; width: 400px; }
+    .global-search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .global-search-box input { width: 100%; padding: 8px 14px 8px 38px; background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-main); outline: none; font-size: 13px; }
+
+    .content-container { padding: 24px; flex: 1; }
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+
+    .page-title-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .page-title { font-size: 22px; font-weight: 800; }
+    .page-subtitle { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+
+    /* Buttons & Badges */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--radius-md); font-weight: 600; font-size: 13px; cursor: pointer; border: none; font-family: inherit; }
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-secondary { background-color: var(--bg-surface); color: var(--text-main); border: 1px solid var(--border-color); }
+    .btn-success { background-color: var(--success); color: white; }
+    .btn-warning { background-color: var(--warning); color: #111827; }
+    .btn-danger { background-color: var(--danger); color: white; }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .mr-2 { margin-right: 8px; }
+
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .badge-success { background-color: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .badge-warning { background-color: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .badge-danger { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .badge-info { background-color: rgba(6, 182, 212, 0.15); color: var(--info); }
+    .badge-primary { background-color: rgba(59, 130, 246, 0.15); color: var(--primary); }
+    .badge-important { background-color: var(--danger); color: white; }
+
+    /* KPI Cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; position: relative; overflow: hidden; }
+    .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+    .kpi-card.accent-blue::before { background-color: var(--primary); }
+    .kpi-card.accent-green::before { background-color: var(--success); }
+    .kpi-card.accent-teal::before { background-color: var(--teal); }
+    .kpi-card.accent-danger::before { background-color: var(--danger); }
+
+    .kpi-value { font-size: 24px; font-weight: 800; margin: 10px 0 4px 0; }
+    .kpi-sub { font-size: 12px; color: var(--text-muted); }
+
+    /* Table & Panels */
+    .panel-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-bottom: 24px; }
+    .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+    .panel-body { padding: 20px; }
+    .table-responsive { overflow-x: auto; }
+    
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .data-table th { background-color: var(--bg-surface); color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 12px 16px; border-bottom: 1px solid var(--border-color); }
+    .data-table td { padding: 14px 16px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+
+    /* Legal Journal Layout */
+    .legal-journal-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+    .student-select-list { display: flex; flex-direction: column; gap: 8px; max-height: 450px; overflow-y: auto; }
+    .journal-student-item { padding: 12px; background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; }
+    .journal-student-item.active { border-color: var(--warning); background-color: rgba(245, 158, 11, 0.1); }
+    
+    .timeline-full { position: relative; padding-left: 24px; border-left: 2px solid var(--border-color); }
+    .legal-log-item { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+
+    /* API Status Banner */
+    .api-status-banner {
+      background: rgba(16, 185, 129, 0.15); border: 1px solid var(--success);
+      color: #34d399; padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+    }
+
+    /* Modals */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); width: 650px; max-width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 20px; }
+    .modal-footer { padding: 16px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+    
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-control { padding: 8px 12px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; color: #fff; font-family: inherit; font-size: 13px; }
+    .close-modal-btn { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
+    
+    .contract-paper-preview { background-color: #ffffff; color: #111827; padding: 24px; border-radius: 8px; font-family: 'Times New Roman', serif; line-height: 1.6; }
+    .contract-paper-preview table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    .contract-paper-preview table th, .contract-paper-preview table td { border: 1px solid #6b7280; padding: 6px; font-size: 13px; }
+
+    .qr-stamp-box { display: flex; align-items: center; gap: 16px; background-color: #fef3c7; border: 1px dashed var(--warning); padding: 12px; border-radius: 8px; margin-bottom: 16px; color: #111827; }
+
+    .text-danger { color: var(--danger) !important; }
+    .text-success { color: var(--success) !important; }
+    .text-warning { color: var(--warning) !important; }
+    .text-info { color: var(--info) !important; }
+    .text-teal { color: var(--teal) !important; }
+    .text-muted { color: var(--text-muted) !important; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .sm-lbl { font-size: 11px; color: var(--text-muted); }
+
+    .perm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 6px; }
+    .perm-item { display: flex; align-items: center; gap: 6px; font-size: 12px; background: var(--bg-surface); padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color); }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="brand-text">
+          <h2>EduPro Angular 19</h2>
+          <span>.NET Clean Architecture</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-title">Tổng quan</div>
+        <div class="nav-item active" onclick="switchAngularTab('dashboard')">
+          <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+        </div>
+
+        <div class="nav-section-title">Nghiệp vụ Học viên</div>
+        <div class="nav-item" onclick="switchAngularTab('students')">
+          <i class="fa-solid fa-user-graduate"></i> <span>Học viên & Hồ sơ</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('applications')">
+          <i class="fa-solid fa-passport"></i> <span>Hồ sơ Du học</span>
+        </div>
+        <div class="nav-item highlight-nav" onclick="switchAngularTab('legal-journal')">
+          <i class="fa-solid fa-book-journal-whills"></i> <span>Nhật ký Pháp lý (Mục 7)</span>
+          <span class="badge badge-important">API</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('checklists')">
+          <i class="fa-solid fa-list-check"></i> <span>Checklist & Tiến độ</span>
+        </div>
+
+        <div class="nav-section-title">Tài chính & Hợp đồng</div>
+        <div class="nav-item" onclick="switchAngularTab('contracts')">
+          <i class="fa-solid fa-file-contract"></i> <span>Hợp đồng & Mail Merge</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('debts')">
+          <i class="fa-solid fa-clock-rotate-left"></i> <span>Lịch thu & Công nợ</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('reminders')">
+          <i class="fa-solid fa-paper-plane"></i> <span>Nhắc Nợ Zalo/Email</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('receipts')">
+          <i class="fa-solid fa-receipt"></i> <span>Quản lý Phiếu thu</span>
+          <span class="badge badge-success">API</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('deposits')">
+          <i class="fa-solid fa-vault"></i> <span>Khoản Bảo đảm</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('approvals')">
+          <i class="fa-solid fa-user-check"></i> <span>Phê duyệt 2 Cấp</span>
+          <span class="badge badge-warning">API</span>
+        </div>
+
+        <div class="nav-section-title">Kế toán & Quản trị</div>
+        <div class="nav-item" onclick="switchAngularTab('commissions')">
+          <i class="fa-solid fa-hand-holding-dollar"></i> <span>Hoa Hồng & Bonus</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('accounting')">
+          <i class="fa-solid fa-calculator"></i> <span>Kế toán Nội bộ</span>
+        </div>
+        <div class="nav-item" onclick="switchAngularTab('documents')">
+          <i class="fa-solid fa-folder-open"></i> <span>Kho Tài liệu</span>
+        </div>
+        <div class="nav-item highlight-nav" onclick="switchAngularTab('users')">
+          <i class="fa-solid fa-user-shield"></i> <span>Quản Lý User & RBAC</span>
+          <span class="badge badge-primary">MỤC 1 API</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid var(--border-color);">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:32px; height:32px; border-radius:50%; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:12px;">NV</div>
+          <div>
+            <div style="font-weight:600; font-size:12px;">Nguyễn Văn Minh</div>
+            <div style="font-size:10px; color:var(--text-muted);">Admin / .NET API User</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Body -->
+    <main class="main-content">
+      <header class="top-header">
+        <div class="global-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearch" placeholder="Tìm nhanh nhân viên, học viên, hợp đồng, mã phiếu thu..." onkeyup="filterGlobalData()">
+        </div>
+        <div>
+          <button class="btn btn-primary mr-2" onclick="openCreateUserModal()"><i class="fa-solid fa-user-plus"></i> + Thêm User (API)</button>
+          <button class="btn btn-success" onclick="openCreateReceiptModal()"><i class="fa-solid fa-money-bill-wave"></i> + Lập Phiếu Thu (API)</button>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <!-- API Connection Banner -->
+        <div class="api-status-banner">
+          <span><i class="fa-solid fa-network-wired"></i> <strong>Backend Service Status:</strong> Kết nối trực tiếp <code>http://localhost:5000</code> (.NET Clean Architecture + CQRS + Dapper + Minimal APIs)</span>
+          <button class="btn btn-sm btn-primary" onclick="loadAllApiData()"><i class="fa-solid fa-rotate"></i> Refresh API Data</button>
+        </div>
+
+        <!-- 1. DASHBOARD -->
+        <section id="dashboard-view" class="view-panel active">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Dashboard Tổng Quan Angular 19 Client</h1>
+              <p class="page-subtitle">Hệ thống điều hành trung tâm du học - Tích hợp .NET Clean Architecture API</p>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card accent-blue">
+              <div style="color:var(--text-muted); font-weight:600; font-size:13px;">Tổng Học Viên</div>
+              <div class="kpi-value" id="kpiStudentCount">148</div>
+              <div class="kpi-sub"><span class="text-success"><i class="fa-solid fa-arrow-up"></i> +12</span> học viên mới tháng này</div>
+            </div>
+            <div class="kpi-card accent-green">
+              <div style="color:var(--text-muted); font-weight:600; font-size:13px;">Tổng Doanh Thu HĐ</div>
+              <div class="kpi-value" id="kpiRevenueVal">7,420,000,000 ₫</div>
+              <div class="kpi-sub">Giá trị 185 hợp đồng active</div>
+            </div>
+            <div class="kpi-card accent-teal">
+              <div style="color:var(--text-muted); font-weight:600; font-size:13px;">Đã Thu Thực Tế</div>
+              <div class="kpi-value" id="kpiCollectedVal">5,180,000,000 ₫</div>
+              <div class="kpi-sub">Gồm dịch vụ & bảo đảm</div>
+            </div>
+            <div class="kpi-card accent-danger">
+              <div style="color:var(--text-muted); font-weight:600; font-size:13px;">Công Nợ Phải Thu</div>
+              <div class="kpi-value text-danger" id="kpiDebtVal">2,240,000,000 ₫</div>
+              <div class="kpi-sub"><span class="badge badge-danger">14 đợt quá hạn</span></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-clock text-warning"></i> Đợt Thanh Toán Đến Hạn / Quá Hạn</h3>
+            </div>
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Học viên</th><th>Mã HĐ</th><th>Đợt thanh toán</th><th>Hạn thu</th><th>Số tiền nợ</th><th>Trạng thái</th><th>Thao tác Chức Năng</th></tr>
+                </thead>
+                <tbody id="dashDebtsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. HỌC VIÊN -->
+        <section id="students-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Quản Lý Học Viên & Người Liên Hệ</h1>
+              <p class="page-subtitle">Thông tin cá nhân, CCCD, quốc gia du học và Mentor phụ trách</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã HV</th><th>Họ và Tên</th><th>CCCD</th><th>Liên hệ</th><th>Quốc gia & Trường</th><th>Kỳ nhập học</th><th>Mentor</th><th>Thao tác</th></tr>
+                </thead>
+                <tbody id="studentsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. HỒ SƠ DU HỌC -->
+        <section id="applications-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Hồ Sơ Ứng Tuyển Du Học</h1>
+              <p class="page-subtitle">Trường, ngành, bậc học, học bổng và deadline ứng tuyển</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã HS</th><th>Học viên</th><th>Trường & Ngành</th><th>Bậc học</th><th>Học bổng</th><th>Deadline</th><th>Trạng thái</th></tr>
+                </thead>
+                <tbody id="applicationsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. NHẬT KÝ PHÁP LÝ (MỤC 7 - API) -->
+        <section id="legal-journal-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <span class="badge badge-important mb-1">MỤC 7 API</span>
+              <h1 class="page-title"><i class="fa-solid fa-gavel text-warning"></i> Sổ Nhật Ký Làm Việc & Bằng Chứng Pháp Lý</h1>
+              <p class="page-subtitle">Lưu vết chứng cứ thực hiện Hợp đồng theo Điều 2 - Tích hợp .NET Clean Architecture API</p>
+            </div>
+            <div>
+              <button class="btn btn-outline mr-2" onclick="exportLegalPDFWithQR('HV-2026-001')"><i class="fa-solid fa-qrcode text-warning"></i> Xuất Báo Cáo QR Code PDF</button>
+              <button class="btn btn-warning" onclick="openNewJournalModal()"><i class="fa-solid fa-plus"></i> Ghi Nhật Ký API Mới</button>
+            </div>
+          </div>
+
+          <div class="legal-journal-layout">
+            <div class="journal-sidebar panel-card">
+              <div class="panel-header"><h4>Chọn Học Viên</h4></div>
+              <div class="panel-body">
+                <div class="student-select-list" id="journalStudentList"></div>
+              </div>
+            </div>
+            <div class="journal-detail panel-card">
+              <div class="panel-header flex-between">
+                <div>
+                  <h3 id="journalStudentName">Học viên: Phạm Minh Anh</h3>
+                  <span class="text-muted">Quốc gia: Đức | Mã Hash: SHA256 Verified</span>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="timeline-full" id="legalTimelineContainer"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. CHECKLIST -->
+        <section id="checklists-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Checklist & Tiến Độ Xử Lý</h1>
+              <p class="page-subtitle">Danh sách việc cần làm, giao việc Mentor và công việc quá hạn</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Hạn hoàn thành</th><th>Tên công việc</th><th>Học viên</th><th>Người thực hiện</th><th>Trạng thái</th></tr>
+                </thead>
+                <tbody id="checklistTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. HỢP ĐỒNG -->
+        <section id="contracts-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Quản Lý Hợp Đồng & Mail Merge</h1>
+              <p class="page-subtitle">Quản lý hợp đồng du học, tự động điền template Hợp đồng mẫu</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Số HĐ</th><th>Học viên</th><th>Tên Gói Dịch Vụ</th><th>Tổng Giá Trị HĐ</th><th>Phí Dịch Vụ</th><th>Khoản Bảo Đảm</th><th>Thao tác Mail Merge</th></tr>
+                </thead>
+                <tbody id="contractsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. CÔNG NỢ -->
+        <section id="debts-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Lịch Thanh Toán & Công Nợ</h1>
+              <p class="page-subtitle">Theo dõi đợt thanh toán, nợ quá hạn và kích hoạt Zalo ZNS nhắc nợ</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã Đợt</th><th>Học viên</th><th>Đợt thu</th><th>Hạn thu</th><th>Phải thu</th><th>Đã thu</th><th>Còn nợ</th><th>Trạng thái</th><th>Thao tác Nhắc Nợ</th></tr>
+                </thead>
+                <tbody id="debtsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. NHẮC NỢ ZALO/EMAIL -->
+        <section id="reminders-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Nhật Ký Nhắc Nợ Zalo ZNS / Email</h1>
+              <p class="page-subtitle">Lịch sử gửi thông báo công nợ tự động</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Thời gian gửi</th><th>Học viên</th><th>Kênh gửi</th><th>Nội dung nhắc nợ</th><th>Số tiền</th><th>Trạng thái</th></tr>
+                </thead>
+                <tbody id="remindersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. PHIẾU THU -->
+        <section id="receipts-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <span class="badge badge-success mb-1">MỤC 5 & 6 API</span>
+              <h1 class="page-title">Quản Lý Phiếu Thu Tiền & Phân Bổ (API)</h1>
+              <p class="page-subtitle">Ghi nhận tiền thực thu, phân bổ Doanh thu 511 & Bảo đảm 3388 qua .NET API</p>
+            </div>
+            <button class="btn btn-success" onclick="openCreateReceiptModal()"><i class="fa-solid fa-money-bill-wave"></i> + Lập Phiếu Thu API</button>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Số Phiếu Thu</th><th>Ngày thu</th><th>Học viên</th><th>Hình thức</th><th>Tổng tiền thu</th><th>Phân bổ Phí DV</th><th>Phân bổ Bảo đảm</th></tr>
+                </thead>
+                <tbody id="receiptsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. KHOẢN BẢO ĐẢM -->
+        <section id="deposits-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Quản Lý Khoản Bảo Đảm (Deposit)</h1>
+              <p class="page-subtitle">Theo dõi số dư cọc, chuyển cọc sang Doanh thu khi đủ điều kiện</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Học viên</th><th>Số HĐ</th><th>Tổng Bảo Đảm Thu</th><th>Đã Chuyển Phí DV</th><th>Đã Hoàn Trả</th><th>Số Dư Bảo Đảm Còn Lại</th><th>Chức Năng Kết Chuyển Cọc</th></tr>
+                </thead>
+                <tbody id="depositsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. PHÊ DUYỆT 2 CẤP (API) -->
+        <section id="approvals-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <span class="badge badge-warning mb-1">PRO MINIMAL API</span>
+              <h1 class="page-title"><i class="fa-solid fa-user-check text-warning"></i> Quy Trình Phê Duyệt 2 Cấp (.NET API)</h1>
+              <p class="page-subtitle">Kiểm soát giao dịch tài chính nhạy cảm - Tích hợp CQRS Command & Minimal APIs</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã Đề Xuất (GUID)</th><th>Loại Nghiệp Vụ</th><th>Học Viên</th><th>Số Tiền</th><th>Người Đề Xuất</th><th>Trạng Thái Cấp 1 & 2</th><th>Thao Tác Phê Duyệt</th></tr>
+                </thead>
+                <tbody id="approvalsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. HOA HỒNG & BONUS -->
+        <section id="commissions-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Báo Cáo Hoa Hồng Sale & Bonus Mentor</h1>
+              <p class="page-subtitle">Tính % hoa hồng cho Counselor & Thưởng mốc đạt Offer/Visa cho Mentor</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã NV</th><th>Tên Nhân Viên</th><th>Chức danh</th><th>Doanh Thu Phụ Trách</th><th>% Hoa hồng</th><th>Thưởng Mốc</th><th>Tổng Thu Nhập</th></tr>
+                </thead>
+                <tbody id="commissionsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. KẾ TOÁN NỘI BỘ -->
+        <section id="accounting-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Kế Toán & Báo Cáo Nội Bộ</h1>
+              <p class="page-subtitle">Sổ tiền mặt 111, Sổ ngân hàng 112, Sổ cái kế toán</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Ngày CT</th><th>Số Chứng Từ</th><th>Diễn giải</th><th>TK Nợ</th><th>TK Có</th><th>Số tiền (VNĐ)</th><th>Học viên</th></tr>
+                </thead>
+                <tbody id="accountingTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 14. TÀI LIỆU -->
+        <section id="documents-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title">Kho Tài Liệu Học Viên</h1>
+              <p class="page-subtitle">Hộ chiếu, CCCD, Bảng điểm, Bằng cấp, Hợp đồng tư vấn</p>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Tên Tệp</th><th>Học viên</th><th>Phân loại</th><th>Dung lượng</th><th>Ngày tải</th><th>Người tải</th></tr>
+                </thead>
+                <tbody id="documentsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 15. QUẢN LÝ USER & PHÂN QUYỀN RBAC (MỤC 1 - API) -->
+        <section id="users-view" class="view-panel">
+          <div class="page-title-bar">
+            <div>
+              <span class="badge badge-primary mb-1">MỤC 1 API</span>
+              <h1 class="page-title"><i class="fa-solid fa-user-shield text-primary"></i> Quản Lý User & Phân Quyền Vai Trò (RBAC)</h1>
+              <p class="page-subtitle">Phân quyền theo Vai trò/Phòng ban, Giới hạn quyền CRUD & Nhật ký Thao tác Audit Logs</p>
+            </div>
+            <div>
+              <button class="btn btn-secondary mr-2" onclick="showRbacMatrixModal()"><i class="fa-solid fa-table-cells"></i> Xem Ma Trận Phân Quyền</button>
+              <button class="btn btn-primary" onclick="openCreateUserModal()"><i class="fa-solid fa-user-plus"></i> + Thêm User (API)</button>
+            </div>
+          </div>
+
+          <div class="panel-card mb-3">
+            <div class="panel-header flex-between">
+              <h3><i class="fa-solid fa-users text-primary"></i> Danh Sách Tài Khoản Nhân Viên & Quyền Hạn (.NET API)</h3>
+            </div>
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Mã NV</th><th>Tên Nhân Viên</th><th>Email & Phòng Ban</th><th>Vai trò / Chức danh</th><th>Quyền Hạn Chi Tiết (RBAC Tags)</th><th>Trạng thái</th><th>Thao tác</th></tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sub-panel Audit Logs -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-history text-warning"></i> Nhật Ký Thao Tác Hệ Thống (Audit Trail Log)</h3>
+            </div>
+            <div class="panel-body table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Thời gian</th><th>Người thực hiện</th><th>Hành động</th><th>Phân hệ</th><th>Mô tả chi tiết</th><th>IP Address</th></tr>
+                </thead>
+                <tbody id="auditLogsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- INTERACTIVE MODAL: Thêm User & Phân Quyền API -->
+  <div class="modal-overlay" id="userModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-shield text-primary"></i> Thêm Tài Khoản Nhân Viên & Cấp Quyền RBAC</h3>
+        <button class="close-modal-btn" onclick="closeModal('userModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="userForm" onsubmit="handleSaveUser(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mã Nhân Viên <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="uModalStaffCode" value="NV-004" required>
+            </div>
+            <div class="form-group">
+              <label>Họ và Tên <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="uModalFullName" placeholder="Nguyễn Thu Trang" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Đăng Nhập <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="uModalEmail" placeholder="trang.nguyen@edupro.vn" required>
+            </div>
+            <div class="form-group">
+              <label>Phòng Ban <span class="text-danger">*</span></label>
+              <select class="form-control" id="uModalDepartment" required>
+                <option value="Phòng Tư Vấn Du Học">Phòng Tư Vấn Du Học</option>
+                <option value="Phòng Kế Toán">Phòng Kế Toán</option>
+                <option value="Phòng Xử Lý Hồ Sơ">Phòng Xử Lý Hồ Sơ</option>
+                <option value="Ban Giám Đốc">Ban Giám Đốc</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Vai Trò Phân Quyền <span class="text-danger">*</span></label>
+            <select class="form-control" id="uModalRole" required>
+              <option value="Counselor / Sale">Counselor / Sale Tư Vấn</option>
+              <option value="Senior Mentor">Senior Mentor Xử Lý Hồ Sơ</option>
+              <option value="Kế Toán Trưởng">Kế Toán Trưởng</option>
+              <option value="Super Admin / Giám Đốc">Super Admin / Ban Giám Đốc</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label style="font-weight:bold; color:var(--warning);">Cấp Quyền Chi Tiết (Granular RBAC Permissions):</label>
+            <div class="perm-grid">
+              <label class="perm-item"><input type="checkbox" id="permRead" checked disabled> Xem Dữ Liệu (READ)</label>
+              <label class="perm-item"><input type="checkbox" id="permCreate" checked> Thêm Mới (CREATE)</label>
+              <label class="perm-item"><input type="checkbox" id="permUpdate" checked> Chỉnh Sửa (UPDATE)</label>
+              <label class="perm-item"><input type="checkbox" id="permDelete"> Xóa Dữ Liệu (DELETE)</label>
+              <label class="perm-item"><input type="checkbox" id="permApprove"> Phê Duyệt 2 Cấp (APPROVE)</label>
+              <label class="perm-item"><input type="checkbox" id="permLockJournal" checked> Khóa Nhật Ký Pháp Lý</label>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('userModal')">Hủy bỏ</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Lưu User & Gửi Minimal API .NET</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE MODAL: Lập Phiếu Thu Tiền API -->
+  <div class="modal-overlay" id="receiptModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-receipt text-success"></i> Lập Phiếu Thu Tiền & Phân Bổ (Chức Năng API)</h3>
+        <button class="close-modal-btn" onclick="closeModal('receiptModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="receiptForm" onsubmit="handleSaveReceipt(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Học viên <span class="text-danger">*</span></label>
+              <select class="form-control" id="rModalStudent" required>
+                <option value="HV-2026-001">Phạm Minh Anh (HĐ-2026-DE01)</option>
+                <option value="HV-2026-002">Nguyễn Hoàng Long (HĐ-2026-AU02)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Hình thức thanh toán <span class="text-danger">*</span></label>
+              <select class="form-control" id="rModalMethod" required>
+                <option value="Chuyển khoản">Chuyển khoản VCB (TK 112)</option>
+                <option value="Tiền mặt">Tiền mặt (TK 111)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tổng số tiền thu (VNĐ) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="rModalAmount" value="30000000" required>
+            </div>
+            <div class="form-group">
+              <label>Số Hóa Đơn / Mã Giao Dịch</label>
+              <input type="text" class="form-control" id="rModalRef" value="FT26081799210" required>
+            </div>
+          </div>
+
+          <div class="panel-card bg-surface p-2 mb-2" style="background:#17202d; padding:12px; border-radius:8px; margin-bottom:12px;">
+            <label style="font-weight:bold; color:var(--teal);">Ràng buộc Phân Bổ Tiền Thu ($V_{DV} + V_{BD} = V$):</label>
+            <div class="form-row" style="margin-top:6px;">
+              <div class="form-group">
+                <label class="sm-lbl">V_DV (Phí Dịch Vụ - TK 511):</label>
+                <input type="number" class="form-control" id="rModalServiceFee" value="20000000">
+              </div>
+              <div class="form-group">
+                <label class="sm-lbl">V_BD (Khoản Bảo Đảm - TK 3388):</label>
+                <input type="number" class="form-control" id="rModalDepositFee" value="10000000">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('receiptModal')">Hủy bỏ</button>
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Lưu Phiếu Thu & Gọi API .NET</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE MODAL: Ghi Nhật Ký Bằng Chứng Pháp Lý API -->
+  <div class="modal-overlay" id="journalModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-shield-halved text-warning"></i> Ghi Nhật Ký Bằng Chứng Pháp Lý (API Mục 7)</h3>
+        <button class="close-modal-btn" onclick="closeModal('journalModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="journalForm" onsubmit="handleSaveJournal(event)">
+          <div class="form-group">
+            <label>Học viên <span class="text-danger">*</span></label>
+            <select class="form-control" id="jModalStudentSelect" required>
+              <option value="a8f9c2d1-b4e5-4a7b-8c9d-0e1f2a3b4c5d">Phạm Minh Anh (HĐ-2026-DE01)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Thời gian diễn ra <span class="text-danger">*</span></label>
+              <input type="datetime-local" class="form-control" id="jModalDateTime" required>
+            </div>
+            <div class="form-group">
+              <label>Theo Điều Khoản HĐ (Điều 2) <span class="text-danger">*</span></label>
+              <select class="form-control" id="jModalContractClause" required>
+                <option value="1">Điều 2.1: Tư vấn chọn trường, ngành & lập lộ trình</option>
+                <option value="2">Điều 2.2: Dịch thuật, công chứng & hoàn thiện hồ sơ</option>
+                <option value="3">Điều 2.3: Nộp hồ sơ qua portal & liên hệ Ban tuyển sinh</option>
+                <option value="4">Điều 2.4: Luyện phỏng vấn & Hướng dẫn xin Học bổng</option>
+                <option value="5">Điều 2.5: Nộp hồ sơ Visa & Hướng dẫn mở tài khoản phong tỏa</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Nội dung tóm tắt <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="jModalSummary" value="Nộp hồ sơ Uni-Assist & đóng phí trường" required>
+          </div>
+
+          <div class="form-group">
+            <label>Nội dung chi tiết làm Bằng Chứng Pháp Lý <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="jModalContent" rows="4" required>Đã hoàn thành nộp hồ sơ qua cổng Uni-Assist. Mã đơnUniAssist #881923. Đã đóng phí 75 EUR thay học viên.</textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('journalModal')">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning"><i class="fa-solid fa-lock"></i> Lưu & Gọi Minimal API .NET</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000';
+
+    const state = {
+      students: [
+        { id: 'HV-2026-001', name: 'Phạm Minh Anh', cccd: '001202004812', phone: '0988 123 456', email: 'minhanh@gmail.com', country: 'Đức', school: 'TU Munich', intake: 'Kỳ Đông 2026', mentor: 'Trần Thị Lan' },
+        { id: 'HV-2026-002', name: 'Nguyễn Hoàng Long', cccd: '036201009911', phone: '0912 345 678', email: 'hoanglong@gmail.com', country: 'Úc', school: 'Uni of Sydney', intake: 'T02/2027', mentor: 'Lê Hoàng Anh' }
+      ],
+      contracts: [
+        { id: 'HĐ-2026-DE01', studentName: 'Phạm Minh Anh', packageName: 'Du Học Đức A-Z', totalValue: 80000000, serviceFee: 60000000, depositFee: 20000000 }
+      ],
+      debts: [
+        { id: 'DOT-02-DE01', studentName: 'Phạm Minh Anh', contractId: 'HĐ-2026-DE01', installmentName: 'Đợt 2: Offer Letter', dueDate: '2026-08-10', amountRequired: 30000000, amountCollected: 0, amountRemaining: 30000000, status: 'Quá hạn' }
+      ],
+      deposits: [
+        { studentName: 'Phạm Minh Anh', contractId: 'HĐ-2026-DE01', totalDeposit: 20000000, transferred: 0, refunded: 0, balance: 20000000 }
+      ],
+      receipts: [
+        { id: 'PT-2026-0801', date: '2026-01-18', studentName: 'Phạm Minh Anh', method: 'Chuyển khoản VCB', total: 30000000, serviceAlloc: 10000000, depositAlloc: 20000000 }
+      ]
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAllViews();
+      loadAllApiData();
+    });
+
+    function switchAngularTab(tabId) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
+
+      const targetNav = document.querySelector(`.nav-item[onclick*="${tabId}"]`);
+      if (targetNav) targetNav.classList.add('active');
+
+      const targetView = document.getElementById(`${tabId}-view`);
+      if (targetView) targetView.classList.add('active');
+    }
+
+    function renderAllViews() {
+      // Dashboard Debts
+      document.getElementById('dashDebtsTable').innerHTML = state.debts.map(d => `
+        <tr>
+          <td><strong>${d.studentName}</strong></td>
+          <td><span class="badge badge-info">${d.contractId}</span></td>
+          <td>${d.installmentName}</td>
+          <td class="text-danger"><strong>${d.dueDate}</strong></td>
+          <td><strong class="text-danger">${formatVND(d.amountRemaining)}</strong></td>
+          <td><span class="badge badge-danger">${d.status}</span></td>
+          <td><button class="btn btn-sm btn-success" onclick="openCreateReceiptModal()">Thu tiền</button></td>
+        </tr>
+      `).join('');
+
+      // Students
+      document.getElementById('studentsTableBody').innerHTML = state.students.map(s => `
+        <tr>
+          <td><strong>${s.id}</strong></td>
+          <td><strong>${s.name}</strong></td>
+          <td>${s.cccd}</td>
+          <td>${s.phone}<div class="sm-lbl">${s.email}</div></td>
+          <td><span class="badge badge-info">${s.country}</span> ${s.school}</td>
+          <td>${s.intake}</td>
+          <td><strong>${s.mentor}</strong></td>
+          <td><button class="btn btn-sm btn-secondary" onclick="switchAngularTab('legal-journal')">Sổ Nhật Ký</button></td>
+        </tr>
+      `).join('');
+
+      // Applications
+      document.getElementById('applicationsTableBody').innerHTML = state.students.map(s => `
+        <tr>
+          <td><strong>HS-${s.id}</strong></td>
+          <td><strong>${s.name}</strong></td>
+          <td>${s.school}</td>
+          <td>Thạc sĩ / Cử nhân</td>
+          <td><span class="badge badge-success">Học bổng 50%</span></td>
+          <td><strong>15/10/2026</strong></td>
+          <td><span class="badge badge-info">Đã nộp hồ sơ</span></td>
+        </tr>
+      `).join('');
+
+      // Checklist
+      document.getElementById('checklistTableBody').innerHTML = `
+        <tr>
+          <td class="text-danger"><strong>2026-08-18</strong></td>
+          <td><strong>Mở tài khoản phong tỏa Expatrio</strong></td>
+          <td>Phạm Minh Anh</td>
+          <td>Trần Thị Lan</td>
+          <td><span class="badge badge-warning">Đang xử lý</span></td>
+        </tr>
+      `;
+
+      // Contracts
+      document.getElementById('contractsTableBody').innerHTML = state.contracts.map(c => `
+        <tr>
+          <td><span class="badge badge-info">${c.id}</span></td>
+          <td><strong>${c.studentName}</strong></td>
+          <td>${c.packageName}</td>
+          <td><strong class="text-success">${formatVND(c.totalValue)}</strong></td>
+          <td>${formatVND(c.serviceFee)}</td>
+          <td><span class="text-teal">${formatVND(c.depositFee)}</span></td>
+          <td><button class="btn btn-sm btn-primary" onclick="alert('Mail Merge HĐ!')">Mail Merge HĐ</button></td>
+        </tr>
+      `).join('');
+
+      // Debts
+      document.getElementById('debtsTableBody').innerHTML = state.debts.map(d => `
+        <tr>
+          <td><strong>${d.id}</strong></td>
+          <td><strong>${d.studentName}</strong></td>
+          <td>${d.installmentName}</td>
+          <td class="text-danger"><strong>${d.dueDate}</strong></td>
+          <td>${formatVND(d.amountRequired)}</td>
+          <td>0 ₫</td>
+          <td><strong class="text-danger">${formatVND(d.amountRemaining)}</strong></td>
+          <td><span class="badge badge-danger">${d.status}</span></td>
+          <td><button class="btn btn-sm btn-warning" onclick="alert('Đã gửi Zalo ZNS!')">Gửi Zalo ZNS</button></td>
+        </tr>
+      `).join('');
+
+      // Receipts
+      document.getElementById('receiptsTableBody').innerHTML = state.receipts.map(r => `
+        <tr>
+          <td><strong>${r.id}</strong></td>
+          <td>${r.date}</td>
+          <td><strong>${r.studentName}</strong></td>
+          <td><span class="badge badge-info">${r.method}</span></td>
+          <td><strong class="text-success">${formatVND(r.total)}</strong></td>
+          <td>${formatVND(r.serviceAlloc)}</td>
+          <td><span class="text-teal">${formatVND(r.depositAlloc)}</span></td>
+        </tr>
+      `).join('');
+
+      // Deposits
+      document.getElementById('depositsTableBody').innerHTML = state.deposits.map(dp => `
+        <tr>
+          <td><strong>${dp.studentName}</strong></td>
+          <td><span class="badge badge-info">${dp.contractId}</span></td>
+          <td><strong class="text-teal">${formatVND(dp.totalDeposit)}</strong></td>
+          <td>${formatVND(dp.transferred)}</td>
+          <td>${formatVND(dp.refunded)}</td>
+          <td><strong class="text-success">${formatVND(dp.balance)}</strong></td>
+          <td><button class="btn btn-sm btn-primary" onclick="alert('Đã chuyển cọc!')">Chuyển sang Phí DV</button></td>
+        </tr>
+      `).join('');
+
+      // Commissions
+      document.getElementById('commissionsTableBody').innerHTML = `
+        <tr>
+          <td><strong>NV-002</strong></td>
+          <td><strong>Trần Thị Lan</strong></td>
+          <td><span class="badge badge-primary">Senior Mentor</span></td>
+          <td>60,000,000 ₫</td>
+          <td>3.0%</td>
+          <td><span class="text-success">5,000,000 ₫</span></td>
+          <td><strong class="text-warning">6,800,000 ₫</strong></td>
+        </tr>
+      `;
+
+      // Accounting
+      document.getElementById('accountingTableBody').innerHTML = `
+        <tr>
+          <td>2026-01-18</td>
+          <td><strong>CT-2026-0118</strong></td>
+          <td>Thu đợt 1 HĐ-2026-DE01 (Phạm Minh Anh)</td>
+          <td><span class="badge badge-info">1121 - VCB</span></td>
+          <td><span class="badge badge-success">511 (10M) & 3388 (20M)</span></td>
+          <td><strong>30,000,000 ₫</strong></td>
+          <td>Phạm Minh Anh</td>
+        </tr>
+      `;
+
+      // Documents
+      document.getElementById('documentsTableBody').innerHTML = `
+        <tr>
+          <td><i class="fa-solid fa-file-pdf text-danger"></i> <strong>CCCD_PhamMinhAnh_001.pdf</strong></td>
+          <td>Phạm Minh Anh</td>
+          <td><span class="badge badge-info">Giấy tờ cá nhân</span></td>
+          <td>2.4 MB</td>
+          <td>2026-01-15</td>
+          <td>Lê Hoàng Anh</td>
+        </tr>
+      `;
+    }
+
+    // API CALLS & USERS RBAC MANAGEMENT
+    async function loadAllApiData() {
+      loadUsersApi();
+      loadAuditLogsApi();
+      loadApprovalsApi();
+      loadLegalLogsApi();
+    }
+
+    async function loadUsersApi() {
+      const tbody = document.getElementById('usersTableBody');
+      try {
+        const response = await fetch(`${API_BASE}/api/users`);
+        const users = await response.json();
+
+        tbody.innerHTML = users.map(u => `
+          <tr>
+            <td><strong>${u.staffCode}</strong></td>
+            <td><strong>${u.fullName}</strong></td>
+            <td>${u.email}<div class="sm-lbl">${u.department}</div></td>
+            <td><span class="badge badge-primary">${u.role}</span></td>
+            <td>
+              ${u.permissions.map(p => `<span class="badge badge-info mr-1" style="font-size:10px;">${p}</span>`).join('')}
+            </td>
+            <td>${u.isActive ? `<span class="badge badge-success">Hoạt động</span>` : `<span class="badge badge-danger">Đã khóa</span>`}</td>
+            <td>
+              <button class="btn btn-sm btn-secondary" onclick="alert('Đã cập nhật phân quyền nhân viên ${u.staffCode}!')">Sửa Quyền</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-warning">Lỗi tải danh sách User từ API!</td></tr>`;
+      }
+    }
+
+    async function loadAuditLogsApi() {
+      const tbody = document.getElementById('auditLogsTableBody');
+      try {
+        const response = await fetch(`${API_BASE}/api/users/audit-logs`);
+        const logs = await response.json();
+
+        tbody.innerHTML = logs.map(l => `
+          <tr>
+            <td style="font-size:12px; color:var(--text-muted);">${new Date(l.timestamp).toLocaleString('vi-VN')}</td>
+            <td><strong>${l.operatorName}</strong></td>
+            <td><span class="badge badge-warning">${l.action}</span></td>
+            <td><span class="badge badge-info">${l.module}</span></td>
+            <td>${l.description}</td>
+            <td><code>${l.ipAddress}</code></td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-warning">Lỗi tải Audit Logs!</td></tr>`;
+      }
+    }
+
+    async function handleSaveUser(e) {
+      e.preventDefault();
+      const perms = ['READ'];
+      if (document.getElementById('permCreate').checked) perms.push('CREATE');
+      if (document.getElementById('permUpdate').checked) perms.push('UPDATE');
+      if (document.getElementById('permDelete').checked) perms.push('DELETE');
+      if (document.getElementById('permApprove').checked) perms.push('APPROVE');
+      if (document.getElementById('permLockJournal').checked) perms.push('LOCK_JOURNAL');
+
+      const payload = {
+        staffCode: document.getElementById('uModalStaffCode').value,
+        fullName: document.getElementById('uModalFullName').value,
+        email: document.getElementById('uModalEmail').value,
+        department: document.getElementById('uModalDepartment').value,
+        role: document.getElementById('uModalRole').value,
+        permissions: perms,
+        createdBy: 'Nguyễn Văn Minh'
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/users`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alert('CALL API THÀNH CÔNG: Đã tạo tài khoản nhân viên & phân quyền RBAC vào .NET Backend!');
+          closeModal('userModal');
+          loadUsersApi();
+        } else {
+          alert('Lỗi Validation API User!');
+        }
+      } catch (err) {
+        alert('Lỗi kết nối API!');
+      }
+    }
+
+    async function loadApprovalsApi() {
+      const tbody = document.getElementById('approvalsTableBody');
+      try {
+        const response = await fetch(`${API_BASE}/api/approvals`);
+        const data = await response.json();
+
+        tbody.innerHTML = data.map(item => `
+          <tr>
+            <td><code>${item.id.substring(0, 8)}...</code></td>
+            <td><span class="badge badge-info">${item.requestType}</span></td>
+            <td><strong>${item.studentName}</strong></td>
+            <td><strong class="text-success">${formatVND(item.amount)}</strong></td>
+            <td>${item.proposerName}</td>
+            <td>
+              <div style="font-size: 11px; color: var(--text-muted);">${item.statusLevel1}</div>
+              <div style="font-size: 11px; font-weight: 700; color: var(--warning);">${item.statusLevel2}</div>
+            </td>
+            <td>
+              ${item.status === 'Chờ duyệt' ? `
+                <button class="btn btn-sm btn-success" onclick="approveRequest('${item.id}')">
+                  <i class="fa-solid fa-check"></i> Duyệt (Giám Đốc)
+                </button>
+              ` : `<span class="badge badge-success">Đã phê duyệt</span>`}
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-warning">Lỗi kết nối API Minimal API .NET!</td></tr>`;
+      }
+    }
+
+    async function loadLegalLogsApi() {
+      const container = document.getElementById('legalTimelineContainer');
+      const studentList = document.getElementById('journalStudentList');
+
+      studentList.innerHTML = `
+        <div class="journal-student-item active">
+          <div style="font-weight:700;">Phạm Minh Anh</div>
+          <div class="sm-lbl">HV-2026-001 - Đức</div>
+        </div>
+      `;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/legal-journals/student/a8f9c2d1-b4e5-4a7b-8c9d-0e1f2a3b4c5d`);
+        const logs = await response.json();
+
+        container.innerHTML = logs.map(log => `
+          <div class="legal-log-item">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+              <span class="badge badge-info">${log.contractClauseName}</span>
+              <span style="font-size:11px; color:var(--text-muted);">${new Date(log.actionDateTime).toLocaleString('vi-VN')}</span>
+            </div>
+            <h4 style="color:var(--warning); font-size:14px; margin-bottom:4px;">${log.summary}</h4>
+            <p style="font-size:13px; line-height:1.5; margin-bottom:10px;">${log.content}</p>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
+              <span>Mentor: <strong>${log.mentorName}</strong></span>
+              <span class="badge badge-success">🔒 SHA256: ${log.signatureHash.substring(0, 10)}...</span>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="text-warning">Lỗi tải dữ liệu Nhật ký Pháp lý từ API!</div>`;
+      }
+    }
+
+    async function handleSaveReceipt(e) {
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById('rModalAmount').value);
+      const serviceAlloc = parseFloat(document.getElementById('rModalServiceFee').value);
+      const depositAlloc = parseFloat(document.getElementById('rModalDepositFee').value);
+
+      if (serviceAlloc + depositAlloc !== amount) {
+        alert('RÀNG BUỘC KẾ TOÁN SAI: Phí dịch vụ + Bảo đảm phải bằng đúng Tổng tiền thu!');
+        return;
+      }
+
+      const payload = {
+        studentId: 'a8f9c2d1-b4e5-4a7b-8c9d-0e1f2a3b4c5d',
+        studentName: 'Phạm Minh Anh',
+        paymentMethod: document.getElementById('rModalMethod').value,
+        totalAmount: amount,
+        serviceFeeAllocated: serviceAlloc,
+        depositAllocated: depositAlloc,
+        referenceCode: document.getElementById('rModalRef').value,
+        note: 'Thu tiền qua Angular Client API'
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/receipts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          alert(`CALL API THÀNH CÔNG!\n${result.message}`);
+          closeModal('receiptModal');
+          renderAllViews();
+        }
+      } catch (err) {
+        alert('Lỗi kết loại API!');
+      }
+    }
+
+    async function handleSaveJournal(e) {
+      e.preventDefault();
+      const payload = {
+        studentId: 'a8f9c2d1-b4e5-4a7b-8c9d-0e1f2a3b4c5d',
+        contractId: '4406d927-e477-4fa6-a450-95d3c888b16e',
+        clause: parseInt(document.getElementById('jModalContractClause').value),
+        actionDateTime: document.getElementById('jModalDateTime').value,
+        summary: document.getElementById('jModalSummary').value,
+        content: document.getElementById('jModalContent').value,
+        portalUrl: 'https://uni-assist.de/application/status/881923',
+        mentorId: 'NV-002'
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/legal-journals`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alert('CQRS COMMAND THÀNH CÔNG: Đã lưu và khóa chứng cứ pháp lý!');
+          closeModal('journalModal');
+          loadLegalLogsApi();
+        }
+      } catch (err) {
+        alert('Lỗi kết nối API Legal Journal!');
+      }
+    }
+
+    async function approveRequest(id) {
+      try {
+        const res = await fetch(`${API_BASE}/api/approvals/${id}/approve`, { method: 'POST' });
+        if (res.ok) {
+          alert('CQRS COMMAND EXECUTION: Đã phê duyệt đề xuất thành công ở Cấp Giám Đốc!');
+          loadApprovalsApi();
+        }
+      } catch (err) {
+        alert('Lỗi phê duyệt!');
+      }
+    }
+
+    function showRbacMatrixModal() {
+      alert('MA TRẬN PHÂN QUYỀN VAI TRÒ (RBAC MATRIX):\n- Super Admin: Toàn quyền [READ, CREATE, UPDATE, DELETE, APPROVE]\n- Senior Mentor: [READ, CREATE, UPDATE, LOCK_JOURNAL]\n- Kế Toán Trưởng: [READ, CREATE_RECEIPT, DEPOSIT_TRANSFER, ACCOUNTING_LEDGER]\n- Counselor: [READ, CREATE_STUDENT]');
+    }
+
+    function openCreateUserModal() {
+      document.getElementById('userModal').classList.add('active');
+    }
+    function openCreateReceiptModal() {
+      document.getElementById('receiptModal').classList.add('active');
+    }
+    function openNewJournalModal() {
+      document.getElementById('jModalDateTime').value = new Date().toISOString().slice(0, 16);
+      document.getElementById('journalModal').classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+    function formatVND(amount) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+    function filterGlobalData() {}
+  </script>
+</body>
+</html>

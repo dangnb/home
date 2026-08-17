@@ -1,0 +1,79 @@
+<div class="journal-container">
+  <div class="header-bar">
+    <div>
+      <span class="badge badge-warning">MỤC 7 - QUAN TRỌNG NHẤT</span>
+      <h2>Sổ Nhật Ký Làm Việc & Bằng Chứng Pháp Lý (.NET 9 + Angular 19)</h2>
+      <p class="subtitle">Kiến trúc CQRS + Dapper + FluentValidation + Minimal API + Angular Signals</p>
+    </div>
+    <button class="btn btn-warning" (click)="openModal()">
+      + Ghi Nhật Ký Công Việc Mới
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-spinner">Đang tải dữ liệu chứng cứ...</div>
+  } @else {
+    <div class="timeline-wrapper">
+      @for (log of logs(); track log.id) {
+        <div class="timeline-card">
+          <div class="card-header">
+            <span class="clause-tag">{{ log.contractClauseName }}</span>
+            <span class="time-stamp">{{ log.actionDateTime | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <h4 class="log-title">{{ log.summary }}</h4>
+          <p class="log-content">{{ log.content }}</p>
+          <div class="card-footer">
+            <span class="mentor-name">Mentor: <strong>{{ log.mentorName }}</strong></span>
+            @if (log.portalUrl) {
+              <a [href]="log.portalUrl" target="_blank" class="proof-link">🌐 Link Chứng Cứ / Portal</a>
+            }
+            <span class="badge badge-success">🔒 Đã khóa (SHA: {{ log.signatureHash.substring(0, 8) }}...)</span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">Chưa có bản ghi nhật ký nào. Bấm nút trên để tạo chứng cứ mới.</div>
+      }
+    </div>
+  }
+
+  <!-- Modal Form -->
+  @if (showModal()) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <h3>Ghi Nhật Ký Công Việc Mới (Ghi nhận bằng chứng Hợp đồng)</h3>
+        <form (ngSubmit)="submitJournal()">
+          <div class="form-group">
+            <label>Điều Khoản Hợp Đồng (Điều 2):</label>
+            <select [(ngModel)]="newJournal.clause" name="clause" class="form-control">
+              <option [value]="1">Điều 2.1: Tư vấn chọn trường, ngành & lập lộ trình</option>
+              <option [value]="2">Điều 2.2: Dịch thuật, công chứng & hoàn thiện hồ sơ</option>
+              <option [value]="3">Điều 2.3: Nộp hồ sơ qua portal & liên hệ Ban tuyển sinh</option>
+              <option [value]="4">Điều 2.4: Luyện phỏng vấn & Hướng dẫn xin Học bổng</option>
+              <option [value]="5">Điều 2.5: Nộp hồ sơ Visa & Hướng dẫn tài khoản phong tỏa</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tiêu đề tóm tắt:</label>
+            <input type="text" [(ngModel)]="newJournal.summary" name="summary" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label>Nội dung chi tiết việc đã làm (Dùng cho FluentValidation):</label>
+            <textarea [(ngModel)]="newJournal.content" name="content" rows="4" class="form-control" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Link đính kèm chứng cứ (Portal / Email Screenshot):</label>
+            <input type="text" [(ngModel)]="newJournal.portalUrl" name="portalUrl" class="form-control" />
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu & Khóa Bằng Chứng</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
