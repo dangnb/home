@@ -56,4 +56,8 @@ export class PurchaseOrderService extends BaseCrudService<PurchaseOrder> {
   updateStatus(id: string, dto: UpdatePurchaseOrderStatusDto): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/status`, dto);
   }
+
+  autoDraftPurchaseOrders(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auto-draft`, {});
+  }
 }

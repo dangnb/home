@@ -419,11 +419,24 @@
     }
 
     .content-area {
-        padding: 1.75rem;
+        padding: 2.25rem 1.75rem 4rem 1.75rem; // padding-bottom 4rem (Phase 4)
         flex: 1;
         max-width: 1600px;
         margin: 0 auto;
         width: 100%;
+        min-height: calc(100vh - 56px);
+
+        // Spacing giữa các card/section trong cùng một trang quản lý
+        > * + * {
+            margin-top: 1.5rem;
+        }
+
+        // Tăng khoảng cách giữa card-header và card-body (Phase 3)
+        .card {
+            .card-header + .card-body {
+                padding-top: 1.5rem;
+            }
+        }
     }
 }
 

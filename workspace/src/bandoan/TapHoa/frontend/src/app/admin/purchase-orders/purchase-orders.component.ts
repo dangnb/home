@@ -43,6 +43,27 @@ export class PurchaseOrdersComponent implements OnInit {
     });
   }
 
+  autoDraft(): void {
+    if (!confirm('Bạn có chắc chắn muốn hệ thống tự động quét tồn kho và tạo Phiếu Nhập nháp?')) {
+      return;
+    }
+    
+    this.isLoading = true;
+    this.poService.autoDraftPurchaseOrders().subscribe({
+      next: (res) => {
+        alert(res.message);
+        this.loadPurchaseOrders();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Có lỗi xảy ra: ' + (err.error?.title || err.message));
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
   onPageChange(page: number): void {
     this.currentPage = page;
     this.loadPurchaseOrders();
@@ -68,11 +89,22 @@ export class PurchaseOrdersComponent implements OnInit {
   getStatusBadgeClass(status: any): string {
     const s = this.getEnumString(status);
     switch (s) {
-      case 'Draft': return 'bg-secondary text-white';
-      case 'Processing': return 'bg-primary text-white';
-      case 'Completed': return 'bg-success text-white';
-      case 'Cancelled': return 'bg-danger text-white';
-      default: return 'bg-light text-dark';
+      case 'Draft': return 'badge-light-secondary text-gray-800 fw-bold border border-secondary-subtle';
+      case 'Processing': return 'badge-light-primary text-primary fw-bold border border-primary-subtle';
+      case 'Completed': return 'badge-light-success text-success fw-bold border border-success-subtle';
+      case 'Cancelled': return 'badge-light-danger text-danger fw-bold border border-danger-subtle';
+      default: return 'badge-light-secondary text-gray-700 fw-bold';
+    }
+  }
+
+  getStatusText(status: any): string {
+    const s = this.getEnumString(status);
+    switch (s) {
+      case 'Draft': return 'Bản nháp';
+      case 'Processing': return 'Đang xử lý';
+      case 'Completed': return 'Hoàn thành';
+      case 'Cancelled': return 'Đã hủy';
+      default: return 'Khác';
     }
   }
 }

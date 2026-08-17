@@ -54,45 +54,45 @@
         <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.REF_ID' | translate }} <span
               class="text-danger">*</span></label>
-          <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
+          <input type="text" class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="referenceId"
             [placeholder]="'TRANSACTION_CREATE.REF_ID_PLACEHOLDER' | translate">
         </div>
         <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.NOTES' | translate }}</label>
-          <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="notes"
+          <input type="text" class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="notes"
             [placeholder]="'TRANSACTION_CREATE.NOTES_PLACEHOLDER' | translate">
         </div>
         <div class="col-md-4">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.TYPE' | translate }} <span
               class="text-danger">*</span></label>
           <div class="d-flex bg-white border rounded-3 overflow-hidden shadow-sm">
-            <input type="radio" class="btn-check" name="trType" id="typeIn" autocomplete="off"
+            <input type="radio" class="btn btn-sm-check" name="trType" id="typeIn" autocomplete="off"
               [(ngModel)]="transactionType" value="inbound">
-            <label class="btn btn-outline-primary border-0 w-50 py-2 fw-medium rounded-0" for="typeIn">{{ 'TRANSACTION_CREATE.TYPE_IN' | translate }}</label>
-            <input type="radio" class="btn-check" name="trType" id="typeOut" autocomplete="off"
+            <label class="btn btn-sm btn-outline-primary border-0 w-50 py-2 fw-medium rounded-0" for="typeIn">{{ 'TRANSACTION_CREATE.TYPE_IN' | translate }}</label>
+            <input type="radio" class="btn btn-sm-check" name="trType" id="typeOut" autocomplete="off"
               [(ngModel)]="transactionType" value="outbound">
-            <label class="btn btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">{{ 'TRANSACTION_CREATE.TYPE_OUT' | translate }}</label>
+            <label class="btn btn-sm btn-outline-danger border-0 w-50 py-2 fw-medium rounded-0" for="typeOut">{{ 'TRANSACTION_CREATE.TYPE_OUT' | translate }}</label>
           </div>
         </div>
       </div>
       <div class="row g-4 mb-5 pb-5 border-bottom" style="border-color: #e2e8f0 !important;">
         <div class="col-md-6" *ngIf="transactionType === 'inbound'">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.SUPPLIER' | translate }}</label>
-          <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedSupplierId">
+          <select class="form-select form-select-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedSupplierId">
             <option [ngValue]="null">{{ 'TRANSACTION_CREATE.SELECT_SUPPLIER' | translate }}</option>
             <option *ngFor="let s of suppliers" [value]="s.id">{{ s.name }} ({{ s.code }})</option>
           </select>
         </div>
         <div class="col-md-6" *ngIf="transactionType === 'outbound'">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.CUSTOMER' | translate }}</label>
-          <select class="form-select custom-input rounded-3 shadow-none" [(ngModel)]="selectedCustomerId">
+          <select class="form-select form-select-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedCustomerId">
             <option [ngValue]="null">{{ 'TRANSACTION_CREATE.SELECT_CUSTOMER' | translate }}</option>
             <option *ngFor="let c of customers" [value]="c.id">{{ c.name }} ({{ c.code }})</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.PAID_AMOUNT' | translate }}</label>
-          <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none text-success fw-bold" [(ngModel)]="amountPaid"
+          <input type="text" appNumberFormat class="form-control form-control-sm custom-input rounded-3 shadow-none text-success fw-bold" [(ngModel)]="amountPaid"
             placeholder="0">
         </div>
       </div>
@@ -119,7 +119,7 @@
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
               </span>
-              <input type="text" class="form-control custom-input rounded-3 shadow-none"
+              <input type="text" class="form-control form-control-sm custom-input rounded-3 shadow-none"
                 style="padding-left: 2.5rem !important;" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
                 (focus)="onSearchFocus()" (blur)="onSearchBlur()" [placeholder]="'TRANSACTION_CREATE.SEARCH_ITEM_PLACEHOLDER' | translate">
             </div>
@@ -143,22 +143,22 @@
           </div>
           <div class="col-md-2">
             <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.QUANTITY' | translate }}</label>
-            <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity">
+            <input type="text" appNumberFormat class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedQuantity">
           </div>
           <div class="col-md-2">
             <label class="form-label text-muted fw-bold small text-uppercase">{{ 'COMMON.UNIT_COST' | translate }}</label>
-            <input type="text" appNumberFormat class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost">
+            <input type="text" appNumberFormat class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedCost">
           </div>
           <div class="col-md-3">
             <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.LOCATION' | translate }}</label>
-            <input type="text" class="form-control custom-input rounded-3 shadow-none"
+            <input type="text" class="form-control form-control-sm custom-input rounded-3 shadow-none"
               [(ngModel)]="selectedLocationCode" placeholder="A-01">
           </div>
         </div>
         <div class="row g-3 align-items-end mt-2">
           <div class="col-md-10" *ngIf="transactionType === 'outbound' && availableBatches.length > 0">
             <label class="form-label text-muted fw-bold small text-uppercase text-danger">{{ 'TRANSACTION_CREATE.BATCH_FEFO' | translate }} <span class="text-danger">*</span></label>
-            <select class="form-select custom-input rounded-3 shadow-none border-danger" [(ngModel)]="selectedBatchId">
+            <select class="form-select form-select-sm custom-input rounded-3 shadow-none border-danger" [(ngModel)]="selectedBatchId">
               <option *ngFor="let b of availableBatches" [value]="b.id">
                 {{ 'TRANSACTION_CREATE.BATCH_NUMBER' | translate }}: {{ b.batchNumber }} | {{ 'COMMON.QUANTITY' | translate }}: {{ b.stockQuantity }} | {{ 'TRANSACTION_CREATE.EXP_DATE' | translate }}: {{ b.expiryDate | date:'dd/MM/yyyy' }}
               </option>
@@ -171,21 +171,21 @@
           <ng-container *ngIf="transactionType === 'inbound'">
             <div class="col-md-4">
               <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.BATCH_NUMBER' | translate }}</label>
-              <input type="text" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
+              <input type="text" class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedBatchNumber"
                 [placeholder]="'TRANSACTION_CREATE.BATCH_PLACEHOLDER' | translate">
             </div>
             <div class="col-md-3">
               <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.MFG_DATE' | translate }}</label>
-              <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedMfgDate">
+              <input type="date" class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedMfgDate">
             </div>
             <div class="col-md-3">
               <label class="form-label text-muted fw-bold small text-uppercase">{{ 'TRANSACTION_CREATE.EXP_DATE' | translate }}</label>
-              <input type="date" class="form-control custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
+              <input type="date" class="form-control form-control-sm custom-input rounded-3 shadow-none" [(ngModel)]="selectedExpiryDate">
             </div>
           </ng-container>
           <div class="col-md-2">
             <button
-              class="btn btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
+              class="btn btn-sm btn-primary w-100 py-2 rounded-3 fw-bold d-flex justify-content-center align-items-center gap-2 shadow-sm"
               (click)="addLine()" style="background-color: #3b82f6; border-color: #3b82f6; padding: 0.6rem;">
               <span class="fs-5 lh-1 fw-medium">+</span> {{ 'TRANSACTION_CREATE.BTN_ADD' | translate }}
             </button>
@@ -286,7 +286,7 @@
         {{ 'TRANSACTION_CREATE.GRAND_TOTAL' | translate }} <span class="fw-bolder fs-3 ms-3 text-danger" style="letter-spacing: 0.5px;">đ{{ totalAmount |
           number:'1.0-0' }}</span>
       </h4>
-      <button class="btn px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
+      <button class="btn btn-sm px-5 py-3 rounded-2 fw-bold shadow-sm d-flex align-items-center gap-2 text-uppercase"
         [disabled]="lines.length === 0 || isSubmitting" (click)="submitTransaction()"
         [ngClass]="transactionType === 'inbound' ? 'btn-primary' : 'btn-danger'"
         [style.backgroundColor]="transactionType === 'inbound' ? '#0d47a1' : '#b91c1c'"

@@ -1,0 +1,79 @@
+<div class="app-layout" [class.field-mode]="isFieldMode">
+  <!-- Top Navigation Header -->
+  <header class="top-header glass-card">
+    <div class="brand">
+      <div class="logo-icon">C</div>
+      <div class="brand-text">
+        <span class="brand-name">CONSBASE</span>
+        <span class="brand-sub">Enterprise Project Flow v2026</span>
+      </div>
+    </div>
+
+    <!-- Mode Switcher: Văn phòng (Desktop Dashboard) vs ConsBase Field (Mobile Work Site) -->
+    <div class="view-mode-toggle">
+      <button class="mode-btn" [class.active]="!isFieldMode" (click)="setMode(false)">
+        🏢 Văn Phòng / Executive
+      </button>
+      <button class="mode-btn field" [class.active]="isFieldMode" (click)="setMode(true)">
+        📱 ConsBase Field (Hiện trường)
+      </button>
+    </div>
+
+    <!-- User Profile & Notifications -->
+    <div class="header-right">
+      <div class="alert-bell">
+        🔔 <span class="badge badge-delayed">3 Cảnh báo</span>
+      </div>
+      <div class="user-chip">
+        <div class="avatar">NT</div>
+        <div class="user-info">
+          <span class="user-name">Nguyễn Văn Trưởng</span>
+          <span class="user-role">Giám Đốc / PM | 2FA Active</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-body">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar glass-card" *ngIf="!isFieldMode">
+      <nav class="nav-menu">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+          📊 Bảng Điều Hành
+        </a>
+        <a routerLink="/crm" routerLinkActive="active" class="nav-item">
+          🤝 CRM & Khách Hàng
+        </a>
+        <a routerLink="/quotations" routerLinkActive="active" class="nav-item">
+          🧾 Báo Giá & BOQ Excel
+        </a>
+        <a routerLink="/contracts" routerLinkActive="active" class="nav-item">
+          📑 Quản Lý Hợp Đồng
+        </a>
+        <a routerLink="/projects" routerLinkActive="active" class="nav-item">
+          🏢 Dự Án & Gantt Chart
+        </a>
+        <a routerLink="/field" routerLinkActive="active" class="nav-item highlight-field">
+          👷 Thi Công Hiện Trường
+        </a>
+        <a routerLink="/finance" routerLinkActive="active" class="nav-item">
+          💰 Tài Chính & Công Nợ
+        </a>
+        <a routerLink="/materials" routerLinkActive="active" class="nav-item">
+          🛒 Vật Tư & Kho Hàng
+        </a>
+        <a routerLink="/documents" routerLinkActive="active" class="nav-item">
+          📂 Tài Liệu Tập Trung
+        </a>
+        <a routerLink="/modules" routerLinkActive="active" class="nav-item">
+          🦺 QC, HSE & Phân Hệ Bổ Trợ
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Router Outlet -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

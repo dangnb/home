@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ConsBase.Api/ConsBase.Api.csproj" />
+  <Project Path="ConsBase.Application/ConsBase.Application.csproj" />
+  <Project Path="ConsBase.Domain/ConsBase.Domain.csproj" />
+  <Project Path="ConsBase.Infrastructure/ConsBase.Infrastructure.csproj" />
+</Solution>

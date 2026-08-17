@@ -35,29 +35,45 @@
   </div>
 </div>
 
-<div class="premium-card mb-4" (click)="activeDropdownRowId = null">
-  <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom bg-white flex-wrap gap-3">
-    <h5 class="mb-0 fw-bold text-dark fs-5 d-flex align-items-center gap-2">
-      <i class="bi bi-tags text-primary"></i> {{ 'PROMOTIONS.LIST_TITLE' | translate }}
-    </h5>
-    
-    <div class="d-flex align-items-center gap-3">
-      <div class="search-input-wrapper shadow-sm">
-        <i class="bi bi-search"></i>
-        <input type="text" class="w-100 border-0" [placeholder]="'PROMOTIONS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+<div class="app-card" (click)="activeDropdownRowId = null">
+  <!--begin::Toolbar Header-->
+  <div class="toolbar-header">
+    <div class="header-top">
+      <div class="title-group">
+        <h3 class="main-title">
+          <i class="bi bi-tags text-primary me-2"></i> {{ 'PROMOTIONS.LIST_TITLE' | translate }}
+        </h3>
+        <span class="count-badge">{{ totalCount || promotions.length }} khuyến mãi</span>
       </div>
-      
-      <button class="btn btn-primary d-flex align-items-center gap-2 text-nowrap rounded-pill px-4 shadow-sm fw-medium" (click)="openAddModal()">
-        <i class="bi bi-plus-lg"></i> {{ 'PROMOTIONS.ADD_PROMO' | translate }}
-      </button>
+
+      <div class="actions-group">
+        <button class="btn btn-sm btn-primary fw-bold" (click)="openAddModal()">
+          <i class="bi bi-plus-lg me-1"></i> {{ 'PROMOTIONS.ADD_PROMO' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-box">
+        <i class="ki-duotone ki-magnifier search-icon">
+          <span class="path1"></span><span class="path2"></span>
+        </i>
+        <input type="text" class="search-input" [placeholder]="'PROMOTIONS.SEARCH_PLACEHOLDER' | translate" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+        @if (searchTerm) {
+          <button type="button" class="clear-search-btn" (click)="searchTerm = ''; onSearchChange()">
+            <i class="ki-duotone ki-cross fs-6"><span class="path1"></span><span class="path2"></span></i>
+          </button>
+        }
+      </div>
     </div>
   </div>
+  <!--end::Toolbar Header-->
 
   <div class="bg-light p-4 rounded-bottom">
     <div class="table-responsive">
       <table class="table promo-table align-middle mb-0">
         <thead>
-          <tr>
+          <tr class="fw-bold text-muted">
             <th class="ps-4">{{ 'PROMOTIONS.COL_NAME' | translate }}</th>
             <th>{{ 'PROMOTIONS.COL_TYPE' | translate }}</th>
             <th class="text-end">{{ 'PROMOTIONS.COL_DISCOUNT' | translate }}</th>
@@ -128,10 +144,10 @@
                 </div>
               </td>
               <td class="text-end pe-4">
-                <button class="action-btn text-secondary" (click)="openEditModal(p)" [title]="'PROMOTIONS.TXT_54' | translate">
+                <button class="action-btn btn-sm text-secondary" (click)="openEditModal(p)" [title]="'PROMOTIONS.TXT_54' | translate">
                   <i class="bi bi-pencil-square fs-5"></i>
                 </button>
-                <button class="action-btn delete text-secondary" (click)="deletePromotion(p.id)" [title]="'PROMOTIONS.TXT_55' | translate">
+                <button class="action-btn btn-sm delete text-secondary" (click)="deletePromotion(p.id)" [title]="'PROMOTIONS.TXT_55' | translate">
                   <i class="bi bi-trash fs-5"></i>
                 </button>
               </td>
@@ -145,7 +161,7 @@
                 </div>
                 <h5 class="fw-bold text-dark">{{ 'PROMOTIONS.EMPTY_TITLE' | translate }}</h5>
                 <p class="text-muted">{{ 'PROMOTIONS.EMPTY_DESC' | translate }}</p>
-                <button class="btn btn-outline-primary rounded-pill px-4 mt-2" (click)="openAddModal()">{{ 'PROMOTIONS.BTN_ADD_NOW' | translate }}</button>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-4 mt-2" (click)="openAddModal()">{{ 'PROMOTIONS.BTN_ADD_NOW' | translate }}</button>
               </td>
             </tr>
           }
@@ -166,13 +182,13 @@
   <form (ngSubmit)="savePromotion()" #promoForm="ngForm" id="promoNgForm">
     <div class="row g-3">
       <div class="col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.NAME' | translate }} <span class="text-danger">*</span></label>
-        <input type="text" class="form-control bg-light border-0 py-2 fw-medium" name="name" [(ngModel)]="editingPromotion.name" required [placeholder]="'PROMOTIONS.NAME_PLACEHOLDER' | translate">
+        <label class="form-label">{{ 'PROMOTIONS.NAME' | translate }} <span class="text-danger">*</span></label>
+        <input type="text" class="form-control form-control-sm" name="name" [(ngModel)]="editingPromotion.name" required [placeholder]="'PROMOTIONS.NAME_PLACEHOLDER' | translate">
       </div>
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TYPE' | translate }} <span class="text-danger">*</span></label>
-        <select class="form-select bg-light border-0 py-2 fw-medium" [(ngModel)]="editingPromotion.type" name="type" required>
+        <label class="form-label">{{ 'PROMOTIONS.TYPE' | translate }} <span class="text-danger">*</span></label>
+        <select class="form-select form-select-sm" [(ngModel)]="editingPromotion.type" name="type" required>
           <option [ngValue]="1">{{ 'PROMOTIONS.OPT_PERCENT' | translate }}</option>
           <option [ngValue]="2">{{ 'PROMOTIONS.OPT_FIXED' | translate }}</option>
           <option [ngValue]="3">{{ 'PROMOTIONS.OPT_BOGO' | translate }}</option>
@@ -182,48 +198,48 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.MIN_ORDER' | translate }}</label>
+        <label class="form-label">{{ 'PROMOTIONS.MIN_ORDER' | translate }}</label>
         <div class="input-group">
-          <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.minOrderAmount" name="minOrder" placeholder="0">
-          <span class="input-group-text bg-light border-0 fw-bold text-muted">₫</span>
+          <input type="text" class="form-control form-control-sm text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.minOrderAmount" name="minOrder" placeholder="0">
+          <span class="input-group-text">₫</span>
         </div>
       </div>
 
       @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.FixedAmountOff || editingPromotion.type === PromotionType.CouponCode || editingPromotion.type === PromotionType.CategoryDiscount) {
         <div class="col-12">
-          <label class="form-label text-muted fw-bold mb-1">
+          <label class="form-label">
             {{ 'PROMOTIONS.TXT_46' | translate }} <span class="text-danger">*</span>
           </label>
           <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold text-danger" appNumberFormat [(ngModel)]="editingPromotion.discountValue" name="discountValue" required placeholder="0">
-            <span class="input-group-text bg-light border-0 fw-bold text-muted">{{ editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.CategoryDiscount ? '%' : '₫' }}</span>
+            <input type="text" class="form-control form-control-sm text-end fw-bold text-danger" appNumberFormat [(ngModel)]="editingPromotion.discountValue" name="discountValue" required placeholder="0">
+            <span class="input-group-text">{{ editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.CategoryDiscount ? '%' : '₫' }}</span>
           </div>
         </div>
       }
 
       @if (editingPromotion.type === PromotionType.BuyXGetY) {
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.BUY_QTY' | translate }}</label>
-          <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold" [(ngModel)]="editingPromotion.buyQuantity" name="buyQty" placeholder="0">
+          <label class="form-label">{{ 'PROMOTIONS.BUY_QTY' | translate }}</label>
+          <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="editingPromotion.buyQuantity" name="buyQty" placeholder="0">
         </div>
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.GET_QTY' | translate }}</label>
-          <input type="number" class="form-control bg-light border-0 py-2 text-center fw-bold text-success" [(ngModel)]="editingPromotion.getQuantity" name="getQty" placeholder="0">
+          <label class="form-label">{{ 'PROMOTIONS.GET_QTY' | translate }}</label>
+          <input type="number" class="form-control form-control-sm text-center fw-bold text-success" [(ngModel)]="editingPromotion.getQuantity" name="getQty" placeholder="0">
         </div>
       }
 
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.START_DATE' | translate }}</label>
-        <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.startDate" name="startDate">
+        <label class="form-label">{{ 'PROMOTIONS.START_DATE' | translate }}</label>
+        <input type="datetime-local" class="form-control form-control-sm" [(ngModel)]="editingPromotion.startDate" name="startDate">
       </div>
       <div class="col-md-6 col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.END_DATE' | translate }}</label>
-        <input type="datetime-local" class="form-control bg-light border-0 py-2 text-muted fw-medium" [(ngModel)]="editingPromotion.endDate" name="endDate">
+        <label class="form-label">{{ 'PROMOTIONS.END_DATE' | translate }}</label>
+        <input type="datetime-local" class="form-control form-control-sm" [(ngModel)]="editingPromotion.endDate" name="endDate">
       </div>
 
       <div class="col-12">
-        <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.DESCRIPTION' | translate }}</label>
-        <textarea class="form-control bg-light border-0 py-2 fw-medium" rows="3" [(ngModel)]="editingPromotion.description" name="description" [placeholder]="'PROMOTIONS.DESC_PLACEHOLDER' | translate"></textarea>
+        <label class="form-label">{{ 'PROMOTIONS.DESCRIPTION' | translate }}</label>
+        <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="editingPromotion.description" name="description" [placeholder]="'PROMOTIONS.DESC_PLACEHOLDER' | translate"></textarea>
       </div>
 
       <!-- Advanced Fields -->
@@ -233,19 +249,19 @@
 
       @if (editingPromotion.type === PromotionType.CouponCode) {
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TXT_47' | translate }} <span class="text-danger">*</span></label>
-          <input type="text" class="form-control bg-light border-0 py-2 fw-bold text-uppercase" [(ngModel)]="editingPromotion.couponCode" name="couponCode" placeholder="VD: SALE50K" required>
+          <label class="form-label">{{ 'PROMOTIONS.TXT_47' | translate }} <span class="text-danger">*</span></label>
+          <input type="text" class="form-control form-control-sm fw-bold text-uppercase" [(ngModel)]="editingPromotion.couponCode" name="couponCode" placeholder="VD: SALE50K" required>
         </div>
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TXT_48' | translate }}</label>
-          <input type="number" class="form-control bg-light border-0 py-2 fw-medium text-center" [(ngModel)]="editingPromotion.maxUsageCount" name="maxUsageCount" [placeholder]="'PROMOTIONS.TXT_52' | translate">
+          <label class="form-label">{{ 'PROMOTIONS.TXT_48' | translate }}</label>
+          <input type="number" class="form-control form-control-sm text-center" [(ngModel)]="editingPromotion.maxUsageCount" name="maxUsageCount" [placeholder]="'PROMOTIONS.TXT_52' | translate">
         </div>
       }
 
       @if (editingPromotion.type === PromotionType.CategoryDiscount) {
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TXT_49' | translate }} <span class="text-danger">*</span></label>
-          <select class="form-select bg-light border-0 py-2 fw-medium" [(ngModel)]="editingPromotion.applicableCategoryId" name="applicableCategoryId" required>
+          <label class="form-label">{{ 'PROMOTIONS.TXT_49' | translate }} <span class="text-danger">*</span></label>
+          <select class="form-select form-select-sm" [(ngModel)]="editingPromotion.applicableCategoryId" name="applicableCategoryId" required>
             <option [ngValue]="null">{{ 'PROMOTIONS.TXT_50' | translate }}</option>
             @for (cat of categories; track cat.id) {
               <option [ngValue]="cat.id">{{ cat.name }}</option>
@@ -256,10 +272,10 @@
 
       @if (editingPromotion.type === PromotionType.PercentageOff || editingPromotion.type === PromotionType.CategoryDiscount) {
         <div class="col-md-6 col-12">
-          <label class="form-label text-muted fw-bold mb-1">{{ 'PROMOTIONS.TXT_51' | translate }}</label>
+          <label class="form-label">{{ 'PROMOTIONS.TXT_51' | translate }}</label>
           <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 py-2 text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.maxDiscountAmount" name="maxDiscount" [placeholder]="'PROMOTIONS.TXT_53' | translate">
-            <span class="input-group-text bg-light border-0 fw-bold text-muted">₫</span>
+            <input type="text" class="form-control form-control-sm text-end fw-bold" appNumberFormat [(ngModel)]="editingPromotion.maxDiscountAmount" name="maxDiscount" [placeholder]="'PROMOTIONS.TXT_53' | translate">
+            <span class="input-group-text">₫</span>
           </div>
         </div>
       }
@@ -267,8 +283,8 @@
   </form>
   
   <div modal-footer class="w-100 d-flex justify-content-end gap-2">
-    <button type="button" class="btn bg-light text-dark fw-bold rounded-pill px-4 py-2 border-0 shadow-sm" (click)="closeModal()">{{ 'PROMOTIONS.BTN_CLOSE' | translate }}</button>
-    <button type="submit" form="promoNgForm" class="btn btn-primary text-white fw-bold rounded-pill px-5 py-2 border-0 shadow-sm" [disabled]="!promoForm.form.valid || isSubmitting">
+    <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">{{ 'PROMOTIONS.BTN_CLOSE' | translate }}</button>
+    <button type="submit" form="promoNgForm" class="btn btn-sm btn-primary" [disabled]="!promoForm.form.valid || isSubmitting">
       @if (isSubmitting) {
         <span class="spinner-border spinner-border-sm me-2"></span>
       }

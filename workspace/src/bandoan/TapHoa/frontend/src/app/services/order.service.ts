@@ -38,4 +38,8 @@ export class OrderService {
   getOrderById(id: string): Observable<OrderDto> {
     return this.http.get<OrderDto>(`${this.apiUrl}/${id}`);
   }
+
+  approveOrder(id: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/approve`, {});
+  }
 }

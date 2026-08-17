@@ -8,5 +8,9 @@ public record GetPagedProductsQuery(
     int PageIndex,
     int PageSize,
     string? SearchTerm,
-    Guid? CategoryId
+    Guid? CategoryId,
+    string? SortBy = null,
+    Guid? SupplierId = null,
+    int? Status = null,
+    string? StockFilter = null
 ) : IRequest<PagedResult<ProductDto>>;

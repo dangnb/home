@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     selector: 'app-login',
     imports: [FormsModule, TranslatePipe],
     templateUrl: './login.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
@@ -23,6 +23,7 @@ export class LoginComponent {
 
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor() { }
 
@@ -36,6 +37,7 @@ export class LoginComponent {
         localStorage.setItem('jwtToken', res.token);
         localStorage.setItem('authInfo', JSON.stringify(res));
         this.isLoading = false;
+        this.cdr.detectChanges();
 
         // Navigate to admin
         this.router.navigate(['/admin/dashboard']);
@@ -43,6 +45,7 @@ export class LoginComponent {
       error: (err) => {
         this.isLoading = false;
         this.errorMsg = 'Sai tên đăng nhập hoặc mật khẩu, vui lòng thử lại.';
+        this.cdr.detectChanges();
       }
     });
   }

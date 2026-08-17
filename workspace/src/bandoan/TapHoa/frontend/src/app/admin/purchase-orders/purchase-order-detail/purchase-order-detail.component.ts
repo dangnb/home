@@ -97,14 +97,29 @@ export class PurchaseOrderDetailComponent implements OnInit {
     return map[status] || 'Draft';
   }
 
+  get totalQuantity(): number {
+    return this.order?.details.reduce((sum, item) => sum + (item.quantity || 0), 0) || 0;
+  }
+
   getStatusBadgeClass(status: any): string {
     const s = this.getEnumString(status);
     switch (s) {
-      case 'Draft': return 'bg-secondary text-white';
-      case 'Processing': return 'bg-primary text-white';
-      case 'Completed': return 'bg-success text-white';
-      case 'Cancelled': return 'bg-danger text-white';
-      default: return 'bg-light text-dark';
+      case 'Draft': return 'badge-light-warning text-warning-dark fw-bolder border border-warning-subtle';
+      case 'Processing': return 'badge-light-primary text-primary-dark fw-bolder border border-primary-subtle';
+      case 'Completed': return 'badge-light-success text-success-dark fw-bolder border border-success-subtle';
+      case 'Cancelled': return 'badge-light-danger text-danger-dark fw-bolder border border-danger-subtle';
+      default: return 'badge-light-secondary text-gray-800 fw-bolder';
+    }
+  }
+
+  getStatusText(status: any): string {
+    const s = this.getEnumString(status);
+    switch (s) {
+      case 'Draft': return 'Bản nháp';
+      case 'Processing': return 'Đang xử lý';
+      case 'Completed': return 'Hoàn thành';
+      case 'Cancelled': return 'Đã hủy';
+      default: return 'Khác';
     }
   }
 }

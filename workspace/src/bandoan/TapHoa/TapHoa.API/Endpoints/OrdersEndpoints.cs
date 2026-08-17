@@ -45,6 +45,12 @@ public static class OrdersEndpoints
             return Results.Ok(new { success = result, message = "Đơn hàng đã được hủy thành công." });
         });
 
+        group.MapPut("/{id:guid}/approve", async (IMediator mediator, Guid id) =>
+        {
+            var result = await mediator.Send(new ApproveOrderCommand(id));
+            return Results.Ok(new { success = result, message = "Đơn hàng đã được duyệt thành công." });
+        });
+
         return group;
     }
 }

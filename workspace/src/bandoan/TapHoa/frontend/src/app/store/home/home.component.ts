@@ -5,8 +5,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     selector: 'app-home',
     imports: [TranslatePipe],
     templateUrl: './home.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    styleUrl: './home.component.scss'
+    changeDetection: ChangeDetectionStrategy.Default,
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
 

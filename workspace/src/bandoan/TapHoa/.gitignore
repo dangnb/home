@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Next.js & Angular build outputs
+.next/
+dist/
+.angular/
+
+# .NET build outputs
+bin/
+**/bin/
+obj/
+**/obj/
+
+# Environment & Logs
+*.log
+.env*.local
+TapHoa.API/Logs/

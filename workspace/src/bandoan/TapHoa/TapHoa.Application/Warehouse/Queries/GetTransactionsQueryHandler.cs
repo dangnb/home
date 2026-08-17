@@ -31,7 +31,6 @@ public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery,
                 t.CreatedAt, 
                 t.Status
             FROM InventoryTransactions t
-            WHERE t.StoreId = @CompanyId
             ORDER BY t.CreatedAt DESC
         ";
 

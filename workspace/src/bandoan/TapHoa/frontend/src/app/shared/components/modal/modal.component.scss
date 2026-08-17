@@ -1,5 +1,5 @@
 /* ============================================
-   SHARED MODAL — Premium Design
+   SHARED MODAL — Premium Design v2
    ============================================ */
 
 /* ── Backdrop ── */
@@ -10,7 +10,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(15, 23, 42, 0.65);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
     padding: 1rem;
 }
 
@@ -32,11 +33,11 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--bg-surface, #ffffff);
+    background: #ffffff;
     border-radius: 16px;
     box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(0, 0, 0, 0.03);
+        0 25px 60px -15px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
     overflow: hidden;
     max-height: 90vh;
 }
@@ -45,10 +46,11 @@
 .modal-panel-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 1.25rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--border-light, #f1f5f9);
+    align-items: center;
+    padding: 1.15rem 1.5rem;
+    border-bottom: 1px solid #eef2f7;
     flex-shrink: 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
 }
 
 .modal-title-group {
@@ -58,37 +60,39 @@
 
 .modal-panel-title {
     font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--text-heading, #1e293b);
+    font-weight: 700;
+    color: #1e293b;
     margin: 0;
-    line-height: 1.3;
-    letter-spacing: -0.2px;
+    line-height: 1.4;
+    letter-spacing: -0.3px;
 }
 
 .modal-panel-subtitle {
     font-size: 0.78rem;
-    color: var(--text-muted, #94a3b8);
-    margin: 0.25rem 0 0;
+    color: #94a3b8;
+    margin: 0.2rem 0 0;
 }
 
 .modal-close-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: var(--gray-100, #f1f5f9);
-    border-radius: 8px;
-    color: var(--text-muted, #94a3b8);
+    width: 34px;
+    height: 34px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 10px;
+    color: #94a3b8;
     cursor: pointer;
     transition: all 0.2s ease;
     flex-shrink: 0;
     margin-left: 0.75rem;
 
     &:hover {
-        background: var(--gray-200, #e2e8f0);
-        color: var(--text-heading, #1e293b);
+        background: #fee2e2;
+        border-color: #fca5a5;
+        color: #ef4444;
+        transform: scale(1.05);
     }
 
     i { font-size: 0.85rem; }
@@ -109,30 +113,227 @@
     &::-webkit-scrollbar { width: 5px; }
     &::-webkit-scrollbar-track { background: transparent; }
     &::-webkit-scrollbar-thumb {
-        background: var(--gray-300, #cbd5e1);
+        background: #cbd5e1;
         border-radius: 10px;
     }
 
-    /* Form tweaks inside modal */
-    ::ng-deep .mb-3 { margin-bottom: 0.75rem !important; }
-    ::ng-deep .form-label {
-        margin-bottom: 0.25rem !important;
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: var(--gray-700, #334155);
+    /* ────────────────────────────────────
+       PREMIUM FORM STYLING INSIDE MODALS
+       ──────────────────────────────────── */
+
+    // Card sections inside modal (e.g. "Thông tin cơ bản", "Trạng thái & Tồn kho")
+    ::ng-deep .card.card-flush {
+        background: #f8fafc;
+        border: 1px solid #e8edf3;
+        border-radius: 12px;
+        box-shadow: none;
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-color: #d0d9e5;
+        }
+
+        .card-header {
+            background: transparent;
+            border-bottom: 1px solid #e8edf3;
+            padding: 0.85rem 1.15rem;
+            min-height: unset;
+
+            .card-title {
+                margin: 0;
+
+                .card-label {
+                    font-size: 0.88rem;
+                    font-weight: 700;
+                    color: #334155;
+                    letter-spacing: -0.2px;
+                }
+            }
+        }
+
+        .card-body {
+            padding: 1rem 1.15rem;
+        }
     }
+
+    // Form labels - cleaner, not uppercase
+    ::ng-deep .form-label {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #475569;
+        letter-spacing: 0;
+        text-transform: none;
+
+        &.required::after {
+            content: ' *';
+            color: #ef4444;
+            font-weight: 700;
+        }
+    }
+
+    // Labels with "required" class
+    ::ng-deep label.required::after {
+        content: ' *';
+        color: #ef4444;
+        font-weight: 700;
+    }
+
+    // Form inputs & selects — bordered style instead of solid gray
     ::ng-deep .form-control,
     ::ng-deep .form-select {
-        padding: 0.45rem 0.75rem;
+        padding: 0.5rem 0.85rem;
         font-size: 0.88rem;
-        border-radius: 8px;
-        border-color: var(--border-color, #e2e8f0);
-        transition: all 0.15s ease;
+        border-radius: 10px;
+        border: 1.5px solid #dde3ec;
+        background-color: #fff !important;
+        color: #1e293b;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+        &::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
 
         &:focus {
-            border-color: var(--primary, #6366f1);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.12);
+            background-color: #fff !important;
+            outline: none;
         }
+
+        &:disabled,
+        &[readonly] {
+            background-color: #f1f5f9 !important;
+            color: #94a3b8;
+            border-color: #e2e8f0;
+            cursor: not-allowed;
+        }
+    }
+
+    // Override Metronic's "solid" variants to use bordered style
+    ::ng-deep .form-control-solid,
+    ::ng-deep .form-select-solid {
+        background-color: #fff !important;
+        border: 1.5px solid #dde3ec !important;
+
+        &:focus {
+            background-color: #fff !important;
+            border-color: #818cf8 !important;
+        }
+    }
+
+    // Select specific arrow fix
+    ::ng-deep .form-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 14px;
+        padding-right: 2.25rem;
+    }
+
+    // Input group tweaks
+    ::ng-deep .input-group {
+        .input-group-text {
+            background: #f1f5f9;
+            border: 1.5px solid #dde3ec;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        > .form-control:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        > .input-group-text:last-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+        }
+
+        > .form-control:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        > .input-group-text:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+        }
+    }
+
+    // File inputs
+    ::ng-deep input[type="file"].form-control {
+        padding: 0.4rem 0.75rem;
+
+        &::file-selector-button {
+            padding: 0.35rem 0.85rem;
+            margin-right: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #dde3ec;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.15s ease;
+
+            &:hover {
+                background: #e2e8f0;
+            }
+        }
+    }
+
+    // Textarea
+    ::ng-deep textarea.form-control {
+        min-height: 80px;
+        resize: vertical;
+    }
+
+    // Form check / switch inside modals
+    ::ng-deep .form-check {
+        .form-check-input {
+            border: 1.5px solid #cbd5e1;
+            width: 1.15em;
+            height: 1.15em;
+
+            &:checked {
+                background-color: #6366f1;
+                border-color: #6366f1;
+            }
+
+            &:focus {
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+            }
+        }
+
+        .form-check-label {
+            font-size: 0.85rem;
+            color: #334155;
+        }
+    }
+
+    // Spacing helpers
+    ::ng-deep .mb-3 { margin-bottom: 0.85rem !important; }
+    ::ng-deep .mb-4 { margin-bottom: 1rem !important; }
+    ::ng-deep .row.g-3 { --bs-gutter-y: 0.85rem; }
+    ::ng-deep .row.g-4 { --bs-gutter-y: 1rem; }
+
+    // Conversion unit / embedded items
+    ::ng-deep .bg-light.rounded.p-3 {
+        background-color: #f8fafc !important;
+        border: 1px solid #e8edf3;
+        border-radius: 10px !important;
+        padding: 0.85rem !important;
     }
 }
 
@@ -141,50 +342,125 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     padding: 0.85rem 1.5rem;
-    border-top: 1px solid var(--border-light, #f1f5f9);
+    border-top: 1px solid #eef2f7;
     flex-shrink: 0;
-    background: var(--gray-50, #f8fafc);
+    background: #f8fafc;
 
     &:empty { display: none; }
 
     ::ng-deep .btn {
-        border-radius: 8px;
+        border-radius: 10px;
         font-weight: 600;
         font-size: 0.85rem;
-        padding: 0.45rem 1.1rem;
+        padding: 0.5rem 1.25rem;
         transition: all 0.2s ease;
+        letter-spacing: -0.1px;
     }
 
     ::ng-deep .btn-light,
     ::ng-deep .btn-secondary {
-        background: var(--bg-surface, #fff);
-        border: 1px solid var(--border-color, #e2e8f0);
-        color: var(--text, #475569);
+        background: #fff;
+        border: 1.5px solid #dde3ec;
+        color: #475569;
 
         &:hover {
-            background: var(--gray-100, #f1f5f9);
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
     }
 
     ::ng-deep .btn-primary {
-        background: var(--primary, #6366f1);
-        border-color: var(--primary, #6366f1);
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border: none;
         color: #fff;
-        box-shadow: 0 1px 3px rgba(99, 102, 241, 0.25);
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 
         &:hover {
-            background: var(--primary-hover, #4f46e5);
-            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            transform: translateY(-1px);
         }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(99, 102, 241, 0.3);
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+}
+
+/* ── Bootstrap native modal overrides (used in departments, positions etc) ── */
+::ng-deep .modal.fade.show .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow:
+        0 25px 60px -15px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+
+    .modal-header {
+        padding: 1.15rem 1.5rem;
+        border-bottom: 1px solid #eef2f7;
+        background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+        border-radius: 16px 16px 0 0;
+
+        .modal-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            letter-spacing: -0.3px;
+        }
+    }
+
+    .modal-body {
+        padding: 1.25rem 1.5rem;
+
+        .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            text-transform: none;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1.5px solid #dde3ec;
+            border-radius: 10px;
+            padding: 0.5rem 0.85rem;
+            background-color: #fff;
+            font-size: 0.88rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+            &:focus {
+                border-color: #818cf8;
+                box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.12);
+            }
+        }
+
+        .form-control-solid,
+        .form-select-solid {
+            background-color: #fff !important;
+            border: 1.5px solid #dde3ec !important;
+        }
+    }
+
+    .modal-footer {
+        padding: 0.85rem 1.5rem;
+        border-top: 1px solid #eef2f7;
+        background: #f8fafc;
+        border-radius: 0 0 16px 16px;
     }
 }
 
 /* ── Dark Mode ── */
 [data-bs-theme="dark"] {
     .modal-panel {
-        background: var(--bg-surface, #1e293b);
+        background: #1e293b;
         box-shadow:
             0 25px 50px -12px rgba(0, 0, 0, 0.4),
             0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -192,12 +468,42 @@
 
     .modal-panel-header {
         border-bottom-color: rgba(255, 255, 255, 0.06);
+        background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 100%);
     }
 
     .modal-close-btn {
         background: rgba(255, 255, 255, 0.06);
-        color: var(--gray-400);
-        &:hover { background: rgba(255, 255, 255, 0.1); }
+        border-color: rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
+
+        &:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+    }
+
+    .modal-panel-body {
+        ::ng-deep .card.card-flush {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.08);
+
+            .card-header {
+                border-bottom-color: rgba(255, 255, 255, 0.06);
+            }
+        }
+
+        ::ng-deep .form-control,
+        ::ng-deep .form-select {
+            background-color: rgba(255, 255, 255, 0.06) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #e2e8f0;
+
+            &:focus {
+                border-color: #818cf8 !important;
+                background-color: rgba(255, 255, 255, 0.08) !important;
+            }
+        }
     }
 
     .modal-panel-footer {
@@ -226,7 +532,7 @@
     }
 
     .modal-panel-header {
-        padding: 1rem 1.15rem 0.85rem;
+        padding: 1rem 1.15rem;
     }
 
     .modal-panel-title {

@@ -1,162 +1,229 @@
-<div class="container-fluid py-4 min-vh-100">
-  <div class="max-w-7xl mx-auto">
-    <!-- Header -->
-    <div class="dash-header">
-      <h2>{{ 'DASHBOARD.TITLE' | translate }}</h2>
-      <p>{{ 'DASHBOARD.SUBTITLE' | translate }}</p>
-    </div>
+<!--begin::Dashboard-->
+<div class="d-flex flex-column flex-column-fluid">
 
-    @if (isLoading) {
-    <div class="dash-loading">
-      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
-    </div>
-    } @else if (summary) {
-    <!-- KPI Cards Row -->
-    <div class="kpi-grid stagger-children">
-      <!-- Total Products -->
-      <div class="kpi-item kpi-blue">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <p class="kpi-label mb-1">{{ 'DASHBOARD.TOTAL_PRODUCTS' | translate }}</p>
-            <h3 class="kpi-number mb-0">{{ summary.totalProducts | number }}</h3>
-          </div>
-          <div class="kpi-icon-circle icon-blue">
-            <i class="bi bi-box-seam"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Low Stock Alert -->
-      <div class="kpi-item kpi-red">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <p class="kpi-label mb-1">{{ 'DASHBOARD.LOW_STOCK_PRODUCTS' | translate }}</p>
-            <h3 class="kpi-number mb-0">{{ summary.lowStockCount | number }}</h3>
-          </div>
-          <div class="kpi-icon-circle icon-red">
-            <i class="bi bi-exclamation-triangle"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Total Customers -->
-      <div class="kpi-item kpi-green">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <p class="kpi-label mb-1">{{ 'DASHBOARD.TOTAL_CUSTOMERS' | translate }}</p>
-            <h3 class="kpi-number mb-0">{{ summary.totalCustomers | number }}</h3>
-          </div>
-          <div class="kpi-icon-circle icon-green">
-            <i class="bi bi-people"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Total Stock Value -->
-      <div class="kpi-item kpi-amber">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <p class="kpi-label mb-1">{{ 'DASHBOARD.TOTAL_STOCK_VALUE' | translate }}</p>
-            <h3 class="kpi-number mb-0 fs-4">{{ summary.totalStockValue | number:'1.0-0' }} ₫</h3>
-          </div>
-          <div class="kpi-icon-circle icon-amber">
-            <i class="bi bi-wallet2"></i>
-          </div>
-        </div>
+  <!--begin::Toolbar-->
+  <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <div class="app-container container-xxl d-flex flex-stack">
+      <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+          {{ 'DASHBOARD.TITLE' | translate }}
+        </h1>
+        <span class="text-muted fw-semibold fs-7 my-1">{{ 'DASHBOARD.SUBTITLE' | translate }}</span>
       </div>
     </div>
-
-    <!-- Charts Row -->
-    <div class="row g-4 mb-4">
-      <div class="col-12 col-lg-8">
-        <div class="chart-card h-100">
-          <h5 class="chart-title">{{ 'DASHBOARD.CHART_OUTBOUND' | translate }}</h5>
-          @if (summary.topProducts.length === 0) {
-            <div class="empty-state">
-              <span class="empty-icon">📊</span>
-              {{ 'DASHBOARD.NO_CHART_DATA' | translate }}
-            </div>
-          } @else {
-            <canvas baseChart
-              [data]="barChartData"
-              [options]="barChartOptions"
-              [type]="barChartType">
-            </canvas>
-          }
-        </div>
-      </div>
-      
-      <div class="col-12 col-lg-4">
-        <div class="chart-card h-100 d-flex flex-column align-items-center justify-content-center">
-          <h5 class="chart-title w-100 text-start">{{ 'DASHBOARD.CHART_RATIO' | translate }}</h5>
-          @if (summary.topProducts.length === 0) {
-            <div class="empty-state">
-              <span class="empty-icon">🥧</span>
-              {{ 'DASHBOARD.NO_CHART_DATA' | translate }}
-            </div>
-          } @else {
-            <div style="width: 100%; max-width: 280px;">
-              <canvas baseChart
-                [data]="pieChartData"
-                [options]="pieChartOptions"
-                [type]="pieChartType">
-              </canvas>
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent Activity Row -->
-    <div class="row g-4">
-      <div class="col-12">
-        <div class="tx-card">
-          <div class="tx-header">
-            <h5>{{ 'DASHBOARD.RECENT_TX' | translate }}</h5>
-            <a href="/admin/transactions">{{ 'DASHBOARD.VIEW_ALL' | translate }}</a>
-          </div>
-          <div class="p-0">
-            @if (summary.recentTransactions.length === 0) {
-              <div class="empty-state">
-                <span class="empty-icon">📋</span>
-                {{ 'DASHBOARD.NO_TX_DATA' | translate }}
-              </div>
-            } @else {
-              <ul class="list-group list-group-flush">
-                @for (tx of summary.recentTransactions; track tx.transactionCode) {
-                  <li class="list-group-item px-4 py-3 border-bottom-0 border-top">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="tx-icon-circle"
-                             [ngClass]="tx.type === 0 ? 'tx-in' : (tx.type === 1 ? 'tx-out' : 'tx-other')">
-                          @if (tx.type === 0) {
-                            <i class="bi bi-arrow-down-left"></i>
-                          } @else if (tx.type === 1) {
-                            <i class="bi bi-arrow-up-right"></i>
-                          } @else {
-                            <i class="bi bi-arrow-repeat"></i>
-                          }
-                        </div>
-                        <div>
-                          <p class="mb-0 fw-bold text-dark" style="font-size: 0.9rem;">{{ tx.transactionCode }}</p>
-                          <p class="mb-0 text-muted" style="font-size: 0.78rem;">{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
-                        </div>
-                      </div>
-                      <div class="text-end">
-                        <span class="fw-bold" [ngClass]="tx.type === 0 ? 'text-success' : (tx.type === 1 ? 'text-danger' : 'text-warning')">
-                          {{ tx.type === 1 ? '-' : (tx.type === 0 ? '+' : '') }}{{ tx.totalValue | number:'1.0-0' }} ₫
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                }
-              </ul>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-
-    }
   </div>
+  <!--end::Toolbar-->
+
+  <!--begin::Content-->
+  <div id="kt_app_content" class="app-content flex-column-fluid">
+    <div class="app-container container-xxl">
+
+      @if (isLoading) {
+      <div class="d-flex justify-content-center align-items-center" style="min-height: 400px;">
+        <span class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></span>
+      </div>
+      } @else if (summary) {
+
+      <!--begin::Row KPI Cards-->
+      <div class="row g-5 g-xl-8 mb-5 mb-xl-10">
+
+        <!--begin::Col-->
+        <div class="col-sm-6 col-xl-3">
+          <div class="card card-bordered h-100">
+            <div class="card-body d-flex flex-column justify-content-between p-6">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <span class="text-gray-500 fw-semibold fs-7 text-uppercase ls-1">{{ 'DASHBOARD.TOTAL_PRODUCTS' | translate }}</span>
+                <span class="symbol symbol-40px">
+                  <span class="symbol-label bg-light-primary">
+                    <i class="ki-duotone ki-package fs-2 text-primary"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span class="fs-2hx fw-bold text-gray-900 lh-1">{{ summary.totalProducts | number }}</span>
+                <span class="badge badge-light-primary ms-2">sản phẩm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Col-->
+
+        <!--begin::Col-->
+        <div class="col-sm-6 col-xl-3">
+          <div class="card card-bordered h-100">
+            <div class="card-body d-flex flex-column justify-content-between p-6">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <span class="text-gray-500 fw-semibold fs-7 text-uppercase ls-1">{{ 'DASHBOARD.LOW_STOCK_PRODUCTS' | translate }}</span>
+                <span class="symbol symbol-40px">
+                  <span class="symbol-label bg-light-danger">
+                    <i class="ki-duotone ki-information fs-2 text-danger"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span class="fs-2hx fw-bold text-danger lh-1">{{ summary.lowStockCount | number }}</span>
+                <span class="badge badge-light-danger ms-2">cần nhập thêm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Col-->
+
+        <!--begin::Col-->
+        <div class="col-sm-6 col-xl-3">
+          <div class="card card-bordered h-100">
+            <div class="card-body d-flex flex-column justify-content-between p-6">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <span class="text-gray-500 fw-semibold fs-7 text-uppercase ls-1">{{ 'DASHBOARD.TOTAL_CUSTOMERS' | translate }}</span>
+                <span class="symbol symbol-40px">
+                  <span class="symbol-label bg-light-success">
+                    <i class="ki-duotone ki-people fs-2 text-success"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span class="fs-2hx fw-bold text-gray-900 lh-1">{{ summary.totalCustomers | number }}</span>
+                <span class="badge badge-light-success ms-2">khách hàng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Col-->
+
+        <!--begin::Col-->
+        <div class="col-sm-6 col-xl-3">
+          <div class="card card-bordered h-100">
+            <div class="card-body d-flex flex-column justify-content-between p-6">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <span class="text-gray-500 fw-semibold fs-7 text-uppercase ls-1">{{ 'DASHBOARD.TOTAL_STOCK_VALUE' | translate }}</span>
+                <span class="symbol symbol-40px">
+                  <span class="symbol-label bg-light-warning">
+                    <i class="ki-duotone ki-wallet fs-2 text-warning"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span class="fw-bold text-gray-900 lh-1" style="font-size: 1.4rem;">{{ summary.totalStockValue | number:'1.0-0' }} ₫</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Col-->
+
+      </div>
+      <!--end::Row KPI Cards-->
+
+      <!--begin::Row Charts-->
+      <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+
+        <div class="col-xl-8">
+          <div class="card card-bordered h-xl-100">
+            <div class="card-header border-0 pt-5">
+              <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-900">{{ 'DASHBOARD.CHART_OUTBOUND' | translate }}</span>
+              </h3>
+            </div>
+            <div class="card-body pt-3">
+              @if (summary.topProducts.length === 0) {
+                <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
+                  <i class="ki-duotone ki-chart-simple fs-3x text-gray-300 mb-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                  <span class="text-gray-500 fs-6">{{ 'DASHBOARD.NO_CHART_DATA' | translate }}</span>
+                </div>
+              } @else {
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType"></canvas>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4">
+          <div class="card card-bordered h-xl-100">
+            <div class="card-header border-0 pt-5">
+              <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-900">{{ 'DASHBOARD.CHART_RATIO' | translate }}</span>
+              </h3>
+            </div>
+            <div class="card-body d-flex flex-column align-items-center justify-content-center pt-3">
+              @if (summary.topProducts.length === 0) {
+                <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
+                  <i class="ki-duotone ki-chart-pie-simple fs-3x text-gray-300 mb-3"><span class="path1"></span><span class="path2"></span></i>
+                  <span class="text-gray-500 fs-6">{{ 'DASHBOARD.NO_CHART_DATA' | translate }}</span>
+                </div>
+              } @else {
+                <div style="width: 100%; max-width: 280px;">
+                  <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="pieChartType"></canvas>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!--end::Row Charts-->
+
+      <!--begin::Recent Transactions-->
+      <div class="row g-5 g-xl-10 mb-10">
+        <div class="col-12">
+          <div class="card card-bordered">
+            <div class="card-header border-0 pt-5">
+              <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-900">{{ 'DASHBOARD.RECENT_TX' | translate }}</span>
+              </h3>
+              <div class="card-toolbar">
+                <a routerLink="/admin/transactions" class="btn btn-sm btn-light-primary">
+                  <i class="ki-duotone ki-exit-right-corner fs-3 me-1"><span class="path1"></span><span class="path2"></span></i>
+                  {{ 'DASHBOARD.VIEW_ALL' | translate }}
+                </a>
+              </div>
+            </div>
+            <div class="card-body py-3">
+              @if (summary.recentTransactions.length === 0) {
+                <div class="d-flex flex-column align-items-center justify-content-center py-10">
+                  <i class="ki-duotone ki-document fs-3x text-gray-300 mb-3"><span class="path1"></span><span class="path2"></span></i>
+                  <span class="text-gray-500 fs-6">{{ 'DASHBOARD.NO_TX_DATA' | translate }}</span>
+                </div>
+              } @else {
+                <div class="table-responsive">
+                  <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <thead>
+                      <tr class="fw-bold text-muted">
+                        <th class="min-w-150px">Mã giao dịch</th>
+                        <th class="min-w-140px">Thời gian</th>
+                        <th class="min-w-120px">Loại</th>
+                        <th class="min-w-120px text-end">Giá trị</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (tx of summary.recentTransactions; track tx.transactionCode) {
+                        <tr>
+                          <td><span class="text-primary fw-bold fs-6">{{ tx.transactionCode }}</span></td>
+                          <td><span class="text-gray-500 fw-semibold fs-7">{{ tx.createdAt | date:'dd/MM/yyyy HH:mm' }}</span></td>
+                          <td>
+                            @if (tx.type === 0) { <span class="badge badge-light-success">Nhập</span> }
+                            @else if (tx.type === 1) { <span class="badge badge-light-danger">Xuất</span> }
+                            @else { <span class="badge badge-light-warning">Khác</span> }
+                          </td>
+                          <td class="text-end">
+                            <span class="fw-bold fs-6" [ngClass]="tx.type === 0 ? 'text-success' : (tx.type === 1 ? 'text-danger' : 'text-warning')">
+                              {{ tx.type === 1 ? '-' : (tx.type === 0 ? '+' : '') }}{{ tx.totalValue | number:'1.0-0' }} ₫
+                            </span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end::Recent Transactions-->
+
+      }
+    </div>
+  </div>
+  <!--end::Content-->
+
 </div>
+<!--end::Dashboard-->

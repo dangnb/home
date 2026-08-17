@@ -4,6 +4,7 @@ public class ProductDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
     public Guid? SupplierId { get; set; }
@@ -18,6 +19,7 @@ public class ProductDto
     public int MaxStockLevel { get; set; }
     public string Unit { get; set; } = string.Empty;
     public string? Barcode { get; set; }
+    public string? Description { get; set; }
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
     public TapHoa.Domain.Enums.ProductStatus Status { get; set; } = TapHoa.Domain.Enums.ProductStatus.Active;
     public List<ProductUnitDto> Units { get; set; } = new();

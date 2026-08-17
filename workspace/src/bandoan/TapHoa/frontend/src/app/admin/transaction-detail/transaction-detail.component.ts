@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -8,12 +8,13 @@ import { TransactionService, TransactionDetailDto } from '../../services/transac
     selector: 'app-transaction-detail',
     imports: [CommonModule, RouterModule, TranslatePipe],
     templateUrl: './transaction-detail.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.Default,
     styleUrl: './transaction-detail.component.scss' // can re-use the specific styles
 })
 export class TransactionDetailComponent implements OnInit {
     private route = inject(ActivatedRoute);
     private transactionService = inject(TransactionService);
+    private cdr = inject(ChangeDetectorRef);
 
     transaction: TransactionDetailDto | null = null;
     isLoading = true;
@@ -31,10 +32,12 @@ export class TransactionDetailComponent implements OnInit {
             next: (res) => {
                 this.transaction = res;
                 this.isLoading = false;
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 this.error = 'Không tìm thấy hoặc có lỗi xảy ra.';
                 this.isLoading = false;
+                this.cdr.detectChanges();
                 console.error(err);
             }
         });

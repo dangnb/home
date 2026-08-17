@@ -1,4 +1,4 @@
-<div class="view-header mb-4">
+﻿<div class="view-header mb-4">
   <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-3">
     <div>
       <h2 class="view-title mb-1">
@@ -111,11 +111,11 @@
     <div class="card-header bg-white border-bottom pt-4 pb-3 px-4 d-flex justify-content-between align-items-center">
       <h5 class="fw-bold mb-0 text-dark">{{ 'REPORTS.TOP_10_TITLE' | translate }}</h5>
     </div>
-    <div class="card-body p-0">
+    <div class="card-body py-4">
       <div class="table-responsive">
         <table class="table table-hover align-middle mb-0 custom-table">
-          <thead class="table-light">
-            <tr>
+          <thead>
+            <tr class="fw-bold text-muted">
               <th class="ps-4">{{ 'REPORTS.COL_PRODUCT' | translate }}</th>
               <th>{{ 'REPORTS.COL_CATEGORY' | translate }}</th>
               <th class="text-center">{{ 'REPORTS.COL_QTY_SOLD' | translate }}</th>
@@ -125,7 +125,7 @@
           <tbody>
             @for (prod of topProducts; track prod.productId) {
               <tr>
-                <td class="ps-4 fw-medium text-dark">{{ prod.productName }}</td>
+                <td class="text-gray-900 fw-semibold">{{ prod.productName }}</td>
                 <td>
                   <span class="badge bg-light text-dark border">{{ prod.categoryName }}</span>
                 </td>

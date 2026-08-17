@@ -21,6 +21,7 @@ public class UpdateProductCommand : IRequest<bool>
     public int MaxStockLevel { get; set; } = 0;
     public string Unit { get; set; } = string.Empty;
     public string? Barcode { get; set; }
+    public string? Description { get; set; }
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
     public TapHoa.Domain.Enums.ProductStatus Status { get; set; } = TapHoa.Domain.Enums.ProductStatus.Active;
     public List<CreateProductUnitDto> Units { get; set; } = new();
@@ -56,7 +57,8 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             request.Status,
             request.Barcode,
             request.MinStockLevel,
-            request.MaxStockLevel
+            request.MaxStockLevel,
+            request.Description
         );
 
         entity.ClearUnits();

@@ -1,20 +1,20 @@
-<div class="row g-4">
+﻿<div class="row g-4">
   <div class="col-lg-8">
     <div class="card glass-panel border-0 shadow-sm h-100">
       <div class="card-header bg-transparent border-bottom-0 py-3">
         <h5 class="mb-0 fw-bold"><i class="bi bi-box-seam me-2 text-primary"></i>{{ 'WASTAGE.TXT_16' | translate }}</h5>
       </div>
-      <div class="card-body p-0">
+      <div class="card-body py-4">
         <div class="p-3 bg-light border-bottom">
           <div class="row g-2 align-items-center">
             <div class="col-md-9">
-              <select class="form-select border-0 shadow-sm" [(ngModel)]="selectedProductId">
+              <select class="form-select form-select-sm border-0 shadow-sm" [(ngModel)]="selectedProductId">
                 <option value="">{{ 'WASTAGE.TXT_17' | translate }}</option>
                 <option *ngFor="let p of availableProducts" [value]="p.id">{{ p.name }} (Tồn: {{ p.stockQuantity }})</option>
               </select>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-primary w-100 rounded-3 shadow-sm" (click)="addProduct()" [disabled]="!selectedProductId">
+              <button class="btn btn-sm btn-primary w-100 rounded-3 shadow-sm" (click)="addProduct()" [disabled]="!selectedProductId">
                 <i class="bi bi-plus-lg me-1"></i> {{ 'WASTAGE.TXT_18' | translate }}
               </button>
             </div>
@@ -22,9 +22,9 @@
         </div>
 
         <div class="table-responsive" style="min-height: 200px;">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light text-muted">
-              <tr>
+          <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+            <thead>
+              <tr class="fw-bold text-muted">
                 <th class="ps-3 border-0">{{ 'WASTAGE.TXT_19' | translate }}</th>
                 <th class="border-0" style="width: 120px;">{{ 'WASTAGE.TXT_20' | translate }}</th>
                 <th class="border-0">{{ 'WASTAGE.TXT_21' | translate }}</th>
@@ -55,7 +55,7 @@
                 </td>
                 <td class="text-end pe-3">
                   <button class="btn btn-sm btn-link text-danger p-0" (click)="removeLine(i)">
-                    <i class="bi bi-trash"></i>
+                    <i class="ki-duotone ki-trash fs-4"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                   </button>
                 </td>
               </tr>
@@ -74,15 +74,15 @@
       <div class="card-body">
         <div class="mb-3">
           <label class="form-label text-muted small fw-medium">{{ 'WASTAGE.TXT_29' | translate }}</label>
-          <input type="text" class="form-control form-control-solid rounded-3" [(ngModel)]="referenceId" placeholder="VD: BB01, PX02...">
+          <input type="text" class="form-control form-control-sm form-control-solid rounded-3" [(ngModel)]="referenceId" placeholder="VD: BB01, PX02...">
         </div>
         
         <div class="mb-4">
           <label class="form-label text-muted small fw-medium">{{ 'WASTAGE.TXT_30' | translate }}</label>
-          <textarea class="form-control form-control-solid rounded-3" [(ngModel)]="notes" rows="4" [placeholder]="'WASTAGE.TXT_32' | translate"></textarea>
+          <textarea class="form-control form-control-sm form-control-solid rounded-3" [(ngModel)]="notes" rows="4" [placeholder]="'WASTAGE.TXT_32' | translate"></textarea>
         </div>
 
-        <button class="btn btn-danger w-100 rounded-3 shadow py-2 fw-medium" (click)="submit()" [disabled]="isSubmitting">
+        <button class="btn btn-sm btn-danger w-100 rounded-3 shadow py-2 fw-medium" (click)="submit()" [disabled]="isSubmitting">
           <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
           <i class="bi bi-check-lg me-1" *ngIf="!isSubmitting"></i> {{ 'WASTAGE.TXT_31' | translate }}
         </button>

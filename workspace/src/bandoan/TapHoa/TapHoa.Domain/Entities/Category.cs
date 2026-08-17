@@ -6,6 +6,7 @@ namespace TapHoa.Domain.Entities;
 public class Category : BaseAuditableEntity<Guid>
 {
     public string Name { get; private set; }
+    public string Slug { get; private set; }
     public string Description { get; private set; }
     public string Icon { get; private set; }
     
@@ -19,6 +20,7 @@ public class Category : BaseAuditableEntity<Guid>
     private Category(string name, string description, string icon, Guid? parentId = null)
     {
         Name = name;
+        Slug = SlugHelper.GenerateSlug(name);
         Description = description;
         Icon = icon;
         ParentId = parentId;
@@ -38,6 +40,7 @@ public class Category : BaseAuditableEntity<Guid>
             throw new DomainException("Tên danh mục không được để trống.");
 
         Name = name;
+        Slug = SlugHelper.GenerateSlug(name);
         Description = description;
         Icon = icon;
         

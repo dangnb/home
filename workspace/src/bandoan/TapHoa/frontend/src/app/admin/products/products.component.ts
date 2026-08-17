@@ -28,6 +28,24 @@ export class ProductsComponent implements OnInit {
   // Search & Filter
   searchTerm = '';
   selectedCategory = '';
+  selectedSupplier = '';
+  selectedStatus: number | '' = '';
+  selectedStockFilter = '';
+  sortBy = 'newest';
+  showAdvancedFilters = false;
+
+  toggleAdvancedFilters() {
+    this.showAdvancedFilters = !this.showAdvancedFilters;
+  }
+
+  get activeFilterCount(): number {
+    let count = 0;
+    if (this.selectedSupplier) count++;
+    if (this.selectedStatus !== '') count++;
+    if (this.selectedStockFilter) count++;
+    if (this.sortBy && this.sortBy !== 'newest') count++;
+    return count;
+  }
 
   // Pagination State
   currentPage = 1;
@@ -35,6 +53,13 @@ export class ProductsComponent implements OnInit {
   totalCount = 0;
 
   activeDropdownRowId: string | null = null;
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.style.display = 'none';
+    const fallback = img.nextElementSibling as HTMLElement;
+    if (fallback) fallback.style.display = 'flex';
+  }
 
   toggleDropdown(id: string, event: Event) {
     event.stopPropagation();
@@ -126,6 +151,7 @@ export class ProductsComponent implements OnInit {
   loadSuppliers() {
     this.supplierService.getSuppliers().subscribe(data => {
       this.suppliers = data;
+      this.cdr.detectChanges();
     });
   }
 
@@ -134,6 +160,7 @@ export class ProductsComponent implements OnInit {
       this.categories = data;
       const tree = this.buildTree(data);
       this.flatCategories = this.flattenTree(tree);
+      this.cdr.detectChanges();
     });
   }
 
@@ -168,8 +195,12 @@ export class ProductsComponent implements OnInit {
 
   loadProducts() {
     this.productService.getPaged(this.currentPage, this.pageSize, {
-      searchTerm: this.searchTerm,
-      categoryId: this.selectedCategory || undefined
+      searchTerm: this.searchTerm || undefined,
+      categoryId: this.selectedCategory || undefined,
+      supplierId: this.selectedSupplier || undefined,
+      status: this.selectedStatus !== '' ? this.selectedStatus : undefined,
+      stockFilter: this.selectedStockFilter || undefined,
+      sortBy: this.sortBy || undefined
     }).subscribe(res => {
       this.products = res.items;
       this.totalCount = res.totalCount;
@@ -179,25 +210,41 @@ export class ProductsComponent implements OnInit {
       if (this.currentPage > maxPage && maxPage > 0) {
         this.currentPage = maxPage;
         this.loadProducts();
+      } else {
+        this.cdr.detectChanges();
       }
     });
+  }
+
+  resetFilters() {
+    this.searchTerm = '';
+    this.selectedCategory = '';
+    this.selectedSupplier = '';
+    this.selectedStatus = '';
+    this.selectedStockFilter = '';
+    this.sortBy = 'newest';
+    this.currentPage = 1;
+    this.loadProducts();
   }
 
   openAddModal() {
     this.isEditMode = false;
     this.editingProduct = this.getEmptyProduct();
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   openEditModal(product: Product) {
     this.isEditMode = true;
     this.editingProduct = { ...product };
     this.showModal = true;
+    this.cdr.detectChanges();
   }
 
   closeModal() {
     this.showModal = false;
     this.isSubmitting = false;
+    this.cdr.detectChanges();
   }
 
   openHistoryModal(product: Product) {
@@ -222,6 +269,7 @@ export class ProductsComponent implements OnInit {
     this.showHistoryModal = false;
     this.productHistory = [];
     this.historyProduct = null;
+    this.cdr.detectChanges();
   }
 
   saveProduct() {
@@ -236,6 +284,7 @@ export class ProductsComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -247,6 +296,7 @@ export class ProductsComponent implements OnInit {
         },
         error: () => {
           this.isSubmitting = false;
+          this.cdr.detectChanges();
         }
       });
     }
@@ -262,6 +312,7 @@ export class ProductsComponent implements OnInit {
           },
           error: (err) => {
             this.alertService.error(this.translate.instant('COMMON.ERROR'), this.translate.instant('COMMON.LOAD_ERROR') + ': ' + (err.error?.title || err.message));
+            this.cdr.detectChanges();
           }
         });
       }
@@ -273,8 +324,14 @@ export class ProductsComponent implements OnInit {
     if (file) {
       this.productService.uploadImage(file).subscribe(res => {
         this.editingProduct.mainImageUrl = res.url;
+        this.cdr.detectChanges();
       });
     }
+  }
+
+  removeMainImage() {
+    this.editingProduct.mainImageUrl = '';
+    this.cdr.detectChanges();
   }
 
   onAdditionalImageSelected(event: any) {
@@ -284,6 +341,7 @@ export class ProductsComponent implements OnInit {
       this.productService.uploadImage(file).subscribe(res => {
         this.editingProduct.additionalImages = this.editingProduct.additionalImages || [];
         this.editingProduct.additionalImages.push(res.url);
+        this.cdr.detectChanges();
       });
     }
   }
@@ -291,6 +349,7 @@ export class ProductsComponent implements OnInit {
   removeAdditionalImage(index: number) {
     if (this.editingProduct.additionalImages) {
       this.editingProduct.additionalImages.splice(index, 1);
+      this.cdr.detectChanges();
     }
   }
 
@@ -303,11 +362,13 @@ export class ProductsComponent implements OnInit {
       conversionFactor: 1,
       price: 0
     });
+    this.cdr.detectChanges();
   }
 
   removeUnit(index: number) {
     if (this.editingProduct.units) {
       this.editingProduct.units.splice(index, 1);
+      this.cdr.detectChanges();
     }
   }
 
