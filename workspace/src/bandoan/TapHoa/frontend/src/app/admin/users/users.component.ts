@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, computed, signal, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, computed, signal, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
@@ -20,6 +20,7 @@ export class UsersComponent implements OnInit {
   private translateService = inject(TranslateService);
   private userService = inject(UserService);
   private roleService = inject(RoleService);
+  private cdr = inject(ChangeDetectorRef);
 
   users: any[] = [];
   roles: any[] = [];
@@ -51,6 +52,7 @@ export class UsersComponent implements OnInit {
     this.roleService.getAllRoles().subscribe({
       next: (res: any) => {
         this.roles = res;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load roles', err);
@@ -64,6 +66,7 @@ export class UsersComponent implements OnInit {
         this.allUsers = res;
         this.totalUsers = this.allUsers.length;
         this.updatePaginatedUsers();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load users', err);

@@ -157,8 +157,15 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.ExecuteSqlRaw(@"
             ALTER TABLE `Products` MODIFY `Barcode` varchar(255) NULL;
-            
-            CREATE TABLE IF NOT EXISTS `ReturnOrders` (
+            ALTER TABLE `Products` ADD `Slug` longtext NULL;
+            ALTER TABLE `Products` ADD `Description` longtext NULL;
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
                 `Id` char(36) NOT NULL,
                 `OriginalOrderId` char(36) NOT NULL,
                 `ReturnCode` longtext NOT NULL,
