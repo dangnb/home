@@ -65,13 +65,13 @@ console.log(`pdf2docx: ${PDF2DOCX_OK ? 'READY ✅' : 'NOT INSTALLED ❌'}`);
 // ============================================================
 // Convert using pdf2docx (Python) — highest fidelity
 // ============================================================
-function convertWithPdf2docx(inputPath, outputPath, addLog) {
+function convertWithPdf2docx(inputPath, outputPath, addLog, tocLevel = '4') {
   return new Promise((resolve, reject) => {
     const pyScript = path.join(__dirname, 'pdf2word.py');
-    addLog('Đang dùng pdf2docx (Python) — giữ nguyên layout 100%...');
+    addLog('Đang phân tích cấu trúc PDF và chuyển đổi...');
 
-    const child = execFile(PYTHON_EXE, [pyScript, inputPath, outputPath], {
-      timeout: 10 * 60 * 1000,  // 10 minutes max
+    const child = execFile(PYTHON_EXE, [pyScript, inputPath, outputPath, '0', '0', String(tocLevel)], {
+      timeout: 15 * 60 * 1000,  // 15 minutes max
       maxBuffer: 50 * 1024 * 1024,
     }, (err, stdout, stderr) => {
       if (stdout) stdout.split('\n').filter(Boolean).forEach(l => addLog(l));
@@ -130,19 +130,21 @@ app.post('/api/convert', upload.single('pdfFile'), async (req, res) => {
     const originalName   = Buffer.from(req.file.originalname, 'latin1').toString('utf8');
     const baseName       = path.basename(originalName, path.extname(originalName));
     const outputFilename = `${baseName}.docx`;
+    const tocLevel       = req.body.tocLevel || '4';
 
     addLog(`Đã nhận file: "${originalName}" (${(req.file.size / 1024 / 1024).toFixed(2)} MB)`);
 
     let docBuffer;
 
     if (PDF2DOCX_OK) {
-      // ---- Method 1: pdf2docx (Python) — highest fidelity ----
-      addLog(`Engine: pdf2docx (Python) — ưu tiên text, giữ nguyên layout`);
-      tmpInput  = path.join(os.tmpdir(), `pdfin_${Date.now()}.pdf`);
-      tmpOutput = path.join(os.tmpdir(), `pdout_${Date.now()}.docx`);
+      // ---- Method 1: Python Engine (pdf2docx + AI OCR for scans) ----
+      addLog(`Engine: Python Pro (Tự động nhận diện văn bản số & ảnh Scan OCR)`);
+      const safeName = originalName.replace(/[^a-zA-Z0-9._\-]/g, '_');
+      tmpInput  = path.join(os.tmpdir(), `pdfin_${Date.now()}_${safeName}`);
+      tmpOutput = path.join(os.tmpdir(), `pdout_${Date.now()}_${outputFilename.replace(/[^a-zA-Z0-9._\-]/g, '_')}`);
       fs.writeFileSync(tmpInput, req.file.buffer);
 
-      await convertWithPdf2docx(tmpInput, tmpOutput, addLog);
+      await convertWithPdf2docx(tmpInput, tmpOutput, addLog, tocLevel);
 
       if (!fs.existsSync(tmpOutput)) throw new Error('pdf2docx không tạo được file output!');
       docBuffer = fs.readFileSync(tmpOutput);

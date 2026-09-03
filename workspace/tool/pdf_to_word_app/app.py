@@ -89,7 +89,7 @@ def api_convert():
     print(f"\n[SERVER] Đang xử lý file: {filename}")
 
     temp_dir = tempfile.mkdtemp(prefix="pdf2word_")
-    in_pdf = os.path.join(temp_dir, "input.pdf")
+    in_pdf = os.path.join(temp_dir, filename)
     out_docx = os.path.join(temp_dir, out_filename)
 
     try:
