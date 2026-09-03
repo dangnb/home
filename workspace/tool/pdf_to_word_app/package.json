@@ -1,0 +1,24 @@
+{
+  "name": "pdf_to_word_app",
+  "version": "1.0.0",
+  "description": "Ứng dụng chuyên dụng chuyển đổi tài liệu PDF sang Word (.docx) bảo tồn **100% định dạng thể thức văn bản hành chính Việt Nam**, phân cấp Heading chuẩn, bảng biểu đơn sắc và trích xuất nguyên vẹn mọi sơ đồ hình ảnh kỹ thuật / mã QR Code.",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "docx": "^9.7.1",
+    "express": "^5.2.1",
+    "image-size": "^2.0.2",
+    "multer": "^2.3.0",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^2.16.105"
+  }
+}

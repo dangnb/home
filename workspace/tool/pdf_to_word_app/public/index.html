@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to Word Pro - Chuyển đổi PDF sang Word Chuẩn Thể Thức</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-card: rgba(17, 24, 39, 0.75);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow-glow: 0 0 35px rgba(59, 130, 246, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Main Card */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed rgba(59, 130, 246, 0.4);
+      border-radius: var(--radius-md);
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(59, 130, 246, 0.03);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.08);
+      box-shadow: var(--shadow-glow);
+      transform: translateY(-2px);
+    }
+
+    .dropzone input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .drop-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-blue);
+    }
+
+    .drop-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .drop-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .drop-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* File info badge */
+    .file-preview {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      margin-top: 20px;
+    }
+
+    .file-details {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .file-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.8rem;
+    }
+
+    .file-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      max-width: 450px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-size {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .btn-remove:hover {
+      color: var(--danger);
+    }
+
+    /* Options Section */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .option-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .option-card input[type="checkbox"] {
+      accent-color: var(--accent-blue);
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .option-text h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .option-text p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* TOC Level Selector Card */
+    .toc-config-card {
+      margin-top: 16px;
+      margin-bottom: 22px;
+      padding: 16px 20px;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .toc-config-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toc-icon-badge {
+      font-size: 1.6rem;
+      background: rgba(59, 130, 246, 0.15);
+      border-radius: 10px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toc-config-info h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f3f4f6;
+      margin-bottom: 3px;
+    }
+
+    .toc-config-info p {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .toc-select-wrapper {
+      min-width: 280px;
+      flex-grow: 1;
+      max-width: 360px;
+    }
+
+    .toc-select {
+      width: 100%;
+      padding: 10px 14px;
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toc-select:focus, .toc-select:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .toc-select option {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 8px;
+    }
+
+    /* Action button */
+    .btn-convert {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: var(--accent-gradient);
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-convert:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.45);
+    }
+
+    .btn-convert:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Progress & Logs */
+    .progress-section {
+      display: none;
+      margin-top: 24px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .status-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(59, 130, 246, 0.3);
+      border-top-color: var(--accent-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .log-box {
+      background: #060911;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #34d399;
+      max-height: 160px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    .log-box div {
+      white-space: pre-wrap;
+    }
+
+    /* Result Actions */
+    .result-section {
+      display: none;
+      margin-top: 24px;
+      padding: 24px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .result-section h3 {
+      color: var(--success);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .result-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .result-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-download {
+      padding: 12px 24px;
+      border-radius: 10px;
+      background: #10b981;
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #059669;
+    }
+
+    .btn-open-word {
+      padding: 12px 24px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-open-word:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Phiên bản Chuyên Nghiệp 2026
+      </div>
+      <h1>Chuyển Đổi PDF Sang Word Pro</h1>
+      <p class="subtitle">Bảo tồn chính xác 100% bố cục thể thức văn bản hành chính Việt Nam, ngắt dòng, bảng biểu và toàn bộ sơ đồ hình ảnh kỹ thuật.</p>
+      <div id="engineBadge" style="margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);border-radius:20px;padding:6px 14px;font-size:0.82rem;color:#6ee7b7;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block;"></span>
+        <span id="engineLabel">Đang kiểm tra engine...</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <!-- Upload Dropzone -->
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept=".pdf">
+        <div class="drop-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+        </div>
+        <div class="drop-title">Kéo & Thả file PDF vào đây</div>
+        <div class="drop-desc">hoặc nhấp chuột để chọn file từ máy tính (hỗ trợ file PDF lớn lên đến 500 trang)</div>
+      </div>
+
+      <!-- File info badge -->
+      <div class="file-preview" id="filePreview">
+        <div class="file-details">
+          <div class="file-icon">PDF</div>
+          <div>
+            <div class="file-name" id="fileName">tailieu.pdf</div>
+            <div class="file-size" id="fileSize">0 MB</div>
+          </div>
+        </div>
+        <button class="btn-remove" id="btnRemove" title="Gỡ file">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Options -->
+      <div class="options-grid">
+        <label class="option-card">
+          <input type="checkbox" id="optImages" checked>
+          <div class="option-text">
+            <h4>Trích xuất sơ đồ & ảnh</h4>
+            <p>Tự động bóc tách và nhúng mọi ảnh, sơ đồ XML, cây thông điệp, mã QR Code.</p>
+          </div>
+        </label>
+        <label class="option-card">
+          <input type="checkbox" id="optHierarchy" checked>
+          <div class="option-text">
+            <h4>Đánh chỉ mục phân cấp</h4>
+            <p>Tạo Heading Word chuẩn: Phần ➔ I, II ➔ 1, 2 ➔ a), b) ➔ mục con.</p>
+          </div>
+        </label>
+        <label class="option-card">
+          <input type="checkbox" id="optLineBreaks" checked>
+          <div class="option-text">
+            <h4>Giữ nguyên ngắt dòng</h4>
+            <p>Khôi phục từng gạch đầu dòng, dấu cộng, đoạn văn căn cứ chuẩn xác.</p>
+          </div>
+        </label>
+        <label class="option-card">
+          <input type="checkbox" id="optStandardVN" checked>
+          <div class="option-text">
+            <h4>Thể thức Nghị định 30/2020</h4>
+            <p>Font Times New Roman 13pt, lề trái 3cm, bảng viền đen đơn sắc chuẩn.</p>
+          </div>
+        </label>
+      </div>
+
+      <!-- Table of Contents Level Selector -->
+      <div class="toc-config-card">
+        <div class="toc-config-info">
+          <div class="toc-icon-badge">📑</div>
+          <div>
+            <h4>Mức Độ Chi Tiết Của Mục Lục</h4>
+            <p>Trích xuất mục lục và số trang tự động vào tài liệu Word</p>
+          </div>
+        </div>
+        <div class="toc-select-wrapper">
+          <select id="tocLevelSelect" class="toc-select">
+            <option value="4" selected>⭐⭐⭐⭐ Chi tiết sâu (Tới từng a, b, c...)</option>
+            <option value="3">⭐⭐⭐ Tiêu chuẩn (Phần ➔ Mục La Mã ➔ Điều, 1, 2...)</option>
+            <option value="2">⭐⭐ Thu gọn (Phần ➔ Mục La Mã I, II...)</option>
+            <option value="1">⭐ Tổng quan (Chỉ Phần & Phụ lục)</option>
+            <option value="0">❌ Không tạo mục lục</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Convert Button -->
+      <button class="btn-convert" id="btnConvert" disabled>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        Bắt Đầu Chuyển Đổi Sang Word (.DOCX)
+      </button>
+
+      <!-- Progress Section -->
+      <div class="progress-section" id="progressSection">
+        <div class="progress-header">
+          <div class="status-text" id="statusText">
+            <div class="spinner"></div>
+            Đang xử lý tài liệu...
+          </div>
+        </div>
+        <div class="log-box" id="logBox"></div>
+      </div>
+
+      <!-- Result Section -->
+      <div class="result-section" id="resultSection">
+        <h3>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Chuyển Đổi Thành Công!
+        </h3>
+        <p class="result-desc" id="resultDesc">File Word đã được đóng gói hoàn tất với đầy đủ hình ảnh và thể thức.</p>
+        <div class="result-buttons">
+          <a class="btn-download" id="btnDownload" href="#" download>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Tải File Word Về Máy
+          </a>
+          <button class="btn-open-word" id="btnOpenWord">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            Mở Trực Tiếp Trong MS Word
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      © 2026 PDF to Word Professional Converter | Bộ công cụ chuyển đổi tài liệu chuẩn thể thức
+    </footer>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('dropzone');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const btnRemove = document.getElementById('btnRemove');
+    const btnConvert = document.getElementById('btnConvert');
+    const progressSection = document.getElementById('progressSection');
+    const logBox = document.getElementById('logBox');
+    const statusText = document.getElementById('statusText');
+    const resultSection = document.getElementById('resultSection');
+    const btnDownload = document.getElementById('btnDownload');
+    const btnOpenWord = document.getElementById('btnOpenWord');
+    const resultDesc = document.getElementById('resultDesc');
+
+    let currentFile = null;
+    let savedLocalPath = '';
+
+    function handleFile(file) {
+      if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
+        alert('Vui lòng chọn một file PDF hợp lệ!');
+        return;
+      }
+      currentFile = file;
+      fileName.textContent = file.name;
+      fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+      
+      dropzone.style.display = 'none';
+      filePreview.style.display = 'flex';
+      btnConvert.disabled = false;
+      resultSection.style.display = 'none';
+      progressSection.style.display = 'none';
+    }
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
+
+    btnRemove.addEventListener('click', () => {
+      currentFile = null;
+      fileInput.value = '';
+      dropzone.style.display = 'block';
+      filePreview.style.display = 'none';
+      btnConvert.disabled = true;
+      resultSection.style.display = 'none';
+      progressSection.style.display = 'none';
+    });
+
+    // Drag & Drop
+    ['dragenter', 'dragover'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+    });
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+    });
+
+    function appendLog(msg) {
+      const time = new Date().toLocaleTimeString('vi-VN');
+      const div = document.createElement('div');
+      div.textContent = `[${time}] ${msg}`;
+      logBox.appendChild(div);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // Convert Action
+    btnConvert.addEventListener('click', async () => {
+      if (!currentFile) return;
+
+      btnConvert.disabled = true;
+      progressSection.style.display = 'block';
+      resultSection.style.display = 'none';
+      logBox.innerHTML = '';
+      statusText.innerHTML = '<div class="spinner"></div> Đang bắt đầu quá trình trích xuất và chuyển đổi...';
+
+      appendLog(`Bắt đầu tải file "${currentFile.name}" lên engine xử lý...`);
+
+      const formData = new FormData();
+      formData.append('pdfFile', currentFile);
+      const tocLvl = document.getElementById('tocLevelSelect') ? document.getElementById('tocLevelSelect').value : '4';
+      formData.append('tocLevel', tocLvl);
+
+      try {
+        appendLog('Đang phân tích cấu trúc PDF và giải mã luồng đồ họa sơ đồ...');
+        const response = await fetch('/api/convert', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.error || 'Có lỗi xảy ra trong quá trình chuyển đổi.');
+        }
+
+        appendLog('Nhận luồng dữ liệu Word .docx thành công!');
+        savedLocalPath = decodeURIComponent(response.headers.get('X-Saved-Path') || '');
+
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const outFileName = currentFile.name.replace(/\.[^/.]+$/, "") + ".docx";
+
+        btnDownload.href = downloadUrl;
+        btnDownload.download = outFileName;
+
+        if (savedLocalPath) {
+          resultDesc.textContent = `File đã được tự động lưu sẵn tại thư mục Downloads của bạn:\n${savedLocalPath}`;
+          btnOpenWord.style.display = 'inline-flex';
+        } else {
+          resultDesc.textContent = `Đã hoàn tất chuyển đổi! Bạn có thể tải file ${outFileName} về máy ngay.`;
+          btnOpenWord.style.display = 'none';
+        }
+
+        statusText.innerHTML = '✅ Hoàn tất chuyển đổi!';
+        appendLog(`Tệp "${outFileName}" (${(blob.size / 1024 / 1024).toFixed(2)} MB) đã sẵn sàng để tải xuống hoặc mở.`);
+
+        resultSection.style.display = 'block';
+      } catch (err) {
+        statusText.innerHTML = '❌ Quá trình chuyển đổi gặp sự cố!';
+        appendLog(`LỖI: ${err.message}`);
+        alert('Lỗi: ' + err.message);
+      } finally {
+        btnConvert.disabled = false;
+      }
+    });
+
+    // Open Word Directly
+    btnOpenWord.addEventListener('click', async () => {
+      if (!savedLocalPath) return;
+      try {
+        const res = await fetch('/api/open-word', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filePath: savedLocalPath })
+        });
+        const data = await res.json();
+        if (data.success) {
+          appendLog(`Đã khởi chạy Microsoft Word mở file: ${savedLocalPath}`);
+        } else {
+          alert(data.error);
+        }
+      } catch (e) {
+        alert('Không thể mở Word tự động: ' + e.message);
+      }
+    });
+
+    // Check engine status
+    window.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/status')
+        .then(r => r.json())
+        .then(data => {
+          const lbl = document.getElementById('engineLabel');
+          if (lbl) {
+            lbl.textContent = data.engine || 'pdf2docx Pro (Tự Động)';
+          }
+        })
+        .catch(() => {
+          const lbl = document.getElementById('engineLabel');
+          if (lbl) lbl.textContent = 'PDF to Word Standalone Pro';
+        });
+    });
+  </script>
+</body>
+</html>
+
