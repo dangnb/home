@@ -14,12 +14,6 @@ using TapHoa.API.Endpoints;
 /// </summary>
 var builder = WebApplication.CreateBuilder(args);
 
-// Hide Server header for security
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.AddServerHeader = false;
-});
-
 // Configure Serilog
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
@@ -39,26 +33,6 @@ app.UseSerilogRequestLogging();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<TapHoa.Infrastructure.Data.AppDbContext>();
-    try
-    {
-        var script = System.IO.File.ReadAllText(@"d:\WORKSPACE\Home\web\home\workspace\src\bandoan\TapHoa\mysql_script.sql");
-        var commands = script.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var cmd in commands)
-        {
-            if (string.IsNullOrWhiteSpace(cmd)) continue;
-            try
-            {
-                context.Database.ExecuteSqlRaw(cmd);
-            }
-            catch (Exception ex) { 
-                Console.WriteLine($"SQL Error: {ex.Message}");
-            }
-        }
-    }
-    catch (Exception ex) { 
-        Console.WriteLine($"File Error: {ex.Message}");
-    }
-
     try
     {
         context.Database.ExecuteSqlRaw(@"
@@ -104,11 +78,6 @@ using (var scope = app.Services.CreateScope())
                 `CompanyId` char(36) NOT NULL,
                 PRIMARY KEY (`Id`)
             );
-            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `CouponCode` longtext NULL;
-            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `MaxUsageCount` int NULL;
-            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `CurrentUsageCount` int NOT NULL DEFAULT 0;
-            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `ApplicableCategoryId` char(36) NULL;
-            ALTER TABLE `Promotions` ADD COLUMN IF NOT EXISTS `MaxDiscountAmount` decimal(18,2) NULL;
             INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710204132_AddPromotionsAndLoyalty', '10.0.9');
         ");
     }
@@ -188,8 +157,15 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.ExecuteSqlRaw(@"
             ALTER TABLE `Products` MODIFY `Barcode` varchar(255) NULL;
-            
-            CREATE TABLE IF NOT EXISTS `ReturnOrders` (
+            ALTER TABLE `Products` ADD `Slug` longtext NULL;
+            ALTER TABLE `Products` ADD `Description` longtext NULL;
+        ");
+    }
+    catch { }
+
+    try
+    {
+        context.Database.ExecuteSqlRaw(@"
                 `Id` char(36) NOT NULL,
                 `OriginalOrderId` char(36) NOT NULL,
                 `ReturnCode` longtext NOT NULL,
@@ -308,13 +284,9 @@ using (var scope = app.Services.CreateScope())
                 `ModifiedBy` longtext NULL,
                 `IsDeleted` tinyint(1) NOT NULL,
                 `DeletedDate` datetime(6) NULL,
-                `DeletedBy` longtext NULL,
                 `CompanyId` char(36) NOT NULL,
                 PRIMARY KEY (`Id`)
             );
-        ");
-        context.Database.ExecuteSqlRaw(@"
-            ALTER TABLE `Shifts` ADD IF NOT EXISTS `DeletedBy` longtext NULL;
         ");
     }
     catch { }
@@ -478,58 +450,14 @@ using (var scope = app.Services.CreateScope())
     }
     catch { }
 
-    // ── Pha 1: Sổ quỹ + Chi phí vận hành ──────────────────────────────────────
     try
     {
         context.Database.ExecuteSqlRaw(@"
-            CREATE TABLE IF NOT EXISTS `CashBookEntries` (
-                `Id` char(36) NOT NULL,
-                `EntryDate` datetime(6) NOT NULL,
-                `Type` int NOT NULL,
-                `Category` longtext NOT NULL,
-                `Amount` decimal(18,2) NOT NULL,
-                `Description` longtext NULL,
-                `ReferenceId` longtext NULL,
-                `ReferenceType` longtext NULL,
-                `ShiftId` char(36) NULL,
-                `CreatedDate` datetime(6) NULL,
-                `CreatedBy` longtext NULL,
-                `ModifiedDate` datetime(6) NULL,
-                `ModifiedBy` longtext NULL,
-                `IsDeleted` tinyint(1) NOT NULL DEFAULT 0,
-                `DeletedDate` datetime(6) NULL,
-                `DeletedBy` longtext NULL,
-                `CompanyId` char(36) NOT NULL,
-                PRIMARY KEY (`Id`)
-            );
-        ");
-    }
-    catch { }
-
-    try
-    {
-        context.Database.ExecuteSqlRaw(@"
-            CREATE TABLE IF NOT EXISTS `OperatingExpenses` (
-                `Id` char(36) NOT NULL,
-                `Name` longtext NOT NULL,
-                `Type` int NOT NULL,
-                `Amount` decimal(18,2) NOT NULL,
-                `Month` int NOT NULL,
-                `Year` int NOT NULL,
-                `DueDate` datetime(6) NULL,
-                `PaidDate` datetime(6) NULL,
-                `PaymentStatus` int NOT NULL DEFAULT 1,
-                `Notes` longtext NULL,
-                `CreatedDate` datetime(6) NULL,
-                `CreatedBy` longtext NULL,
-                `ModifiedDate` datetime(6) NULL,
-                `ModifiedBy` longtext NULL,
-                `IsDeleted` tinyint(1) NOT NULL DEFAULT 0,
-                `DeletedDate` datetime(6) NULL,
-                `DeletedBy` longtext NULL,
-                `CompanyId` char(36) NOT NULL,
-                PRIMARY KEY (`Id`)
-            );
+            ALTER TABLE `EmployeeShifts` ADD `IsOvertime` tinyint(1) NOT NULL DEFAULT 0;
+            ALTER TABLE `EmployeeShifts` ADD `SalaryMultiplier` decimal(18,2) NOT NULL DEFAULT 1.0;
+            ALTER TABLE `Attendances` ADD `IsOvertimeShift` tinyint(1) NOT NULL DEFAULT 0;
+            ALTER TABLE `Attendances` ADD `SalaryMultiplier` decimal(18,2) NOT NULL DEFAULT 1.0;
+            ALTER TABLE `Attendances` ADD `ShiftId` char(36) NULL;
         ");
     }
     catch { }
@@ -540,57 +468,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// ── Security Headers Middleware ─────────────────────────────────────────────
-// Thêm các HTTP security headers vào mọi response để chống XSS, Clickjacking,
-// MIME sniffing và tấn công thông qua thông tin referrer.
-app.Use(async (context, next) =>
-{
-    var headers = context.Response.Headers;
-
-    // Chống Clickjacking — ngăn nhúng trong iframe
-    headers.Append("X-Frame-Options", "DENY");
-
-    // Chống MIME-type sniffing
-    headers.Append("X-Content-Type-Options", "nosniff");
-
-    // Kiểm soát thông tin Referrer khi navigate ra ngoài site
-    headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
-
-    // Chặn Permissions không cần thiết (camera, mic, geolocation...)
-    headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-
-    // Content Security Policy — Chỉ cho phép tài nguyên từ source tin cậy
-    // Điều chỉnh 'connect-src' nếu API host thay đổi
-    headers.Append("Content-Security-Policy",
-        "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline'; " +  // unsafe-inline cần cho Angular
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-        "font-src 'self' https://fonts.gstatic.com data:; " +
-        "img-src 'self' data: blob: https:; " +
-        "connect-src 'self' http://localhost:5000 http://localhost:5001 ws://localhost:* wss://localhost:*; " +
-        "frame-ancestors 'none'");
-
-    // HSTS — Bắt buộc HTTPS (chỉ có hiệu lực khi dùng HTTPS)
-    if (context.Request.IsHttps)
-    {
-        headers.Append("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
-    }
-
-    // Ẩn thông tin server technology
-    headers.Remove("Server");
-    headers.Remove("X-Powered-By");
-
-    await next();
-});
-
-// ── Middleware Pipeline Order ────────────────────────────────────────────────
-app.UseCors("TapHoaCorsPolicy");
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
 app.UseRateLimiter();
-
+app.UseCors("TapHoaCorsPolicy");
 var webRootPath = builder.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 if (!Directory.Exists(webRootPath)) Directory.CreateDirectory(webRootPath);
 
@@ -602,16 +481,20 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
-// ── Map Minimal API Endpoints ────────────────────────────────────────────────
+// Map Minimal API Endpoints
 var apiVersionSet = app.NewApiVersionSet()
     .HasApiVersion(new Asp.Versioning.ApiVersion(1, 0))
     .ReportApiVersions()
     .Build();
 
+
 app.MapGroup("api/v{version:apiVersion}/products").WithApiVersionSet(apiVersionSet).MapProductsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/categories").WithApiVersionSet(apiVersionSet).MapCategoriesEndpoints();
-// Auth group: áp dụng strict rate-limit cho login & refresh endpoints bên trong
 app.MapGroup("api/v{version:apiVersion}/auth").WithApiVersionSet(apiVersionSet).MapAuthEndpoints();
 app.MapGroup("api/v{version:apiVersion}/transactions").WithApiVersionSet(apiVersionSet).MapTransactionsEndpoints();
 app.MapGroup("api/v{version:apiVersion}/stock-takes").WithApiVersionSet(apiVersionSet).MapStockTakesEndpoints();
@@ -632,10 +515,7 @@ app.MapGroup("api/v{version:apiVersion}/attendances").WithApiVersionSet(apiVersi
 app.MapGroup("api/v{version:apiVersion}/payroll").WithApiVersionSet(apiVersionSet).MapPayrollEndpoints();
 app.MapGroup("api/v{version:apiVersion}/salary-templates").WithApiVersionSet(apiVersionSet).MapSalaryTemplateEndpoints();
 app.MapGroup("api/v{version:apiVersion}/hr").WithApiVersionSet(apiVersionSet).MapHREndpoints();
-app.MapGroup("api/v{version:apiVersion}/cashbook").WithApiVersionSet(apiVersionSet).MapCashBookEndpoints();
-app.MapGroup("api/v{version:apiVersion}/expenses").WithApiVersionSet(apiVersionSet).MapOperatingExpenseEndpoints();
-app.MapGroup("api/v{version:apiVersion}/notifications").WithApiVersionSet(apiVersionSet).MapNotificationsEndpoints();
-app.MapGroup("api/v{version:apiVersion}/online-store").WithApiVersionSet(apiVersionSet).MapOnlineStoreEndpoints();
+app.MapGroup("api/v{version:apiVersion}").WithApiVersionSet(apiVersionSet).MapUserEndpoints();
 app.MapRoleEndpoints();
 
 app.Run();

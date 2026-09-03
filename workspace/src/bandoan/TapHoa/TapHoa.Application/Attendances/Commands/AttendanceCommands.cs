@@ -10,6 +10,7 @@ namespace TapHoa.Application.Attendances.Commands;
 public class CheckInCommand : IRequest<Guid>
 {
     public TimeSpan ShiftStart { get; set; } = new TimeSpan(7, 0, 0); // default 07:00
+    public Guid? ShiftId { get; set; }
 }
 
 public class CheckInCommandHandler : IRequestHandler<CheckInCommand, Guid>
@@ -29,13 +30,30 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, Guid>
             ?? throw new UnauthorizedAccessException("User not authenticated.");
 
         var today = DateTime.UtcNow.Date;
-        var existing = await _context.Attendances
-            .FirstOrDefaultAsync(a => a.Username == username && a.Date == today && !a.IsDeleted, cancellationToken);
+        
+        // Ensure no open check-in exists for this specific shift, or just no open check-in globally if they can only work 1 shift at a time?
+        // Wait, if they have 2 shifts (Main and Overtime), they should check out of Main before checking into Overtime.
+        // Let's just check if there is an open check-in (CheckOut == null)
+        var existingOpen = await _context.Attendances
+            .FirstOrDefaultAsync(a => a.Username == username && a.Date == today && a.CheckOut == null && !a.IsDeleted, cancellationToken);
 
-        if (existing != null)
-            throw new InvalidOperationException("Already checked in today.");
+        if (existingOpen != null)
+            throw new InvalidOperationException("You already have an open check-in. Please check out first.");
 
-        var attendance = Attendance.CheckInNow(username, request.ShiftStart);
+        bool isOvertimeShift = false;
+        decimal salaryMultiplier = 1.0m;
+
+        if (request.ShiftId.HasValue)
+        {
+            var shift = await _context.EmployeeShifts.FirstOrDefaultAsync(s => s.Id == request.ShiftId.Value && !s.IsDeleted, cancellationToken);
+            if (shift != null)
+            {
+                isOvertimeShift = shift.IsOvertime;
+                salaryMultiplier = shift.SalaryMultiplier;
+            }
+        }
+
+        var attendance = Attendance.CheckInNow(username, request.ShiftStart, 15, request.ShiftId, isOvertimeShift, salaryMultiplier);
         _context.Attendances.Add(attendance);
         await _context.SaveChangesAsync(cancellationToken);
         return attendance.Id;

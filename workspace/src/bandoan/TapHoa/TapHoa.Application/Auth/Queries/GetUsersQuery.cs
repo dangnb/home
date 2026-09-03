@@ -4,7 +4,15 @@ using TapHoa.Application.Interfaces;
 
 namespace TapHoa.Application.Auth.Queries;
 
-public record UserDto(Guid Id, string Username, string FullName, string Email, bool IsActive, IEnumerable<string> Roles);
+public class UserDto
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string FullName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
+    public List<string> Roles { get; set; } = new();
+}
 
 public record GetUsersQuery() : IRequest<IEnumerable<UserDto>>;
 
@@ -34,13 +42,13 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<U
             {
                 if (!userDict.TryGetValue(user.Id, out var userEntry))
                 {
-                    userEntry = user with { Roles = new List<string>() };
+                    userEntry = user;
                     userDict.Add(userEntry.Id, userEntry);
                 }
 
-                if (!string.IsNullOrEmpty(role))
+                if (!string.IsNullOrEmpty(role) && !userEntry.Roles.Contains(role))
                 {
-                    ((List<string>)userEntry.Roles).Add(role);
+                    userEntry.Roles.Add(role);
                 }
 
                 return userEntry;

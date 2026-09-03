@@ -1,0 +1,367 @@
+2026-07-18 00:56:21.355 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:21.392 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:21.456 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:21.456 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:21.636 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-18 00:56:22.039 +07:00 [ERR] Failed executing DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-18 00:56:22.053 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-18 00:56:22.099 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-18 00:56:22.105 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-18 00:56:22.116 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-18 00:56:22.145 +07:00 [ERR] Failed executing DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-18 00:56:22.151 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-18 00:56:22.235 +07:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5222: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-07-18 00:56:40.691 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:40.731 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:40.731 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:40.731 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:56:40.840 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-18 00:56:41.274 +07:00 [ERR] Failed executing DbCommand (91ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-18 00:56:41.290 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-18 00:56:41.349 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-18 00:56:41.358 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-18 00:56:41.372 +07:00 [ERR] Failed executing DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-18 00:56:41.401 +07:00 [ERR] Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-18 00:56:41.406 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-18 00:57:00.371 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:57:00.405 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:57:00.405 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:57:00.405 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:57:00.527 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-18 00:57:00.944 +07:00 [ERR] Failed executing DbCommand (91ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-18 00:57:00.960 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-18 00:57:01.017 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-18 00:57:01.025 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-18 00:57:01.040 +07:00 [ERR] Failed executing DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-18 00:57:01.069 +07:00 [ERR] Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-18 00:57:01.076 +07:00 [ERR] Failed executing DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-18 00:57:32.447 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-18 00:57:32.469 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-18 00:57:33.154 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-18 00:57:34.721 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 2309.2339 ms
+2026-07-18 00:57:34.896 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 87.0636 ms
+System.Data.DataException: Error parsing column 3 (Permissions=17825792 - String)
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to System.Collections.Generic.List`1[System.String]. Path: $ | LineNumber: 0 | BytePositionInLine: 8.
+   at System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TapHoa.Infrastructure.Data.JsonStringListTypeHandler.Parse(Object value) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\DapperHandlers.cs:line 37
+   at Dapper.SqlMapper.TypeHandler`1.Dapper.SqlMapper.ITypeHandler.Parse(Type destinationType, Object value) in /_/Dapper/SqlMapper.TypeHandler.cs:line 42
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-18 00:57:34.903 +07:00 [ERR] An exception occurred: Error parsing column 3 (Permissions=17825792 - String)
+System.Data.DataException: Error parsing column 3 (Permissions=17825792 - String)
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to System.Collections.Generic.List`1[System.String]. Path: $ | LineNumber: 0 | BytePositionInLine: 8.
+   at System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TapHoa.Infrastructure.Data.JsonStringListTypeHandler.Parse(Object value) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\DapperHandlers.cs:line 37
+   at Dapper.SqlMapper.TypeHandler`1.Dapper.SqlMapper.ITypeHandler.Parse(Type destinationType, Object value) in /_/Dapper/SqlMapper.TypeHandler.cs:line 42
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-18 00:57:56.948 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 2.7382 ms
+2026-07-18 00:57:56.950 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.3762 ms
+2026-07-18 00:57:56.951 +07:00 [INF] HTTP OPTIONS /api/v1/roles responded 204 in 0.1475 ms
+2026-07-18 00:57:56.967 +07:00 [ERR] HTTP GET /api/v1/roles responded 500 in 13.2929 ms
+System.Data.DataException: Error parsing column 3 (Permissions=17825792 - String)
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to System.Collections.Generic.List`1[System.String]. Path: $ | LineNumber: 0 | BytePositionInLine: 8.
+   at System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TapHoa.Infrastructure.Data.JsonStringListTypeHandler.Parse(Object value) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\DapperHandlers.cs:line 37
+   at Dapper.SqlMapper.TypeHandler`1.Dapper.SqlMapper.ITypeHandler.Parse(Type destinationType, Object value) in /_/Dapper/SqlMapper.TypeHandler.cs:line 42
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-18 00:57:56.969 +07:00 [ERR] An exception occurred: Error parsing column 3 (Permissions=17825792 - String)
+System.Data.DataException: Error parsing column 3 (Permissions=17825792 - String)
+ ---> System.Text.Json.JsonException: The JSON value could not be converted to System.Collections.Generic.List`1[System.String]. Path: $ | LineNumber: 0 | BytePositionInLine: 8.
+   at System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+   at System.Text.Json.Serialization.JsonCollectionConverter`2.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, TCollection& value)
+   at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at TapHoa.Infrastructure.Data.JsonStringListTypeHandler.Parse(Object value) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\DapperHandlers.cs:line 37
+   at Dapper.SqlMapper.TypeHandler`1.Dapper.SqlMapper.ITypeHandler.Parse(Type destinationType, Object value) in /_/Dapper/SqlMapper.TypeHandler.cs:line 42
+   at Dapper.SqlMapper.TypeHandlerCache`1.Parse(Object value) in /_/Dapper/SqlMapper.TypeHandlerCache.cs:line 23
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   --- End of inner exception stack trace ---
+   at Dapper.SqlMapper.ThrowDataException(Exception ex, Int32 index, IDataReader reader, Object value) in /_/Dapper/SqlMapper.cs:line 4001
+   at Deserializea11a6de3-c6c1-4e09-8485-6a0e5548c530(DbDataReader)
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 454
+   at TapHoa.Application.Roles.RoleQueriesHandler.Handle(GetRolesQuery request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Roles\RoleQueries.cs:line 25
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 28
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.RoleEndpoints.<>c.<<MapRoleEndpoints>b__0_0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\RoleEndpoints.cs:line 17
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-18 00:57:57.008 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 55.6644 ms
+2026-07-18 00:57:57.178 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 224.9256 ms
+2026-07-18 00:57:58.793 +07:00 [INF] HTTP OPTIONS /api/v1/reports/revenue responded 204 in 0.1120 ms
+2026-07-18 00:57:58.793 +07:00 [INF] HTTP OPTIONS /api/v1/reports/top-products responded 204 in 0.1122 ms
+2026-07-18 00:57:58.844 +07:00 [INF] HTTP GET /api/v1/reports/top-products responded 200 in 47.1144 ms
+2026-07-18 00:57:58.844 +07:00 [INF] HTTP GET /api/v1/reports/revenue responded 200 in 47.4105 ms
+2026-07-18 00:57:59.498 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.0927 ms
+2026-07-18 00:57:59.498 +07:00 [INF] HTTP OPTIONS /api/v1/suppliers responded 204 in 0.0334 ms
+2026-07-18 00:57:59.498 +07:00 [INF] HTTP OPTIONS /api/v1/products/paged responded 204 in 0.0924 ms
+2026-07-18 00:57:59.578 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 77.3885 ms
+2026-07-18 00:57:59.595 +07:00 [INF] HTTP GET /api/v1/products/paged responded 200 in 94.8964 ms
+2026-07-18 00:57:59.595 +07:00 [INF] HTTP GET /api/v1/suppliers responded 200 in 95.1959 ms
+2026-07-18 00:58:00.153 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 3.6604 ms
+2026-07-18 00:58:01.740 +07:00 [INF] HTTP OPTIONS /api/v1/salary-templates responded 204 in 0.1550 ms
+2026-07-18 00:58:01.749 +07:00 [INF] HTTP GET /api/v1/salary-templates responded 200 in 8.1414 ms
+2026-07-18 00:58:02.329 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.2270 ms
+2026-07-18 00:58:02.429 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 94.1457 ms
+2026-07-18 00:58:07.948 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/ff6aabe5-c65e-4b6f-aedf-e0ed9e260d53 responded 204 in 0.2983 ms
+2026-07-18 00:58:08.047 +07:00 [INF] HTTP GET /api/v1/payroll/periods/ff6aabe5-c65e-4b6f-aedf-e0ed9e260d53 responded 200 in 97.4555 ms
+2026-07-18 00:58:10.683 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods/ff6aabe5-c65e-4b6f-aedf-e0ed9e260d53/calculate responded 204 in 0.1082 ms
+2026-07-18 00:58:10.780 +07:00 [INF] Audit Logged: Unknown by admin - CalculatePayrollCommand
+2026-07-18 00:58:11.547 +07:00 [ERR] HTTP POST /api/v1/payroll/periods/ff6aabe5-c65e-4b6f-aedf-e0ed9e260d53/calculate responded 500 in 862.3917 ms
+System.InvalidOperationException: Only Draft periods can be calculated.
+   at TapHoa.Domain.Entities.PayrollPeriod.MarkCalculated() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Domain\Entities\PayrollPeriod.cs:line 35
+   at TapHoa.Application.Payroll.Commands.CalculatePayrollCommandHandler.Handle(CalculatePayrollCommand request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Payroll\Commands\PayrollCommands.cs:line 178
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.<>c__DisplayClass2_0.<<Handle>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 33
+--- End of stack trace from previous location ---
+   at TapHoa.Infrastructure.Data.UnitOfWork.<>c__DisplayClass7_0`1.<<ExecuteInTransactionAsync>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 76
+--- End of stack trace from previous location ---
+   at TapHoa.Infrastructure.Data.UnitOfWork.<>c__DisplayClass7_0`1.<<ExecuteInTransactionAsync>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 84
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Data.UnitOfWork.ExecuteInTransactionAsync[TResponse](Func`1 action) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 71
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 31
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.PayrollEndpoints.<>c.<<MapPayrollEndpoints>b__0_3>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PayrollEndpoints.cs:line 42
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-07-18 00:58:11.562 +07:00 [ERR] An exception occurred: Only Draft periods can be calculated.
+System.InvalidOperationException: Only Draft periods can be calculated.
+   at TapHoa.Domain.Entities.PayrollPeriod.MarkCalculated() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Domain\Entities\PayrollPeriod.cs:line 35
+   at TapHoa.Application.Payroll.Commands.CalculatePayrollCommandHandler.Handle(CalculatePayrollCommand request, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Payroll\Commands\PayrollCommands.cs:line 178
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.<>c__DisplayClass2_0.<<Handle>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 33
+--- End of stack trace from previous location ---
+   at TapHoa.Infrastructure.Data.UnitOfWork.<>c__DisplayClass7_0`1.<<ExecuteInTransactionAsync>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 76
+--- End of stack trace from previous location ---
+   at TapHoa.Infrastructure.Data.UnitOfWork.<>c__DisplayClass7_0`1.<<ExecuteInTransactionAsync>b__0>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 84
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at TapHoa.Infrastructure.Data.UnitOfWork.ExecuteInTransactionAsync[TResponse](Func`1 action) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Infrastructure\Data\UnitOfWork.cs:line 71
+   at TapHoa.Application.Behaviors.TransactionBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\TransactionBehavior.cs:line 31
+   at TapHoa.Application.Behaviors.AuditBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\AuditBehavior.cs:line 56
+   at TapHoa.Application.Behaviors.ValidationBehavior`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.Application\Behaviors\ValidationBehavior.cs:line 20
+   at TapHoa.API.Endpoints.PayrollEndpoints.<>c.<<MapPayrollEndpoints>b__0_3>d.MoveNext() in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Endpoints\PayrollEndpoints.cs:line 42
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)
+   at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TapHoa.API.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\Word_Space\job-out\workspace\src\bandoan\TapHoa\TapHoa.API\Middlewares\ExceptionHandlingMiddleware.cs:line 23
+2026-07-18 00:58:40.801 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:58:40.833 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:58:40.833 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:58:40.833 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 00:58:40.928 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.
+2026-07-18 00:58:41.339 +07:00 [ERR] Failed executing DbCommand (91ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `InventoryTransactions` ADD `AmountPaid` decimal(18,2) NOT NULL DEFAULT 0.0;
+            ALTER TABLE `InventoryTransactions` ADD `CustomerId` char(36) NULL;
+            ALTER TABLE `InventoryTransactions` ADD `SupplierId` char(36) NULL;
+            INSERT IGNORE INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`) VALUES ('20260710203506_AddDebtFieldsToTransactions', '10.0.9');
+2026-07-18 00:58:41.354 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Customers` ADD `LoyaltyPoints` int NOT NULL DEFAULT 0;
+2026-07-18 00:58:41.413 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `Formula` longtext NOT NULL DEFAULT 'BaseSalary + OvertimePay + Allowance + Bonus - Deduction';
+2026-07-18 00:58:41.422 +07:00 [ERR] Failed executing DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE `PayrollPeriods` ADD `CustomVariables` longtext NULL;
+2026-07-18 00:58:41.436 +07:00 [ERR] Failed executing DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD `ParentId` char(36) NULL;
+2026-07-18 00:58:41.465 +07:00 [ERR] Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Departments` ADD CONSTRAINT `FK_Departments_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Departments` (`Id`) ON DELETE RESTRICT;
+2026-07-18 00:58:41.471 +07:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+            ALTER TABLE `Employees` ADD `Email` longtext NULL;
+2026-07-18 00:58:42.320 +07:00 [INF] HTTP GET /api/v1/roles responded 401 in 31.4761 ms
+2026-07-18 00:58:55.909 +07:00 [WRN] Failed to determine the https port for redirect.
+2026-07-18 00:58:55.940 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-07-18 00:58:56.690 +07:00 [INF] Audit Logged: Unknown by System - LoginCommand
+2026-07-18 00:58:58.480 +07:00 [INF] HTTP POST /api/v1/auth/login responded 200 in 2576.6692 ms
+2026-07-18 00:58:58.651 +07:00 [INF] HTTP GET /api/v1/roles responded 200 in 124.7951 ms
+2026-07-18 01:01:27.498 +07:00 [INF] HTTP OPTIONS /api/v1/products/low-stock responded 204 in 2.5820 ms
+2026-07-18 01:01:27.500 +07:00 [INF] HTTP OPTIONS /api/v1/products/expiring-batches responded 204 in 0.4817 ms
+2026-07-18 01:01:27.500 +07:00 [INF] HTTP OPTIONS /api/v1/payroll/periods responded 204 in 0.4880 ms
+2026-07-18 01:01:27.575 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 72.5134 ms
+2026-07-18 01:01:27.778 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 275.4024 ms
+2026-07-18 01:01:27.964 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 460.3883 ms
+2026-07-18 01:01:28.091 +07:00 [INF] HTTP GET /api/v1/products/low-stock responded 200 in 7.3979 ms
+2026-07-18 01:01:28.101 +07:00 [INF] HTTP GET /api/v1/products/expiring-batches responded 200 in 17.4344 ms
+2026-07-18 01:01:28.101 +07:00 [INF] HTTP GET /api/v1/payroll/periods responded 200 in 12.4449 ms
+2026-07-18 01:01:29.480 +07:00 [INF] HTTP OPTIONS /api/v1/categories responded 204 in 0.1356 ms
+2026-07-18 01:01:29.499 +07:00 [INF] HTTP GET /api/v1/categories responded 200 in 17.2548 ms
+2026-07-18 01:01:32.926 +07:00 [INF] HTTP OPTIONS /api/v1/shift-schedules responded 204 in 0.1819 ms
+2026-07-18 01:01:33.041 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 112.6147 ms
+2026-07-18 01:01:33.325 +07:00 [INF] HTTP OPTIONS /api/v1/roles responded 204 in 0.3570 ms
+2026-07-18 01:01:33.331 +07:00 [INF] HTTP GET /api/v1/roles responded 200 in 4.3930 ms
+2026-07-18 01:01:34.946 +07:00 [INF] HTTP GET /api/v1/shift-schedules responded 200 in 6.7795 ms
+2026-07-18 01:05:42.498 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'ProductUnit'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 01:05:42.535 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'InventoryTransactionLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 01:05:42.535 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockLevel'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 01:05:42.536 +07:00 [WRN] Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'StockTakeLine'. This may lead to unexpected results when the required entity is filtered out. Either configure the navigation as optional, or define matching query filters for both entities in the navigation. See https://go.microsoft.com/fwlink/?linkid=2131316 for more information.
+2026-07-18 01:05:42.631 +07:00 [WRN] The property 'Product.AdditionalImages' is a collection or enumeration type with a value converter but with no value comparer. Set a value comparer to ensure the collection/enumeration elements are compared correctly.

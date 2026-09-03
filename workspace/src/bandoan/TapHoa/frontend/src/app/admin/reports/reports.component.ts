@@ -126,14 +126,21 @@ export class ReportsComponent implements OnInit {
       pendingRequests--;
       if (pendingRequests === 0) {
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     };
 
     // Load Revenue
     this.reportService.getRevenueReport(fromDate, toDate, this.groupBy).subscribe({
       next: (data) => {
-        this.summary = data;
+        this.summary = {
+          totalRevenue: data.totalRevenue ?? 0,
+          totalProfit: data.totalProfit ?? 0,
+          totalOrders: data.totalOrders ?? 0,
+          chartData: data.chartData || []
+        };
         this.updateLineChart();
+        this.cdr.detectChanges();
         checkComplete();
       },
       error: (err) => {
@@ -145,8 +152,9 @@ export class ReportsComponent implements OnInit {
     // Load Top Products
     this.reportService.getTopProducts(fromDate, toDate, 10, 'revenue').subscribe({
       next: (data) => {
-        this.topProducts = data;
+        this.topProducts = data || [];
         this.updateBarChart();
+        this.cdr.detectChanges();
         checkComplete();
       },
       error: (err) => {

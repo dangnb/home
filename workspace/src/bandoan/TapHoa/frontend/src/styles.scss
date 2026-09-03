@@ -1093,5 +1093,64 @@
   }
 }
 
+// ============================================================
+// Unified Typography System (Font Family & Font Size Consistency)
+// ============================================================
+html, body, div, p, span, h1, h2, h3, h4, h5, h6,
+a, input, select, textarea, button, table, th, td, label,
+.page-title, .menu-title, .card-title, .form-control, .form-select, .btn, .badge {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+body {
+  font-size: 0.875rem !important; /* 14px default base font */
+  line-height: 1.5 !important;
+  letter-spacing: -0.011em !important;
+}
+
+// Title Hierarchy
+h1, .page-title h1, .main-title, .view-title {
+  font-size: 1.35rem !important; /* ~21px */
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+h2, h3, .card-title, h5 {
+  font-size: 1.05rem !important; /* ~17px */
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+// Data Tables
+.table th, table thead th {
+  font-size: 0.78rem !important; /* ~12px uppercase */
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+}
+
+.table td, table tbody td {
+  font-size: 0.875rem !important; /* 14px */
+  font-weight: 400 !important;
+  vertical-align: middle !important;
+}
+
+// Form Controls & Buttons
+.form-control, .form-select, .btn {
+  font-size: 0.875rem !important; /* 14px */
+  font-weight: 500 !important;
+}
+
+// Badges & Micro Text
+.badge {
+  font-size: 0.75rem !important; /* 12px */
+  font-weight: 600 !important;
+}
+
+.text-muted, .view-subtitle, .kpi-title {
+  font-size: 0.8125rem !important; /* 13px */
+}
+
+
 
 
