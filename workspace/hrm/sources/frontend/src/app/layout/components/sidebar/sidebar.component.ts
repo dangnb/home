@@ -72,7 +72,7 @@ export class SidebarComponent implements OnInit {
     },
     {
       title: 'Người Dùng & Tài Khoản',
-      icon: 'bi-person-gear',
+      icon: 'bi-person-lines-fill',
       route: '/users'
     },
     {

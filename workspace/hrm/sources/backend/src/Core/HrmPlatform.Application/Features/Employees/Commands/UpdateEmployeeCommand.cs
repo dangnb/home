@@ -68,21 +68,19 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
             }
         }
 
-        // Cập nhật thông tin hồ sơ
-        profile.DepartmentId = request.DepartmentId;
-        profile.ManagerId = request.ManagerId;
-        profile.JobTitle = request.JobTitle.Trim();
-        profile.Gender = request.Gender;
-        profile.DateOfBirth = request.DateOfBirth;
-        profile.IdCardNumber = request.IdCardNumber?.Trim();
-        profile.JoinedDate = request.JoinedDate;
+        // Cập nhật thông tin hồ sơ qua domain method
+        profile.Update(
+            jobTitle: request.JobTitle,
+            gender: request.Gender,
+            departmentId: request.DepartmentId,
+            managerId: request.ManagerId,
+            dateOfBirth: request.DateOfBirth,
+            idCardNumber: request.IdCardNumber,
+            joinedDate: request.JoinedDate
+        );
 
-        // Cập nhật thông tin User liên kết
-        if (profile.User != null)
-        {
-            profile.User.FullName = request.FullName.Trim();
-            profile.User.Phone = request.Phone?.Trim();
-        }
+        // Cập nhật thông tin User liên kết qua domain method
+        profile.User?.UpdateProfile(request.FullName, request.Phone);
 
         await _context.SaveChangesAsync(cancellationToken);
     }

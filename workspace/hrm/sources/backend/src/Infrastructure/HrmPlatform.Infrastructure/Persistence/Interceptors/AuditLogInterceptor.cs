@@ -168,19 +168,17 @@ public class AuditLogInterceptor : SaveChangesInterceptor
         public AuditLog ToAuditLog()
         {
             var keyStr = KeyValues.Count > 0 ? JsonSerializer.Serialize(KeyValues, JsonOptions) : "0";
-            return new AuditLog
-            {
-                TenantId = TenantId,
-                UserId = UserId,
-                Action = Action,
-                EntityName = EntityName,
-                EntityId = keyStr,
-                IpAddress = IpAddress,
-                OldData = OldValues.Count == 0 ? null : JsonSerializer.Serialize(OldValues, JsonOptions),
-                NewData = NewValues.Count == 0 ? null : JsonSerializer.Serialize(NewValues, JsonOptions),
-                Status = "SUCCESS",
-                CreatedAt = DateTime.UtcNow
-            };
+            return AuditLog.Create(
+                action: Action,
+                entityName: EntityName,
+                entityId: keyStr,
+                tenantId: TenantId,
+                userId: UserId,
+                oldData: OldValues.Count == 0 ? null : JsonSerializer.Serialize(OldValues, JsonOptions),
+                newData: NewValues.Count == 0 ? null : JsonSerializer.Serialize(NewValues, JsonOptions),
+                ipAddress: IpAddress,
+                status: "SUCCESS"
+            );
         }
     }
 }

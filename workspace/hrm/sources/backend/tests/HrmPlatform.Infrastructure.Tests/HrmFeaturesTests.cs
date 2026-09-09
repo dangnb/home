@@ -73,8 +73,9 @@ public class HrmFeaturesTests
 
         using var context = CreateDbContext(currentUserService, dbName);
 
-        // Seed default role
-        context.Roles.Add(new Role { Id = 4, Code = "EMPLOYEE", Name = "Employee" });
+        // Seed default role qua Factory Method
+        var employeeRole = Role.Create("EMPLOYEE", "Employee");
+        context.Roles.Add(employeeRole);
         await context.SaveChangesAsync();
 
         var handler = new CreateEmployeeCommandHandler(context, currentUserService);
@@ -100,7 +101,7 @@ public class HrmFeaturesTests
         // Kiểm tra gán role
         var userRole = await context.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == profile.UserId);
         Assert.NotNull(userRole);
-        Assert.Equal(4, userRole.RoleId);
+        Assert.Equal(employeeRole.Id, userRole.RoleId);
     }
 
     [Fact]

@@ -89,15 +89,18 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
             }
         }
 
-        department.Name = request.Name.Trim();
-        department.Code = request.Code.Trim().ToUpperInvariant();
-        department.ManagerId = request.ManagerId;
-        department.ParentId = request.ParentId;
+        department.Update(request.Name, request.Code, request.ManagerId, request.ParentId);
 
-        if (!string.IsNullOrWhiteSpace(request.Status) &&
-            Enum.TryParse<Domain.Enums.EntityStatus>(request.Status, true, out var parsedStatus))
+        if (!string.IsNullOrWhiteSpace(request.Status))
         {
-            department.Status = parsedStatus;
+            if (request.Status.Equals("INACTIVE", StringComparison.OrdinalIgnoreCase))
+            {
+                department.Deactivate();
+            }
+            else if (request.Status.Equals("ACTIVE", StringComparison.OrdinalIgnoreCase))
+            {
+                department.Activate();
+            }
         }
 
         await _context.SaveChangesAsync(cancellationToken);

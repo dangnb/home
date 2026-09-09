@@ -68,22 +68,19 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, long>
 
         if (attendance == null)
         {
-            attendance = new Attendance
-            {
-                TenantId = tenantId.Value,
-                UserId = targetUserId.Value,
-                WorkDate = workDate,
-                CheckIn = checkInTime,
-                LateMinutes = lateMinutes,
-                Status = status
-            };
+            attendance = Attendance.Create(
+                tenantId: tenantId.Value,
+                userId: targetUserId.Value,
+                workDate: workDate,
+                checkIn: checkInTime,
+                lateMinutes: lateMinutes,
+                status: status
+            );
             _context.Attendances.Add(attendance);
         }
         else
         {
-            attendance.CheckIn = checkInTime;
-            attendance.LateMinutes = lateMinutes;
-            attendance.Status = status;
+            attendance.RecordCheckIn(checkInTime, lateMinutes);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

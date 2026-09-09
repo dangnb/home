@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AttendanceService } from '../../../core/hrm/services/attendance.service';
@@ -83,7 +83,7 @@ export class AttendancesListComponent implements OnInit {
   }
 
   openCheckInModal() {
-    this.selectedEmployeeId = this.employees().length > 0 ? this.employees()[0].id : '';
+    this.selectedEmployeeId = this.employees().length > 0 ? String(this.employees()[0].id) : '';
     this.checkInNotes = '';
     this.isCheckInModalOpen = true;
   }

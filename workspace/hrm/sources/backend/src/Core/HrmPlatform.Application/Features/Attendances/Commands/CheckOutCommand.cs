@@ -56,8 +56,7 @@ public class CheckOutCommandHandler : IRequestHandler<CheckOutCommand>
             earlyMinutes = (int)(StandardEndTime - checkOutTimeOfDay).TotalMinutes;
         }
 
-        attendance.CheckOut = checkOutTime;
-        attendance.EarlyMinutes = earlyMinutes;
+        attendance.RecordCheckOut(checkOutTime, earlyMinutes);
 
         await _context.SaveChangesAsync(cancellationToken);
     }

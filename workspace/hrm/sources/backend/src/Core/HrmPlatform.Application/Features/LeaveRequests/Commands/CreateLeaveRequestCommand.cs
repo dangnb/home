@@ -67,16 +67,14 @@ public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveReque
             throw new BadRequestException("Bạn đã có đơn xin nghỉ phép trong khoảng thời gian này đang chờ duyệt hoặc đã được phê duyệt.");
         }
 
-        var leaveRequest = new LeaveRequest
-        {
-            TenantId = tenantId.Value,
-            UserId = userId.Value,
-            LeaveType = request.LeaveType,
-            StartDate = request.StartDate,
-            EndDate = request.EndDate,
-            Reason = request.Reason?.Trim(),
-            Status = LeaveRequestStatus.PENDING
-        };
+        var leaveRequest = LeaveRequest.Create(
+            tenantId: tenantId.Value,
+            userId: userId.Value,
+            leaveType: request.LeaveType,
+            startDate: request.StartDate,
+            endDate: request.EndDate,
+            reason: request.Reason
+        );
 
         _context.LeaveRequests.Add(leaveRequest);
         await _context.SaveChangesAsync(cancellationToken);

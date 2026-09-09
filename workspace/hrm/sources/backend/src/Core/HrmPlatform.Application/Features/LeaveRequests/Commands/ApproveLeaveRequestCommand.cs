@@ -11,6 +11,7 @@ public record ApproveLeaveRequestCommand : IRequest
 {
     public long Id { get; init; }
     public bool IsApproved { get; init; }
+    public string? Comment { get; init; }
 }
 
 public class ApproveLeaveRequestCommandValidator : AbstractValidator<ApproveLeaveRequestCommand>
@@ -56,8 +57,14 @@ public class ApproveLeaveRequestCommandHandler : IRequestHandler<ApproveLeaveReq
             throw new BadRequestException($"Đơn xin nghỉ phép này đã được xử lý với trạng thái: {leaveRequest.Status}.");
         }
 
-        leaveRequest.Status = request.IsApproved ? LeaveRequestStatus.APPROVED : LeaveRequestStatus.REJECTED;
-        leaveRequest.ApproverId = approverId.Value;
+        if (request.IsApproved)
+        {
+            leaveRequest.Approve(approverId.Value);
+        }
+        else
+        {
+            leaveRequest.Reject(approverId.Value, request.Comment);
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
     }

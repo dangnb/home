@@ -105,6 +105,15 @@ public class ExceptionHandlingMiddleware
                 _logger.LogWarning("Yêu cầu không hợp lệ: {Message}", badRequestException.Message);
                 break;
 
+            case HrmPlatform.Domain.Exceptions.DomainException domainException:
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                problemDetails.Status = (int)HttpStatusCode.BadRequest;
+                problemDetails.Title = "Vi phạm quy tắc nghiệp vụ (Domain Invariant Violation)";
+                problemDetails.Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
+                problemDetails.Detail = domainException.Message;
+                _logger.LogWarning("Vi phạm quy tắc nghiệp vụ: {Message}", domainException.Message);
+                break;
+
             default:
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 problemDetails.Status = (int)HttpStatusCode.InternalServerError;

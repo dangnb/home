@@ -22,7 +22,7 @@ class EmployeeController {
       final pageSize = int.tryParse(params['pageSize'] ?? '20') ?? 20;
       final departmentId = int.tryParse(params['departmentId'] ?? '');
       final status = params['status'];
-      final keyword = params['keyword'];
+      final keyword = params['keyword'] ?? params['search'];
 
       final result = await _repository.getEmployees(
         tenantId: tenantId,

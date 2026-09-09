@@ -1,263 +1,78 @@
-import { Injectable, signal } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { ManagedUser, UserRole } from '../models/user-management.model';
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, forkJoin, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../hrm/models/hrm.models';
+import { ManagedUser, CreateUserDto, UpdateUserDto, RoleOption } from '../models/user-management.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserManagementService {
-  private usersState = signal<ManagedUser[]>([
-    {
-      id: '1',
-      name: 'Emma Smith',
-      email: 'smith@kpmg.com',
-      avatar: 'assets/media/avatars/300-6.jpg',
-      role: 'Administrator',
-      twoStep: true,
-      lastLogin: 'Yesterday',
-      joinedDate: '25 Jul 2022, 5:20 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '2',
-      name: 'Melody Macy',
-      email: 'melody@altbox.com',
-      initials: 'M',
-      initialsColor: 'danger',
-      role: 'Analyst',
-      twoStep: true,
-      lastLogin: '20 mins ago',
-      joinedDate: '25 Oct 2022, 9:23 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '3',
-      name: 'Max Smith',
-      email: 'max@kt.com',
-      avatar: 'assets/media/avatars/300-1.jpg',
-      role: 'Developer',
-      twoStep: false,
-      lastLogin: '3 days ago',
-      joinedDate: '15 Apr 2022, 11:05 am',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '4',
-      name: 'Sean Bean',
-      email: 'sean@dellito.com',
-      avatar: 'assets/media/avatars/300-5.jpg',
-      role: 'Support',
-      twoStep: true,
-      lastLogin: '5 hours ago',
-      joinedDate: '10 Mar 2022, 6:05 pm',
-      status: 'Suspended',
-      statusColor: 'danger'
-    },
-    {
-      id: '5',
-      name: 'Brian Cox',
-      email: 'brian@exchange.com',
-      avatar: 'assets/media/avatars/300-25.jpg',
-      role: 'Developer',
-      twoStep: true,
-      lastLogin: '2 days ago',
-      joinedDate: '19 Aug 2022, 6:05 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '6',
-      name: 'Mikaela Collins',
-      email: 'mik@pex.com',
-      initials: 'C',
-      initialsColor: 'warning',
-      role: 'Administrator',
-      twoStep: false,
-      lastLogin: '5 days ago',
-      joinedDate: '20 Jun 2022, 8:43 pm',
-      status: 'Pending',
-      statusColor: 'warning'
-    },
-    {
-      id: '7',
-      name: 'Francis Mitcham',
-      email: 'f.mit@kpmg.com',
-      avatar: 'assets/media/avatars/300-9.jpg',
-      role: 'Trial',
-      twoStep: false,
-      lastLogin: '3 weeks ago',
-      joinedDate: '15 Apr 2022, 5:30 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '8',
-      name: 'Olivia Wild',
-      email: 'olivia@corpmail.com',
-      initials: 'O',
-      initialsColor: 'danger',
-      role: 'Administrator',
-      twoStep: false,
-      lastLogin: 'Yesterday',
-      joinedDate: '20 Jun 2022, 11:30 am',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '9',
-      name: 'Neil Owen',
-      email: 'owen.neil@gmail.com',
-      initials: 'N',
-      initialsColor: 'primary',
-      role: 'Analyst',
-      twoStep: true,
-      lastLogin: '20 mins ago',
-      joinedDate: '24 Jun 2022, 9:23 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '10',
-      name: 'Dan Wilson',
-      email: 'dam@consilting.com',
-      avatar: 'assets/media/avatars/300-23.jpg',
-      role: 'Developer',
-      twoStep: false,
-      lastLogin: '3 days ago',
-      joinedDate: '20 Jun 2022, 8:43 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '11',
-      name: 'Emma Bold',
-      email: 'emma@intenso.com',
-      initials: 'E',
-      initialsColor: 'danger',
-      role: 'Support',
-      twoStep: true,
-      lastLogin: '5 hours ago',
-      joinedDate: '22 Sep 2022, 8:43 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '12',
-      name: 'John Miller',
-      email: 'miller@mapple.com',
-      avatar: 'assets/media/avatars/300-13.jpg',
-      role: 'Trial',
-      twoStep: false,
-      lastLogin: '3 weeks ago',
-      joinedDate: '21 Feb 2022, 5:20 pm',
-      status: 'Active',
-      statusColor: 'success'
-    },
-    {
-      id: '13',
-      name: 'Lucy Kunic',
-      email: 'lucy.m@fentech.com',
-      initials: 'L',
-      initialsColor: 'success',
-      role: 'Administrator',
-      twoStep: false,
-      lastLogin: 'Yesterday',
-      joinedDate: '21 Feb 2022, 9:23 pm',
-      status: 'Active',
-      statusColor: 'success'
+  private http = inject(HttpClient);
+  private readUrl = `${environment.readApiUrl}/users`;
+  private writeUrl = `${environment.writeApiUrl}/users`;
+
+  readonly users = signal<ManagedUser[]>([]);
+
+  // --- Read Operations (Dart Read Service - Port 5050) ---
+
+  getUsers(options?: {
+    search?: string;
+    role?: string;
+    status?: string;
+    page?: number;
+    pageSize?: number;
+  }): Observable<ApiResponse<ManagedUser[]>> {
+    let params = new HttpParams();
+    if (options?.search) {
+      params = params.set('search', options.search.trim());
     }
-  ]);
-
-  readonly users = this.usersState.asReadonly();
-
-  private rolesState = signal<UserRole[]>([
-    {
-      id: '1',
-      name: 'Administrator',
-      description: 'Full access to manage all system settings, users, and financials.',
-      totalUsers: 5,
-      users: [
-        { name: 'Emma', avatar: 'assets/media/avatars/300-6.jpg' },
-        { name: 'Max', avatar: 'assets/media/avatars/300-3.jpg' },
-        { name: 'Sean', avatar: 'assets/media/avatars/300-5.jpg' }
-      ],
-      permissions: ['All Admin Controls', 'User Management', 'Financial Reports', 'Audit Logs']
-    },
-    {
-      id: '2',
-      name: 'Developer',
-      description: 'Access to developer tools, APIs, webhooks and sandbox environments.',
-      totalUsers: 14,
-      users: [
-        { name: 'Max', avatar: 'assets/media/avatars/300-3.jpg' },
-        { name: 'Brian', avatar: 'assets/media/avatars/300-25.jpg' }
-      ],
-      permissions: ['API Keys', 'Webhook Config', 'Sandbox Testing', 'Database Read']
-    },
-    {
-      id: '3',
-      name: 'Analyst',
-      description: 'Can view analytics, reporting metrics and download data exports.',
-      totalUsers: 8,
-      users: [
-        { name: 'Melody', avatar: 'assets/media/avatars/300-1.jpg' }
-      ],
-      permissions: ['Dashboard View', 'Data Export', 'Sales Reports']
-    },
-    {
-      id: '4',
-      name: 'Support',
-      description: 'Can respond to customer tickets, view user status and reset passwords.',
-      totalUsers: 3,
-      users: [
-        { name: 'Sean', avatar: 'assets/media/avatars/300-5.jpg' }
-      ],
-      permissions: ['Ticket Desk', 'User Profile Read', 'Password Reset']
+    if (options?.role && options.role !== 'All') {
+      params = params.set('role', options.role);
     }
-  ]);
-
-  getUsers(): Observable<ManagedUser[]> {
-    return of(this.usersState());
+    if (options?.status && options.status !== 'All') {
+      params = params.set('status', options.status);
+    }
+    if (options?.page) {
+      params = params.set('page', options.page.toString());
+    }
+    if (options?.pageSize) {
+      params = params.set('pageSize', options.pageSize.toString());
+    }
+    return this.http.get<ApiResponse<ManagedUser[]>>(this.readUrl, { params }).pipe(
+      tap((res) => {
+        if (res.data) {
+          this.users.set(res.data);
+        }
+      })
+    );
   }
 
-  getUserById(id: string): ManagedUser | undefined {
-    return this.usersState().find(u => u.id === id);
+  getUserById(id: string | number): Observable<ApiResponse<ManagedUser>> {
+    return this.http.get<ApiResponse<ManagedUser>>(`${this.readUrl}/${id}`);
   }
 
-  getRoles(): Observable<UserRole[]> {
-    return of(this.rolesState());
+  getRoles(): Observable<ApiResponse<RoleOption[]>> {
+    return this.http.get<ApiResponse<RoleOption[]>>(`${this.readUrl}/roles`);
   }
 
-  addUser(user: Omit<ManagedUser, 'id' | 'joinedDate' | 'statusColor' | 'lastLogin'>): void {
-    const newUser: ManagedUser = {
-      ...user,
-      id: (this.usersState().length + 1).toString(),
-      lastLogin: 'Just now',
-      joinedDate: 'Just now',
-      statusColor: user.status === 'Active' ? 'success' : user.status === 'Suspended' ? 'danger' : 'warning'
-    };
-    this.usersState.update(list => [newUser, ...list]);
+  // --- Write Operations (.NET 10 WebAPI - Port 5000) ---
+
+  createUser(dto: CreateUserDto): Observable<any> {
+    return this.http.post<any>(this.writeUrl, dto);
   }
 
-  updateUser(id: string, updates: Partial<ManagedUser>): void {
-    this.usersState.update(list => list.map(u => {
-      if (u.id === id) {
-        return { ...u, ...updates };
-      }
-      return u;
-    }));
+  updateUser(id: string | number, dto: UpdateUserDto): Observable<any> {
+    return this.http.put<any>(`${this.writeUrl}/${id}`, dto);
   }
 
-  deleteUser(id: string): void {
-    this.usersState.update(list => list.filter(u => u.id !== id));
+  deleteUser(id: string | number): Observable<any> {
+    return this.http.delete<any>(`${this.writeUrl}/${id}`);
   }
 
-  deleteUsers(ids: string[]): void {
-    const set = new Set(ids);
-    this.usersState.update(list => list.filter(u => !set.has(u.id)));
+  deleteUsers(ids: (string | number)[]): Observable<any[]> {
+    const requests = ids.map(id => this.deleteUser(id));
+    return forkJoin(requests);
   }
 }
-

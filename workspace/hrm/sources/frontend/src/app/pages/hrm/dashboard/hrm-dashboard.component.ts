@@ -77,7 +77,7 @@ export class HrmDashboardComponent implements OnInit, OnDestroy {
         if (res.data) {
           this.employees.set(res.data);
           if (res.data.length > 0 && !this.selectedEmployeeId) {
-            this.selectedEmployeeId = res.data[0].id;
+            this.selectedEmployeeId = String(res.data[0].id);
           }
         }
       },

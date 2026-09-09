@@ -1,4 +1,6 @@
 using HrmPlatform.Domain.Common;
+using HrmPlatform.Domain.Enums;
+using HrmPlatform.Domain.Exceptions;
 
 namespace HrmPlatform.Domain.Entities.Identity;
 
@@ -7,27 +9,38 @@ namespace HrmPlatform.Domain.Entities.Identity;
 /// </summary>
 public class Permission : BaseEntity
 {
-    /// <summary>
-    /// Module chức năng (TENANT, USER, ROLE, DEPARTMENT, EMPLOYEE, ATTENDANCE, LEAVE)
-    /// </summary>
-    public string Module { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Mã quyền hạn duy nhất (Format: MODULE.ACTION, vd: EMPLOYEE.CREATE)
-    /// </summary>
-    public string Code { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Tên mô tả ngắn gọn quyền hạn
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Mô tả chi tiết phạm vi quyền hạn
-    /// </summary>
-    public string? Description { get; set; }
+    public string Module { get; private set; } = string.Empty;
+    public string Code { get; private set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
+    public string? Description { get; private set; }
 
     #region Navigation Properties
-    public virtual ICollection<RolePermission> RolePermissions { get; set; } = new HashSet<RolePermission>();
+    public virtual ICollection<RolePermission> RolePermissions { get; private set; } = new HashSet<RolePermission>();
     #endregion
+
+    protected Permission()
+    {
+    }
+
+    public static Permission Create(string module, string code, string name, string? description = null)
+    {
+        if (string.IsNullOrWhiteSpace(module))
+            throw new DomainException("Module không được để trống.");
+
+        if (string.IsNullOrWhiteSpace(code))
+            throw new DomainException("Mã quyền hạn không được để trống.");
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException("Tên quyền hạn không được để trống.");
+
+        return new Permission
+        {
+            Module = module.Trim().ToUpperInvariant(),
+            Code = code.Trim().ToUpperInvariant(),
+            Name = name.Trim(),
+            Description = description?.Trim(),
+            Status = EntityStatus.ACTIVE,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
 }

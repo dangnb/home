@@ -28,14 +28,11 @@ public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeComman
             throw new NotFoundException("Hồ sơ nhân sự", request.Id);
         }
 
-        // Xóa mềm hồ sơ nhân sự
-        _context.EmployeeProfiles.Remove(profile);
+        // Xóa mềm hồ sơ nhân sự qua domain method
+        profile.Delete();
 
-        // Vô hiệu hóa tài khoản User liên kết
-        if (profile.User != null)
-        {
-            profile.User.Status = EntityStatus.INACTIVE;
-        }
+        // Vô hiệu hóa tài khoản User liên kết qua domain method
+        profile.User?.Deactivate();
 
         await _context.SaveChangesAsync(cancellationToken);
     }

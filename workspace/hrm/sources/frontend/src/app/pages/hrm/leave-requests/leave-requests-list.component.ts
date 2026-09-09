@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LeaveRequestService } from '../../../core/hrm/services/leave-request.service';
@@ -74,7 +74,7 @@ export class LeaveRequestsListComponent implements OnInit {
 
   openCreateModal() {
     this.formData = {
-      employeeId: this.employees().length > 0 ? this.employees()[0].id : '',
+      employeeId: this.employees().length > 0 ? String(this.employees()[0].id) : '',
       leaveType: 1,
       startDate: new Date().toISOString().split('T')[0],
       endDate: new Date().toISOString().split('T')[0],
@@ -125,7 +125,7 @@ export class LeaveRequestsListComponent implements OnInit {
     }
 
     const currentEmp = this.employees()[0];
-    const approverId = currentEmp ? currentEmp.id : item.employeeId;
+    const approverId = currentEmp ? String(currentEmp.id) : String(item.employeeId);
 
     this.leaveRequestService.approveLeaveRequest(item.id, {
       approverId: approverId,
@@ -144,7 +144,7 @@ export class LeaveRequestsListComponent implements OnInit {
     if (reason === null) return;
 
     const currentEmp = this.employees()[0];
-    const approverId = currentEmp ? currentEmp.id : item.employeeId;
+    const approverId = currentEmp ? String(currentEmp.id) : String(item.employeeId);
 
     this.leaveRequestService.rejectLeaveRequest(item.id, {
       approverId: approverId,

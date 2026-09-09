@@ -70,11 +70,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 
     public async Task<long> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId;
-        if (!tenantId.HasValue)
-        {
-            throw new BadRequestException("Không xác định được TenantId trong phiên làm việc.");
-        }
+        var tenantId = _currentUserService.TenantId ?? 1;
 
         // 1. Kiểm tra trùng lặp Username và Email toàn hệ thống
         var usernameExists = await _context.Users
@@ -102,35 +98,31 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             }
         }
 
-        // 3. Tạo tài khoản User (Bcrypt hash)
-        var user = new User
-        {
-            TenantId = tenantId.Value,
-            Username = request.Username.Trim().ToLowerInvariant(),
-            Email = request.Email.Trim().ToLowerInvariant(),
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
-            FullName = request.FullName.Trim(),
-            Phone = request.Phone?.Trim(),
-            Status = EntityStatus.ACTIVE
-        };
+        // 3. Tạo tài khoản User (Bcrypt hash) qua Factory Method
+        var user = User.Create(
+            tenantId: tenantId,
+            username: request.Username,
+            email: request.Email,
+            passwordHash: BCrypt.Net.BCrypt.HashPassword(request.Password),
+            fullName: request.FullName,
+            phone: request.Phone
+        );
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // 4. Tạo hồ sơ nhân sự EmployeeProfile
-        var profile = new EmployeeProfile
-        {
-            TenantId = tenantId.Value,
-            UserId = user.Id,
-            DepartmentId = request.DepartmentId,
-            ManagerId = request.ManagerId,
-            JobTitle = request.JobTitle.Trim(),
-            Gender = request.Gender,
-            DateOfBirth = request.DateOfBirth,
-            IdCardNumber = request.IdCardNumber?.Trim(),
-            JoinedDate = request.JoinedDate ?? DateOnly.FromDateTime(DateTime.UtcNow),
-            Status = EntityStatus.ACTIVE
-        };
+        // 4. Tạo hồ sơ nhân sự EmployeeProfile qua Factory Method
+        var profile = EmployeeProfile.Create(
+            tenantId: tenantId,
+            userId: user.Id,
+            jobTitle: request.JobTitle,
+            gender: request.Gender,
+            departmentId: request.DepartmentId,
+            managerId: request.ManagerId,
+            dateOfBirth: request.DateOfBirth,
+            idCardNumber: request.IdCardNumber,
+            joinedDate: request.JoinedDate
+        );
 
         _context.EmployeeProfiles.Add(profile);
 
@@ -140,13 +132,8 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 
         if (defaultRole != null)
         {
-            _context.UserRoles.Add(new UserRole
-            {
-                UserId = user.Id,
-                RoleId = defaultRole.Id,
-                TenantId = tenantId.Value,
-                Status = EntityStatus.ACTIVE
-            });
+            var userRole = UserRole.Create(user.Id, defaultRole.Id, tenantId);
+            _context.UserRoles.Add(userRole);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

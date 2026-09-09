@@ -44,24 +44,29 @@ export class UserViewComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'] || '1';
-      const found = this.userMgmtService.getUserById(id);
-      if (found) {
-        this.user = found;
-      } else {
-        // Fallback default Emma Smith
-        this.user = {
-          id: '1',
-          name: 'Emma Smith',
-          email: 'smith@kpmg.com',
-          avatar: 'assets/media/avatars/300-6.jpg',
-          role: 'Administrator',
-          twoStep: true,
-          lastLogin: 'Yesterday',
-          joinedDate: '25 Jul 2022, 5:20 pm',
-          status: 'Active',
-          statusColor: 'success'
-        };
-      }
+      this.userMgmtService.getUserById(id).subscribe({
+        next: (res) => {
+          if (res.data) {
+            this.user = res.data;
+          }
+        },
+        error: () => {
+          // Fallback default
+          this.user = {
+            id: '1',
+            username: 'superadmin',
+            name: 'System Super Administrator',
+            email: 'superadmin@hrmplatform.local',
+            avatar: 'assets/media/avatars/300-6.jpg',
+            role: 'Super Administrator',
+            twoStep: true,
+            lastLogin: 'Yesterday',
+            joinedDate: '25 Jul 2022, 5:20 pm',
+            status: 'ACTIVE',
+            statusColor: 'success'
+          };
+        }
+      });
     });
   }
 
@@ -72,7 +77,7 @@ export class UserViewComponent implements OnInit {
   toggleTwoStep(): void {
     if (this.user) {
       this.user.twoStep = !this.user.twoStep;
-      this.userMgmtService.updateUser(this.user.id, { twoStep: this.user.twoStep });
+      this.userMgmtService.updateUser(this.user.id, { twoStep: this.user.twoStep }).subscribe();
     }
   }
 

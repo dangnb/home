@@ -107,17 +107,13 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResultDto>
             permissions,
             isSuperAdmin);
 
-        // 7. Lưu bản ghi UserToken theo dõi phiên đăng nhập
-        var userToken = new UserToken
-        {
-            UserId = user.Id,
-            TokenHash = BCrypt.Net.BCrypt.HashPassword(token.Substring(0, Math.Min(32, token.Length))),
-            DeviceInfo = request.DeviceInfo,
-            IpAddress = request.IpAddress,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(60),
-            Status = UserTokenStatus.ACTIVE,
-            CreatedAt = DateTime.UtcNow
-        };
+        var userToken = UserToken.Create(
+            userId: user.Id,
+            tokenHash: BCrypt.Net.BCrypt.HashPassword(token.Substring(0, Math.Min(32, token.Length))),
+            expiresAt: DateTime.UtcNow.AddMinutes(60),
+            deviceInfo: request.DeviceInfo,
+            ipAddress: request.IpAddress
+        );
         _context.UserTokens.Add(userToken);
         await _context.SaveChangesAsync(cancellationToken);
 

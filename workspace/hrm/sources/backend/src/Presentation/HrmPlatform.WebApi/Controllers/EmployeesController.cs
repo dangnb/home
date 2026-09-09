@@ -28,6 +28,18 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>
+    /// Nhập hàng loạt nhân sự từ file Excel
+    /// </summary>
+    [HttpPost("import")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Import([FromBody] ImportEmployeesCommand command, CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, data = result });
+    }
+
+    /// <summary>
     /// Cập nhật thông tin hồ sơ nhân viên
     /// </summary>
     [HttpPut("{id:long}")]

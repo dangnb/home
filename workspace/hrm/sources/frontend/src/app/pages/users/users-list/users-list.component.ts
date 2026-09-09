@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { UserManagementService } from '../../../core/services/user-management.service';
-import { ManagedUser } from '../../../core/models/user-management.model';
+import { ToastService } from '../../../core/services/toast.service';
+import { ManagedUser, CreateUserDto, UpdateUserDto, RoleOption } from '../../../core/models/user-management.model';
 
 @Component({
   selector: 'app-users-list',
@@ -14,99 +15,128 @@ import { ManagedUser } from '../../../core/models/user-management.model';
 })
 export class UsersListComponent implements OnInit {
   private userMgmtService = inject(UserManagementService);
+  private toastService = inject(ToastService);
 
-  users: ManagedUser[] = [];
+  users = signal<ManagedUser[]>([]);
+  filteredUsers = signal<ManagedUser[]>([]);
+  roles = signal<RoleOption[]>([]);
+  isLoading = signal<boolean>(false);
+
   searchTerm = '';
+  selectedRole = 'All';
+  selectedStatus = 'All';
 
-  // Filter Popover state
+  // Filter Dropdown Popover
   isFilterMenuOpen = false;
-  filterRole = 'All';
-  filterTwoStep = 'All';
-
-  // Active filters applied to table
-  appliedRole = 'All';
-  appliedTwoStep = 'All';
-
-  // Export Modal state
-  isExportModalOpen = false;
-  exportRole = 'All';
-  exportFormat = 'excel';
-  isExporting = false;
-  exportSuccess = false;
-
-  // Add/Edit User Modal state
-  isUserModalOpen = false;
-  isEditing = false;
-  editingUserId = '';
-  modalName = '';
-  modalEmail = '';
-  modalRole: ManagedUser['role'] = 'Administrator';
-  modalAvatar = 'assets/media/avatars/300-6.jpg';
-  modalTwoStep = false;
-  modalStatus: ManagedUser['status'] = 'Active';
-  isSaving = false;
 
   // Row Action Dropdown
-  activeActionMenuId: string | null = null;
+  activeActionMenuId: string | number | null = null;
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.activeActionMenuId = null;
+  }
+
+  toggleActionMenu(id: string | number, event?: Event) {
+    if (event) event.stopPropagation();
+    this.activeActionMenuId = this.activeActionMenuId === id ? null : id;
+  }
+
+  // Add / Edit Modal state
+  isUserModalOpen = false;
+  isEditing = false;
+  editingUserId: number | string | null = null;
+  isSaving = false;
+
+  formData = {
+    username: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    password: '',
+    roleId: 4,
+    status: 'ACTIVE'
+  };
+
+  // Delete Modal state
+  isDeleteModalOpen = false;
+  userToDelete: ManagedUser | null = null;
+  isDeleting = false;
 
   // Pagination state
   currentPage = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   ngOnInit(): void {
     this.loadUsers();
+    this.loadRoles();
+  }
+
+  loadRoles(): void {
+    this.userMgmtService.getRoles().subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.roles.set(res.data);
+        }
+      },
+      error: () => {}
+    });
   }
 
   loadUsers(): void {
-    this.userMgmtService.getUsers().subscribe(list => {
-      this.users = list.map(u => ({ ...u, selected: false }));
+    this.isLoading.set(true);
+    this.userMgmtService.getUsers({
+      search: this.searchTerm,
+      role: this.selectedRole,
+      status: this.selectedStatus
+    }).subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.users.set(res.data);
+          this.applyFilter();
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.toastService.error('Lỗi', 'Không thể tải danh sách người dùng từ hệ thống.');
+      }
     });
-  }
-
-  // Filter logic
-  toggleFilterMenu(): void {
-    this.isFilterMenuOpen = !this.isFilterMenuOpen;
   }
 
   applyFilter(): void {
-    this.appliedRole = this.filterRole;
-    this.appliedTwoStep = this.filterTwoStep;
+    let list = this.users();
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase();
+      list = list.filter(u =>
+        u.name?.toLowerCase().includes(term) ||
+        u.fullName?.toLowerCase().includes(term) ||
+        u.username?.toLowerCase().includes(term) ||
+        u.email?.toLowerCase().includes(term) ||
+        (u.phone && u.phone.includes(term))
+      );
+    }
+
+    if (this.selectedRole !== 'All') {
+      list = list.filter(u => u.roleCode === this.selectedRole || u.role === this.selectedRole);
+    }
+
+    if (this.selectedStatus !== 'All') {
+      list = list.filter(u => u.status === this.selectedStatus);
+    }
+
+    this.filteredUsers.set(list);
     this.currentPage = 1;
-    this.isFilterMenuOpen = false;
-  }
-
-  resetFilter(): void {
-    this.filterRole = 'All';
-    this.filterTwoStep = 'All';
-    this.appliedRole = 'All';
-    this.appliedTwoStep = 'All';
-    this.currentPage = 1;
-    this.isFilterMenuOpen = false;
-  }
-
-  get filteredUsers(): ManagedUser[] {
-    return this.users.filter(u => {
-      const matchesSearch = !this.searchTerm ||
-        u.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        u.email.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-      const matchesRole = this.appliedRole === 'All' || u.role === this.appliedRole;
-
-      const matchesTwoStep = this.appliedTwoStep === 'All' ||
-        (this.appliedTwoStep === 'Enabled' && u.twoStep) ||
-        (this.appliedTwoStep === 'Disabled' && !u.twoStep);
-
-      return matchesSearch && matchesRole && matchesTwoStep;
-    });
   }
 
   get paginatedUsers(): ManagedUser[] {
+    const list = this.filteredUsers();
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.filteredUsers.slice(startIndex, startIndex + this.pageSize);
+    return list.slice(startIndex, startIndex + this.pageSize);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.filteredUsers.length / this.pageSize) || 1;
+    return Math.ceil(this.filteredUsers().length / this.pageSize) || 1;
   }
 
   get totalPagesArray(): number[] {
@@ -119,69 +149,20 @@ export class UsersListComponent implements OnInit {
     }
   }
 
-  // Selection & Bulk Actions
-  get selectedCount(): number {
-    return this.users.filter(u => u.selected).length;
-  }
+  // --- Add / Edit User ---
 
-  get isAllSelected(): boolean {
-    const pageUsers = this.paginatedUsers;
-    return pageUsers.length > 0 && pageUsers.every(u => u.selected);
-  }
-
-  toggleSelectAll(event: Event): void {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    const currentPaginatedIds = new Set(this.paginatedUsers.map(u => u.id));
-    this.users.forEach(u => {
-      if (currentPaginatedIds.has(u.id)) {
-        u.selected = isChecked;
-      }
-    });
-  }
-
-  deleteSelected(): void {
-    const selectedIds = this.users.filter(u => u.selected).map(u => u.id);
-    if (selectedIds.length === 0) return;
-
-    if (confirm(`Are you sure you want to delete ${selectedIds.length} selected user(s)?`)) {
-      this.userMgmtService.deleteUsers(selectedIds);
-      this.loadUsers();
-    }
-  }
-
-  // Export Modal
-  openExportModal(): void {
-    this.isExportModalOpen = true;
-    this.exportRole = 'All';
-    this.exportFormat = 'excel';
-    this.exportSuccess = false;
-  }
-
-  closeExportModal(): void {
-    this.isExportModalOpen = false;
-  }
-
-  submitExport(): void {
-    this.isExporting = true;
-    setTimeout(() => {
-      this.isExporting = false;
-      this.exportSuccess = true;
-      setTimeout(() => {
-        this.closeExportModal();
-      }, 1200);
-    }, 1000);
-  }
-
-  // Add / Edit Modal
   openAddModal(): void {
     this.isEditing = false;
-    this.editingUserId = '';
-    this.modalName = '';
-    this.modalEmail = '';
-    this.modalRole = 'Administrator';
-    this.modalAvatar = 'assets/media/avatars/300-6.jpg';
-    this.modalTwoStep = false;
-    this.modalStatus = 'Active';
+    this.editingUserId = null;
+    this.formData = {
+      username: '',
+      fullName: '',
+      email: '',
+      phone: '',
+      password: '',
+      roleId: this.roles().length > 0 ? this.roles()[this.roles().length - 1].id : 4,
+      status: 'ACTIVE'
+    };
     this.isUserModalOpen = true;
     this.activeActionMenuId = null;
   }
@@ -189,12 +170,15 @@ export class UsersListComponent implements OnInit {
   openEditModal(user: ManagedUser): void {
     this.isEditing = true;
     this.editingUserId = user.id;
-    this.modalName = user.name;
-    this.modalEmail = user.email;
-    this.modalRole = user.role;
-    this.modalAvatar = user.avatar || 'assets/media/avatars/300-1.jpg';
-    this.modalTwoStep = user.twoStep;
-    this.modalStatus = user.status;
+    this.formData = {
+      username: user.username,
+      fullName: user.fullName || user.name,
+      email: user.email,
+      phone: user.phone || '',
+      password: '', // Để trống nếu không đổi
+      roleId: user.roleId || 4,
+      status: user.status || 'ACTIVE'
+    };
     this.isUserModalOpen = true;
     this.activeActionMenuId = null;
   }
@@ -204,46 +188,133 @@ export class UsersListComponent implements OnInit {
   }
 
   saveUser(): void {
-    if (!this.modalName || !this.modalEmail) return;
+    if (!this.formData.fullName.trim()) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng nhập họ và tên người dùng.');
+      return;
+    }
+
+    if (!this.isEditing && !this.formData.username.trim()) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng nhập tên đăng nhập.');
+      return;
+    }
+
+    if (!this.formData.email.trim()) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng nhập địa chỉ email.');
+      return;
+    }
+
+    if (!this.isEditing && (!this.formData.password || this.formData.password.length < 6)) {
+      this.toastService.warning('Mật khẩu yếu', 'Mật khẩu phải có ít nhất 6 ký tự.');
+      return;
+    }
 
     this.isSaving = true;
-    setTimeout(() => {
-      if (this.isEditing) {
-        this.userMgmtService.updateUser(this.editingUserId, {
-          name: this.modalName,
-          email: this.modalEmail,
-          role: this.modalRole,
-          avatar: this.modalAvatar,
-          twoStep: this.modalTwoStep,
-          status: this.modalStatus,
-          statusColor: this.modalStatus === 'Active' ? 'success' : this.modalStatus === 'Suspended' ? 'danger' : 'warning'
-        });
-      } else {
-        this.userMgmtService.addUser({
-          name: this.modalName,
-          email: this.modalEmail,
-          role: this.modalRole,
-          avatar: this.modalAvatar,
-          twoStep: this.modalTwoStep,
-          status: this.modalStatus
-        });
-      }
 
-      this.loadUsers();
-      this.isSaving = false;
-      this.closeUserModal();
-    }, 400);
-  }
+    if (this.isEditing && this.editingUserId) {
+      const dto: UpdateUserDto = {
+        id: this.editingUserId,
+        fullName: this.formData.fullName.trim(),
+        email: this.formData.email.trim().toLowerCase(),
+        phone: this.formData.phone?.trim() || undefined,
+        password: this.formData.password?.trim() || undefined,
+        roleId: Number(this.formData.roleId),
+        status: this.formData.status
+      };
 
-  // Actions dropdown
-  toggleActionMenu(userId: string): void {
-    this.activeActionMenuId = this.activeActionMenuId === userId ? null : userId;
-  }
+      this.userMgmtService.updateUser(this.editingUserId, dto).subscribe({
+        next: () => {
+          this.toastService.success('Thành công', 'Đã cập nhật thông tin người dùng thành công.');
+          this.isSaving = false;
+          this.closeUserModal();
+          this.loadUsers();
+        },
+        error: (err) => {
+          this.isSaving = false;
+          const msg = err.error?.message || err.error?.detail || 'Không thể cập nhật thông tin người dùng.';
+          this.toastService.error('Thất bại', msg);
+        }
+      });
+    } else {
+      const dto: CreateUserDto = {
+        username: this.formData.username.trim().toLowerCase(),
+        email: this.formData.email.trim().toLowerCase(),
+        fullName: this.formData.fullName.trim(),
+        password: this.formData.password.trim(),
+        phone: this.formData.phone?.trim() || undefined,
+        roleId: Number(this.formData.roleId),
+        status: this.formData.status
+      };
 
-  deleteUser(id: string): void {
-    if (confirm('Are you sure you want to delete this user?')) {
-      this.userMgmtService.deleteUser(id);
-      this.loadUsers();
+      this.userMgmtService.createUser(dto).subscribe({
+        next: () => {
+          this.toastService.success('Thành công', `Đã tạo tài khoản người dùng "${dto.username}" thành công.`);
+          this.isSaving = false;
+          this.closeUserModal();
+          this.loadUsers();
+        },
+        error: (err) => {
+          this.isSaving = false;
+          const msg = err.error?.message || err.error?.detail || 'Không thể tạo mới tài khoản người dùng.';
+          this.toastService.error('Thất bại', msg);
+        }
+      });
     }
+  }
+
+  // --- Delete User ---
+
+  openDeleteModal(user: ManagedUser): void {
+    this.userToDelete = user;
+    this.isDeleteModalOpen = true;
+    this.activeActionMenuId = null;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalOpen = false;
+    this.userToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (!this.userToDelete) return;
+    this.isDeleting = true;
+    const user = this.userToDelete;
+
+    this.userMgmtService.deleteUser(user.id).subscribe({
+      next: () => {
+        this.toastService.success('Đã xóa', `Đã xóa tài khoản "${user.username}" (${user.name}) thành công.`);
+        this.isDeleting = false;
+        this.closeDeleteModal();
+        this.loadUsers();
+      },
+      error: (err) => {
+        this.isDeleting = false;
+        const msg = err.error?.message || err.error?.detail || 'Không thể xóa tài khoản người dùng.';
+        this.toastService.error('Thất bại', msg);
+        this.closeDeleteModal();
+      }
+    });
+  }
+
+  // --- Badge Helpers ---
+
+  getRoleBadgeClass(roleCode?: string): string {
+    switch (roleCode?.toUpperCase()) {
+      case 'SUPER_ADMIN':
+        return 'badge-light-danger';
+      case 'TENANT_ADMIN':
+      case 'ADMINISTRATOR':
+        return 'badge-light-primary';
+      case 'HR_MANAGER':
+        return 'badge-light-info';
+      case 'DEVELOPER':
+        return 'badge-light-warning';
+      case 'EMPLOYEE':
+      default:
+        return 'badge-light-success';
+    }
+  }
+
+  isUserActive(status?: string): boolean {
+    return status === 'ACTIVE' || status === 'Active' || status === '1';
   }
 }

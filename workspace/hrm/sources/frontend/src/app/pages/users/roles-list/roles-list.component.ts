@@ -201,7 +201,7 @@ export class RolesListComponent {
     this.closeRoleModal();
   }
 
-  deleteUser(id: string): void {
-    this.userService.deleteUser(id);
+  deleteUser(id: string | number): void {
+    this.userService.deleteUser(String(id));
   }
 }

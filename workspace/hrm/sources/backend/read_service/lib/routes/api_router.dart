@@ -11,6 +11,8 @@ import '../features/employees/employee_controller.dart';
 import '../features/employees/employee_repository.dart';
 import '../features/leave_requests/leave_request_controller.dart';
 import '../features/leave_requests/leave_request_repository.dart';
+import '../features/users/user_controller.dart';
+import '../features/users/user_repository.dart';
 
 /// Router tập trung toàn bộ các API Endpoints của Read Service
 class ApiRouter {
@@ -21,6 +23,7 @@ class ApiRouter {
   late final EmployeeController _employeeController;
   late final AttendanceController _attendanceController;
   late final LeaveRequestController _leaveRequestController;
+  late final UserController _userController;
 
   ApiRouter(this.connectionPool) {
     _executor = QueryExecutor(connectionPool);
@@ -30,6 +33,7 @@ class ApiRouter {
     _employeeController = EmployeeController(EmployeeRepository(_executor));
     _attendanceController = AttendanceController(AttendanceRepository(_executor));
     _leaveRequestController = LeaveRequestController(LeaveRequestRepository(_executor));
+    _userController = UserController(UserRepository(_executor));
   }
 
   Router get router {
@@ -50,6 +54,7 @@ class ApiRouter {
     router.mount('/api/v1/employees', _employeeController.router.call);
     router.mount('/api/v1/attendances', _attendanceController.router.call);
     router.mount('/api/v1/leave-requests', _leaveRequestController.router.call);
+    router.mount('/api/v1/users', _userController.router.call);
 
     return router;
   }

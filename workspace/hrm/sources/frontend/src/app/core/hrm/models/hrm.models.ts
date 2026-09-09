@@ -41,58 +41,90 @@ export interface UpdateDepartmentDto {
   status?: string;
 }
 
-export enum Gender {
-  Male = 1,
-  Female = 2,
-  Other = 3
-}
-
-export enum EmployeeStatus {
-  Active = 1,
-  Inactive = 2,
-  Terminated = 3
-}
-
 export interface Employee {
-  id: string;
-  tenantId: string;
-  employeeCode: string;
+  id: number | string;
+  tenantId?: number | string;
+  userId?: number | string;
+  username?: string;
   fullName: string;
   email: string;
   phone?: string;
-  dateOfBirth?: string;
-  gender: number;
-  departmentId?: string;
+  jobTitle?: string;
+  position?: string; // alias for jobTitle
+  departmentId?: number | string;
   departmentName?: string;
-  position?: string;
-  hireDate: string;
-  baseSalary: number;
-  status: number;
+  managerId?: number | string;
+  managerName?: string;
+  gender: string | number; // 'MALE', 'FEMALE', 'OTHER' or 1, 2, 3
+  dateOfBirth?: string;
+  idCardNumber?: string;
+  joinedDate?: string;
+  hireDate?: string; // alias for joinedDate
+  employeeCode?: string;
+  baseSalary?: number;
+  status: string | number; // 'ACTIVE', 'INACTIVE', 'DELETED' or 1, 2, 3
+  createdAt?: string;
   avatarUrl?: string;
 }
 
 export interface CreateEmployeeDto {
-  employeeCode: string;
-  fullName: string;
+  username: string;
   email: string;
+  password?: string;
+  fullName: string;
   phone?: string;
+  departmentId?: number | string;
+  managerId?: number | string;
+  jobTitle: string;
+  gender: string;
   dateOfBirth?: string;
-  gender: number;
-  departmentId?: string;
+  idCardNumber?: string;
+  joinedDate?: string;
+  employeeCode?: string;
   position?: string;
-  hireDate: string;
-  baseSalary: number;
+  hireDate?: string;
+  baseSalary?: number;
 }
 
 export interface UpdateEmployeeDto {
+  id?: number | string;
   fullName: string;
   phone?: string;
+  departmentId?: number | string;
+  managerId?: number | string;
+  jobTitle: string;
+  gender: string;
   dateOfBirth?: string;
-  gender: number;
-  departmentId?: string;
+  idCardNumber?: string;
+  joinedDate?: string;
   position?: string;
-  baseSalary: number;
-  status: number;
+  baseSalary?: number;
+  status?: string | number;
+}
+
+export interface ImportEmployeeItemDto {
+  fullName: string;
+  email: string;
+  username?: string;
+  password?: string;
+  phone?: string;
+  jobTitle?: string;
+  departmentId?: number | string;
+  departmentName?: string;
+  gender?: string;
+  dateOfBirth?: string;
+  idCardNumber?: string;
+  joinedDate?: string;
+  validationStatus?: 'VALID' | 'INVALID';
+  validationMessage?: string;
+}
+
+export interface ImportEmployeesResult {
+  total: number;
+  successCount: number;
+  failureCount: number;
+  errors: string[];
+  createdIds: number[];
 }
 
 export enum AttendanceStatus {

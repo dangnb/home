@@ -48,12 +48,7 @@ public class MultiTenancyAndAuditTests
 
         using var context = CreateDbContext(currentUserService, dbName);
 
-        var department = new Department
-        {
-            Name = "Engineering",
-            Code = "ENG"
-            // TenantId not explicitly set
-        };
+        var department = Department.Create("ENG", "Engineering");
 
         // Act
         context.Departments.Add(department);
@@ -80,12 +75,7 @@ public class MultiTenancyAndAuditTests
 
         using var context = CreateDbContext(currentUserService, dbName);
 
-        var department = new Department
-        {
-            Name = "Marketing",
-            Code = "MKT",
-            TenantId = 1
-        };
+        var department = Department.Create("MKT", "Marketing", tenantId: 1);
 
         context.Departments.Add(department);
         await context.SaveChangesAsync();
@@ -119,8 +109,8 @@ public class MultiTenancyAndAuditTests
         // Seed data for 2 different tenants
         using (var seedContext = CreateDbContext(adminService, dbName))
         {
-            seedContext.Departments.Add(new Department { Name = "Tenant 1 Sales", Code = "T1_SALES", TenantId = 1 });
-            seedContext.Departments.Add(new Department { Name = "Tenant 2 Sales", Code = "T2_SALES", TenantId = 2 });
+            seedContext.Departments.Add(Department.Create("T1_SALES", "Tenant 1 Sales", tenantId: 1));
+            seedContext.Departments.Add(Department.Create("T2_SALES", "Tenant 2 Sales", tenantId: 2));
             await seedContext.SaveChangesAsync();
         }
 
@@ -167,12 +157,7 @@ public class MultiTenancyAndAuditTests
         using var context = CreateDbContext(currentUserService, dbName, includeAuditLogInterceptor: true);
 
         // Act - Create department
-        var dept = new Department
-        {
-            Name = "Research & Development",
-            Code = "RND",
-            TenantId = 1
-        };
+        var dept = Department.Create("RND", "Research & Development", tenantId: 1);
         context.Departments.Add(dept);
         await context.SaveChangesAsync();
 

@@ -1,4 +1,4 @@
-﻿import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -7,9 +7,10 @@ import { ApiResponse, Employee, CreateEmployeeDto, UpdateEmployeeDto } from '../
 export interface EmployeeFilterParams {
   page?: number;
   pageSize?: number;
-  departmentId?: string;
+  departmentId?: string | number;
   search?: string;
-  status?: number;
+  keyword?: string;
+  status?: string | number;
 }
 
 @Injectable({
@@ -26,14 +27,20 @@ export class EmployeeService {
     if (paramsObj) {
       if (paramsObj.page) params = params.set('page', paramsObj.page.toString());
       if (paramsObj.pageSize) params = params.set('pageSize', paramsObj.pageSize.toString());
-      if (paramsObj.departmentId) params = params.set('departmentId', paramsObj.departmentId);
-      if (paramsObj.search) params = params.set('search', paramsObj.search);
-      if (paramsObj.status !== undefined) params = params.set('status', paramsObj.status.toString());
+      if (paramsObj.departmentId) params = params.set('departmentId', paramsObj.departmentId.toString());
+      const kw = paramsObj.keyword || paramsObj.search;
+      if (kw) {
+        params = params.set('keyword', kw);
+        params = params.set('search', kw);
+      }
+      if (paramsObj.status !== undefined && paramsObj.status !== '') {
+        params = params.set('status', paramsObj.status.toString());
+      }
     }
     return this.http.get<ApiResponse<Employee[]>>(this.readUrl, { params });
   }
 
-  getEmployee(id: string): Observable<ApiResponse<Employee>> {
+  getEmployee(id: number | string): Observable<ApiResponse<Employee>> {
     return this.http.get<ApiResponse<Employee>>(`${this.readUrl}/${id}`);
   }
 
@@ -42,11 +49,15 @@ export class EmployeeService {
     return this.http.post<any>(this.writeUrl, dto);
   }
 
-  updateEmployee(id: string, dto: UpdateEmployeeDto): Observable<any> {
+  updateEmployee(id: number | string, dto: UpdateEmployeeDto): Observable<any> {
     return this.http.put<any>(`${this.writeUrl}/${id}`, dto);
   }
 
-  deleteEmployee(id: string): Observable<any> {
+  deleteEmployee(id: number | string): Observable<any> {
     return this.http.delete<any>(`${this.writeUrl}/${id}`);
+  }
+
+  importEmployees(items: any[]): Observable<any> {
+    return this.http.post<any>(`${this.writeUrl}/import`, { items });
   }
 }

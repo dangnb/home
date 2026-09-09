@@ -73,13 +73,12 @@ public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCo
             }
         }
 
-        var department = new Department
-        {
-            Name = request.Name.Trim(),
-            Code = request.Code.Trim().ToUpperInvariant(),
-            ManagerId = request.ManagerId,
-            ParentId = request.ParentId
-        };
+        var department = Department.Create(
+            code: request.Code,
+            name: request.Name,
+            managerId: request.ManagerId,
+            parentId: request.ParentId
+        );
 
         _context.Departments.Add(department);
         await _context.SaveChangesAsync(cancellationToken);

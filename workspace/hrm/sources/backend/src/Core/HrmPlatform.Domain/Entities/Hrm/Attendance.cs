@@ -2,6 +2,7 @@ using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
+using HrmPlatform.Domain.Exceptions;
 
 namespace HrmPlatform.Domain.Entities.Hrm;
 
@@ -10,48 +11,95 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Attendance : BaseEntity<AttendanceStatus>, ITenantScopedEntity
 {
-    public Attendance()
+    public long TenantId { get; set; }
+    public long UserId { get; private set; }
+    public DateOnly WorkDate { get; private set; }
+    public DateTime? CheckIn { get; private set; }
+    public DateTime? CheckOut { get; private set; }
+    public int LateMinutes { get; private set; } = 0;
+    public int EarlyMinutes { get; private set; } = 0;
+
+    #region Navigation Properties
+    public virtual Tenant Tenant { get; private set; } = null!;
+    public virtual User User { get; private set; } = null!;
+    #endregion
+
+    protected Attendance()
     {
-        Status = AttendanceStatus.PRESENT;
     }
 
     /// <summary>
-    /// ID Tenant
+    /// Factory Method tạo bản ghi chấm công mới
     /// </summary>
-    public long TenantId { get; set; }
+    public static Attendance Create(
+        long tenantId,
+        long userId,
+        DateOnly workDate,
+        DateTime? checkIn = null,
+        DateTime? checkOut = null,
+        int lateMinutes = 0,
+        int earlyMinutes = 0,
+        AttendanceStatus status = AttendanceStatus.PRESENT)
+    {
+        if (tenantId <= 0)
+            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
+
+        if (userId <= 0)
+            throw new DomainException("UserId không hợp lệ (phải lớn hơn 0).");
+
+        if (lateMinutes < 0)
+            throw new DomainException("Số phút đi muộn không được là số âm.");
+
+        if (earlyMinutes < 0)
+            throw new DomainException("Số phút về sớm không được là số âm.");
+
+        if (checkIn.HasValue && checkOut.HasValue && checkOut.Value < checkIn.Value)
+            throw new DomainException("Thời gian Check-out không thể diễn ra trước thời gian Check-in.");
+
+        return new Attendance
+        {
+            TenantId = tenantId,
+            UserId = userId,
+            WorkDate = workDate,
+            CheckIn = checkIn,
+            CheckOut = checkOut,
+            LateMinutes = lateMinutes,
+            EarlyMinutes = earlyMinutes,
+            Status = status,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
 
     /// <summary>
-    /// ID User nhân viên được chấm công
+    /// Ghi nhận Check-in của nhân viên
     /// </summary>
-    public long UserId { get; set; }
+    public void RecordCheckIn(DateTime checkInTime, int lateMinutes = 0)
+    {
+        if (lateMinutes < 0)
+            throw new DomainException("Số phút đi muộn không thể là số âm.");
+
+        if (CheckOut.HasValue && checkInTime > CheckOut.Value)
+            throw new DomainException("Thời gian Check-in không thể diễn ra sau thời gian Check-out.");
+
+        CheckIn = checkInTime;
+        LateMinutes = lateMinutes;
+        Status = lateMinutes > 0 ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
+        UpdatedAt = DateTime.UtcNow;
+    }
 
     /// <summary>
-    /// Ngày làm việc (chấm công)
+    /// Ghi nhận Check-out của nhân viên
     /// </summary>
-    public DateOnly WorkDate { get; set; }
+    public void RecordCheckOut(DateTime checkOutTime, int earlyMinutes = 0)
+    {
+        if (earlyMinutes < 0)
+            throw new DomainException("Số phút về sớm không thể là số âm.");
 
-    /// <summary>
-    /// Thời gian thực hiện Check-in
-    /// </summary>
-    public DateTime? CheckIn { get; set; }
+        if (CheckIn.HasValue && checkOutTime < CheckIn.Value)
+            throw new DomainException("Thời gian Check-out không thể diễn ra trước thời gian Check-in.");
 
-    /// <summary>
-    /// Thời gian thực hiện Check-out
-    /// </summary>
-    public DateTime? CheckOut { get; set; }
-
-    /// <summary>
-    /// Số phút đi muộn
-    /// </summary>
-    public int LateMinutes { get; set; } = 0;
-
-    /// <summary>
-    /// Số phút về sớm
-    /// </summary>
-    public int EarlyMinutes { get; set; } = 0;
-
-    #region Navigation Properties
-    public virtual Tenant Tenant { get; set; } = null!;
-    public virtual User User { get; set; } = null!;
-    #endregion
+        CheckOut = checkOutTime;
+        EarlyMinutes = earlyMinutes;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
