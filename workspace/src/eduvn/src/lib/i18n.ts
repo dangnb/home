@@ -1,5 +1,5 @@
 // EduVN — Internationalization (i18n) System
-// Supports Vietnamese and English
+// Supports Complete Bilingual Coverage for Vietnamese (VI) and English (EN)
 
 export type Locale = 'vi' | 'en';
 
@@ -7,12 +7,15 @@ const translations: Record<string, Record<Locale, string>> = {
   // Navigation
   'nav.home': { vi: 'Trang chủ', en: 'Home' },
   'nav.courses': { vi: 'Khóa học', en: 'Courses' },
+  'nav.feeds': { vi: 'Bản tin', en: 'Feeds' },
+  'nav.compiler': { vi: 'Thực hành Code', en: 'Code Compiler' },
+  'nav.leaderboard': { vi: 'Bảng xếp hạng', en: 'Leaderboard' },
   'nav.dashboard': { vi: 'Bảng điều khiển', en: 'Dashboard' },
   'nav.admin': { vi: 'Quản trị', en: 'Admin' },
   'nav.login': { vi: 'Đăng nhập', en: 'Login' },
   'nav.register': { vi: 'Đăng ký', en: 'Register' },
   'nav.logout': { vi: 'Đăng xuất', en: 'Logout' },
-  'nav.myAccount': { vi: 'Tài khoản', en: 'My Account' },
+  'nav.myAccount': { vi: 'Tài khoản & Cài đặt', en: 'My Account & Settings' },
 
   // Hero Section
   'hero.title': { vi: 'Học Lập Trình', en: 'Learn Programming' },
@@ -87,45 +90,41 @@ const translations: Record<string, Record<Locale, string>> = {
   'courses.noResults': { vi: 'Không tìm thấy khóa học nào', en: 'No courses found' },
   'courses.loadMore': { vi: 'Xem thêm', en: 'Load More' },
 
-  // Categories
-  'category.all': { vi: 'Tất cả', en: 'All' },
-  'category.frontend': { vi: 'Frontend', en: 'Frontend' },
-  'category.backend': { vi: 'Backend', en: 'Backend' },
-  'category.mobile': { vi: 'Di động', en: 'Mobile' },
-  'category.devops': { vi: 'DevOps', en: 'DevOps' },
-  'category.database': { vi: 'Database', en: 'Database' },
-  'category.tools': { vi: 'Công cụ', en: 'Tools' },
-  'category.language': { vi: 'Ngôn ngữ', en: 'Language' },
+  // Compiler Page
+  'compiler.title': { vi: 'Trình Biên Dịch & Luyện Code Thực Chiến', en: 'Interactive Code Compiler & Playground' },
+  'compiler.subtitle': { vi: 'Soạn thảo, thực thi mã nguồn JavaScript & HTML trực tiếp và tự động chấm điểm bài tập', en: 'Edit and run JavaScript & HTML code directly with automated test evaluation' },
+  'compiler.runCode': { vi: 'Chạy Code', en: 'Run Code' },
+  'compiler.resetCode': { vi: 'Đặt lại', en: 'Reset Code' },
+  'compiler.exercises': { vi: 'Danh Sách Bài Tập', en: 'Coding Exercises' },
+  'compiler.console': { vi: 'CỬA SỔ CONSOLE & TEST CASES', en: 'CONSOLE & TEST CASES' },
+  'compiler.hint': { vi: 'Gợi ý giải thuật:', en: 'Solution Hint:' },
 
-  // Auth
-  'auth.loginTitle': { vi: 'Đăng Nhập', en: 'Login' },
-  'auth.registerTitle': { vi: 'Tạo Tài Khoản', en: 'Create Account' },
-  'auth.email': { vi: 'Email', en: 'Email' },
-  'auth.password': { vi: 'Mật khẩu', en: 'Password' },
-  'auth.confirmPassword': { vi: 'Xác nhận mật khẩu', en: 'Confirm Password' },
-  'auth.fullName': { vi: 'Họ và tên', en: 'Full Name' },
-  'auth.loginBtn': { vi: 'Đăng nhập', en: 'Login' },
-  'auth.registerBtn': { vi: 'Đăng ký', en: 'Register' },
-  'auth.orLoginWith': { vi: 'Hoặc đăng nhập với', en: 'Or login with' },
-  'auth.noAccount': { vi: 'Chưa có tài khoản?', en: 'Don\'t have an account?' },
-  'auth.hasAccount': { vi: 'Đã có tài khoản?', en: 'Already have an account?' },
-  'auth.forgotPassword': { vi: 'Quên mật khẩu?', en: 'Forgot password?' },
+  // Leaderboard Page
+  'leaderboard.title': { vi: 'Bảng Xếp Hạng & Thành Tích Học Viên', en: 'Leaderboard & Achievements' },
+  'leaderboard.subtitle': { vi: 'Tích lũy điểm kinh nghiệm (XP), thăng hạng danh hiệu và mở khóa các huy hiệu quý giá', en: 'Accumulate XP, climb rank titles, and unlock prestigious badges' },
+  'leaderboard.allTime': { vi: 'Toàn Thời Gian', en: 'All-Time' },
+  'leaderboard.weekly': { vi: 'Hàng Tuần', en: 'Weekly' },
+  'leaderboard.badgesTitle': { vi: 'Huy Hiệu Thành Tích', en: 'Achievement Badges' },
+  'leaderboard.tableTitle': { vi: 'Bảng Thống Kê Học Viên', en: 'Student Ranking Table' },
 
-  // Dashboard
-  'dashboard.title': { vi: 'Bảng Điều Khiển', en: 'Dashboard' },
-  'dashboard.welcome': { vi: 'Chào mừng trở lại', en: 'Welcome back' },
-  'dashboard.myCourses': { vi: 'Khóa học của tôi', en: 'My Courses' },
-  'dashboard.totalCourses': { vi: 'Tổng khóa học', en: 'Total Courses' },
-  'dashboard.totalHours': { vi: 'Tổng giờ học', en: 'Total Hours' },
-  'dashboard.streak': { vi: 'Chuỗi ngày học', en: 'Day Streak' },
-  'dashboard.completed': { vi: 'Hoàn thành', en: 'Completed' },
-  'dashboard.continueLearning': { vi: 'Tiếp tục học', en: 'Continue Learning' },
-  'dashboard.progress': { vi: 'Tiến độ', en: 'Progress' },
-  'dashboard.certificates': { vi: 'Chứng chỉ', en: 'Certificates' },
-  'dashboard.noCourses': {
-    vi: 'Bạn chưa đăng ký khóa học nào',
-    en: 'You haven\'t enrolled in any courses yet',
-  },
+  // Profile Page
+  'profile.title': { vi: 'Hồ Sơ Cá Nhân & Cài Đặt Tài Khoản', en: 'User Profile & Account Settings' },
+  'profile.subtitle': { vi: 'Quản lý thông tin cá nhân, danh mục kỹ năng lập trình và cài đặt bảo mật tài khoản EduVN', en: 'Manage profile info, programming skill tags, and account security' },
+  'profile.infoTab': { vi: 'Thông Tin Cá Nhân', en: 'Personal Info' },
+  'profile.skillsTab': { vi: 'Kỹ Năng Lập Trình', en: 'Programming Skills' },
+  'profile.securityTab': { vi: 'Bảo Mật & Mật Khẩu', en: 'Security & Password' },
+  'profile.fullName': { vi: 'Họ và Tên', en: 'Full Name' },
+  'profile.bio': { vi: 'Giới thiệu bản thân (Bio)', en: 'Bio & Introduction' },
+  'profile.changePassword': { vi: 'Đổi Mật Khẩu', en: 'Change Password' },
+  'profile.saveChanges': { vi: 'Lưu Thay Đổi', en: 'Save Changes' },
+
+  // Feeds Page
+  'feeds.title': { vi: 'Bản Tin Cộng Đồng Dev', en: 'Dev Community Feeds' },
+  'feeds.subtitle': { vi: 'Chia sẻ kiến thức, mẹo lập trình và thảo luận cùng cộng đồng EduVN', en: 'Share tech insights, coding tips, and discuss with the EduVN community' },
+  'feeds.forYou': { vi: 'Dành cho bạn', en: 'For You' },
+  'feeds.featured': { vi: 'Nổi bật', en: 'Featured' },
+  'feeds.latest': { vi: 'Mới nhất', en: 'Latest' },
+  'feeds.createPost': { vi: 'Viết bài mới', en: 'Create Post' },
 
   // Admin
   'admin.title': { vi: 'Quản Trị Hệ Thống', en: 'Admin Panel' },
@@ -133,33 +132,6 @@ const translations: Record<string, Record<Locale, string>> = {
   'admin.manageCourses': { vi: 'Quản lý khóa học', en: 'Manage Courses' },
   'admin.uploadVideo': { vi: 'Upload Video', en: 'Upload Video' },
   'admin.manageUsers': { vi: 'Quản lý người dùng', en: 'Manage Users' },
-  'admin.totalUsers': { vi: 'Tổng người dùng', en: 'Total Users' },
-  'admin.totalViews': { vi: 'Tổng lượt xem', en: 'Total Views' },
-  'admin.revenue': { vi: 'Doanh thu', en: 'Revenue' },
-  'admin.dragDrop': {
-    vi: 'Kéo thả video vào đây hoặc nhấn để chọn',
-    en: 'Drag & drop video here or click to select',
-  },
-  'admin.supportedFormats': {
-    vi: 'Hỗ trợ: MP4, WebM (tối đa 500MB)',
-    en: 'Supported: MP4, WebM (max 500MB)',
-  },
-  'admin.uploading': { vi: 'Đang upload...', en: 'Uploading...' },
-  'admin.uploadSuccess': { vi: 'Upload thành công!', en: 'Upload successful!' },
-
-  // Video Player
-  'player.notes': { vi: 'Ghi chú', en: 'Notes' },
-  'player.notesPlaceholder': {
-    vi: 'Viết ghi chú cho bài học này...',
-    en: 'Write notes for this lesson...',
-  },
-  'player.saveNotes': { vi: 'Lưu ghi chú', en: 'Save Notes' },
-  'player.markComplete': { vi: 'Hoàn thành bài học', en: 'Mark as Complete' },
-  'player.completed': { vi: 'Đã hoàn thành', en: 'Completed' },
-  'player.next': { vi: 'Bài tiếp theo', en: 'Next Lesson' },
-  'player.prev': { vi: 'Bài trước', en: 'Previous Lesson' },
-  'player.courseProgress': { vi: 'Tiến độ khóa học', en: 'Course Progress' },
-  'player.locked': { vi: 'Bài học Premium — Đăng ký để mở khóa', en: 'Premium Lesson — Enroll to unlock' },
 
   // Footer
   'footer.about': { vi: 'Về EduVN', en: 'About EduVN' },

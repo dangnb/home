@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { t, getStoredLocale, setStoredLocale, type Locale } from '@/lib/i18n';
-import { getStoredUser, removeStoredUser, isAdmin, type StoredUser } from '@/lib/storage';
+import { getStoredUser, removeStoredUser, isAdmin, getStoredTheme, setStoredTheme, type StoredUser, type Theme } from '@/lib/storage';
 import {
   Menu,
   X,
@@ -15,12 +15,16 @@ import {
   LayoutDashboard,
   Shield,
   ChevronDown,
+  Sun,
+  Moon,
 } from 'lucide-react';
+import NotificationCenter from '@/components/NotificationCenter';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [locale, setLocale] = useState<Locale>('vi');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [user, setUser] = useState<StoredUser | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -28,12 +32,21 @@ export default function Navbar() {
 
   useEffect(() => {
     setLocale(getStoredLocale());
+    const currentTheme = getStoredTheme();
+    setTheme(currentTheme);
+    setStoredTheme(currentTheme);
     setUser(getStoredUser());
 
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    setStoredTheme(nextTheme);
+  };
 
   useEffect(() => {
     // Listen for storage events (login/logout from other components)
@@ -65,6 +78,9 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: t('nav.home', locale) },
     { href: '/courses', label: t('nav.courses', locale) },
+    { href: '/feeds', label: t('nav.feeds', locale) },
+    { href: '/compiler', label: t('nav.compiler', locale) },
+    { href: '/leaderboard', label: t('nav.leaderboard', locale) },
   ];
 
   if (user) {
@@ -100,6 +116,20 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className={styles.navActions}>
+          {/* Notification Center */}
+          <NotificationCenter />
+
+          {/* Theme Toggle (Dark/Light) */}
+          <button
+            className={styles.langToggle}
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Chuyển sang chế độ Sáng (Light Mode)' : 'Chuyển sang chế độ Tối (Dark Mode)'}
+            aria-label="Toggle dark/light theme"
+          >
+            {theme === 'dark' ? <Sun size={18} style={{ color: '#fbbf24' }} /> : <Moon size={18} style={{ color: '#6366f1' }} />}
+            <span>{theme === 'dark' ? 'Tối' : 'Sáng'}</span>
+          </button>
+
           {/* Language Toggle */}
           <button
             className={styles.langToggle}
@@ -145,12 +175,12 @@ export default function Navbar() {
                     </Link>
                   )}
                   <Link
-                    href="/dashboard"
+                    href="/profile"
                     className={styles.dropdownItem}
                     onClick={() => setUserMenuOpen(false)}
                   >
                     <User size={16} />
-                    {t('nav.myAccount', locale)}
+                    Hồ Sơ & Cài Đặt
                   </Link>
                   <button className={styles.dropdownItem} onClick={handleLogout}>
                     <LogOut size={16} />

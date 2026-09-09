@@ -147,16 +147,24 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* Certificates Placeholder */}
+        {/* Certificates Section */}
         <section className={styles.section}>
           <h2 className="heading-md">{t('dashboard.certificates', locale)}</h2>
-          <div className={styles.certPlaceholder}>
-            <Award size={40} />
-            <p>
-              {locale === 'vi'
-                ? 'Hoàn thành khóa học để nhận chứng chỉ'
-                : 'Complete courses to earn certificates'}
-            </p>
+          <div className={styles.certPlaceholder} style={{ flexDirection: 'column', gap: '1rem' }}>
+            <Award size={44} style={{ color: '#f59e0b' }} />
+            <div>
+              <h3 style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 700 }}>
+                Chứng Nhận Hoàn Thành Khóa Học (Gold Edition)
+              </h3>
+              <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginTop: '0.25rem' }}>
+                {locale === 'vi'
+                  ? 'Bằng chứng nhận chính thức tích hợp mã xác thực QR Code'
+                  : 'Official certificate with QR Code verification'}
+              </p>
+            </div>
+            <Link href="/certificates/course-1" className="btn btn-primary btn-sm">
+              <Award size={16} /> Xem & In Chứng Chỉ Mẫu
+            </Link>
           </div>
         </section>
       </div>

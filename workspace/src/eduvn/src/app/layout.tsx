@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import AiAssistant from '@/components/AiAssistant';
 
 export const metadata: Metadata = {
   title: 'EduVN — Nền tảng Dạy Học Lập Trình Online',
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Navbar />
         <main style={{ paddingTop: 'var(--nav-height)', flex: 1 }}>{children}</main>
         <Footer />
+        <AiAssistant />
       </body>
     </html>
   );

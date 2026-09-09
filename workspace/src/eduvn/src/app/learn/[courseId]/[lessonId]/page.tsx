@@ -24,8 +24,38 @@ import {
   FileText,
   Save,
   ArrowLeft,
+  HelpCircle,
+  Award,
 } from 'lucide-react';
 import styles from './page.module.css';
+
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
+const mockQuizzes: QuizQuestion[] = [
+  {
+    question: 'Trong ReactJS, Hook nào được sử dụng để quản lý state cục bộ trong Functional Component?',
+    options: ['useEffect', 'useState', 'useContext', 'useReducer'],
+    correctIndex: 1,
+    explanation: 'useState là Hook cơ bản nhất giúp lưu trữ và cập nhật trạng thái (state) bên trong Functional Component.',
+  },
+  {
+    question: 'Toán tử nào được dùng để truyền thuộc tính (props) hoặc sao chép mảng/object trong ES6 JavaScript?',
+    options: ['Spread operator (...)', 'Rest operator', 'Ternary operator', 'Optional chaining (?.)'],
+    correctIndex: 0,
+    explanation: 'Spread operator (...) giúp giải nén các phần tử mảng hoặc thuộc tính của object.',
+  },
+  {
+    question: 'Next.js App Router sử dụng thư mục nào để định nghĩa các tuyến đường (routes)?',
+    options: ['pages/', 'src/app/', 'public/', 'components/'],
+    correctIndex: 1,
+    explanation: 'Từ phiên bản Next.js 13+, App Router sử dụng thư mục app/ để định nghĩa các tuyến đường theo file-system.',
+  },
+];
 
 export default function LearnPage({
   params,
@@ -43,6 +73,13 @@ export default function LearnPage({
   const [notesSaved, setNotesSaved] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showSidebar, setShowSidebar] = useState(true);
+
+  // Quiz state
+  const [activeTab, setActiveTab] = useState<'notes' | 'quiz'>('notes');
+  const [quizQuestions] = useState<QuizQuestion[]>(mockQuizzes);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
 
   useEffect(() => {
     setLocale(getStoredLocale());
@@ -178,25 +215,144 @@ export default function LearnPage({
             </div>
           </div>
 
-          {/* Notes */}
-          <div className={styles.notesSection}>
-            <h3>
-              <FileText size={18} />
-              {t('player.notes', locale)}
-            </h3>
-            <textarea
-              className={styles.notesTextarea}
-              placeholder={t('player.notesPlaceholder', locale)}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={5}
-            />
-            <button className="btn btn-secondary btn-sm" onClick={handleSaveNotes}>
-              <Save size={14} />
-              {notesSaved
-                ? '✓ ' + (locale === 'vi' ? 'Đã lưu!' : 'Saved!')
-                : t('player.saveNotes', locale)}
-            </button>
+          {/* Interactive Quiz & Notes Tabs */}
+          <div className={styles.notesSection} style={{ marginTop: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.75rem', marginBottom: '1.25rem' }}>
+              <button
+                className={`btn ${activeTab === 'notes' ? 'btn-primary' : 'btn-ghost'} btn-sm`}
+                onClick={() => setActiveTab('notes')}
+              >
+                <FileText size={16} />
+                {t('player.notes', locale)}
+              </button>
+              <button
+                className={`btn ${activeTab === 'quiz' ? 'btn-primary' : 'btn-ghost'} btn-sm`}
+                onClick={() => setActiveTab('quiz')}
+              >
+                <HelpCircle size={16} />
+                Kiểm Tra Trắc Nghiệm ({quizQuestions.length} câu)
+              </button>
+            </div>
+
+            {activeTab === 'notes' ? (
+              <>
+                <textarea
+                  className={styles.notesTextarea}
+                  placeholder={t('player.notesPlaceholder', locale)}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows={5}
+                />
+                <button className="btn btn-secondary btn-sm" onClick={handleSaveNotes} style={{ marginTop: '0.75rem' }}>
+                  <Save size={14} />
+                  {notesSaved
+                    ? '✓ ' + (locale === 'vi' ? 'Đã lưu!' : 'Saved!')
+                    : t('player.saveNotes', locale)}
+                </button>
+              </>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {quizQuestions.map((q, qIdx) => {
+                  const selectedOpt = quizAnswers[qIdx];
+                  const isSubmitted = quizSubmitted;
+                  return (
+                    <div
+                      key={qIdx}
+                      style={{
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: '14px',
+                        padding: '1.25rem',
+                      }}
+                    >
+                      <h4 style={{ color: '#ffffff', fontSize: '0.975rem', marginBottom: '0.75rem' }}>
+                        Câu {qIdx + 1}: {q.question}
+                      </h4>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {q.options.map((opt, oIdx) => {
+                          const isSelected = selectedOpt === oIdx;
+                          const isCorrect = oIdx === q.correctIndex;
+                          let btnStyle = 'rgba(255,255,255,0.04)';
+                          let borderColor = 'rgba(255,255,255,0.08)';
+
+                          if (isSubmitted) {
+                            if (isCorrect) {
+                              btnStyle = 'rgba(34, 197, 94, 0.2)';
+                              borderColor = 'rgba(34, 197, 94, 0.5)';
+                            } else if (isSelected && !isCorrect) {
+                              btnStyle = 'rgba(239, 68, 68, 0.2)';
+                              borderColor = 'rgba(239, 68, 68, 0.5)';
+                            }
+                          } else if (isSelected) {
+                            btnStyle = 'rgba(168, 85, 247, 0.2)';
+                            borderColor = 'rgba(168, 85, 247, 0.5)';
+                          }
+
+                          return (
+                            <button
+                              key={oIdx}
+                              type="button"
+                              onClick={() => !isSubmitted && setQuizAnswers({ ...quizAnswers, [qIdx]: oIdx })}
+                              style={{
+                                textAlign: 'left',
+                                padding: '0.75rem 1rem',
+                                borderRadius: '10px',
+                                background: btnStyle,
+                                border: `1px solid ${borderColor}`,
+                                color: '#ffffff',
+                                fontSize: '0.875rem',
+                                cursor: isSubmitted ? 'default' : 'pointer',
+                                transition: 'all 0.2s ease',
+                              }}
+                            >
+                              {String.fromCharCode(65 + oIdx)}. {opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {isSubmitted && (
+                        <div
+                          style={{
+                            marginTop: '0.75rem',
+                            fontSize: '0.8125rem',
+                            color: selectedOpt === q.correctIndex ? '#4ade80' : '#fca5a5',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {selectedOpt === q.correctIndex
+                            ? '✅ Đúng! ' + q.explanation
+                            : `❌ Chưa đúng! Đáp án chuẩn là: ${String.fromCharCode(65 + q.correctIndex)}. ${q.explanation}`}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
+                  {quizSubmitted ? (
+                    <div style={{ color: '#4ade80', fontWeight: 700, fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <Award size={20} /> Kết quả: {quizScore}/{quizQuestions.length} câu đúng (+{quizScore * 20} XP)
+                    </div>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        let score = 0;
+                        quizQuestions.forEach((q, idx) => {
+                          if (quizAnswers[idx] === q.correctIndex) score++;
+                        });
+                        setQuizScore(score);
+                        setQuizSubmitted(true);
+                      }}
+                    >
+                      Nộp Bài Trắc Nghiệm
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
