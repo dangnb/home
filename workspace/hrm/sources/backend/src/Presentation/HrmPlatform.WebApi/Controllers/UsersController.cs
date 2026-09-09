@@ -44,6 +44,18 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách toàn bộ vai trò (Roles) trong hệ thống
+    /// </summary>
+    [HttpGet("roles")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetRoles(CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Users.Queries.GetRolesQuery(), cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Lấy chi tiết người dùng theo ID (Dapper Read)
     /// </summary>
     [HttpGet("{id:long}")]
