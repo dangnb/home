@@ -1,9 +1,17 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Department, CreateDepartmentDto, UpdateDepartmentDto } from '../../../core/hrm/models/hrm.models';
+
+export interface DepartmentTreeNode extends Department {
+  level: number;
+  hasChildren: boolean;
+  childCount: number;
+  isExpanded: boolean;
+  children?: DepartmentTreeNode[];
+}
 
 @Component({
   selector: 'app-departments-list',
@@ -16,10 +24,27 @@ export class DepartmentsListComponent implements OnInit {
   private toastService = inject(ToastService);
 
   departments = signal<Department[]>([]);
-  filteredDepartments = signal<Department[]>([]);
+  filteredDepartments = signal<DepartmentTreeNode[]>([]);
   isLoading = signal<boolean>(false);
   searchTerm = '';
   statusFilter: string = '';
+  viewMode = signal<'tree' | 'flat'>('tree');
+  expandedNodeIds = new Set<string | number>();
+
+  // Action Menu Dropdown State
+  activeActionMenuId: string | number | null = null;
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.activeActionMenuId = null;
+  }
+
+  toggleActionMenu(id: string | number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.activeActionMenuId = this.activeActionMenuId === id ? null : id;
+  }
 
   // Modal state
   isModalOpen = false;
@@ -32,6 +57,7 @@ export class DepartmentsListComponent implements OnInit {
     code: '',
     name: '',
     description: '',
+    parentId: '' as string | number,
     status: 'ACTIVE'
   };
 
@@ -45,6 +71,15 @@ export class DepartmentsListComponent implements OnInit {
       next: (res) => {
         if (res.data) {
           this.departments.set(res.data);
+          
+          // Mặc định mở rộng tất cả các node có phòng ban con
+          const parentIdsWithChildren = new Set(res.data.map(d => d.parentId).filter(Boolean));
+          res.data.forEach(d => {
+            if (parentIdsWithChildren.has(d.id)) {
+              this.expandedNodeIds.add(d.id);
+            }
+          });
+
           this.applyFilter();
         }
         this.isLoading.set(false);
@@ -56,25 +91,136 @@ export class DepartmentsListComponent implements OnInit {
     });
   }
 
-  applyFilter() {
-    let list = this.departments();
-    if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase();
-      list = list.filter(d => 
-        d.name?.toLowerCase().includes(term) || 
-        d.code?.toLowerCase().includes(term) ||
-        (d.managerName && d.managerName.toLowerCase().includes(term)) ||
-        (d.description && d.description.toLowerCase().includes(term))
+  availableParentDepartments(): Department[] {
+    return this.departments().filter(d => !this.currentDepartmentId || d.id !== this.currentDepartmentId);
+  }
+
+  setViewMode(mode: 'tree' | 'flat') {
+    this.viewMode.set(mode);
+    this.applyFilter();
+  }
+
+  toggleNode(dept: DepartmentTreeNode, event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.expandedNodeIds.has(dept.id)) {
+      this.expandedNodeIds.delete(dept.id);
+    } else {
+      this.expandedNodeIds.add(dept.id);
+    }
+    this.applyFilter();
+  }
+
+  expandAll() {
+    this.departments().forEach(d => this.expandedNodeIds.add(d.id));
+    this.applyFilter();
+  }
+
+  collapseAll() {
+    this.expandedNodeIds.clear();
+    this.applyFilter();
+  }
+
+  private matchesFilter(d: Department, term: string, status: string): boolean {
+    if (status && d.status !== status) {
+      return false;
+    }
+    if (term) {
+      const t = term.toLowerCase();
+      return !!(
+        d.name?.toLowerCase().includes(t) ||
+        d.code?.toLowerCase().includes(t) ||
+        (d.parentName && d.parentName.toLowerCase().includes(t)) ||
+        (d.managerName && d.managerName.toLowerCase().includes(t)) ||
+        (d.description && d.description.toLowerCase().includes(t))
       );
     }
-    if (this.statusFilter) {
-      list = list.filter(d => d.status === this.statusFilter);
+    return true;
+  }
+
+  private buildTree(items: Department[], parentId: string | number | null = null, level = 0): DepartmentTreeNode[] {
+    const children = items.filter(d => {
+      if (parentId === null) {
+        return !d.parentId || !items.some(parent => parent.id === d.parentId);
+      }
+      return d.parentId === parentId;
+    });
+
+    return children.map(dept => {
+      const deptChildren = this.buildTree(items, dept.id, level + 1);
+      return {
+        ...dept,
+        level,
+        hasChildren: deptChildren.length > 0,
+        childCount: deptChildren.length,
+        isExpanded: this.expandedNodeIds.has(dept.id),
+        children: deptChildren
+      };
+    });
+  }
+
+  private filterTreeNodes(nodes: DepartmentTreeNode[], term: string, status: string): DepartmentTreeNode[] {
+    const result: DepartmentTreeNode[] = [];
+    for (const node of nodes) {
+      const matchesSelf = this.matchesFilter(node, term, status);
+      const filteredChildren = node.children ? this.filterTreeNodes(node.children, term, status) : [];
+
+      if (matchesSelf || filteredChildren.length > 0) {
+        const isSearchActive = !!term || !!status;
+        const newNode: DepartmentTreeNode = {
+          ...node,
+          children: filteredChildren,
+          hasChildren: filteredChildren.length > 0,
+          childCount: filteredChildren.length,
+          // Nếu đang tìm kiếm và có con match, tự động mở rộng node để nhìn thấy cây
+          isExpanded: isSearchActive && filteredChildren.length > 0 ? true : this.expandedNodeIds.has(node.id)
+        };
+        result.push(newNode);
+      }
     }
-    this.filteredDepartments.set(list);
+    return result;
+  }
+
+  private flattenTree(nodes: DepartmentTreeNode[], result: DepartmentTreeNode[] = []): DepartmentTreeNode[] {
+    for (const node of nodes) {
+      result.push(node);
+      if (node.isExpanded && node.children && node.children.length > 0) {
+        this.flattenTree(node.children, result);
+      }
+    }
+    return result;
+  }
+
+  applyFilter() {
+    const rawList = this.departments();
+    const term = this.searchTerm.trim();
+    const status = this.statusFilter;
+
+    if (this.viewMode() === 'flat') {
+      let list = rawList.filter(d => this.matchesFilter(d, term, status));
+      this.filteredDepartments.set(list.map(d => ({
+        ...d,
+        level: 0,
+        hasChildren: false,
+        childCount: 0,
+        isExpanded: false
+      })));
+    } else {
+      // Tree Mode
+      const tree = this.buildTree(rawList);
+      const filteredTree = (term || status) ? this.filterTreeNodes(tree, term, status) : tree;
+      const flatVisible = this.flattenTree(filteredTree);
+      this.filteredDepartments.set(flatVisible);
+    }
   }
 
   isDeptActive(status?: string): boolean {
     return status === 'ACTIVE' || status === '1';
+  }
+
+  openCreateChildModal(parentDept: Department, event?: Event) {
+    if (event) event.stopPropagation();
+    this.openCreateModal();
+    this.formData.parentId = parentDept.id;
   }
 
   openCreateModal() {
@@ -84,6 +230,7 @@ export class DepartmentsListComponent implements OnInit {
       code: '',
       name: '',
       description: '',
+      parentId: '',
       status: 'ACTIVE'
     };
     this.isModalOpen = true;
@@ -96,6 +243,7 @@ export class DepartmentsListComponent implements OnInit {
       code: dept.code,
       name: dept.name,
       description: dept.description || '',
+      parentId: dept.parentId ? String(dept.parentId) : '',
       status: dept.status || 'ACTIVE'
     };
     this.isModalOpen = true;
@@ -124,6 +272,7 @@ export class DepartmentsListComponent implements OnInit {
         code: this.formData.code.trim().toUpperCase(),
         name: this.formData.name.trim(),
         description: this.formData.description?.trim() || undefined,
+        parentId: this.formData.parentId ? Number(this.formData.parentId) : undefined,
         status: this.formData.status
       };
 
@@ -144,7 +293,8 @@ export class DepartmentsListComponent implements OnInit {
       const dto: CreateDepartmentDto = {
         code: this.formData.code.toUpperCase().trim(),
         name: this.formData.name.trim(),
-        description: this.formData.description?.trim() || undefined
+        description: this.formData.description?.trim() || undefined,
+        parentId: this.formData.parentId ? Number(this.formData.parentId) : undefined
       };
 
       this.departmentService.createDepartment(dto).subscribe({

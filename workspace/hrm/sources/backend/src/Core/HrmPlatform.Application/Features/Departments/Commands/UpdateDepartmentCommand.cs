@@ -12,6 +12,7 @@ public record UpdateDepartmentCommand : IRequest
     public string Name { get; init; } = string.Empty;
     public string Code { get; init; } = string.Empty;
     public long? ManagerId { get; init; }
+    public long? ParentId { get; init; }
     public string? Status { get; init; }
 }
 
@@ -71,9 +72,27 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
             }
         }
 
+        // Kiểm tra parent_id hợp lệ
+        if (request.ParentId.HasValue)
+        {
+            if (request.ParentId.Value == request.Id)
+            {
+                throw new BadRequestException("Phòng ban không thể chọn chính nó làm phòng ban cấp trên.");
+            }
+
+            var parentExists = await _context.Departments
+                .AnyAsync(d => d.Id == request.ParentId.Value, cancellationToken);
+
+            if (!parentExists)
+            {
+                throw new NotFoundException("Phòng ban cấp trên (Cha)", request.ParentId.Value);
+            }
+        }
+
         department.Name = request.Name.Trim();
         department.Code = request.Code.Trim().ToUpperInvariant();
         department.ManagerId = request.ManagerId;
+        department.ParentId = request.ParentId;
 
         if (!string.IsNullOrWhiteSpace(request.Status) &&
             Enum.TryParse<Domain.Enums.EntityStatus>(request.Status, true, out var parsedStatus))

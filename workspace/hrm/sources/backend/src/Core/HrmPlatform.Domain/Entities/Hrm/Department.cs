@@ -29,9 +29,16 @@ public class Department : BaseEntity, ITenantScopedEntity
     /// </summary>
     public long? ManagerId { get; set; }
 
+    /// <summary>
+    /// ID phòng ban cấp trên trực tiếp (Cha) - Nullable nếu là cấp cao nhất
+    /// </summary>
+    public long? ParentId { get; set; }
+
     #region Navigation Properties
     public virtual Tenant Tenant { get; set; } = null!;
     public virtual User? Manager { get; set; }
+    public virtual Department? Parent { get; set; }
+    public virtual ICollection<Department> Children { get; set; } = new HashSet<Department>();
     public virtual ICollection<EmployeeProfile> Employees { get; set; } = new HashSet<EmployeeProfile>();
     #endregion
 }

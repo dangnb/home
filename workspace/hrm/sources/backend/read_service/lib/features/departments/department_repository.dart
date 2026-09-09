@@ -35,9 +35,11 @@ class DepartmentRepository {
     final dataSql = """
       SELECT 
         d.id, d.tenant_id, d.name, d.code, d.manager_id, 
-        u.full_name AS manager_name, d.status, d.created_at, d.updated_at
+        u.full_name AS manager_name, d.parent_id, p.name AS parent_name,
+        d.status, d.created_at, d.updated_at
       FROM departments d
       LEFT JOIN users u ON d.manager_id = u.id
+      LEFT JOIN departments p ON d.parent_id = p.id
       $whereClause
       ORDER BY d.id DESC
       LIMIT :limit OFFSET :offset;
@@ -57,9 +59,11 @@ class DepartmentRepository {
     const sql = """
       SELECT 
         d.id, d.tenant_id, d.name, d.code, d.manager_id, 
-        u.full_name AS manager_name, d.status, d.created_at, d.updated_at
+        u.full_name AS manager_name, d.parent_id, p.name AS parent_name,
+        d.status, d.created_at, d.updated_at
       FROM departments d
       LEFT JOIN users u ON d.manager_id = u.id
+      LEFT JOIN departments p ON d.parent_id = p.id
       WHERE d.tenant_id = :tenant_id AND d.id = :id AND d.status != 'DELETED'
       LIMIT 1;
     """;

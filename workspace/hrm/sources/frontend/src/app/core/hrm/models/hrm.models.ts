@@ -16,6 +16,8 @@ export interface Department {
   description?: string;
   managerId?: number | string;
   managerName?: string;
+  parentId?: number | string;
+  parentName?: string;
   status: string; // 'ACTIVE', 'INACTIVE', 'DELETED'
   createdAt?: string;
   updatedAt?: string;
@@ -26,6 +28,7 @@ export interface CreateDepartmentDto {
   name: string;
   description?: string;
   managerId?: number | string;
+  parentId?: number | string;
 }
 
 export interface UpdateDepartmentDto {
@@ -34,6 +37,7 @@ export interface UpdateDepartmentDto {
   name: string;
   description?: string;
   managerId?: number | string;
+  parentId?: number | string;
   status?: string;
 }
 

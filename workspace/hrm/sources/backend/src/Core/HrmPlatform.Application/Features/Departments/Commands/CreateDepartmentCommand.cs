@@ -12,6 +12,7 @@ public record CreateDepartmentCommand : IRequest<long>
     public string Name { get; init; } = string.Empty;
     public string Code { get; init; } = string.Empty;
     public long? ManagerId { get; init; }
+    public long? ParentId { get; init; }
 }
 
 public class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartmentCommand>
@@ -60,11 +61,24 @@ public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCo
             }
         }
 
+        // Kiểm tra parent_id hợp lệ nếu có truyền
+        if (request.ParentId.HasValue)
+        {
+            var parentExists = await _context.Departments
+                .AnyAsync(d => d.Id == request.ParentId.Value, cancellationToken);
+
+            if (!parentExists)
+            {
+                throw new NotFoundException("Phòng ban cấp trên (Cha)", request.ParentId.Value);
+            }
+        }
+
         var department = new Department
         {
             Name = request.Name.Trim(),
             Code = request.Code.Trim().ToUpperInvariant(),
-            ManagerId = request.ManagerId
+            ManagerId = request.ManagerId,
+            ParentId = request.ParentId
         };
 
         _context.Departments.Add(department);

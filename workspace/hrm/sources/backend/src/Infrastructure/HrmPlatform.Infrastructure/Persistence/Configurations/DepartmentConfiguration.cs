@@ -16,6 +16,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         builder.Property(d => d.Name).HasColumnName("name").HasMaxLength(150).IsRequired();
         builder.Property(d => d.Code).HasColumnName("code").HasMaxLength(50).IsRequired();
         builder.Property(d => d.ManagerId).HasColumnName("manager_id");
+        builder.Property(d => d.ParentId).HasColumnName("parent_id");
         builder.Property(d => d.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(20).IsRequired();
         builder.Property(d => d.CreatedAt).HasColumnName("created_at").HasPrecision(6);
         builder.Property(d => d.CreatedBy).HasColumnName("created_by");
@@ -25,6 +26,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         builder.HasIndex(d => new { d.TenantId, d.Code }).IsUnique();
         builder.HasIndex(d => new { d.TenantId, d.Status });
         builder.HasIndex(d => d.ManagerId);
+        builder.HasIndex(d => d.ParentId);
 
         builder.HasOne(d => d.Tenant)
             .WithMany(t => t.Departments)
@@ -35,5 +37,10 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             .WithMany()
             .HasForeignKey(d => d.ManagerId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(d => d.Parent)
+            .WithMany(d => d.Children)
+            .HasForeignKey(d => d.ParentId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
