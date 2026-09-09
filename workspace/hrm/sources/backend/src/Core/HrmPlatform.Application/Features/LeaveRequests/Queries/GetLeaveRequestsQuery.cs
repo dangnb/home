@@ -1,0 +1,107 @@
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Dapper;
+using HrmPlatform.Application.Common.Interfaces;
+using HrmPlatform.Application.Common.Models;
+using MediatR;
+
+namespace HrmPlatform.Application.Features.LeaveRequests.Queries;
+
+public class LeaveRequestDto
+{
+    public long Id { get; set; }
+    public long TenantId { get; set; }
+    public long UserId { get; set; }
+    public string EmployeeName { get; set; } = string.Empty;
+    public string LeaveType { get; set; } = string.Empty;
+    public string StartDate { get; set; } = string.Empty;
+    public string EndDate { get; set; } = string.Empty;
+    public string? Reason { get; set; }
+    public string Status { get; set; } = string.Empty;
+    public long? ApproverId { get; set; }
+    public string? ApproverName { get; set; }
+    public DateTime CreatedAt { get; set; }
+}
+
+public class GetLeaveRequestsQuery : IRequest<PaginatedResultDto<LeaveRequestDto>>
+{
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 20;
+    public long? UserId { get; set; }
+    public string? Status { get; set; }
+    public string? LeaveType { get; set; }
+}
+
+public class GetLeaveRequestsQueryHandler : IRequestHandler<GetLeaveRequestsQuery, PaginatedResultDto<LeaveRequestDto>>
+{
+    private readonly ISqlConnectionFactory _sqlConnectionFactory;
+    private readonly ICurrentUserService _currentUserService;
+
+    public GetLeaveRequestsQueryHandler(ISqlConnectionFactory sqlConnectionFactory, ICurrentUserService currentUserService)
+    {
+        _sqlConnectionFactory = sqlConnectionFactory;
+        _currentUserService = currentUserService;
+    }
+
+    public async Task<PaginatedResultDto<LeaveRequestDto>> Handle(GetLeaveRequestsQuery request, CancellationToken cancellationToken)
+    {
+        var tenantId = _currentUserService.TenantId ?? 1;
+        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
+
+        using var connection = _sqlConnectionFactory.CreateConnection();
+
+        var whereClause = "WHERE lr.tenant_id = @TenantId";
+        var parameters = new DynamicParameters();
+        parameters.Add("TenantId", tenantId);
+        parameters.Add("Limit", request.PageSize);
+        parameters.Add("Offset", offset);
+
+        if (request.UserId.HasValue && request.UserId.Value > 0)
+        {
+            whereClause += " AND lr.user_id = @UserId";
+            parameters.Add("UserId", request.UserId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Status) && request.Status != "All")
+        {
+            whereClause += " AND lr.status = @Status";
+            parameters.Add("Status", request.Status);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.LeaveType) && request.LeaveType != "All")
+        {
+            whereClause += " AND lr.leave_type = @LeaveType";
+            parameters.Add("LeaveType", request.LeaveType);
+        }
+
+        var countSql = $"SELECT COUNT(*) FROM leave_requests lr {whereClause};";
+        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
+
+        var dataSql = $@"
+            SELECT 
+                lr.id AS Id, 
+                lr.tenant_id AS TenantId, 
+                lr.user_id AS UserId, 
+                u.full_name AS EmployeeName,
+                lr.leave_type AS LeaveType, 
+                DATE_FORMAT(lr.start_date, '%Y-%m-%d') AS StartDate, 
+                DATE_FORMAT(lr.end_date, '%Y-%m-%d') AS EndDate, 
+                lr.reason AS Reason, 
+                lr.status AS Status,
+                lr.approver_id AS ApproverId, 
+                a.full_name AS ApproverName, 
+                lr.created_at AS CreatedAt
+            FROM leave_requests lr
+            INNER JOIN users u ON lr.user_id = u.id
+            LEFT JOIN users a ON lr.approver_id = a.id
+            {whereClause}
+            ORDER BY lr.id DESC
+            LIMIT @Limit OFFSET @Offset;
+        ";
+
+        var items = (await connection.QueryAsync<LeaveRequestDto>(dataSql, parameters)).ToList();
+        return PaginatedResultDto<LeaveRequestDto>.Create(items, totalCount, request.Page, request.PageSize);
+    }
+}

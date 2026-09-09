@@ -16,6 +16,49 @@ public class AttendancesController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách lịch sử chấm công (Dapper Read)
+    /// </summary>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] long? userId,
+        [FromQuery] string? startDate,
+        [FromQuery] string? endDate,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Attendances.Queries.GetAttendancesQuery
+        {
+            UserId = userId,
+            StartDate = startDate,
+            EndDate = endDate
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lấy tổng hợp chấm công tháng (Dapper Read)
+    /// </summary>
+    [HttpGet("summary")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetSummary(
+        [FromQuery] long? userId,
+        [FromQuery] int? year,
+        [FromQuery] int? month,
+        CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.UtcNow;
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Attendances.Queries.GetAttendanceSummaryQuery
+        {
+            UserId = userId,
+            Year = year ?? now.Year,
+            Month = month ?? now.Month
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Thực hiện Check-in chấm công
     /// </summary>
     [HttpPost("check-in")]

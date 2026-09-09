@@ -48,6 +48,9 @@ public static class DependencyInjection
         // 4. Đăng ký JWT Token Generator
         services.AddScoped<IJwtTokenGenerator, HrmPlatform.Infrastructure.Services.JwtTokenGenerator>();
 
+        // 5. Đăng ký ISqlConnectionFactory cho Dapper (CQRS Read)
+        services.AddSingleton<ISqlConnectionFactory, MySqlConnectionFactory>();
+
         return services;
     }
 }

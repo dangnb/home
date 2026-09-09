@@ -18,6 +18,45 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách người dùng (Dapper Read)
+    /// </summary>
+    [HttpGet]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] string? search,
+        [FromQuery] string? role,
+        [FromQuery] string? status,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Users.Queries.GetUsersQuery
+        {
+            Search = search,
+            RoleCode = role,
+            Status = status,
+            Page = page,
+            PageSize = pageSize
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lấy chi tiết người dùng theo ID (Dapper Read)
+    /// </summary>
+    [HttpGet("{id:long}")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Users.Queries.GetUserByIdQuery { Id = id }, cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Tạo mới tài khoản người dùng
     /// </summary>
     [HttpPost]

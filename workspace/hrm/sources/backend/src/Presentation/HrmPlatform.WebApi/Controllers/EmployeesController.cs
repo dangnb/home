@@ -16,6 +16,43 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách hồ sơ nhân sự (Dapper Read)
+    /// </summary>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] string? keyword,
+        [FromQuery] long? departmentId,
+        [FromQuery] string? status,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Employees.Queries.GetEmployeesQuery
+        {
+            Keyword = keyword,
+            DepartmentId = departmentId,
+            Status = status,
+            Page = page,
+            PageSize = pageSize
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lấy chi tiết hồ sơ nhân sự theo ID (Dapper Read)
+    /// </summary>
+    [HttpGet("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Employees.Queries.GetEmployeeByIdQuery { Id = id }, cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Thêm mới nhân sự (Tạo tài khoản User và Hồ sơ nhân viên)
     /// </summary>
     [HttpPost]

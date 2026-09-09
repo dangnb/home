@@ -16,6 +16,35 @@ public class DepartmentsController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách phòng ban (Dapper Read)
+    /// </summary>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll([FromQuery] string? status, [FromQuery] int page = 1, [FromQuery] int pageSize = 50, CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Departments.Queries.GetDepartmentsQuery
+        {
+            Status = status,
+            Page = page,
+            PageSize = pageSize
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lấy chi tiết phòng ban theo ID (Dapper Read)
+    /// </summary>
+    [HttpGet("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Departments.Queries.GetDepartmentByIdQuery { Id = id }, cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Tạo mới phòng ban trong doanh nghiệp
     /// </summary>
     [HttpPost]

@@ -16,6 +16,43 @@ public class LeaveRequestsController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách đơn xin nghỉ phép (Dapper Read)
+    /// </summary>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] long? userId,
+        [FromQuery] string? status,
+        [FromQuery] string? leaveType,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.LeaveRequests.Queries.GetLeaveRequestsQuery
+        {
+            UserId = userId,
+            Status = status,
+            LeaveType = leaveType,
+            Page = page,
+            PageSize = pageSize
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lấy chi tiết đơn xin nghỉ phép theo ID (Dapper Read)
+    /// </summary>
+    [HttpGet("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.LeaveRequests.Queries.GetLeaveRequestByIdQuery { Id = id }, cancellationToken);
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Tạo mới đơn xin nghỉ phép
     /// </summary>
     [HttpPost]
