@@ -1,0 +1,283 @@
+<!--begin::Row of Roles-->
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9 mb-10">
+  @for (role of roles(); track role.id) {
+    <!--begin::Col-->
+    <div class="col-md-4">
+      <!--begin::Card-->
+      <div class="card card-flush h-md-100 shadow-sm">
+        <!--begin::Card header-->
+        <div class="card-header">
+          <!--begin::Card title-->
+          <div class="card-title">
+            <h2 class="text-gray-900">{{ role.name }}</h2>
+          </div>
+          <!--end::Card title-->
+        </div>
+        <!--end::Card header-->
+
+        <!--begin::Card body-->
+        <div class="card-body pt-1">
+          <!--begin::Users-->
+          <div class="fw-bold text-gray-600 mb-4">Total users with this role: {{ role.totalUsers }}</div>
+          <!--end::Users-->
+
+          <!--begin::Description-->
+          <p class="text-muted fs-7 mb-4">{{ role.description }}</p>
+          <!--end::Description-->
+
+          <!--begin::Permissions-->
+          <div class="d-flex flex-column text-gray-600 mb-5">
+            @for (perm of role.permissions; track perm) {
+              <div class="d-flex align-items-center py-1 fs-7">
+                <span class="bullet bg-primary me-3"></span>
+                {{ perm }}
+              </div>
+            }
+          </div>
+          <!--end::Permissions-->
+        </div>
+        <!--end::Card body-->
+
+        <!--begin::Card footer-->
+        <div class="card-footer flex-wrap pt-0 d-flex gap-2">
+          <a routerLink="/users" class="btn btn-sm btn-light btn-active-primary">View Role</a>
+          <button type="button" class="btn btn-sm btn-light btn-active-light-primary" (click)="openEditRoleModal(role)">Edit Role</button>
+        </div>
+        <!--end::Card footer-->
+      </div>
+      <!--end::Card-->
+    </div>
+    <!--end::Col-->
+  }
+
+  <!--begin::Add Role Card-->
+  <div class="col-md-4">
+    <!--begin::Card-->
+    <div class="card h-md-100 border-dashed border-2 shadow-none bg-light-primary">
+      <!--begin::Card body-->
+      <div class="card-body d-flex flex-center flex-column py-10">
+        <!--begin::Illustration-->
+        <img src="assets/media/illustrations/sketchy-1/4.png" alt="" class="mw-100 mh-150px mb-6" />
+        <!--end::Illustration-->
+        <!--begin::Button-->
+        <button type="button" class="btn btn-primary" (click)="openAddRoleModal()">
+          <i class="bi bi-plus-circle me-2 fs-5"></i> Add New Role
+        </button>
+        <!--end::Button-->
+      </div>
+      <!--end::Card body-->
+    </div>
+    <!--end::Card-->
+  </div>
+  <!--end::Add Role Card-->
+</div>
+<!--end::Row of Roles-->
+
+<!--begin::Users Assigned Table Card-->
+<div class="card shadow-sm">
+  <!--begin::Card header-->
+  <div class="card-header border-0 pt-6">
+    <!--begin::Card title-->
+    <div class="card-title">
+      <div class="d-flex align-items-center position-relative my-1">
+        <i class="bi bi-search position-absolute ms-4 text-gray-500 fs-5"></i>
+        <input 
+          type="text" 
+          [ngModel]="userSearchTerm()" 
+          (ngModelChange)="userSearchTerm.set($event)"
+          class="form-control form-control-solid w-250px ps-12" 
+          placeholder="Search user..."
+        />
+      </div>
+    </div>
+    <!--end::Card title-->
+
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar d-flex gap-3">
+      <select 
+        class="form-select form-select-solid w-150px" 
+        [ngModel]="selectedRoleFilter()" 
+        (ngModelChange)="selectedRoleFilter.set($event)"
+      >
+        <option value="All">All Roles</option>
+        <option value="Administrator">Administrator</option>
+        <option value="Developer">Developer</option>
+        <option value="Analyst">Analyst</option>
+        <option value="Support">Support</option>
+        <option value="Trial">Trial</option>
+      </select>
+    </div>
+    <!--end::Card toolbar-->
+  </div>
+  <!--end::Card header-->
+
+  <!--begin::Card body-->
+  <div class="card-body py-4">
+    <div class="table-responsive">
+      <table class="table align-middle table-row-dashed fs-6 gy-5">
+        <thead>
+          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+            <th class="min-w-125px">User</th>
+            <th class="min-w-125px">Role</th>
+            <th class="min-w-125px">Two-Step</th>
+            <th class="min-w-125px">Joined Date</th>
+            <th class="min-w-100px">Status</th>
+            <th class="text-end min-w-100px">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 fw-semibold">
+          @for (user of filteredUsers(); track user.id) {
+            <tr>
+              <!--User Info-->
+              <td class="d-flex align-items-center">
+                <div class="symbol symbol-circle symbol-45px overflow-hidden me-3">
+                  <img [src]="user.avatar || 'assets/media/avatars/300-1.jpg'" [alt]="user.name" class="w-100" />
+                </div>
+                <div class="d-flex flex-column">
+                  <a routerLink="/profile" class="text-gray-800 text-hover-primary mb-1 fw-bold">{{ user.name }}</a>
+                  <span class="fs-7 text-muted">{{ user.email }}</span>
+                </div>
+              </td>
+
+              <!--Role-->
+              <td>
+                <span class="badge badge-light-primary fw-bold">{{ user.role }}</span>
+              </td>
+
+              <!--Two Step-->
+              <td>
+                @if (user.twoStep) {
+                  <span class="badge badge-light-success fw-bold">Enabled</span>
+                } @else {
+                  <span class="badge badge-light-danger fw-bold">Disabled</span>
+                }
+              </td>
+
+              <!--Joined Date-->
+              <td>{{ user.joinedDate }}</td>
+
+              <!--Status-->
+              <td>
+                <span [class]="'badge badge-light-' + user.statusColor + ' fw-bold'">
+                  {{ user.status }}
+                </span>
+              </td>
+
+              <!--Actions-->
+              <td class="text-end">
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-light-danger btn-sm" 
+                  (click)="deleteUser(user.id)"
+                  title="Remove user"
+                >
+                  <i class="bi bi-trash fs-5"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center py-5 text-muted">
+                No users found for this role filter.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--end::Card body-->
+</div>
+<!--end::Users Assigned Table Card-->
+
+<!--begin::Modal - Add / Update Role-->
+@if (isRoleModalOpen()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-750px">
+      <div class="modal-content">
+        <!--Modal header-->
+        <div class="modal-header">
+          <h2 class="fw-bold">{{ editingRoleId() ? 'Update Role' : 'Add New Role' }}</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="closeRoleModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </div>
+        </div>
+
+        <!--Modal body-->
+        <div class="modal-body scroll-y mx-5 my-5">
+          <form (ngSubmit)="saveRole()">
+            <!--Role Name Input-->
+            <div class="fv-row mb-7">
+              <label class="fs-5 fw-bold form-label mb-2">
+                <span class="required">Role name</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-solid" 
+                placeholder="Enter a role name (e.g. Moderator)" 
+                [ngModel]="modalRoleName()" 
+                (ngModelChange)="modalRoleName.set($event)"
+                name="roleName"
+                required 
+              />
+            </div>
+
+            <!--Role Permissions Header-->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h3 class="fs-5 fw-bold m-0">Role Permissions</h3>
+              <label class="form-check form-check-custom form-check-solid">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  [checked]="selectAllPermissions()" 
+                  (change)="toggleSelectAll()"
+                />
+                <span class="form-check-label fw-bold">Select All</span>
+              </label>
+            </div>
+
+            <!--Permissions Table Matrix-->
+            <div class="table-responsive">
+              <table class="table align-middle table-row-dashed fs-6 gy-4">
+                <tbody class="text-gray-600 fw-semibold">
+                  @for (mod of permissionModules(); track mod.name) {
+                    <tr>
+                      <td class="text-gray-800 fw-bold">{{ mod.name }}</td>
+                      <td>
+                        <label class="form-check form-check-custom form-check-solid">
+                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.read" [name]="mod.name + '_read'" />
+                          <span class="form-check-label">Read</span>
+                        </label>
+                      </td>
+                      <td>
+                        <label class="form-check form-check-custom form-check-solid">
+                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.write" [name]="mod.name + '_write'" />
+                          <span class="form-check-label">Write</span>
+                        </label>
+                      </td>
+                      <td>
+                        <label class="form-check form-check-custom form-check-solid">
+                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.create" [name]="mod.name + '_create'" />
+                          <span class="form-check-label">Create</span>
+                        </label>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!--Modal Actions-->
+            <div class="text-center pt-8">
+              <button type="button" class="btn btn-light me-3" (click)="closeRoleModal()">Cancel</button>
+              <button type="submit" class="btn btn-primary">
+                <span>Save Role</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal-->

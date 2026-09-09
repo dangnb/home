@@ -1,0 +1,390 @@
+:host {
+  display: block;
+}
+
+#kt_calendar_app {
+  min-height: 700px;
+}
+
+/* Authentic Metronic FullCalendar Plugin Styles */
+::ng-deep {
+  body {    
+    --fc-event-border-color: var(--kt-primary, #009ef7);
+    --fc-event-bg-color: var(--kt-primary, #009ef7);
+    --fc-event-text-color: #ffffff;
+  }
+
+  .fc {
+    // Border color
+    --fc-border-color: var(--kt-gray-200, #eff2f5);
+    --fc-page-bg-color: #ffffff;
+    --fc-small-font-size: 0.95rem;
+
+    // General
+    --fc-highlight-color: var(--kt-light, #f5f8fa);
+    --fc-bg-event-opacity: 0.3;
+    --fc-neutral-bg-color: var(--kt-light, #f5f8fa);
+    --fc-today-bg-color: rgba(80, 205, 137, 0.08);
+    --fc-now-indicator-color: var(--kt-danger, #f1416c);
+    --fc-list-event-hover-bg-color: var(--kt-light, #f5f8fa);
+
+    // Buttons
+    --fc-button-text-color: var(--kt-gray-600, #7e8299);
+    --fc-button-bg-color: var(--kt-gray-100, #f5f8fa);
+    --fc-button-border-color: var(--kt-gray-100, #f5f8fa);
+    
+    --fc-button-hover-bg-color: var(--kt-gray-200, #e4e6ef);
+    --fc-button-hover-border-color: var(--kt-gray-200, #e4e6ef);
+
+    --fc-button-active-bg-color: var(--kt-gray-200, #e4e6ef);
+    --fc-button-active-border-color: var(--kt-gray-200, #e4e6ef);
+
+    // Table
+    table {
+      font-size: 1rem;
+    }     
+
+    // Button
+    .fc-button { 
+      padding: 0.65rem 1.25rem !important;
+      box-shadow: none !important;
+      border: 0 !important;
+      border-radius: 0.475rem !important;
+      vertical-align: middle;
+      font-weight: 600 !important;
+      text-transform: capitalize !important;
+      font-size: 0.95rem !important;
+      line-height: 1.5;
+    }
+
+    // Primary button
+    .fc-button-primary {
+      margin: 0;
+      background-color: var(--kt-gray-100, #f5f8fa) !important;
+      border-color: var(--kt-gray-100, #f5f8fa) !important;
+      color: var(--kt-gray-700, #5e6278) !important;
+
+      // Icon
+      .fc-icon {
+        font-size: 1.35rem;
+        margin-bottom: 0.15rem;
+      }
+
+      &:not(:disabled):not(.fc-button-active) {
+        &:focus,
+        &:hover,
+        &:active {
+          background-color: var(--kt-gray-200, #e4e6ef) !important;
+          border-color: var(--kt-gray-200, #e4e6ef) !important;
+          color: var(--kt-gray-900, #181c32) !important;
+
+          .fc-icon {
+            color: var(--kt-gray-900, #181c32) !important;
+          }
+        }
+      }
+      
+      &:not(:disabled).fc-button-active {
+        background-color: var(--kt-gray-200, #e4e6ef) !important;
+        border-color: var(--kt-gray-200, #e4e6ef) !important;
+        color: var(--kt-gray-900, #181c32) !important;
+
+        .fc-icon {
+          color: var(--kt-gray-900, #181c32) !important;
+        }
+      }
+    }
+
+    // Button group
+    .fc-button-group {
+      .fc-button {
+        margin: 0 !important;
+      }
+    }
+
+    // Toolbar title
+    .fc-toolbar-title {
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      color: var(--kt-gray-800, #181c32) !important;
+    }
+
+    // Header cell
+    .fc-col-header-cell {
+      padding: 0.75rem 0.5rem;
+
+      .fc-col-header-cell-cushion {            
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        color: var(--kt-gray-800, #3f4254) !important;
+        text-decoration: none !important;
+      }
+    }    
+
+    // Border radius & grid
+    .fc-scrollgrid {
+      border-radius: 0.625rem !important;
+      border: 1px solid var(--kt-gray-200, #eff2f5) !important;
+    }
+
+    .fc-theme-standard td, 
+    .fc-theme-standard th {
+      border-color: var(--kt-gray-200, #eff2f5) !important;
+    }
+
+    // Event
+    .fc-daygrid-event {
+      margin-top: 4px !important;
+      border-radius: 0.475rem !important;
+      padding: 4px 8px !important;
+      cursor: pointer !important;
+      border-width: 1px !important;
+      font-size: 0.85rem !important;
+      font-weight: 600 !important;
+      box-shadow: none !important;
+    }
+
+    // Event title
+    .fc-daygrid-dot-event,
+    .fc-daygrid-block-event {
+      .fc-event-title,
+      .fc-event-time {
+        padding: 0.15rem 0.25rem;
+      }
+    }
+
+    // Day number
+    .fc-daygrid-day-number {
+      color: var(--kt-gray-800, #3f4254) !important;
+      font-weight: 600 !important;
+      padding: 6px 10px !important;
+      text-decoration: none !important;
+    }
+
+    // Dot event
+    .fc-daygrid-dot-event {
+      background-color: var(--kt-light, #f5f8fa);
+      color: var(--kt-gray-600, #7e8299);
+
+      .fc-event-title {
+        font-weight: 600;
+      }
+
+      &:hover,
+      &.fc-event-mirror {
+        background-color: var(--kt-light, #f5f8fa);
+        color: var(--kt-primary, #009ef7);
+      }
+    }
+
+    // Event dot
+    .fc-daygrid-event-dot {
+      margin-left: 0.5rem;
+      margin-right: 0.1rem;
+    }        
+
+    // Popover
+    .fc-popover {
+      border: 0 !important;
+      background-color: #ffffff;
+      box-shadow: 0 0 50px 0 rgba(82, 63, 105, 0.15) !important;
+      border-radius: 0.475rem !important;
+
+      .fc-popover-header {
+        border-top-left-radius: 0.475rem;
+        border-top-right-radius: 0.475rem;
+        padding: 0.65rem 0.75rem;
+        background-color: #ffffff;
+        
+        .fc-popover-title {
+          color: var(--kt-gray-800, #181c32);
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        .fc-popover-close {
+          font-size: 1rem;
+          color: var(--kt-gray-600, #7e8299);
+
+          &:hover {
+            color: var(--kt-primary, #009ef7);
+          }
+        }
+      }
+
+      .fc-popover-body {
+        padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+      }
+    }
+
+    // More link
+    .fc-daygrid-more-link {
+      font-weight: 600;
+      color: var(--kt-primary, #009ef7) !important;
+    }
+
+    // Slot
+    .fc-timegrid-slot {
+      height: 2.25rem;
+      font-size: 0.95rem;
+    }
+
+    // Timegrid
+    .fc-timegrid-event .fc-event-main {
+      padding: 0.25rem 0.5rem;
+    }
+
+    .fc-timegrid-now-indicator-arrow {
+      margin-top: -1px;
+    }
+
+    .fc-today-button {
+      margin-left: 0.5rem !important;
+    }
+
+    // Authentic Metronic Light Event Palettes
+    .fc-event-primary {
+      background-color: #f1faff !important;
+      border-color: #009ef7 !important;
+      color: #009ef7 !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #009ef7 !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #009ef7 !important;
+      }
+    }
+
+    .fc-event-success {
+      background-color: #e8fff3 !important;
+      border-color: #50cd89 !important;
+      color: #50cd89 !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #50cd89 !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #50cd89 !important;
+      }
+    }
+
+    .fc-event-warning {
+      background-color: #fff8dd !important;
+      border-color: #ffc700 !important;
+      color: #ffc700 !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffc700 !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #ffc700 !important;
+      }
+    }
+
+    .fc-event-danger {
+      background-color: #fff5f8 !important;
+      border-color: #f1416c !important;
+      color: #f1416c !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #f1416c !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #f1416c !important;
+      }
+    }
+
+    .fc-event-info {
+      background-color: #f8f5ff !important;
+      border-color: #7239ea !important;
+      color: #7239ea !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #7239ea !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #7239ea !important;
+      }
+    }
+
+    .fc-event-light {
+      background-color: #f5f8fa !important;
+      border-color: #e4e6ef !important;
+      color: #7e8299 !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #7e8299 !important;
+      }
+      .fc-daygrid-event-dot {
+        border-color: #7e8299 !important;
+      }
+    }
+
+    // Authentic Metronic Solid Event Palettes
+    .fc-event-solid-primary {
+      background-color: #009ef7 !important;
+      border-color: #009ef7 !important;
+      color: #ffffff !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffffff !important;
+      }
+    }
+
+    .fc-event-solid-success {
+      background-color: #50cd89 !important;
+      border-color: #50cd89 !important;
+      color: #ffffff !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffffff !important;
+      }
+    }
+
+    .fc-event-solid-warning {
+      background-color: #ffc700 !important;
+      border-color: #ffc700 !important;
+      color: #ffffff !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffffff !important;
+      }
+    }
+
+    .fc-event-solid-danger {
+      background-color: #f1416c !important;
+      border-color: #f1416c !important;
+      color: #ffffff !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffffff !important;
+      }
+    }
+
+    .fc-event-solid-info {
+      background-color: #7239ea !important;
+      border-color: #7239ea !important;
+      color: #ffffff !important;
+      .fc-event-main, .fc-event-title, .fc-event-time {
+        color: #ffffff !important;
+      }
+    }
+  }
+
+  // Mobile mode
+  @media (max-width: 768px) {
+    .fc {
+      .fc-header-toolbar {   
+        flex-direction: column;
+        align-items: flex-start;
+
+        .fc-toolbar-chunk {
+          &:nth-child(1),
+          &:nth-child(3) {
+            order: 2;
+          }
+
+          &:nth-child(2) {
+            order: 1;
+          }
+
+          &:nth-child(2),
+          &:nth-child(1) {
+            margin-bottom: 1rem;
+          } 
+        }            
+      }
+    }
+  }
+}

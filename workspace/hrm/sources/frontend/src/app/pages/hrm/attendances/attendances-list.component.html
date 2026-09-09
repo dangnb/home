@@ -1,0 +1,223 @@
+<div class="d-flex flex-column gap-7 gap-lg-10">
+  <!--begin::Summary Cards-->
+  <div class="row g-5 g-xl-8">
+    <div class="col-md-3">
+      <div class="card bg-light-primary border border-primary border-dashed p-6">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-people fs-2tx text-primary me-4"></i>
+          <div>
+            <div class="fs-2hx fw-bold text-gray-900">{{ summary().totalEmployees }}</div>
+            <div class="text-muted fw-semibold">Tổng nhân sự công ty</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-light-success border border-success border-dashed p-6">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-check-circle fs-2tx text-success me-4"></i>
+          <div>
+            <div class="fs-2hx fw-bold text-success">{{ summary().presentToday }}</div>
+            <div class="text-muted fw-semibold">Có mặt hôm nay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-light-warning border border-warning border-dashed p-6">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-clock-history fs-2tx text-warning me-4"></i>
+          <div>
+            <div class="fs-2hx fw-bold text-warning">{{ summary().lateToday }}</div>
+            <div class="text-muted fw-semibold">Đi muộn hôm nay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-light-danger border border-danger border-dashed p-6">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-calendar-x fs-2tx text-danger me-4"></i>
+          <div>
+            <div class="fs-2hx fw-bold text-danger">{{ summary().onLeaveToday }}</div>
+            <div class="text-muted fw-semibold">Nghỉ phép hôm nay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end::Summary Cards-->
+
+  <!--begin::Main Table Card-->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!--begin::Card header-->
+    <div class="card-header pt-7">
+      <div class="card-title">
+        <div class="d-flex align-items-center position-relative my-1">
+          <label class="fw-bold me-3 text-gray-700">Ngày:</label>
+          <input 
+            type="date" 
+            class="form-control form-control-solid w-175px me-4" 
+            [(ngModel)]="filterDate"
+            (change)="onFilterChange()"
+          />
+        </div>
+
+        <div class="ms-2">
+          <select class="form-select form-select-solid w-225px" [(ngModel)]="filterEmployeeId" (change)="onFilterChange()">
+            <option value="">Tất cả nhân viên</option>
+            @for (emp of employees(); track emp.id) {
+              <option [value]="emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
+            }
+          </select>
+        </div>
+
+        <div class="ms-4">
+          <select class="form-select form-select-solid w-175px" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+            <option value="">Tất cả trạng thái</option>
+            <option [value]="1">Có mặt đúng giờ</option>
+            <option [value]="2">Đi muộn</option>
+            <option [value]="3">Về sớm</option>
+            <option [value]="4">Vắng mặt</option>
+            <option [value]="5">Nửa ngày</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card-toolbar">
+        <button type="button" class="btn btn-primary" (click)="openCheckInModal()">
+          <i class="bi bi-fingerprint fs-4 me-2"></i>Điểm Danh / Chấm Công
+        </button>
+      </div>
+    </div>
+    <!--end::Card header-->
+
+    <!--begin::Card body-->
+    <div class="card-body pt-0">
+      <div class="table-responsive">
+        <table class="table align-middle table-row-dashed fs-6 gy-5">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="min-w-200px">Nhân sự</th>
+              <th class="min-w-100px">Ngày làm việc</th>
+              <th class="min-w-100px">Giờ vào ca</th>
+              <th class="min-w-100px">Giờ ra ca</th>
+              <th class="min-w-100px">Số giờ làm</th>
+              <th class="min-w-120px">Đi muộn / Về sớm</th>
+              <th class="min-w-125px">Trạng thái</th>
+              <th class="min-w-150px">Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 fw-semibold">
+            @for (att of attendances(); track att.id) {
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="symbol symbol-40px symbol-circle me-3 bg-light-primary text-primary fw-bold d-flex align-items-center justify-content-center">
+                      {{ (att.employeeName || 'NV').substring(0, 2).toUpperCase() }}
+                    </div>
+                    <div class="d-flex justify-content-start flex-column">
+                      <span class="text-gray-900 fw-bold fs-6">{{ att.employeeName || 'Nhân sự' }}</span>
+                      <span class="text-muted fs-7">{{ att.employeeCode }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="text-gray-800 fw-semibold">{{ att.date | date:'dd/MM/yyyy' }}</span>
+                </td>
+                <td>
+                  <span class="fw-bold text-gray-900">{{ att.checkInTime ? (att.checkInTime | slice:11:16) : '--:--' }}</span>
+                </td>
+                <td>
+                  <span class="fw-bold text-gray-900">{{ att.checkOutTime ? (att.checkOutTime | slice:11:16) : '--:--' }}</span>
+                </td>
+                <td>
+                  <span class="text-gray-800 fw-bold">{{ att.workingHours | number:'1.1-2' }} giờ</span>
+                </td>
+                <td>
+                  @if (att.lateMinutes > 0) {
+                    <span class="badge badge-light-danger me-1">+{{ att.lateMinutes }} phút muộn</span>
+                  }
+                  @if (att.earlyLeaveMinutes > 0) {
+                    <span class="badge badge-light-warning">-{{ att.earlyLeaveMinutes }} phút sớm</span>
+                  }
+                  @if (att.lateMinutes === 0 && att.earlyLeaveMinutes === 0) {
+                    <span class="text-success fs-7">Chuẩn giờ</span>
+                  }
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="getStatusBadgeClass(att.status)">{{ getStatusText(att.status) }}</span>
+                </td>
+                <td>
+                  <span class="text-muted fs-7">{{ att.notes || '—' }}</span>
+                </td>
+              </tr>
+            }
+            @if (attendances().length === 0 && !isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <i class="bi bi-calendar2-check fs-2x d-block mb-2"></i>
+                  Không có bản ghi điểm danh nào trong ngày đã chọn
+                </td>
+              </tr>
+            }
+            @if (isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang truy vấn bảng công từ Dart Read Service...
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end::Card body-->
+  </div>
+</div>
+
+<!--begin::Modal Chấm công-->
+@if (isCheckInModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">Ghi Nhận Chấm Công Thủ Công</h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeCheckInModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-8 px-lg-12">
+          <div class="mb-5">
+            <label class="required fs-6 fw-semibold mb-2">Nhân sự:</label>
+            <select class="form-select form-select-solid" [(ngModel)]="selectedEmployeeId">
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.id">{{ emp.fullName }} ({{ emp.employeeCode }}) - {{ emp.departmentName || 'Chưa phân phòng' }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-5">
+            <label class="fs-6 fw-semibold mb-2">Ghi chú:</label>
+            <input type="text" class="form-control form-control-solid" placeholder="VD: Gặp đối tác bên ngoài, trực onsite..." [(ngModel)]="checkInNotes" />
+          </div>
+
+          <div class="d-flex gap-3 mt-8">
+            <button type="button" class="btn btn-success flex-grow-1 py-4" [disabled]="isSubmitting" (click)="performCheckIn()">
+              <i class="bi bi-box-arrow-in-right fs-3 me-2"></i>Ghi Nhận Vào Ca (Check-in)
+            </button>
+            <button type="button" class="btn btn-danger flex-grow-1 py-4" [disabled]="isSubmitting" (click)="performCheckOut()">
+              <i class="bi bi-box-arrow-right fs-3 me-2"></i>Ghi Nhận Ra Ca (Check-out)
+            </button>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="closeCheckInModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal-->

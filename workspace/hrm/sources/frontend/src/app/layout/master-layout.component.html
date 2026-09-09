@@ -1,0 +1,67 @@
+<div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+  <!--begin::Page-->
+  <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+    <!--begin::Header-->
+    <app-header (toggleMobileSidebar)="toggleMobileSidebar()"></app-header>
+    <!--end::Header-->
+
+    <!--begin::Wrapper-->
+    <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+      <!--begin::Sidebar-->
+      <app-sidebar 
+        [isMobileOpen]="isMobileSidebarOpen"
+        [isCollapsed]="isSidebarCollapsed"
+        (toggleCollapse)="toggleSidebarCollapse()"
+        (closeMobileSidebar)="closeMobileSidebar()"
+      ></app-sidebar>
+      <!--end::Sidebar-->
+
+      <!--begin::Main-->
+      <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+        <!--begin::Content wrapper-->
+        <div class="d-flex flex-column flex-column-fluid">
+          <!--begin::Toolbar-->
+          <app-toolbar></app-toolbar>
+          <!--end::Toolbar-->
+
+          <!--begin::Content-->
+          <div id="kt_app_content" class="app-content flex-column-fluid">
+            <!--begin::Content container-->
+            <div id="kt_app_content_container" class="app-container container-fluid">
+              <router-outlet></router-outlet>
+            </div>
+            <!--end::Content container-->
+          </div>
+          <!--end::Content-->
+        </div>
+        <!--end::Content wrapper-->
+
+        <!--begin::Footer-->
+        <app-footer></app-footer>
+        <!--end::Footer-->
+      </div>
+      <!--end::Main-->
+    </div>
+    <!--end::Wrapper-->
+  </div>
+  <!--end::Page-->
+</div>
+
+<!--begin::Global Drawers-->
+<app-chat-drawer></app-chat-drawer>
+<app-activities-drawer></app-activities-drawer>
+<!--end::Global Drawers-->
+
+<!--begin::Global Modals-->
+<app-new-target-modal></app-new-target-modal>
+<app-create-app-modal></app-create-app-modal>
+<!--end::Global Modals-->
+
+<!--begin::Scrolltop-->
+<app-scroll-top></app-scroll-top>
+<!--end::Scrolltop-->
+
+
+<!--begin::Toast Container-->
+<app-toast-container></app-toast-container>
+<!--end::Toast Container-->

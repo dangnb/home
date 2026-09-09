@@ -1,0 +1,23 @@
+.drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.drawer-on {
+  transform: translateX(0) !important;
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+}

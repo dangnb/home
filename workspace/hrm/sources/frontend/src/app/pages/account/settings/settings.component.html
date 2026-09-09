@@ -1,0 +1,436 @@
+<!--begin::Account Settings Content-->
+<div class="d-flex flex-column gap-7 gap-lg-10">
+  
+  <!--begin::Account Header-->
+  <app-account-header currentTab="settings"></app-account-header>
+  <!--end::Account Header-->
+
+  <!--begin::Alert Banner-->
+  @if (savedSuccess) {
+    <div class="alert alert-success d-flex align-items-center p-5 mb-5 shadow-sm">
+      <i class="bi bi-check-circle-fill fs-2hx text-success me-4"></i>
+      <div class="d-flex flex-column">
+        <h4 class="mb-1 text-success">Settings Saved</h4>
+        <span>Your account details and preferences have been successfully updated.</span>
+      </div>
+    </div>
+  }
+  <!--end::Alert Banner-->
+
+  <!--begin::1. Profile Details Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+      <div class="card-title m-0">
+        <h3 class="fw-bold m-0 text-gray-900">Profile Details</h3>
+      </div>
+    </div>
+
+    <div class="collapse show">
+      <form class="form" (ngSubmit)="saveProfile()">
+        <div class="card-body border-top p-9">
+          <!--begin::Avatar row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
+            <div class="col-lg-8">
+              <div class="d-flex align-items-center gap-4">
+                <img class="symbol symbol-75px rounded-circle border" src="assets/media/avatars/300-1.jpg" alt="Avatar" />
+                <div>
+                  <button type="button" class="btn btn-sm btn-light-primary me-2">Change Avatar</button>
+                  <button type="button" class="btn btn-sm btn-light-danger">Remove</button>
+                  <div class="form-text mt-2 text-muted">Allowed file types: png, jpg, jpeg (Max 2MB).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end::Avatar row-->
+
+          <!--begin::Full Name row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Full Name</label>
+            <div class="col-lg-8">
+              <div class="row">
+                <div class="col-lg-6 fv-row">
+                  <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="First name" [(ngModel)]="profile.firstName" name="firstName" required />
+                </div>
+                <div class="col-lg-6 fv-row">
+                  <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Last name" [(ngModel)]="profile.lastName" name="lastName" required />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end::Full Name row-->
+
+          <!--begin::Company row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Company</label>
+            <div class="col-lg-8 fv-row">
+              <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Company name" [(ngModel)]="profile.company" name="company" required />
+            </div>
+          </div>
+          <!--end::Company row-->
+
+          <!--begin::Phone row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">
+              <span class="required">Contact Phone</span>
+            </label>
+            <div class="col-lg-8 fv-row">
+              <input type="tel" class="form-control form-control-lg form-control-solid" placeholder="Phone number" [(ngModel)]="profile.phone" name="phone" />
+            </div>
+          </div>
+          <!--end::Phone row-->
+
+          <!--begin::Company Site row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Company Site</label>
+            <div class="col-lg-8 fv-row">
+              <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Company website" [(ngModel)]="profile.companySite" name="companySite" />
+            </div>
+          </div>
+          <!--end::Company Site row-->
+
+          <!--begin::Country row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6 required">Country</label>
+            <div class="col-lg-8 fv-row">
+              <select class="form-select form-select-solid form-select-lg fw-semibold" [(ngModel)]="profile.country" name="country">
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Australia">Australia</option>
+                <option value="Japan">Japan</option>
+                <option value="Vietnam">Vietnam</option>
+              </select>
+            </div>
+          </div>
+          <!--end::Country row-->
+
+          <!--begin::Language row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6 required">Language</label>
+            <div class="col-lg-8 fv-row">
+              <select class="form-select form-select-solid form-select-lg fw-semibold" [(ngModel)]="profile.language" name="language">
+                <option value="English - United States">English - United States</option>
+                <option value="German - Deutsch">German - Deutsch</option>
+                <option value="French - Français">French - Français</option>
+                <option value="Spanish - Español">Spanish - Español</option>
+                <option value="Vietnamese - Tiếng Việt">Vietnamese - Tiếng Việt</option>
+              </select>
+            </div>
+          </div>
+          <!--end::Language row-->
+
+          <!--begin::Timezone row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6 required">Time Zone</label>
+            <div class="col-lg-8 fv-row">
+              <select class="form-select form-select-solid form-select-lg fw-semibold" [(ngModel)]="profile.timezone" name="timezone">
+                <option value="(GMT-05:00) Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US & Canada)</option>
+                <option value="(GMT-08:00) Pacific Time (US & Canada)">(GMT-08:00) Pacific Time (US & Canada)</option>
+                <option value="(GMT+00:00) UTC / London">(GMT+00:00) UTC / London</option>
+                <option value="(GMT+07:00) Bangkok, Hanoi, Jakarta">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+                <option value="(GMT+08:00) Singapore, Beijing">(GMT+08:00) Singapore, Beijing</option>
+                <option value="(GMT+09:00) Tokyo, Seoul">(GMT+09:00) Tokyo, Seoul</option>
+              </select>
+            </div>
+          </div>
+          <!--end::Timezone row-->
+
+          <!--begin::Currency row-->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6 required">Currency</label>
+            <div class="col-lg-8 fv-row">
+              <select class="form-select form-select-solid form-select-lg fw-semibold" [(ngModel)]="profile.currency" name="currency">
+                <option value="USD - US Dollar">USD - US Dollar ($)</option>
+                <option value="EUR - Euro">EUR - Euro (€)</option>
+                <option value="GBP - British Pound">GBP - British Pound (£)</option>
+                <option value="JPY - Japanese Yen">JPY - Japanese Yen (¥)</option>
+                <option value="VND - Vietnamese Dong">VND - Vietnamese Dong (₫)</option>
+              </select>
+            </div>
+          </div>
+          <!--end::Currency row-->
+
+          <!--begin::Marketing row-->
+          <div class="row mb-0">
+            <label class="col-lg-4 col-form-label fw-semibold fs-6">Marketing</label>
+            <div class="col-lg-8 d-flex align-items-center">
+              <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                <input class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" [(ngModel)]="profile.allowMarketing" name="allowMarketing" />
+                <label class="form-check-label ms-3" for="allowmarketing">Allow newsletters and promotional product emails</label>
+              </div>
+            </div>
+          </div>
+          <!--end::Marketing row-->
+        </div>
+
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+          <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!--end::1. Profile Details Card-->
+
+  <!--begin::2. Sign-in Method Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+      <div class="card-title m-0">
+        <h3 class="fw-bold m-0 text-gray-900">Sign-in Method</h3>
+      </div>
+    </div>
+
+    <div class="card-body border-top p-9">
+      <!--begin::Email section-->
+      <div class="d-flex flex-wrap align-items-center mb-7">
+        @if (!emailEditMode) {
+          <div>
+            <div class="fs-6 fw-bold mb-1 text-gray-900">Email Address</div>
+            <div class="fw-semibold text-gray-600">{{ currentEmail }}</div>
+          </div>
+          <div class="ms-auto">
+            <button (click)="emailEditMode = true" class="btn btn-light btn-active-light-primary">
+              Change Email
+            </button>
+          </div>
+        } @else {
+          <div class="w-100">
+            <div class="fs-6 fw-bold mb-3 text-gray-900">Update Email Address</div>
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <input type="email" class="form-control form-control-solid" placeholder="Enter New Email" [(ngModel)]="newEmail" name="newEmail" />
+              </div>
+              <div class="col-md-6">
+                <input type="password" class="form-control form-control-solid" placeholder="Confirm Current Password" [(ngModel)]="confirmPasswordForEmail" name="confirmPasswordForEmail" />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button (click)="saveEmail()" class="btn btn-primary btn-sm">Update Email</button>
+              <button (click)="emailEditMode = false" class="btn btn-light btn-sm">Cancel</button>
+            </div>
+          </div>
+        }
+      </div>
+      <!--end::Email section-->
+
+      <div class="separator separator-dashed my-6"></div>
+
+      <!--begin::Password section-->
+      <div class="d-flex flex-wrap align-items-center mb-7">
+        @if (!passwordEditMode) {
+          <div>
+            <div class="fs-6 fw-bold mb-1 text-gray-900">Password</div>
+            <div class="fw-semibold text-gray-600">************</div>
+          </div>
+          <div class="ms-auto">
+            <button (click)="passwordEditMode = true" class="btn btn-light btn-active-light-primary">
+              Reset Password
+            </button>
+          </div>
+        } @else {
+          <div class="w-100">
+            <div class="fs-6 fw-bold mb-3 text-gray-900">Change Password</div>
+            <div class="row mb-3">
+              <div class="col-md-4 mb-3 mb-md-0">
+                <input type="password" class="form-control form-control-solid" placeholder="Current Password" [(ngModel)]="currentPassword" name="currentPassword" />
+              </div>
+              <div class="col-md-4 mb-3 mb-md-0">
+                <input type="password" class="form-control form-control-solid" placeholder="New Password" [(ngModel)]="newPassword" name="newPassword" />
+              </div>
+              <div class="col-md-4">
+                <input type="password" class="form-control form-control-solid" placeholder="Confirm New Password" [(ngModel)]="confirmPassword" name="confirmPassword" />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button (click)="savePassword()" class="btn btn-primary btn-sm">Update Password</button>
+              <button (click)="passwordEditMode = false" class="btn btn-light btn-sm">Cancel</button>
+            </div>
+          </div>
+        }
+      </div>
+      <!--end::Password section-->
+
+      <div class="separator separator-dashed my-6"></div>
+
+      <!--begin::2FA section-->
+      <div class="d-flex flex-wrap align-items-center">
+        <div>
+          <div class="fs-6 fw-bold mb-1 text-gray-900">Two-Factor Authentication (2FA)</div>
+          <div class="fw-semibold text-gray-600">
+            @if (twoFactorEnabled) {
+              <span class="badge badge-light-success me-2">Enabled</span>
+              SMS code will be sent to your phone upon login.
+            } @else {
+              <span class="badge badge-light-danger me-2">Disabled</span>
+              Enable 2FA to significantly boost account security.
+            }
+          </div>
+        </div>
+        <div class="ms-auto">
+          <button (click)="toggle2FA()" [class]="twoFactorEnabled ? 'btn btn-light-danger' : 'btn btn-primary'">
+            {{ twoFactorEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+          </button>
+        </div>
+      </div>
+      <!--end::2FA section-->
+    </div>
+  </div>
+  <!--end::2. Sign-in Method Card-->
+
+  <!--begin::3. Connected Accounts Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+      <div class="card-title m-0">
+        <h3 class="fw-bold m-0 text-gray-900">Connected Accounts</h3>
+      </div>
+    </div>
+
+    <div class="card-body border-top p-9">
+      <!--begin::Google-->
+      <div class="d-flex flex-stack mb-6">
+        <div class="d-flex align-items-center">
+          <img src="assets/media/svg/brand-logos/google-icon.svg" class="w-30px me-6" alt="Google" />
+          <div class="d-flex flex-column">
+            <span class="fs-6 fw-bold text-gray-900">Google Workspace</span>
+            <span class="fs-7 fw-semibold text-muted">Direct authentication and calendar synchronization</span>
+          </div>
+        </div>
+        <div class="form-check form-switch form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" [checked]="connectedAccounts.google" (change)="toggleConnectedAccount('google')" />
+        </div>
+      </div>
+      <!--end::Google-->
+
+      <div class="separator separator-dashed my-5"></div>
+
+      <!--begin::Github-->
+      <div class="d-flex flex-stack mb-6">
+        <div class="d-flex align-items-center">
+          <img src="assets/media/svg/brand-logos/github.svg" class="w-30px me-6" alt="Github" />
+          <div class="d-flex flex-column">
+            <span class="fs-6 fw-bold text-gray-900">GitHub</span>
+            <span class="fs-7 fw-semibold text-muted">Sync code repositories and deploy webhooks</span>
+          </div>
+        </div>
+        <div class="form-check form-switch form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" [checked]="connectedAccounts.github" (change)="toggleConnectedAccount('github')" />
+        </div>
+      </div>
+      <!--end::Github-->
+
+      <div class="separator separator-dashed my-5"></div>
+
+      <!--begin::Slack-->
+      <div class="d-flex flex-stack">
+        <div class="d-flex align-items-center">
+          <img src="assets/media/svg/brand-logos/slack-icon.svg" class="w-30px me-6" alt="Slack" />
+          <div class="d-flex flex-column">
+            <span class="fs-6 fw-bold text-gray-900">Slack</span>
+            <span class="fs-7 fw-semibold text-muted">Receive real-time notifications in team channels</span>
+          </div>
+        </div>
+        <div class="form-check form-switch form-check-custom form-check-solid">
+          <input class="form-check-input" type="checkbox" [checked]="connectedAccounts.slack" (change)="toggleConnectedAccount('slack')" />
+        </div>
+      </div>
+      <!--end::Slack-->
+    </div>
+  </div>
+  <!--end::3. Connected Accounts Card-->
+
+  <!--begin::4. Email Notifications Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+      <div class="card-title m-0">
+        <h3 class="fw-bold m-0 text-gray-900">Email Notifications</h3>
+      </div>
+    </div>
+
+    <div class="card-body border-top p-9">
+      <div class="table-responsive">
+        <table class="table align-middle table-row-dashed fs-6 gy-4">
+          <tbody class="text-gray-600 fw-semibold">
+            <tr>
+              <td class="min-w-250px fs-6 text-gray-900 fw-bold">Billing & Invoices Updates</td>
+              <td>Email receipt when an invoice or renewal is generated</td>
+              <td class="text-end">
+                <div class="form-check form-check-custom form-check-solid form-check-sm justify-content-end">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="notifications.billing" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="min-w-250px fs-6 text-gray-900 fw-bold">Team Invitations</td>
+              <td>Notification when a new member joins your workspace</td>
+              <td class="text-end">
+                <div class="form-check form-check-custom form-check-solid form-check-sm justify-content-end">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="notifications.newTeam" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="min-w-250px fs-6 text-gray-900 fw-bold">Payment Failures</td>
+              <td>Immediate alert when recurring payment attempt fails</td>
+              <td class="text-end">
+                <div class="form-check form-check-custom form-check-solid form-check-sm justify-content-end">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="notifications.failedPayment" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="min-w-250px fs-6 text-gray-900 fw-bold">Security Alerts</td>
+              <td>Critical notifications regarding logins from new devices</td>
+              <td class="text-end">
+                <div class="form-check form-check-custom form-check-solid form-check-sm justify-content-end">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="notifications.securityAlerts" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--end::4. Email Notifications Card-->
+
+  <!--begin::5. Deactivate Account Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+      <div class="card-title m-0">
+        <h3 class="fw-bold m-0 text-danger">Deactivate Account</h3>
+      </div>
+    </div>
+
+    <div class="card-body border-top p-9">
+      <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-9 p-6">
+        <i class="bi bi-exclamation-triangle-fill fs-2tx text-warning me-4"></i>
+        <div class="d-flex flex-stack flex-grow-1">
+          <div class="fw-semibold">
+            <h4 class="text-gray-900 fw-bold">You are deactivating your account</h4>
+            <div class="fs-6 text-gray-700">
+              For extra security, this requires you to confirm your email or contact support. Once deactivated, you will lose access to team workspaces.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-check form-check-solid fv-row mb-6">
+        <input class="form-check-input" type="checkbox" id="deactivate" [(ngModel)]="confirmDeactivate" />
+        <label class="form-check-label fw-semibold text-gray-800" for="deactivate">
+          I confirm my account deactivation
+        </label>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button [disabled]="!confirmDeactivate" (click)="deactivateAccount()" class="btn btn-danger fw-semibold">
+          Deactivate Account
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--end::5. Deactivate Account Card-->
+
+</div>
+<!--end::Account Settings Content-->

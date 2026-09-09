@@ -1,0 +1,149 @@
+<div class="d-flex flex-column gap-7 gap-lg-10">
+  <!--begin::Account Header-->
+  <app-account-header currentTab="statements"></app-account-header>
+  <!--end::Account Header-->
+
+  <!--begin::Row: Earnings & Invoices-->
+  <div class="row g-xxl-9">
+    <!--begin::Col: Earnings-->
+    <div class="col-xxl-8">
+      <div class="card card-xxl-stretch mb-5 mb-xxl-10">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="m-0 text-gray-900 fw-bold">Earnings Summary</h3>
+          </div>
+        </div>
+        <div class="card-body pb-6">
+          <span class="fs-6 fw-semibold text-gray-600 pb-5 d-block">
+            Net payout summary for past 30 days across all active product catalogs.
+          </span>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <div class="d-flex flex-wrap">
+              <div class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
+                <span class="fs-2x fw-bold text-gray-900 lh-1">$6,840</span>
+                <span class="fs-7 fw-semibold text-muted d-block lh-1 pt-2">Net Earnings</span>
+              </div>
+              <div class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
+                <span class="fs-2x fw-bold text-success lh-1">+80%</span>
+                <span class="fs-7 fw-semibold text-muted d-block lh-1 pt-2">Monthly Growth</span>
+              </div>
+              <div class="border border-dashed border-gray-300 w-125px rounded my-3 p-4 me-6">
+                <span class="fs-2x fw-bold text-danger lh-1">$1,240</span>
+                <span class="fs-7 fw-semibold text-muted d-block lh-1 pt-2">Platform Fees</span>
+              </div>
+            </div>
+
+            <button (click)="withdrawEarnings()" class="btn btn-primary px-6 my-3">
+              <i class="bi bi-wallet2 me-1"></i> Withdraw Earnings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+
+    <!--begin::Col: Invoices Quick Selector-->
+    <div class="col-xxl-4">
+      <div class="card card-xxl-stretch mb-5 mb-xxl-10">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="m-0 text-gray-900 fw-bold">Tax & Statement Sheets</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="fs-7 fw-semibold text-gray-600 pb-4 d-block">
+            Select annual statement format for export.
+          </span>
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1 me-3">
+              <select class="form-select form-select-solid form-select-sm" [(ngModel)]="selectedInvoiceType">
+                <option value="individual">Individual Merchant Annual</option>
+                <option value="closing">Closing Variable Fee Sheet</option>
+                <option value="referral">Affiliate Referral Payouts</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm btn-icon" (click)="withdrawEarnings()" title="Download statement sheet">
+              <i class="bi bi-cloud-arrow-down-fill fs-5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Col-->
+  </div>
+  <!--end::Row-->
+
+  <!--begin::Statements Datatable Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header card-header-stretch align-items-center">
+      <div class="card-title">
+        <h3 class="m-0 text-gray-900 fw-bold">Historical Statements</h3>
+      </div>
+      <div class="card-toolbar m-0">
+        <ul class="nav nav-stretch nav-line-tabs border-transparent fs-6 fw-bold">
+          <li class="nav-item">
+            <button type="button" class="nav-link btn-link border-0 bg-transparent py-4"
+              [class.active]="selectedYear === 'current'" (click)="selectedYear = 'current'">
+              This Year (2026)
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link btn-link border-0 bg-transparent py-4"
+              [class.active]="selectedYear === '2025'" (click)="selectedYear = '2025'">
+              2025
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link btn-link border-0 bg-transparent py-4"
+              [class.active]="selectedYear === '2024'" (click)="selectedYear = '2024'">
+              2024
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link btn-link border-0 bg-transparent py-4"
+              [class.active]="selectedYear === '2023'" (click)="selectedYear = '2023'">
+              2023
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-flush align-middle table-row-bordered table-row-solid gy-4 gs-9 mb-0">
+          <thead class="border-gray-200 fs-7 fw-bold text-gray-400 bg-lighten text-uppercase">
+            <tr>
+              <th class="ps-9">Transaction Date</th>
+              <th>Order ID</th>
+              <th>Details & Product Description</th>
+              <th>Net Amount</th>
+              <th class="text-center">Invoice</th>
+            </tr>
+          </thead>
+          <tbody class="fs-6 fw-semibold text-gray-600">
+            @for (st of activeStatements; track st.orderId + st.date) {
+              <tr>
+                <td class="ps-9">{{ st.date }}</td>
+                <td><span class="text-gray-900 fw-bold">#{{ st.orderId }}</span></td>
+                <td><span class="text-gray-800">{{ st.details }}</span></td>
+                <td>
+                  <span class="fw-bold" [ngClass]="st.isCredit ? 'text-success' : 'text-danger'">
+                    {{ st.amount }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <button (click)="downloadInvoice(st)" class="btn btn-light btn-sm btn-active-light-primary">
+                    <i class="bi bi-download me-1"></i> Download
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--end::Statements Datatable Card-->
+</div>

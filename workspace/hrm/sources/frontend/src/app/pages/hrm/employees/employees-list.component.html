@@ -1,0 +1,231 @@
+<div class="card card-flush shadow-sm card-bordered">
+  <!--begin::Card header-->
+  <div class="card-header pt-7">
+    <div class="card-title">
+      <div class="d-flex align-items-center position-relative my-1">
+        <i class="bi bi-search fs-3 position-absolute ms-4 text-gray-500"></i>
+        <input 
+          type="text" 
+          class="form-control form-control-solid w-250px ps-12" 
+          placeholder="Tìm tên, mã, email..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onFilterChange()"
+        />
+      </div>
+
+      <div class="ms-4">
+        <select class="form-select form-select-solid w-200px" [(ngModel)]="selectedDepartmentId" (change)="onFilterChange()">
+          <option value="">Tất cả phòng ban</option>
+          @for (dept of departments(); track dept.id) {
+            <option [value]="dept.id">{{ dept.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="ms-4">
+        <select class="form-select form-select-solid w-150px" [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+          <option value="">Tất cả trạng thái</option>
+          <option [value]="1">Đang làm việc</option>
+          <option [value]="2">Tạm nghỉ</option>
+          <option [value]="3">Đã thôi việc</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-primary" (click)="openCreateModal()">
+        <i class="bi bi-person-plus-fill fs-4 me-2"></i>Thêm Mới Nhân Sự
+      </button>
+    </div>
+  </div>
+  <!--end::Card header-->
+
+  <!--begin::Card body-->
+  <div class="card-body pt-0">
+    <div class="table-responsive">
+      <table class="table align-middle table-row-dashed fs-6 gy-5">
+        <thead>
+          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+            <th class="min-w-200px">Nhân sự</th>
+            <th class="min-w-125px">Phòng ban</th>
+            <th class="min-w-125px">Chức vụ</th>
+            <th class="min-w-125px">Liên hệ</th>
+            <th class="min-w-125px">Ngày vào làm</th>
+            <th class="min-w-100px">Trạng thái</th>
+            <th class="text-end min-w-100px">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 fw-semibold">
+          @for (emp of employees(); track emp.id) {
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="symbol symbol-45px symbol-circle me-3 bg-light-primary text-primary fw-bolder d-flex align-items-center justify-content-center">
+                    {{ emp.fullName.substring(0, 2).toUpperCase() }}
+                  </div>
+                  <div class="d-flex justify-content-start flex-column">
+                    <span class="text-gray-900 fw-bold fs-6">{{ emp.fullName }}</span>
+                    <span class="text-muted fw-semibold fs-7">{{ emp.employeeCode }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-light-info fw-bold">{{ emp.departmentName || 'Chưa phân phòng' }}</span>
+              </td>
+              <td>
+                <span class="text-gray-800 fw-semibold">{{ emp.position || 'Chuyên viên' }}</span>
+              </td>
+              <td>
+                <div class="d-flex flex-column">
+                  <span class="text-gray-800">{{ emp.email }}</span>
+                  <span class="text-muted fs-7">{{ emp.phone || 'Chưa có SĐT' }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="text-gray-700">{{ emp.hireDate | date:'dd/MM/yyyy' }}</span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(emp.status)">{{ getStatusText(emp.status) }}</span>
+              </td>
+              <td class="text-end">
+                <button type="button" class="btn btn-icon btn-light-warning btn-sm me-2" (click)="openEditModal(emp)" title="Chỉnh sửa">
+                  <i class="bi bi-pencil-fill fs-6"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-light-danger btn-sm" (click)="deleteEmployee(emp)" title="Xóa">
+                  <i class="bi bi-trash-fill fs-6"></i>
+                </button>
+              </td>
+            </tr>
+          }
+          @if (employees().length === 0 && !isLoading()) {
+            <tr>
+              <td colspan="7" class="text-center py-10 text-muted">
+                <i class="bi bi-people fs-2x d-block mb-2"></i>
+                Chưa có hồ sơ nhân sự nào phù hợp
+              </td>
+            </tr>
+          }
+          @if (isLoading()) {
+            <tr>
+              <td colspan="7" class="text-center py-10 text-muted">
+                <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu nhân sự từ Dart Read Service...
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!--begin::Pagination-->
+    <div class="d-flex flex-stack flex-wrap pt-10">
+      <div class="fs-6 fw-semibold text-gray-700">
+        Hiển thị trang {{ currentPage }} / {{ totalPages }} (Tổng số {{ totalRecords }} nhân sự)
+      </div>
+      <ul class="pagination">
+        <li class="page-item previous" [class.disabled]="currentPage === 1">
+          <a class="page-link cursor-pointer" (click)="goToPage(currentPage - 1)"><i class="bi bi-chevron-left"></i></a>
+        </li>
+        <li class="page-item active">
+          <a class="page-link">{{ currentPage }}</a>
+        </li>
+        <li class="page-item next" [class.disabled]="currentPage >= totalPages">
+          <a class="page-link cursor-pointer" (click)="goToPage(currentPage + 1)"><i class="bi bi-chevron-right"></i></a>
+        </li>
+      </ul>
+    </div>
+    <!--end::Pagination-->
+  </div>
+  <!--end::Card body-->
+</div>
+
+<!--begin::Modal Thêm/Sửa nhân sự-->
+@if (isModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-750px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">{{ isEditMode ? 'Cập Nhật Hồ Sơ Nhân Sự' : 'Thêm Mới Hồ Sơ Nhân Sự' }}</h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-8 px-lg-12">
+          <div class="row g-5">
+            <div class="col-md-6">
+              <label class="required fs-6 fw-semibold mb-2">Mã nhân sự:</label>
+              <input type="text" class="form-control form-control-solid" [(ngModel)]="formData.employeeCode" [disabled]="isEditMode" />
+            </div>
+            <div class="col-md-6">
+              <label class="required fs-6 fw-semibold mb-2">Họ và tên:</label>
+              <input type="text" class="form-control form-control-solid" placeholder="VD: Nguyễn Văn An" [(ngModel)]="formData.fullName" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="required fs-6 fw-semibold mb-2">Email công việc:</label>
+              <input type="email" class="form-control form-control-solid" placeholder="an.nguyen@company.com" [(ngModel)]="formData.email" [disabled]="isEditMode" />
+            </div>
+            <div class="col-md-6">
+              <label class="fs-6 fw-semibold mb-2">Số điện thoại:</label>
+              <input type="text" class="form-control form-control-solid" placeholder="0901234567" [(ngModel)]="formData.phone" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="fs-6 fw-semibold mb-2">Phòng ban:</label>
+              <select class="form-select form-select-solid" [(ngModel)]="formData.departmentId">
+                <option value="">-- Chưa phân phòng --</option>
+                @for (dept of departments(); track dept.id) {
+                  <option [value]="dept.id">{{ dept.name }} ({{ dept.code }})</option>
+                }
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="fs-6 fw-semibold mb-2">Chức vụ:</label>
+              <input type="text" class="form-control form-control-solid" placeholder="VD: Lập trình viên Senior" [(ngModel)]="formData.position" />
+            </div>
+
+            <div class="col-md-4">
+              <label class="fs-6 fw-semibold mb-2">Giới tính:</label>
+              <select class="form-select form-select-solid" [(ngModel)]="formData.gender">
+                <option [value]="1">Nam</option>
+                <option [value]="2">Nữ</option>
+                <option [value]="3">Khác</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="fs-6 fw-semibold mb-2">Ngày sinh:</label>
+              <input type="date" class="form-control form-control-solid" [(ngModel)]="formData.dateOfBirth" />
+            </div>
+            <div class="col-md-4">
+              <label class="required fs-6 fw-semibold mb-2">Ngày vào làm:</label>
+              <input type="date" class="form-control form-control-solid" [(ngModel)]="formData.hireDate" [disabled]="isEditMode" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="fs-6 fw-semibold mb-2">Lương cơ bản (VNĐ):</label>
+              <input type="number" class="form-control form-control-solid" [(ngModel)]="formData.baseSalary" />
+            </div>
+            @if (isEditMode) {
+              <div class="col-md-6">
+                <label class="fs-6 fw-semibold mb-2">Trạng thái nhân sự:</label>
+                <select class="form-select form-select-solid" [(ngModel)]="formData.status">
+                  <option [value]="1">Đang làm việc</option>
+                  <option [value]="2">Tạm nghỉ</option>
+                  <option [value]="3">Đã thôi việc</option>
+                </select>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="closeModal()">Hủy bỏ</button>
+          <button type="button" class="btn btn-primary" [disabled]="isSubmitting" (click)="saveEmployee()">
+            <span class="indicator-label">{{ isSubmitting ? 'Đang lưu...' : (isEditMode ? 'Cập Nhật' : 'Tạo Hồ Sơ') }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal-->

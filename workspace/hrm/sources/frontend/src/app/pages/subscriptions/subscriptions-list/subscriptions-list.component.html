@@ -1,0 +1,405 @@
+<!--begin::Subscriptions List Page-->
+<div class="d-flex flex-column gap-7 gap-lg-10">
+
+  <!--begin::Top Summary Cards-->
+  <div class="row g-5 g-xl-10 mb-2">
+    <!--begin::Card 1-->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card bg-light-primary card-flush h-xl-100">
+        <div class="card-body py-5">
+          <div class="d-flex align-items-center">
+            <span class="symbol symbol-50px me-4">
+              <span class="symbol-label bg-primary text-white">
+                <i class="bi bi-credit-card fs-2 text-white"></i>
+              </span>
+            </span>
+            <div>
+              <div class="fs-2 fw-bold text-gray-900">$38,420</div>
+              <div class="fs-7 fw-semibold text-muted">Monthly Recurring Revenue</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Card 1-->
+
+    <!--begin::Card 2-->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card bg-light-success card-flush h-xl-100">
+        <div class="card-body py-5">
+          <div class="d-flex align-items-center">
+            <span class="symbol symbol-50px me-4">
+              <span class="symbol-label bg-success text-white">
+                <i class="bi bi-people-fill fs-2 text-white"></i>
+              </span>
+            </span>
+            <div>
+              <div class="fs-2 fw-bold text-gray-900">1,248</div>
+              <div class="fs-7 fw-semibold text-muted">Active Subscriptions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Card 2-->
+
+    <!--begin::Card 3-->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card bg-light-warning card-flush h-xl-100">
+        <div class="card-body py-5">
+          <div class="d-flex align-items-center">
+            <span class="symbol symbol-50px me-4">
+              <span class="symbol-label bg-warning text-white">
+                <i class="bi bi-clock-history fs-2 text-white"></i>
+              </span>
+            </span>
+            <div>
+              <div class="fs-2 fw-bold text-gray-900">32</div>
+              <div class="fs-7 fw-semibold text-muted">Expiring in 7 Days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Card 3-->
+
+    <!--begin::Card 4-->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card bg-light-danger card-flush h-xl-100">
+        <div class="card-body py-5">
+          <div class="d-flex align-items-center">
+            <span class="symbol symbol-50px me-4">
+              <span class="symbol-label bg-danger text-white">
+                <i class="bi bi-slash-circle fs-2 text-white"></i>
+              </span>
+            </span>
+            <div>
+              <div class="fs-2 fw-bold text-gray-900">1.8%</div>
+              <div class="fs-7 fw-semibold text-muted">Churn Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Card 4-->
+  </div>
+  <!--end::Top Summary Cards-->
+
+  <!--begin::Main Card-->
+  <div class="card">
+    <!--begin::Card header-->
+    <div class="card-header border-0 pt-6">
+      <!--begin::Card title-->
+      <div class="card-title">
+        <!--begin::Search-->
+        <div class="d-flex align-items-center position-relative my-1">
+          <i class="bi bi-search fs-3 position-absolute ms-5 text-gray-500"></i>
+          <input 
+            type="text" 
+            class="form-control form-control-solid w-250px ps-13" 
+            placeholder="Search Subscriptions" 
+            [(ngModel)]="searchTerm" 
+            (input)="applyFilter()"
+          />
+        </div>
+        <!--end::Search-->
+      </div>
+      <!--end::Card title-->
+
+      <!--begin::Card toolbar-->
+      <div class="card-toolbar">
+        @if (selectedCount === 0) {
+          <!--begin::Default Toolbar-->
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <!--begin::Filter Toggle-->
+            <div class="position-relative">
+              <button 
+                type="button" 
+                class="btn btn-light-primary"
+                (click)="isFilterOpen = !isFilterOpen"
+              >
+                <i class="bi bi-funnel fs-4 me-1"></i> Filter
+              </button>
+
+              <!--begin::Filter Dropdown Menu-->
+              @if (isFilterOpen) {
+                <div class="menu menu-sub menu-sub-dropdown w-300px p-5 position-absolute end-0 top-100 mt-2 z-index-3 shadow bg-white rounded show">
+                  <div class="px-2 py-2">
+                    <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                  </div>
+                  <div class="separator border-gray-200 my-3"></div>
+
+                  <div class="mb-4">
+                    <label class="form-label fs-6 fw-semibold">Status:</label>
+                    <select class="form-select form-select-solid" [(ngModel)]="selectedStatus">
+                      <option value="">All Statuses</option>
+                      <option value="Active">Active</option>
+                      <option value="Expiring">Expiring</option>
+                      <option value="Suspended">Suspended</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-5">
+                    <label class="form-label fs-6 fw-semibold">Billing Method:</label>
+                    <select class="form-select form-select-solid" [(ngModel)]="selectedBilling">
+                      <option value="">All Methods</option>
+                      <option value="Auto-debit">Auto-debit</option>
+                      <option value="Manual - Credit Card">Manual - Credit Card</option>
+                      <option value="Manual - Paypal">Manual - Paypal</option>
+                    </select>
+                  </div>
+
+                  <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-sm btn-light" (click)="resetFilter()">Reset</button>
+                    <button type="button" class="btn btn-sm btn-primary" (click)="applyFilter(); isFilterOpen = false">Apply</button>
+                  </div>
+                </div>
+              }
+              <!--end::Filter Dropdown Menu-->
+            </div>
+            <!--end::Filter Toggle-->
+
+            <!--begin::Export button-->
+            <button type="button" class="btn btn-light-primary" (click)="isExportModalOpen = true">
+              <i class="bi bi-download fs-4 me-1"></i> Export
+            </button>
+            <!--end::Export button-->
+
+            <!--begin::Add button-->
+            <button type="button" class="btn btn-primary" (click)="isAddModalOpen = true">
+              <i class="bi bi-plus-lg fs-4 me-1"></i> Add Subscription
+            </button>
+            <!--end::Add button-->
+          </div>
+          <!--end::Default Toolbar-->
+        } @else {
+          <!--begin::Group actions (Bulk Selection Bar)-->
+          <div class="d-flex justify-content-end align-items-center">
+            <div class="fw-bold me-5">
+              <span class="badge badge-primary me-2">{{ selectedCount }}</span> Selected
+            </div>
+            <button type="button" class="btn btn-danger" (click)="deleteSelected()">
+              <i class="bi bi-trash fs-5 me-1"></i> Delete Selected
+            </button>
+          </div>
+          <!--end::Group actions-->
+        }
+      </div>
+      <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
+
+    <!--begin::Card body-->
+    <div class="card-body pt-0">
+      <div class="table-responsive">
+        <table class="table align-middle table-row-dashed fs-6 gy-5">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="w-10px pe-2">
+                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
+                </div>
+              </th>
+              <th class="min-w-150px">Customer</th>
+              <th class="min-w-100px">Status</th>
+              <th class="min-w-150px">Billing</th>
+              <th class="min-w-125px">Product</th>
+              <th class="min-w-125px">Price</th>
+              <th class="min-w-150px">Created Date</th>
+              <th class="text-end min-w-70px">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 fw-semibold">
+            @for (sub of filteredSubscriptions; track sub.id) {
+              <tr>
+                <td>
+                  <div class="form-check form-check-sm form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="sub.selected" (change)="onItemSelect()" />
+                  </div>
+                </td>
+                <td class="d-flex align-items-center">
+                  @if (sub.avatar) {
+                    <div class="symbol symbol-circle symbol-45px me-3">
+                      <img [src]="sub.avatar" [alt]="sub.customerName" />
+                    </div>
+                  } @else {
+                    <div [class]="'symbol symbol-circle symbol-45px me-3 bg-light-' + sub.initialsColor">
+                      <span [class]="'symbol-label fw-bold text-' + sub.initialsColor">{{ sub.initials }}</span>
+                    </div>
+                  }
+                  <div class="d-flex flex-column">
+                    <a routerLink="/users/view/1" class="text-gray-800 text-hover-primary mb-1 fw-bold">{{ sub.customerName }}</a>
+                    <span class="text-muted fs-7">{{ sub.customerEmail }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span [ngClass]="{
+                    'badge badge-light-success': sub.status === 'Active',
+                    'badge badge-light-warning': sub.status === 'Expiring',
+                    'badge badge-light-danger': sub.status === 'Suspended'
+                  }">
+                    {{ sub.status }}
+                  </span>
+                </td>
+                <td>
+                  <div class="badge badge-light-info">{{ sub.billing }}</div>
+                </td>
+                <td>
+                  <span class="text-gray-900 fw-bold">{{ sub.product }}</span>
+                </td>
+                <td>
+                  <span class="text-gray-900 fw-bold">{{ sub.price }}</span>
+                </td>
+                <td>{{ sub.createdDate }}</td>
+                <td class="text-end">
+                  <div class="d-flex justify-content-end gap-1">
+                    <a routerLink="/users/view/1" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" title="View Customer">
+                      <i class="bi bi-eye fs-5"></i>
+                    </a>
+                    <button (click)="deleteItem(sub.id)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" title="Cancel Subscription">
+                      <i class="bi bi-trash fs-5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="8" class="text-center text-muted py-8">
+                  <i class="bi bi-inbox fs-2x mb-2 d-block text-gray-400"></i>
+                  No subscriptions found matching your filters.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!--begin::Pagination Info-->
+      <div class="d-flex justify-content-between align-items-center mt-5">
+        <div class="text-muted fs-7">
+          Showing 1 to {{ filteredSubscriptions.length }} of {{ subscriptions.length }} entries
+        </div>
+        <ul class="pagination pagination-outline">
+          <li class="page-item previous disabled"><a href="#" class="page-link"><i class="bi bi-chevron-left"></i></a></li>
+          <li class="page-item active"><a href="#" class="page-link">1</a></li>
+          <li class="page-item next disabled"><a href="#" class="page-link"><i class="bi bi-chevron-right"></i></a></li>
+        </ul>
+      </div>
+      <!--end::Pagination Info-->
+    </div>
+    <!--end::Card body-->
+  </div>
+  <!--end::Main Card-->
+
+</div>
+<!--end::Subscriptions List Page-->
+
+<!--begin::Add Subscription Modal-->
+@if (isAddModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">Add Subscription</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="isAddModalOpen = false">
+            <i class="bi bi-x fs-1"></i>
+          </div>
+        </div>
+        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+          <form (ngSubmit)="saveSubscription()">
+            <div class="fv-row mb-7">
+              <label class="required fs-6 fw-semibold mb-2">Customer Full Name</label>
+              <input type="text" class="form-control form-control-solid" placeholder="e.g. John Doe" [(ngModel)]="newCustomerName" name="custName" required />
+            </div>
+
+            <div class="fv-row mb-7">
+              <label class="required fs-6 fw-semibold mb-2">Customer Email</label>
+              <input type="email" class="form-control form-control-solid" placeholder="e.g. john@example.com" [(ngModel)]="newCustomerEmail" name="custEmail" required />
+            </div>
+
+            <div class="row mb-7">
+              <div class="col-md-6">
+                <label class="fs-6 fw-semibold mb-2">Product Plan</label>
+                <select class="form-select form-select-solid" [(ngModel)]="newProduct" name="prod">
+                  <option value="Basic">Basic ($29/mo)</option>
+                  <option value="Basic Bundle">Basic Bundle ($69/mo)</option>
+                  <option value="Teams">Teams ($199/mo)</option>
+                  <option value="Enterprise">Enterprise ($999/yr)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="fs-6 fw-semibold mb-2">Billing Method</label>
+                <select class="form-select form-select-solid" [(ngModel)]="newBilling" name="bill">
+                  <option value="Auto-debit">Auto-debit</option>
+                  <option value="Manual - Credit Card">Manual - Credit Card</option>
+                  <option value="Manual - Paypal">Manual - Paypal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="fv-row mb-9">
+              <label class="fs-6 fw-semibold mb-2">Status</label>
+              <select class="form-select form-select-solid" [(ngModel)]="newStatus" name="stat">
+                <option value="Active">Active</option>
+                <option value="Expiring">Expiring</option>
+                <option value="Suspended">Suspended</option>
+              </select>
+            </div>
+
+            <div class="text-center pt-5">
+              <button type="button" class="btn btn-light me-3" (click)="isAddModalOpen = false">Cancel</button>
+              <button type="submit" class="btn btn-primary">Create Subscription</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Add Subscription Modal-->
+
+<!--begin::Export Modal-->
+@if (isExportModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">Export Subscriptions Data</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="isExportModalOpen = false">
+            <i class="bi bi-x fs-1"></i>
+          </div>
+        </div>
+        <div class="modal-body scroll-y mx-5 my-5">
+          @if (!exportCompleted) {
+            <div class="fv-row mb-7">
+              <label class="fs-6 fw-semibold mb-2">Export Format</label>
+              <select class="form-select form-select-solid" [(ngModel)]="exportFormat">
+                <option value="excel">Excel (.xlsx)</option>
+                <option value="csv">CSV (.csv)</option>
+                <option value="pdf">PDF Document (.pdf)</option>
+              </select>
+            </div>
+
+            <div class="text-center pt-5">
+              <button type="button" class="btn btn-light me-3" (click)="isExportModalOpen = false">Cancel</button>
+              <button type="button" class="btn btn-primary" [disabled]="isExporting" (click)="startExport()">
+                @if (isExporting) {
+                  <span class="spinner-border spinner-border-sm me-2"></span> Exporting...
+                } @else {
+                  <i class="bi bi-download me-1"></i> Start Export
+                }
+              </button>
+            </div>
+          } @else {
+            <div class="text-center py-5">
+              <i class="bi bi-check-circle-fill text-success fs-3x mb-3 d-block"></i>
+              <h3 class="fw-bold text-gray-900 mb-2">Export Complete!</h3>
+              <p class="text-muted">Your subscriptions data has been generated.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Export Modal-->

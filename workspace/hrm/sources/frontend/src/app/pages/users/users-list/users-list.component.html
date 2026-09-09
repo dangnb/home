@@ -1,0 +1,558 @@
+<!--begin::Card-->
+<div class="card shadow-sm">
+  <!--begin::Card header-->
+  <div class="card-header border-0 pt-6">
+    <!--begin::Card title-->
+    <div class="card-title">
+      <!--begin::Search-->
+      <div class="d-flex align-items-center position-relative my-1">
+        <span class="svg-icon svg-icon-1 position-absolute ms-6 text-gray-500">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor" />
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          class="form-control form-control-solid w-250px ps-14" 
+          placeholder="Search user..."
+        />
+      </div>
+      <!--end::Search-->
+    </div>
+    <!--end::Card title-->
+
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar">
+      @if (selectedCount === 0) {
+        <!--begin::Base toolbar-->
+        <div class="d-flex justify-content-end align-items-center gap-2 gap-lg-3">
+          <!--begin::Filter-->
+          <div class="position-relative">
+            <button 
+              type="button" 
+              class="btn btn-light-primary me-3" 
+              (click)="toggleFilterMenu()"
+            >
+              <span class="svg-icon svg-icon-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z" fill="currentColor" />
+                </svg>
+              </span>
+              Filter
+            </button>
+
+            <!--begin::Filter Menu Dropdown-->
+            @if (isFilterMenuOpen) {
+              <div 
+                class="menu menu-sub menu-sub-dropdown w-300px w-md-325px show position-absolute end-0 top-100 mt-2 z-index-3 shadow bg-body rounded"
+                style="display: block; z-index: 105;"
+              >
+                <!--begin::Header-->
+                <div class="px-7 py-5">
+                  <div class="fs-5 text-dark fw-bold">Filter Options</div>
+                </div>
+                <!--end::Header-->
+                <div class="separator border-gray-200"></div>
+                <!--begin::Form-->
+                <div class="px-7 py-5">
+                  <!--begin::Input group-->
+                  <div class="mb-10">
+                    <label class="form-label fs-6 fw-semibold">Role:</label>
+                    <select class="form-select form-select-solid fw-bold" [(ngModel)]="filterRole">
+                      <option value="All">All Roles</option>
+                      <option value="Administrator">Administrator</option>
+                      <option value="Analyst">Analyst</option>
+                      <option value="Developer">Developer</option>
+                      <option value="Support">Support</option>
+                      <option value="Trial">Trial</option>
+                    </select>
+                  </div>
+                  <!--end::Input group-->
+
+                  <!--begin::Input group-->
+                  <div class="mb-10">
+                    <label class="form-label fs-6 fw-semibold">Two Step Verification:</label>
+                    <select class="form-select form-select-solid fw-bold" [(ngModel)]="filterTwoStep">
+                      <option value="All">All Statuses</option>
+                      <option value="Enabled">Enabled</option>
+                      <option value="Disabled">Disabled</option>
+                    </select>
+                  </div>
+                  <!--end::Input group-->
+
+                  <!--begin::Actions-->
+                  <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-light btn-active-light-primary fw-semibold me-2 px-6" (click)="resetFilter()">Reset</button>
+                    <button type="button" class="btn btn-primary fw-semibold px-6" (click)="applyFilter()">Apply</button>
+                  </div>
+                  <!--end::Actions-->
+                </div>
+                <!--end::Form-->
+              </div>
+            }
+            <!--end::Filter Menu Dropdown-->
+          </div>
+          <!--end::Filter-->
+
+          <!--begin::Export-->
+          <button type="button" class="btn btn-light-primary me-3" (click)="openExportModal()">
+            <span class="svg-icon svg-icon-2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect opacity="0.3" x="12.75" y="4.25" width="12" height="2" rx="1" transform="rotate(90 12.75 4.25)" fill="currentColor" />
+                <path d="M12.0573 6.11875L13.5203 7.87435C13.9121 8.34457 14.6232 8.37683 15.056 7.94401C15.4457 7.5543 15.4641 6.92836 15.0979 6.51643L12.4974 3.59084C12.0996 3.14332 11.4004 3.14332 11.0026 3.59084L8.40206 6.51643C8.0359 6.92836 8.0543 7.5543 8.44401 7.94401C8.87683 8.37683 9.58785 8.34458 9.9797 7.87435L11.4427 6.11875C11.6026 5.92684 11.8974 5.92684 12.0573 6.11875Z" fill="currentColor" />
+                <path opacity="0.3" d="M18.75 8.25H17.75C17.1977 8.25 16.75 8.69772 16.75 9.25C16.75 9.80228 17.1977 10.25 17.75 10.25C18.3023 10.25 18.75 10.6977 18.75 11.25V18.25C18.75 18.8023 18.3023 19.25 17.75 19.25H5.75C5.19772 19.25 4.75 18.8023 4.75 18.25V11.25C4.75 10.6977 5.19771 10.25 5.75 10.25C6.30229 10.25 6.75 9.80228 6.75 9.25C6.75 8.69772 6.30229 8.25 5.75 8.25H4.75C3.64543 8.25 2.75 9.14543 2.75 10.25V19.25C2.75 20.3546 3.64543 21.25 4.75 21.25H18.75C19.8546 21.25 20.75 20.3546 20.75 19.25V10.25C20.75 9.14543 19.8546 8.25 18.75 8.25Z" fill="currentColor" />
+              </svg>
+            </span>
+            Export
+          </button>
+          <!--end::Export-->
+
+          <!--begin::Add user-->
+          <button type="button" class="btn btn-primary" (click)="openAddModal()">
+            <span class="svg-icon svg-icon-2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor" />
+                <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
+              </svg>
+            </span>
+            Add User
+          </button>
+          <!--end::Add user-->
+        </div>
+        <!--end::Base toolbar-->
+      } @else {
+        <!--begin::Group actions-->
+        <div class="d-flex justify-content-end align-items-center">
+          <div class="fw-bold me-5">
+            <span class="me-2 badge badge-primary fs-7">{{ selectedCount }}</span> Selected
+          </div>
+          <button type="button" class="btn btn-danger" (click)="deleteSelected()">
+            <i class="bi bi-trash fs-5 me-1"></i> Delete Selected
+          </button>
+        </div>
+        <!--end::Group actions-->
+      }
+    </div>
+    <!--end::Card toolbar-->
+  </div>
+  <!--end::Card header-->
+
+  <!--begin::Card body-->
+  <div class="card-body py-4">
+    <!--begin::Table-->
+    <div class="table-responsive">
+      <table class="table align-middle table-row-dashed fs-6 gy-5">
+        <thead>
+          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+            <th class="w-10px pe-2">
+              <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  [checked]="isAllSelected"
+                  (change)="toggleSelectAll($event)"
+                />
+              </div>
+            </th>
+            <th class="min-w-125px">User</th>
+            <th class="min-w-125px">Role</th>
+            <th class="min-w-125px">Last login</th>
+            <th class="min-w-125px">Two-step</th>
+            <th class="min-w-125px">Joined Date</th>
+            <th class="text-end min-w-100px">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 fw-semibold">
+          @for (user of paginatedUsers; track user.id) {
+            <tr>
+              <!--begin::Checkbox-->
+              <td>
+                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    [(ngModel)]="user.selected" 
+                  />
+                </div>
+              </td>
+              <!--end::Checkbox-->
+
+              <!--begin::User-->
+              <td class="d-flex align-items-center">
+                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                  <a [routerLink]="['/users/view', user.id]">
+                    @if (user.avatar) {
+                      <img [src]="user.avatar" [alt]="user.name" class="w-100" />
+                    } @else {
+                      <div [class]="'symbol-label fs-3 bg-light-' + (user.initialsColor || 'primary') + ' text-' + (user.initialsColor || 'primary')">
+                        {{ user.initials || user.name.charAt(0) }}
+                      </div>
+                    }
+                  </a>
+                </div>
+                <div class="d-flex flex-column">
+                  <a [routerLink]="['/users/view', user.id]" class="text-gray-800 text-hover-primary mb-1 fw-bold">{{ user.name }}</a>
+                  <span class="text-muted fs-7">{{ user.email }}</span>
+                </div>
+              </td>
+              <!--end::User-->
+
+              <!--begin::Role-->
+              <td>
+                <span class="badge badge-light-primary fw-bold">{{ user.role }}</span>
+              </td>
+              <!--end::Role-->
+
+              <!--begin::Last login-->
+              <td>
+                <div class="badge badge-light fw-bold">{{ user.lastLogin }}</div>
+              </td>
+              <!--end::Last login-->
+
+              <!--begin::Two-step-->
+              <td>
+                @if (user.twoStep) {
+                  <span class="badge badge-light-success fw-bold">Enabled</span>
+                } @else {
+                  <span class="text-muted fs-7">Disabled</span>
+                }
+              </td>
+              <!--end::Two-step-->
+
+              <!--begin::Joined-->
+              <td>{{ user.joinedDate }}</td>
+              <!--end::Joined-->
+
+              <!--begin::Action-->
+              <td class="text-end position-relative">
+                <button 
+                  type="button" 
+                  class="btn btn-light btn-active-light-primary btn-sm" 
+                  (click)="toggleActionMenu(user.id)"
+                >
+                  Actions
+                  <span class="svg-icon svg-icon-5 m-0 ms-1">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </button>
+
+                <!--begin::Actions Menu Dropdown-->
+                @if (activeActionMenuId === user.id) {
+                  <div 
+                    class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 show position-absolute end-0 mt-2 z-index-3 shadow bg-body rounded"
+                    style="display: block; z-index: 105;"
+                  >
+                    <div class="menu-item px-3">
+                      <a [routerLink]="['/users/view', user.id]" class="menu-link px-3" (click)="activeActionMenuId = null">View</a>
+                    </div>
+                    <div class="menu-item px-3">
+                      <a href="javascript:void(0)" class="menu-link px-3" (click)="openEditModal(user)">Edit</a>
+                    </div>
+                    <div class="menu-item px-3">
+                      <a href="javascript:void(0)" class="menu-link px-3 text-danger" (click)="deleteUser(user.id); activeActionMenuId = null">Delete</a>
+                    </div>
+                  </div>
+                }
+                <!--end::Actions Menu Dropdown-->
+              </td>
+              <!--end::Action-->
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <div class="d-flex flex-column align-items-center justify-content-center py-4">
+                  <i class="bi bi-search fs-3x text-gray-400 mb-3"></i>
+                  <span class="fs-5 fw-bold text-gray-700">No users found</span>
+                  <span class="fs-7 text-muted">Try adjusting your search query or filters.</span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!--end::Table-->
+
+    <!--begin::Pagination-->
+    <div class="d-flex flex-stack flex-wrap pt-6">
+      <div class="fs-6 fw-semibold text-gray-700">
+        Showing {{ filteredUsers.length === 0 ? 0 : (currentPage - 1) * pageSize + 1 }} to {{ (currentPage * pageSize) > filteredUsers.length ? filteredUsers.length : (currentPage * pageSize) }} of {{ filteredUsers.length }} entries
+      </div>
+
+      <!--begin::Pages-->
+      <ul class="pagination">
+        <li class="page-item previous" [class.disabled]="currentPage === 1">
+          <a href="javascript:void(0)" class="page-link" (click)="setPage(currentPage - 1)">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+
+        @for (page of totalPagesArray; track page) {
+          <li class="page-item" [class.active]="currentPage === page">
+            <a href="javascript:void(0)" class="page-link" (click)="setPage(page)">{{ page }}</a>
+          </li>
+        }
+
+        <li class="page-item next" [class.disabled]="currentPage === totalPages">
+          <a href="javascript:void(0)" class="page-link" (click)="setPage(currentPage + 1)">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+      <!--end::Pages-->
+    </div>
+    <!--end::Pagination-->
+  </div>
+  <!--end::Card body-->
+</div>
+<!--end::Card-->
+
+<!--begin::Modal - Export Users-->
+@if (isExportModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <h2 class="fw-bold">Export Users</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="closeExportModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </div>
+        </div>
+        <!--end::Modal header-->
+
+        <!--begin::Modal body-->
+        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+          @if (exportSuccess) {
+            <div class="alert alert-success d-flex align-items-center p-5 mb-5">
+              <i class="bi bi-check-circle-fill fs-2hx text-success me-4"></i>
+              <div class="d-flex flex-column">
+                <h4 class="mb-1 text-dark">Export Initiated!</h4>
+                <span>Your users data export file has been successfully generated and queued for download.</span>
+              </div>
+            </div>
+          } @else {
+            <form class="form" (ngSubmit)="submitExport()">
+              <!--begin::Input group-->
+              <div class="fv-row mb-10">
+                <label class="fs-6 fw-semibold form-label mb-2">Select Roles:</label>
+                <select class="form-select form-select-solid fw-bold" [(ngModel)]="exportRole" name="role">
+                  <option value="All">All Roles</option>
+                  <option value="Administrator">Administrator</option>
+                  <option value="Analyst">Analyst</option>
+                  <option value="Developer">Developer</option>
+                  <option value="Support">Support</option>
+                  <option value="Trial">Trial</option>
+                </select>
+              </div>
+              <!--end::Input group-->
+
+              <!--begin::Input group-->
+              <div class="fv-row mb-10">
+                <label class="required fs-6 fw-semibold form-label mb-2">Select Export Format:</label>
+                <select class="form-select form-select-solid fw-bold" [(ngModel)]="exportFormat" name="format">
+                  <option value="excel">Excel (.xlsx)</option>
+                  <option value="pdf">PDF (.pdf)</option>
+                  <option value="csv">CSV (.csv)</option>
+                  <option value="zip">ZIP Archive (.zip)</option>
+                </select>
+              </div>
+              <!--end::Input group-->
+
+              <!--begin::Actions-->
+              <div class="text-center">
+                <button type="button" class="btn btn-light me-3" (click)="closeExportModal()">Discard</button>
+                <button type="submit" class="btn btn-primary" [disabled]="isExporting">
+                  @if (isExporting) {
+                    <span class="spinner-border spinner-border-sm me-2"></span> Exporting...
+                  } @else {
+                    <span>Submit</span>
+                  }
+                </button>
+              </div>
+              <!--end::Actions-->
+            </form>
+          }
+        </div>
+        <!--end::Modal body-->
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal - Export Users-->
+
+<!--begin::Modal - Add/Edit User-->
+@if (isUserModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <h2 class="fw-bold">{{ isEditing ? 'Edit User' : 'Add User' }}</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="closeUserModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </div>
+        </div>
+        <!--end::Modal header-->
+
+        <!--begin::Modal body-->
+        <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+          <form class="form" (ngSubmit)="saveUser()">
+            <!--begin::Scroll-->
+            <div class="d-flex flex-column scroll-y me-n7 pe-7" style="max-height: 480px;">
+              <!--begin::Input group Avatar-->
+              <div class="fv-row mb-7 text-center">
+                <label class="d-block fw-semibold fs-6 mb-3">Avatar</label>
+                <div class="image-input image-input-outline">
+                  <div class="symbol symbol-100px symbol-circle border border-2 border-primary overflow-hidden shadow-sm">
+                    <img [src]="modalAvatar" alt="Avatar" class="w-100 h-100 object-fit-cover" />
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                  <button type="button" class="btn btn-sm btn-light-primary" (click)="modalAvatar = 'assets/media/avatars/300-1.jpg'">Avatar 1</button>
+                  <button type="button" class="btn btn-sm btn-light-primary" (click)="modalAvatar = 'assets/media/avatars/300-6.jpg'">Avatar 2</button>
+                  <button type="button" class="btn btn-sm btn-light-primary" (click)="modalAvatar = 'assets/media/avatars/300-25.jpg'">Avatar 3</button>
+                </div>
+              </div>
+              <!--end::Input group Avatar-->
+
+              <!--begin::Input group-->
+              <div class="fv-row mb-7">
+                <label class="required fw-semibold fs-6 mb-2">Full Name</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="modalName" 
+                  name="name" 
+                  class="form-control form-control-solid mb-3 mb-lg-0" 
+                  placeholder="Full name" 
+                  required 
+                />
+              </div>
+              <!--end::Input group-->
+
+              <!--begin::Input group-->
+              <div class="fv-row mb-7">
+                <label class="required fw-semibold fs-6 mb-2">Email</label>
+                <input 
+                  type="email" 
+                  [(ngModel)]="modalEmail" 
+                  name="email" 
+                  class="form-control form-control-solid mb-3 mb-lg-0" 
+                  placeholder="example@domain.com" 
+                  required 
+                />
+              </div>
+              <!--end::Input group-->
+
+              <!--begin::Input group Status & 2FA-->
+              <div class="row g-4 mb-7">
+                <div class="col-md-6">
+                  <label class="fw-semibold fs-6 mb-2">Status</label>
+                  <select class="form-select form-select-solid" [(ngModel)]="modalStatus" name="status">
+                    <option value="Active">Active</option>
+                    <option value="Suspended">Suspended</option>
+                    <option value="Pending">Pending</option>
+                  </select>
+                </div>
+                <div class="col-md-6 d-flex align-items-center pt-6">
+                  <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="modalTwoStep" name="twoStep" id="twoStepCheck" />
+                    <label class="form-check-label fw-semibold text-gray-700 ms-3" for="twoStepCheck">
+                      Two-Step Verification
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!--end::Input group-->
+
+              <!--begin::Input group Roles-->
+              <div class="mb-7">
+                <label class="required fw-semibold fs-6 mb-5">Role</label>
+                
+                <!--begin::Option Admin-->
+                <div class="d-flex fv-row">
+                  <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input me-3" [(ngModel)]="modalRole" name="role" type="radio" value="Administrator" id="role_admin" />
+                    <label class="form-check-label" for="role_admin">
+                      <div class="fw-bold text-gray-800">Administrator</div>
+                      <div class="text-gray-600 fs-7">Best for business owners and company administrators</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+
+                <!--begin::Option Developer-->
+                <div class="d-flex fv-row">
+                  <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input me-3" [(ngModel)]="modalRole" name="role" type="radio" value="Developer" id="role_dev" />
+                    <label class="form-check-label" for="role_dev">
+                      <div class="fw-bold text-gray-800">Developer</div>
+                      <div class="text-gray-600 fs-7">Best for developers or people primarily using the API</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+
+                <!--begin::Option Analyst-->
+                <div class="d-flex fv-row">
+                  <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input me-3" [(ngModel)]="modalRole" name="role" type="radio" value="Analyst" id="role_analyst" />
+                    <label class="form-check-label" for="role_analyst">
+                      <div class="fw-bold text-gray-800">Analyst</div>
+                      <div class="text-gray-600 fs-7">Best for people who need full access to analytics data</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+
+                <!--begin::Option Support-->
+                <div class="d-flex fv-row">
+                  <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input me-3" [(ngModel)]="modalRole" name="role" type="radio" value="Support" id="role_support" />
+                    <label class="form-check-label" for="role_support">
+                      <div class="fw-bold text-gray-800">Support</div>
+                      <div class="text-gray-600 fs-7">Best for employees who regularly refund payments and respond to disputes</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="separator separator-dashed my-4"></div>
+
+                <!--begin::Option Trial-->
+                <div class="d-flex fv-row">
+                  <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input me-3" [(ngModel)]="modalRole" name="role" type="radio" value="Trial" id="role_trial" />
+                    <label class="form-check-label" for="role_trial">
+                      <div class="fw-bold text-gray-800">Trial</div>
+                      <div class="text-gray-600 fs-7">Best for people who need to preview content data</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!--end::Input group Roles-->
+            </div>
+            <!--end::Scroll-->
+
+            <!--begin::Actions-->
+            <div class="text-center pt-8">
+              <button type="button" class="btn btn-light me-3" (click)="closeUserModal()">Discard</button>
+              <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+                @if (isSaving) {
+                  <span class="spinner-border spinner-border-sm me-2"></span> Saving...
+                } @else {
+                  <span>{{ isEditing ? 'Update' : 'Submit' }}</span>
+                }
+              </button>
+            </div>
+            <!--end::Actions-->
+          </form>
+        </div>
+        <!--end::Modal body-->
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal - Add/Edit User-->

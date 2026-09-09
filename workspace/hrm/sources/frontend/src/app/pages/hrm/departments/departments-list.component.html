@@ -1,0 +1,224 @@
+<div class="card card-flush shadow-sm card-bordered">
+  <!--begin::Card header-->
+  <div class="card-header pt-7">
+    <div class="card-title">
+      <div class="d-flex align-items-center position-relative my-1">
+        <i class="bi bi-search fs-5 position-absolute ms-3 text-gray-500"></i>
+        <input 
+          type="text" 
+          class="form-control form-control-sm form-control-solid w-250px ps-10" 
+          placeholder="Tìm kiếm phòng ban, mã, quản lý..."
+          [(ngModel)]="searchTerm"
+          (input)="applyFilter()"
+        />
+      </div>
+
+      <div class="ms-3">
+        <select class="form-select form-select-sm form-select-solid w-175px" [(ngModel)]="statusFilter" (change)="applyFilter()">
+          <option value="">Tất cả trạng thái</option>
+          <option value="ACTIVE">Đang hoạt động</option>
+          <option value="INACTIVE">Tạm dừng</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
+        <i class="bi bi-plus-lg me-1"></i>Thêm Phòng Ban
+      </button>
+    </div>
+  </div>
+  <!--end::Card header-->
+
+  <!--begin::Card body-->
+  <div class="card-body pt-0">
+    <div class="table-responsive">
+      <table class="table align-middle table-row-dashed fs-6 gy-5">
+        <thead>
+          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+            <th class="min-w-90px">Mã Phòng</th>
+            <th class="min-w-220px">Tên Phòng Ban</th>
+            <th class="min-w-160px">Trưởng Phòng</th>
+            <th class="min-w-200px">Mô tả</th>
+            <th class="min-w-120px">Trạng thái</th>
+            <th class="text-end min-w-100px">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 fw-semibold">
+          @for (dept of filteredDepartments(); track dept.id) {
+            <tr>
+              <td>
+                <span class="badge badge-light-primary fw-bold fs-7 px-3 py-2">{{ dept.code }}</span>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="symbol symbol-40px me-3 bg-light-primary text-primary fw-bold d-flex align-items-center justify-content-center">
+                    <i class="bi bi-building fs-3 text-primary"></i>
+                  </div>
+                  <div class="d-flex justify-content-start flex-column">
+                    <span class="text-gray-900 fw-bold fs-6">{{ dept.name }}</span>
+                    <span class="text-muted fs-7">#{{ dept.id }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-person-badge fs-5 me-2 text-muted"></i>
+                  <span [class.text-muted]="!dept.managerName" [class.fst-italic]="!dept.managerName" class="text-gray-800">
+                    {{ dept.managerName || 'Chưa phân công' }}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <span class="text-gray-700">{{ dept.description || 'Không có mô tả' }}</span>
+              </td>
+              <td>
+                @if (isDeptActive(dept.status)) {
+                  <span class="badge badge-light-success fw-bold px-3 py-2">Đang hoạt động</span>
+                } @else {
+                  <span class="badge badge-light-danger fw-bold px-3 py-2">Tạm dừng</span>
+                }
+              </td>
+              <td class="text-end">
+                <button type="button" class="btn btn-icon btn-light-warning btn-sm me-2" (click)="openEditModal(dept)" title="Chỉnh sửa">
+                  <i class="bi bi-pencil-fill fs-6"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-light-danger btn-sm" (click)="openDeleteModal(dept)" title="Xóa">
+                  <i class="bi bi-trash-fill fs-6"></i>
+                </button>
+              </td>
+            </tr>
+          }
+          @if (filteredDepartments().length === 0 && !isLoading()) {
+            <tr>
+              <td colspan="6" class="text-center py-10 text-muted">
+                <i class="bi bi-inbox fs-2x d-block mb-2"></i>
+                Không tìm thấy phòng ban nào phù hợp
+              </td>
+            </tr>
+          }
+          @if (isLoading()) {
+            <tr>
+              <td colspan="6" class="text-center py-10 text-muted">
+                <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu từ Dart Read Service...
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--end::Card body-->
+</div>
+
+<!--begin::Modal Thêm/Sửa phòng ban-->
+@if (isModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">{{ isEditMode ? 'Chỉnh Sửa Phòng Ban' : 'Thêm Mới Phòng Ban' }}</h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-10 px-lg-17">
+          <div class="mb-5">
+            <label class="required fs-6 fw-semibold mb-2">Mã phòng ban:</label>
+            <input 
+              type="text" 
+              class="form-control form-control-solid text-uppercase" 
+              placeholder="VD: IT, HR, FIN, MKT..." 
+              [(ngModel)]="formData.code"
+              [disabled]="isEditMode"
+            />
+            <div class="text-muted fs-7 mt-1">Mã viết tắt duy nhất đại diện phòng ban trong doanh nghiệp.</div>
+          </div>
+
+          <div class="mb-5">
+            <label class="required fs-6 fw-semibold mb-2">Tên phòng ban:</label>
+            <input 
+              type="text" 
+              class="form-control form-control-solid" 
+              placeholder="VD: Phòng Công Nghệ Thông Tin" 
+              [(ngModel)]="formData.name"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label class="fs-6 fw-semibold mb-2">Mô tả nhiệm vụ:</label>
+            <textarea 
+              class="form-control form-control-solid" 
+              rows="3" 
+              placeholder="Mô tả chức năng nhiệm vụ của phòng ban..."
+              [(ngModel)]="formData.description"
+            ></textarea>
+          </div>
+
+          @if (isEditMode) {
+            <div class="mb-5">
+              <label class="fs-6 fw-semibold mb-2">Trạng thái hoạt động:</label>
+              <select class="form-select form-select-solid" [(ngModel)]="formData.status">
+                <option value="ACTIVE">Đang hoạt động</option>
+                <option value="INACTIVE">Tạm dừng</option>
+              </select>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">
+            <i class="bi bi-x-lg me-1"></i>Hủy bỏ
+          </button>
+          <button type="button" class="btn btn-sm btn-primary" [disabled]="isSubmitting" (click)="saveDepartment()">
+            <i class="bi bi-check-lg me-1"></i>
+            <span class="indicator-label">{{ isSubmitting ? 'Đang lưu...' : (isEditMode ? 'Cập Nhật' : 'Tạo Mới') }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal Thêm/Sửa-->
+
+<!--begin::Modal Xác nhận xóa phòng ban-->
+@if (isDeleteModalOpen && departmentToDelete) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-450px">
+      <div class="modal-content">
+        <div class="modal-header pb-0 border-0 justify-content-end">
+          <button type="button" class="btn btn-sm btn-icon btn-active-color-primary" (click)="closeDeleteModal()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </button>
+        </div>
+        <div class="modal-body text-center pt-0 pb-7">
+          <div class="symbol symbol-65px symbol-circle bg-light-danger mb-5 d-inline-flex align-items-center justify-content-center">
+            <i class="bi bi-exclamation-triangle-fill fs-2x text-danger"></i>
+          </div>
+          <h3 class="fw-bolder mb-3 text-gray-900">Xác Nhận Xóa Phòng Ban?</h3>
+          <div class="text-gray-600 fs-6 mb-5">
+            Bạn có chắc chắn muốn xóa phòng ban <br/>
+            <strong class="text-danger fw-bold fs-5">{{ departmentToDelete.name }} ({{ departmentToDelete.code }})</strong>?
+          </div>
+          <div class="alert alert-dismissible bg-light-warning d-flex flex-column flex-sm-row p-4 mb-4 text-start">
+            <i class="bi bi-info-circle fs-2 text-warning me-3 mb-2 mb-sm-0"></i>
+            <div class="d-flex flex-column text-gray-700 fs-7">
+              <span>Thao tác sẽ kích hoạt <strong>Xóa mềm (Soft Delete)</strong>. Bản ghi phòng ban sẽ chuyển sang trạng thái DELETED và không thể xóa nếu vẫn còn nhân sự đang trực thuộc.</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center gap-3">
+            <button type="button" class="btn btn-sm btn-light px-5" (click)="closeDeleteModal()" [disabled]="isDeleting">
+              <i class="bi bi-x-lg me-1"></i>Hủy bỏ
+            </button>
+            <button type="button" class="btn btn-sm btn-danger px-5" (click)="confirmDelete()" [disabled]="isDeleting">
+              <i class="bi bi-trash-fill me-1"></i>
+              <span class="indicator-label">{{ isDeleting ? 'Đang xóa...' : 'Đồng Ý Xóa' }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Modal Xác nhận xóa-->

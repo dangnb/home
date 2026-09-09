@@ -1,0 +1,171 @@
+<!--begin::Sidebar-->
+<div 
+  id="kt_app_sidebar" 
+  class="app-sidebar flex-column"
+  [class.drawer]="isMobileOpen"
+  [class.drawer-start]="isMobileOpen"
+  [class.drawer-on]="isMobileOpen"
+>
+  <!--begin::Logo-->
+  <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+    <!--begin::Logo image-->
+    <a routerLink="/dashboard">
+      <img alt="Logo" src="assets/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default" />
+      <img alt="Logo" src="assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize" />
+    </a>
+    <!--end::Logo image-->
+
+    <!--begin::Sidebar toggle-->
+    <div 
+      id="kt_app_sidebar_toggle" 
+      class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle d-none d-lg-flex"
+      (click)="onToggleCollapse()"
+      [class.active]="isCollapsed"
+      data-kt-toggle="true"
+      data-kt-toggle-state="active"
+      data-kt-toggle-target="body"
+      data-kt-toggle-name="app-sidebar-minimize"
+    >
+      <i class="bi bi-chevron-left fs-4" [class.rotate-180]="isCollapsed"></i>
+    </div>
+    <!--end::Sidebar toggle-->
+  </div>
+  <!--end::Logo-->
+
+  <!--begin::sidebar menu-->
+  <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+    <!--begin::Menu wrapper-->
+    <div 
+      id="kt_app_sidebar_menu_wrapper" 
+      class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
+      style="height: calc(100vh - 140px);"
+    >
+      <!--begin::Menu-->
+      <div 
+        class="menu menu-column menu-rounded menu-sub-indention px-3" 
+        id="#kt_app_sidebar_menu" 
+        data-kt-menu="true"
+      >
+        @for (item of menuItems; track item.title) {
+          @if (item.isHeading) {
+            <!--begin:Heading item-->
+            <div class="menu-item pt-5">
+              <div class="menu-content">
+                <span class="menu-heading fw-bold text-uppercase fs-7">{{ item.title }}</span>
+              </div>
+            </div>
+            <!--end:Heading item-->
+          } @else if (item.children && item.children.length > 0) {
+            <!--begin:Level 1 Accordion Menu Item-->
+            <div 
+              class="menu-item menu-accordion" 
+              [class.here]="isItemActive(item)"
+              [class.show]="item.isOpen"
+            >
+              <!--begin:Menu link-->
+              <span class="menu-link cursor-pointer" (click)="toggleSubmenu(item)" [title]="item.title">
+                @if (item.icon) {
+                  <span class="menu-icon">
+                    <i [class]="'bi ' + item.icon + ' fs-2'"></i>
+                  </span>
+                }
+                <span class="menu-title">{{ item.title }}</span>
+                <span class="menu-arrow"></span>
+              </span>
+              <!--end:Menu link-->
+
+              <!--begin:Menu sub-->
+              @if (item.isOpen) {
+                <div class="menu-sub menu-sub-accordion show">
+                  <ng-container *ngTemplateOutlet="menuTreeTemplate; context: { items: item.children }"></ng-container>
+                </div>
+              }
+              <!--end:Menu sub-->
+            </div>
+            <!--end:Level 1 Accordion Menu Item-->
+          } @else {
+            <!--begin:Single Top-level Menu Item-->
+            <div class="menu-item">
+              <a 
+                class="menu-link" 
+                [routerLink]="item.route" 
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}"
+                (click)="onCloseMobile()"
+                [title]="item.title"
+              >
+                @if (item.icon) {
+                  <span class="menu-icon">
+                    <i [class]="'bi ' + item.icon + ' fs-2'"></i>
+                  </span>
+                }
+                <span class="menu-title">{{ item.title }}</span>
+                @if (item.badge) {
+                  <span [class]="'badge ' + (item.badgeClass || 'badge-light-primary') + ' fs-8 px-2 py-1 ms-2'">{{ item.badge }}</span>
+                }
+              </a>
+            </div>
+            <!--end:Single Top-level Menu Item-->
+          }
+        }
+      </div>
+      <!--end::Menu-->
+    </div>
+    <!--end::Menu wrapper-->
+  </div>
+  <!--end::sidebar menu-->
+</div>
+<!--end::Sidebar-->
+
+<!--begin::Recursive Menu Tree Template-->
+<ng-template #menuTreeTemplate let-items="items">
+  @for (child of items; track child.title) {
+    @if (child.children && child.children.length > 0) {
+      <!--begin:Nested Accordion Item-->
+      <div class="menu-item menu-accordion" [class.show]="child.isOpen" [class.here]="isItemActive(child)">
+        <span class="menu-link cursor-pointer" (click)="toggleSubmenu(child)" [title]="child.title">
+          <span class="menu-bullet">
+            <span class="bullet bullet-dot"></span>
+          </span>
+          <span class="menu-title">{{ child.title }}</span>
+          <span class="menu-arrow"></span>
+        </span>
+
+        @if (child.isOpen) {
+          <div class="menu-sub menu-sub-accordion menu-active-bg show">
+            <ng-container *ngTemplateOutlet="menuTreeTemplate; context: { items: child.children }"></ng-container>
+          </div>
+        }
+      </div>
+      <!--end:Nested Accordion Item-->
+    } @else {
+      <!--begin:Leaf Item-->
+      <div class="menu-item">
+        <a 
+          class="menu-link" 
+          [routerLink]="child.route" 
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+          (click)="onCloseMobile()"
+          [title]="child.title"
+        >
+          <span class="menu-bullet">
+            <span class="bullet bullet-dot"></span>
+          </span>
+          <span class="menu-title">{{ child.title }}</span>
+          @if (child.badge) {
+            <span [class]="'badge ' + (child.badgeClass || 'badge-light-success') + ' fs-8 px-2 py-1 ms-2'">{{ child.badge }}</span>
+          }
+        </a>
+      </div>
+      <!--end:Leaf Item-->
+    }
+  }
+</ng-template>
+<!--end::Recursive Menu Tree Template-->
+
+<!--begin::Mobile Overlay Backdrop-->
+@if (isMobileOpen) {
+  <div class="drawer-overlay" (click)="onCloseMobile()"></div>
+}
+<!--end::Mobile Overlay Backdrop-->

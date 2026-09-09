@@ -1,0 +1,220 @@
+<!--begin::Projects List Page-->
+<div class="d-flex flex-column gap-7 gap-lg-10">
+
+  <!--begin::Top Toolbar Card-->
+  <div class="card mb-5">
+    <div class="card-body py-4">
+      <div class="d-flex flex-wrap flex-stack">
+        <!--begin::Tabs-->
+        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+          <li class="nav-item">
+            <a class="nav-link text-active-primary py-5 cursor-pointer" [class.active]="activeTab === 'All'" (click)="setTab('All')">
+              All Projects ({{ projects.length }})
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-active-primary py-5 cursor-pointer" [class.active]="activeTab === 'In Progress'" (click)="setTab('In Progress')">
+              In Progress
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-active-primary py-5 cursor-pointer" [class.active]="activeTab === 'Completed'" (click)="setTab('Completed')">
+              Completed
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-active-primary py-5 cursor-pointer" [class.active]="activeTab === 'On Hold'" (click)="setTab('On Hold')">
+              On Hold
+            </a>
+          </li>
+        </ul>
+        <!--end::Tabs-->
+
+        <!--begin::Actions-->
+        <div class="d-flex align-items-center gap-3 my-2">
+          <!--begin::Search-->
+          <div class="d-flex align-items-center position-relative my-1">
+            <i class="bi bi-search fs-4 position-absolute ms-4 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid w-200px w-md-250px ps-12" 
+              placeholder="Search Projects" 
+              [(ngModel)]="searchTerm" 
+            />
+          </div>
+          <!--end::Search-->
+
+          <button class="btn btn-primary" (click)="isNewModalOpen = true">
+            <i class="bi bi-plus-lg fs-4 me-1"></i> New Project
+          </button>
+        </div>
+        <!--end::Actions-->
+      </div>
+    </div>
+  </div>
+  <!--end::Top Toolbar Card-->
+
+  <!--begin::Projects Grid-->
+  <div class="row g-6 g-xl-9">
+    @for (project of filteredProjects; track project.id) {
+      <div class="col-md-6 col-xl-4">
+        <!--begin::Project Card-->
+        <div class="card border-hover-primary h-100 shadow-sm">
+          <!--begin::Card header-->
+          <div class="card-header border-0 pt-6">
+            <!--begin::Card Title-->
+            <div class="card-title m-0">
+              <div class="symbol symbol-50px w-50px bg-light me-4 p-2 rounded">
+                <img [src]="project.logo" [alt]="project.name" class="p-1" />
+              </div>
+              <div class="d-flex flex-column">
+                <a routerLink="/dashboard" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-1">
+                  {{ project.name }}
+                </a>
+                <span class="badge badge-light fw-semibold fs-8 align-self-start">{{ project.category }}</span>
+              </div>
+            </div>
+            <!--end::Card Title-->
+
+            <!--begin::Card Toolbar-->
+            <div class="card-toolbar">
+              <span [ngClass]="{
+                'badge badge-light-primary': project.status === 'In Progress',
+                'badge badge-light-success': project.status === 'Completed',
+                'badge badge-light-warning': project.status === 'On Hold'
+              }">
+                {{ project.status }}
+              </span>
+            </div>
+            <!--end::Card Toolbar-->
+          </div>
+          <!--end:: Card header-->
+
+          <!--begin:: Card body-->
+          <div class="card-body p-9">
+            <p class="text-gray-600 fw-semibold fs-6 mb-7 min-h-45px">
+              {{ project.description }}
+            </p>
+
+            <div class="d-flex flex-wrap mb-5">
+              <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
+                <div class="fs-6 text-gray-800 fw-bold">{{ project.dueDate }}</div>
+                <div class="fw-semibold text-gray-500 fs-7">Due Date</div>
+              </div>
+
+              <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
+                <div class="fs-6 text-gray-800 fw-bold">{{ project.budget }}</div>
+                <div class="fw-semibold text-gray-500 fs-7">Budget</div>
+              </div>
+            </div>
+
+            <!--begin::Progress-->
+            <div class="d-flex flex-column mb-6">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="fs-7 fw-semibold text-gray-700">Progress</span>
+                <span class="fs-7 fw-bold text-gray-900">{{ project.progress }}%</span>
+              </div>
+              <div class="h-6px mx-0 w-100 bg-light-primary rounded">
+                <div 
+                  [class]="'bg-' + project.progressColor + ' rounded h-6px'" 
+                  role="progressbar" 
+                  [style.width.%]="project.progress"
+                ></div>
+              </div>
+            </div>
+            <!--end::Progress-->
+
+            <!--begin::Card Footer Users-->
+            <div class="d-flex align-items-center justify-content-between pt-2">
+              <div class="symbol-group symbol-hover">
+                @for (member of project.members; track member.name) {
+                  @if (member.avatar) {
+                    <div class="symbol symbol-35px symbol-circle" [title]="member.name">
+                      <img [src]="member.avatar" [alt]="member.name" />
+                    </div>
+                  } @else {
+                    <div [class]="'symbol symbol-35px symbol-circle bg-light-' + member.color" [title]="member.name">
+                      <span [class]="'symbol-label fw-bold text-' + member.color">{{ member.initials }}</span>
+                    </div>
+                  }
+                }
+              </div>
+
+              <a routerLink="/dashboard" class="btn btn-sm btn-light btn-active-light-primary">
+                View Project
+              </a>
+            </div>
+            <!--end::Card Footer Users-->
+          </div>
+          <!--end:: Card body-->
+        </div>
+        <!--end::Project Card-->
+      </div>
+    } @empty {
+      <div class="col-12 text-center py-10 text-muted">
+        <i class="bi bi-folder2-open fs-3x text-gray-400 mb-3 d-block"></i>
+        <h4>No projects found in this view.</h4>
+      </div>
+    }
+  </div>
+  <!--end::Projects Grid-->
+
+</div>
+<!--end::Projects List Page-->
+
+<!--begin::New Project Modal-->
+@if (isNewModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="fw-bold">Create New Project</h2>
+          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="isNewModalOpen = false">
+            <i class="bi bi-x fs-1"></i>
+          </div>
+        </div>
+        <div class="modal-body scroll-y mx-5 my-5">
+          <form (ngSubmit)="createProject()">
+            <div class="fv-row mb-7">
+              <label class="required fs-6 fw-semibold mb-2">Project Name</label>
+              <input type="text" class="form-control form-control-solid" placeholder="e.g. NextGen CRM App" [(ngModel)]="newProjectName" name="prjName" required />
+            </div>
+
+            <div class="row mb-7">
+              <div class="col-md-6">
+                <label class="fs-6 fw-semibold mb-2">Category</label>
+                <select class="form-select form-select-solid" [(ngModel)]="newProjectCategory" name="prjCat">
+                  <option value="Web Development">Web Development</option>
+                  <option value="Mobile App">Mobile App</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                  <option value="Cloud Architecture">Cloud Architecture</option>
+                  <option value="Machine Learning">Machine Learning</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="fs-6 fw-semibold mb-2">Estimated Budget</label>
+                <input type="text" class="form-control form-control-solid" placeholder="$50,000" [(ngModel)]="newProjectBudget" name="prjBudget" />
+              </div>
+            </div>
+
+            <div class="fv-row mb-7">
+              <label class="fs-6 fw-semibold mb-2">Target Due Date</label>
+              <input type="text" class="form-control form-control-solid" placeholder="Dec 31, 2026" [(ngModel)]="newProjectDueDate" name="prjDue" />
+            </div>
+
+            <div class="fv-row mb-9">
+              <label class="fs-6 fw-semibold mb-2">Description</label>
+              <textarea class="form-control form-control-solid" rows="3" placeholder="Brief objectives and key milestones..." [(ngModel)]="newProjectDescription" name="prjDesc"></textarea>
+            </div>
+
+            <div class="text-center pt-5">
+              <button type="button" class="btn btn-light me-3" (click)="isNewModalOpen = false">Cancel</button>
+              <button type="submit" class="btn btn-primary">Create Project</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::New Project Modal-->

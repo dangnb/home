@@ -1,0 +1,26 @@
+.scrolltop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  z-index: 100;
+  background-color: var(--bs-primary);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.475rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var(--bs-primary-active);
+    transform: translateY(-2px);
+  }
+
+  .svg-icon {
+    color: #fff;
+  }
+}

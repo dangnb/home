@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.app-navbar-item {
+  position: relative;
+}
+
+.menu-sub-dropdown.show {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.dropdown-menu-end-custom {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  z-index: 105;
+}
+
+.dropdown-menu-start-custom {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  z-index: 105;
+}
+
+.bgi-no-repeat {
+  background-size: cover;
+  background-position: center;
+}
+
+.animation-blink {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}

@@ -1,0 +1,130 @@
+<!--begin::Activities drawer-->
+<div 
+  id="kt_activities" 
+  class="bg-body drawer drawer-end"
+  [class.drawer-on]="drawerService.isActivitiesOpen()"
+  style="width: 550px; max-width: 100vw; z-index: 110;"
+>
+  <div class="card shadow-none border-0 rounded-0 w-100 h-100">
+    <!--begin::Header-->
+    <div class="card-header" id="kt_activities_header">
+      <h3 class="card-title fw-bold text-dark">Activity Logs</h3>
+      <div class="card-toolbar">
+        <button 
+          type="button" 
+          class="btn btn-sm btn-icon btn-active-light-primary" 
+          (click)="close()"
+          title="Close activity logs"
+        >
+          <i class="bi bi-x-lg fs-4"></i>
+        </button>
+      </div>
+    </div>
+    <!--end::Header-->
+
+    <!--begin::Body-->
+    <div class="card-body position-relative p-6" id="kt_activities_body" style="overflow-y: auto; height: calc(100vh - 140px);">
+      <!--begin::Timeline-->
+      <div class="timeline">
+        <!--Timeline Item 1-->
+        <div class="timeline-item mb-8">
+          <div class="timeline-line w-40px"></div>
+          <div class="d-flex align-items-start">
+            <div class="symbol symbol-circle symbol-40px me-4">
+              <span class="symbol-label bg-light-primary">
+                <i class="bi bi-code-slash text-primary fs-4"></i>
+              </span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div class="fs-6 fw-semibold text-gray-800 mb-1">
+                There are 2 new tasks for you in <span class="fw-bold text-primary">AirPlus Mobile App</span> project:
+              </div>
+              <div class="text-muted fs-7 mb-3">Added at 4:23 PM by <span class="fw-bold text-gray-700">Nina Nilson</span></div>
+              <div class="p-3 bg-light rounded mb-2 d-flex align-items-center justify-content-between">
+                <span class="fs-7 fw-bold text-gray-800">Meeting with customer</span>
+                <span class="badge badge-light-primary">In Progress</span>
+              </div>
+              <div class="p-3 bg-light rounded d-flex align-items-center justify-content-between">
+                <span class="fs-7 fw-bold text-gray-800">Project Delivery Preparation</span>
+                <span class="badge badge-light-success">Completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Timeline Item 2-->
+        <div class="timeline-item mb-8">
+          <div class="timeline-line w-40px"></div>
+          <div class="d-flex align-items-start">
+            <div class="symbol symbol-circle symbol-40px me-4">
+              <span class="symbol-label bg-light-warning">
+                <i class="bi bi-envelope text-warning fs-4"></i>
+              </span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div class="fs-6 fw-semibold text-gray-800 mb-1">
+                Invitation for crafting engaging designs that speak human workshop
+              </div>
+              <div class="text-muted fs-7 mb-2">Sent at 2:15 PM by <span class="fw-bold text-gray-700">Alan Nilson</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!--Timeline Item 3-->
+        <div class="timeline-item mb-8">
+          <div class="timeline-line w-40px"></div>
+          <div class="d-flex align-items-start">
+            <div class="symbol symbol-circle symbol-40px me-4">
+              <span class="symbol-label bg-light-success">
+                <i class="bi bi-check-circle text-success fs-4"></i>
+              </span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div class="fs-6 fw-semibold text-gray-800 mb-1">
+                Database Backup Process Completed!
+              </div>
+              <div class="text-muted fs-7 mb-3">Completed at 11:30 AM by <span class="fw-bold text-gray-700">System Bot</span></div>
+              <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-4">
+                <div class="fs-7 text-gray-700">Log into Admin Dashboard to verify data integrity and checksums.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Timeline Item 4-->
+        <div class="timeline-item">
+          <div class="d-flex align-items-start">
+            <div class="symbol symbol-circle symbol-40px me-4">
+              <span class="symbol-label bg-light-danger">
+                <i class="bi bi-cart text-danger fs-4"></i>
+              </span>
+            </div>
+            <div class="d-flex flex-column flex-grow-1">
+              <div class="fs-6 fw-semibold text-gray-800 mb-1">
+                New Order <span class="text-primary fw-bold">#67890</span> placed for Workshop Planning & Budget
+              </div>
+              <div class="text-muted fs-7">Placed at 9:05 AM by <span class="fw-bold text-gray-700">Jimmy Bold</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end::Timeline-->
+    </div>
+    <!--end::Body-->
+
+    <!--begin::Footer-->
+    <div class="card-footer py-5 text-center border-top">
+      <a routerLink="/profile" (click)="close()" class="btn btn-sm btn-primary">
+        View All Activities <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+    <!--end::Footer-->
+  </div>
+</div>
+<!--end::Activities drawer-->
+
+<!--begin::Overlay Backdrop-->
+@if (drawerService.isActivitiesOpen()) {
+  <div class="drawer-overlay" style="z-index: 109;" (click)="close()"></div>
+}
+<!--end::Overlay Backdrop-->

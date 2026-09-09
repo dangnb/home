@@ -1,0 +1,126 @@
+<!--begin::Chat drawer-->
+<div 
+  id="kt_drawer_chat" 
+  class="bg-body drawer drawer-end"
+  [class.drawer-on]="drawerService.isChatOpen()"
+  style="width: 500px; max-width: 100vw; z-index: 110;"
+>
+  <!--begin::Messenger-->
+  <div class="card w-100 rounded-0 border-0 shadow-lg h-100" id="kt_drawer_chat_messenger">
+    <!--begin::Card header-->
+    <div class="card-header pe-5" id="kt_drawer_chat_messenger_header">
+      <!--begin::Title-->
+      <div class="card-title">
+        <!--begin::User-->
+        <div class="d-flex justify-content-center flex-column me-3">
+          <a href="javascript:void(0)" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Brian Cox</a>
+          <!--begin::Info-->
+          <div class="mb-0 lh-1 d-flex align-items-center">
+            <span class="badge badge-success badge-circle w-10px h-10px me-2"></span>
+            <span class="fs-7 fw-semibold text-muted">Active now</span>
+          </div>
+          <!--end::Info-->
+        </div>
+        <!--end::User-->
+      </div>
+      <!--end::Title-->
+
+      <!--begin::Card toolbar-->
+      <div class="card-toolbar">
+        <button 
+          type="button" 
+          class="btn btn-sm btn-icon btn-active-light-primary" 
+          (click)="close()"
+          title="Close chat"
+        >
+          <i class="bi bi-x-lg fs-4"></i>
+        </button>
+      </div>
+      <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
+
+    <!--begin::Card body-->
+    <div class="card-body p-6 d-flex flex-column" id="kt_drawer_chat_messenger_body" style="height: calc(100vh - 160px);">
+      <!--begin::Messages scroll-->
+      <div class="scroll-y flex-grow-1 pe-3" style="overflow-y: auto;">
+        @for (msg of messages(); track msg.id) {
+          @if (msg.sender === 'in') {
+            <!--begin::Message(in)-->
+            <div class="d-flex justify-content-start mb-6">
+              <div class="d-flex flex-column align-items-start">
+                <div class="d-flex align-items-center mb-2">
+                  <div class="symbol symbol-35px symbol-circle me-3">
+                    <img [src]="msg.avatar" alt="" />
+                  </div>
+                  <div class="ms-1">
+                    <span class="fs-6 fw-bold text-gray-900 me-2">{{ msg.author }}</span>
+                    <span class="text-muted fs-8">{{ msg.time }}</span>
+                  </div>
+                </div>
+                <div class="p-4 rounded bg-light-info text-dark fw-semibold mw-lg-400px text-start">
+                  {{ msg.text }}
+                </div>
+              </div>
+            </div>
+            <!--end::Message(in)-->
+          } @else {
+            <!--begin::Message(out)-->
+            <div class="d-flex justify-content-end mb-6">
+              <div class="d-flex flex-column align-items-end">
+                <div class="d-flex align-items-center mb-2">
+                  <div class="me-3 text-end">
+                    <span class="text-muted fs-8 me-2">{{ msg.time }}</span>
+                    <span class="fs-6 fw-bold text-gray-900">{{ msg.author }}</span>
+                  </div>
+                  <div class="symbol symbol-35px symbol-circle">
+                    <img [src]="msg.avatar" alt="" />
+                  </div>
+                </div>
+                <div class="p-4 rounded bg-light-primary text-dark fw-semibold mw-lg-400px text-end">
+                  {{ msg.text }}
+                </div>
+              </div>
+            </div>
+            <!--end::Message(out)-->
+          }
+        }
+      </div>
+      <!--end::Messages scroll-->
+    </div>
+    <!--end::Card body-->
+
+    <!--begin::Card footer-->
+    <div class="card-footer pt-4 border-top bg-body" id="kt_drawer_chat_messenger_footer">
+      <textarea 
+        class="form-control form-control-flush mb-3 p-2 bg-light rounded" 
+        rows="2" 
+        placeholder="Type a message..."
+        [(ngModel)]="messageText"
+        (keyup.enter)="sendMessage()"
+      ></textarea>
+      <div class="d-flex flex-stack justify-content-between">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button">
+            <i class="bi bi-paperclip fs-4"></i>
+          </button>
+          <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button">
+            <i class="bi bi-image fs-4"></i>
+          </button>
+        </div>
+        <button class="btn btn-primary btn-sm px-6" type="button" (click)="sendMessage()">
+          Send <i class="bi bi-send ms-1"></i>
+        </button>
+      </div>
+    </div>
+    <!--end::Card footer-->
+  </div>
+  <!--end::Messenger-->
+</div>
+<!--end::Chat drawer-->
+
+<!--begin::Overlay Backdrop-->
+@if (drawerService.isChatOpen()) {
+  <div class="drawer-overlay" style="z-index: 109;" (click)="close()"></div>
+}
+<!--end::Overlay Backdrop-->

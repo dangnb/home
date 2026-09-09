@@ -1,0 +1,282 @@
+<div class="d-flex flex-column gap-7 gap-lg-10">
+  <!--begin::Account Header-->
+  <app-account-header currentTab="security"></app-account-header>
+  <!--end::Account Header-->
+
+  <!--begin::Row: Summary & Guidelines-->
+  <div class="row g-xxl-9">
+    <!--begin::Col: Security Summary-->
+    <div class="col-xxl-8">
+      <div class="card card-xxl-stretch mb-5 mb-xl-10">
+        <!--begin::Header-->
+        <div class="card-header card-header-stretch">
+          <div class="card-title">
+            <h3 class="m-0 text-gray-900 fw-bold">Security Summary</h3>
+          </div>
+          <div class="card-toolbar">
+            <ul class="nav nav-tabs nav-line-tabs nav-stretch border-transparent fs-5 fw-bold">
+              <li class="nav-item">
+                <button type="button" class="nav-link text-active-primary btn-link border-0 bg-transparent py-4"
+                  [class.active]="selectedPeriod === 'hours'" (click)="selectedPeriod = 'hours'">
+                  12 Hours
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="nav-link text-active-primary btn-link border-0 bg-transparent py-4"
+                  [class.active]="selectedPeriod === 'day'" (click)="selectedPeriod = 'day'">
+                  Day
+                </button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="nav-link text-active-primary btn-link border-0 bg-transparent py-4"
+                  [class.active]="selectedPeriod === 'week'" (click)="selectedPeriod = 'week'">
+                  Week
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--end::Header-->
+
+        <!--begin::Body-->
+        <div class="card-body pt-7 pb-6 px-9">
+          <!--begin::Metrics Row-->
+          <div class="row p-0 mb-7">
+            <div class="col-md-4">
+              <div class="border border-dashed border-gray-300 text-center rounded p-4 mb-3">
+                <span class="fs-6 fw-semibold text-success d-block mb-1">User Sign-in</span>
+                <span class="fs-2hx fw-bold text-gray-900">{{ currentMetrics.userSignIn | number }}</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border border-dashed border-gray-300 text-center rounded p-4 mb-3">
+                <span class="fs-6 fw-semibold text-primary d-block mb-1">Admin Sign-in</span>
+                <span class="fs-2hx fw-bold text-gray-900">{{ currentMetrics.adminSignIn | number }}</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border border-dashed border-gray-300 text-center rounded p-4 mb-3">
+                <span class="fs-6 fw-semibold text-danger d-block mb-1">Failed Attempts</span>
+                <span class="fs-2hx fw-bold text-gray-900">{{ currentMetrics.failedAttempts | number }}</span>
+              </div>
+            </div>
+          </div>
+          <!--end::Metrics Row-->
+
+          <!--begin::Activity Breakdown-->
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h4 class="m-0 text-gray-900 fw-bold">Activity Breakdown</h4>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn" [class.btn-primary]="selectedTarget === 'agents'" [class.btn-light]="selectedTarget !== 'agents'" (click)="selectedTarget = 'agents'">
+                Agents
+              </button>
+              <button type="button" class="btn" [class.btn-primary]="selectedTarget === 'clients'" [class.btn-light]="selectedTarget !== 'clients'" (click)="selectedTarget = 'clients'">
+                Clients
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-4 p-4 rounded bg-light">
+            <div>
+              <div class="d-flex justify-content-between fs-6 fw-semibold mb-1">
+                <span>Authorized Token Logins</span>
+                <span class="fw-bold text-success">{{ currentMetrics.successRate }}%</span>
+              </div>
+              <div class="progress h-8px bg-white">
+                <div class="progress-bar bg-success" role="progressbar" [style.width.%]="currentMetrics.successRate"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex justify-content-between fs-6 fw-semibold mb-1">
+                <span>Multi-Factor Challenge Passed</span>
+                <span class="fw-bold text-primary">94.2%</span>
+              </div>
+              <div class="progress h-8px bg-white">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 94.2%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="d-flex justify-content-between fs-6 fw-semibold mb-1">
+                <span>Geographic Velocity Anomalies</span>
+                <span class="fw-bold text-danger">1.8%</span>
+              </div>
+              <div class="progress h-8px bg-white">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 1.8%"></div>
+              </div>
+            </div>
+          </div>
+          <!--end::Activity Breakdown-->
+        </div>
+        <!--end::Body-->
+      </div>
+    </div>
+    <!--end::Col-->
+
+    <!--begin::Col: Recent Alerts & Guidelines-->
+    <div class="col-xxl-4">
+      <!--begin::Recent Alerts-->
+      <div class="card mb-5 mb-xl-10">
+        <div class="card-header pt-5">
+          <h3 class="card-title fw-bold text-gray-900">Recent Security Alerts</h3>
+          <div class="card-toolbar">
+            <span class="badge badge-light-danger fw-bold">Live</span>
+          </div>
+        </div>
+        <div class="card-body pt-2">
+          <div class="d-flex flex-column gap-4">
+            <div class="d-flex align-items-start p-3 rounded bg-light-danger border border-danger border-dashed">
+              <i class="bi bi-shield-exclamation text-danger fs-2 me-3 mt-1"></i>
+              <div>
+                <div class="fs-6 fw-bold text-gray-900">Login Attempt Blocked</div>
+                <div class="fs-7 text-gray-600">IP 236.125.56.10 from Oslo was blocked after 3 failed password attempts.</div>
+                <div class="fs-8 text-muted mt-1">25 minutes ago</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start p-3 rounded bg-light-success border border-success border-dashed">
+              <i class="bi bi-shield-check text-success fs-2 me-3 mt-1"></i>
+              <div>
+                <div class="fs-6 fw-bold text-gray-900">2FA Verified Session</div>
+                <div class="fs-7 text-gray-600">New session initiated via Mobile Authenticator in California.</div>
+                <div class="fs-8 text-muted mt-1">2 hours ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end::Recent Alerts-->
+
+      <!--begin::Guidelines-->
+      <div class="card mb-5 mb-xl-10">
+        <div class="card-header pt-5">
+          <h3 class="card-title fw-bold text-gray-900">Security Guidelines</h3>
+        </div>
+        <div class="card-body pt-2">
+          <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+            <li class="d-flex align-items-center text-gray-700 fs-6">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              Enforce 14-character passwords
+            </li>
+            <li class="d-flex align-items-center text-gray-700 fs-6">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              Rotate API keys every 90 days
+            </li>
+            <li class="d-flex align-items-center text-gray-700 fs-6">
+              <i class="bi bi-check-circle-fill text-success me-2"></i>
+              Require hardware tokens for Admin accounts
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--end::Guidelines-->
+    </div>
+    <!--end::Col-->
+  </div>
+  <!--end::Row-->
+
+  <!--begin::Login Sessions Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header align-items-center">
+      <div class="card-title">
+        <h3 class="fw-bold m-0 text-gray-900">Login Sessions</h3>
+      </div>
+      <div class="card-toolbar d-flex align-items-center gap-3">
+        <select class="form-select form-select-sm form-select-solid w-150px" [(ngModel)]="selectedHourFilter">
+          <option value="1">Past 1 Hour</option>
+          <option value="6">Past 6 Hours</option>
+          <option value="12">Past 12 Hours</option>
+          <option value="24">Past 24 Hours</option>
+        </select>
+        <button (click)="downloadSecurityReport()" class="btn btn-sm btn-primary">
+          <i class="bi bi-download me-1"></i> Export Log
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-flush align-middle table-row-bordered table-row-solid gy-4 gs-9 mb-0">
+          <thead class="border-gray-200 fs-7 fw-bold text-gray-400 bg-lighten text-uppercase">
+            <tr>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Device / Platform</th>
+              <th>IP Address</th>
+              <th class="text-end">Time</th>
+            </tr>
+          </thead>
+          <tbody class="fs-6 fw-semibold text-gray-600">
+            @for (session of loginSessions; track session.ip + session.time) {
+              <tr>
+                <td>
+                  <span class="text-gray-900 fw-bold">{{ session.location }}</span>
+                </td>
+                <td>
+                  @if (session.status === 'OK') {
+                    <span class="badge badge-light-success fw-bold">OK</span>
+                  } @else if (session.status === 'WRN') {
+                    <span class="badge badge-light-warning fw-bold">WRN</span>
+                  } @else {
+                    <span class="badge badge-light-danger fw-bold">ERR</span>
+                  }
+                </td>
+                <td>{{ session.device }}</td>
+                <td><code class="text-gray-800">{{ session.ip }}</code></td>
+                <td class="text-end text-muted">{{ session.time }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--end::Login Sessions Card-->
+
+  <!--begin::License Usage Card-->
+  <div class="card mb-5 mb-xl-10">
+    <div class="card-header align-items-center">
+      <div class="card-title">
+        <h3 class="fw-bold m-0 text-gray-900">License Usage & Key Operators</h3>
+      </div>
+      <div class="card-toolbar">
+        <button (click)="downloadSecurityReport()" class="btn btn-sm btn-light-primary">
+          <i class="bi bi-file-earmark-arrow-down me-1"></i> Download Report
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-flush align-middle table-row-bordered table-row-solid gy-4 gs-9 mb-0">
+          <thead class="border-gray-200 fs-7 fw-bold text-gray-400 bg-lighten text-uppercase">
+            <tr>
+              <th>Status</th>
+              <th>Operator</th>
+              <th>Session Duration</th>
+              <th>IP Address</th>
+              <th class="text-end">Active Date</th>
+            </tr>
+          </thead>
+          <tbody class="fs-6 fw-semibold text-gray-600">
+            @for (usage of licenseUsages; track usage.operator) {
+              <tr>
+                <td>
+                  <span class="badge fw-bold" [ngClass]="usage.status === 'Active' ? 'badge-light-success' : 'badge-light-danger'">
+                    {{ usage.status }}
+                  </span>
+                </td>
+                <td><span class="text-gray-900 fw-bold">{{ usage.operator }}</span></td>
+                <td>{{ usage.duration }}</td>
+                <td><code class="text-gray-800">{{ usage.ip }}</code></td>
+                <td class="text-end text-muted">{{ usage.date }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--end::License Usage Card-->
+</div>

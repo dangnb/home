@@ -1,0 +1,362 @@
+@if (user) {
+  <!--begin::Layout-->
+  <div class="d-flex flex-column flex-lg-row">
+    <!--begin::Sidebar-->
+    <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
+      <!--begin::Card-->
+      <div class="card mb-5 mb-xl-8 shadow-sm">
+        <!--begin::Card body-->
+        <div class="card-body">
+          <!--begin::Summary-->
+          <!--begin::User Info-->
+          <div class="d-flex flex-center flex-column py-5">
+            <!--begin::Avatar-->
+            <div class="symbol symbol-100px symbol-circle mb-7 overflow-hidden border border-3 border-light shadow-sm">
+              @if (user.avatar) {
+                <img [src]="user.avatar" [alt]="user.name" class="w-100" />
+              } @else {
+                <div [class]="'symbol-label fs-1 bg-light-' + (user.initialsColor || 'primary') + ' text-' + (user.initialsColor || 'primary')">
+                  {{ user.initials || user.name.charAt(0) }}
+                </div>
+              }
+            </div>
+            <!--end::Avatar-->
+
+            <!--begin::Name-->
+            <a href="javascript:void(0)" class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1">{{ user.name }}</a>
+            <!--end::Name-->
+
+            <!--begin::Position-->
+            <div class="mb-5">
+              <span class="badge badge-lg badge-light-primary d-inline">{{ user.role }}</span>
+            </div>
+            <!--end::Position-->
+
+            <!--begin::Info-->
+            <div class="d-flex flex-wrap flex-center">
+              <div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3 me-3 text-center min-w-80px">
+                <div class="fs-4 fw-bold text-gray-700">$14,580</div>
+                <div class="fw-semibold text-muted fs-8">Earnings</div>
+              </div>
+              <div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3 text-center min-w-80px">
+                <div class="fs-4 fw-bold text-gray-700">86</div>
+                <div class="fw-semibold text-muted fs-8">Tasks</div>
+              </div>
+            </div>
+            <!--end::Info-->
+          </div>
+          <!--end::User Info-->
+          <!--end::Summary-->
+
+          <!--begin::Details toggle-->
+          <div class="d-flex flex-stack fs-4 py-3">
+            <div class="fw-bold rotate collapsible">Details</div>
+            <span class="badge badge-light-success">{{ user.status }}</span>
+          </div>
+          <!--end::Details toggle-->
+
+          <div class="separator separator-dashed my-3"></div>
+
+          <!--begin::Details content-->
+          <div class="pb-5 fs-6">
+            <div class="fw-bold mt-5">Account ID</div>
+            <div class="text-gray-600">ID-{{ user.id }}45892</div>
+
+            <div class="fw-bold mt-5">Email</div>
+            <div class="text-gray-600">
+              <a href="mailto:{{ user.email }}" class="text-gray-600 text-hover-primary">{{ user.email }}</a>
+            </div>
+
+            <div class="fw-bold mt-5">Address</div>
+            <div class="text-gray-600">
+              101 California Street, Suite 2450<br />San Francisco, CA 94111
+            </div>
+
+            <div class="fw-bold mt-5">Language</div>
+            <div class="text-gray-600">English (United States)</div>
+
+            <div class="fw-bold mt-5">Last Login</div>
+            <div class="text-gray-600">{{ user.lastLogin }}</div>
+          </div>
+          <!--end::Details content-->
+
+          <!--begin::Actions-->
+          <div class="d-flex justify-content-center pt-2">
+            <a routerLink="/users" class="btn btn-light-primary btn-sm w-100">
+              <i class="bi bi-arrow-left me-1"></i> Back to Users List
+            </a>
+          </div>
+          <!--end::Actions-->
+        </div>
+        <!--end::Card body-->
+      </div>
+      <!--end::Card-->
+    </div>
+    <!--end::Sidebar-->
+
+    <!--begin::Content-->
+    <div class="flex-lg-row-fluid ms-lg-15">
+      <!--begin:::Tabs-->
+      <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
+        <!--begin:::Tab item-->
+        <li class="nav-item">
+          <a 
+            class="nav-link text-active-primary pb-4 cursor-pointer" 
+            [class.active]="activeTab === 'overview'" 
+            (click)="setActiveTab('overview')"
+          >
+            Overview
+          </a>
+        </li>
+        <!--end:::Tab item-->
+
+        <!--begin:::Tab item-->
+        <li class="nav-item">
+          <a 
+            class="nav-link text-active-primary pb-4 cursor-pointer" 
+            [class.active]="activeTab === 'security'" 
+            (click)="setActiveTab('security')"
+          >
+            Security
+          </a>
+        </li>
+        <!--end:::Tab item-->
+
+        <!--begin:::Tab item-->
+        <li class="nav-item">
+          <a 
+            class="nav-link text-active-primary pb-4 cursor-pointer" 
+            [class.active]="activeTab === 'billing'" 
+            (click)="setActiveTab('billing')"
+          >
+            Billing & Invoices
+          </a>
+        </li>
+        <!--end:::Tab item-->
+
+        <!--begin:::Tab item-->
+        <li class="nav-item">
+          <a 
+            class="nav-link text-active-primary pb-4 cursor-pointer" 
+            [class.active]="activeTab === 'statements'" 
+            (click)="setActiveTab('statements')"
+          >
+            Statements
+          </a>
+        </li>
+        <!--end:::Tab item-->
+      </ul>
+      <!--end:::Tabs-->
+
+      <!--begin:::Tab content-->
+      <div class="tab-content">
+        <!--begin:::Tab pane Overview-->
+        @if (activeTab === 'overview') {
+          <div class="tab-pane fade show active">
+            <!--begin::Card Login Sessions-->
+            <div class="card card-flush mb-6 mb-xl-9 shadow-sm">
+              <!--begin::Card header-->
+              <div class="card-header mt-6">
+                <div class="card-title flex-column">
+                  <h2 class="mb-1">Active Login Sessions</h2>
+                  <div class="fs-6 text-muted">Recent authentication devices and geolocation records</div>
+                </div>
+              </div>
+              <!--end::Card header-->
+
+              <!--begin::Card body-->
+              <div class="card-body pt-0">
+                <div class="table-responsive">
+                  <table class="table align-middle table-row-dashed fs-6 gy-4 mb-0">
+                    <thead>
+                      <tr class="border-bottom border-gray-200 text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-100px">Location</th>
+                        <th class="min-w-100px">Device</th>
+                        <th class="min-w-100px">IP Address</th>
+                        <th class="min-w-100px">Time</th>
+                        <th class="text-end min-w-70px">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                      @for (session of loginSessions; track session.ip) {
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <i class="bi bi-geo-alt text-primary fs-4 me-2"></i>
+                              <span class="text-gray-800 fw-bold">{{ session.location }}</span>
+                            </div>
+                          </td>
+                          <td>{{ session.device }}</td>
+                          <td><code>{{ session.ip }}</code></td>
+                          <td>{{ session.time }}</td>
+                          <td class="text-end">
+                            <span [class]="'badge badge-light-' + session.statusColor + ' fw-bold'">
+                              {{ session.status }}
+                            </span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--end::Card body-->
+            </div>
+            <!--end::Card Login Sessions-->
+
+            <!--begin::Card Security Highlights-->
+            <div class="card card-flush shadow-sm">
+              <div class="card-header pt-7">
+                <h3 class="card-title align-items-start flex-column">
+                  <span class="card-label fw-bold text-gray-800">Security Summary</span>
+                  <span class="text-gray-400 mt-1 fw-semibold fs-6">Authentication protections status</span>
+                </h3>
+              </div>
+              <div class="card-body pt-5">
+                <div class="d-flex flex-stack">
+                  <div class="d-flex align-items-center me-2">
+                    <div class="symbol symbol-50px me-3">
+                      <span class="symbol-label bg-light-success">
+                        <i class="bi bi-shield-check text-success fs-2x"></i>
+                      </span>
+                    </div>
+                    <div>
+                      <a href="javascript:void(0)" class="fs-6 text-gray-800 text-hover-primary fw-bold">Two-Factor Authentication (2FA)</a>
+                      <div class="fs-7 text-muted">Requires an authenticator code when signing into unrecognized devices</div>
+                    </div>
+                  </div>
+                  <button 
+                    type="button" 
+                    [class]="'btn btn-sm ' + (user.twoStep ? 'btn-light-success' : 'btn-light-danger')"
+                    (click)="toggleTwoStep()"
+                  >
+                    {{ user.twoStep ? 'Enabled' : 'Disabled' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!--end::Card Security Highlights-->
+          </div>
+        }
+        <!--end:::Tab pane Overview-->
+
+        <!--begin:::Tab pane Security-->
+        @if (activeTab === 'security') {
+          <div class="tab-pane fade show active">
+            <!--begin::Card Update Password-->
+            <div class="card mb-5 mb-xl-10 shadow-sm">
+              <div class="card-header border-0 pt-6">
+                <div class="card-title">
+                  <h3 class="fw-bold m-0">Change Password</h3>
+                </div>
+              </div>
+
+              <div class="card-body border-top p-9">
+                @if (passwordUpdateSuccess) {
+                  <div class="alert alert-success d-flex align-items-center p-5 mb-7">
+                    <i class="bi bi-check-circle-fill fs-2hx text-success me-4"></i>
+                    <div>
+                      <h4 class="mb-1 text-dark">Password Updated!</h4>
+                      <span>Your security credentials have been updated successfully.</span>
+                    </div>
+                  </div>
+                }
+
+                <form (ngSubmit)="updatePassword()">
+                  <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">Current Password</label>
+                    <div class="col-lg-8 fv-row">
+                      <input type="password" class="form-control form-control-lg form-control-solid" [(ngModel)]="currentPassword" name="currentPassword" required />
+                    </div>
+                  </div>
+
+                  <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">New Password</label>
+                    <div class="col-lg-8 fv-row">
+                      <input type="password" class="form-control form-control-lg form-control-solid" [(ngModel)]="newPassword" name="newPassword" required />
+                    </div>
+                  </div>
+
+                  <div class="row mb-6">
+                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">Confirm New Password</label>
+                    <div class="col-lg-8 fv-row">
+                      <input type="password" class="form-control form-control-lg form-control-solid" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!--end::Card Update Password-->
+          </div>
+        }
+        <!--end:::Tab pane Security-->
+
+        <!--begin:::Tab pane Billing-->
+        @if (activeTab === 'billing') {
+          <div class="tab-pane fade show active">
+            <!--begin::Card Invoices-->
+            <div class="card mb-5 mb-xl-10 shadow-sm">
+              <div class="card-header border-0 pt-6">
+                <div class="card-title">
+                  <h3 class="fw-bold m-0">Invoices & Billing History</h3>
+                </div>
+              </div>
+              <div class="card-body pt-0">
+                <div class="table-responsive">
+                  <table class="table align-middle table-row-dashed fs-6 gy-4 mb-0">
+                    <thead>
+                      <tr class="border-bottom border-gray-200 text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th class="min-w-100px">Invoice No.</th>
+                        <th class="min-w-100px">Date</th>
+                        <th class="min-w-175px">Description</th>
+                        <th class="min-w-100px">Amount</th>
+                        <th class="text-end min-w-70px">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                      @for (inv of invoices; track inv.id) {
+                        <tr>
+                          <td><span class="text-gray-800 fw-bold">{{ inv.id }}</span></td>
+                          <td>{{ inv.date }}</td>
+                          <td>{{ inv.description }}</td>
+                          <td><span class="fw-bold text-dark">{{ inv.amount }}</span></td>
+                          <td class="text-end">
+                            <span [class]="'badge badge-light-' + inv.statusColor + ' fw-bold'">{{ inv.status }}</span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--end::Card Invoices-->
+          </div>
+        }
+        <!--end:::Tab pane Billing-->
+
+        <!--begin:::Tab pane Statements-->
+        @if (activeTab === 'statements') {
+          <div class="tab-pane fade show active">
+            <div class="card shadow-sm p-8 text-center">
+              <div class="py-10">
+                <i class="bi bi-file-earmark-spreadsheet fs-4x text-primary mb-4"></i>
+                <h3 class="fs-2 text-gray-800 fw-bold mb-2">Detailed Financial Statement</h3>
+                <p class="text-muted fs-6 mb-6">Export monthly statement breakdown for tax filings and audit.</p>
+                <button class="btn btn-primary"><i class="bi bi-download me-2"></i> Download Statement (.CSV)</button>
+              </div>
+            </div>
+          </div>
+        }
+        <!--end:::Tab pane Statements-->
+      </div>
+      <!--end:::Tab content-->
+    </div>
+    <!--end::Content-->
+  </div>
+  <!--end::Layout-->
+}

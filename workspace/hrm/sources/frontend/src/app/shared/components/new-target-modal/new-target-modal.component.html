@@ -1,0 +1,100 @@
+@if (drawerService.isNewTargetModalOpen()) {
+  <!--begin::Modal - New Target-->
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1050;">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content rounded">
+        <!--begin::Modal header-->
+        <div class="modal-header pb-0 border-0 justify-content-end">
+          <div class="btn btn-sm btn-icon btn-active-color-primary" (click)="close()">
+            <i class="bi bi-x-lg fs-4"></i>
+          </div>
+        </div>
+        <!--end::Modal header-->
+
+        <!--begin::Modal body-->
+        <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+          <!--begin:Heading-->
+          <div class="mb-13 text-center">
+            <h1 class="mb-3 text-gray-900">Set Target Goal</h1>
+            <div class="text-muted fw-semibold fs-5">
+              If you need more info, please check
+              <a href="javascript:void(0)" class="fw-bold link-primary">Project Guidelines</a>.
+            </div>
+          </div>
+          <!--end:Heading-->
+
+          <!--begin::Form-->
+          <form (ngSubmit)="submitTarget()">
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-8 fv-row">
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span class="required">Target Title</span>
+              </label>
+              <input 
+                type="text" 
+                class="form-control form-control-solid" 
+                placeholder="Enter Target Title (e.g. Q3 Sales Expansion)" 
+                [(ngModel)]="targetTitle" 
+                name="title"
+                required 
+              />
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="row g-9 mb-8">
+              <div class="col-md-6 fv-row">
+                <label class="required fs-6 fw-semibold mb-2">Assignee</label>
+                <select class="form-select form-select-solid" [(ngModel)]="targetAssignee" name="assignee">
+                  <option value="Max Smith">Max Smith (Lead)</option>
+                  <option value="Emma Smith">Emma Smith</option>
+                  <option value="Brian Cox">Brian Cox</option>
+                  <option value="Karina Clark">Karina Clark</option>
+                </select>
+              </div>
+              <div class="col-md-6 fv-row">
+                <label class="required fs-6 fw-semibold mb-2">Due Date</label>
+                <input type="date" class="form-control form-control-solid" [(ngModel)]="targetDueDate" name="dueDate" />
+              </div>
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-8">
+              <label class="fs-6 fw-semibold mb-2">Target Details</label>
+              <textarea 
+                class="form-control form-control-solid" 
+                rows="3" 
+                placeholder="Type target details and key result indicators..." 
+                [(ngModel)]="targetDetails" 
+                name="details"
+              ></textarea>
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Input group-->
+            <div class="d-flex flex-column mb-8 fv-row">
+              <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                <span>Tags</span>
+              </label>
+              <input type="text" class="form-control form-control-solid" [(ngModel)]="targetTags" name="tags" />
+            </div>
+            <!--end::Input group-->
+
+            <!--begin::Actions-->
+            <div class="text-center">
+              <button type="button" class="btn btn-light me-3" (click)="close()">Cancel</button>
+              <button type="submit" class="btn btn-primary">
+                <span>Submit Target</span>
+              </button>
+            </div>
+            <!--end::Actions-->
+          </form>
+          <!--end::Form-->
+        </div>
+        <!--end::Modal body-->
+      </div>
+    </div>
+  </div>
+  <!--end::Modal - New Target-->
+}
