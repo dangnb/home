@@ -23,7 +23,7 @@ export class UserManagementService {
     status?: string;
     page?: number;
     pageSize?: number;
-  }): Observable<ApiResponse<ManagedUser[]>> {
+  }): Observable<any> {
     let params = new HttpParams();
     if (options?.search) {
       params = params.set('search', options.search.trim());
@@ -40,9 +40,9 @@ export class UserManagementService {
     if (options?.pageSize) {
       params = params.set('pageSize', options.pageSize.toString());
     }
-    return this.http.get<ApiResponse<ManagedUser[]>>(this.readUrl, { params }).pipe(
+    return this.http.get<any>(this.readUrl, { params }).pipe(
       tap((res) => {
-        if (res.data) {
+        if (res && res.data) {
           this.users.set(res.data);
         }
       })

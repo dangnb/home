@@ -1377,11 +1377,6 @@
                 <div class="hrm-info-card-header mb-0">
                   <i class="bi bi-file-earmark-text-fill" style="color:#5e72e4;"></i>Hợp đồng lao động
                 </div>
-                <button type="button"
-                  class="btn btn-sm fw-bold"
-                  style="background:#eef0ff;color:#5e72e4;border:none;border-radius:9px;">
-                  <i class="bi bi-plus me-1"></i>Tạo HĐLĐ mới
-                </button>
               </div>
               <div class="table-responsive">
                 <table class="table table-sm table-hover align-middle fs-7 mb-0">
@@ -1395,13 +1390,20 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="fw-bold" style="color:#5e72e4;">HDLD-2026/001</td>
-                      <td>HĐ Không xác định thời hạn</td>
-                      <td>01/01/2026</td>
-                      <td>—</td>
-                      <td><span class="hrm-badge hrm-badge-active">Đang hiệu lực</span></td>
-                    </tr>
+                    @for (contract of employeeContracts(); track contract.id) {
+                      <tr>
+                        <td class="fw-bold" style="color:#5e72e4;">{{ contract.contractNumber }}</td>
+                        <td>{{ contract.contractType }}</td>
+                        <td>{{ contract.startDate | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ contract.endDate ? (contract.endDate | date:'dd/MM/yyyy') : '—' }}</td>
+                        <td><span class="hrm-badge hrm-badge-active">{{ contract.status }}</span></td>
+                      </tr>
+                    }
+                    @if (employeeContracts().length === 0) {
+                      <tr>
+                        <td colspan="5" class="text-center text-muted py-4">Chưa có hợp đồng lao động nào được lập cho nhân sự này.</td>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               </div>

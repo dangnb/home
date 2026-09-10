@@ -53,6 +53,21 @@ export const routes: Routes = [
             path: 'reward-disciplines',
             loadComponent: () => import('./pages/hrm/reward-disciplines/reward-disciplines-list.component').then(m => m.RewardDisciplinesListComponent),
             title: 'Quản Lý Thưởng & Phạt - HRM Platform'
+          },
+          {
+            path: 'contracts',
+            loadComponent: () => import('./pages/hrm/contracts/contracts-list.component').then(m => m.ContractsListComponent),
+            title: 'Quản Lý Hợp Đồng Lao Động - HRM Platform'
+          },
+          {
+            path: 'transfers',
+            loadComponent: () => import('./pages/hrm/transfers/transfers-list.component').then(m => m.TransfersListComponent),
+            title: 'Lệnh Điều Động Công Tác - HRM Platform'
+          },
+          {
+            path: 'policies',
+            loadComponent: () => import('./pages/hrm/policies/policies-list.component').then(m => m.PoliciesListComponent),
+            title: 'Chính Sách & Quy Định Công Ty - HRM Platform'
           }
         ]
       },

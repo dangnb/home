@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -67,15 +68,12 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
     public async Task<PaginatedResultDto<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId ?? 1;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE ep.tenant_id = @TenantId AND ep.status != 'DELETED'";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
         {
@@ -101,7 +99,6 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
             INNER JOIN users u ON ep.user_id = u.id
             {whereClause};
         ";
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
 
         var dataSql = $@"
             SELECT 
@@ -141,11 +138,15 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
             LEFT JOIN departments d ON ep.department_id = d.id
             LEFT JOIN users m ON ep.manager_id = m.id
             {whereClause}
-            ORDER BY ep.id DESC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY ep.id DESC";
 
-        var items = (await connection.QueryAsync<EmployeeDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<EmployeeDto>.Create(items, totalCount, request.Page, request.PageSize);
+        return await connection.QueryPaginatedAsync<EmployeeDto>(
+            countSql,
+            dataSql,
+            parameters,
+            request.Page,
+            request.PageSize,
+            cancellationToken);
     }
 }
+

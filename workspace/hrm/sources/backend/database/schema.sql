@@ -312,12 +312,21 @@ CREATE TABLE IF NOT EXISTS `employee_job_history` (
     `new_manager_id` BIGINT DEFAULT NULL,
     `effective_date` DATE NOT NULL,
     `note` TEXT DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `approval_status` VARCHAR(30) NOT NULL DEFAULT 'PENDING_APPROVAL' COMMENT 'DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED',
+    `approver_id` BIGINT DEFAULT NULL,
+    `approved_at` DATETIME(6) DEFAULT NULL,
+    `rejection_reason` VARCHAR(500) DEFAULT NULL,
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `idx_job_history_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_job_history_tenant_approval` (`tenant_id`, `approval_status`),
     CONSTRAINT `fk_job_history_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
-    CONSTRAINT `fk_job_history_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+    CONSTRAINT `fk_job_history_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_job_history_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lịch sử biến động công tác';
 
 -- -----------------------------------------------------------------------------
@@ -449,4 +458,32 @@ CREATE TABLE IF NOT EXISTS `reward_disciplines` (
     CONSTRAINT `fk_reward_disc_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách quyết định thưởng phạt nhân sự';
 
+-- -----------------------------------------------------------------------------
+-- TABLE: hr_policies
+-- Quản lý Quy định, Quy chế & Chính sách HR Công ty
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hr_policies` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `policy_code` VARCHAR(100) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `category` VARCHAR(50) NOT NULL COMMENT 'BENEFITS, WORKING_HOURS, INSURANCE_WELFARE, CODE_OF_CONDUCT, SAFETY_HEALTH, OTHER',
+    `effective_date` DATE NOT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `summary` VARCHAR(500) DEFAULT NULL,
+    `content` LONGTEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'PUBLISHED' COMMENT 'DRAFT, PUBLISHED, ARCHIVED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_hr_policies_tenant_code` (`tenant_id`, `policy_code`),
+    KEY `idx_hr_policies_tenant_category` (`tenant_id`, `category`),
+    KEY `idx_hr_policies_tenant_status` (`tenant_id`, `status`),
+    CONSTRAINT `fk_hr_policies_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quy định, quy chế và chính sách HR công ty';
+
 SET FOREIGN_KEY_CHECKS = 1;
+

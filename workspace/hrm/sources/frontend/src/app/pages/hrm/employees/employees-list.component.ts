@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
 import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { EmployeeContractService, EmployeeContract } from '../../../core/hrm/services/employee-contract.service';
 import { 
   Employee, 
   Department, 
@@ -22,11 +23,13 @@ import {
 export class EmployeesListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
   private departmentService = inject(DepartmentService);
+  private contractService = inject(EmployeeContractService);
   private toastService = inject(ToastService);
 
   // Data signals
   employees = signal<Employee[]>([]);
   departments = signal<Department[]>([]);
+  employeeContracts = signal<EmployeeContract[]>([]);
   isLoading = signal<boolean>(false);
 
   // Filters
@@ -114,6 +117,22 @@ export class EmployeesListComponent implements OnInit {
     this.selectedEmployeeDetail = emp;
     this.activeDetailTab = 'overview';
     this.isDetailOpen = true;
+    this.loadEmployeeContracts(Number(emp.id));
+  }
+
+  loadEmployeeContracts(employeeId: number | string) {
+    this.contractService.getContracts({ employeeId: Number(employeeId) }).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.employeeContracts.set(res.data);
+        } else {
+          this.employeeContracts.set([]);
+        }
+      },
+      error: () => {
+        this.employeeContracts.set([]);
+      }
+    });
   }
 
   closeDetailModal() {

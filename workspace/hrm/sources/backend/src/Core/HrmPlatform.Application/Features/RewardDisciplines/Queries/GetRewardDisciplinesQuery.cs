@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -57,15 +58,11 @@ public class GetRewardDisciplinesQueryHandler : IRequestHandler<GetRewardDiscipl
     public async Task<PaginatedResultDto<RewardDisciplineDto>> Handle(GetRewardDisciplinesQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId ?? 1;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
-
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE rd.tenant_id = @TenantId";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (request.EmployeeId.HasValue && request.EmployeeId.Value > 0)
         {
@@ -116,8 +113,6 @@ public class GetRewardDisciplinesQueryHandler : IRequestHandler<GetRewardDiscipl
             INNER JOIN users u ON ep.user_id = u.id
             {whereClause};";
 
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
-
         var dataSql = $@"
             SELECT 
                 rd.id AS Id, 
@@ -142,11 +137,15 @@ public class GetRewardDisciplinesQueryHandler : IRequestHandler<GetRewardDiscipl
             INNER JOIN users u ON ep.user_id = u.id
             LEFT JOIN departments d ON ep.department_id = d.id
             {whereClause}
-            ORDER BY rd.id DESC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY rd.id DESC";
 
-        var items = (await connection.QueryAsync<RewardDisciplineDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<RewardDisciplineDto>.Create(items, totalCount, request.Page, request.PageSize);
+        // Sử dụng Business Common Extension để truy vấn phân trang tự động
+        return await connection.QueryPaginatedAsync<RewardDisciplineDto>(
+            countSql: countSql,
+            dataSql: dataSql,
+            parameters: parameters,
+            page: request.Page,
+            pageSize: request.PageSize
+        );
     }
 }

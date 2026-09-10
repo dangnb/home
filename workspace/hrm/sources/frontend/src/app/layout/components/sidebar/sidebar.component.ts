@@ -67,6 +67,21 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-award',
       route: '/hrm/reward-disciplines'
     },
+    {
+      title: 'Hợp Đồng Lao Động',
+      icon: 'bi-file-earmark-text',
+      route: '/hrm/contracts'
+    },
+    {
+      title: 'Lệnh Điều Động',
+      icon: 'bi-arrow-left-right',
+      route: '/hrm/transfers'
+    },
+    {
+      title: 'Chính Sách Công Ty',
+      icon: 'bi-book-half',
+      route: '/hrm/policies'
+    },
 
     // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG

@@ -36,53 +36,123 @@ public static class DatabaseInitializer
             {
                 await dbConn.OpenAsync();
 
-                // Kiểm tra xem bảng tenants đã tồn tại chưa
-                var checkTableSql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = @db AND table_name = 'tenants';";
-                using (var checkCmd = new MySqlCommand(checkTableSql, dbConn))
+                // Tìm đường dẫn thư mục database/
+                var dir = new DirectoryInfo(basePath);
+                string? schemaPath = null;
+                string? seedPath = null;
+                while (dir != null)
                 {
-                    checkCmd.Parameters.AddWithValue("@db", targetDb);
-                    var count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
-
-                    if (count == 0)
+                    var candidateSchema = Path.Combine(dir.FullName, "database", "schema.sql");
+                    if (File.Exists(candidateSchema))
                     {
-                        logger.LogInformation("Database chưa có schema. Đang tiến hành thực thi schema.sql và seed.sql...");
-
-                        // Tìm đường dẫn thư mục database/
-                        var dir = new DirectoryInfo(basePath);
-                        string? schemaPath = null;
-                        string? seedPath = null;
-                        while (dir != null)
-                        {
-                            var candidateSchema = Path.Combine(dir.FullName, "database", "schema.sql");
-                            if (File.Exists(candidateSchema))
-                            {
-                                schemaPath = candidateSchema;
-                                seedPath = Path.Combine(dir.FullName, "database", "seed.sql");
-                                break;
-                            }
-                            dir = dir.Parent;
-                        }
-
-                        if (File.Exists(schemaPath))
-                        {
-                            var schemaSql = await File.ReadAllTextAsync(schemaPath);
-                            using var schemaCmd = new MySqlCommand(schemaSql, dbConn);
-                            await schemaCmd.ExecuteNonQueryAsync();
-                            logger.LogInformation("Đã thực thi thành công schema.sql!");
-                        }
-
-                        if (File.Exists(seedPath))
-                        {
-                            var seedSql = await File.ReadAllTextAsync(seedPath);
-                            using var seedCmd = new MySqlCommand(seedSql, dbConn);
-                            await seedCmd.ExecuteNonQueryAsync();
-                            logger.LogInformation("Đã thực thi thành công seed.sql!");
-                        }
+                        schemaPath = candidateSchema;
+                        seedPath = Path.Combine(dir.FullName, "database", "seed.sql");
+                        break;
                     }
-                    else
+                    dir = dir.Parent;
+                }
+
+                if (File.Exists(schemaPath))
+                {
+                    var schemaSql = await File.ReadAllTextAsync(schemaPath);
+                    using var schemaCmd = new MySqlCommand(schemaSql, dbConn);
+                    await schemaCmd.ExecuteNonQueryAsync();
+                    logger.LogInformation("Đã kiểm tra và cập nhật CSDL từ schema.sql!");
+
+                    // Thêm cột status, updated_at, updated_by cho employee_job_history nếu bảng cũ chưa có
+                    try
                     {
-                        logger.LogInformation("Database {DbName} đã có sẵn schema hợp lệ.", targetDb);
+                        var alterSql1 = "ALTER TABLE `employee_job_history` ADD COLUMN `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE';";
+                        using var alterCmd1 = new MySqlCommand(alterSql1, dbConn);
+                        await alterCmd1.ExecuteNonQueryAsync();
                     }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql2 = "ALTER TABLE `employee_job_history` ADD COLUMN `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6);";
+                        using var alterCmd2 = new MySqlCommand(alterSql2, dbConn);
+                        await alterCmd2.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql3 = "ALTER TABLE `employee_job_history` ADD COLUMN `updated_by` BIGINT DEFAULT NULL;";
+                        using var alterCmd3 = new MySqlCommand(alterSql3, dbConn);
+                        await alterCmd3.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql4 = "ALTER TABLE `employee_job_history` ADD COLUMN `approval_status` VARCHAR(30) NOT NULL DEFAULT 'PENDING_APPROVAL';";
+                        using var alterCmd4 = new MySqlCommand(alterSql4, dbConn);
+                        await alterCmd4.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql5 = "ALTER TABLE `employee_job_history` ADD COLUMN `approver_id` BIGINT DEFAULT NULL;";
+                        using var alterCmd5 = new MySqlCommand(alterSql5, dbConn);
+                        await alterCmd5.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql6 = "ALTER TABLE `employee_job_history` ADD COLUMN `approved_at` DATETIME(6) DEFAULT NULL;";
+                        using var alterCmd6 = new MySqlCommand(alterSql6, dbConn);
+                        await alterCmd6.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterSql7 = "ALTER TABLE `employee_job_history` ADD COLUMN `rejection_reason` VARCHAR(500) DEFAULT NULL;";
+                        using var alterCmd7 = new MySqlCommand(alterSql7, dbConn);
+                        await alterCmd7.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    string[] stepCols = new[]
+                    {
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `current_step` INT NOT NULL DEFAULT 1;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `current_manager_status` VARCHAR(30) DEFAULT 'PENDING';",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `current_manager_note` TEXT DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `current_manager_approved_at` DATETIME(6) DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `new_manager_status` VARCHAR(30) DEFAULT 'PENDING';",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `new_manager_note` TEXT DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `new_manager_approved_at` DATETIME(6) DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `hr_status` VARCHAR(30) DEFAULT 'PENDING';",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `hr_note` TEXT DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `hr_approved_at` DATETIME(6) DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `director_status` VARCHAR(30) DEFAULT 'PENDING';",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `director_note` TEXT DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `director_approved_at` DATETIME(6) DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `employee_ack_status` VARCHAR(30) DEFAULT 'PENDING';",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `employee_ack_note` TEXT DEFAULT NULL;",
+                        "ALTER TABLE `employee_job_history` ADD COLUMN `employee_acknowledged_at` DATETIME(6) DEFAULT NULL;"
+                    };
+
+                    foreach (var sql in stepCols)
+                    {
+                        try
+                        {
+                            using var stepCmd = new MySqlCommand(sql, dbConn);
+                            await stepCmd.ExecuteNonQueryAsync();
+                        }
+                        catch { /* Column already exists */ }
+                    }
+                }
+
+                if (File.Exists(seedPath))
+                {
+                    var seedSql = await File.ReadAllTextAsync(seedPath);
+                    using var seedCmd = new MySqlCommand(seedSql, dbConn);
+                    await seedCmd.ExecuteNonQueryAsync();
+                    logger.LogInformation("Đã kiểm tra và seed dữ liệu từ seed.sql!");
                 }
             }
         }

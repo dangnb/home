@@ -46,6 +46,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Attendance> Attendances => Set<Attendance>();
     public DbSet<LeaveRequest> LeaveRequests => Set<LeaveRequest>();
     public DbSet<RewardDiscipline> RewardDisciplines => Set<RewardDiscipline>();
+    public DbSet<EmployeeContract> EmployeeContracts => Set<EmployeeContract>();
+    public DbSet<EmployeeJobHistory> EmployeeJobHistories => Set<EmployeeJobHistory>();
+    public DbSet<HrPolicy> HrPolicies => Set<HrPolicy>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

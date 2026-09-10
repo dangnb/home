@@ -97,4 +97,12 @@ INSERT INTO `reward_disciplines` (`id`, `tenant_id`, `employee_id`, `type`, `cat
 (2, 1, 1, 'DISCIPLINE', 'LATE_VIOLATION', 'Phạt vi phạm quy định giờ giấc làm việc', 'QĐ-KL-2026/004', '2026-09-05', '2026-09-05', 200000.00, 'Đi muộn 3 lần trong tháng 8/2026 không có lý do chính đáng', 'APPROVED', NOW(6))
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `amount` = VALUES(`amount`);
 
+-- -----------------------------------------------------------------------------
+-- Seed dữ liệu chính sách mẫu (Tenant ID = 1)
+-- -----------------------------------------------------------------------------
+INSERT INTO `hr_policies` (`id`, `tenant_id`, `policy_code`, `title`, `category`, `effective_date`, `summary`, `content`, `status`, `created_at`) VALUES
+(1, 1, 'CS-2026/001', 'Quy định Chế độ Phụ cấp Ăn trưa & Đi lại 2026', 'BENEFITS', '2026-01-01', 'Mức phụ cấp ăn trưa 1,000,000 VNĐ/tháng và phụ cấp xăng xe 500,000 VNĐ/tháng cho toàn thể nhân sự chính thức.', 'Chi tiết quy định áp dụng từ ngày 01/01/2026 đối với tất cả nhân viên làm việc toàn thời gian tại công ty. Phụ cấp được chuyển khoản cùng kỳ lương hàng tháng.', 'PUBLISHED', NOW(6)),
+(2, 1, 'CS-2026/002', 'Quy chế Thời giờ làm việc, Làm thêm giờ (OT) & Nghỉ phép', 'WORKING_HOURS', '2026-01-01', 'Quy định giờ làm việc hành chính từ 8:00 - 17:30 (Thứ 2 - Thứ 6) và quy trình đăng ký OT.', 'Toàn bộ nhân viên tuân thủ thời gian làm việc tiêu chuẩn 8 tiếng/ngày. Làm thêm giờ cần có sự đồng ý của Trưởng bộ phận trước 17:00 hàng ngày.', 'PUBLISHED', NOW(6))
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`);
+
 SET FOREIGN_KEY_CHECKS = 1;

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -48,15 +49,11 @@ public class GetLeaveRequestsQueryHandler : IRequestHandler<GetLeaveRequestsQuer
     public async Task<PaginatedResultDto<LeaveRequestDto>> Handle(GetLeaveRequestsQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId ?? 1;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
-
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE lr.tenant_id = @TenantId";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (request.UserId.HasValue && request.UserId.Value > 0)
         {
@@ -77,7 +74,6 @@ public class GetLeaveRequestsQueryHandler : IRequestHandler<GetLeaveRequestsQuer
         }
 
         var countSql = $"SELECT COUNT(*) FROM leave_requests lr {whereClause};";
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
 
         var dataSql = $@"
             SELECT 
@@ -97,11 +93,14 @@ public class GetLeaveRequestsQueryHandler : IRequestHandler<GetLeaveRequestsQuer
             INNER JOIN users u ON lr.user_id = u.id
             LEFT JOIN users a ON lr.approver_id = a.id
             {whereClause}
-            ORDER BY lr.id DESC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY lr.id DESC";
 
-        var items = (await connection.QueryAsync<LeaveRequestDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<LeaveRequestDto>.Create(items, totalCount, request.Page, request.PageSize);
+        return await connection.QueryPaginatedAsync<LeaveRequestDto>(
+            countSql: countSql,
+            dataSql: dataSql,
+            parameters: parameters,
+            page: request.Page,
+            pageSize: request.PageSize
+        );
     }
 }
