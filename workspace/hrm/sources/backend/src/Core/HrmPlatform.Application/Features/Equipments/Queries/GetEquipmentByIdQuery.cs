@@ -16,6 +16,9 @@ public class EquipmentHistoryDto
     public long EquipmentId { get; set; }
     public long? UserId { get; set; }
     public string? UserName { get; set; }
+    public long? DepartmentId { get; set; }
+    public string? DepartmentName { get; set; }
+    public string TargetType { get; set; } = "EMPLOYEE";
     public string ActionType { get; set; } = string.Empty;
     public DateTime? ActionDate { get; set; }
     public string? ConditionStatus { get; set; }
@@ -64,7 +67,9 @@ public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuer
                 e.status AS Status,
                 e.current_user_id AS CurrentUserId,
                 u.full_name AS CurrentUserName,
-                d.name AS DepartmentName,
+                e.current_department_id AS CurrentDepartmentId,
+                cd.name AS CurrentDepartmentName,
+                COALESCE(d.name, cd.name) AS DepartmentName,
                 e.assigned_date AS AssignedDate,
                 CASE 
                     WHEN e.assigned_date IS NOT NULL THEN DATEDIFF(CURRENT_TIMESTAMP, e.assigned_date)
@@ -76,6 +81,7 @@ public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuer
             LEFT JOIN users u ON e.current_user_id = u.id
             LEFT JOIN employee_profiles ep ON u.id = ep.user_id
             LEFT JOIN departments d ON ep.department_id = d.id
+            LEFT JOIN departments cd ON e.current_department_id = cd.id
             WHERE e.id = @Id AND e.tenant_id = @TenantId AND e.status_entity != 'DELETED'";
 
         var equipment = await connection.QueryFirstOrDefaultAsync<EquipmentDetailDto>(sqlEquipment, new { Id = request.Id, TenantId = tenantId });
@@ -88,7 +94,10 @@ public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuer
                 h.id AS Id,
                 h.equipment_id AS EquipmentId,
                 h.user_id AS UserId,
-                u.full_name AS UserName,
+                h.department_id AS DepartmentId,
+                h.target_type AS TargetType,
+                COALESCE(u.full_name, dept.name) AS UserName,
+                dept.name AS DepartmentName,
                 h.action_type AS ActionType,
                 h.action_date AS ActionDate,
                 h.condition_status AS ConditionStatus,
@@ -96,6 +105,7 @@ public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuer
                 h.note AS Note
             FROM equipment_histories h
             LEFT JOIN users u ON h.user_id = u.id
+            LEFT JOIN departments dept ON h.department_id = dept.id
             LEFT JOIN users pb ON h.performed_by = pb.id
             WHERE h.equipment_id = @EquipmentId AND h.tenant_id = @TenantId
             ORDER BY h.action_date DESC";

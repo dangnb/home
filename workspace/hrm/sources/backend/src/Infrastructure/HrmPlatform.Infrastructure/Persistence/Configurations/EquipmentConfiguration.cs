@@ -58,6 +58,9 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
         builder.Property(e => e.CurrentUserId)
             .HasColumnName("current_user_id");
 
+        builder.Property(e => e.CurrentDepartmentId)
+            .HasColumnName("current_department_id");
+
         builder.Property(e => e.AssignedDate)
             .HasColumnName("assigned_date");
 
@@ -85,6 +88,11 @@ public class EquipmentConfiguration : IEntityTypeConfiguration<Equipment>
         builder.HasOne(e => e.CurrentUser)
             .WithMany()
             .HasForeignKey(e => e.CurrentUserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(e => e.CurrentDepartment)
+            .WithMany()
+            .HasForeignKey(e => e.CurrentDepartmentId)
             .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(e => e.Histories)

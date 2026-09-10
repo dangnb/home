@@ -14,6 +14,8 @@ public class EquipmentHistory : BaseEntity<EntityStatus>, ITenantScopedEntity
     public long TenantId { get; set; }
     public long EquipmentId { get; private set; }
     public long? UserId { get; private set; }
+    public long? DepartmentId { get; private set; }
+    public string TargetType { get; private set; } = "EMPLOYEE"; // EMPLOYEE or DEPARTMENT
     public EquipmentActionType ActionType { get; private set; }
     public DateTime ActionDate { get; private set; }
     public string? ConditionStatus { get; private set; }
@@ -24,6 +26,7 @@ public class EquipmentHistory : BaseEntity<EntityStatus>, ITenantScopedEntity
     public virtual Tenant Tenant { get; private set; } = null!;
     public virtual Equipment Equipment { get; private set; } = null!;
     public virtual User? User { get; private set; }
+    public virtual Department? Department { get; private set; }
     public virtual User? PerformedByUser { get; private set; }
     #endregion
 
@@ -36,13 +39,17 @@ public class EquipmentHistory : BaseEntity<EntityStatus>, ITenantScopedEntity
         EquipmentActionType actionType,
         string? conditionStatus = null,
         string? note = null,
-        long? performedBy = null)
+        long? performedBy = null,
+        long? departmentId = null,
+        string targetType = "EMPLOYEE")
     {
         return new EquipmentHistory
         {
             TenantId = tenantId,
             EquipmentId = equipmentId,
             UserId = userId,
+            DepartmentId = departmentId,
+            TargetType = string.IsNullOrWhiteSpace(targetType) ? "EMPLOYEE" : targetType.ToUpper(),
             ActionType = actionType,
             ActionDate = DateTime.UtcNow,
             ConditionStatus = conditionStatus?.Trim(),

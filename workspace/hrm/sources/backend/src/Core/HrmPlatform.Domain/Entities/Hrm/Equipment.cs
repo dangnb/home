@@ -22,12 +22,14 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
     public DateOnly? PurchaseDate { get; private set; }
     public DateOnly? WarrantyEndDate { get; private set; }
     public long? CurrentUserId { get; private set; }
+    public long? CurrentDepartmentId { get; private set; }
     public DateTime? AssignedDate { get; private set; }
     public string? Note { get; private set; }
 
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
     public virtual User? CurrentUser { get; private set; }
+    public virtual Department? CurrentDepartment { get; private set; }
     public virtual ICollection<EquipmentHistory> Histories { get; private set; } = new List<EquipmentHistory>();
     #endregion
 
@@ -69,12 +71,25 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         };
     }
 
-    public void Handover(long targetUserId, string? conditionStatus, string? note)
+    public void Handover(long? targetUserId, long? targetDepartmentId, string? conditionStatus, string? note, string targetType = "EMPLOYEE")
     {
-        if (targetUserId <= 0)
-            throw new DomainException("Tài khoản nhân sự nhận thiết bị không hợp lệ.");
+        if (targetType.ToUpper() == "DEPARTMENT")
+        {
+            if (!targetDepartmentId.HasValue || targetDepartmentId <= 0)
+                throw new DomainException("Phòng ban nhận bàn giao thiết bị không hợp lệ.");
 
-        CurrentUserId = targetUserId;
+            CurrentDepartmentId = targetDepartmentId;
+            CurrentUserId = null;
+        }
+        else
+        {
+            if (!targetUserId.HasValue || targetUserId <= 0)
+                throw new DomainException("Tài khoản nhân sự nhận thiết bị không hợp lệ.");
+
+            CurrentUserId = targetUserId;
+            CurrentDepartmentId = null;
+        }
+
         AssignedDate = DateTime.UtcNow;
         Status = EquipmentStatus.ASSIGNED;
         UpdatedAt = DateTime.UtcNow;
@@ -82,17 +97,23 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         Histories.Add(EquipmentHistory.Create(
             tenantId: TenantId,
             equipmentId: Id,
-            userId: targetUserId,
+            userId: CurrentUserId,
             actionType: EquipmentActionType.HANDOVER,
             conditionStatus: conditionStatus ?? "Mới 100% / Đang hoạt động tốt",
-            note: note
+            note: note,
+            departmentId: CurrentDepartmentId,
+            targetType: targetType
         ));
     }
 
     public void Revoke(string? conditionStatus, string? note)
     {
         var oldUserId = CurrentUserId;
+        var oldDeptId = CurrentDepartmentId;
+        var oldTargetType = oldDeptId.HasValue ? "DEPARTMENT" : "EMPLOYEE";
+
         CurrentUserId = null;
+        CurrentDepartmentId = null;
         AssignedDate = null;
         Status = EquipmentStatus.AVAILABLE;
         UpdatedAt = DateTime.UtcNow;
@@ -103,7 +124,9 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
             userId: oldUserId,
             actionType: EquipmentActionType.REVOKE,
             conditionStatus: conditionStatus ?? "Hoạt động bình thường",
-            note: note
+            note: note,
+            departmentId: oldDeptId,
+            targetType: oldTargetType
         ));
     }
 

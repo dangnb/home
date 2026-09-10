@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EquipmentService } from '../../../core/hrm/services/equipment.service';
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
+import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
@@ -19,6 +20,8 @@ export interface EquipmentItem {
   status: string;
   currentUserId?: number;
   currentUserName?: string;
+  currentDepartmentId?: number;
+  currentDepartmentName?: string;
   departmentName?: string;
   assignedDate?: string;
   daysAssigned?: number;
@@ -43,6 +46,7 @@ export interface EquipmentSummary {
 export class EquipmentsListComponent implements OnInit {
   private equipmentService = inject(EquipmentService);
   private employeeService = inject(EmployeeService);
+  private departmentService = inject(DepartmentService);
   private toastService = inject(ToastService);
 
   items = signal<EquipmentItem[]>([]);
@@ -53,13 +57,21 @@ export class EquipmentsListComponent implements OnInit {
     brokenEquipments: 0
   });
   employees = signal<any[]>([]);
+  departments = signal<any[]>([]);
   isLoading = signal<boolean>(false);
   openDropdownId = signal<number | null>(null);
+
+  // Selection for Bulk Actions
+  selectedIds = signal<number[]>([]);
 
   // Filter params
   filterKeyword: string = '';
   filterCategory: string = 'ALL';
   filterStatus: string = 'ALL';
+  filterDepartmentId: number | null = null;
+  filterUserId: number | null = null;
+  filterAssignedFromDate: string = '';
+  filterAssignedToDate: string = '';
   isAdvancedFilterOpen = signal<boolean>(false);
 
   // Pagination
@@ -83,18 +95,22 @@ export class EquipmentsListComponent implements OnInit {
     note: ''
   };
 
-  // Modal Handover (Bàn Giao)
+  // Modal Handover (Bàn Giao đơn lẻ & hàng loạt)
   isHandoverModalOpen = false;
+  isBulkHandover = false;
   isSubmittingHandover = false;
   selectedEquipmentForHandover: EquipmentItem | null = null;
+  handoverTargetType: 'EMPLOYEE' | 'DEPARTMENT' = 'EMPLOYEE';
   handoverForm = {
     targetUserId: 0,
+    targetDepartmentId: 0,
     conditionStatus: 'Mới 100% / Đang hoạt động tốt',
     note: ''
   };
 
-  // Modal Revoke (Thu Hồi)
+  // Modal Revoke (Thu Hồi đơn lẻ & hàng loạt)
   isRevokeModalOpen = false;
+  isBulkRevoke = false;
   isSubmittingRevoke = false;
   selectedEquipmentForRevoke: EquipmentItem | null = null;
   revokeForm = {
@@ -116,13 +132,23 @@ export class EquipmentsListComponent implements OnInit {
   selectedEquipmentDetail: any = null;
   isLoadingDetail = false;
 
+  // Searchable Employee Select State
+  handoverEmployeeSearch = signal<string>('');
+  filterEmployeeSearch = signal<string>('');
+  isHandoverEmployeeDropdownOpen = signal<boolean>(false);
+  isFilterEmployeeDropdownOpen = signal<boolean>(false);
+
   @HostListener('document:click')
   onDocumentClick() {
     this.openDropdownId.set(null);
+    this.isHandoverEmployeeDropdownOpen.set(false);
+    this.isFilterEmployeeDropdownOpen.set(false);
   }
 
   toggleDropdown(id: number, event: MouseEvent) {
     event.stopPropagation();
+    this.isHandoverEmployeeDropdownOpen.set(false);
+    this.isFilterEmployeeDropdownOpen.set(false);
     if (this.openDropdownId() === id) {
       this.openDropdownId.set(null);
     } else {
@@ -134,18 +160,132 @@ export class EquipmentsListComponent implements OnInit {
     this.openDropdownId.set(null);
   }
 
+  toggleHandoverEmployeeDropdown(event: MouseEvent) {
+    event.stopPropagation();
+    this.openDropdownId.set(null);
+    this.isFilterEmployeeDropdownOpen.set(false);
+    this.isHandoverEmployeeDropdownOpen.update(v => !v);
+  }
+
+  toggleFilterEmployeeDropdown(event: MouseEvent) {
+    event.stopPropagation();
+    this.openDropdownId.set(null);
+    this.isHandoverEmployeeDropdownOpen.set(false);
+    this.isFilterEmployeeDropdownOpen.update(v => !v);
+  }
+
+  getFilteredEmployeesForHandover(): any[] {
+    const query = this.handoverEmployeeSearch().trim().toLowerCase();
+    const list = this.employees();
+    if (!query) return list;
+    return list.filter(emp => 
+      (emp.fullName && emp.fullName.toLowerCase().includes(query)) ||
+      (emp.employeeCode && emp.employeeCode.toLowerCase().includes(query)) ||
+      (emp.departmentName && emp.departmentName.toLowerCase().includes(query)) ||
+      (emp.jobTitle && emp.jobTitle.toLowerCase().includes(query))
+    );
+  }
+
+  getFilteredEmployeesForFilter(): any[] {
+    const query = this.filterEmployeeSearch().trim().toLowerCase();
+    const list = this.employees();
+    if (!query) return list;
+    return list.filter(emp => 
+      (emp.fullName && emp.fullName.toLowerCase().includes(query)) ||
+      (emp.employeeCode && emp.employeeCode.toLowerCase().includes(query)) ||
+      (emp.departmentName && emp.departmentName.toLowerCase().includes(query)) ||
+      (emp.jobTitle && emp.jobTitle.toLowerCase().includes(query))
+    );
+  }
+
+  selectHandoverEmployee(emp: any) {
+    this.handoverForm.targetUserId = emp.userId || emp.id;
+    this.isHandoverEmployeeDropdownOpen.set(false);
+    this.handoverEmployeeSearch.set('');
+  }
+
+  getSelectedHandoverEmployee(): any {
+    const targetId = Number(this.handoverForm.targetUserId);
+    if (!targetId) return null;
+    return this.employees().find(e => (e.userId === targetId || e.id === targetId));
+  }
+
+  selectFilterEmployee(empId: number | null) {
+    this.filterUserId = empId;
+    this.isFilterEmployeeDropdownOpen.set(false);
+    this.filterEmployeeSearch.set('');
+    this.onFilterChange();
+  }
+
+  getSelectedFilterEmployee(): any {
+    if (!this.filterUserId) return null;
+    const targetId = Number(this.filterUserId);
+    return this.employees().find(e => (e.userId === targetId || e.id === targetId));
+  }
+
   ngOnInit() {
     this.loadEmployees();
+    this.loadDepartments();
     this.loadItems();
   }
 
+  // --- Selection Logic ---
+  isSelected(id: number): boolean {
+    return this.selectedIds().includes(id);
+  }
+
+  toggleSelectItem(id: number) {
+    this.selectedIds.update(ids => {
+      if (ids.includes(id)) {
+        return ids.filter(i => i !== id);
+      } else {
+        return [...ids, id];
+      }
+    });
+  }
+
+  isAllSelected(): boolean {
+    const list = this.items();
+    if (list.length === 0) return false;
+    return list.every(item => this.selectedIds().includes(item.id));
+  }
+
+  toggleSelectAll() {
+    if (this.isAllSelected()) {
+      this.selectedIds.set([]);
+    } else {
+      this.selectedIds.set(this.items().map(i => i.id));
+    }
+  }
+
+  clearSelection() {
+    this.selectedIds.set([]);
+  }
+
+  getSelectedEquipments(): EquipmentItem[] {
+    return this.items().filter(i => this.selectedIds().includes(i.id));
+  }
+
   loadEmployees() {
-    this.employeeService.getEmployeeLookup({ limit: 500 }).subscribe({
+    this.employeeService.getEmployeeLookup({ limit: 1000 }).subscribe({
       next: (res: any) => {
         if (Array.isArray(res)) {
           this.employees.set(res);
         } else if (res && res.data) {
           this.employees.set(res.data);
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  loadDepartments() {
+    this.departmentService.getDepartments().subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.departments.set(res.data);
+        } else if (Array.isArray(res)) {
+          this.departments.set(res);
         }
       },
       error: () => {}
@@ -159,7 +299,11 @@ export class EquipmentsListComponent implements OnInit {
       pageSize: this.pageSize,
       keyword: this.filterKeyword.trim() || undefined,
       category: this.filterCategory !== 'ALL' ? this.filterCategory : undefined,
-      status: this.filterStatus !== 'ALL' ? this.filterStatus : undefined
+      status: this.filterStatus !== 'ALL' ? this.filterStatus : undefined,
+      departmentId: this.filterDepartmentId ? Number(this.filterDepartmentId) : undefined,
+      currentUserId: this.filterUserId ? Number(this.filterUserId) : undefined,
+      assignedFromDate: this.filterAssignedFromDate || undefined,
+      assignedToDate: this.filterAssignedToDate || undefined
     }).subscribe({
       next: (res: any) => {
         if (res && res.data) {
@@ -196,6 +340,10 @@ export class EquipmentsListComponent implements OnInit {
     let count = 0;
     if (this.filterCategory !== 'ALL') count++;
     if (this.filterStatus !== 'ALL') count++;
+    if (this.filterDepartmentId) count++;
+    if (this.filterUserId) count++;
+    if (this.filterAssignedFromDate) count++;
+    if (this.filterAssignedToDate) count++;
     return count;
   }
 
@@ -203,6 +351,10 @@ export class EquipmentsListComponent implements OnInit {
     if (type === 'category') this.filterCategory = 'ALL';
     if (type === 'status') this.filterStatus = 'ALL';
     if (type === 'keyword') this.filterKeyword = '';
+    if (type === 'department') this.filterDepartmentId = null;
+    if (type === 'user') this.filterUserId = null;
+    if (type === 'assignedFromDate') this.filterAssignedFromDate = '';
+    if (type === 'assignedToDate') this.filterAssignedToDate = '';
     this.onFilterChange();
   }
 
@@ -210,16 +362,34 @@ export class EquipmentsListComponent implements OnInit {
     this.filterKeyword = '';
     this.filterCategory = 'ALL';
     this.filterStatus = 'ALL';
+    this.filterDepartmentId = null;
+    this.filterUserId = null;
+    this.filterAssignedFromDate = '';
+    this.filterAssignedToDate = '';
     this.onFilterChange();
+  }
+
+  getDepartmentName(id: number | null): string {
+    if (!id) return '';
+    const dept = this.departments().find(d => d.id === Number(id));
+    return dept ? dept.name : `ID: ${id}`;
+  }
+
+  getUserName(id: number | null): string {
+    if (!id) return '';
+    const emp = this.employees().find(e => (e.userId === Number(id) || e.id === Number(id)));
+    return emp ? emp.fullName : `ID: ${id}`;
   }
 
   onFilterChange() {
     this.currentPage = 1;
+    this.clearSelection();
     this.loadItems();
   }
 
   onPageSizeChange() {
     this.currentPage = 1;
+    this.clearSelection();
     this.loadItems();
   }
 
@@ -274,85 +444,164 @@ export class EquipmentsListComponent implements OnInit {
     });
   }
 
-  // --- Handlers Modal Handover ---
-  openHandoverModal(item: EquipmentItem) {
-    this.selectedEquipmentForHandover = item;
+  // --- Handlers Modal Handover (Single & Bulk) ---
+  openHandoverModal(item?: EquipmentItem) {
+    this.handoverTargetType = 'EMPLOYEE';
     const defaultUserId = this.employees().length > 0 ? (this.employees()[0].userId || this.employees()[0].id) : 0;
+    const defaultDeptId = this.departments().length > 0 ? this.departments()[0].id : 0;
+
     this.handoverForm = {
       targetUserId: defaultUserId,
+      targetDepartmentId: defaultDeptId,
       conditionStatus: 'Mới 100% / Đang hoạt động tốt',
       note: ''
     };
+
+    if (item) {
+      this.isBulkHandover = false;
+      this.selectedEquipmentForHandover = item;
+    } else {
+      this.isBulkHandover = true;
+      this.selectedEquipmentForHandover = null;
+    }
+
     this.isHandoverModalOpen = true;
   }
 
   closeHandoverModal() {
     this.isHandoverModalOpen = false;
+    this.isBulkHandover = false;
     this.selectedEquipmentForHandover = null;
   }
 
   submitHandover() {
-    if (!this.selectedEquipmentForHandover) return;
-    if (!this.handoverForm.targetUserId) {
+    if (this.handoverTargetType === 'EMPLOYEE' && !this.handoverForm.targetUserId) {
       this.toastService.warning('Thiếu thông tin', 'Vui lòng chọn nhân sự nhận bàn giao.');
       return;
     }
 
+    if (this.handoverTargetType === 'DEPARTMENT' && !this.handoverForm.targetDepartmentId) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng chọn phòng ban nhận bàn giao.');
+      return;
+    }
+
     this.isSubmittingHandover = true;
-    this.equipmentService.handoverEquipment(this.selectedEquipmentForHandover.id, {
-      targetUserId: Number(this.handoverForm.targetUserId),
-      conditionStatus: this.handoverForm.conditionStatus.trim(),
-      note: this.handoverForm.note.trim() || undefined
-    }).subscribe({
-      next: () => {
-        this.toastService.success('Thành công', 'Đã bàn giao trang thiết bị cho nhân sự sử dụng.');
-        this.isSubmittingHandover = false;
-        this.closeHandoverModal();
-        this.loadItems();
-      },
-      error: (err) => {
-        this.isSubmittingHandover = false;
-        const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi bàn giao thiết bị.';
-        this.toastService.error('Lỗi', msg);
-      }
-    });
+
+    if (this.isBulkHandover) {
+      // Bulk Handover
+      this.equipmentService.bulkHandoverEquipments({
+        equipmentIds: this.selectedIds(),
+        targetType: this.handoverTargetType,
+        targetUserId: this.handoverTargetType === 'EMPLOYEE' ? Number(this.handoverForm.targetUserId) : undefined,
+        targetDepartmentId: this.handoverTargetType === 'DEPARTMENT' ? Number(this.handoverForm.targetDepartmentId) : undefined,
+        conditionStatus: this.handoverForm.conditionStatus.trim(),
+        note: this.handoverForm.note.trim() || undefined
+      }).subscribe({
+        next: (res: any) => {
+          this.toastService.success('Thành công', res.message || 'Đã bàn giao hàng loạt thiết bị.');
+          this.isSubmittingHandover = false;
+          this.closeHandoverModal();
+          this.clearSelection();
+          this.loadItems();
+        },
+        error: (err) => {
+          this.isSubmittingHandover = false;
+          const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi bàn giao hàng loạt.';
+          this.toastService.error('Lỗi', msg);
+        }
+      });
+    } else {
+      // Single Handover
+      if (!this.selectedEquipmentForHandover) return;
+      this.equipmentService.handoverEquipment(this.selectedEquipmentForHandover.id, {
+        targetType: this.handoverTargetType,
+        targetUserId: this.handoverTargetType === 'EMPLOYEE' ? Number(this.handoverForm.targetUserId) : undefined,
+        targetDepartmentId: this.handoverTargetType === 'DEPARTMENT' ? Number(this.handoverForm.targetDepartmentId) : undefined,
+        conditionStatus: this.handoverForm.conditionStatus.trim(),
+        note: this.handoverForm.note.trim() || undefined
+      }).subscribe({
+        next: () => {
+          this.toastService.success('Thành công', 'Đã bàn giao trang thiết bị thành công.');
+          this.isSubmittingHandover = false;
+          this.closeHandoverModal();
+          this.loadItems();
+        },
+        error: (err) => {
+          this.isSubmittingHandover = false;
+          const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi bàn giao thiết bị.';
+          this.toastService.error('Lỗi', msg);
+        }
+      });
+    }
   }
 
-  // --- Handlers Modal Revoke ---
-  openRevokeModal(item: EquipmentItem) {
-    this.selectedEquipmentForRevoke = item;
+  // --- Handlers Modal Revoke (Single & Bulk) ---
+  openRevokeModal(item?: EquipmentItem) {
     this.revokeForm = {
       conditionStatus: 'Hoạt động bình thường',
       note: ''
     };
+
+    if (item) {
+      this.isBulkRevoke = false;
+      this.selectedEquipmentForRevoke = item;
+    } else {
+      this.isBulkRevoke = true;
+      this.selectedEquipmentForRevoke = null;
+    }
+
     this.isRevokeModalOpen = true;
   }
 
   closeRevokeModal() {
     this.isRevokeModalOpen = false;
+    this.isBulkRevoke = false;
     this.selectedEquipmentForRevoke = null;
   }
 
   submitRevoke() {
-    if (!this.selectedEquipmentForRevoke) return;
-
     this.isSubmittingRevoke = true;
-    this.equipmentService.revokeEquipment(this.selectedEquipmentForRevoke.id, {
-      conditionStatus: this.revokeForm.conditionStatus.trim(),
-      note: this.revokeForm.note.trim() || undefined
-    }).subscribe({
-      next: () => {
-        this.toastService.success('Thành công', 'Đã thu hồi trang thiết bị về kho thành công.');
-        this.isSubmittingRevoke = false;
-        this.closeRevokeModal();
-        this.loadItems();
-      },
-      error: (err) => {
-        this.isSubmittingRevoke = false;
-        const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi thu hồi thiết bị.';
-        this.toastService.error('Lỗi', msg);
-      }
-    });
+
+    if (this.isBulkRevoke) {
+      // Bulk Revoke
+      this.equipmentService.bulkRevokeEquipments({
+        equipmentIds: this.selectedIds(),
+        conditionStatus: this.revokeForm.conditionStatus.trim(),
+        note: this.revokeForm.note.trim() || undefined
+      }).subscribe({
+        next: (res: any) => {
+          this.toastService.success('Thành công', res.message || 'Đã thu hồi hàng loạt thiết bị về kho.');
+          this.isSubmittingRevoke = false;
+          this.closeRevokeModal();
+          this.clearSelection();
+          this.loadItems();
+        },
+        error: (err) => {
+          this.isSubmittingRevoke = false;
+          const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi thu hồi hàng loạt.';
+          this.toastService.error('Lỗi', msg);
+        }
+      });
+    } else {
+      // Single Revoke
+      if (!this.selectedEquipmentForRevoke) return;
+      this.equipmentService.revokeEquipment(this.selectedEquipmentForRevoke.id, {
+        conditionStatus: this.revokeForm.conditionStatus.trim(),
+        note: this.revokeForm.note.trim() || undefined
+      }).subscribe({
+        next: () => {
+          this.toastService.success('Thành công', 'Đã thu hồi trang thiết bị về kho thành công.');
+          this.isSubmittingRevoke = false;
+          this.closeRevokeModal();
+          this.loadItems();
+        },
+        error: (err) => {
+          this.isSubmittingRevoke = false;
+          const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi thu hồi thiết bị.';
+          this.toastService.error('Lỗi', msg);
+        }
+      });
+    }
   }
 
   // --- Handlers Modal Report Broken ---

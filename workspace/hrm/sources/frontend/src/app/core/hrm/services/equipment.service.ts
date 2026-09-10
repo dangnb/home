@@ -10,6 +10,9 @@ export interface EquipmentFilterParams {
   category?: string;
   status?: string;
   departmentId?: number;
+  currentUserId?: number;
+  assignedFromDate?: string;
+  assignedToDate?: string;
 }
 
 @Injectable({
@@ -28,6 +31,9 @@ export class EquipmentService {
       if (paramsObj.category && paramsObj.category !== 'ALL') params = params.set('category', paramsObj.category);
       if (paramsObj.status && paramsObj.status !== 'ALL') params = params.set('status', paramsObj.status);
       if (paramsObj.departmentId) params = params.set('departmentId', paramsObj.departmentId.toString());
+      if (paramsObj.currentUserId) params = params.set('currentUserId', paramsObj.currentUserId.toString());
+      if (paramsObj.assignedFromDate) params = params.set('assignedFromDate', paramsObj.assignedFromDate);
+      if (paramsObj.assignedToDate) params = params.set('assignedToDate', paramsObj.assignedToDate);
     }
     return this.http.get<any>(this.apiUrl, { params });
   }
@@ -40,12 +46,20 @@ export class EquipmentService {
     return this.http.post<any>(this.apiUrl, dto);
   }
 
-  handoverEquipment(id: number, dto: { targetUserId: number; conditionStatus?: string; note?: string }): Observable<any> {
+  handoverEquipment(id: number, dto: { targetType?: string; targetUserId?: number; targetDepartmentId?: number; conditionStatus?: string; note?: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/handover`, dto);
+  }
+
+  bulkHandoverEquipments(dto: { equipmentIds: number[]; targetType?: string; targetUserId?: number; targetDepartmentId?: number; conditionStatus?: string; note?: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/handover-batch`, dto);
   }
 
   revokeEquipment(id: number, dto: { conditionStatus?: string; note?: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/revoke`, dto);
+  }
+
+  bulkRevokeEquipments(dto: { equipmentIds: number[]; conditionStatus?: string; note?: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/revoke-batch`, dto);
   }
 
   reportBrokenEquipment(id: number, dto: { description: string; note?: string }): Observable<any> {

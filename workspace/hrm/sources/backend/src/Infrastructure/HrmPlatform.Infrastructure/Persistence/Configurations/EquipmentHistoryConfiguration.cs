@@ -27,6 +27,13 @@ public class EquipmentHistoryConfiguration : IEntityTypeConfiguration<EquipmentH
         builder.Property(h => h.UserId)
             .HasColumnName("user_id");
 
+        builder.Property(h => h.DepartmentId)
+            .HasColumnName("department_id");
+
+        builder.Property(h => h.TargetType)
+            .HasColumnName("target_type")
+            .HasMaxLength(50);
+
         builder.Property(h => h.ActionType)
             .HasColumnName("action_type")
             .HasConversion<string>()
@@ -74,6 +81,11 @@ public class EquipmentHistoryConfiguration : IEntityTypeConfiguration<EquipmentH
         builder.HasOne(h => h.User)
             .WithMany()
             .HasForeignKey(h => h.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(h => h.Department)
+            .WithMany()
+            .HasForeignKey(h => h.DepartmentId)
             .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasOne(h => h.PerformedByUser)

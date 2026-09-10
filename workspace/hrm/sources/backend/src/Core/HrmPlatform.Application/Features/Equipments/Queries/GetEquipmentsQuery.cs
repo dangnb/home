@@ -23,6 +23,8 @@ public class EquipmentDto
     public string Status { get; set; } = string.Empty;
     public long? CurrentUserId { get; set; }
     public string? CurrentUserName { get; set; }
+    public long? CurrentDepartmentId { get; set; }
+    public string? CurrentDepartmentName { get; set; }
     public string? DepartmentName { get; set; }
     public DateTime? AssignedDate { get; set; }
     public int? DaysAssigned { get; set; }
@@ -44,6 +46,9 @@ public class GetEquipmentsQuery : IRequest<object>
     public string? Category { get; set; }
     public string? Status { get; set; }
     public long? DepartmentId { get; set; }
+    public long? CurrentUserId { get; set; }
+    public DateOnly? AssignedFromDate { get; set; }
+    public DateOnly? AssignedToDate { get; set; }
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
 }
@@ -93,6 +98,24 @@ public class GetEquipmentsQueryHandler : IRequestHandler<GetEquipmentsQuery, obj
             parameters.Add("DepartmentId", request.DepartmentId.Value);
         }
 
+        if (request.CurrentUserId.HasValue && request.CurrentUserId.Value > 0)
+        {
+            whereClause += " AND e.current_user_id = @CurrentUserId";
+            parameters.Add("CurrentUserId", request.CurrentUserId.Value);
+        }
+
+        if (request.AssignedFromDate.HasValue)
+        {
+            whereClause += " AND e.assigned_date >= @AssignedFromDate";
+            parameters.Add("AssignedFromDate", request.AssignedFromDate.Value.ToDateTime(TimeOnly.MinValue));
+        }
+
+        if (request.AssignedToDate.HasValue)
+        {
+            whereClause += " AND e.assigned_date <= @AssignedToDate";
+            parameters.Add("AssignedToDate", request.AssignedToDate.Value.ToDateTime(TimeOnly.MaxValue));
+        }
+
         // 1. Get Summary Totals
         var summarySql = $@"
             SELECT 
@@ -139,7 +162,9 @@ public class GetEquipmentsQueryHandler : IRequestHandler<GetEquipmentsQuery, obj
                 e.status AS Status,
                 e.current_user_id AS CurrentUserId,
                 u.full_name AS CurrentUserName,
-                d.name AS DepartmentName,
+                e.current_department_id AS CurrentDepartmentId,
+                cd.name AS CurrentDepartmentName,
+                COALESCE(d.name, cd.name) AS DepartmentName,
                 e.assigned_date AS AssignedDate,
                 CASE 
                     WHEN e.assigned_date IS NOT NULL THEN DATEDIFF(CURRENT_TIMESTAMP, e.assigned_date)
@@ -151,6 +176,7 @@ public class GetEquipmentsQueryHandler : IRequestHandler<GetEquipmentsQuery, obj
             LEFT JOIN users u ON e.current_user_id = u.id
             LEFT JOIN employee_profiles ep ON u.id = ep.user_id
             LEFT JOIN departments d ON ep.department_id = d.id
+            LEFT JOIN departments cd ON e.current_department_id = cd.id
             {whereClause}
             ORDER BY e.created_at DESC
             LIMIT @Limit OFFSET @Offset";

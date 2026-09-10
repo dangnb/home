@@ -29,6 +29,9 @@ public class EquipmentsController : ControllerBase
         [FromQuery] string? category,
         [FromQuery] string? status,
         [FromQuery] long? departmentId,
+        [FromQuery] long? currentUserId,
+        [FromQuery] DateOnly? assignedFromDate,
+        [FromQuery] DateOnly? assignedToDate,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -39,6 +42,9 @@ public class EquipmentsController : ControllerBase
             Category = category,
             Status = status,
             DepartmentId = departmentId,
+            CurrentUserId = currentUserId,
+            AssignedFromDate = assignedFromDate,
+            AssignedToDate = assignedToDate,
             Page = page,
             PageSize = pageSize
         }, cancellationToken);
@@ -71,7 +77,7 @@ public class EquipmentsController : ControllerBase
     }
 
     /// <summary>
-    /// Bàn giao trang thiết bị cho nhân sự sử dụng
+    /// Bàn giao trang thiết bị cho nhân sự hoặc phòng ban
     /// </summary>
     [HttpPost("{id:long}/handover")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -81,13 +87,27 @@ public class EquipmentsController : ControllerBase
         var command = new HandoverEquipmentCommand
         {
             EquipmentId = id,
+            TargetType = request.TargetType ?? "EMPLOYEE",
             TargetUserId = request.TargetUserId,
+            TargetDepartmentId = request.TargetDepartmentId,
             ConditionStatus = request.ConditionStatus,
             Note = request.Note
         };
 
         await _sender.Send(command, cancellationToken);
-        return Ok(new { success = true, message = "Đã bàn giao trang thiết bị cho nhân viên thành công." });
+        return Ok(new { success = true, message = "Đã bàn giao trang thiết bị thành công." });
+    }
+
+    /// <summary>
+    /// Bàn giao hàng loạt nhiều trang thiết bị cùng một lúc
+    /// </summary>
+    [HttpPost("handover-batch")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> HandoverBatch([FromBody] BulkHandoverEquipmentsCommand command, CancellationToken cancellationToken)
+    {
+        var count = await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, count, message = $"Đã bàn giao hàng loạt thành công {count} trang thiết bị." });
     }
 
     /// <summary>
@@ -110,6 +130,18 @@ public class EquipmentsController : ControllerBase
     }
 
     /// <summary>
+    /// Thu hồi hàng loạt nhiều trang thiết bị về kho cùng một lúc
+    /// </summary>
+    [HttpPost("revoke-batch")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RevokeBatch([FromBody] BulkRevokeEquipmentsCommand command, CancellationToken cancellationToken)
+    {
+        var count = await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, count, message = $"Đã thu hồi hàng loạt thành công {count} trang thiết bị về kho." });
+    }
+
+    /// <summary>
     /// Báo hỏng sự cố trang thiết bị
     /// </summary>
     [HttpPost("{id:long}/report-broken")]
@@ -129,6 +161,6 @@ public class EquipmentsController : ControllerBase
     }
 }
 
-public record HandoverEquipmentRequest(long TargetUserId, string? ConditionStatus = null, string? Note = null);
+public record HandoverEquipmentRequest(string? TargetType = "EMPLOYEE", long? TargetUserId = null, long? TargetDepartmentId = null, string? ConditionStatus = null, string? Note = null);
 public record RevokeEquipmentRequest(string? ConditionStatus = null, string? Note = null);
 public record ReportBrokenEquipmentRequest(string Description, string? Note = null);

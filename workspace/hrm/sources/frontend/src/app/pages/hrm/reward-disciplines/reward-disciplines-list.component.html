@@ -153,7 +153,7 @@
             <div class="d-flex align-items-center gap-2">
               <button 
                 type="button" 
-                class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 transition-all"
+                class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
                 [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
                 [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
                 (click)="toggleAdvancedFilter()"
@@ -161,15 +161,21 @@
                 <i class="bi bi-sliders2 fs-6"></i>
                 <span>Bộ Lọc Nâng Cao</span>
                 @if (activeAdvancedFilterCount > 0) {
-                  <span class="badge badge-circle badge-light-danger ms-1 px-2 fs-8 fw-bold">
+                  <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
                     {{ activeAdvancedFilterCount }}
                   </span>
                 }
               </button>
 
               @if (filterKeyword || activeAdvancedFilterCount > 0) {
-                <button type="button" class="btn btn-sm btn-light-danger fw-bold fs-7 py-2 px-3" (click)="resetFilters()" title="Xóa toàn bộ bộ lọc">
-                  <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa bộ lọc
+                <button 
+                  type="button" 
+                  class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                  (click)="resetFilters()" 
+                  title="Xóa toàn bộ bộ lọc"
+                >
+                  <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                  <span>Xóa bộ lọc</span>
                 </button>
               }
             </div>
