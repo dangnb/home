@@ -73,7 +73,7 @@ public class RewardDisciplinesController : ControllerBase
     }
 
     /// <summary>
-    /// Tạo mới quyết định thưởng/phạt
+    /// Tạo mới quyết định thưởng/phạt cá nhân
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -82,6 +82,18 @@ public class RewardDisciplinesController : ControllerBase
     {
         var id = await _sender.Send(command, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id }, new { success = true, id, message = "Đã tạo quyết định thưởng/phạt thành công." });
+    }
+
+    /// <summary>
+    /// Tạo mới quyết định thưởng/phạt Tập thể / Hàng loạt (Batch)
+    /// </summary>
+    [HttpPost("batch")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateBatch([FromBody] CreateBatchRewardDisciplineCommand command, CancellationToken cancellationToken = default)
+    {
+        var ids = await _sender.Send(command, cancellationToken);
+        return Created("", new { success = true, count = ids.Count, ids, message = $"Đã tạo quyết định tập thể thành công cho {ids.Count} nhân sự." });
     }
 
     /// <summary>

@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HrPolicyService, HrPolicy, HrPolicySummary, CreateHrPolicyDto, UpdateHrPolicyDto } from '../../../core/hrm/services/hr-policy.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-policies-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './policies-list.component.html',
   styleUrls: ['./policies-list.component.scss']
 })

@@ -49,6 +49,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<EmployeeContract> EmployeeContracts => Set<EmployeeContract>();
     public DbSet<EmployeeJobHistory> EmployeeJobHistories => Set<EmployeeJobHistory>();
     public DbSet<HrPolicy> HrPolicies => Set<HrPolicy>();
+    public DbSet<Notification> Notifications => Set<Notification>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

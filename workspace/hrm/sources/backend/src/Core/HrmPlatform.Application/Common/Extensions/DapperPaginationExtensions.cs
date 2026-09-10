@@ -36,8 +36,14 @@ public static class DapperPaginationExtensions
         var countCmd = new CommandDefinition(countSql, parameters, cancellationToken: cancellationToken);
         var totalCount = await connection.ExecuteScalarAsync<int>(countCmd);
 
-        // 2. Thực thi lấy danh sách dữ liệu theo phân trang
-        var dataCmd = new CommandDefinition(dataSql, parameters, cancellationToken: cancellationToken);
+        // 2. Thực thi lấy danh sách dữ liệu theo phân trang (tự động gắn LIMIT & OFFSET nếu chưa có)
+        var finalDataSql = dataSql.TrimEnd(';', ' ', '\r', '\n');
+        if (!finalDataSql.Contains("LIMIT", StringComparison.OrdinalIgnoreCase))
+        {
+            finalDataSql += " LIMIT @Limit OFFSET @Offset;";
+        }
+
+        var dataCmd = new CommandDefinition(finalDataSql, parameters, cancellationToken: cancellationToken);
         var items = (await connection.QueryAsync<T>(dataCmd)).ToList();
 
         // 3. Đóng gói và trả về DTO chuẩn

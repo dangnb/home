@@ -64,6 +64,8 @@ export interface EmployeeTransferFilterParams {
   changeType?: string;
   approvalStatus?: string;
   keyword?: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface CreateEmployeeTransferDto {
@@ -93,6 +95,8 @@ export class EmployeeTransferService {
       if (params.changeType) httpParams = httpParams.set('changeType', params.changeType);
       if (params.approvalStatus) httpParams = httpParams.set('approvalStatus', params.approvalStatus);
       if (params.keyword) httpParams = httpParams.set('keyword', params.keyword);
+      if (params.fromDate) httpParams = httpParams.set('fromDate', params.fromDate);
+      if (params.toDate) httpParams = httpParams.set('toDate', params.toDate);
     }
     return this.http.get<any>(this.apiUrl, { params: httpParams });
   }

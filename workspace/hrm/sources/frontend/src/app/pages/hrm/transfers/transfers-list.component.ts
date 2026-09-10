@@ -5,11 +5,13 @@ import { EmployeeTransferService, EmployeeTransfer, EmployeeTransferSummary, Cre
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
 import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { NotificationService } from '../../../core/services/notification.service';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-transfers-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './transfers-list.component.html',
   styleUrls: ['./transfers-list.component.scss']
 })
@@ -18,6 +20,7 @@ export class TransfersListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
   private departmentService = inject(DepartmentService);
   private toastService = inject(ToastService);
+  private notificationService = inject(NotificationService);
 
   items = signal<EmployeeTransfer[]>([]);
   summary = signal<EmployeeTransferSummary>({
@@ -37,6 +40,8 @@ export class TransfersListComponent implements OnInit {
   filterChangeType: string = 'ALL';
   filterApprovalStatus: string = 'ALL';
   filterKeyword: string = '';
+  filterFromDate: string = '';
+  filterToDate: string = '';
 
   // Pagination
   currentPage = 1;
@@ -104,13 +109,15 @@ export class TransfersListComponent implements OnInit {
   }
 
   loadEmployees() {
-    this.employeeService.getEmployees({ pageSize: 100 }).subscribe({
+    this.employeeService.getEmployeeLookup({ limit: 500 }).subscribe({
       next: (res: any) => {
-        if (res && res.data) {
+        if (Array.isArray(res)) {
+          this.employees.set(res);
+        } else if (res && res.data) {
           this.employees.set(res.data);
         }
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
@@ -121,7 +128,7 @@ export class TransfersListComponent implements OnInit {
           this.departments.set(res.data);
         }
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
@@ -130,7 +137,7 @@ export class TransfersListComponent implements OnInit {
       next: (res) => {
         if (res) this.summary.set(res);
       },
-      error: () => {}
+      error: () => { }
     });
   }
 
@@ -141,7 +148,9 @@ export class TransfersListComponent implements OnInit {
       pageSize: this.pageSize,
       changeType: this.filterChangeType !== 'ALL' ? this.filterChangeType : undefined,
       approvalStatus: this.filterApprovalStatus !== 'ALL' ? this.filterApprovalStatus : undefined,
-      keyword: this.filterKeyword ? this.filterKeyword : undefined
+      keyword: this.filterKeyword ? this.filterKeyword : undefined,
+      fromDate: this.filterFromDate || undefined,
+      toDate: this.filterToDate || undefined
     }).subscribe({
       next: (res: any) => {
         if (res && res.data) {
@@ -167,10 +176,45 @@ export class TransfersListComponent implements OnInit {
     });
   }
 
+  isAdvancedFilterOpen = signal<boolean>(false);
+
+  toggleAdvancedFilter() {
+    this.isAdvancedFilterOpen.update(val => !val);
+  }
+
+  get activeAdvancedFilterCount(): number {
+    let count = 0;
+    if (this.filterChangeType !== 'ALL') count++;
+    if (this.filterApprovalStatus !== 'ALL') count++;
+    if (this.filterFromDate) count++;
+    if (this.filterToDate) count++;
+    return count;
+  }
+
+  clearSingleFilter(type: string) {
+    if (type === 'changeType') this.filterChangeType = 'ALL';
+    if (type === 'approvalStatus') this.filterApprovalStatus = 'ALL';
+    if (type === 'fromDate') this.filterFromDate = '';
+    if (type === 'toDate') this.filterToDate = '';
+    if (type === 'keyword') this.filterKeyword = '';
+    this.applyFilter();
+  }
+
   applyFilter() {
     this.currentPage = 1;
     this.loadItems();
   }
+
+  resetFilters() {
+    this.filterChangeType = 'ALL';
+    this.filterApprovalStatus = 'ALL';
+    this.filterKeyword = '';
+    this.filterFromDate = '';
+    this.filterToDate = '';
+    this.applyFilter();
+  }
+
+
 
   onPageChange(page: number) {
     if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
@@ -202,7 +246,7 @@ export class TransfersListComponent implements OnInit {
   // Modal Actions
   openCreateModal() {
     const empId = this.employees().length > 0 ? this.employees()[0].id : 0;
-    
+
     this.formData = {
       employeeId: empId,
       decisionNumber: '',
@@ -267,6 +311,7 @@ export class TransfersListComponent implements OnInit {
         this.closeModal();
         this.loadItems();
         this.loadSummary();
+        this.notificationService.loadNotifications(true);
       },
       error: (err) => {
         this.isSubmitting = false;
@@ -306,6 +351,7 @@ export class TransfersListComponent implements OnInit {
           this.loadItems();
           this.loadSummary();
           this.loadEmployees();
+          this.notificationService.loadNotifications(true);
         },
         error: (err) => {
           this.isApproving = false;
@@ -321,6 +367,7 @@ export class TransfersListComponent implements OnInit {
           this.closeApproveModal();
           this.loadItems();
           this.loadSummary();
+          this.notificationService.loadNotifications(true);
         },
         error: (err) => {
           this.isApproving = false;
@@ -369,6 +416,7 @@ export class TransfersListComponent implements OnInit {
         this.closeRejectModal();
         this.loadItems();
         this.loadSummary();
+        this.notificationService.loadNotifications(true);
       },
       error: (err) => {
         this.isRejecting = false;
@@ -402,6 +450,8 @@ export class TransfersListComponent implements OnInit {
       case 'DEMOTION': return 'Giáng chức / Chuyển vị trí';
       case 'MANAGER_CHANGE': return 'Thay đổi Quản lý';
       case 'RELOCATION': return 'Chuyển địa điểm làm việc';
+      case 'RESIGNATION': return 'Cho thôi việc / Nghỉ việc';
+      case 'TERMINATION': return 'Chấm dứt HĐ / Sa thải';
       default: return type;
     }
   }
@@ -410,9 +460,11 @@ export class TransfersListComponent implements OnInit {
     switch (type) {
       case 'DEPARTMENT_TRANSFER': return 'badge-light-primary text-primary';
       case 'PROMOTION': return 'badge-light-success text-success';
-      case 'DEMOTION': return 'badge-light-danger text-danger';
+      case 'DEMOTION': return 'badge-light-warning text-warning';
       case 'MANAGER_CHANGE': return 'badge-light-info text-info';
-      case 'RELOCATION': return 'badge-light-warning text-warning';
+      case 'RELOCATION': return 'badge-light-secondary text-dark';
+      case 'RESIGNATION': return 'badge-light-danger text-danger';
+      case 'TERMINATION': return 'badge-light-danger text-danger fw-bold';
       default: return 'badge-light-primary';
     }
   }

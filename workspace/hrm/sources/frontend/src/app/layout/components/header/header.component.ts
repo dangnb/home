@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ThemeService } from '../../../core/services/theme.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { TenantService } from '../../../core/services/tenant.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { ThemeMode } from '../../../core/models/theme.model';
 
 @Component({
@@ -19,8 +20,9 @@ export class HeaderComponent {
   readonly themeService = inject(ThemeService);
   readonly authService = inject(AuthService);
   readonly tenantService = inject(TenantService);
+  readonly notificationService = inject(NotificationService);
 
-  // Active dropdown: 'theme' | 'user' | null
+  // Active dropdown: 'theme' | 'user' | 'notification' | null
   readonly activeDropdown = signal<string | null>(null);
 
   @HostListener('document:click', ['$event'])
@@ -56,6 +58,18 @@ export class HeaderComponent {
     }
     this.themeService.setTheme(mode);
     this.closeAll();
+  }
+
+  onNotificationClick(notif: any): void {
+    if (!notif.isRead) {
+      this.notificationService.markAsRead(notif.id);
+    }
+    this.closeAll();
+  }
+
+  onMarkAllRead(event: Event): void {
+    event.stopPropagation();
+    this.notificationService.markAllAsRead();
   }
 
   logout(): void {

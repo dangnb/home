@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { EmployeeContractService, EmployeeContract, EmployeeContractSummary, CreateEmployeeContractDto, UpdateEmployeeContractDto } from '../../../core/hrm/services/employee-contract.service';
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-contracts-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './contracts-list.component.html',
   styleUrls: ['./contracts-list.component.scss']
 })

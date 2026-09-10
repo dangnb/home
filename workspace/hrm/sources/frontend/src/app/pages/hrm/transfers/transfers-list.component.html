@@ -74,49 +74,172 @@
   <!-- Main Card Table & Filters -->
   <div class="card card-flush shadow-sm card-bordered">
     <!-- Card Header -->
-    <div class="card-header pt-6 pb-4">
-      <div class="card-title d-flex flex-wrap gap-3">
-        <!-- Search Keyword -->
-        <div class="d-flex align-items-center position-relative my-1">
-          <i class="bi bi-search fs-5 position-absolute ms-4 text-gray-500"></i>
-          <input 
-            type="text" 
-            class="form-control form-control-sm form-control-solid w-240px ps-12" 
-            placeholder="Tìm Số QĐ, tên nhân viên, chức danh..." 
-            [(ngModel)]="filterKeyword"
-            (keyup.enter)="applyFilter()"
-          />
-        </div>
+    <div class="card-header border-0 pt-6 pb-0">
+      <div class="card-title w-100 me-0">
+        <!-- Main Search Bar & Filter Toggle Row -->
+        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+          <!-- Search Box -->
+          <div class="position-relative flex-grow-1" style="max-width: 480px;">
+            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid ps-10 fs-7" 
+              placeholder="Nhập số QĐ, tên nhân viên, chức danh..." 
+              [(ngModel)]="filterKeyword"
+              (keyup.enter)="applyFilter()"
+            />
+            @if (filterKeyword) {
+              <button 
+                type="button" 
+                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                (click)="clearSingleFilter('keyword')"
+              >
+                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+              </button>
+            }
+          </div>
 
-        <!-- Approval Status Filter -->
-        <div class="my-1">
-          <select class="form-select form-select-sm form-select-solid w-170px" [(ngModel)]="filterApprovalStatus" (change)="applyFilter()">
-            <option value="ALL">Tất cả trạng thái</option>
-            <option value="PENDING_APPROVAL">Chờ phê duyệt</option>
-            <option value="APPROVED">Đã phê duyệt</option>
-            <option value="REJECTED">Từ chối</option>
-            <option value="DRAFT">Bản nháp</option>
-          </select>
-        </div>
+          <!-- Action Buttons (Advanced Filter Toggle & Reset) -->
+          <div class="d-flex align-items-center gap-2">
+            <button 
+              type="button" 
+              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 transition-all"
+              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+              (click)="toggleAdvancedFilter()"
+            >
+              <i class="bi bi-sliders2 fs-6"></i>
+              <span>Bộ Lọc Nâng Cao</span>
+              @if (activeAdvancedFilterCount > 0) {
+                <span class="badge badge-circle badge-light-danger ms-1 px-2 fs-8 fw-bold">
+                  {{ activeAdvancedFilterCount }}
+                </span>
+              }
+            </button>
 
-        <!-- Change Type Filter -->
-        <div class="my-1">
-          <select class="form-select form-select-sm form-select-solid w-180px" [(ngModel)]="filterChangeType" (change)="applyFilter()">
-            <option value="ALL">Tất cả loại điều động</option>
-            <option value="DEPARTMENT_TRANSFER">Điều chuyển phòng ban</option>
-            <option value="PROMOTION">Bổ nhiệm / Thăng chức</option>
-            <option value="DEMOTION">Giáng chức</option>
-            <option value="MANAGER_CHANGE">Thay đổi Quản lý</option>
-            <option value="RELOCATION">Chuyển địa điểm</option>
-          </select>
+            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+              <button type="button" class="btn btn-sm btn-light-danger fw-bold fs-7 py-2 px-3" (click)="resetFilters()" title="Xóa toàn bộ bộ lọc">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa bộ lọc
+              </button>
+            }
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="card-toolbar">
-        <button type="button" class="btn btn-sm btn-light btn-active-light-primary" (click)="applyFilter()">
-          <i class="bi bi-funnel me-1"></i>Lọc Dữ Liệu
-        </button>
-      </div>
+    <!-- Active Filter Tags & Drawer (placed directly under card header to avoid header clipping) -->
+    <div class="px-6 pt-3 pb-0">
+      <!-- Active Filter Tags / Chips -->
+      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+          @if (filterKeyword) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ khóa: "{{ filterKeyword }}"
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+            </span>
+          }
+          @if (filterChangeType !== 'ALL') {
+            <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Loại: {{ getChangeTypeLabel(filterChangeType) }}
+              <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('changeType')"></i>
+            </span>
+          }
+          @if (filterApprovalStatus !== 'ALL') {
+            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Trạng thái: {{ getApprovalStatusLabel(filterApprovalStatus) }}
+              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('approvalStatus')"></i>
+            </span>
+          }
+          @if (filterFromDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ: {{ filterFromDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('fromDate')"></i>
+            </span>
+          }
+          @if (filterToDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Đến: {{ filterToDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('toDate')"></i>
+            </span>
+          }
+        </div>
+      }
+
+      <!-- Collapsible Advanced Filter Drawer Panel -->
+      @if (isAdvancedFilterOpen()) {
+        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+              <i class="bi bi-sliders text-primary fs-6"></i>
+              Tùy Chọn Lọc Nâng Cao Điều Động (Advanced Filters)
+            </div>
+            <span class="fs-8 text-muted">Lọc theo loại biến động, trạng thái duyệt và khoảng thời gian</span>
+          </div>
+
+          <div class="row g-3">
+            <!-- From Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày hiệu lực</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterFromDate"
+                  (change)="applyFilter()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- To Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày hiệu lực</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterToDate"
+                  (change)="applyFilter()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- Change Type -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Loại biến động</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterChangeType"
+                (change)="applyFilter()"
+              >
+                <option value="ALL">-- Tất cả loại --</option>
+                <option value="DEPARTMENT_TRANSFER">Điều chuyển phòng ban</option>
+                <option value="POSITION_PROMOTION">Bổ nhiệm / Thăng chức</option>
+                <option value="DUAL_TRANSFER">Kiêm nhiệm / Đột xuất</option>
+                <option value="RESIGNATION_TERMINATION">Cho thôi việc / Chấm dứt HD</option>
+              </select>
+            </div>
+
+            <!-- Approval Status -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái duyệt</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterApprovalStatus"
+                (change)="applyFilter()"
+              >
+                <option value="ALL">-- Tất cả trạng thái --</option>
+                <option value="DRAFT">Bản nháp</option>
+                <option value="PENDING">Chờ duyệt</option>
+                <option value="APPROVED">Đã phê duyệt</option>
+                <option value="REJECTED">Từ chối phê duyệt</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      }
     </div>
 
     <!-- Card Body Table -->
@@ -270,39 +393,15 @@
       </div>
 
       <!-- Pagination -->
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-4 border-top mt-2">
-        <div class="d-flex align-items-center gap-3">
-          <span class="fs-7 text-gray-600">
-            Hiển thị <strong>{{ items().length }}</strong> / <strong>{{ totalCount }}</strong> bản ghi (Trang {{ currentPage }}/{{ totalPages }})
-          </span>
-          <div class="d-flex align-items-center gap-2 ms-2">
-            <span class="fs-7 text-gray-500">Hiển thị:</span>
-            <select class="form-select form-select-solid fs-7 py-1 px-2 w-75px" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
-              @for (size of pageSizeOptions; track size) {
-                <option [value]="size">{{ size }}</option>
-              }
-            </select>
-          </div>
-        </div>
-
-        <ul class="pagination pagination-outline mb-0">
-          <li class="page-item previous" [class.disabled]="currentPage === 1">
-            <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="onPageChange(currentPage - 1)">
-              <i class="bi bi-chevron-left fs-7"></i>
-            </a>
-          </li>
-          @for (p of totalPagesArray; track p) {
-            <li class="page-item" [class.active]="p === currentPage">
-              <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="onPageChange(p)">{{ p }}</a>
-            </li>
-          }
-          <li class="page-item next" [class.disabled]="currentPage === totalPages">
-            <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="onPageChange(currentPage + 1)">
-              <i class="bi bi-chevron-right fs-7"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <app-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        [itemCount]="items().length"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="onPageChange($event)"
+        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+      ></app-pagination>
     </div>
   </div>
 </div>
@@ -358,13 +457,15 @@
             </div>
 
             <div class="col-md-6">
-              <label class="required fs-7 fw-semibold mb-1">Loại điều động:</label>
+              <label class="required fs-7 fw-semibold mb-1">Loại điều động / Biến động:</label>
               <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.changeType">
                 <option [value]="1">Điều chuyển phòng ban</option>
                 <option [value]="2">Bổ nhiệm / Thăng chức</option>
                 <option [value]="3">Giáng chức / Chuyển vị trí</option>
                 <option [value]="4">Thay đổi Quản lý trực tiếp</option>
                 <option [value]="5">Chuyển địa điểm làm việc</option>
+                <option [value]="6">🛑 Cho thôi việc / Cho nghỉ việc</option>
+                <option [value]="7">❌ Chấm dứt hợp đồng / Sa thải</option>
               </select>
             </div>
           </div>

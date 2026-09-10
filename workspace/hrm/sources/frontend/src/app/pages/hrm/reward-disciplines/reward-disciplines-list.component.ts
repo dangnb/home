@@ -1,25 +1,29 @@
 import { Component, OnInit, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RewardDisciplineService, RewardDiscipline, RewardDisciplineSummary, CreateRewardDisciplineDto, UpdateRewardDisciplineDto } from '../../../core/hrm/services/reward-discipline.service';
+import { RewardDisciplineService, RewardDiscipline, RewardDisciplineSummary, CreateRewardDisciplineDto, CreateBatchRewardDisciplineDto, UpdateRewardDisciplineDto } from '../../../core/hrm/services/reward-discipline.service';
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
+import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-reward-disciplines-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './reward-disciplines-list.component.html',
   styleUrls: ['./reward-disciplines-list.component.scss']
 })
 export class RewardDisciplinesListComponent implements OnInit {
   private rewardService = inject(RewardDisciplineService);
   private employeeService = inject(EmployeeService);
+  private departmentService = inject(DepartmentService);
   private toastService = inject(ToastService);
 
   Number = Number;
 
   items = signal<RewardDiscipline[]>([]);
+  departments = signal<any[]>([]);
   summary = signal<RewardDisciplineSummary>({
     totalRewardsCount: 0,
     totalRewardAmount: 0,
@@ -37,12 +41,15 @@ export class RewardDisciplinesListComponent implements OnInit {
   filterCategory: string = 'ALL';
   filterStatus: string = 'ALL';
   filterKeyword: string = '';
+  filterFromDate: string = '';
+  filterToDate: string = '';
 
   // Pagination
   currentPage = 1;
   pageSize = 20;
   totalCount = 0;
   totalPages = 1;
+  pageSizeOptions = [10, 20, 50, 100];
 
   // Modal State
   isModalOpen = false;
@@ -61,6 +68,12 @@ export class RewardDisciplinesListComponent implements OnInit {
   rejectReason = '';
   isRejecting = false;
 
+  // Collective / Batch Mode State
+  targetMode: 'SINGLE' | 'COLLECTIVE' = 'SINGLE';
+  selectedEmployeeIds: number[] = [];
+  selectedDepartmentId: number = 0;
+  employeeSearchTerm: string = '';
+
   formData = {
     employeeId: 0,
     type: 1, // 1 = REWARD, 2 = DISCIPLINE
@@ -77,19 +90,96 @@ export class RewardDisciplinesListComponent implements OnInit {
 
   ngOnInit() {
     this.loadEmployees();
+    this.loadDepartments();
     this.loadSummary();
     this.loadItems();
   }
 
   loadEmployees() {
-    this.employeeService.getEmployees({ pageSize: 100 }).subscribe({
+    this.employeeService.getEmployeeLookup({ limit: 500 }).subscribe({
       next: (res: any) => {
-        if (res && res.data) {
+        if (Array.isArray(res)) {
+          this.employees.set(res);
+        } else if (res && res.data) {
           this.employees.set(res.data);
         }
       },
       error: () => {}
     });
+  }
+
+  loadDepartments() {
+    this.departmentService.getDepartments().subscribe({
+      next: (res: any) => {
+        if (res && Array.isArray(res)) {
+          this.departments.set(res);
+        } else if (res && res.data) {
+          this.departments.set(res.data);
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  toggleEmployeeSelection(empId: number) {
+    const idx = this.selectedEmployeeIds.indexOf(empId);
+    if (idx > -1) {
+      this.selectedEmployeeIds.splice(idx, 1);
+    } else {
+      this.selectedEmployeeIds.push(empId);
+    }
+  }
+
+  isEmployeeSelected(empId: number): boolean {
+    return this.selectedEmployeeIds.includes(empId);
+  }
+
+  selectAllEmployees() {
+    this.selectedEmployeeIds = this.employees().map(e => e.id);
+  }
+
+  deselectAllEmployees() {
+    this.selectedEmployeeIds = [];
+  }
+
+  getFilteredEmployees(): any[] {
+    const term = this.employeeSearchTerm.trim().toLowerCase();
+    if (!term) return this.employees();
+    return this.employees().filter(emp =>
+      (emp.fullName && emp.fullName.toLowerCase().includes(term)) ||
+      (emp.employeeCode && emp.employeeCode.toLowerCase().includes(term)) ||
+      (emp.departmentName && emp.departmentName.toLowerCase().includes(term)) ||
+      (emp.jobTitle && emp.jobTitle.toLowerCase().includes(term))
+    );
+  }
+
+  getFilteredCollectiveEmployees(): any[] {
+    let list = this.employees();
+    if (Number(this.selectedDepartmentId) > 0) {
+      list = list.filter(e => e.departmentId == this.selectedDepartmentId);
+    }
+    const term = this.employeeSearchTerm.trim().toLowerCase();
+    if (term) {
+      list = list.filter(emp =>
+        (emp.fullName && emp.fullName.toLowerCase().includes(term)) ||
+        (emp.employeeCode && emp.employeeCode.toLowerCase().includes(term)) ||
+        (emp.departmentName && emp.departmentName.toLowerCase().includes(term)) ||
+        (emp.jobTitle && emp.jobTitle.toLowerCase().includes(term))
+      );
+    }
+    return list;
+  }
+
+  selectAllFilteredEmployees() {
+    const filteredIds = this.getFilteredCollectiveEmployees().map(e => e.id);
+    this.selectedEmployeeIds = Array.from(new Set([...this.selectedEmployeeIds, ...filteredIds]));
+  }
+
+  onDepartmentSelectChange() {
+    if (this.selectedDepartmentId > 0) {
+      const deptEmps = this.employees().filter(e => e.departmentId == this.selectedDepartmentId);
+      this.selectedEmployeeIds = deptEmps.map(e => e.id);
+    }
   }
 
   loadSummary() {
@@ -109,7 +199,9 @@ export class RewardDisciplinesListComponent implements OnInit {
       type: this.filterType !== 'ALL' ? this.filterType : undefined,
       category: this.filterCategory !== 'ALL' ? this.filterCategory : undefined,
       status: this.filterStatus !== 'ALL' ? this.filterStatus : undefined,
-      keyword: this.filterKeyword.trim() || undefined
+      keyword: this.filterKeyword.trim() || undefined,
+      fromDate: this.filterFromDate || undefined,
+      toDate: this.filterToDate || undefined
     }).subscribe({
       next: (res) => {
         if (res && res.data) {
@@ -125,6 +217,61 @@ export class RewardDisciplinesListComponent implements OnInit {
         this.isLoading.set(false);
       }
     });
+  }
+
+
+
+  isAdvancedFilterOpen = signal<boolean>(false);
+
+  toggleAdvancedFilter() {
+    this.isAdvancedFilterOpen.update(val => !val);
+  }
+
+  get activeAdvancedFilterCount(): number {
+    let count = 0;
+    if (this.filterType !== 'ALL') count++;
+    if (this.filterCategory !== 'ALL') count++;
+    if (this.filterStatus !== 'ALL') count++;
+    if (this.filterFromDate) count++;
+    if (this.filterToDate) count++;
+    return count;
+  }
+
+  clearSingleFilter(type: string) {
+    if (type === 'type') this.filterType = 'ALL';
+    if (type === 'category') this.filterCategory = 'ALL';
+    if (type === 'status') this.filterStatus = 'ALL';
+    if (type === 'fromDate') this.filterFromDate = '';
+    if (type === 'toDate') this.filterToDate = '';
+    if (type === 'keyword') this.filterKeyword = '';
+    this.onFilterChange();
+  }
+
+  resetFilters() {
+    this.filterType = 'ALL';
+    this.filterCategory = 'ALL';
+    this.filterStatus = 'ALL';
+    this.filterKeyword = '';
+    this.filterFromDate = '';
+    this.filterToDate = '';
+    this.onFilterChange();
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'APPROVED': return '🟢 Phê duyệt';
+      case 'PENDING': return '🟡 Chờ duyệt';
+      case 'REJECTED': return '🔴 Từ chối';
+      case 'CANCELLED': return '⚪ Đã hủy';
+      default: return status;
+    }
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
+      this.currentPage = page;
+      this.loadItems();
+    }
   }
 
   onFilterChange() {
@@ -157,16 +304,15 @@ export class RewardDisciplinesListComponent implements OnInit {
     }
   }
 
-  goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.loadItems();
-    }
-  }
+
 
   openCreateModal() {
     this.isEditing = false;
     this.editingId = null;
+    this.targetMode = 'SINGLE';
+    this.selectedEmployeeIds = [];
+    this.selectedDepartmentId = 0;
+    this.employeeSearchTerm = '';
     const defaultEmpId = this.employees().length > 0 ? this.employees()[0].id : 0;
 
     this.formData = {
@@ -188,6 +334,7 @@ export class RewardDisciplinesListComponent implements OnInit {
   openEditModal(item: RewardDiscipline) {
     this.isEditing = true;
     this.editingId = item.id;
+    this.targetMode = 'SINGLE';
 
     this.formData = {
       employeeId: item.employeeId,
@@ -218,16 +365,22 @@ export class RewardDisciplinesListComponent implements OnInit {
   }
 
   save() {
-    if (!this.formData.employeeId || Number(this.formData.employeeId) <= 0) {
-      this.toastService.warning('Thiếu thông tin', 'Vui lòng chọn nhân viên áp dụng.');
-      return;
-    }
     if (!this.formData.title.trim()) {
       this.toastService.warning('Thiếu thông tin', 'Vui lòng nhập tiêu đề quyết định.');
       return;
     }
     if (this.formData.amount < 0) {
       this.toastService.warning('Số tiền không hợp lệ', 'Số tiền thưởng/phạt không được là số âm.');
+      return;
+    }
+
+    if (this.targetMode === 'SINGLE' && (!this.formData.employeeId || Number(this.formData.employeeId) <= 0)) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng chọn nhân viên áp dụng.');
+      return;
+    }
+
+    if (this.targetMode === 'COLLECTIVE' && this.selectedEmployeeIds.length === 0 && Number(this.selectedDepartmentId) <= 0) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng chọn danh sách nhân sự hoặc 1 phòng ban áp dụng.');
       return;
     }
 
@@ -255,8 +408,42 @@ export class RewardDisciplinesListComponent implements OnInit {
           this.loadSummary();
           this.loadItems();
         },
-        error: () => {
+        error: (err) => {
           this.isSubmitting = false;
+          const msg = err.error?.message || 'Không thể cập nhật quyết định.';
+          this.toastService.error('Lỗi', msg);
+        }
+      });
+    } else if (this.targetMode === 'COLLECTIVE') {
+      const dto: CreateBatchRewardDisciplineDto = {
+        employeeIds: this.selectedEmployeeIds.length > 0 ? this.selectedEmployeeIds : undefined,
+        departmentId: Number(this.selectedDepartmentId) > 0 ? Number(this.selectedDepartmentId) : undefined,
+        applyToAllInDepartment: this.selectedEmployeeIds.length === 0 && Number(this.selectedDepartmentId) > 0,
+        type: Number(this.formData.type),
+        category: Number(this.formData.category),
+        title: this.formData.title.trim(),
+        decisionNumber: this.formData.decisionNumber.trim() || undefined,
+        decisionDate: this.formData.decisionDate,
+        effectiveDate: this.formData.effectiveDate,
+        amount: Number(this.formData.amount),
+        reason: this.formData.reason.trim() || undefined,
+        attachmentUrl: this.formData.attachmentUrl.trim() || undefined,
+        status: Number(this.formData.status)
+      };
+
+      this.rewardService.createBatch(dto).subscribe({
+        next: (res) => {
+          const count = res.count || this.selectedEmployeeIds.length;
+          this.toastService.success('Thành công', `Đã tạo quyết định tập thể thành công cho ${count} nhân sự.`);
+          this.isSubmitting = false;
+          this.closeModal();
+          this.loadSummary();
+          this.loadItems();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          const msg = err.error?.message || 'Không thể tạo quyết định tập thể.';
+          this.toastService.error('Lỗi', msg);
         }
       });
     } else {
@@ -282,8 +469,10 @@ export class RewardDisciplinesListComponent implements OnInit {
           this.loadSummary();
           this.loadItems();
         },
-        error: () => {
+        error: (err) => {
           this.isSubmitting = false;
+          const msg = err.error?.message || 'Không thể tạo mới quyết định.';
+          this.toastService.error('Lỗi', msg);
         }
       });
     }

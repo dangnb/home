@@ -108,6 +108,96 @@
         </div>
         <!--end::Theme mode Switcher-->
 
+        <!--begin::Notification Bell-->
+        <div class="app-navbar-item ms-1 ms-lg-3 position-relative">
+          <a 
+            href="javascript:void(0)" 
+            class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative"
+            (click)="toggleDropdown('notification', $event)"
+            title="Thông báo hệ thống"
+          >
+            <i class="bi bi-bell-fill fs-3 text-primary"></i>
+            @if (notificationService.unreadCount() > 0) {
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light fs-9 px-2">
+                {{ notificationService.unreadCount() }}
+              </span>
+            }
+          </a>
+
+          <!--begin::Notifications Dropdown Menu-->
+          @if (activeDropdown() === 'notification') {
+            <div 
+              class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-400px show dropdown-menu-end-custom shadow-lg bg-body rounded position-absolute end-0 top-100 mt-2 z-index-3"
+              (click)="$event.stopPropagation()"
+            >
+              <!--Header-->
+              <div class="d-flex align-items-center justify-content-between px-4 py-3 bg-light-primary rounded-top border-bottom">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-bell-fill text-primary me-2 fs-5"></i>
+                  <span class="fw-bold fs-6 text-gray-800">Thông Báo Duyệt</span>
+                  @if (notificationService.unreadCount() > 0) {
+                    <span class="badge badge-sm badge-light-danger ms-2 fw-semibold">{{ notificationService.unreadCount() }} mới</span>
+                  }
+                </div>
+                @if (notificationService.unreadCount() > 0) {
+                  <button class="btn btn-link btn-color-primary p-0 fs-8 fw-semibold" (click)="onMarkAllRead($event)">
+                    Đánh dấu đã đọc tất cả
+                  </button>
+                }
+              </div>
+
+              <!--Notification List Body-->
+              <div class="scroll-y mh-325px px-2 py-2">
+                @if (notificationService.notifications().length === 0) {
+                  <div class="text-center text-muted py-8 fs-7">
+                    <i class="bi bi-bell-slash fs-1 text-muted opacity-50 mb-2 d-block"></i>
+                    Không có thông báo mới nào
+                  </div>
+                }
+                @for (notif of notificationService.notifications(); track notif.id) {
+                  <a 
+                    [routerLink]="notif.targetUrl || '/hrm/transfers'" 
+                    class="d-flex align-items-start p-3 rounded text-decoration-none hover-bg-light transition-all mb-1"
+                    [class.bg-light-primary]="!notif.isRead"
+                    (click)="onNotificationClick(notif)"
+                  >
+                    <div class="symbol symbol-35px me-3 mt-1 flex-shrink-0">
+                      <span 
+                        class="symbol-label"
+                        [ngClass]="{
+                          'bg-light-primary text-primary': notif.notificationType === 'TRANSFER_APPROVAL_REQUIRED',
+                          'bg-light-success text-success': notif.notificationType === 'TRANSFER_COMPLETED',
+                          'bg-light-danger text-danger': notif.notificationType === 'TRANSFER_REJECTED'
+                        }"
+                      >
+                        <i 
+                          class="fs-5"
+                          [ngClass]="{
+                            'bi bi-clock-history': notif.notificationType === 'TRANSFER_APPROVAL_REQUIRED',
+                            'bi bi-check-circle-fill': notif.notificationType === 'TRANSFER_COMPLETED',
+                            'bi bi-x-circle-fill': notif.notificationType === 'TRANSFER_REJECTED'
+                          }"
+                        ></i>
+                      </span>
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                      <div class="d-flex align-items-center justify-content-between mb-1">
+                        <span class="fw-bold fs-7 text-gray-800 text-truncate me-2">{{ notif.title }}</span>
+                        <span class="fs-9 text-muted flex-shrink-0">{{ notif.createdDate | date:'HH:mm dd/MM' }}</span>
+                      </div>
+                      <p class="fs-8 text-gray-600 mb-0 line-clamp-2" style="white-space: normal; word-break: break-word;">
+                        {{ notif.message }}
+                      </p>
+                    </div>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+          <!--end::Notifications Dropdown Menu-->
+        </div>
+        <!--end::Notification Bell-->
+
         <!--begin::User Account Menu-->
         <div class="app-navbar-item ms-2 ms-lg-4 position-relative" id="kt_header_user_menu_toggle">
           <!--begin::Menu wrapper-->

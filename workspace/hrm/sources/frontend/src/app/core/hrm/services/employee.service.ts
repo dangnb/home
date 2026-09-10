@@ -13,6 +13,22 @@ export interface EmployeeFilterParams {
   status?: string | number;
 }
 
+export interface EmployeeLookupDto {
+  id: number;
+  fullName: string;
+  employeeCode?: string;
+  departmentId?: number;
+  departmentName?: string;
+  jobTitle?: string;
+  avatarUrl?: string;
+}
+
+export interface EmployeeLookupParams {
+  keyword?: string;
+  departmentId?: number;
+  limit?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +54,17 @@ export class EmployeeService {
       }
     }
     return this.http.get<ApiResponse<Employee[]>>(this.readUrl, { params });
+  }
+
+  // --- Lightweight Lookup Endpoint for All Authenticated Users / Select Lists ---
+  getEmployeeLookup(paramsObj?: EmployeeLookupParams): Observable<EmployeeLookupDto[]> {
+    let params = new HttpParams();
+    if (paramsObj) {
+      if (paramsObj.keyword) params = params.set('keyword', paramsObj.keyword);
+      if (paramsObj.departmentId) params = params.set('departmentId', paramsObj.departmentId.toString());
+      if (paramsObj.limit) params = params.set('limit', paramsObj.limit.toString());
+    }
+    return this.http.get<EmployeeLookupDto[]>(`${this.writeUrl}/lookup`, { params });
   }
 
   getEmployee(id: number | string): Observable<ApiResponse<Employee>> {

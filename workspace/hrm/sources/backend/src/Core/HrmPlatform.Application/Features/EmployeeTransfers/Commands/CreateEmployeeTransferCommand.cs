@@ -104,6 +104,10 @@ public class CreateEmployeeTransferCommandHandler : IRequestHandler<CreateEmploy
         _context.EmployeeJobHistories.Add(history);
         await _context.SaveChangesAsync(cancellationToken);
 
+        // Send notification to step 1 approver
+        await HrmPlatform.Application.Features.EmployeeTransfers.Services.TransferNotificationHelper.SendStepNotificationAsync(_context, history, tenantId, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+
         return history.Id;
     }
 }

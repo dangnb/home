@@ -62,6 +62,22 @@ export interface CreateRewardDisciplineDto {
   status?: number;
 }
 
+export interface CreateBatchRewardDisciplineDto {
+  employeeIds?: number[];
+  departmentId?: number;
+  applyToAllInDepartment?: boolean;
+  type: number; // 1 = REWARD, 2 = DISCIPLINE
+  category: number;
+  title: string;
+  decisionNumber?: string;
+  decisionDate: string;
+  effectiveDate: string;
+  amount: number;
+  reason?: string;
+  attachmentUrl?: string;
+  status?: number;
+}
+
 export interface UpdateRewardDisciplineDto {
   id: number;
   type: number;
@@ -108,6 +124,10 @@ export class RewardDisciplineService {
 
   create(dto: CreateRewardDisciplineDto): Observable<any> {
     return this.http.post<any>(this.apiUrl, dto);
+  }
+
+  createBatch(dto: CreateBatchRewardDisciplineDto): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/batch`, dto);
   }
 
   update(id: number, dto: UpdateRewardDisciplineDto): Observable<any> {

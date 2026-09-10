@@ -26,6 +26,8 @@ public class EmployeeTransfersController : ControllerBase
         [FromQuery] string? changeType,
         [FromQuery] string? approvalStatus,
         [FromQuery] string? keyword,
+        [FromQuery] DateOnly? fromDate,
+        [FromQuery] DateOnly? toDate,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -36,6 +38,8 @@ public class EmployeeTransfersController : ControllerBase
             ChangeType = changeType,
             ApprovalStatus = approvalStatus,
             Keyword = keyword,
+            FromDate = fromDate,
+            ToDate = toDate,
             Page = page,
             PageSize = pageSize
         }, cancellationToken);

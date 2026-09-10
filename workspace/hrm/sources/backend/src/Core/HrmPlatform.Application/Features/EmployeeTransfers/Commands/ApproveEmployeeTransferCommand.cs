@@ -45,36 +45,45 @@ public class ApproveEmployeeTransferCommandHandler : IRequestHandler<ApproveEmpl
 
         if (employee != null)
         {
-            var targetDepartmentId = history.NewDepartmentId ?? employee.DepartmentId;
-            var targetManagerId = history.NewManagerId ?? employee.ManagerId;
-            var targetJobTitle = !string.IsNullOrWhiteSpace(history.NewJobTitle) ? history.NewJobTitle : employee.JobTitle;
-
-            employee.TransferDepartment(targetDepartmentId, targetManagerId);
-            if (!string.IsNullOrWhiteSpace(targetJobTitle))
+            if (history.ChangeType == TransferChangeType.RESIGNATION || history.ChangeType == TransferChangeType.TERMINATION)
             {
-                employee.Update(
-                    jobTitle: targetJobTitle,
-                    gender: employee.Gender,
-                    departmentId: targetDepartmentId,
-                    managerId: targetManagerId,
-                    dateOfBirth: employee.DateOfBirth,
-                    idCardNumber: employee.IdCardNumber,
-                    taxCode: employee.TaxCode,
-                    socialInsuranceNumber: employee.SocialInsuranceNumber,
-                    bankAccountNumber: employee.BankAccountNumber,
-                    bankName: employee.BankName,
-                    bankBranch: employee.BankBranch,
-                    permanentAddress: employee.PermanentAddress,
-                    temporaryAddress: employee.TemporaryAddress,
-                    emergencyContactName: employee.EmergencyContactName,
-                    emergencyContactPhone: employee.EmergencyContactPhone,
-                    maritalStatus: employee.MaritalStatus,
-                    joinedDate: employee.JoinedDate,
-                    probationEndDate: employee.ProbationEndDate,
-                    officialJoinedDate: employee.OfficialJoinedDate,
-                    avatarUrl: employee.AvatarUrl);
+                employee.Status = EntityStatus.INACTIVE;
+            }
+            else
+            {
+                var targetDepartmentId = history.NewDepartmentId ?? employee.DepartmentId;
+                var targetManagerId = history.NewManagerId ?? employee.ManagerId;
+                var targetJobTitle = !string.IsNullOrWhiteSpace(history.NewJobTitle) ? history.NewJobTitle : employee.JobTitle;
+
+                employee.TransferDepartment(targetDepartmentId, targetManagerId);
+                if (!string.IsNullOrWhiteSpace(targetJobTitle))
+                {
+                    employee.Update(
+                        jobTitle: targetJobTitle,
+                        gender: employee.Gender,
+                        departmentId: targetDepartmentId,
+                        managerId: targetManagerId,
+                        dateOfBirth: employee.DateOfBirth,
+                        idCardNumber: employee.IdCardNumber,
+                        taxCode: employee.TaxCode,
+                        socialInsuranceNumber: employee.SocialInsuranceNumber,
+                        bankAccountNumber: employee.BankAccountNumber,
+                        bankName: employee.BankName,
+                        bankBranch: employee.BankBranch,
+                        permanentAddress: employee.PermanentAddress,
+                        temporaryAddress: employee.TemporaryAddress,
+                        emergencyContactName: employee.EmergencyContactName,
+                        emergencyContactPhone: employee.EmergencyContactPhone,
+                        maritalStatus: employee.MaritalStatus,
+                        joinedDate: employee.JoinedDate,
+                        probationEndDate: employee.ProbationEndDate,
+                        officialJoinedDate: employee.OfficialJoinedDate,
+                        avatarUrl: employee.AvatarUrl);
+                }
             }
         }
+
+        await HrmPlatform.Application.Features.EmployeeTransfers.Services.TransferNotificationHelper.SendCompletedNotificationsAsync(_context, history, tenantId, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
         return true;

@@ -73,6 +73,8 @@ public class GetEmployeeTransfersQuery : IRequest<PaginatedResultDto<EmployeeTra
     public string? ChangeType { get; set; }
     public string? ApprovalStatus { get; set; }
     public string? Keyword { get; set; }
+    public DateOnly? FromDate { get; set; }
+    public DateOnly? ToDate { get; set; }
 }
 
 public class GetEmployeeTransfersQueryHandler : IRequestHandler<GetEmployeeTransfersQuery, PaginatedResultDto<EmployeeTransferDto>>
@@ -118,6 +120,18 @@ public class GetEmployeeTransfersQueryHandler : IRequestHandler<GetEmployeeTrans
         {
             whereClause += " AND (jh.decision_number LIKE @Keyword OR u.full_name LIKE @Keyword OR jh.new_job_title LIKE @Keyword)";
             parameters.Add("Keyword", $"%{request.Keyword.Trim()}%");
+        }
+
+        if (request.FromDate.HasValue)
+        {
+            whereClause += " AND jh.effective_date >= @FromDate";
+            parameters.Add("FromDate", request.FromDate.Value.ToDateTime(TimeOnly.MinValue));
+        }
+
+        if (request.ToDate.HasValue)
+        {
+            whereClause += " AND jh.effective_date <= @ToDate";
+            parameters.Add("ToDate", request.ToDate.Value.ToDateTime(TimeOnly.MaxValue));
         }
 
         var countSql = $@"

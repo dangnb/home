@@ -37,6 +37,8 @@ public class RejectEmployeeTransferCommandHandler : IRequestHandler<RejectEmploy
 
         history.Reject(currentUserId, request.Reason);
 
+        await HrmPlatform.Application.Features.EmployeeTransfers.Services.TransferNotificationHelper.SendRejectedNotificationsAsync(_context, history, tenantId, request.Reason, cancellationToken);
+
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }

@@ -2,7 +2,7 @@
 <div class="d-flex flex-column flex-column-fluid">
   <!--begin::Toolbar-->
   <div class="app-toolbar py-3 py-lg-6">
-    <div class="app-container container-xxl d-flex flex-stack">
+    <div class="app-container container-fluid d-flex flex-stack">
       <!--begin::Page title-->
       <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
         <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
@@ -38,7 +38,7 @@
   <!--end::Toolbar-->
 
   <!--begin::Container-->
-  <div class="app-container container-xxl">
+  <div class="app-container container-fluid">
     <!--begin::Summary KPI Cards-->
     <div class="row g-5 g-xl-8 mb-5">
       <!-- Total Reward Card -->
@@ -124,51 +124,184 @@
     <!--begin::Main Card-->
     <div class="card shadow-sm">
       <!--begin::Card header / Filters-->
-      <div class="card-header border-0 pt-6">
-        <div class="card-title w-100 d-flex flex-wrap align-items-center justify-content-between gap-3">
-          <!--Search Input-->
-          <div class="d-flex align-items-center position-relative my-1 min-w-250px">
-            <i class="bi bi-search position-absolute ms-4 fs-4 text-gray-500"></i>
-            <input 
-              type="text" 
-              class="form-control form-control-solid w-100 ps-12 fs-7" 
-              placeholder="Tìm kiếm nhân viên, số QĐ, tiêu đề..." 
-              [(ngModel)]="filterKeyword"
-              (keyup)="onSearchKeyup($event)"
-            />
-          </div>
+      <div class="card-header border-0 pt-6 pb-0">
+        <div class="card-title w-100 me-0">
+          <!-- Main Search Bar & Filter Toggle Row -->
+          <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+            <!-- Search Box -->
+            <div class="position-relative flex-grow-1" style="max-width: 480px;">
+              <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-solid ps-10 fs-7" 
+                placeholder="Nhập tên nhân viên, số QĐ, tiêu đề..." 
+                [(ngModel)]="filterKeyword"
+                (keyup)="onSearchKeyup($event)"
+              />
+              @if (filterKeyword) {
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                  (click)="clearSingleFilter('keyword')"
+                >
+                  <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+                </button>
+              }
+            </div>
 
-          <!--Filter Controls-->
-          <div class="d-flex flex-wrap align-items-center gap-3">
-            <!-- Filter Type -->
-            <select class="form-select form-select-solid fs-7 w-150px" [(ngModel)]="filterType" (change)="onFilterChange()">
-              <option value="ALL">Loại: Tất cả</option>
-              <option value="REWARD">Khen Thưởng</option>
-              <option value="DISCIPLINE">Kỷ Luật / Phạt</option>
-            </select>
+            <!-- Action Buttons (Advanced Filter Toggle & Reset) -->
+            <div class="d-flex align-items-center gap-2">
+              <button 
+                type="button" 
+                class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 transition-all"
+                [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+                [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+                (click)="toggleAdvancedFilter()"
+              >
+                <i class="bi bi-sliders2 fs-6"></i>
+                <span>Bộ Lọc Nâng Cao</span>
+                @if (activeAdvancedFilterCount > 0) {
+                  <span class="badge badge-circle badge-light-danger ms-1 px-2 fs-8 fw-bold">
+                    {{ activeAdvancedFilterCount }}
+                  </span>
+                }
+              </button>
 
-            <!-- Filter Category -->
-            <select class="form-select form-select-solid fs-7 w-180px" [(ngModel)]="filterCategory" (change)="onFilterChange()">
-              <option value="ALL">Danh mục: Tất cả</option>
-              <option value="PERFORMANCE">Hiệu suất xuất sắc</option>
-              <option value="EXCELLENCE">Cá nhân xuất sắc</option>
-              <option value="INNOVATION">Sáng kiến đột phá</option>
-              <option value="LATE_VIOLATION">Vi phạm giờ giấc</option>
-              <option value="SAFETY_VIOLATION">Vi phạm an toàn</option>
-              <option value="DISCIPLINE_BREACH">Vi phạm kỷ luật</option>
-              <option value="BONUS">Thưởng đột xuất</option>
-            </select>
-
-            <!-- Filter Status -->
-            <select class="form-select form-select-solid fs-7 w-150px" [(ngModel)]="filterStatus" (change)="onFilterChange()">
-              <option value="ALL">Trạng thái: Tất cả</option>
-              <option value="APPROVED">Đã phê duyệt</option>
-              <option value="PENDING">Chờ duyệt</option>
-              <option value="REJECTED">Từ chối</option>
-              <option value="CANCELLED">Đã hủy</option>
-            </select>
+              @if (filterKeyword || activeAdvancedFilterCount > 0) {
+                <button type="button" class="btn btn-sm btn-light-danger fw-bold fs-7 py-2 px-3" (click)="resetFilters()" title="Xóa toàn bộ bộ lọc">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa bộ lọc
+                </button>
+              }
+            </div>
           </div>
         </div>
+      </div>
+      <!--end::Card header-->
+
+      <!-- Active Filter Tags & Drawer (placed directly under card header to avoid header clipping) -->
+      <div class="px-6 pt-3 pb-0">
+        <!-- Active Filter Tags / Chips -->
+        @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+          <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+            <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+            @if (filterKeyword) {
+              <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ khóa: "{{ filterKeyword }}"
+                <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+              </span>
+            }
+            @if (filterType !== 'ALL') {
+              <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Loại: {{ filterType === 'REWARD' ? '🏆 Khen Thưởng' : '⚠️ Kỷ Luật' }}
+                <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('type')"></i>
+              </span>
+            }
+            @if (filterCategory !== 'ALL') {
+              <span class="badge badge-light-secondary border border-secondary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Danh mục: {{ getCategoryLabel(filterCategory) }}
+                <i class="bi bi-x-lg cursor-pointer text-secondary" (click)="clearSingleFilter('category')"></i>
+              </span>
+            }
+            @if (filterStatus !== 'ALL') {
+              <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Trạng thái: {{ getStatusLabel(filterStatus) }}
+                <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+              </span>
+            }
+            @if (filterFromDate) {
+              <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ: {{ filterFromDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('fromDate')"></i>
+              </span>
+            }
+            @if (filterToDate) {
+              <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Đến: {{ filterToDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('toDate')"></i>
+              </span>
+            }
+          </div>
+        }
+
+        <!-- Collapsible Advanced Filter Drawer Panel -->
+        @if (isAdvancedFilterOpen()) {
+          <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+              <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+                <i class="bi bi-sliders text-primary fs-6"></i>
+                Tùy Chọn Lọc Nâng Cao Quyết Định (Advanced Filters)
+              </div>
+              <span class="fs-8 text-muted">Lọc theo loại khen thưởng/kỷ luật, danh mục và khoảng thời gian</span>
+            </div>
+
+            <div class="row g-3">
+              <!-- From Date -->
+              <div class="col-md-3 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày quyết định</label>
+                <div class="position-relative">
+                  <input 
+                    type="date" 
+                    class="form-control form-control-solid fs-7 ps-9" 
+                    [(ngModel)]="filterFromDate"
+                    (change)="onFilterChange()"
+                  />
+                  <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                </div>
+              </div>
+
+              <!-- To Date -->
+              <div class="col-md-3 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày quyết định</label>
+                <div class="position-relative">
+                  <input 
+                    type="date" 
+                    class="form-control form-control-solid fs-7 ps-9" 
+                    [(ngModel)]="filterToDate"
+                    (change)="onFilterChange()"
+                  />
+                  <i class="bi bi-calendar-check position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                </div>
+              </div>
+
+              <!-- Filter Type -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Loại quyết định</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterType" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả loại</option>
+                  <option value="REWARD">🏆 Khen Thưởng</option>
+                  <option value="DISCIPLINE">⚠️ Kỷ Luật / Phạt</option>
+                </select>
+              </div>
+
+              <!-- Filter Category -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Danh mục áp dụng</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả danh mục</option>
+                  <option value="PERFORMANCE">Hiệu suất xuất sắc</option>
+                  <option value="EXCELLENCE">Cá nhân xuất sắc</option>
+                  <option value="INNOVATION">Sáng kiến đột phá</option>
+                  <option value="LATE_VIOLATION">Vi phạm giờ giấc</option>
+                  <option value="SAFETY_VIOLATION">Vi phạm an toàn</option>
+                  <option value="DISCIPLINE_BREACH">Vi phạm kỷ luật</option>
+                  <option value="BONUS">Thưởng đột xuất</option>
+                </select>
+              </div>
+
+              <!-- Filter Status -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="APPROVED">🟢 Phê duyệt</option>
+                  <option value="PENDING">🟡 Chờ duyệt</option>
+                  <option value="REJECTED">🔴 Từ chối</option>
+                  <option value="CANCELLED">⚪ Đã hủy</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        }
       </div>
       <!--end::Card header-->
 
@@ -329,40 +462,15 @@
           </div>
 
           <!--Pagination-->
-          <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-4">
-            <div class="d-flex align-items-center gap-3">
-              <span class="fs-7 text-gray-600">
-                Hiển thị <strong>{{ items().length }}</strong> / <strong>{{ totalCount }}</strong> bản ghi (Trang {{ currentPage }}/{{ totalPages }})
-              </span>
-              <div class="d-flex align-items-center gap-2 ms-2">
-                <span class="fs-7 text-gray-500">Hiển thị:</span>
-                <select class="form-select form-select-solid fs-7 py-1 px-2 w-75px" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
-                  <option [value]="10">10</option>
-                  <option [value]="20">20</option>
-                  <option [value]="50">50</option>
-                  <option [value]="100">100</option>
-                </select>
-              </div>
-            </div>
-
-            <ul class="pagination pagination-outline mb-0">
-              <li class="page-item" [class.disabled]="currentPage === 1">
-                <button class="page-link cursor-pointer" (click)="goToPage(currentPage - 1)">
-                  <i class="bi bi-chevron-left fs-7"></i>
-                </button>
-              </li>
-              @for (p of getPageNumbers(); track p) {
-                <li class="page-item" [class.active]="p === currentPage">
-                  <button class="page-link cursor-pointer" (click)="goToPage(p)">{{ p }}</button>
-                </li>
-              }
-              <li class="page-item" [class.disabled]="currentPage >= totalPages">
-                <button class="page-link cursor-pointer" (click)="goToPage(currentPage + 1)">
-                  <i class="bi bi-chevron-right fs-7"></i>
-                </button>
-              </li>
-            </ul>
-          </div>
+          <app-pagination
+            [currentPage]="currentPage"
+            [pageSize]="pageSize"
+            [totalCount]="totalCount"
+            [itemCount]="items().length"
+            [pageSizeOptions]="pageSizeOptions"
+            (pageChange)="goToPage($event)"
+            (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+          ></app-pagination>
         }
       </div>
       <!--end::Card body-->
@@ -424,16 +532,149 @@
                 </div>
               </div>
 
-              <!--Chọn Nhân Viên-->
+              <!--Phạm vi Áp dụng (Cá nhân / Tập thể)-->
               <div class="col-md-6">
-                <label class="form-label required fw-bold fs-7">Áp Dụng Cho Nhân Viên</label>
-                <select class="form-select form-select-solid fs-7" name="employeeId" [(ngModel)]="formData.employeeId" [disabled]="isEditing">
-                  <option [value]="0">-- Chọn nhân viên --</option>
-                  @for (emp of employees(); track emp.id) {
-                    <option [value]="emp.id">{{ emp.fullName }} ({{ emp.jobTitle || 'Nhân sự' }})</option>
-                  }
-                </select>
+                <label class="form-label required fw-bold fs-7">Phạm Vi Áp Dụng Quyết Định</label>
+                @if (!isEditing) {
+                  <div class="d-flex gap-2">
+                    <button 
+                      type="button" 
+                      class="btn btn-sm flex-fill fw-bold px-3 py-2" 
+                      [ngClass]="targetMode === 'SINGLE' ? 'btn-primary' : 'btn-light-primary'"
+                      (click)="targetMode = 'SINGLE'"
+                    >
+                      <i class="bi bi-person-fill me-1"></i> Cá Nhân
+                    </button>
+                    <button 
+                      type="button" 
+                      class="btn btn-sm flex-fill fw-bold px-3 py-2" 
+                      [ngClass]="targetMode === 'COLLECTIVE' ? 'btn-info text-white' : 'btn-light-info'"
+                      (click)="targetMode = 'COLLECTIVE'"
+                    >
+                      <i class="bi bi-people-fill me-1"></i> Tập Thể / Nhóm
+                    </button>
+                  </div>
+                } @else {
+                  <span class="badge badge-light-primary d-block py-2 fw-bold fs-7">Cá Nhân</span>
+                }
               </div>
+            </div>
+
+            <!-- Single vs Collective Selection Section -->
+            <div class="mb-4 p-4 bg-light rounded-3 border border-gray-200">
+              @if (targetMode === 'SINGLE') {
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label required fw-bold fs-7 mb-0">Chọn Nhân Viên Áp Dụng</label>
+                    <span class="badge badge-light-primary fs-8">Tất cả {{ employees().length }} nhân sự</span>
+                  </div>
+
+                  <!-- Employee Quick Search Filter Bar -->
+                  <div class="position-relative mb-2">
+                    <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                    <input 
+                      type="text" 
+                      class="form-control form-control-solid ps-9 fs-7" 
+                      placeholder="Gõ tên, mã nhân viên hoặc phòng ban để lọc nhanh..." 
+                      [(ngModel)]="employeeSearchTerm"
+                      name="employeeSearchTerm"
+                    />
+                    @if (employeeSearchTerm) {
+                      <button 
+                        type="button" 
+                        class="btn btn-icon btn-sm position-absolute top-50 translate-middle-y end-0 me-2 border-0 bg-transparent text-gray-500"
+                        (click)="employeeSearchTerm = ''"
+                      >
+                        <i class="bi bi-x-lg fs-7"></i>
+                      </button>
+                    }
+                  </div>
+
+                  <select class="form-select form-select-solid fs-7" name="employeeId" [(ngModel)]="formData.employeeId" [disabled]="isEditing">
+                    <option [value]="0">-- Chọn nhân viên ({{ getFilteredEmployees().length }} phù hợp) --</option>
+                    @for (emp of getFilteredEmployees(); track emp.id) {
+                      <option [value]="emp.id">{{ emp.fullName }} - {{ emp.departmentName || 'HRM' }} ({{ emp.jobTitle || 'Nhân sự' }})</option>
+                    }
+                  </select>
+                </div>
+              } @else {
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label required fw-bold fs-7 mb-0">Chọn Tập Thể / Danh Sách Nhân Sự</label>
+                    <div class="d-flex gap-2">
+                      <button type="button" class="btn btn-link btn-color-primary btn-active-color-primary fs-8 p-0 fw-bold" (click)="selectAllFilteredEmployees()">
+                        <i class="bi bi-check-all me-1"></i>Chọn {{ getFilteredCollectiveEmployees().length }} nhân sự hiển thị
+                      </button>
+                      <span class="text-gray-400">|</span>
+                      <button type="button" class="btn btn-link btn-color-gray-600 btn-active-color-danger fs-8 p-0 fw-bold" (click)="deselectAllEmployees()">
+                        <i class="bi bi-x-circle me-1"></i>Bỏ chọn
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Search & Department Selection Header -->
+                  <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                      <select class="form-select form-select-solid fs-7" [(ngModel)]="selectedDepartmentId" (change)="onDepartmentSelectChange()" name="selectedDepartmentId">
+                        <option [value]="0">-- Tất cả phòng ban --</option>
+                        @for (dept of departments(); track dept.id) {
+                          <option [value]="dept.id">Phòng Ban: {{ dept.name }}</option>
+                        }
+                      </select>
+                    </div>
+                    <div class="col-md-6 position-relative">
+                      <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                      <input 
+                        type="text" 
+                        class="form-control form-control-solid ps-9 fs-7" 
+                        placeholder="Tìm kiếm nhân sự trong danh sách..." 
+                        [(ngModel)]="employeeSearchTerm"
+                        name="collectiveSearchTerm"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Checklist Grid -->
+                  <div class="max-h-250px overflow-y-auto bg-white p-3 rounded-3 border">
+                    @if (getFilteredCollectiveEmployees().length === 0) {
+                      <div class="text-center py-4 text-gray-500 fs-7">
+                        <i class="bi bi-person-x fs-4 d-block mb-1"></i>
+                        Không tìm thấy nhân sự phù hợp với từ khóa tìm kiếm.
+                      </div>
+                    } @else {
+                      <div class="row g-2">
+                        @for (emp of getFilteredCollectiveEmployees(); track emp.id) {
+                          <div class="col-md-6">
+                            <div class="form-check form-check-custom form-check-solid form-check-sm p-2 rounded hover-bg-light">
+                              <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                [id]="'emp-chk-' + emp.id" 
+                                [checked]="isEmployeeSelected(emp.id)"
+                                (change)="toggleEmployeeSelection(emp.id)"
+                              />
+                              <label class="form-check-label fs-7 cursor-pointer text-gray-800 w-100" [for]="'emp-chk-' + emp.id">
+                                <span class="fw-bold d-block text-dark">{{ emp.fullName }}</span>
+                                <span class="text-muted fs-8 d-block">{{ emp.departmentName || 'Chưa phân phòng' }} • {{ emp.jobTitle || 'Nhân sự' }}</span>
+                              </label>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Collective Budget Calculation Summary -->
+                  <div class="d-flex justify-content-between align-items-center mt-3 p-3 bg-light-info rounded-3 border border-info border-opacity-25">
+                    <span class="fs-7 text-info fw-bold">
+                      <i class="bi bi-info-circle-fill me-1"></i>Số lượng nhân sự được chọn: <strong>{{ selectedEmployeeIds.length }} nhân sự</strong>
+                    </span>
+                    <span class="fs-7 text-gray-800 fw-bold">
+                      Tổng ngân sách: <strong class="text-primary fs-6">{{ formatCurrency(selectedEmployeeIds.length * formData.amount) }}</strong>
+                    </span>
+                  </div>
+                </div>
+              }
             </div>
 
             <div class="row g-4 mb-4">
