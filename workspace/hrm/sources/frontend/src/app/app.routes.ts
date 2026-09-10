@@ -73,6 +73,11 @@ export const routes: Routes = [
             path: 'equipments',
             loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
             title: 'Quản Lý Trang Thiết Bị - HRM Platform'
+          },
+          {
+            path: 'equipment-repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
           }
         ]
       },

@@ -87,6 +87,11 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-box-seam',
       route: '/hrm/equipments'
     },
+    {
+      title: 'Báo Hỏng & Sửa IT',
+      icon: 'bi-tools',
+      route: '/hrm/equipment-repairs'
+    },
 
     // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG

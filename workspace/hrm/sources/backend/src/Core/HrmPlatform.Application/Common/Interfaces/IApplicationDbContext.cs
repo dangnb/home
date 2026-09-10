@@ -31,6 +31,7 @@ public interface IApplicationDbContext
     DbSet<Notification> Notifications { get; }
     DbSet<Equipment> Equipments { get; }
     DbSet<EquipmentHistory> EquipmentHistories { get; }
+    DbSet<EquipmentRepair> EquipmentRepairs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

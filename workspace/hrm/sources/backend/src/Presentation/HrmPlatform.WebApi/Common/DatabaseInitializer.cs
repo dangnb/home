@@ -162,6 +162,49 @@ public static class DatabaseInitializer
                         }
                         catch { /* Column already exists */ }
                     }
+
+                    try
+                    {
+                        var createRepairsTableSql = @"
+                            CREATE TABLE IF NOT EXISTS `equipment_repairs` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `code` VARCHAR(50) NOT NULL,
+                                `equipment_id` BIGINT NOT NULL,
+                                `reporter_user_id` BIGINT NOT NULL,
+                                `reported_date` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `issue_description` TEXT NOT NULL,
+                                `priority` VARCHAR(20) NOT NULL DEFAULT 'MEDIUM',
+                                `technician_user_id` BIGINT DEFAULT NULL,
+                                `assigned_date` DATETIME(6) DEFAULT NULL,
+                                `status` VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+                                `actual_error` TEXT DEFAULT NULL,
+                                `solution_detail` TEXT DEFAULT NULL,
+                                `replaced_parts` TEXT DEFAULT NULL,
+                                `repair_cost` DECIMAL(18,2) DEFAULT '0.00',
+                                `started_at` DATETIME(6) DEFAULT NULL,
+                                `completed_at` DATETIME(6) DEFAULT NULL,
+                                `note` TEXT DEFAULT NULL,
+                                `status_entity` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `uk_equipment_repairs_tenant_code` (`tenant_id`, `code`),
+                                KEY `idx_equipment_repairs_equipment` (`tenant_id`, `equipment_id`),
+                                KEY `idx_equipment_repairs_technician` (`tenant_id`, `technician_user_id`),
+                                KEY `idx_equipment_repairs_status` (`tenant_id`, `status`),
+                                CONSTRAINT `fk_equipment_repairs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+                                CONSTRAINT `fk_equipment_repairs_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipments` (`id`) ON DELETE CASCADE
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var repairsCmd = new MySqlCommand(createRepairsTableSql, dbConn);
+                        await repairsCmd.ExecuteNonQueryAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning("Notice equipment_repairs check: {Message}", ex.Message);
+                    }
                 }
 
                 if (File.Exists(seedPath))

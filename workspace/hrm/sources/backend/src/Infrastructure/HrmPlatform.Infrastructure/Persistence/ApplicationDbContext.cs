@@ -52,6 +52,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<Equipment> Equipments => Set<Equipment>();
     public DbSet<EquipmentHistory> EquipmentHistories => Set<EquipmentHistory>();
+    public DbSet<EquipmentRepair> EquipmentRepairs => Set<EquipmentRepair>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
