@@ -62,6 +62,11 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-calendar-minus',
       route: '/hrm/leave-requests'
     },
+    {
+      title: 'Khen Thưởng & Kỷ Luật',
+      icon: 'bi-award',
+      route: '/hrm/reward-disciplines'
+    },
 
     // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG

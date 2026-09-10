@@ -1,0 +1,547 @@
+<!--begin::Content-->
+<div class="d-flex flex-column flex-column-fluid">
+  <!--begin::Toolbar-->
+  <div class="app-toolbar py-3 py-lg-6">
+    <div class="app-container container-xxl d-flex flex-stack">
+      <!--begin::Page title-->
+      <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+          Quản Lý Khen Thưởng & Kỷ Luật
+        </h1>
+        <!--begin::Breadcrumb-->
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+          <li class="breadcrumb-item text-muted">
+            <a routerLink="/hrm/dashboard" class="text-muted text-hover-primary">Trang chủ</a>
+          </li>
+          <li class="breadcrumb-item">
+            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+          </li>
+          <li class="breadcrumb-item text-muted">Quản Trị Nhân Sự</li>
+          <li class="breadcrumb-item">
+            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+          </li>
+          <li class="breadcrumb-item text-dark">Khen Thưởng & Kỷ Luật</li>
+        </ul>
+        <!--end::Breadcrumb-->
+      </div>
+      <!--end::Page title-->
+
+      <!--begin::Actions-->
+      <div class="d-flex align-items-center gap-2 gap-lg-3">
+        <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
+          <i class="bi bi-plus-lg me-1"></i> Tạo Quyết Định Mới
+        </button>
+      </div>
+      <!--end::Actions-->
+    </div>
+  </div>
+  <!--end::Toolbar-->
+
+  <!--begin::Container-->
+  <div class="app-container container-xxl">
+    <!--begin::Summary KPI Cards-->
+    <div class="row g-5 g-xl-8 mb-5">
+      <!-- Total Reward Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-success border border-success border-dashed card-state-success h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-success text-uppercase">Khen Thưởng</span>
+              <div class="symbol symbol-40px bg-success text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-trophy-fill fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ formatCurrency(summary().totalRewardAmount) }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">
+                {{ summary().totalRewardsCount }} quyết định khen thưởng
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Penalty Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-danger border border-danger border-dashed card-state-danger h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-danger text-uppercase">Kỷ Luật & Phạt</span>
+              <div class="symbol symbol-40px bg-danger text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-exclamation-octagon-fill fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ formatCurrency(summary().totalDisciplineAmount) }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">
+                {{ summary().totalDisciplinesCount }} quyết định xử phạt
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Net Amount Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-primary border border-primary border-dashed card-state-primary h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-primary text-uppercase">Cân Bằng Phụ Cấp/Trừ</span>
+              <div class="symbol symbol-40px bg-primary text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-calculator fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1" [class.text-success]="summary().netAmount >= 0" [class.text-danger]="summary().netAmount < 0">
+                {{ formatCurrency(summary().netAmount) }}
+              </div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">Hiệu số Thưởng - Phạt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Decisions Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-info border border-info border-dashed card-state-info h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-info text-uppercase">Tổng Quyết Định</span>
+              <div class="symbol symbol-40px bg-info text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-journal-text fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ summary().totalDecisions }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">Hồ sơ trong hệ thống</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Summary KPI Cards-->
+
+    <!--begin::Main Card-->
+    <div class="card shadow-sm">
+      <!--begin::Card header / Filters-->
+      <div class="card-header border-0 pt-6">
+        <div class="card-title w-100 d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <!--Search Input-->
+          <div class="d-flex align-items-center position-relative my-1 min-w-250px">
+            <i class="bi bi-search position-absolute ms-4 fs-4 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid w-100 ps-12 fs-7" 
+              placeholder="Tìm kiếm nhân viên, số QĐ, tiêu đề..." 
+              [(ngModel)]="filterKeyword"
+              (keyup)="onSearchKeyup($event)"
+            />
+          </div>
+
+          <!--Filter Controls-->
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <!-- Filter Type -->
+            <select class="form-select form-select-solid fs-7 w-150px" [(ngModel)]="filterType" (change)="onFilterChange()">
+              <option value="ALL">Loại: Tất cả</option>
+              <option value="REWARD">Khen Thưởng</option>
+              <option value="DISCIPLINE">Kỷ Luật / Phạt</option>
+            </select>
+
+            <!-- Filter Category -->
+            <select class="form-select form-select-solid fs-7 w-180px" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+              <option value="ALL">Danh mục: Tất cả</option>
+              <option value="PERFORMANCE">Hiệu suất xuất sắc</option>
+              <option value="EXCELLENCE">Cá nhân xuất sắc</option>
+              <option value="INNOVATION">Sáng kiến đột phá</option>
+              <option value="LATE_VIOLATION">Vi phạm giờ giấc</option>
+              <option value="SAFETY_VIOLATION">Vi phạm an toàn</option>
+              <option value="DISCIPLINE_BREACH">Vi phạm kỷ luật</option>
+              <option value="BONUS">Thưởng đột xuất</option>
+            </select>
+
+            <!-- Filter Status -->
+            <select class="form-select form-select-solid fs-7 w-150px" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+              <option value="ALL">Trạng thái: Tất cả</option>
+              <option value="APPROVED">Đã phê duyệt</option>
+              <option value="PENDING">Chờ duyệt</option>
+              <option value="REJECTED">Từ chối</option>
+              <option value="CANCELLED">Đã hủy</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--end::Card header-->
+
+      <!--begin::Card body-->
+      <div class="card-body py-4">
+        <!--Loading Indicator-->
+        @if (isLoading()) {
+          <div class="d-flex justify-content-center align-items-center py-10">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Đang tải...</span>
+            </div>
+          </div>
+        } @else if (items().length === 0) {
+          <!--Empty State-->
+          <div class="text-center py-10">
+            <i class="bi bi-award text-gray-300 fs-3x mb-3 d-block"></i>
+            <span class="text-gray-500 fw-semibold fs-6">Chưa có quyết định khen thưởng / kỷ luật nào phù hợp.</span>
+          </div>
+        } @else {
+          <!--Table-->
+          <div class="table-responsive">
+            <table class="table align-middle table-row-dashed fs-6 gy-4">
+              <thead>
+                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                  <th class="min-w-100px">Số Quyết Định</th>
+                  <th class="min-w-180px">Nhân Viên</th>
+                  <th class="min-w-100px">Hình Thức</th>
+                  <th class="min-w-180px">Tiêu Đề & Lý Do</th>
+                  <th class="min-w-120px text-end">Số Tiền</th>
+                  <th class="min-w-110px">Ngày Ký</th>
+                  <th class="min-w-100px">Trạng Thái</th>
+                  <th class="text-end min-w-100px">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-700 fw-semibold">
+                @for (item of items(); track item.id) {
+                  <tr>
+                    <!--Decision Number-->
+                    <td>
+                      <span class="badge badge-light-secondary fw-bold text-dark font-monospace fs-7 px-2 py-1">
+                        {{ item.decisionNumber || 'QĐ-' + item.id }}
+                      </span>
+                    </td>
+
+                    <!--Employee Info-->
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="symbol symbol-35px symbol-circle me-3 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-6">
+                          {{ item.employeeName ? item.employeeName.charAt(0).toUpperCase() : 'N' }}
+                        </div>
+                        <div class="d-flex flex-column">
+                          <span class="text-gray-800 fw-bold hover-primary">{{ item.employeeName }}</span>
+                          <span class="text-gray-500 fs-7">{{ item.departmentName || item.jobTitle || 'Nhân sự' }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!--Type Badge-->
+                    <td>
+                      @if (item.type === 'REWARD') {
+                        <span class="badge badge-light-success text-success fw-bold px-3 py-2">
+                          <i class="bi bi-arrow-up-right me-1 text-success fs-7"></i> Khen Thưởng
+                        </span>
+                      } @else {
+                        <span class="badge badge-light-danger text-danger fw-bold px-3 py-2">
+                          <i class="bi bi-arrow-down-right me-1 text-danger fs-7"></i> Kỷ Luật
+                        </span>
+                      }
+                      <div class="fs-8 text-gray-500 mt-1">{{ getCategoryLabel(item.category) }}</div>
+                    </td>
+
+                    <!--Title & Reason-->
+                    <td>
+                      <span class="fw-bold text-dark d-block">{{ item.title }}</span>
+                      @if (item.reason) {
+                        <span class="text-gray-500 fs-7 text-truncate d-block max-w-250px" [title]="item.reason">
+                          {{ item.reason }}
+                        </span>
+                      }
+                    </td>
+
+                    <!--Amount-->
+                    <td class="text-end">
+                      <span class="fs-6 fw-bold" [class.text-success]="item.type === 'REWARD'" [class.text-danger]="item.type === 'DISCIPLINE'">
+                        {{ item.type === 'REWARD' ? '+' : '-' }}{{ formatCurrency(item.amount) }}
+                      </span>
+                    </td>
+
+                    <!--Date-->
+                    <td>
+                      <span class="fs-7 text-gray-700 d-block">{{ item.decisionDate }}</span>
+                      <span class="fs-8 text-gray-500">Hiệu lực: {{ item.effectiveDate }}</span>
+                    </td>
+
+                    <!--Status-->
+                    <td>
+                      @if (item.status === 'APPROVED') {
+                        <span class="badge badge-light-success fs-8 px-2 py-1">Đã phê duyệt</span>
+                      } @else if (item.status === 'PENDING') {
+                        <span class="badge badge-light-warning fs-8 px-2 py-1">Chờ duyệt</span>
+                      } @else if (item.status === 'REJECTED') {
+                        <span class="badge badge-light-danger fs-8 px-2 py-1">Từ chối</span>
+                      } @else {
+                        <span class="badge badge-light-secondary fs-8 px-2 py-1">Đã hủy</span>
+                      }
+                    </td>
+
+                    <!--Actions-->
+                    <td class="text-end position-relative">
+                      <button 
+                        type="button" 
+                        class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                        (click)="toggleDropdown(item.id, $event)"
+                      >
+                        Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                      </button>
+
+                      @if (openDropdownId() === item.id) {
+                        <div 
+                          class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-175px bg-white rounded-3 action-dropdown-menu" 
+                          (click)="$event.stopPropagation()"
+                        >
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-primary" (click)="exportPdf(item); closeDropdown()">
+                            <i class="bi bi-printer-fill text-info fs-6"></i>
+                            <span>Xem mẫu / In PDF</span>
+                          </a>
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-success" (click)="exportWord(item); closeDropdown()">
+                            <i class="bi bi-file-earmark-word-fill text-success fs-6"></i>
+                            <span>Tải File Word (.doc)</span>
+                          </a>
+                          <div class="dropdown-divider my-1"></div>
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-primary" (click)="openEditModal(item); closeDropdown()">
+                            <i class="bi bi-pencil-fill text-primary fs-6"></i>
+                            <span>Chỉnh sửa thông tin</span>
+                          </a>
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-danger hover-bg-light-danger" (click)="deleteItem(item); closeDropdown()">
+                            <i class="bi bi-trash-fill text-danger fs-6"></i>
+                            <span>Xóa quyết định</span>
+                          </a>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!--Pagination-->
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-4">
+            <div class="d-flex align-items-center gap-3">
+              <span class="fs-7 text-gray-600">
+                Hiển thị <strong>{{ items().length }}</strong> / <strong>{{ totalCount }}</strong> bản ghi (Trang {{ currentPage }}/{{ totalPages }})
+              </span>
+              <div class="d-flex align-items-center gap-2 ms-2">
+                <span class="fs-7 text-gray-500">Hiển thị:</span>
+                <select class="form-select form-select-solid fs-7 py-1 px-2 w-75px" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+                  <option [value]="10">10</option>
+                  <option [value]="20">20</option>
+                  <option [value]="50">50</option>
+                  <option [value]="100">100</option>
+                </select>
+              </div>
+            </div>
+
+            <ul class="pagination pagination-outline mb-0">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link cursor-pointer" (click)="goToPage(currentPage - 1)">
+                  <i class="bi bi-chevron-left fs-7"></i>
+                </button>
+              </li>
+              @for (p of getPageNumbers(); track p) {
+                <li class="page-item" [class.active]="p === currentPage">
+                  <button class="page-link cursor-pointer" (click)="goToPage(p)">{{ p }}</button>
+                </li>
+              }
+              <li class="page-item" [class.disabled]="currentPage >= totalPages">
+                <button class="page-link cursor-pointer" (click)="goToPage(currentPage + 1)">
+                  <i class="bi bi-chevron-right fs-7"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+      <!--end::Card body-->
+    </div>
+    <!--end::Main Card-->
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::Content-->
+
+<!--begin::Modal Form (Tạo / Sửa)-->
+@if (isModalOpen) {
+  <div class="modal fade show d-block tab-modal-backdrop" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content shadow-lg border-0">
+        <!--Modal Header-->
+        <div class="modal-header bg-light py-4">
+          <h5 class="modal-title fw-bold text-dark">
+            <i class="bi bi-award me-2 text-primary"></i>
+            {{ isEditing ? 'Chỉnh Sửa Quyết Định Khen Thưởng / Kỷ Luật' : 'Tạo Quyết Định Khen Thưởng / Kỷ Luật Mới' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+
+        <!--Modal Body-->
+        <div class="modal-body p-6">
+          <form (ngSubmit)="save()" #form="ngForm">
+            <div class="row g-4 mb-4">
+              <!--Hình Thức (Type)-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Hình Thức Quyết Định</label>
+                <div class="d-flex gap-4">
+                  <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="type" 
+                      [value]="1" 
+                      [(ngModel)]="formData.type" 
+                      (change)="onTypeChangeInForm()"
+                    />
+                    <span class="form-check-label fw-bold text-success">
+                      <i class="bi bi-trophy me-1 text-success"></i> Khen Thưởng (+)
+                    </span>
+                  </label>
+                  <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="type" 
+                      [value]="2" 
+                      [(ngModel)]="formData.type" 
+                      (change)="onTypeChangeInForm()"
+                    />
+                    <span class="form-check-label fw-bold text-danger">
+                      <i class="bi bi-exclamation-triangle me-1 text-danger"></i> Kỷ Luật / Phạt (-)
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!--Chọn Nhân Viên-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Áp Dụng Cho Nhân Viên</label>
+                <select class="form-select form-select-solid fs-7" name="employeeId" [(ngModel)]="formData.employeeId" [disabled]="isEditing">
+                  <option [value]="0">-- Chọn nhân viên --</option>
+                  @for (emp of employees(); track emp.id) {
+                    <option [value]="emp.id">{{ emp.fullName }} ({{ emp.jobTitle || 'Nhân sự' }})</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!--Danh Mục (Category)-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Danh Mục Khen Thưởng / Kỷ Luật</label>
+                <select class="form-select form-select-solid fs-7" name="category" [(ngModel)]="formData.category">
+                  @if (Number(formData.type) === 1) {
+                    <option [value]="1">Hiệu suất xuất sắc (Performance)</option>
+                    <option [value]="2">Cá nhân / Tập thể xuất sắc (Excellence)</option>
+                    <option [value]="3">Sáng kiến đột phá (Innovation)</option>
+                    <option [value]="7">Thưởng đột xuất / Lễ tết (Bonus)</option>
+                    <option [value]="99">Khác</option>
+                  } @else {
+                    <option [value]="4">Vi phạm giờ giấc làm việc (Late/Early)</option>
+                    <option [value]="5">Vi phạm quy định an toàn (Safety)</option>
+                    <option [value]="6">Vi phạm nội quy / Kỷ luật (Discipline)</option>
+                    <option [value]="99">Khác</option>
+                  }
+                </select>
+              </div>
+
+              <!--Số Quyết Định-->
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-7">Số Quyết Định</label>
+                <input 
+                  type="text" 
+                  class="form-control form-control-solid fs-7" 
+                  name="decisionNumber" 
+                  placeholder="Tự động sinh (VD: QĐ-KT-2026/0001)" 
+                  [(ngModel)]="formData.decisionNumber"
+                />
+                <div class="fs-8 text-gray-500 mt-1">Để trống để hệ thống tự động sinh số QĐ tiếp theo không trùng lặp.</div>
+              </div>
+            </div>
+
+            <!--Tiêu Đề-->
+            <div class="mb-4">
+              <label class="form-label required fw-bold fs-7">Tiêu Đề Quyết Định</label>
+              <input 
+                type="text" 
+                class="form-control form-control-solid fs-7" 
+                name="title" 
+                placeholder="VD: Thưởng hoàn thành xuất sắc dự án Quý 3" 
+                [(ngModel)]="formData.title"
+                required
+              />
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!--Số Tiền (VND)-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Số Tiền (VNĐ)</label>
+                <input 
+                  type="number" 
+                  class="form-control form-control-solid fs-7" 
+                  name="amount" 
+                  min="0" 
+                  step="50000"
+                  [(ngModel)]="formData.amount"
+                  required
+                />
+              </div>
+
+              <!--Ngày Ký Quyết Định-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Ngày Ký</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  name="decisionDate" 
+                  [(ngModel)]="formData.decisionDate"
+                  required
+                />
+              </div>
+
+              <!--Ngày Hiệu Lực-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Ngày Hiệu Lực</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  name="effectiveDate" 
+                  [(ngModel)]="formData.effectiveDate"
+                  required
+                />
+              </div>
+            </div>
+
+            <!--Lý Do / Trích Yếu Nội Dung-->
+            <div class="mb-4">
+              <label class="form-label fw-bold fs-7">Trích Yếu Nội Dung / Lý Do Quyết Định</label>
+              <textarea 
+                class="form-control form-control-solid fs-7" 
+                name="reason" 
+                rows="3" 
+                placeholder="Nhập chi tiết căn cứ khen thưởng hoặc lý do kỷ luật..." 
+                [(ngModel)]="formData.reason"
+              ></textarea>
+            </div>
+
+            <!--Modal Footer-->
+            <div class="d-flex justify-content-end gap-2 pt-4 border-top">
+              <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">Hủy Bỏ</button>
+              <button type="submit" class="btn btn-sm btn-primary" [disabled]="isSubmitting">
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                  Đang xử lý...
+                } @else {
+                  <i class="bi bi-check-lg me-1"></i> Lưu Quyết Định
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Modal Backdrop-->
+  <div class="modal-backdrop fade show"></div>
+}
+<!--end::Modal Form-->

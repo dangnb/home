@@ -419,4 +419,34 @@ CREATE TABLE IF NOT EXISTS `leave_requests` (
     CONSTRAINT `fk_leave_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Đơn xin nghỉ phép';
 
+-- -----------------------------------------------------------------------------
+-- TABLE: reward_disciplines
+-- Quản lý Quyết định Khen thưởng và Kỷ luật của Nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reward_disciplines` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL COMMENT 'FK -> employee_profiles.id',
+    `type` VARCHAR(20) NOT NULL COMMENT 'REWARD, DISCIPLINE',
+    `category` VARCHAR(50) NOT NULL COMMENT 'PERFORMANCE, EXCELLENCE, INNOVATION, LATE_VIOLATION, SAFETY_VIOLATION, DISCIPLINE_BREACH, BONUS, OTHER',
+    `title` VARCHAR(255) NOT NULL,
+    `decision_number` VARCHAR(100) DEFAULT NULL,
+    `decision_date` DATE NOT NULL,
+    `effective_date` DATE NOT NULL,
+    `amount` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `reason` TEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'APPROVED' COMMENT 'PENDING, APPROVED, REJECTED, CANCELLED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_reward_disc_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_reward_disc_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_reward_disc_tenant_type` (`tenant_id`, `type`),
+    CONSTRAINT `fk_reward_disc_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_reward_disc_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách quyết định thưởng phạt nhân sự';
+
 SET FOREIGN_KEY_CHECKS = 1;

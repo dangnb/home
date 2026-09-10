@@ -48,6 +48,11 @@ export const routes: Routes = [
             path: 'leave-requests',
             loadComponent: () => import('./pages/hrm/leave-requests/leave-requests-list.component').then(m => m.LeaveRequestsListComponent),
             title: 'Quản Lý Đơn Nghỉ Phép - HRM Platform'
+          },
+          {
+            path: 'reward-disciplines',
+            loadComponent: () => import('./pages/hrm/reward-disciplines/reward-disciplines-list.component').then(m => m.RewardDisciplinesListComponent),
+            title: 'Quản Lý Thưởng & Phạt - HRM Platform'
           }
         ]
       },

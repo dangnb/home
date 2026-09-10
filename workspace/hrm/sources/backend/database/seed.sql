@@ -89,4 +89,12 @@ ON DUPLICATE KEY UPDATE `status` = VALUES(`status`);
 INSERT IGNORE INTO `role_permissions` (`role_id`, `permission_id`, `created_at`)
 SELECT 1, id, NOW(6) FROM `permissions`;
 
+-- -----------------------------------------------------------------------------
+-- Seed dữ liệu khen thưởng & kỷ luật mẫu (Tenant ID = 1)
+-- -----------------------------------------------------------------------------
+INSERT INTO `reward_disciplines` (`id`, `tenant_id`, `employee_id`, `type`, `category`, `title`, `decision_number`, `decision_date`, `effective_date`, `amount`, `reason`, `status`, `created_at`) VALUES
+(1, 1, 1, 'REWARD', 'PERFORMANCE', 'Thưởng hoàn thành xuất sắc dự án Q3 2026', 'QĐ-KT-2026/001', '2026-09-01', '2026-09-01', 3000000.00, 'Đạt chỉ tiêu KPIs vượt 150% kế hoạch đề ra', 'APPROVED', NOW(6)),
+(2, 1, 1, 'DISCIPLINE', 'LATE_VIOLATION', 'Phạt vi phạm quy định giờ giấc làm việc', 'QĐ-KL-2026/004', '2026-09-05', '2026-09-05', 200000.00, 'Đi muộn 3 lần trong tháng 8/2026 không có lý do chính đáng', 'APPROVED', NOW(6))
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `amount` = VALUES(`amount`);
+
 SET FOREIGN_KEY_CHECKS = 1;
