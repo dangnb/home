@@ -82,6 +82,11 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-book-half',
       route: '/hrm/policies'
     },
+    {
+      title: 'Quản Lý Thiết Bị',
+      icon: 'bi-box-seam',
+      route: '/hrm/equipments'
+    },
 
     // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG

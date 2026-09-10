@@ -16,7 +16,7 @@ public class LeaveRequestsController : ControllerBase
     }
 
     /// <summary>
-    /// Lấy danh sách đơn xin nghỉ phép (Dapper Read)
+    /// Lấy danh sách đơn xin nghỉ phép/thôi việc (Dapper Read)
     /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,6 +24,9 @@ public class LeaveRequestsController : ControllerBase
         [FromQuery] long? userId,
         [FromQuery] string? status,
         [FromQuery] string? leaveType,
+        [FromQuery] string? keyword,
+        [FromQuery] string? fromDate,
+        [FromQuery] string? toDate,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -33,6 +36,9 @@ public class LeaveRequestsController : ControllerBase
             UserId = userId,
             Status = status,
             LeaveType = leaveType,
+            Keyword = keyword,
+            FromDate = fromDate,
+            ToDate = toDate,
             Page = page,
             PageSize = pageSize
         }, cancellationToken);
@@ -53,7 +59,7 @@ public class LeaveRequestsController : ControllerBase
     }
 
     /// <summary>
-    /// Tạo mới đơn xin nghỉ phép
+    /// Tạo mới đơn xin nghỉ phép / thôi việc
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -61,11 +67,11 @@ public class LeaveRequestsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateLeaveRequestCommand command, CancellationToken cancellationToken)
     {
         var id = await _sender.Send(command, cancellationToken);
-        return CreatedAtAction(nameof(Create), new { id }, new { success = true, id, message = "Đã gửi đơn xin nghỉ phép thành công." });
+        return CreatedAtAction(nameof(Create), new { id }, new { success = true, id, message = "Đã gửi đơn xin nghỉ phép/thôi việc thành công." });
     }
 
     /// <summary>
-    /// Phê duyệt hoặc từ chối đơn xin nghỉ phép
+    /// Phê duyệt hoặc từ chối đơn xin nghỉ phép/thôi việc
     /// </summary>
     [HttpPost("{id:long}/approve")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -76,13 +82,14 @@ public class LeaveRequestsController : ControllerBase
         var command = new ApproveLeaveRequestCommand
         {
             Id = id,
-            IsApproved = request.IsApproved
+            IsApproved = request.IsApproved,
+            Comment = request.Comment
         };
 
         await _sender.Send(command, cancellationToken);
         var statusStr = request.IsApproved ? "phê duyệt" : "từ chối";
-        return Ok(new { success = true, message = $"Đơn xin nghỉ phép đã được {statusStr} thành công." });
+        return Ok(new { success = true, message = $"Đơn xin nghỉ phép/thôi việc đã được {statusStr} thành công." });
     }
 }
 
-public record ApproveLeaveRequestRequest(bool IsApproved);
+public record ApproveLeaveRequestRequest(bool IsApproved, string? Comment = null);

@@ -50,6 +50,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<EmployeeJobHistory> EmployeeJobHistories => Set<EmployeeJobHistory>();
     public DbSet<HrPolicy> HrPolicies => Set<HrPolicy>();
     public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<Equipment> Equipments => Set<Equipment>();
+    public DbSet<EquipmentHistory> EquipmentHistories => Set<EquipmentHistory>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

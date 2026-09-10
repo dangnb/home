@@ -1,193 +1,564 @@
-<div class="card card-flush shadow-sm card-bordered">
-  <!--begin::Card header-->
-  <div class="card-header pt-7">
-    <div class="card-title">
-      <div class="d-flex align-items-center position-relative my-1">
-        <select class="form-select form-select-solid w-225px me-3" [(ngModel)]="filterEmployeeId" (change)="onFilterChange()">
-          <option value="">Tất cả nhân sự</option>
-          @for (emp of employees(); track emp.id) {
-            <option [value]="emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
-          }
-        </select>
-      </div>
-
-      <div class="ms-2">
-        <select class="form-select form-select-solid w-175px me-3" [(ngModel)]="filterLeaveType" (change)="onFilterChange()">
-          <option value="">Tất cả loại nghỉ</option>
-          <option [value]="1">Nghỉ phép năm</option>
-          <option [value]="2">Nghỉ ốm</option>
-          <option [value]="3">Nghỉ không lương</option>
-          <option [value]="4">Nghỉ thai sản</option>
-          <option [value]="5">Nghỉ việc hiếu/hỉ</option>
-        </select>
-      </div>
-
-      <div class="ms-2">
-        <select class="form-select form-select-solid w-150px" [(ngModel)]="filterStatus" (change)="onFilterChange()">
-          <option value="">Tất cả trạng thái</option>
-          <option [value]="1">Chờ duyệt</option>
-          <option [value]="2">Đã duyệt</option>
-          <option [value]="3">Từ chối</option>
-        </select>
-      </div>
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Quản Lý Đơn Xin Nghỉ Phép & Xin Thôi Việc</h1>
+      <span class="text-muted fs-7">Quản lý nguyện vọng nghỉ phép, đơn xin thôi việc và quy trình phê duyệt hồ sơ nghỉ việc</span>
     </div>
-
-    <div class="card-toolbar">
-      <button type="button" class="btn btn-primary" (click)="openCreateModal()">
-        <i class="bi bi-file-earmark-plus-fill fs-4 me-2"></i>Tạo Đơn Nghỉ Phép
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="btn btn-sm btn-light-danger fw-bold" (click)="openCreateModal('RESIGNATION')">
+        <i class="bi bi-person-x-fill me-1"></i>🛑 Nộp Đơn Xin Thôi Việc
+      </button>
+      <button type="button" class="btn btn-sm btn-primary fw-bold" (click)="openCreateModal('ANNUAL')">
+        <i class="bi bi-file-earmark-plus-fill me-1"></i>Tạo Đơn Xin Nghỉ Phép
       </button>
     </div>
   </div>
-  <!--end::Card header-->
 
-  <!--begin::Card body-->
-  <div class="card-body pt-0">
-    <div class="table-responsive">
-      <table class="table align-middle table-row-dashed fs-6 gy-5">
-        <thead>
-          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-            <th class="min-w-200px">Nhân sự</th>
-            <th class="min-w-125px">Loại nghỉ</th>
-            <th class="min-w-150px">Thời gian nghỉ</th>
-            <th class="min-w-100px">Tổng số ngày</th>
-            <th class="min-w-200px">Lý do</th>
-            <th class="min-w-120px">Trạng thái</th>
-            <th class="text-end min-w-150px">Xét duyệt</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-600 fw-semibold">
-          @for (req of leaveRequests(); track req.id) {
-            <tr>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="symbol symbol-40px symbol-circle me-3 bg-light-primary text-primary fw-bold d-flex align-items-center justify-content-center">
-                    {{ (req.employeeName || 'NV').substring(0, 2).toUpperCase() }}
+  <!-- Main Card Table & Filters -->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!-- Card Header -->
+    <div class="card-header border-0 pt-6 pb-0">
+      <div class="card-title w-100 me-0">
+        <!-- Main Search Bar & Filter Toggle Row -->
+        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+          <!-- Search Box -->
+          <div class="position-relative flex-grow-1" style="max-width: 480px;">
+            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid ps-10 fs-7" 
+              placeholder="Nhập tên nhân viên, lý do xin nghỉ/thôi việc..." 
+              [(ngModel)]="filterKeyword"
+              (keyup.enter)="onFilterChange()"
+            />
+            @if (filterKeyword) {
+              <button 
+                type="button" 
+                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                (click)="clearSingleFilter('keyword')"
+              >
+                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+              </button>
+            }
+          </div>
+
+          <!-- Action Buttons (Advanced Filter Toggle & Reset) -->
+          <div class="d-flex align-items-center gap-2">
+            <button 
+              type="button" 
+              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 transition-all"
+              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+              (click)="toggleAdvancedFilter()"
+            >
+              <i class="bi bi-sliders2 fs-6"></i>
+              <span>Bộ Lọc Nâng Cao</span>
+              @if (activeAdvancedFilterCount > 0) {
+                <span class="badge badge-circle badge-light-danger ms-1 px-2 fs-8 fw-bold">
+                  {{ activeAdvancedFilterCount }}
+                </span>
+              }
+            </button>
+
+            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+              <button type="button" class="btn btn-sm btn-light-danger fw-bold fs-7 py-2 px-3" (click)="resetFilters()" title="Xóa toàn bộ bộ lọc">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa bộ lọc
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filter Tags & Drawer -->
+    <div class="px-6 pt-3 pb-0">
+      <!-- Active Filter Tags / Chips -->
+      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+          @if (filterKeyword) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ khóa: "{{ filterKeyword }}"
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+            </span>
+          }
+          @if (filterLeaveType !== 'ALL') {
+            <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Loại: {{ getLeaveTypeLabel(filterLeaveType) }}
+              <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('leaveType')"></i>
+            </span>
+          }
+          @if (filterStatus !== 'ALL') {
+            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Trạng thái: {{ getStatusLabel(filterStatus) }}
+              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+            </span>
+          }
+          @if (filterFromDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ: {{ filterFromDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('fromDate')"></i>
+            </span>
+          }
+          @if (filterToDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Đến: {{ filterToDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('toDate')"></i>
+            </span>
+          }
+        </div>
+      }
+
+      <!-- Collapsible Advanced Filter Drawer Panel -->
+      @if (isAdvancedFilterOpen()) {
+        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+              <i class="bi bi-sliders text-primary fs-6"></i>
+              Tùy Chọn Lọc Nâng Cao Đơn Xin Nghỉ (Advanced Filters)
+            </div>
+            <span class="fs-8 text-muted">Lọc theo hình thức xin nghỉ / thôi việc, trạng thái và khoảng thời gian</span>
+          </div>
+
+          <div class="row g-3">
+            <!-- From Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày nghỉ</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterFromDate"
+                  (change)="onFilterChange()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- To Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày nghỉ</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterToDate"
+                  (change)="onFilterChange()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- Leave Type -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Hình thức đơn</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterLeaveType"
+                (change)="onFilterChange()"
+              >
+                <option value="ALL">-- Tất cả loại --</option>
+                <option value="ANNUAL">Nghỉ phép năm</option>
+                <option value="SICK">Nghỉ ốm đau</option>
+                <option value="UNPAID">Nghỉ không hưởng lương</option>
+                <option value="MATERNITY">Nghỉ thai sản</option>
+                <option value="RESIGNATION">🛑 Xin Thôi Việc / Nghỉ Việc</option>
+              </select>
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái duyệt</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterStatus"
+                (change)="onFilterChange()"
+              >
+                <option value="ALL">-- Tất cả trạng thái --</option>
+                <option value="PENDING">🟡 Chờ duyệt</option>
+                <option value="APPROVED">🟢 Đã phê duyệt</option>
+                <option value="REJECTED">🔴 Từ chối</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Card Body Table -->
+    <div class="card-body pt-0">
+      <div class="table-responsive" style="min-height: 340px;">
+        <table class="table align-middle table-row-dashed fs-6 gy-4">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="min-w-180px">Nhân Sự Xin Nghỉ</th>
+              <th class="min-w-160px">Hình Thức Đơn</th>
+              <th class="min-w-150px">Thời Gian Nghỉ</th>
+              <th class="min-w-100px">Số Ngày</th>
+              <th class="min-w-220px">Lý Do / Bàn Giao</th>
+              <th class="min-w-130px">Trạng Thái</th>
+              <th class="text-end min-w-140px">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 fw-semibold">
+            @for (item of items(); track item.id) {
+              <tr>
+                <!-- Employee Info -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="symbol symbol-35px symbol-circle me-3 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-6">
+                      {{ item.employeeName ? item.employeeName.charAt(0).toUpperCase() : 'N' }}
+                    </div>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-900 fw-bold hover-primary cursor-pointer" (click)="viewDetail(item)">{{ item.employeeName }}</span>
+                      <span class="text-gray-500 fs-8">{{ item.departmentName || 'Chưa phân phòng ban' }}</span>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-start flex-column">
-                    <span class="text-gray-900 fw-bold fs-6">{{ req.employeeName || 'Nhân sự' }}</span>
-                    <span class="text-muted fs-7">ID: {{ req.id | slice:0:8 }}...</span>
+                </td>
+
+                <!-- Leave Type -->
+                <td>
+                  <span class="badge px-3 py-2" [ngClass]="getLeaveTypeBadgeClass(item.leaveType)">
+                    {{ getLeaveTypeLabel(item.leaveType) }}
+                  </span>
+                </td>
+
+                <!-- Date Range -->
+                <td>
+                  <div class="d-flex flex-column fs-7">
+                    <span class="fw-bold text-gray-800">{{ item.startDate | date:'dd/MM/yyyy' }}</span>
+                    <span class="text-muted fs-8">đến {{ item.endDate | date:'dd/MM/yyyy' }}</span>
                   </div>
-                </div>
-              </td>
-              <td>
-                <span class="badge badge-light-primary fw-bold">{{ getLeaveTypeName(req.leaveType) }}</span>
-              </td>
-              <td>
-                <div class="d-flex flex-column">
-                  <span class="text-gray-800 fw-bold">{{ req.startDate | date:'dd/MM/yyyy' }}</span>
-                  <span class="text-muted fs-7">đến {{ req.endDate | date:'dd/MM/yyyy' }}</span>
-                </div>
-              </td>
-              <td>
-                <span class="badge badge-light-dark fw-bolder fs-7">{{ req.totalDays }} ngày</span>
-              </td>
-              <td>
-                <span class="text-gray-800">{{ req.reason }}</span>
-              </td>
-              <td>
-                <span class="badge" [ngClass]="getStatusBadgeClass(req.status)">{{ getStatusText(req.status) }}</span>
-              </td>
-              <td class="text-end">
-                @if (req.status === 1) {
-                  <button type="button" class="btn btn-sm btn-light-success me-2" (click)="approve(req)">
-                    <i class="bi bi-check-lg fs-5"></i> Duyệt
+                </td>
+
+                <!-- Total Days -->
+                <td>
+                  <span class="badge badge-light-dark fw-bold fs-7 px-3 py-2">
+                    {{ item.totalDays }} ngày
+                  </span>
+                </td>
+
+                <!-- Reason -->
+                <td>
+                  <div class="text-gray-800 text-truncate max-w-250px" [title]="item.reason || ''">
+                    {{ item.reason || 'Không có ghi chú' }}
+                  </div>
+                </td>
+
+                <!-- Status -->
+                <td>
+                  <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(item.status)">
+                    {{ getStatusLabel(item.status) }}
+                  </span>
+                </td>
+
+                <!-- Actions -->
+                <td class="text-end position-relative">
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                    (click)="toggleDropdown(item.id, $event)"
+                  >
+                    Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
                   </button>
-                  <button type="button" class="btn btn-sm btn-light-danger" (click)="reject(req)">
-                    <i class="bi bi-x-lg fs-5"></i> Từ chối
-                  </button>
-                } @else if (req.status === 2) {
-                  <span class="text-success fs-7 fw-bold"><i class="bi bi-check-circle-fill text-success me-1"></i>Đã phê duyệt</span>
-                } @else if (req.status === 3) {
-                  <span class="text-danger fs-7 fw-bold"><i class="bi bi-x-circle-fill text-danger me-1"></i>Đã từ chối</span>
-                }
-              </td>
-            </tr>
-          }
-          @if (leaveRequests().length === 0 && !isLoading()) {
-            <tr>
-              <td colspan="7" class="text-center py-10 text-muted">
-                <i class="bi bi-journal-check fs-2x d-block mb-2"></i>
-                Không có đơn nghỉ phép nào phù hợp
-              </td>
-            </tr>
-          }
-          @if (isLoading()) {
-            <tr>
-              <td colspan="7" class="text-center py-10 text-muted">
-                <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu từ Dart Read Service...
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+
+                  @if (openDropdownId() === item.id) {
+                    <div 
+                      class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-200px bg-white rounded-3 action-dropdown-menu"
+                      style="z-index: 105;"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="viewDetail(item); closeDropdown()">
+                        <i class="bi bi-eye-fill text-info fs-6"></i>
+                        <span>Xem Chi Tiết Đơn</span>
+                      </a>
+
+                      @if (item.status === 'PENDING') {
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openApproveModal(item, true); closeDropdown()">
+                          <i class="bi bi-check-circle-fill text-success fs-6"></i>
+                          <span>Duyệt {{ item.leaveType === 'RESIGNATION' ? 'Thôi Việc' : 'Đơn Nghỉ' }}</span>
+                        </a>
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-danger hover-bg-light-danger" (click)="openApproveModal(item, false); closeDropdown()">
+                          <i class="bi bi-x-circle-fill text-danger fs-6"></i>
+                          <span>Từ Chối Duyệt</span>
+                        </a>
+                      }
+                    </div>
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (items().length === 0 && !isLoading()) {
+              <tr>
+                <td colspan="7" class="text-center py-10 text-muted">
+                  <i class="bi bi-journal-x fs-2x d-block mb-2"></i>
+                  Chưa có đơn xin nghỉ phép / thôi việc nào phù hợp
+                </td>
+              </tr>
+            }
+
+            @if (isLoading()) {
+              <tr>
+                <td colspan="7" class="text-center py-10 text-muted">
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu từ máy chủ...
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Component -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        [itemCount]="items().length"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="currentPage = $event; loadItems()"
+        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+      ></app-pagination>
     </div>
   </div>
-  <!--end::Card body-->
 </div>
 
-<!--begin::Modal Tạo đơn nghỉ phép-->
+<!-- Modal Tạo Mới Đơn Xin Nghỉ / Xin Thôi Việc -->
 @if (isCreateModalOpen) {
   <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered mw-650px">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="fw-bold">Tạo Đơn Xin Nghỉ Phép Mới</h2>
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4" [class.bg-light-danger]="formData.leaveType === 'RESIGNATION'" [class.bg-light-primary]="formData.leaveType !== 'RESIGNATION'">
+          <h2 class="fw-bold fs-4 mb-0 d-flex align-items-center gap-2">
+            @if (formData.leaveType === 'RESIGNATION') {
+              <i class="bi bi-person-x-fill text-danger fs-3"></i>
+              <span class="text-danger">Tạo Đơn Xin Thôi Việc / Chấm Dứt Hợp Đồng</span>
+            } @else {
+              <i class="bi bi-file-earmark-plus-fill text-primary fs-3"></i>
+              <span>Tạo Đơn Xin Nghỉ Phép Mới</span>
+            }
+          </h2>
           <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeCreateModal()">
-            <i class="bi bi-x-lg fs-4"></i>
+            <i class="bi bi-x-lg fs-5"></i>
           </button>
         </div>
 
-        <div class="modal-body py-8 px-lg-12">
-          <div class="mb-5">
-            <label class="required fs-6 fw-semibold mb-2">Nhân sự xin nghỉ:</label>
-            <select class="form-select form-select-solid" [(ngModel)]="formData.employeeId">
+        <div class="modal-body py-6 px-lg-8">
+          <!-- Target Employee -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Nhân sự xin nghỉ / thôi việc</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="formData.targetUserId">
               @for (emp of employees(); track emp.id) {
-                <option [value]="emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
+                <option [value]="emp.userId || emp.id">{{ emp.fullName }} ({{ emp.employeeCode || 'ID:' + emp.id }}) - {{ emp.departmentName || 'Phòng ban' }}</option>
               }
             </select>
           </div>
 
-          <div class="mb-5">
-            <label class="required fs-6 fw-semibold mb-2">Loại nghỉ phép:</label>
-            <select class="form-select form-select-solid" [(ngModel)]="formData.leaveType">
-              <option [value]="1">Nghỉ phép năm (Annual Leave)</option>
-              <option [value]="2">Nghỉ ốm đau (Sick Leave)</option>
-              <option [value]="3">Nghỉ không hưởng lương (Unpaid)</option>
-              <option [value]="4">Nghỉ thai sản (Maternity)</option>
-              <option [value]="5">Nghỉ việc riêng có hưởng lương (Hiếu/Hỉ)</option>
+          <!-- Leave Type Select -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Hình thức đơn</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="formData.leaveType">
+              <option value="ANNUAL">🌴 Nghỉ phép năm (Annual Leave)</option>
+              <option value="SICK">💊 Nghỉ ốm đau (Sick Leave)</option>
+              <option value="UNPAID">🏖️ Nghỉ không hưởng lương (Unpaid Leave)</option>
+              <option value="MATERNITY">👶 Nghỉ thai sản (Maternity Leave)</option>
+              <option value="RESIGNATION">🛑 Xin Thôi Việc / Nghỉ Việc Official (Resignation)</option>
             </select>
           </div>
 
-          <div class="row g-5 mb-5">
-            <div class="col-md-6">
-              <label class="required fs-6 fw-semibold mb-2">Từ ngày:</label>
-              <input type="date" class="form-control form-control-solid" [(ngModel)]="formData.startDate" />
+          <!-- Dates -->
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">
+                {{ formData.leaveType === 'RESIGNATION' ? 'Ngày bắt đầu thôi việc' : 'Từ ngày' }}
+              </label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="formData.startDate" />
             </div>
-            <div class="col-md-6">
-              <label class="required fs-6 fw-semibold mb-2">Đến ngày:</label>
-              <input type="date" class="form-control form-control-solid" [(ngModel)]="formData.endDate" />
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">
+                {{ formData.leaveType === 'RESIGNATION' ? 'Ngày làm việc cuối cùng' : 'Đến ngày' }}
+              </label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="formData.endDate" />
             </div>
           </div>
 
-          <div class="mb-5">
-            <label class="required fs-6 fw-semibold mb-2">Lý do xin nghỉ:</label>
+          <!-- Reason & Handover -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">
+              {{ formData.leaveType === 'RESIGNATION' ? 'Lý do thôi việc & Kế hoạch bàn giao công việc' : 'Lý do xin nghỉ phép' }}
+            </label>
             <textarea 
-              class="form-control form-control-solid" 
-              rows="3" 
-              placeholder="Ghi rõ lý do xin nghỉ và bàn giao công việc nếu có..."
+              class="form-control form-control-solid fs-7" 
+              rows="4" 
+              [placeholder]="formData.leaveType === 'RESIGNATION' ? 'Ghi rõ lý do nguyện vọng cá nhân, kế hoạch bàn giao tài sản và công việc dở dang...' : 'Ghi rõ lý do xin nghỉ...'"
               [(ngModel)]="formData.reason"
             ></textarea>
           </div>
+
+          @if (formData.leaveType === 'RESIGNATION') {
+            <div class="alert alert-warning d-flex align-items-center p-3 rounded-3 mb-0">
+              <i class="bi bi-exclamation-triangle-fill text-warning fs-4 me-3"></i>
+              <div class="fs-8 text-dark">
+                <strong>Lưu ý quy trình thôi việc:</strong> Khi Đơn Xin Thôi Việc được Ban Giám Đốc phê duyệt chính thức, hệ thống sẽ tự động chuyển trạng thái hồ sơ nhân sự sang <strong>Đã thôi việc (INACTIVE)</strong>.
+              </div>
+            </div>
+          }
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" (click)="closeCreateModal()">Hủy bỏ</button>
-          <button type="button" class="btn btn-primary" [disabled]="isSubmitting" (click)="submitLeaveRequest()">
-            <span class="indicator-label">{{ isSubmitting ? 'Đang gửi...' : 'Gửi Đơn Xin Nghỉ' }}</span>
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeCreateModal()">Hủy bỏ</button>
+          <button 
+            type="button" 
+            class="btn btn-sm fw-bold" 
+            [class.btn-danger]="formData.leaveType === 'RESIGNATION'"
+            [class.btn-primary]="formData.leaveType !== 'RESIGNATION'"
+            [disabled]="isSubmitting" 
+            (click)="submitCreate()"
+          >
+            @if (isSubmitting) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang gửi...
+            } @else {
+              <i class="bi bi-send-fill me-1"></i> Gửi Trình Duyệt
+            }
           </button>
         </div>
       </div>
     </div>
   </div>
 }
-<!--end::Modal-->
+
+<!-- Modal Xét Duyệt Đơn -->
+@if (isApproveModalOpen && selectedRequest) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-550px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4" [class.bg-light-success]="approveIsApproved" [class.bg-light-danger]="!approveIsApproved">
+          <h2 class="fw-bold fs-4 mb-0 d-flex align-items-center gap-2">
+            @if (approveIsApproved) {
+              <i class="bi bi-check-circle-fill text-success fs-3"></i>
+              <span class="text-success">Phê Duyệt {{ selectedRequest.leaveType === 'RESIGNATION' ? 'Thôi Việc' : 'Đơn Nghỉ Phép' }}</span>
+            } @else {
+              <i class="bi bi-x-circle-fill text-danger fs-3"></i>
+              <span class="text-danger">Từ Chối Duyệt Đơn</span>
+            }
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeApproveModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-3 rounded-3 bg-light mb-4 border border-gray-200">
+            <div class="fw-bold text-dark fs-6 mb-1">{{ selectedRequest.employeeName }}</div>
+            <div class="d-flex align-items-center gap-2 fs-7 text-muted">
+              <span>{{ getLeaveTypeLabel(selectedRequest.leaveType) }}</span>
+              <span>•</span>
+              <span>{{ selectedRequest.startDate | date:'dd/MM/yyyy' }} - {{ selectedRequest.endDate | date:'dd/MM/yyyy' }} ({{ selectedRequest.totalDays }} ngày)</span>
+            </div>
+            <div class="fs-8 text-gray-700 mt-2 p-2 bg-white rounded border">
+              <strong>Lý do:</strong> {{ selectedRequest.reason || 'Không có ghi chú' }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ý kiến xét duyệt / Ghi chú</label>
+            <textarea 
+              class="form-control form-control-solid fs-7" 
+              rows="3" 
+              placeholder="Nhập ghi chú ý kiến phê duyệt hoặc lý do từ chối..."
+              [(ngModel)]="approveComment"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeApproveModal()">Hủy</button>
+          <button 
+            type="button" 
+            class="btn btn-sm fw-bold" 
+            [class.btn-success]="approveIsApproved"
+            [class.btn-danger]="!approveIsApproved"
+            [disabled]="isApproving" 
+            (click)="submitApprove()"
+          >
+            @if (isApproving) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang xử lý...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i> Xác Nhận {{ approveIsApproved ? 'Phê Duyệt' : 'Từ Chối' }}
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Xem Chi Tiết -->
+@if (isViewModalOpen && selectedRequestForView) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-4 mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-file-earmark-text text-primary fs-3"></i>
+            Chi Tiết {{ selectedRequestForView.leaveType === 'RESIGNATION' ? 'Đơn Xin Thôi Việc' : 'Đơn Xin Nghỉ Phép' }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeViewModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="d-flex align-items-center justify-content-between p-4 rounded-3 bg-light-primary border border-primary border-dashed mb-4">
+            <div>
+              <div class="fw-bold text-gray-900 fs-5 mb-1">{{ selectedRequestForView.employeeName }}</div>
+              <div class="fs-7 text-muted">{{ selectedRequestForView.departmentName || 'Phòng ban' }}</div>
+            </div>
+            <span class="badge px-3 py-2" [ngClass]="getLeaveTypeBadgeClass(selectedRequestForView.leaveType)">
+              {{ getLeaveTypeLabel(selectedRequestForView.leaveType) }}
+            </span>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-6">
+              <div class="p-3 bg-light rounded-3">
+                <span class="fs-8 text-muted d-block fw-semibold mb-1">Thời gian bắt đầu</span>
+                <span class="fs-7 fw-bold text-gray-800">{{ selectedRequestForView.startDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 bg-light rounded-3">
+                <span class="fs-8 text-muted d-block fw-semibold mb-1">Thời gian kết thúc</span>
+                <span class="fs-7 fw-bold text-gray-800">{{ selectedRequestForView.endDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="fs-8 text-muted d-block fw-semibold mb-1">Tổng số ngày áp dụng</label>
+            <span class="badge badge-light-dark fs-7 px-3 py-2 fw-bold">{{ selectedRequestForView.totalDays }} ngày</span>
+          </div>
+
+          <div class="mb-4">
+            <label class="fs-8 text-muted d-block fw-semibold mb-1">Nội dung lý do & Bàn giao</label>
+            <div class="p-3 bg-light rounded-3 fs-7 text-gray-800 border">
+              {{ selectedRequestForView.reason || 'Không có nội dung' }}
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+            <span class="fs-8 text-muted">Trạng thái phê duyệt:</span>
+            <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(selectedRequestForView.status)">
+              {{ getStatusLabel(selectedRequestForView.status) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -29,6 +29,8 @@ public interface IApplicationDbContext
     DbSet<EmployeeJobHistory> EmployeeJobHistories { get; }
     DbSet<HrPolicy> HrPolicies { get; }
     DbSet<Notification> Notifications { get; }
+    DbSet<Equipment> Equipments { get; }
+    DbSet<EquipmentHistory> EquipmentHistories { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

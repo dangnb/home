@@ -12,6 +12,7 @@ namespace HrmPlatform.Application.Features.Employees.Queries;
 public class EmployeeLookupDto
 {
     public long Id { get; set; }
+    public long UserId { get; set; }
     public string FullName { get; set; } = string.Empty;
     public string? EmployeeCode { get; set; }
     public long? DepartmentId { get; set; }
@@ -66,6 +67,7 @@ public class GetEmployeeLookupQueryHandler : IRequestHandler<GetEmployeeLookupQu
         var sql = $@"
             SELECT 
                 ep.id AS Id, 
+                ep.user_id AS UserId,
                 u.full_name AS FullName, 
                 u.username AS EmployeeCode, 
                 ep.department_id AS DepartmentId, 
