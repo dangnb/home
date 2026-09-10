@@ -6,6 +6,13 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- -----------------------------------------------------------------------------
+-- Default Tenant Seed
+-- -----------------------------------------------------------------------------
+INSERT INTO `tenants` (`id`, `code`, `name`, `email`, `phone`, `status`, `created_at`) VALUES
+(1, 'DEFAULT', 'Default Tenant', 'admin@default.local', '0900000001', 'ACTIVE', NOW(6))
+ON DUPLICATE KEY UPDATE `code` = VALUES(`code`);
+
+-- -----------------------------------------------------------------------------
 -- Permissions Seed
 -- -----------------------------------------------------------------------------
 INSERT INTO `permissions` (`id`, `module`, `code`, `name`, `description`, `status`, `created_at`) VALUES
