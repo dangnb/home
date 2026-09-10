@@ -78,6 +78,12 @@ public class EquipmentRepairConfiguration : IEntityTypeConfiguration<EquipmentRe
         builder.Property(e => e.Note)
             .HasColumnName("note");
 
+        builder.Property(e => e.Status)
+            .HasColumnName("status_entity")
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
         builder.Property(e => e.CreatedAt)
             .HasColumnName("created_at")
             .IsRequired();
