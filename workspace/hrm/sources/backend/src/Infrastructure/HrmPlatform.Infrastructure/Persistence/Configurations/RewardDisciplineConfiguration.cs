@@ -24,6 +24,9 @@ public class RewardDisciplineConfiguration : IEntityTypeConfiguration<RewardDisc
         builder.Property(r => r.Reason).HasColumnName("reason");
         builder.Property(r => r.AttachmentUrl).HasColumnName("attachment_url").HasMaxLength(500);
         builder.Property(r => r.Status).HasColumnName("status").HasConversion<string>().HasMaxLength(20).IsRequired();
+        builder.Property(r => r.ApproverId).HasColumnName("approver_id");
+        builder.Property(r => r.ApprovedAt).HasColumnName("approved_at").HasPrecision(6);
+        builder.Property(r => r.RejectionReason).HasColumnName("rejection_reason").HasMaxLength(500);
         builder.Property(r => r.CreatedAt).HasColumnName("created_at").HasPrecision(6);
         builder.Property(r => r.CreatedBy).HasColumnName("created_by");
         builder.Property(r => r.UpdatedAt).HasColumnName("updated_at").HasPrecision(6);
@@ -43,5 +46,10 @@ public class RewardDisciplineConfiguration : IEntityTypeConfiguration<RewardDisc
             .WithMany()
             .HasForeignKey(r => r.EmployeeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(r => r.Approver)
+            .WithMany()
+            .HasForeignKey(r => r.ApproverId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

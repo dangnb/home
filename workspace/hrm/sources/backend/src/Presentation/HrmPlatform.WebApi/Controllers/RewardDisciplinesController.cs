@@ -103,6 +103,30 @@ public class RewardDisciplinesController : ControllerBase
     }
 
     /// <summary>
+    /// Phê duyệt quyết định Thưởng / Kỷ luật
+    /// </summary>
+    [HttpPost("{id:long}/approve")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Approve(long id, CancellationToken cancellationToken = default)
+    {
+        await _sender.Send(new ApproveRewardDisciplineCommand { Id = id }, cancellationToken);
+        return Ok(new { success = true, message = "Đã phê duyệt quyết định Thưởng/Kỷ luật thành công!" });
+    }
+
+    /// <summary>
+    /// Từ chối quyết định Thưởng / Kỷ luật
+    /// </summary>
+    [HttpPost("{id:long}/reject")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Reject(long id, [FromBody] RejectRewardDisciplineRequest request, CancellationToken cancellationToken = default)
+    {
+        await _sender.Send(new RejectRewardDisciplineCommand { Id = id, Reason = request.Reason }, cancellationToken);
+        return Ok(new { success = true, message = "Đã từ chối quyết định Thưởng/Kỷ luật thành công." });
+    }
+
+    /// <summary>
     /// Xóa quyết định thưởng/phạt
     /// </summary>
     [HttpDelete("{id:long}")]
@@ -139,4 +163,9 @@ public class RewardDisciplinesController : ControllerBase
         var fileName = $"{dto.DecisionNumber ?? $"Quyết_định_{dto.Id}"}.doc".Replace('/', '_');
         return File(bytes, "application/msword", fileName);
     }
+}
+
+public class RejectRewardDisciplineRequest
+{
+    public string Reason { get; set; } = string.Empty;
 }

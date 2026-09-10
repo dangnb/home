@@ -50,6 +50,17 @@ export class RewardDisciplinesListComponent implements OnInit {
   editingId: number | null = null;
   isSubmitting = false;
 
+  // Approve Modal State
+  isApproveModalOpen = false;
+  selectedForApprove: RewardDiscipline | null = null;
+  isApproving = false;
+
+  // Reject Modal State
+  isRejectModalOpen = false;
+  selectedForReject: RewardDiscipline | null = null;
+  rejectReason = '';
+  isRejecting = false;
+
   formData = {
     employeeId: 0,
     type: 1, // 1 = REWARD, 2 = DISCIPLINE
@@ -61,7 +72,7 @@ export class RewardDisciplinesListComponent implements OnInit {
     amount: 0,
     reason: '',
     attachmentUrl: '',
-    status: 2 // 2 = APPROVED
+    status: 1 // 1 = PENDING (Chờ duyệt)
   };
 
   ngOnInit() {
@@ -169,7 +180,7 @@ export class RewardDisciplinesListComponent implements OnInit {
       amount: 1000000,
       reason: '',
       attachmentUrl: '',
-      status: 2
+      status: 1 // 1 = PENDING (Chờ duyệt)
     };
     this.isModalOpen = true;
   }
@@ -290,6 +301,75 @@ export class RewardDisciplinesListComponent implements OnInit {
         this.loadItems();
       },
       error: () => {}
+    });
+  }
+
+  // Approval Actions
+  openApproveModal(item: RewardDiscipline) {
+    this.selectedForApprove = item;
+    this.isApproveModalOpen = true;
+  }
+
+  closeApproveModal() {
+    this.isApproveModalOpen = false;
+    this.selectedForApprove = null;
+  }
+
+  confirmApprove() {
+    if (!this.selectedForApprove) return;
+
+    this.isApproving = true;
+    const typeLabel = this.selectedForApprove.type === 'REWARD' ? 'Khen Thưởng' : 'Kỷ Luật';
+
+    this.rewardService.approve(this.selectedForApprove.id).subscribe({
+      next: () => {
+        this.toastService.success('Thành công', `Đã phê duyệt Quyết định ${typeLabel} "${this.selectedForApprove?.title}"!`);
+        this.isApproving = false;
+        this.closeApproveModal();
+        this.loadSummary();
+        this.loadItems();
+      },
+      error: (err) => {
+        this.isApproving = false;
+        const msg = err.error?.message || 'Không thể phê duyệt quyết định.';
+        this.toastService.error('Lỗi', msg);
+      }
+    });
+  }
+
+  openRejectModal(item: RewardDiscipline) {
+    this.selectedForReject = item;
+    this.rejectReason = '';
+    this.isRejectModalOpen = true;
+  }
+
+  closeRejectModal() {
+    this.isRejectModalOpen = false;
+    this.selectedForReject = null;
+    this.rejectReason = '';
+  }
+
+  confirmReject() {
+    if (!this.selectedForReject) return;
+    if (!this.rejectReason.trim()) {
+      this.toastService.warning('Cảnh báo', 'Vui lòng nhập lý do từ chối.');
+      return;
+    }
+
+    this.isRejecting = true;
+    this.rewardService.reject(this.selectedForReject.id, this.rejectReason.trim()).subscribe({
+      next: () => {
+        this.toastService.success('Thành công', `Đã từ chối Quyết định "${this.selectedForReject?.title}".`);
+        this.isRejecting = false;
+        this.closeRejectModal();
+        this.loadSummary();
+        this.loadItems();
+      },
+      error: (err) => {
+        this.isRejecting = false;
+        const msg = err.error?.message || 'Không thể từ chối quyết định.';
+        this.toastService.error('Lỗi', msg);
+      }
     });
   }
 

@@ -145,6 +145,23 @@ public static class DatabaseInitializer
                         }
                         catch { /* Column already exists */ }
                     }
+
+                    string[] rdCols = new[]
+                    {
+                        "ALTER TABLE `reward_disciplines` ADD COLUMN `approver_id` BIGINT DEFAULT NULL;",
+                        "ALTER TABLE `reward_disciplines` ADD COLUMN `approved_at` DATETIME(6) DEFAULT NULL;",
+                        "ALTER TABLE `reward_disciplines` ADD COLUMN `rejection_reason` VARCHAR(500) DEFAULT NULL;"
+                    };
+
+                    foreach (var sql in rdCols)
+                    {
+                        try
+                        {
+                            using var rdCmd = new MySqlCommand(sql, dbConn);
+                            await rdCmd.ExecuteNonQueryAsync();
+                        }
+                        catch { /* Column already exists */ }
+                    }
                 }
 
                 if (File.Exists(seedPath))

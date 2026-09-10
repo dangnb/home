@@ -28,6 +28,10 @@ public class RewardDisciplineDto
     public string? Reason { get; set; }
     public string? AttachmentUrl { get; set; }
     public string Status { get; set; } = string.Empty;
+    public long? ApproverId { get; set; }
+    public string? ApproverName { get; set; }
+    public DateTime? ApprovedAt { get; set; }
+    public string? RejectionReason { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 
@@ -131,11 +135,16 @@ public class GetRewardDisciplinesQueryHandler : IRequestHandler<GetRewardDiscipl
                 rd.reason AS Reason,
                 rd.attachment_url AS AttachmentUrl,
                 rd.status AS Status,
+                rd.approver_id AS ApproverId,
+                u_app.full_name AS ApproverName,
+                rd.approved_at AS ApprovedAt,
+                rd.rejection_reason AS RejectionReason,
                 rd.created_at AS CreatedAt
             FROM reward_disciplines rd
             INNER JOIN employee_profiles ep ON rd.employee_id = ep.id
             INNER JOIN users u ON ep.user_id = u.id
             LEFT JOIN departments d ON ep.department_id = d.id
+            LEFT JOIN users u_app ON rd.approver_id = u_app.id
             {whereClause}
             ORDER BY rd.id DESC";
 

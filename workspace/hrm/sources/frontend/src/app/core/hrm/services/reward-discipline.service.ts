@@ -20,6 +20,10 @@ export interface RewardDiscipline {
   reason?: string;
   attachmentUrl?: string;
   status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+  approverId?: number;
+  approverName?: string;
+  approvedAt?: string;
+  rejectionReason?: string;
   createdAt: string;
 }
 
@@ -108,6 +112,14 @@ export class RewardDisciplineService {
 
   update(id: number, dto: UpdateRewardDisciplineDto): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, dto);
+  }
+
+  approve(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/approve`, {});
+  }
+
+  reject(id: number, reason: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/reject`, { reason });
   }
 
   delete(id: number): Observable<any> {

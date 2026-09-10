@@ -24,7 +24,7 @@ public class CreateRewardDisciplineCommand : IRequest<long>
     public decimal Amount { get; set; }
     public string? Reason { get; set; }
     public string? AttachmentUrl { get; set; }
-    public RewardDisciplineStatus Status { get; set; } = RewardDisciplineStatus.APPROVED;
+    public RewardDisciplineStatus Status { get; set; } = RewardDisciplineStatus.PENDING;
 }
 
 public class CreateRewardDisciplineCommandHandler : IRequestHandler<CreateRewardDisciplineCommand, long>

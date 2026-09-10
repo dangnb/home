@@ -23,9 +23,14 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     public string? Reason { get; private set; }
     public string? AttachmentUrl { get; private set; }
 
+    public long? ApproverId { get; private set; }
+    public DateTime? ApprovedAt { get; private set; }
+    public string? RejectionReason { get; private set; }
+
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
     public virtual EmployeeProfile Employee { get; private set; } = null!;
+    public virtual User? Approver { get; private set; }
     #endregion
 
     protected RewardDiscipline()
@@ -114,9 +119,38 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     /// <summary>
     /// Phê duyệt quyết định
     /// </summary>
-    public void Approve()
+    public void Approve(long approverId)
     {
+        if (approverId <= 0)
+            throw new DomainException("Mã người phê duyệt không hợp lệ.");
+
+        if (Status == RewardDisciplineStatus.CANCELLED)
+            throw new DomainException("Không thể phê duyệt quyết định đã bị hủy.");
+
         Status = RewardDisciplineStatus.APPROVED;
+        ApproverId = approverId;
+        ApprovedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Từ chối quyết định
+    /// </summary>
+    public void Reject(long approverId, string reason)
+    {
+        if (approverId <= 0)
+            throw new DomainException("Mã người từ chối không hợp lệ.");
+
+        if (string.IsNullOrWhiteSpace(reason))
+            throw new DomainException("Vui lòng nhập lý do từ chối quyết định.");
+
+        if (Status == RewardDisciplineStatus.APPROVED || Status == RewardDisciplineStatus.CANCELLED)
+            throw new DomainException($"Không thể từ chối quyết định ở trạng thái '{Status}'.");
+
+        Status = RewardDisciplineStatus.REJECTED;
+        ApproverId = approverId;
+        RejectionReason = reason.Trim();
+        ApprovedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -125,6 +159,9 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     /// </summary>
     public void Cancel()
     {
+        if (Status == RewardDisciplineStatus.APPROVED)
+            throw new DomainException("Không thể hủy quyết định đã phê duyệt.");
+
         Status = RewardDisciplineStatus.CANCELLED;
         UpdatedAt = DateTime.UtcNow;
     }
