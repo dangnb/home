@@ -1,0 +1,902 @@
+<!--begin::Content-->
+<div class="d-flex flex-column flex-column-fluid">
+  <!--begin::Toolbar-->
+  <div class="app-toolbar py-3 py-lg-6">
+    <div class="app-container container-fluid d-flex flex-stack">
+      <!--begin::Page title-->
+      <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+        <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+          Quản Lý Khen Thưởng & Kỷ Luật
+        </h1>
+        <!--begin::Breadcrumb-->
+        <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+          <li class="breadcrumb-item text-muted">
+            <a routerLink="/hrm/dashboard" class="text-muted text-hover-primary">Trang chủ</a>
+          </li>
+          <li class="breadcrumb-item">
+            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+          </li>
+          <li class="breadcrumb-item text-muted">Quản Trị Nhân Sự</li>
+          <li class="breadcrumb-item">
+            <span class="bullet bg-gray-400 w-5px h-2px"></span>
+          </li>
+          <li class="breadcrumb-item text-dark">Khen Thưởng & Kỷ Luật</li>
+        </ul>
+        <!--end::Breadcrumb-->
+      </div>
+      <!--end::Page title-->
+
+      <!--begin::Actions-->
+      <div class="d-flex align-items-center gap-2 gap-lg-3">
+        <button type="button" class="btn btn-sm btn-primary" (click)="openCreateModal()">
+          <i class="bi bi-plus-lg me-1"></i> Tạo Quyết Định Mới
+        </button>
+      </div>
+      <!--end::Actions-->
+    </div>
+  </div>
+  <!--end::Toolbar-->
+
+  <!--begin::Container-->
+  <div class="app-container container-fluid">
+    <!--begin::Summary KPI Cards-->
+    <div class="row g-5 g-xl-8 mb-5">
+      <!-- Total Reward Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-success border border-success border-dashed card-state-success h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-success text-uppercase">Khen Thưởng</span>
+              <div class="symbol symbol-40px bg-success text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-trophy-fill fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ formatCurrency(summary().totalRewardAmount) }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">
+                {{ summary().totalRewardsCount }} quyết định khen thưởng
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Penalty Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-danger border border-danger border-dashed card-state-danger h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-danger text-uppercase">Kỷ Luật & Phạt</span>
+              <div class="symbol symbol-40px bg-danger text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-exclamation-octagon-fill fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ formatCurrency(summary().totalDisciplineAmount) }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">
+                {{ summary().totalDisciplinesCount }} quyết định xử phạt
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Net Amount Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-primary border border-primary border-dashed card-state-primary h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-primary text-uppercase">Cân Bằng Phụ Cấp/Trừ</span>
+              <div class="symbol symbol-40px bg-primary text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-calculator fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1" [class.text-success]="summary().netAmount >= 0" [class.text-danger]="summary().netAmount < 0">
+                {{ formatCurrency(summary().netAmount) }}
+              </div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">Hiệu số Thưởng - Phạt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Decisions Card -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-light-info border border-info border-dashed card-state-info h-100">
+          <div class="card-body p-5 d-flex flex-column justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fs-7 fw-bold text-info text-uppercase">Tổng Quyết Định</span>
+              <div class="symbol symbol-40px bg-info text-white d-flex align-items-center justify-content-center rounded-circle">
+                <i class="bi bi-journal-text fs-4 text-white"></i>
+              </div>
+            </div>
+            <div>
+              <div class="fs-2hx fw-bold text-dark me-2 lh-1">{{ summary().totalDecisions }}</div>
+              <span class="text-gray-600 fw-semibold fs-7 mt-1 d-block">Hồ sơ trong hệ thống</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Summary KPI Cards-->
+
+    <!--begin::Main Card-->
+    <div class="card shadow-sm">
+      <!--begin::Card header / Filters-->
+      <div class="card-header border-0 pt-6 pb-0">
+        <div class="card-title w-100 me-0">
+          <!-- Main Search Bar & Filter Toggle Row -->
+          <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+            <!-- Search Box -->
+            <div class="position-relative flex-grow-1" style="max-width: 480px;">
+              <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-solid ps-10 fs-7" 
+                placeholder="Nhập tên nhân viên, số QĐ, tiêu đề..." 
+                [(ngModel)]="filterKeyword"
+                (keyup)="onSearchKeyup($event)"
+              />
+              @if (filterKeyword) {
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                  (click)="clearSingleFilter('keyword')"
+                >
+                  <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+                </button>
+              }
+            </div>
+
+            <!-- Action Buttons (Advanced Filter Toggle & Reset) -->
+            <div class="d-flex align-items-center gap-2">
+              <button 
+                type="button" 
+                class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
+                [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+                [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+                (click)="toggleAdvancedFilter()"
+              >
+                <i class="bi bi-sliders2 fs-6"></i>
+                <span>Bộ Lọc Nâng Cao</span>
+                @if (activeAdvancedFilterCount > 0) {
+                  <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
+                    {{ activeAdvancedFilterCount }}
+                  </span>
+                }
+              </button>
+
+              @if (filterKeyword || activeAdvancedFilterCount > 0) {
+                <button 
+                  type="button" 
+                  class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                  (click)="resetFilters()" 
+                  title="Xóa toàn bộ bộ lọc"
+                >
+                  <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                  <span>Xóa bộ lọc</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end::Card header-->
+
+      <!-- Active Filter Tags & Drawer (placed directly under card header to avoid header clipping) -->
+      <div class="px-6 pt-3 pb-0">
+        <!-- Active Filter Tags / Chips -->
+        @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+          <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+            <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+            @if (filterKeyword) {
+              <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ khóa: "{{ filterKeyword }}"
+                <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+              </span>
+            }
+            @if (filterType !== 'ALL') {
+              <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Loại: {{ filterType === 'REWARD' ? '🏆 Khen Thưởng' : '⚠️ Kỷ Luật' }}
+                <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('type')"></i>
+              </span>
+            }
+            @if (filterCategory !== 'ALL') {
+              <span class="badge badge-light-secondary border border-secondary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Danh mục: {{ getCategoryLabel(filterCategory) }}
+                <i class="bi bi-x-lg cursor-pointer text-secondary" (click)="clearSingleFilter('category')"></i>
+              </span>
+            }
+            @if (filterStatus !== 'ALL') {
+              <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Trạng thái: {{ getStatusLabel(filterStatus) }}
+                <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+              </span>
+            }
+            @if (filterFromDate) {
+              <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ: {{ filterFromDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('fromDate')"></i>
+              </span>
+            }
+            @if (filterToDate) {
+              <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Đến: {{ filterToDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('toDate')"></i>
+              </span>
+            }
+          </div>
+        }
+
+        <!-- Collapsible Advanced Filter Drawer Panel -->
+        @if (isAdvancedFilterOpen()) {
+          <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+            <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+              <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+                <i class="bi bi-sliders text-primary fs-6"></i>
+                Tùy Chọn Lọc Nâng Cao Quyết Định (Advanced Filters)
+              </div>
+              <span class="fs-8 text-muted">Lọc theo loại khen thưởng/kỷ luật, danh mục và khoảng thời gian</span>
+            </div>
+
+            <div class="row g-3">
+              <!-- From Date -->
+              <div class="col-md-3 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày quyết định</label>
+                <div class="position-relative">
+                  <input 
+                    type="date" 
+                    class="form-control form-control-solid fs-7 ps-9" 
+                    [(ngModel)]="filterFromDate"
+                    (change)="onFilterChange()"
+                  />
+                  <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                </div>
+              </div>
+
+              <!-- To Date -->
+              <div class="col-md-3 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày quyết định</label>
+                <div class="position-relative">
+                  <input 
+                    type="date" 
+                    class="form-control form-control-solid fs-7 ps-9" 
+                    [(ngModel)]="filterToDate"
+                    (change)="onFilterChange()"
+                  />
+                  <i class="bi bi-calendar-check position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                </div>
+              </div>
+
+              <!-- Filter Type -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Loại quyết định</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterType" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả loại</option>
+                  <option value="REWARD">🏆 Khen Thưởng</option>
+                  <option value="DISCIPLINE">⚠️ Kỷ Luật / Phạt</option>
+                </select>
+              </div>
+
+              <!-- Filter Category -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Danh mục áp dụng</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả danh mục</option>
+                  <option value="PERFORMANCE">Hiệu suất xuất sắc</option>
+                  <option value="EXCELLENCE">Cá nhân xuất sắc</option>
+                  <option value="INNOVATION">Sáng kiến đột phá</option>
+                  <option value="LATE_VIOLATION">Vi phạm giờ giấc</option>
+                  <option value="SAFETY_VIOLATION">Vi phạm an toàn</option>
+                  <option value="DISCIPLINE_BREACH">Vi phạm kỷ luật</option>
+                  <option value="BONUS">Thưởng đột xuất</option>
+                </select>
+              </div>
+
+              <!-- Filter Status -->
+              <div class="col-md-2 col-6">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="APPROVED">🟢 Phê duyệt</option>
+                  <option value="PENDING">🟡 Chờ duyệt</option>
+                  <option value="REJECTED">🔴 Từ chối</option>
+                  <option value="CANCELLED">⚪ Đã hủy</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <!--end::Card header-->
+
+      <!--begin::Card body-->
+      <div class="card-body py-4">
+        <!--Loading Indicator-->
+        @if (isLoading()) {
+          <div class="d-flex justify-content-center align-items-center py-10">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Đang tải...</span>
+            </div>
+          </div>
+        } @else if (items().length === 0) {
+          <!--Empty State-->
+          <div class="text-center py-10">
+            <i class="bi bi-award text-gray-300 fs-3x mb-3 d-block"></i>
+            <span class="text-gray-500 fw-semibold fs-6">Chưa có quyết định khen thưởng / kỷ luật nào phù hợp.</span>
+          </div>
+        } @else {
+          <!--Table-->
+          <div class="table-responsive">
+            <table class="table align-middle table-row-dashed fs-6 gy-4">
+              <thead>
+                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                  <th class="min-w-100px">Số Quyết Định</th>
+                  <th class="min-w-180px">Nhân Viên</th>
+                  <th class="min-w-100px">Hình Thức</th>
+                  <th class="min-w-180px">Tiêu Đề & Lý Do</th>
+                  <th class="min-w-120px text-end">Số Tiền</th>
+                  <th class="min-w-110px">Ngày Ký</th>
+                  <th class="min-w-100px">Trạng Thái</th>
+                  <th class="text-end min-w-100px">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-700 fw-semibold">
+                @for (item of items(); track item.id) {
+                  <tr>
+                    <!--Decision Number-->
+                    <td>
+                      <span class="badge badge-light-secondary fw-bold text-dark font-monospace fs-7 px-2 py-1">
+                        {{ item.decisionNumber || 'QĐ-' + item.id }}
+                      </span>
+                    </td>
+
+                    <!--Employee Info-->
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="symbol symbol-35px symbol-circle me-3 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-6">
+                          {{ item.employeeName ? item.employeeName.charAt(0).toUpperCase() : 'N' }}
+                        </div>
+                        <div class="d-flex flex-column">
+                          <span class="text-gray-800 fw-bold hover-primary">{{ item.employeeName }}</span>
+                          <span class="text-gray-500 fs-7">{{ item.departmentName || item.jobTitle || 'Nhân sự' }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!--Type Badge-->
+                    <td>
+                      @if (item.type === 'REWARD') {
+                        <span class="badge badge-light-success text-success fw-bold px-3 py-2">
+                          <i class="bi bi-arrow-up-right me-1 text-success fs-7"></i> Khen Thưởng
+                        </span>
+                      } @else {
+                        <span class="badge badge-light-danger text-danger fw-bold px-3 py-2">
+                          <i class="bi bi-arrow-down-right me-1 text-danger fs-7"></i> Kỷ Luật
+                        </span>
+                      }
+                      <div class="fs-8 text-gray-500 mt-1">{{ getCategoryLabel(item.category) }}</div>
+                    </td>
+
+                    <!--Title & Reason-->
+                    <td>
+                      <span class="fw-bold text-dark d-block">{{ item.title }}</span>
+                      @if (item.reason) {
+                        <span class="text-gray-500 fs-7 text-truncate d-block max-w-250px" [title]="item.reason">
+                          {{ item.reason }}
+                        </span>
+                      }
+                    </td>
+
+                    <!--Amount-->
+                    <td class="text-end">
+                      <span class="fs-6 fw-bold" [class.text-success]="item.type === 'REWARD'" [class.text-danger]="item.type === 'DISCIPLINE'">
+                        {{ item.type === 'REWARD' ? '+' : '-' }}{{ formatCurrency(item.amount) }}
+                      </span>
+                    </td>
+
+                    <!--Date-->
+                    <td>
+                      <span class="fs-7 text-gray-700 d-block">{{ item.decisionDate }}</span>
+                      <span class="fs-8 text-gray-500">Hiệu lực: {{ item.effectiveDate }}</span>
+                    </td>
+
+                    <!--Status-->
+                    <td>
+                      @if (item.status === 'APPROVED') {
+                        <span class="badge badge-light-success fs-8 px-2 py-1">Đã phê duyệt</span>
+                      } @else if (item.status === 'PENDING') {
+                        <span class="badge badge-light-warning fs-8 px-2 py-1">Chờ duyệt</span>
+                      } @else if (item.status === 'REJECTED') {
+                        <span class="badge badge-light-danger fs-8 px-2 py-1">Từ chối</span>
+                      } @else {
+                        <span class="badge badge-light-secondary fs-8 px-2 py-1">Đã hủy</span>
+                      }
+                    </td>
+
+                    <!--Actions-->
+                    <td class="text-end position-relative">
+                      <button 
+                        type="button" 
+                        class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                        (click)="toggleDropdown(item.id, $event)"
+                      >
+                        Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                      </button>
+
+                      @if (openDropdownId() === item.id) {
+                        <div 
+                          class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-175px bg-white rounded-3 action-dropdown-menu" 
+                          (click)="$event.stopPropagation()"
+                        >
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-primary" (click)="exportPdf(item); closeDropdown()">
+                            <i class="bi bi-printer-fill text-info fs-6"></i>
+                            <span>Xem mẫu / In PDF</span>
+                          </a>
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-success" (click)="exportWord(item); closeDropdown()">
+                            <i class="bi bi-file-earmark-word-fill text-success fs-6"></i>
+                            <span>Tải File Word (.doc)</span>
+                          </a>
+                          <div class="dropdown-divider my-1"></div>
+                          @if (item.status === 'PENDING') {
+                            <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openApproveModal(item); closeDropdown()">
+                              <i class="bi bi-check-circle-fill text-success fs-6"></i>
+                              <span>Phê Duyệt Quyết Định</span>
+                            </a>
+                            <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-warning hover-bg-light-warning" (click)="openRejectModal(item); closeDropdown()">
+                              <i class="bi bi-x-circle-fill text-warning fs-6"></i>
+                              <span>Từ Chối Quyết Định</span>
+                            </a>
+                            <div class="dropdown-divider my-1"></div>
+                          }
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light-primary" (click)="openEditModal(item); closeDropdown()">
+                            <i class="bi bi-pencil-fill text-primary fs-6"></i>
+                            <span>Chỉnh sửa thông tin</span>
+                          </a>
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-danger hover-bg-light-danger" (click)="deleteItem(item); closeDropdown()">
+                            <i class="bi bi-trash-fill text-danger fs-6"></i>
+                            <span>Xóa quyết định</span>
+                          </a>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!--Pagination-->
+          <app-pagination
+            [currentPage]="currentPage"
+            [pageSize]="pageSize"
+            [totalCount]="totalCount"
+            [itemCount]="items().length"
+            [pageSizeOptions]="pageSizeOptions"
+            (pageChange)="goToPage($event)"
+            (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+          ></app-pagination>
+        }
+      </div>
+      <!--end::Card body-->
+    </div>
+    <!--end::Main Card-->
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::Content-->
+
+<!--begin::Modal Form (Tạo / Sửa)-->
+@if (isModalOpen) {
+  <div class="modal fade show d-block tab-modal-backdrop" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content shadow-lg border-0">
+        <!--Modal Header-->
+        <div class="modal-header bg-light py-4">
+          <h5 class="modal-title fw-bold text-dark">
+            <i class="bi bi-award me-2 text-primary"></i>
+            {{ isEditing ? 'Chỉnh Sửa Quyết Định Khen Thưởng / Kỷ Luật' : 'Tạo Quyết Định Khen Thưởng / Kỷ Luật Mới' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+
+        <!--Modal Body-->
+        <div class="modal-body p-6">
+          <form (ngSubmit)="save()" #form="ngForm">
+            <div class="row g-4 mb-4">
+              <!--Hình Thức (Type)-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Hình Thức Quyết Định</label>
+                <div class="d-flex gap-4">
+                  <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="type" 
+                      [value]="1" 
+                      [(ngModel)]="formData.type" 
+                      (change)="onTypeChangeInForm()"
+                    />
+                    <span class="form-check-label fw-bold text-success">
+                      <i class="bi bi-trophy me-1 text-success"></i> Khen Thưởng (+)
+                    </span>
+                  </label>
+                  <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                    <input 
+                      class="form-check-input" 
+                      type="radio" 
+                      name="type" 
+                      [value]="2" 
+                      [(ngModel)]="formData.type" 
+                      (change)="onTypeChangeInForm()"
+                    />
+                    <span class="form-check-label fw-bold text-danger">
+                      <i class="bi bi-exclamation-triangle me-1 text-danger"></i> Kỷ Luật / Phạt (-)
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!--Phạm vi Áp dụng (Cá nhân / Tập thể)-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Phạm Vi Áp Dụng Quyết Định</label>
+                @if (!isEditing) {
+                  <div class="d-flex gap-2">
+                    <button 
+                      type="button" 
+                      class="btn btn-sm flex-fill fw-bold px-3 py-2" 
+                      [ngClass]="targetMode === 'SINGLE' ? 'btn-primary' : 'btn-light-primary'"
+                      (click)="targetMode = 'SINGLE'"
+                    >
+                      <i class="bi bi-person-fill me-1"></i> Cá Nhân
+                    </button>
+                    <button 
+                      type="button" 
+                      class="btn btn-sm flex-fill fw-bold px-3 py-2" 
+                      [ngClass]="targetMode === 'COLLECTIVE' ? 'btn-info text-white' : 'btn-light-info'"
+                      (click)="targetMode = 'COLLECTIVE'"
+                    >
+                      <i class="bi bi-people-fill me-1"></i> Tập Thể / Nhóm
+                    </button>
+                  </div>
+                } @else {
+                  <span class="badge badge-light-primary d-block py-2 fw-bold fs-7">Cá Nhân</span>
+                }
+              </div>
+            </div>
+
+            <!-- Single vs Collective Selection Section -->
+            <div class="mb-4 p-4 bg-light rounded-3 border border-gray-200">
+              @if (targetMode === 'SINGLE') {
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label required fw-bold fs-7 mb-0">Chọn Nhân Viên Áp Dụng</label>
+                    <span class="badge badge-light-primary fs-8">Tất cả {{ employees().length }} nhân sự</span>
+                  </div>
+
+                  <!-- Employee Quick Search Filter Bar -->
+                  <div class="position-relative mb-2">
+                    <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                    <input 
+                      type="text" 
+                      class="form-control form-control-solid ps-9 fs-7" 
+                      placeholder="Gõ tên, mã nhân viên hoặc phòng ban để lọc nhanh..." 
+                      [(ngModel)]="employeeSearchTerm"
+                      name="employeeSearchTerm"
+                    />
+                    @if (employeeSearchTerm) {
+                      <button 
+                        type="button" 
+                        class="btn btn-icon btn-sm position-absolute top-50 translate-middle-y end-0 me-2 border-0 bg-transparent text-gray-500"
+                        (click)="employeeSearchTerm = ''"
+                      >
+                        <i class="bi bi-x-lg fs-7"></i>
+                      </button>
+                    }
+                  </div>
+
+                  <select class="form-select form-select-solid fs-7" name="employeeId" [(ngModel)]="formData.employeeId" [disabled]="isEditing">
+                    <option [value]="0">-- Chọn nhân viên ({{ getFilteredEmployees().length }} phù hợp) --</option>
+                    @for (emp of getFilteredEmployees(); track emp.id) {
+                      <option [value]="emp.id">{{ emp.fullName }} - {{ emp.departmentName || 'HRM' }} ({{ emp.jobTitle || 'Nhân sự' }})</option>
+                    }
+                  </select>
+                </div>
+              } @else {
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label required fw-bold fs-7 mb-0">Chọn Tập Thể / Danh Sách Nhân Sự</label>
+                    <div class="d-flex gap-2">
+                      <button type="button" class="btn btn-link btn-color-primary btn-active-color-primary fs-8 p-0 fw-bold" (click)="selectAllFilteredEmployees()">
+                        <i class="bi bi-check-all me-1"></i>Chọn {{ getFilteredCollectiveEmployees().length }} nhân sự hiển thị
+                      </button>
+                      <span class="text-gray-400">|</span>
+                      <button type="button" class="btn btn-link btn-color-gray-600 btn-active-color-danger fs-8 p-0 fw-bold" (click)="deselectAllEmployees()">
+                        <i class="bi bi-x-circle me-1"></i>Bỏ chọn
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Search & Department Selection Header -->
+                  <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                      <select class="form-select form-select-solid fs-7" [(ngModel)]="selectedDepartmentId" (change)="onDepartmentSelectChange()" name="selectedDepartmentId">
+                        <option [value]="0">-- Tất cả phòng ban --</option>
+                        @for (dept of departments(); track dept.id) {
+                          <option [value]="dept.id">Phòng Ban: {{ dept.name }}</option>
+                        }
+                      </select>
+                    </div>
+                    <div class="col-md-6 position-relative">
+                      <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                      <input 
+                        type="text" 
+                        class="form-control form-control-solid ps-9 fs-7" 
+                        placeholder="Tìm kiếm nhân sự trong danh sách..." 
+                        [(ngModel)]="employeeSearchTerm"
+                        name="collectiveSearchTerm"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Checklist Grid -->
+                  <div class="max-h-250px overflow-y-auto bg-white p-3 rounded-3 border">
+                    @if (getFilteredCollectiveEmployees().length === 0) {
+                      <div class="text-center py-4 text-gray-500 fs-7">
+                        <i class="bi bi-person-x fs-4 d-block mb-1"></i>
+                        Không tìm thấy nhân sự phù hợp với từ khóa tìm kiếm.
+                      </div>
+                    } @else {
+                      <div class="row g-2">
+                        @for (emp of getFilteredCollectiveEmployees(); track emp.id) {
+                          <div class="col-md-6">
+                            <div class="form-check form-check-custom form-check-solid form-check-sm p-2 rounded hover-bg-light">
+                              <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                [id]="'emp-chk-' + emp.id" 
+                                [checked]="isEmployeeSelected(emp.id)"
+                                (change)="toggleEmployeeSelection(emp.id)"
+                              />
+                              <label class="form-check-label fs-7 cursor-pointer text-gray-800 w-100" [for]="'emp-chk-' + emp.id">
+                                <span class="fw-bold d-block text-dark">{{ emp.fullName }}</span>
+                                <span class="text-muted fs-8 d-block">{{ emp.departmentName || 'Chưa phân phòng' }} • {{ emp.jobTitle || 'Nhân sự' }}</span>
+                              </label>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Collective Budget Calculation Summary -->
+                  <div class="d-flex justify-content-between align-items-center mt-3 p-3 bg-light-info rounded-3 border border-info border-opacity-25">
+                    <span class="fs-7 text-info fw-bold">
+                      <i class="bi bi-info-circle-fill me-1"></i>Số lượng nhân sự được chọn: <strong>{{ selectedEmployeeIds.length }} nhân sự</strong>
+                    </span>
+                    <span class="fs-7 text-gray-800 fw-bold">
+                      Tổng ngân sách: <strong class="text-primary fs-6">{{ formatCurrency(selectedEmployeeIds.length * formData.amount) }}</strong>
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!--Danh Mục (Category)-->
+              <div class="col-md-6">
+                <label class="form-label required fw-bold fs-7">Danh Mục Khen Thưởng / Kỷ Luật</label>
+                <select class="form-select form-select-solid fs-7" name="category" [(ngModel)]="formData.category">
+                  @if (Number(formData.type) === 1) {
+                    <option [value]="1">Hiệu suất xuất sắc (Performance)</option>
+                    <option [value]="2">Cá nhân / Tập thể xuất sắc (Excellence)</option>
+                    <option [value]="3">Sáng kiến đột phá (Innovation)</option>
+                    <option [value]="7">Thưởng đột xuất / Lễ tết (Bonus)</option>
+                    <option [value]="99">Khác</option>
+                  } @else {
+                    <option [value]="4">Vi phạm giờ giấc làm việc (Late/Early)</option>
+                    <option [value]="5">Vi phạm quy định an toàn (Safety)</option>
+                    <option [value]="6">Vi phạm nội quy / Kỷ luật (Discipline)</option>
+                    <option [value]="99">Khác</option>
+                  }
+                </select>
+              </div>
+
+              <!--Số Quyết Định-->
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-7">Số Quyết Định</label>
+                <input 
+                  type="text" 
+                  class="form-control form-control-solid fs-7" 
+                  name="decisionNumber" 
+                  placeholder="Tự động sinh (VD: QĐ-KT-2026/0001)" 
+                  [(ngModel)]="formData.decisionNumber"
+                />
+                <div class="fs-8 text-gray-500 mt-1">Để trống để hệ thống tự động sinh số QĐ tiếp theo không trùng lặp.</div>
+              </div>
+            </div>
+
+            <!--Tiêu Đề-->
+            <div class="mb-4">
+              <label class="form-label required fw-bold fs-7">Tiêu Đề Quyết Định</label>
+              <input 
+                type="text" 
+                class="form-control form-control-solid fs-7" 
+                name="title" 
+                placeholder="VD: Thưởng hoàn thành xuất sắc dự án Quý 3" 
+                [(ngModel)]="formData.title"
+                required
+              />
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!--Số Tiền (VND)-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Số Tiền (VNĐ)</label>
+                <input 
+                  type="number" 
+                  class="form-control form-control-solid fs-7" 
+                  name="amount" 
+                  min="0" 
+                  step="50000"
+                  [(ngModel)]="formData.amount"
+                  required
+                />
+              </div>
+
+              <!--Ngày Ký Quyết Định-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Ngày Ký</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  name="decisionDate" 
+                  [(ngModel)]="formData.decisionDate"
+                  required
+                />
+              </div>
+
+              <!--Ngày Hiệu Lực-->
+              <div class="col-md-4">
+                <label class="form-label required fw-bold fs-7">Ngày Hiệu Lực</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  name="effectiveDate" 
+                  [(ngModel)]="formData.effectiveDate"
+                  required
+                />
+              </div>
+            </div>
+
+            <!--Lý Do / Trích Yếu Nội Dung-->
+            <div class="mb-4">
+              <label class="form-label fw-bold fs-7">Trích Yếu Nội Dung / Lý Do Quyết Định</label>
+              <textarea 
+                class="form-control form-control-solid fs-7" 
+                name="reason" 
+                rows="3" 
+                placeholder="Nhập chi tiết căn cứ khen thưởng hoặc lý do kỷ luật..." 
+                [(ngModel)]="formData.reason"
+              ></textarea>
+            </div>
+
+            <!--Modal Footer-->
+            <div class="d-flex justify-content-end gap-2 pt-4 border-top">
+              <button type="button" class="btn btn-sm btn-light" (click)="closeModal()">Hủy Bỏ</button>
+              <button type="submit" class="btn btn-sm btn-primary" [disabled]="isSubmitting">
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                  Đang xử lý...
+                } @else {
+                  <i class="bi bi-check-lg me-1"></i> Lưu Quyết Định
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Modal Backdrop-->
+  <div class="modal-backdrop fade show"></div>
+}
+<!--end::Modal Form-->
+
+<!-- Modal Phê Duyệt Thưởng / Phạt -->
+@if (isApproveModalOpen && selectedForApprove) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content">
+        <div class="modal-header py-3 px-lg-6 bg-light-success border-0">
+          <h3 class="modal-title fw-bold text-success fs-5">
+            <i class="bi bi-check-circle-fill me-2 fs-4 text-success"></i>Phê Duyệt {{ selectedForApprove.type === 'REWARD' ? 'Khen Thưởng' : 'Kỷ Luật' }}
+          </h3>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeApproveModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-4 px-lg-6">
+          <p class="text-gray-800 fs-6 mb-3">
+            Xác nhận phê duyệt Quyết định <strong class="text-primary font-monospace">{{ selectedForApprove.decisionNumber || 'QĐ-' + selectedForApprove.id }}</strong> cho nhân sự <strong>{{ selectedForApprove.employeeName }}</strong>:
+          </p>
+
+          <div class="p-3 bg-light rounded-3 mb-3 border border-dashed border-gray-300">
+            <div class="d-flex justify-content-between align-items-center mb-2 fs-7">
+              <span class="text-muted">Tiêu đề:</span>
+              <span class="fw-bold text-gray-900">{{ selectedForApprove.title }}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2 fs-7">
+              <span class="text-muted">Danh mục:</span>
+              <span class="fw-bold text-gray-900">{{ getCategoryLabel(selectedForApprove.category) }}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center fs-7">
+              <span class="text-muted">Số tiền:</span>
+              <span class="fw-bold fs-6" [class.text-success]="selectedForApprove.type === 'REWARD'" [class.text-danger]="selectedForApprove.type === 'DISCIPLINE'">
+                {{ selectedForApprove.type === 'REWARD' ? '+' : '-' }}{{ formatCurrency(selectedForApprove.amount) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-6 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeApproveModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-success fw-bold" [disabled]="isApproving" (click)="confirmApprove()">
+            @if (isApproving) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang phê duyệt...
+            } @else {
+              <span><i class="bi bi-check2-circle me-1"></i>Xác Nhận Phê Duyệt</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Từ Chối Thưởng / Phạt -->
+@if (isRejectModalOpen && selectedForReject) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content">
+        <div class="modal-header py-3 px-lg-6 bg-light-warning border-0">
+          <h3 class="modal-title fw-bold text-warning fs-5">
+            <i class="bi bi-x-circle-fill me-2 fs-4 text-warning"></i>Từ Chối {{ selectedForReject.type === 'REWARD' ? 'Khen Thưởng' : 'Kỷ Luật' }}
+          </h3>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeRejectModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-4 px-lg-6">
+          <p class="text-gray-800 fs-6 mb-3">
+            Từ chối Quyết định <strong class="text-gray-900">{{ selectedForReject.title }}</strong> của nhân sự <strong>{{ selectedForReject.employeeName }}</strong>:
+          </p>
+
+          <div class="mb-3">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Lý do từ chối:</label>
+            <textarea 
+              class="form-control form-control-solid fs-7" 
+              rows="3" 
+              placeholder="Nhập chi tiết lý do không phê duyệt..."
+              [(ngModel)]="rejectReason"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-6 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeRejectModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-danger fw-bold" [disabled]="isRejecting" (click)="confirmReject()">
+            @if (isRejecting) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...
+            } @else {
+              <span><i class="bi bi-x-lg me-1"></i>Xác Nhận Từ Chối</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

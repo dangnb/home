@@ -1,15 +1,17 @@
-﻿import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ApiResponse, LeaveRequest, CreateLeaveRequestDto, ApproveLeaveRequestDto, RejectLeaveRequestDto } from '../models/hrm.models';
 
 export interface LeaveRequestFilterParams {
   page?: number;
   pageSize?: number;
-  employeeId?: string;
-  status?: number;
-  leaveType?: number;
+  userId?: number;
+  status?: string;
+  leaveType?: string;
+  keyword?: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 @Injectable({
@@ -17,36 +19,32 @@ export interface LeaveRequestFilterParams {
 })
 export class LeaveRequestService {
   private http = inject(HttpClient);
-  private readUrl = `${environment.readApiUrl}/leave-requests`;
-  private writeUrl = `${environment.writeApiUrl}/leave-requests`;
+  private apiUrl = `${environment.writeApiUrl}/leave-requests`;
 
-  // --- Read Operations (Dart Read Service - Port 5050) ---
-  getLeaveRequests(paramsObj?: LeaveRequestFilterParams): Observable<ApiResponse<LeaveRequest[]>> {
+  getLeaveRequests(paramsObj?: LeaveRequestFilterParams): Observable<any> {
     let params = new HttpParams();
     if (paramsObj) {
       if (paramsObj.page) params = params.set('page', paramsObj.page.toString());
       if (paramsObj.pageSize) params = params.set('pageSize', paramsObj.pageSize.toString());
-      if (paramsObj.employeeId) params = params.set('employeeId', paramsObj.employeeId);
-      if (paramsObj.status !== undefined) params = params.set('status', paramsObj.status.toString());
-      if (paramsObj.leaveType !== undefined) params = params.set('leaveType', paramsObj.leaveType.toString());
+      if (paramsObj.userId) params = params.set('userId', paramsObj.userId.toString());
+      if (paramsObj.status && paramsObj.status !== 'ALL') params = params.set('status', paramsObj.status);
+      if (paramsObj.leaveType && paramsObj.leaveType !== 'ALL') params = params.set('leaveType', paramsObj.leaveType);
+      if (paramsObj.keyword) params = params.set('keyword', paramsObj.keyword);
+      if (paramsObj.fromDate) params = params.set('fromDate', paramsObj.fromDate);
+      if (paramsObj.toDate) params = params.set('toDate', paramsObj.toDate);
     }
-    return this.http.get<ApiResponse<LeaveRequest[]>>(this.readUrl, { params });
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
-  getLeaveRequest(id: string): Observable<ApiResponse<LeaveRequest>> {
-    return this.http.get<ApiResponse<LeaveRequest>>(`${this.readUrl}/${id}`);
+  getLeaveRequest(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  // --- Write Operations (.NET 10 WebAPI - Port 5000) ---
-  createLeaveRequest(dto: CreateLeaveRequestDto): Observable<any> {
-    return this.http.post<any>(this.writeUrl, dto);
+  createLeaveRequest(dto: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, dto);
   }
 
-  approveLeaveRequest(id: string, dto: ApproveLeaveRequestDto): Observable<any> {
-    return this.http.put<any>(`${this.writeUrl}/${id}/approve`, dto);
-  }
-
-  rejectLeaveRequest(id: string, dto: RejectLeaveRequestDto): Observable<any> {
-    return this.http.put<any>(`${this.writeUrl}/${id}/reject`, dto);
+  approveLeaveRequest(id: number, dto: { isApproved: boolean; comment?: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/approve`, dto);
   }
 }

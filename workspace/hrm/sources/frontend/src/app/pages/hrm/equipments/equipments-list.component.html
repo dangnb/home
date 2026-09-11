@@ -1,0 +1,956 @@
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Quản Lý Trang Thiết Bị Doanh Nghiệp (Asset Management)</h1>
+      <span class="text-muted fs-7">Quản lý danh mục thiết bị, bàn giao nhân sự sử dụng, thu hồi và ghi nhận báo hỏng sự cố</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="btn btn-sm btn-primary fw-bold" (click)="openCreateModal()">
+        <i class="bi bi-plus-lg me-1"></i>Khai Báo Thiết Bị Mới
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Summary Cards Banner -->
+  <div class="row g-4">
+    <!-- Card 1: Tổng số thiết bị -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Thiết Bị</span>
+            <span class="fs-2x fw-bold text-gray-900">{{ summary().totalEquipments }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-box-seam-fill fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Sẵn có trong kho -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Sẵn Có Trong Kho</span>
+            <span class="fs-2x fw-bold text-success">{{ summary().availableEquipments }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-check-circle-fill fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Đang cấp phát -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Cấp Phát Sử Dụng</span>
+            <span class="fs-2x fw-bold text-primary">{{ summary().assignedEquipments }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+            <i class="bi bi-person-workspace fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Đang báo hỏng -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Báo Hỏng / Bảo Trì</span>
+            <span class="fs-2x fw-bold text-danger">{{ summary().brokenEquipments }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-danger text-danger d-flex align-items-center justify-content-center">
+            <i class="bi bi-exclamation-triangle-fill fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Table & Filters Card -->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!-- Header Controls -->
+    <div class="card-header border-0 pt-6 pb-0">
+      <div class="card-title w-100 me-0">
+        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+          <!-- Search Box -->
+          <div class="position-relative flex-grow-1" style="max-width: 480px;">
+            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid ps-10 fs-7" 
+              placeholder="Nhập mã thiết bị, tên máy, số serial hoặc tên nhân viên..." 
+              [(ngModel)]="filterKeyword"
+              (keyup.enter)="onFilterChange()"
+            />
+            @if (filterKeyword) {
+              <button 
+                type="button" 
+                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                (click)="clearSingleFilter('keyword')"
+              >
+                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+              </button>
+            }
+          </div>
+
+          <!-- Advanced Filters Button -->
+          <div class="d-flex align-items-center gap-2">
+            <button 
+              type="button" 
+              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
+              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+              (click)="toggleAdvancedFilter()"
+            >
+              <i class="bi bi-sliders2 fs-6"></i>
+              <span>Bộ Lọc Nâng Cao</span>
+              @if (activeAdvancedFilterCount > 0) {
+                <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
+                  {{ activeAdvancedFilterCount }}
+                </span>
+              }
+            </button>
+
+            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+              <button 
+                type="button" 
+                class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                (click)="resetFilters()" 
+                title="Xóa toàn bộ bộ lọc"
+              >
+                <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                <span>Xóa bộ lọc</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filter Tags & Drawer Panel -->
+    <div class="px-6 pt-3 pb-0">
+      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+          @if (filterKeyword) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ khóa: "{{ filterKeyword }}"
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+            </span>
+          }
+          @if (filterCategory !== 'ALL') {
+            <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Loại: {{ getCategoryLabel(filterCategory) }}
+              <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('category')"></i>
+            </span>
+          }
+          @if (filterStatus !== 'ALL') {
+            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Trạng thái: {{ getStatusLabel(filterStatus) }}
+              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+            </span>
+          }
+          @if (filterDepartmentId) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Phòng ban: {{ getDepartmentName(filterDepartmentId) }}
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('department')"></i>
+            </span>
+          }
+          @if (filterUserId) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Nhân sự: {{ getUserName(filterUserId) }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('user')"></i>
+            </span>
+          }
+          @if (filterAssignedFromDate) {
+            <span class="badge badge-light-dark border border-dark border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Bàn giao từ: {{ filterAssignedFromDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-dark" (click)="clearSingleFilter('assignedFromDate')"></i>
+            </span>
+          }
+          @if (filterAssignedToDate) {
+            <span class="badge badge-light-dark border border-dark border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Bàn giao đến: {{ filterAssignedToDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-dark" (click)="clearSingleFilter('assignedToDate')"></i>
+            </span>
+          }
+        </div>
+      }
+
+      @if (isAdvancedFilterOpen()) {
+        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+              <i class="bi bi-sliders text-primary fs-6"></i>
+              Tùy Chọn Lọc Nâng Cao Trang Thiết Bị
+            </div>
+            <span class="fs-8 text-muted">Lọc theo phân loại, phòng ban, nhân sự sử dụng và khoảng thời gian bàn giao</span>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Phân loại thiết bị</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+                <option value="ALL">-- Tất cả loại thiết bị --</option>
+                <option value="LAPTOP">💻 Laptop / Máy tính</option>
+                <option value="MONITOR">🖥️ Màn hình hiển thị</option>
+                <option value="PHONE">📱 Điện thoại thông minh</option>
+                <option value="DESK_CHAIR">🪑 Bàn ghế văn phòng</option>
+                <option value="PERIPHERAL">⌨️ Phụ kiện / Chuột / Bàn phím</option>
+                <option value="OTHER">📦 Khác</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái cấp phát</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+                <option value="ALL">-- Tất cả trạng thái --</option>
+                <option value="AVAILABLE">🟢 Sẵn có trong kho</option>
+                <option value="ASSIGNED">🔵 Đang cấp phát sử dụng</option>
+                <option value="BROKEN">🔴 Đang báo hỏng</option>
+                <option value="MAINTENANCE">🟡 Đang bảo trì / sửa chữa</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Phòng ban sử dụng</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterDepartmentId" (change)="onFilterChange()">
+                <option [ngValue]="null">-- Tất cả phòng ban --</option>
+                @for (dept of departments(); track dept.id) {
+                  <option [value]="dept.id">🏢 {{ dept.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-3 position-relative">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Nhân sự được bàn giao</label>
+              <div 
+                class="form-control form-control-solid fs-7 d-flex align-items-center justify-content-between cursor-pointer py-2 px-3 border"
+                [class.border-primary]="isFilterEmployeeDropdownOpen()"
+                (click)="toggleFilterEmployeeDropdown($event)"
+              >
+                @if (getSelectedFilterEmployee(); as selectedEmp) {
+                  <span class="text-gray-900 fw-bold text-truncate">👤 {{ selectedEmp.fullName }} ({{ selectedEmp.employeeCode || 'ID:' + selectedEmp.id }})</span>
+                } @else {
+                  <span class="text-muted">-- Tất cả nhân sự --</span>
+                }
+                <i class="bi bi-chevron-down fs-8 text-gray-500 ms-1"></i>
+              </div>
+
+              @if (isFilterEmployeeDropdownOpen()) {
+                <div 
+                  class="dropdown-menu show w-100 p-2 shadow-lg border-0 rounded-3 position-absolute top-100 start-0 mt-1 bg-white" 
+                  style="z-index: 1050; max-height: 280px; display: flex; flex-direction: column;"
+                  (click)="$event.stopPropagation()"
+                >
+                  <div class="position-relative mb-2 flex-shrink-0">
+                    <i class="bi bi-search position-absolute top-50 translate-middle-y ms-2 text-gray-500 fs-8"></i>
+                    <input 
+                      type="text" 
+                      class="form-control form-control-solid ps-8 fs-8 py-1" 
+                      placeholder="Tìm tên, mã NV..."
+                      [ngModel]="filterEmployeeSearch()"
+                      (ngModelChange)="filterEmployeeSearch.set($event)"
+                    />
+                  </div>
+                  <div class="overflow-auto flex-grow-1" style="max-height: 200px;">
+                    <div 
+                      class="px-3 py-2 rounded cursor-pointer hover-bg-light fs-7 fw-semibold text-gray-700 mb-1"
+                      [class.bg-light-primary]="filterUserId === null"
+                      (click)="selectFilterEmployee(null)"
+                    >
+                      -- Tất cả nhân sự --
+                    </div>
+                    @for (emp of getFilteredEmployeesForFilter(); track emp.id) {
+                      <div 
+                        class="px-3 py-2 rounded cursor-pointer hover-bg-light fs-7 d-flex align-items-center justify-content-between mb-1"
+                        [class.bg-light-primary]="filterUserId === (emp.userId || emp.id)"
+                        (click)="selectFilterEmployee(emp.userId || emp.id)"
+                      >
+                        <div class="d-flex flex-column text-truncate">
+                          <span class="fw-bold text-gray-900 fs-8">👤 {{ emp.fullName }}</span>
+                          <span class="text-muted fs-8">{{ emp.employeeCode || 'ID:' + emp.id }} - {{ emp.departmentName || 'Chưa phân phòng' }}</span>
+                        </div>
+                        @if (filterUserId === (emp.userId || emp.id)) {
+                          <i class="bi bi-check text-primary fs-6"></i>
+                        }
+                      </div>
+                    }
+                    @if (getFilteredEmployeesForFilter().length === 0) {
+                      <div class="text-center py-3 text-muted fs-8">Không tìm thấy nhân sự</div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Ngày bàn giao (Từ ngày)</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="filterAssignedFromDate" (change)="onFilterChange()" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Ngày bàn giao (Đến ngày)</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="filterAssignedToDate" (change)="onFilterChange()" />
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Table Body -->
+    <div class="card-body pt-0">
+      <!-- Floating Bulk Actions Banner -->
+      @if (selectedIds().length > 0) {
+        <div class="alert alert-primary d-flex align-items-center justify-content-between p-4 mb-4 rounded-3 border border-primary shadow-sm">
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge badge-circle bg-primary text-white fs-6 fw-bold p-3" style="width: 32px; height: 32px;">
+              {{ selectedIds().length }}
+            </span>
+            <span class="fw-bold fs-7 text-gray-900">Trang thiết bị đang được chọn</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-sm btn-primary fw-bold fs-7" (click)="openHandoverModal()">
+              <i class="bi bi-person-check-fill me-1"></i> Bàn Giao Hàng Loạt
+            </button>
+            <button type="button" class="btn btn-sm btn-success fw-bold fs-7" (click)="openRevokeModal()">
+              <i class="bi bi-arrow-return-left me-1"></i> Thu Hồi Hàng Loạt
+            </button>
+            <button type="button" class="btn btn-sm btn-light-dark fw-bold fs-7" (click)="clearSelection()">
+              Hủy Chọn
+            </button>
+          </div>
+        </div>
+      }
+
+      <div class="table-responsive" style="min-height: 340px;">
+        <table class="table align-middle table-row-dashed fs-6 gy-4">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="w-40px pe-0">
+                <input 
+                  type="checkbox" 
+                  class="form-check-input" 
+                  [checked]="isAllSelected()" 
+                  (change)="toggleSelectAll()" 
+                  title="Chọn / Bỏ chọn tất cả"
+                />
+              </th>
+              <th class="min-w-140px">Mã Thiết Bị</th>
+              <th class="min-w-220px">Tên Thiết Bị & Cấu Hình</th>
+              <th class="min-w-140px">Phân Loại</th>
+              <th class="min-w-180px">Đối Tượng Đang Sử Dụng</th>
+              <th class="min-w-130px">Trạng Thái</th>
+              <th class="text-end min-w-150px">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 fw-semibold">
+            @for (item of items(); track item.id) {
+              <tr [class.bg-light-primary]="isSelected(item.id)">
+                <!-- Checkbox -->
+                <td class="pe-0">
+                  <input 
+                    type="checkbox" 
+                    class="form-check-input" 
+                    [checked]="isSelected(item.id)" 
+                    (change)="toggleSelectItem(item.id)" 
+                  />
+                </td>
+
+                <!-- Code & Serial -->
+                <td>
+                  <div class="d-flex flex-column">
+                    <span class="fw-bold text-gray-900 hover-primary cursor-pointer" (click)="viewDetail(item)">{{ item.code }}</span>
+                    <span class="text-muted fs-8">S/N: {{ item.serialNumber || 'Chưa có S/N' }}</span>
+                  </div>
+                </td>
+
+                <!-- Name & Specifications -->
+                <td>
+                  <div class="d-flex flex-column">
+                    <span class="text-gray-900 fw-bold hover-primary cursor-pointer" (click)="viewDetail(item)">{{ item.name }}</span>
+                    <span class="text-gray-500 fs-8 text-truncate max-w-250px" [title]="item.specifications || ''">{{ item.specifications || 'Không có mô tả cấu hình' }}</span>
+                  </div>
+                </td>
+
+                <!-- Category -->
+                <td>
+                  <span class="badge badge-light-secondary text-gray-800 px-3 py-2 fw-semibold">
+                    {{ getCategoryLabel(item.category) }}
+                  </span>
+                </td>
+
+                <!-- Current User or Department -->
+                <td>
+                  @if (item.currentUserId && item.currentUserName) {
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-30px symbol-circle me-2 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7">
+                        {{ item.currentUserName.charAt(0).toUpperCase() }}
+                      </div>
+                      <div class="d-flex flex-column">
+                        <span class="text-gray-900 fw-bold fs-7">👤 {{ item.currentUserName }}</span>
+                        <span class="text-muted fs-8">Nhân sự ({{ item.daysAssigned || 0 }} ngày)</span>
+                      </div>
+                    </div>
+                  } @else if (item.currentDepartmentId && item.currentDepartmentName) {
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-30px symbol-circle me-2 bg-light-info text-info d-flex align-items-center justify-content-center fw-bold fs-7">
+                        🏢
+                      </div>
+                      <div class="d-flex flex-column">
+                        <span class="text-gray-900 fw-bold fs-7">🏢 {{ item.currentDepartmentName }}</span>
+                        <span class="text-muted fs-8">Phòng ban ({{ item.daysAssigned || 0 }} ngày)</span>
+                      </div>
+                    </div>
+                  } @else {
+                    <span class="badge badge-light-secondary text-muted fs-8 px-2 py-1">🏬 Sẵn có trong kho</span>
+                  }
+                </td>
+
+                <!-- Status -->
+                <td>
+                  <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(item.status)">
+                    {{ getStatusLabel(item.status) }}
+                  </span>
+                </td>
+
+                <!-- Actions Dropdown -->
+                <td class="text-end position-relative">
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                    (click)="toggleDropdown(item.id, $event)"
+                  >
+                    Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                  </button>
+
+                  @if (openDropdownId() === item.id) {
+                    <div 
+                      class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-200px bg-white rounded-3 action-dropdown-menu"
+                      style="z-index: 105;"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="viewDetail(item); closeDropdown()">
+                        <i class="bi bi-clock-history text-info fs-6"></i>
+                        <span>Xem Lịch Sử Sử Dụng</span>
+                      </a>
+
+                      @if (item.status === 'AVAILABLE') {
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-primary hover-bg-light-primary" (click)="openHandoverModal(item); closeDropdown()">
+                          <i class="bi bi-person-check-fill text-primary fs-6"></i>
+                          <span>💼 Bàn Giao Thiết Bị</span>
+                        </a>
+                      }
+
+                      @if (item.status === 'ASSIGNED') {
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openRevokeModal(item); closeDropdown()">
+                          <i class="bi bi-arrow-return-left text-success fs-6"></i>
+                          <span>🔄 Thu Hồi Về Kho</span>
+                        </a>
+                      }
+
+                      @if (item.status !== 'BROKEN') {
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-danger hover-bg-light-danger" (click)="openBrokenModal(item); closeDropdown()">
+                          <i class="bi bi-exclamation-triangle-fill text-danger fs-6"></i>
+                          <span>⚠️ Báo Hỏng Thiết Bị</span>
+                        </a>
+                      }
+                    </div>
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (items().length === 0 && !isLoading()) {
+              <tr>
+                <td colspan="7" class="text-center py-10 text-muted">
+                  <i class="bi bi-box-seam fs-2x d-block mb-2"></i>
+                  Chưa có trang thiết bị nào phù hợp trong danh mục
+                </td>
+              </tr>
+            }
+
+            @if (isLoading()) {
+              <tr>
+                <td colspan="7" class="text-center py-10 text-muted">
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu thiết bị từ máy chủ...
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Component -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        [itemCount]="items().length"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="currentPage = $event; loadItems()"
+        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+      ></app-pagination>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 1: Khai Báo Thiết Bị Mới -->
+@if (isCreateModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-primary">
+          <h2 class="fw-bold fs-4 mb-0 text-primary d-flex align-items-center gap-2">
+            <i class="bi bi-plus-circle-fill text-primary fs-3"></i>
+            Khai Báo Trang Thiết Bị Mới
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeCreateModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-7">
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Mã thiết bị</label>
+              <input type="text" class="form-control form-control-solid fs-7 text-uppercase" placeholder="VD: EQ-LAP-001" [(ngModel)]="createForm.code" />
+            </div>
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Phân loại thiết bị</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="createForm.category">
+                <option value="LAPTOP">💻 Laptop / Máy tính</option>
+                <option value="MONITOR">🖥️ Màn hình</option>
+                <option value="PHONE">📱 Điện thoại</option>
+                <option value="DESK_CHAIR">🪑 Bàn ghế văn phòng</option>
+                <option value="PERIPHERAL">⌨️ Phụ kiện / Linh kiện</option>
+                <option value="OTHER">📦 Khác</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Tên trang thiết bị</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Laptop Dell XPS 15 9530" [(ngModel)]="createForm.name" />
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label fs-7 fw-bold text-gray-700">Số Sê-ri (Serial Number)</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: SN-DELL-9530-001" [(ngModel)]="createForm.serialNumber" />
+            </div>
+            <div class="col-6">
+              <label class="form-label fs-7 fw-bold text-gray-700">Hạn bảo hành đến ngày</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="createForm.warrantyEndDate" />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">Thông số kỹ thuật / Cấu hình máy</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="VD: Core i7 13700H, 32GB RAM, 1TB SSD..." [(ngModel)]="createForm.specifications"></textarea>
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú quản lý</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="Nhập ghi chú xuất xứ, tình trạng ban đầu..." [(ngModel)]="createForm.note" />
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeCreateModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmittingCreate" (click)="submitCreate()">
+            @if (isSubmittingCreate) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i> Khai Báo Thiết Bị
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 2: Bàn Giao Thiết Bị (Đơn Lẻ & Hàng Loạt) -->
+@if (isHandoverModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-primary">
+          <h2 class="fw-bold fs-4 mb-0 text-primary d-flex align-items-center gap-2">
+            <i class="bi bi-person-check-fill text-primary fs-3"></i>
+            {{ isBulkHandover ? 'Bàn Giao Trang Thiết Bị Hàng Loạt' : 'Bàn Giao Trang Thiết Bị' }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeHandoverModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <!-- Selected Item(s) Summary Box -->
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            @if (isBulkHandover) {
+              <div class="fw-bold text-gray-900 fs-6 mb-1">
+                Đang chọn bàn giao <span class="badge badge-primary px-2 fs-7">{{ selectedIds().length }}</span> thiết bị:
+              </div>
+              <div class="d-flex flex-wrap gap-1 max-h-100px overflow-auto pt-1">
+                @for (eq of getSelectedEquipments(); track eq.id) {
+                  <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-2 py-1">
+                    {{ eq.code }} - {{ eq.name }}
+                  </span>
+                }
+              </div>
+            } @else if (selectedEquipmentForHandover) {
+              <div class="fw-bold text-gray-900 fs-6">{{ selectedEquipmentForHandover.name }}</div>
+              <div class="text-muted fs-8">Mã: <strong>{{ selectedEquipmentForHandover.code }}</strong> | S/N: {{ selectedEquipmentForHandover.serialNumber || 'N/A' }}</div>
+            }
+          </div>
+
+          <!-- Target Type Selector: EMPLOYEE vs DEPARTMENT -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Đối tượng bàn giao</label>
+            <div class="d-flex align-items-center gap-4 mt-1">
+              <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                <input class="form-check-input" type="radio" name="handoverTargetType" value="EMPLOYEE" [(ngModel)]="handoverTargetType" />
+                <span class="form-check-label fw-semibold text-gray-800 fs-7">
+                  👤 Bàn giao cho Nhân sự
+                </span>
+              </label>
+              <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                <input class="form-check-input" type="radio" name="handoverTargetType" value="DEPARTMENT" [(ngModel)]="handoverTargetType" />
+                <span class="form-check-label fw-semibold text-gray-800 fs-7">
+                  🏢 Bàn giao cho Phòng ban
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Target Select Dropdown -->
+          @if (handoverTargetType === 'EMPLOYEE') {
+            <div class="mb-4 position-relative">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Chọn Nhân sự nhận bàn giao</label>
+              <div 
+                class="form-control form-control-solid fs-7 d-flex align-items-center justify-content-between cursor-pointer py-2 px-3 border"
+                [class.border-primary]="isHandoverEmployeeDropdownOpen()"
+                (click)="toggleHandoverEmployeeDropdown($event)"
+              >
+                @if (getSelectedHandoverEmployee(); as selectedEmp) {
+                  <div class="d-flex align-items-center gap-2 overflow-hidden">
+                    <div class="symbol symbol-25px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-8 flex-shrink-0">
+                      {{ selectedEmp.fullName.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="text-truncate">
+                      <span class="fw-bold text-gray-900 fs-7">{{ selectedEmp.fullName }}</span>
+                      <span class="text-muted fs-8 ms-1">({{ selectedEmp.employeeCode || 'ID:' + selectedEmp.id }})</span>
+                      @if (selectedEmp.departmentName) {
+                        <span class="badge badge-light-secondary fs-8 ms-1 py-0 px-2">{{ selectedEmp.departmentName }}</span>
+                      }
+                    </div>
+                  </div>
+                } @else {
+                  <span class="text-muted fs-7">-- Chọn nhân sự nhận bàn giao --</span>
+                }
+                <i class="bi bi-chevron-down fs-8 text-gray-500 ms-2"></i>
+              </div>
+
+              @if (isHandoverEmployeeDropdownOpen()) {
+                <div 
+                  class="dropdown-menu show w-100 p-3 shadow-lg border border-gray-300 rounded-3 position-absolute top-100 start-0 mt-1 bg-white" 
+                  style="z-index: 1050; max-height: 320px; display: flex; flex-direction: column;"
+                  (click)="$event.stopPropagation()"
+                >
+                  <div class="position-relative mb-2 flex-shrink-0">
+                    <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                    <input 
+                      type="text" 
+                      class="form-control form-control-solid ps-9 fs-7 py-2" 
+                      placeholder="Nhập tên, mã nhân viên hoặc phòng ban để tìm nhanh..."
+                      [ngModel]="handoverEmployeeSearch()"
+                      (ngModelChange)="handoverEmployeeSearch.set($event)"
+                    />
+                    @if (handoverEmployeeSearch()) {
+                      <i class="bi bi-x-circle-fill position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer text-gray-500 fs-7" (click)="handoverEmployeeSearch.set('')"></i>
+                    }
+                  </div>
+
+                  <div class="overflow-auto flex-grow-1" style="max-height: 240px;">
+                    @for (emp of getFilteredEmployeesForHandover(); track emp.id) {
+                      <div 
+                        class="d-flex align-items-center justify-content-between p-2 rounded cursor-pointer hover-bg-light mb-1 transition-all"
+                        [class.bg-light-primary]="(emp.userId || emp.id) === handoverForm.targetUserId"
+                        (click)="selectHandoverEmployee(emp)"
+                      >
+                        <div class="d-flex align-items-center gap-2 overflow-hidden">
+                          <div class="symbol symbol-30px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7 flex-shrink-0">
+                            {{ emp.fullName.charAt(0).toUpperCase() }}
+                          </div>
+                          <div class="d-flex flex-column text-truncate">
+                            <div class="d-flex align-items-center gap-1">
+                              <span class="fw-bold text-gray-900 fs-7">{{ emp.fullName }}</span>
+                              <span class="text-muted fs-8">({{ emp.employeeCode || 'ID:' + emp.id }})</span>
+                            </div>
+                            <span class="text-gray-500 fs-8">{{ emp.departmentName || 'Chưa thuộc phòng ban' }} {{ emp.jobTitle ? '• ' + emp.jobTitle : '' }}</span>
+                          </div>
+                        </div>
+                        @if ((emp.userId || emp.id) === handoverForm.targetUserId) {
+                          <i class="bi bi-check-circle-fill text-primary fs-6 ms-2"></i>
+                        }
+                      </div>
+                    }
+
+                    @if (getFilteredEmployeesForHandover().length === 0) {
+                      <div class="text-center py-4 text-muted fs-8">
+                        Không tìm thấy nhân sự phù hợp với từ khóa "{{ handoverEmployeeSearch() }}"
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="mb-4">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Chọn Phòng ban nhận bàn giao</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="handoverForm.targetDepartmentId">
+                @for (dept of departments(); track dept.id) {
+                  <option [value]="dept.id">🏢 {{ dept.name }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">Tình trạng máy lúc bàn giao</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Mới 100%, dán tem bảo hành IT..." [(ngModel)]="handoverForm.conditionStatus" />
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú bàn giao</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="Ghi chú mục đích bàn giao công việc..." [(ngModel)]="handoverForm.note"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeHandoverModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmittingHandover" (click)="submitHandover()">
+            @if (isSubmittingHandover) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang xử lý...
+            } @else {
+              <i class="bi bi-send-fill me-1"></i> Xác Nhận Bàn Giao
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 3: Thu Hồi Thiết Bị Về Kho (Đơn Lẻ & Hàng Loạt) -->
+@if (isRevokeModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-success">
+          <h2 class="fw-bold fs-4 mb-0 text-success d-flex align-items-center gap-2">
+            <i class="bi bi-arrow-return-left text-success fs-3"></i>
+            {{ isBulkRevoke ? 'Thu Hồi Trang Thiết Bị Hàng Loạt Về Kho' : 'Thu Hồi Thiết Bị Về Kho' }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeRevokeModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <!-- Selected Item(s) Summary Box -->
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            @if (isBulkRevoke) {
+              <div class="fw-bold text-gray-900 fs-6 mb-1">
+                Đang chọn thu hồi <span class="badge badge-success px-2 fs-7">{{ selectedIds().length }}</span> thiết bị về kho:
+              </div>
+              <div class="d-flex flex-wrap gap-1 max-h-100px overflow-auto pt-1">
+                @for (eq of getSelectedEquipments(); track eq.id) {
+                  <span class="badge badge-light-success border border-success border-dashed fs-8 px-2 py-1">
+                    {{ eq.code }} - {{ eq.name }}
+                  </span>
+                }
+              </div>
+            } @else if (selectedEquipmentForRevoke) {
+              <div class="fw-bold text-gray-900 fs-6">{{ selectedEquipmentForRevoke.name }}</div>
+              <div class="text-muted fs-8">Mã: <strong>{{ selectedEquipmentForRevoke.code }}</strong> | Đang bàn giao cho: {{ selectedEquipmentForRevoke.currentUserName || selectedEquipmentForRevoke.currentDepartmentName || 'N/A' }}</div>
+            }
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">Tình trạng thiết bị khi thu hồi</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Hoạt động bình thường, hơi trầy vỏ nhẹ..." [(ngModel)]="revokeForm.conditionStatus" />
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú thu hồi</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="Ghi rõ lý do thu hồi (Chuyển công tác / Đổi máy khác...)" [(ngModel)]="revokeForm.note"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeRevokeModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-success fw-bold" [disabled]="isSubmittingRevoke" (click)="submitRevoke()">
+            @if (isSubmittingRevoke) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+            } @else {
+              <i class="bi bi-check-circle-fill me-1"></i> Xác Nhận Thu Hồi Về Kho
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 4: Báo Hỏng Thiết Bị -->
+@if (isBrokenModalOpen && selectedEquipmentForBroken) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-550px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-danger">
+          <h2 class="fw-bold fs-4 mb-0 text-danger d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill text-danger fs-3"></i>
+            Ghi Nhận Báo Hỏng Trang Thiết Bị
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeBrokenModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedEquipmentForBroken.name }}</div>
+            <div class="text-muted fs-8">Mã: <strong>{{ selectedEquipmentForBroken.code }}</strong></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Mô tả chi tiết sự cố hỏng hóc</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="VD: Hỏng màn hình sọc xanh, không lên nguồn, liệt bàn phím..." [(ngModel)]="brokenForm.description"></textarea>
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú hướng xử lý (IT / Bảo trì)</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Mang gửi bảo hành hãng / Chờ thay linh kiện..." [(ngModel)]="brokenForm.note" />
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeBrokenModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-danger fw-bold" [disabled]="isSubmittingBroken" (click)="submitBroken()">
+            @if (isSubmittingBroken) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+            } @else {
+              <i class="bi bi-exclamation-triangle me-1"></i> Xác Nhận Báo Hỏng
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 5: Xem Chi Tiết & Lịch Sử Timeline -->
+@if (isViewModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-4 mb-0 text-gray-900 d-flex align-items-center gap-2">
+            <i class="bi bi-box-seam text-primary fs-3"></i>
+            Chi Tiết & Lịch Sử Trang Thiết Bị
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeViewModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          @if (isLoadingDetail) {
+            <div class="text-center py-8 text-muted">
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang tải lịch sử chi tiết...
+            </div>
+          } @else if (selectedEquipmentDetail) {
+            <div class="p-4 rounded-3 bg-light-primary border border-primary border-dashed mb-4">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <h3 class="fw-bold text-gray-900 fs-5 mb-1">{{ selectedEquipmentDetail.name }}</h3>
+                  <div class="fs-7 text-muted">Mã thiết bị: <strong class="text-gray-800">{{ selectedEquipmentDetail.code }}</strong> | S/N: {{ selectedEquipmentDetail.serialNumber || 'N/A' }}</div>
+                </div>
+                <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(selectedEquipmentDetail.status)">
+                  {{ getStatusLabel(selectedEquipmentDetail.status) }}
+                </span>
+              </div>
+              <div class="fs-7 text-gray-700 mt-2">
+                <strong>Cấu hình:</strong> {{ selectedEquipmentDetail.specifications || 'Không có mô tả' }}
+              </div>
+            </div>
+
+            <!-- Timeline Lịch sử -->
+            <div class="mb-3">
+              <div class="fw-bold fs-6 text-gray-900 mb-3 d-flex align-items-center gap-2">
+                <i class="bi bi-clock-history text-primary"></i>
+                Nhật Ký Bàn Giao, Thu Hồi & Sự Cố
+              </div>
+
+              <div class="timeline-list">
+                @for (hist of selectedEquipmentDetail.histories; track hist.id) {
+                  <div class="timeline-item mb-4">
+                    <span class="timeline-badge" [ngClass]="getActionBadgeClass(hist.actionType)"></span>
+                    <div class="d-flex flex-column">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <span class="badge fs-8 px-2 py-1" [ngClass]="getActionBadgeClass(hist.actionType)">
+                          {{ getActionTypeLabel(hist.actionType) }}
+                        </span>
+                        <span class="fs-8 text-muted">{{ hist.actionDate | date:'dd/MM/yyyy HH:mm' }}</span>
+                      </div>
+
+                      <div class="fs-7 fw-bold text-gray-800 mt-1">
+                        @if (hist.userName) {
+                          <span>Nhân sự: {{ hist.userName }}</span>
+                        } @else {
+                          <span>Thao tác hệ thống</span>
+                        }
+                      </div>
+
+                      <div class="fs-8 text-gray-600">
+                        <strong>Tình trạng:</strong> {{ hist.conditionStatus || 'Bình thường' }}
+                      </div>
+
+                      @if (hist.note) {
+                        <div class="fs-8 text-muted bg-light p-2 rounded mt-1 border">
+                          {{ hist.note }}
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (selectedEquipmentDetail.histories?.length === 0) {
+                  <div class="text-center py-4 text-muted fs-8">
+                    Chưa có nhật ký thao tác bàn giao nào được ghi nhận
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

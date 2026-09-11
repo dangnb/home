@@ -48,6 +48,36 @@ export const routes: Routes = [
             path: 'leave-requests',
             loadComponent: () => import('./pages/hrm/leave-requests/leave-requests-list.component').then(m => m.LeaveRequestsListComponent),
             title: 'Quản Lý Đơn Nghỉ Phép - HRM Platform'
+          },
+          {
+            path: 'reward-disciplines',
+            loadComponent: () => import('./pages/hrm/reward-disciplines/reward-disciplines-list.component').then(m => m.RewardDisciplinesListComponent),
+            title: 'Quản Lý Thưởng & Phạt - HRM Platform'
+          },
+          {
+            path: 'contracts',
+            loadComponent: () => import('./pages/hrm/contracts/contracts-list.component').then(m => m.ContractsListComponent),
+            title: 'Quản Lý Hợp Đồng Lao Động - HRM Platform'
+          },
+          {
+            path: 'transfers',
+            loadComponent: () => import('./pages/hrm/transfers/transfers-list.component').then(m => m.TransfersListComponent),
+            title: 'Lệnh Điều Động Công Tác - HRM Platform'
+          },
+          {
+            path: 'policies',
+            loadComponent: () => import('./pages/hrm/policies/policies-list.component').then(m => m.PoliciesListComponent),
+            title: 'Chính Sách & Quy Định Công Ty - HRM Platform'
+          },
+          {
+            path: 'equipments',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị - HRM Platform'
+          },
+          {
+            path: 'equipment-repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
           }
         ]
       },

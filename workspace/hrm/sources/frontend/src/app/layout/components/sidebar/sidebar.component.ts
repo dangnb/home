@@ -62,6 +62,36 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-calendar-minus',
       route: '/hrm/leave-requests'
     },
+    {
+      title: 'Khen Thưởng & Kỷ Luật',
+      icon: 'bi-award',
+      route: '/hrm/reward-disciplines'
+    },
+    {
+      title: 'Hợp Đồng Lao Động',
+      icon: 'bi-file-earmark-text',
+      route: '/hrm/contracts'
+    },
+    {
+      title: 'Lệnh Điều Động',
+      icon: 'bi-arrow-left-right',
+      route: '/hrm/transfers'
+    },
+    {
+      title: 'Chính Sách Công Ty',
+      icon: 'bi-book-half',
+      route: '/hrm/policies'
+    },
+    {
+      title: 'Quản Lý Thiết Bị',
+      icon: 'bi-box-seam',
+      route: '/hrm/equipments'
+    },
+    {
+      title: 'Báo Hỏng & Sửa IT',
+      icon: 'bi-tools',
+      route: '/hrm/equipment-repairs'
+    },
 
     // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG

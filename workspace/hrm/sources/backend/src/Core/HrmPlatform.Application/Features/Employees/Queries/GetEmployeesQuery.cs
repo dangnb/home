@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -26,7 +27,20 @@ public class EmployeeDto
     public string Gender { get; set; } = string.Empty;
     public string? DateOfBirth { get; set; }
     public string? IdCardNumber { get; set; }
+    public string? TaxCode { get; set; }
+    public string? SocialInsuranceNumber { get; set; }
+    public string? BankAccountNumber { get; set; }
+    public string? BankName { get; set; }
+    public string? BankBranch { get; set; }
+    public string? PermanentAddress { get; set; }
+    public string? TemporaryAddress { get; set; }
+    public string? EmergencyContactName { get; set; }
+    public string? EmergencyContactPhone { get; set; }
+    public string? MaritalStatus { get; set; }
     public string? JoinedDate { get; set; }
+    public string? ProbationEndDate { get; set; }
+    public string? OfficialJoinedDate { get; set; }
+    public string? AvatarUrl { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
 }
@@ -54,15 +68,12 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
     public async Task<PaginatedResultDto<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId ?? 1;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE ep.tenant_id = @TenantId AND ep.status != 'DELETED'";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
         {
@@ -88,7 +99,6 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
             INNER JOIN users u ON ep.user_id = u.id
             {whereClause};
         ";
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
 
         var dataSql = $@"
             SELECT 
@@ -107,7 +117,20 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
                 ep.gender AS Gender, 
                 DATE_FORMAT(ep.date_of_birth, '%Y-%m-%d') AS DateOfBirth, 
                 ep.id_card_number AS IdCardNumber, 
+                ep.tax_code AS TaxCode,
+                ep.social_insurance_number AS SocialInsuranceNumber,
+                ep.bank_account_number AS BankAccountNumber,
+                ep.bank_name AS BankName,
+                ep.bank_branch AS BankBranch,
+                ep.permanent_address AS PermanentAddress,
+                ep.temporary_address AS TemporaryAddress,
+                ep.emergency_contact_name AS EmergencyContactName,
+                ep.emergency_contact_phone AS EmergencyContactPhone,
+                ep.marital_status AS MaritalStatus,
                 DATE_FORMAT(ep.joined_date, '%Y-%m-%d') AS JoinedDate,
+                DATE_FORMAT(ep.probation_end_date, '%Y-%m-%d') AS ProbationEndDate,
+                DATE_FORMAT(ep.official_joined_date, '%Y-%m-%d') AS OfficialJoinedDate,
+                ep.avatar_url AS AvatarUrl,
                 ep.status AS Status, 
                 ep.created_at AS CreatedAt
             FROM employee_profiles ep
@@ -115,11 +138,15 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
             LEFT JOIN departments d ON ep.department_id = d.id
             LEFT JOIN users m ON ep.manager_id = m.id
             {whereClause}
-            ORDER BY ep.id DESC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY ep.id DESC";
 
-        var items = (await connection.QueryAsync<EmployeeDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<EmployeeDto>.Create(items, totalCount, request.Page, request.PageSize);
+        return await connection.QueryPaginatedAsync<EmployeeDto>(
+            countSql,
+            dataSql,
+            parameters,
+            request.Page,
+            request.PageSize,
+            cancellationToken);
     }
 }
+

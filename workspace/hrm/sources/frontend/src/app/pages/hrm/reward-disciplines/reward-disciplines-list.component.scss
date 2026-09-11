@@ -1,0 +1,46 @@
+.tab-modal-backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1055;
+}
+
+.max-w-250px {
+  max-width: 250px;
+}
+
+.card-state-success:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.card-state-danger:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.card-state-primary:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.card-state-info:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.action-dropdown-menu {
+  z-index: 1050;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.hover-bg-light-primary:hover {
+  background-color: #f1faff !important;
+}
+
+.hover-bg-light-success:hover {
+  background-color: #e8fff3 !important;
+}
+
+.hover-bg-light-danger:hover {
+  background-color: #fff5f8 !important;
+}
+

@@ -24,6 +24,14 @@ public interface IApplicationDbContext
     DbSet<EmployeeProfile> EmployeeProfiles { get; }
     DbSet<Attendance> Attendances { get; }
     DbSet<LeaveRequest> LeaveRequests { get; }
+    DbSet<RewardDiscipline> RewardDisciplines { get; }
+    DbSet<EmployeeContract> EmployeeContracts { get; }
+    DbSet<EmployeeJobHistory> EmployeeJobHistories { get; }
+    DbSet<HrPolicy> HrPolicies { get; }
+    DbSet<Notification> Notifications { get; }
+    DbSet<Equipment> Equipments { get; }
+    DbSet<EquipmentHistory> EquipmentHistories { get; }
+    DbSet<EquipmentRepair> EquipmentRepairs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

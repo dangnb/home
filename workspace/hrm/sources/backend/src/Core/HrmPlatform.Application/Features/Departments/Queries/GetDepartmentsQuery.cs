@@ -1,4 +1,8 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -41,15 +45,12 @@ public class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, P
     public async Task<PaginatedResultDto<DepartmentDto>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId ?? 1;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE d.tenant_id = @TenantId AND d.status != 'DELETED'";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (!string.IsNullOrWhiteSpace(request.Status) && request.Status != "All")
         {
@@ -58,7 +59,6 @@ public class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, P
         }
 
         var countSql = $"SELECT COUNT(*) FROM departments d {whereClause};";
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
 
         var dataSql = $@"
             SELECT 
@@ -77,11 +77,15 @@ public class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, P
             LEFT JOIN users u ON d.manager_id = u.id
             LEFT JOIN departments p ON d.parent_id = p.id
             {whereClause}
-            ORDER BY d.id DESC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY d.id DESC";
 
-        var items = (await connection.QueryAsync<DepartmentDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<DepartmentDto>.Create(items, totalCount, request.Page, request.PageSize);
+        return await connection.QueryPaginatedAsync<DepartmentDto>(
+            countSql,
+            dataSql,
+            parameters,
+            request.Page,
+            request.PageSize,
+            cancellationToken);
     }
 }
+

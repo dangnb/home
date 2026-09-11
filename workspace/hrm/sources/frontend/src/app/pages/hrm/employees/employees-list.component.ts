@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx';
 import { EmployeeService } from '../../../core/hrm/services/employee.service';
 import { DepartmentService } from '../../../core/hrm/services/department.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { EmployeeContractService, EmployeeContract } from '../../../core/hrm/services/employee-contract.service';
 import { 
   Employee, 
   Department, 
@@ -22,11 +23,13 @@ import {
 export class EmployeesListComponent implements OnInit {
   private employeeService = inject(EmployeeService);
   private departmentService = inject(DepartmentService);
+  private contractService = inject(EmployeeContractService);
   private toastService = inject(ToastService);
 
   // Data signals
   employees = signal<Employee[]>([]);
   departments = signal<Department[]>([]);
+  employeeContracts = signal<EmployeeContract[]>([]);
   isLoading = signal<boolean>(false);
 
   // Filters
@@ -61,6 +64,14 @@ export class EmployeesListComponent implements OnInit {
   importValidCount = 0;
   importInvalidCount = 0;
 
+  // Detail Modal State (360-degree Profile)
+  isDetailOpen = false;
+  selectedEmployeeDetail: Employee | null = null;
+  activeDetailTab: 'overview' | 'finance' | 'contact' | 'contracts' | 'documents' = 'overview';
+
+  // Modal Form Active Tab
+  activeFormTab: 'basic' | 'finance' | 'contact' = 'basic';
+
   // Form Model for Single Create/Edit
   formData = {
     username: '',
@@ -74,7 +85,20 @@ export class EmployeesListComponent implements OnInit {
     gender: 'MALE',
     dateOfBirth: '',
     idCardNumber: '',
+    taxCode: '',
+    socialInsuranceNumber: '',
+    bankAccountNumber: '',
+    bankName: '',
+    bankBranch: '',
+    permanentAddress: '',
+    temporaryAddress: '',
+    emergencyContactName: '',
+    emergencyContactPhone: '',
+    maritalStatus: 'SINGLE',
     joinedDate: new Date().toISOString().split('T')[0],
+    probationEndDate: '',
+    officialJoinedDate: '',
+    avatarUrl: '',
     status: 'ACTIVE'
   };
 
@@ -86,6 +110,42 @@ export class EmployeesListComponent implements OnInit {
   ngOnInit() {
     this.loadDepartments();
     this.loadEmployees();
+  }
+
+  openDetailModal(emp: Employee) {
+    this.activeDropdownId = null;
+    this.selectedEmployeeDetail = emp;
+    this.activeDetailTab = 'overview';
+    this.isDetailOpen = true;
+    this.loadEmployeeContracts(Number(emp.id));
+  }
+
+  loadEmployeeContracts(employeeId: number | string) {
+    this.contractService.getContracts({ employeeId: Number(employeeId) }).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.employeeContracts.set(res.data);
+        } else {
+          this.employeeContracts.set([]);
+        }
+      },
+      error: () => {
+        this.employeeContracts.set([]);
+      }
+    });
+  }
+
+  closeDetailModal() {
+    this.isDetailOpen = false;
+    this.selectedEmployeeDetail = null;
+  }
+
+  setDetailTab(tab: 'overview' | 'finance' | 'contact' | 'contracts' | 'documents') {
+    this.activeDetailTab = tab;
+  }
+
+  setFormTab(tab: 'basic' | 'finance' | 'contact') {
+    this.activeFormTab = tab;
   }
 
   toggleDropdown(id: number | string, event: MouseEvent) {
@@ -149,6 +209,7 @@ export class EmployeesListComponent implements OnInit {
   openCreateModal() {
     this.isEditMode = false;
     this.currentEmployeeId = null;
+    this.activeFormTab = 'basic';
     this.formData = {
       username: '',
       email: '',
@@ -161,15 +222,30 @@ export class EmployeesListComponent implements OnInit {
       gender: 'MALE',
       dateOfBirth: '1995-01-01',
       idCardNumber: '',
+      taxCode: '',
+      socialInsuranceNumber: '',
+      bankAccountNumber: '',
+      bankName: '',
+      bankBranch: '',
+      permanentAddress: '',
+      temporaryAddress: '',
+      emergencyContactName: '',
+      emergencyContactPhone: '',
+      maritalStatus: 'SINGLE',
       joinedDate: new Date().toISOString().split('T')[0],
+      probationEndDate: '',
+      officialJoinedDate: '',
+      avatarUrl: '',
       status: 'ACTIVE'
     };
     this.isModalOpen = true;
   }
 
   openEditModal(emp: Employee) {
+    this.activeDropdownId = null;
     this.isEditMode = true;
     this.currentEmployeeId = emp.id;
+    this.activeFormTab = 'basic';
     this.formData = {
       username: emp.username || '',
       email: emp.email || '',
@@ -182,7 +258,20 @@ export class EmployeesListComponent implements OnInit {
       gender: String(emp.gender || 'MALE'),
       dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.split('T')[0] : '',
       idCardNumber: emp.idCardNumber || '',
+      taxCode: emp.taxCode || '',
+      socialInsuranceNumber: emp.socialInsuranceNumber || '',
+      bankAccountNumber: emp.bankAccountNumber || '',
+      bankName: emp.bankName || '',
+      bankBranch: emp.bankBranch || '',
+      permanentAddress: emp.permanentAddress || '',
+      temporaryAddress: emp.temporaryAddress || '',
+      emergencyContactName: emp.emergencyContactName || '',
+      emergencyContactPhone: emp.emergencyContactPhone || '',
+      maritalStatus: emp.maritalStatus || 'SINGLE',
       joinedDate: (emp.joinedDate || emp.hireDate) ? (emp.joinedDate || emp.hireDate)!.split('T')[0] : '',
+      probationEndDate: emp.probationEndDate ? emp.probationEndDate.split('T')[0] : '',
+      officialJoinedDate: emp.officialJoinedDate ? emp.officialJoinedDate.split('T')[0] : '',
+      avatarUrl: emp.avatarUrl || '',
       status: String(emp.status || 'ACTIVE')
     };
     this.isModalOpen = true;
@@ -190,6 +279,23 @@ export class EmployeesListComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  onAvatarFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        this.toastService.warning('File quá lớn', 'Vui lòng chọn ảnh dung lượng dưới 5MB.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.formData.avatarUrl = e.target.result;
+        this.toastService.success('Đã tải ảnh', 'Đã tải ảnh đại diện từ máy tính.');
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   saveEmployee() {
@@ -221,7 +327,20 @@ export class EmployeesListComponent implements OnInit {
         gender: this.formData.gender,
         dateOfBirth: this.formData.dateOfBirth || undefined,
         idCardNumber: this.formData.idCardNumber ? this.formData.idCardNumber.trim() : undefined,
-        joinedDate: this.formData.joinedDate || undefined
+        taxCode: this.formData.taxCode ? this.formData.taxCode.trim() : undefined,
+        socialInsuranceNumber: this.formData.socialInsuranceNumber ? this.formData.socialInsuranceNumber.trim() : undefined,
+        bankAccountNumber: this.formData.bankAccountNumber ? this.formData.bankAccountNumber.trim() : undefined,
+        bankName: this.formData.bankName ? this.formData.bankName.trim() : undefined,
+        bankBranch: this.formData.bankBranch ? this.formData.bankBranch.trim() : undefined,
+        permanentAddress: this.formData.permanentAddress ? this.formData.permanentAddress.trim() : undefined,
+        temporaryAddress: this.formData.temporaryAddress ? this.formData.temporaryAddress.trim() : undefined,
+        emergencyContactName: this.formData.emergencyContactName ? this.formData.emergencyContactName.trim() : undefined,
+        emergencyContactPhone: this.formData.emergencyContactPhone ? this.formData.emergencyContactPhone.trim() : undefined,
+        maritalStatus: this.formData.maritalStatus || 'SINGLE',
+        joinedDate: this.formData.joinedDate || undefined,
+        probationEndDate: this.formData.probationEndDate || undefined,
+        officialJoinedDate: this.formData.officialJoinedDate || undefined,
+        avatarUrl: this.formData.avatarUrl ? this.formData.avatarUrl.trim() : undefined
       };
 
       this.employeeService.updateEmployee(this.currentEmployeeId, dto).subscribe({
@@ -250,7 +369,20 @@ export class EmployeesListComponent implements OnInit {
         gender: this.formData.gender,
         dateOfBirth: this.formData.dateOfBirth || undefined,
         idCardNumber: this.formData.idCardNumber ? this.formData.idCardNumber.trim() : undefined,
-        joinedDate: this.formData.joinedDate || undefined
+        taxCode: this.formData.taxCode ? this.formData.taxCode.trim() : undefined,
+        socialInsuranceNumber: this.formData.socialInsuranceNumber ? this.formData.socialInsuranceNumber.trim() : undefined,
+        bankAccountNumber: this.formData.bankAccountNumber ? this.formData.bankAccountNumber.trim() : undefined,
+        bankName: this.formData.bankName ? this.formData.bankName.trim() : undefined,
+        bankBranch: this.formData.bankBranch ? this.formData.bankBranch.trim() : undefined,
+        permanentAddress: this.formData.permanentAddress ? this.formData.permanentAddress.trim() : undefined,
+        temporaryAddress: this.formData.temporaryAddress ? this.formData.temporaryAddress.trim() : undefined,
+        emergencyContactName: this.formData.emergencyContactName ? this.formData.emergencyContactName.trim() : undefined,
+        emergencyContactPhone: this.formData.emergencyContactPhone ? this.formData.emergencyContactPhone.trim() : undefined,
+        maritalStatus: this.formData.maritalStatus || 'SINGLE',
+        joinedDate: this.formData.joinedDate || undefined,
+        probationEndDate: this.formData.probationEndDate || undefined,
+        officialJoinedDate: this.formData.officialJoinedDate || undefined,
+        avatarUrl: this.formData.avatarUrl ? this.formData.avatarUrl.trim() : undefined
       };
 
       this.employeeService.createEmployee(dto).subscribe({
@@ -518,6 +650,9 @@ export class EmployeesListComponent implements OnInit {
       }
     });
   }
+
+  // Expose String to template
+  String = String;
 
   // --- UI Helpers ---
   getStatusBadgeClass(status: string | number): string {

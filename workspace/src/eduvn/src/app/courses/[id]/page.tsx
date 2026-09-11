@@ -6,7 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { t, getStoredLocale, type Locale } from '@/lib/i18n';
 import { getCourseById, getAllLessons, formatPrice, type Course } from '@/lib/data';
-import { enrollCourse, isEnrolled, isLoggedIn } from '@/lib/storage';
+import { enrollCourse, isEnrolled, isLoggedIn, getStoredUser } from '@/lib/storage';
+import { sanitizeInput } from '@/lib/security';
 import {
   Star,
   Clock,
@@ -31,18 +32,46 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
   const [enrolled, setEnrolled] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
+  // Review submission state
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState('');
+
   useEffect(() => {
     setLocale(getStoredLocale());
     const c = getCourseById(id);
     if (c) {
       setCourse(c);
       setEnrolled(isEnrolled(id));
+      setReviews(c.reviews || []);
       // Expand first module by default
       if (c.modules.length > 0) {
         setExpandedModules(new Set([c.modules[0].id]));
       }
     }
   }, [id]);
+
+  const handleAddReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    const user = getStoredUser();
+    const newRev = {
+      id: `rev-${Date.now()}`,
+      userName: user ? user.name : 'Học viên EduVN',
+      avatar: user ? user.avatar : '/avatars/demo-student.jpg',
+      rating: newRating,
+      comment: sanitizeInput(newComment.trim()),
+      commentEn: sanitizeInput(newComment.trim()),
+      date: 'Vừa xong',
+    };
+
+    setReviews([newRev, ...reviews]);
+    setNewComment('');
+    setShowReviewForm(false);
+    alert('Cảm ơn bạn đã gửi đánh giá cho khóa học!');
+  };
 
   const handleEnroll = () => {
     if (!isLoggedIn()) {
@@ -216,9 +245,80 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
 
           {/* Reviews */}
           <div className={styles.section}>
-            <h2 className="heading-md">{t('course.reviews', locale)}</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <h2 className="heading-md">{t('course.reviews', locale)} ({reviews.length})</h2>
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  if (!isLoggedIn()) {
+                    router.push('/login');
+                  } else {
+                    setShowReviewForm(!showReviewForm);
+                  }
+                }}
+              >
+                <Star size={16} style={{ color: '#f59e0b' }} />
+                {showReviewForm ? 'Đóng form' : 'Viết đánh giá'}
+              </button>
+            </div>
+
+            {/* Review Submission Form */}
+            {showReviewForm && (
+              <form
+                onSubmit={handleAddReview}
+                style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '16px',
+                  padding: '1.25rem',
+                  marginBottom: '1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                }}
+              >
+                <div>
+                  <label className="input-label">Chọn số sao đánh giá:</label>
+                  <div style={{ display: 'flex', gap: '0.35rem', marginTop: '0.35rem' }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setNewRating(star)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.2rem' }}
+                      >
+                        <Star
+                          size={24}
+                          fill={star <= newRating ? '#f59e0b' : 'none'}
+                          color={star <= newRating ? '#f59e0b' : '#94a3b8'}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="input-label">Nhận xét của bạn:</label>
+                  <textarea
+                    className="input-field"
+                    rows={3}
+                    placeholder="Chia sẻ cảm nhận của bạn về chất lượng bài giảng, giảng viên..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <button type="submit" className="btn btn-primary btn-sm">
+                    Gửi đánh giá
+                  </button>
+                </div>
+              </form>
+            )}
+
             <div className={styles.reviewsList}>
-              {course.reviews.map((review) => (
+              {reviews.map((review) => (
                 <div key={review.id} className={styles.review}>
                   <div className={styles.reviewHeader}>
                     <div className={styles.reviewAvatar}>{review.userName.charAt(0)}</div>

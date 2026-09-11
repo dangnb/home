@@ -66,6 +66,9 @@ export class UsersListComponent implements OnInit {
   // Pagination state
   currentPage = 1;
   pageSize = 10;
+  totalCount = 0;
+  totalPages = 1;
+  pageSizeOptions = [10, 20, 50, 100];
 
   ngOnInit(): void {
     this.loadUsers();
@@ -88,12 +91,26 @@ export class UsersListComponent implements OnInit {
     this.userMgmtService.getUsers({
       search: this.searchTerm,
       role: this.selectedRole,
-      status: this.selectedStatus
+      status: this.selectedStatus,
+      page: this.currentPage,
+      pageSize: this.pageSize
     }).subscribe({
-      next: (res) => {
-        if (res.data) {
+      next: (res: any) => {
+        if (res && res.data) {
           this.users.set(res.data);
-          this.applyFilter();
+          this.filteredUsers.set(res.data);
+          if (res.pagination) {
+            this.totalCount = res.pagination.totalCount;
+            this.totalPages = res.pagination.totalPages;
+          } else {
+            this.totalCount = res.data.length;
+            this.totalPages = 1;
+          }
+        } else {
+          this.users.set([]);
+          this.filteredUsers.set([]);
+          this.totalCount = 0;
+          this.totalPages = 1;
         }
         this.isLoading.set(false);
       },
@@ -105,38 +122,8 @@ export class UsersListComponent implements OnInit {
   }
 
   applyFilter(): void {
-    let list = this.users();
-    if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase();
-      list = list.filter(u =>
-        u.name?.toLowerCase().includes(term) ||
-        u.fullName?.toLowerCase().includes(term) ||
-        u.username?.toLowerCase().includes(term) ||
-        u.email?.toLowerCase().includes(term) ||
-        (u.phone && u.phone.includes(term))
-      );
-    }
-
-    if (this.selectedRole !== 'All') {
-      list = list.filter(u => u.roleCode === this.selectedRole || u.role === this.selectedRole);
-    }
-
-    if (this.selectedStatus !== 'All') {
-      list = list.filter(u => u.status === this.selectedStatus);
-    }
-
-    this.filteredUsers.set(list);
     this.currentPage = 1;
-  }
-
-  get paginatedUsers(): ManagedUser[] {
-    const list = this.filteredUsers();
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    return list.slice(startIndex, startIndex + this.pageSize);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.filteredUsers().length / this.pageSize) || 1;
+    this.loadUsers();
   }
 
   get totalPagesArray(): number[] {
@@ -144,9 +131,18 @@ export class UsersListComponent implements OnInit {
   }
 
   setPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
       this.currentPage = page;
+      this.loadUsers();
     }
+  }
+
+  onPageSizeChange(size?: number): void {
+    if (size) {
+      this.pageSize = size;
+    }
+    this.currentPage = 1;
+    this.loadUsers();
   }
 
   // --- Add / Edit User ---

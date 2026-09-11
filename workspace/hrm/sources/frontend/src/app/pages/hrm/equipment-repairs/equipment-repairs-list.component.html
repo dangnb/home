@@ -1,0 +1,714 @@
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT (IT Service Desk)</h1>
+      <span class="text-muted fs-7">Tiếp nhận báo hỏng sự cố trang thiết bị, phân công kỹ thuật viên IT, cập nhật thông tin lỗi & chi tiết linh kiện sửa chữa</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="btn btn-sm btn-danger fw-bold" (click)="openCreateModal()">
+        <i class="bi bi-exclamation-triangle-fill me-1"></i>Tạo Phiếu Báo Hỏng IT
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Summary Banner -->
+  <div class="row g-4">
+    <!-- Card 1: Tổng số phiếu -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Phiếu Yêu Cầu</span>
+            <span class="fs-2x fw-bold text-gray-900">{{ summary().totalRepairs }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-journal-text fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Chờ tiếp nhận -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Chờ Tiếp Nhận / Phân Công</span>
+            <span class="fs-2x fw-bold text-warning">{{ summary().pendingRepairs }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+            <i class="bi bi-hourglass-split fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Đang sửa chữa -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Kiểm Tra / Sửa Chữa</span>
+            <span class="fs-2x fw-bold text-primary">{{ summary().inProgressRepairs }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+            <i class="bi bi-tools fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Hoàn tất & Chi phí -->
+    <div class="col-md-3 col-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đã Hoàn Thành (Chi Phí)</span>
+            <span class="fs-2x fw-bold text-success">{{ summary().completedRepairs }}</span>
+            <span class="fs-8 text-muted d-block mt-1">Tổng tiền: <strong class="text-danger">{{ summary().totalRepairCost | number:'1.0-0' }}đ</strong></span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-check-circle-fill fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Table Card -->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!-- Header Controls -->
+    <div class="card-header border-0 pt-6 pb-0">
+      <div class="card-title w-100 me-0">
+        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+          <!-- Search Box -->
+          <div class="position-relative flex-grow-1" style="max-width: 480px;">
+            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid ps-10 fs-7" 
+              placeholder="Nhập mã phiếu, mã thiết bị, tên máy, người báo hỏng hoặc IT..." 
+              [(ngModel)]="filterKeyword"
+              (keyup.enter)="onFilterChange()"
+            />
+            @if (filterKeyword) {
+              <button 
+                type="button" 
+                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                (click)="clearSingleFilter('keyword')"
+              >
+                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+              </button>
+            }
+          </div>
+
+          <!-- Advanced Filters Button -->
+          <div class="d-flex align-items-center gap-2">
+            <button 
+              type="button" 
+              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
+              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+              (click)="toggleAdvancedFilter()"
+            >
+              <i class="bi bi-sliders2 fs-6"></i>
+              <span>Bộ Lọc Nâng Cao</span>
+              @if (activeAdvancedFilterCount > 0) {
+                <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
+                  {{ activeAdvancedFilterCount }}
+                </span>
+              }
+            </button>
+
+            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+              <button 
+                type="button" 
+                class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                (click)="resetFilters()" 
+                title="Xóa toàn bộ bộ lọc"
+              >
+                <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                <span>Xóa bộ lọc</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filter Tags & Drawer Panel -->
+    <div class="px-6 pt-3 pb-0">
+      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+          @if (filterKeyword) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ khóa: "{{ filterKeyword }}"
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+            </span>
+          }
+          @if (filterStatus !== 'ALL') {
+            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Trạng thái: {{ getStatusLabel(filterStatus) }}
+              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+            </span>
+          }
+          @if (filterPriority !== 'ALL') {
+            <span class="badge badge-light-danger border border-danger border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Ưu tiên: {{ getPriorityLabel(filterPriority) }}
+              <i class="bi bi-x-lg cursor-pointer text-danger" (click)="clearSingleFilter('priority')"></i>
+            </span>
+          }
+        </div>
+      }
+
+      @if (isAdvancedFilterOpen()) {
+        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái xử lý IT</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+                <option value="ALL">-- Tất cả trạng thái --</option>
+                <option value="PENDING">⏳ Chờ tiếp nhận / Phân công IT</option>
+                <option value="IN_PROGRESS">🔧 Đang kiểm tra / Sửa chữa</option>
+                <option value="COMPLETED">✅ Đã hoàn thành sửa</option>
+                <option value="UNREPAIRABLE">❌ Không thể sửa (Thanh lý)</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Mức độ ưu tiên sự cố</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterPriority" (change)="onFilterChange()">
+                <option value="ALL">-- Tất cả mức ưu tiên --</option>
+                <option value="URGENT">🔴 Khẩn cấp (Sửa ngay)</option>
+                <option value="HIGH">🟠 Cao</option>
+                <option value="MEDIUM">🟡 Trung bình</option>
+                <option value="LOW">🟢 Thấp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Table Body -->
+    <div class="card-body pt-0">
+      <div class="table-responsive" style="min-height: 340px;">
+        <table class="table align-middle table-row-dashed fs-6 gy-4">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="min-w-130px">Mã Phiếu IT</th>
+              <th class="min-w-220px">Trang Thiết Bị Báo Hỏng</th>
+              <th class="min-w-180px">Người Báo Hỏng</th>
+              <th class="min-w-140px">Ưu Tiên</th>
+              <th class="min-w-180px">Kỹ Thuật Viên IT</th>
+              <th class="min-w-140px">Trạng Thái</th>
+              <th class="min-w-120px">Chi Phí</th>
+              <th class="text-end min-w-140px">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 fw-semibold">
+            @for (item of items(); track item.id) {
+              <tr>
+                <!-- Code & Date -->
+                <td>
+                  <div class="d-flex flex-column">
+                    <span class="fw-bold text-gray-900 hover-primary cursor-pointer" (click)="openViewModal(item)">{{ item.code }}</span>
+                    <span class="text-muted fs-8">{{ item.reportedDate | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                </td>
+
+                <!-- Equipment Info -->
+                <td>
+                  <div class="d-flex flex-column">
+                    <span class="text-gray-900 fw-bold">{{ item.equipmentName }}</span>
+                    <span class="text-muted fs-8">Mã: <strong>{{ item.equipmentCode }}</strong> | S/N: {{ item.serialNumber || 'N/A' }}</span>
+                  </div>
+                </td>
+
+                <!-- Reporter -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="symbol symbol-30px symbol-circle me-2 bg-light-danger text-danger d-flex align-items-center justify-content-center fw-bold fs-7">
+                      {{ item.reporterUserName.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-900 fw-bold fs-7">👤 {{ item.reporterUserName }}</span>
+                      <span class="text-muted fs-8">{{ item.reporterDepartmentName || 'Phòng ban' }}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Priority -->
+                <td>
+                  <span class="badge px-3 py-2" [ngClass]="getPriorityBadgeClass(item.priority)">
+                    {{ getPriorityLabel(item.priority) }}
+                  </span>
+                </td>
+
+                <!-- Technician -->
+                <td>
+                  @if (item.technicianUserId && item.technicianUserName) {
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-30px symbol-circle me-2 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7">
+                        👨‍💻
+                      </div>
+                      <div class="d-flex flex-column">
+                        <span class="text-gray-900 fw-bold fs-7">{{ item.technicianUserName }}</span>
+                        <span class="text-muted fs-8">Kỹ thuật viên IT</span>
+                      </div>
+                    </div>
+                  } @else {
+                    <button type="button" class="btn btn-sm btn-light-warning fs-8 py-1 px-2 fw-bold" (click)="openAssignModal(item)">
+                      <i class="bi bi-person-plus me-1"></i>Chưa phân công IT
+                    </button>
+                  }
+                </td>
+
+                <!-- Status -->
+                <td>
+                  <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(item.status)">
+                    {{ getStatusLabel(item.status) }}
+                  </span>
+                </td>
+
+                <!-- Repair Cost -->
+                <td>
+                  <span class="fw-bold text-danger fs-7">{{ item.repairCost | number:'1.0-0' }}đ</span>
+                </td>
+
+                <!-- Actions Dropdown -->
+                <td class="text-end position-relative">
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                    (click)="toggleDropdown(item.id, $event)"
+                  >
+                    Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                  </button>
+
+                  @if (openDropdownId() === item.id) {
+                    <div 
+                      class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-220px bg-white rounded-3 action-dropdown-menu"
+                      style="z-index: 105;"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="openViewModal(item); closeDropdown()">
+                        <i class="bi bi-eye-fill text-info fs-6"></i>
+                        <span>Xem Chi Tiết Phiếu</span>
+                      </a>
+
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-primary hover-bg-light-primary" (click)="openAssignModal(item); closeDropdown()">
+                        <i class="bi bi-person-check-fill text-primary fs-6"></i>
+                        <span>👨‍💻 Phân Công IT Xử Lý</span>
+                      </a>
+
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openProgressModal(item); closeDropdown()">
+                        <i class="bi bi-tools text-success fs-6"></i>
+                        <span>🔧 Cập Nhật Lỗi & Linh Kiện Sửa</span>
+                      </a>
+                    </div>
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (items().length === 0 && !isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <i class="bi bi-tools fs-2x d-block mb-2"></i>
+                  Chưa có yêu cầu báo hỏng sự cố IT nào được ghi nhận
+                </td>
+              </tr>
+            }
+
+            @if (isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu phiếu sửa chữa IT...
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Component -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        [itemCount]="items().length"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="currentPage = $event; loadItems()"
+        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+      ></app-pagination>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 1: Tạo Phiếu Báo Hỏng IT -->
+@if (isCreateModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-danger">
+          <h2 class="fw-bold fs-4 mb-0 text-danger d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill text-danger fs-3"></i>
+            Tạo Phiếu Yêu Cầu Báo Hỏng Thiết Bị IT
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeCreateModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <!-- Searchable Equipment Select -->
+          <div class="mb-4 position-relative">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Chọn Trang Thiết Bị Báo Hỏng</label>
+            <div 
+              class="form-control form-control-solid fs-7 d-flex align-items-center justify-content-between cursor-pointer py-2 px-3 border"
+              [class.border-primary]="isCreateEquipmentDropdownOpen()"
+              (click)="toggleCreateEquipmentDropdown($event)"
+            >
+              @if (getSelectedCreateEquipment(); as selectedEq) {
+                <span class="text-gray-900 fw-bold text-truncate">💻 {{ selectedEq.name }} ({{ selectedEq.code }})</span>
+              } @else {
+                <span class="text-muted">-- Chọn thiết bị bị hỏng --</span>
+              }
+              <i class="bi bi-chevron-down fs-8 text-gray-500 ms-1"></i>
+            </div>
+
+            @if (isCreateEquipmentDropdownOpen()) {
+              <div 
+                class="dropdown-menu show w-100 p-2 shadow-lg border-0 rounded-3 position-absolute top-100 start-0 mt-1 bg-white" 
+                style="z-index: 1050; max-height: 280px; display: flex; flex-direction: column;"
+                (click)="$event.stopPropagation()"
+              >
+                <div class="position-relative mb-2 flex-shrink-0">
+                  <i class="bi bi-search position-absolute top-50 translate-middle-y ms-2 text-gray-500 fs-8"></i>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-solid ps-8 fs-8 py-1" 
+                    placeholder="Tìm tên máy, mã thiết bị..."
+                    [ngModel]="createEquipmentSearch()"
+                    (ngModelChange)="createEquipmentSearch.set($event)"
+                  />
+                </div>
+                <div class="overflow-auto flex-grow-1" style="max-height: 200px;">
+                  @for (eq of getFilteredCreateEquipments(); track eq.id) {
+                    <div 
+                      class="px-3 py-2 rounded cursor-pointer hover-bg-light fs-7 d-flex align-items-center justify-content-between mb-1"
+                      [class.bg-light-primary]="createForm.equipmentId === eq.id"
+                      (click)="selectCreateEquipment(eq)"
+                    >
+                      <div class="d-flex flex-column text-truncate">
+                        <span class="fw-bold text-gray-900 fs-8">💻 {{ eq.name }}</span>
+                        <span class="text-muted fs-8">Mã: {{ eq.code }} | S/N: {{ eq.serialNumber || 'N/A' }}</span>
+                      </div>
+                      @if (createForm.equipmentId === eq.id) {
+                        <i class="bi bi-check text-primary fs-6"></i>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Mức độ ưu tiên sự cố</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="createForm.priority">
+              <option value="URGENT">🔴 Khẩn cấp (Sửa ngay lập tức)</option>
+              <option value="HIGH">🟠 Cao (Ảnh hưởng công việc chính)</option>
+              <option value="MEDIUM">🟡 Trung bình</option>
+              <option value="LOW">🟢 Thấp</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Mô tả chi tiết sự cố hỏng hóc</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="Mô tả hiện tượng hỏng hóc, màn hình sọc, máy không lên nguồn, bàn phím hỏng nút..." [(ngModel)]="createForm.issueDescription"></textarea>
+          </div>
+
+          <div class="mb-0">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú thêm</label>
+            <input type="text" class="form-control form-control-solid fs-7" placeholder="Nhập ghi chú địa điểm máy..." [(ngModel)]="createForm.note" />
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeCreateModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-danger fw-bold" [disabled]="isSubmittingCreate" (click)="submitCreate()">
+            @if (isSubmittingCreate) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang tạo...
+            } @else {
+              <i class="bi bi-send-fill me-1"></i> Gửi Yêu Cầu Báo Hỏng
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 2: Phân Công Kỹ Thuật Viên IT -->
+@if (isAssignModalOpen && selectedRepairForAssign) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-550px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-primary">
+          <h2 class="fw-bold fs-4 mb-0 text-primary d-flex align-items-center gap-2">
+            <i class="bi bi-person-check-fill text-primary fs-3"></i>
+            Phân Công Kỹ Thuật Viên IT Xử Lý
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeAssignModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            <div class="fw-bold text-gray-900 fs-6">Phiếu: {{ selectedRepairForAssign.code }} - {{ selectedRepairForAssign.equipmentName }}</div>
+            <div class="text-muted fs-8">Sự cố: {{ selectedRepairForAssign.issueDescription }}</div>
+          </div>
+
+          <!-- Searchable Employee Selector -->
+          <div class="mb-4 position-relative">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Chọn Kỹ Thuật Viên IT Chịu Trách Nhiệm</label>
+            <div 
+              class="form-control form-control-solid fs-7 d-flex align-items-center justify-content-between cursor-pointer py-2 px-3 border"
+              [class.border-primary]="isAssignTechDropdownOpen()"
+              (click)="toggleAssignTechDropdown($event)"
+            >
+              @if (getSelectedTechnician(); as selectedEmp) {
+                <div class="d-flex align-items-center gap-2 overflow-hidden">
+                  <div class="symbol symbol-25px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-8 flex-shrink-0">
+                    👨‍💻
+                  </div>
+                  <div class="text-truncate">
+                    <span class="fw-bold text-gray-900 fs-7">{{ selectedEmp.fullName }}</span>
+                    <span class="text-muted fs-8 ms-1">({{ selectedEmp.employeeCode || 'ID:' + selectedEmp.id }})</span>
+                  </div>
+                </div>
+              } @else {
+                <span class="text-muted fs-7">-- Chọn nhân viên IT tiếp nhận --</span>
+              }
+              <i class="bi bi-chevron-down fs-8 text-gray-500 ms-2"></i>
+            </div>
+
+            @if (isAssignTechDropdownOpen()) {
+              <div 
+                class="dropdown-menu show w-100 p-3 shadow-lg border border-gray-300 rounded-3 position-absolute top-100 start-0 mt-1 bg-white" 
+                style="z-index: 1050; max-height: 300px; display: flex; flex-direction: column;"
+                (click)="$event.stopPropagation()"
+              >
+                <div class="position-relative mb-2 flex-shrink-0">
+                  <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-solid ps-9 fs-7 py-2" 
+                    placeholder="Nhập tên hoặc mã nhân viên để tìm nhanh..."
+                    [ngModel]="assignTechSearch()"
+                    (ngModelChange)="assignTechSearch.set($event)"
+                  />
+                </div>
+
+                <div class="overflow-auto flex-grow-1" style="max-height: 220px;">
+                  @for (emp of getFilteredTechnicians(); track emp.id) {
+                    <div 
+                      class="d-flex align-items-center justify-content-between p-2 rounded cursor-pointer hover-bg-light mb-1"
+                      [class.bg-light-primary]="(emp.userId || emp.id) === selectedTechnicianUserId"
+                      (click)="selectTechnician(emp)"
+                    >
+                      <div class="d-flex align-items-center gap-2 overflow-hidden">
+                        <div class="symbol symbol-30px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7">
+                          👨‍💻
+                        </div>
+                        <div class="d-flex flex-column text-truncate">
+                          <span class="fw-bold text-gray-900 fs-7">{{ emp.fullName }}</span>
+                          <span class="text-muted fs-8">{{ emp.employeeCode || 'ID:' + emp.id }} - {{ emp.departmentName || 'Phòng ban IT' }}</span>
+                        </div>
+                      </div>
+                      @if ((emp.userId || emp.id) === selectedTechnicianUserId) {
+                        <i class="bi bi-check-circle-fill text-primary fs-6"></i>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeAssignModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmittingAssign" (click)="submitAssign()">
+            @if (isSubmittingAssign) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang phân công...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i> Xác Nhận Phân Công
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 3: Kỹ Thuật Viên Cập Nhật Lỗi Thực Tế, Cách Khắc Phục & Linh Kiện Thay Thế -->
+@if (isProgressModalOpen && selectedRepairForProgress) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-success">
+          <h2 class="fw-bold fs-4 mb-0 text-success d-flex align-items-center gap-2">
+            <i class="bi bi-tools text-success fs-3"></i>
+            Cập Nhật Tiến Độ & Nhật Ký Linh Kiện Sửa Chữa
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeProgressModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            <div class="fw-bold text-gray-900 fs-6">Mã Phiếu: {{ selectedRepairForProgress.code }} | Thiết bị: {{ selectedRepairForProgress.equipmentName }}</div>
+            <div class="text-muted fs-8">Mô tả báo hỏng: {{ selectedRepairForProgress.issueDescription }}</div>
+          </div>
+
+          <!-- Select Progress Status -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Trạng Thái Sửa Chữa</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="progressForm.status">
+              <option value="IN_PROGRESS">🔧 Đang tiến hành kiểm tra / sửa chữa</option>
+              <option value="COMPLETED">✅ Đã hoàn thành sửa chữa (Máy đã hoạt động tốt)</option>
+              <option value="UNREPAIRABLE">❌ Không thể khắc phục (Đề xuất thanh lý / Đổi máy mới)</option>
+            </select>
+          </div>
+
+          <!-- Thông tin lỗi thực tế -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">1. Thông tin lỗi thực tế phát hiện khi IT kiểm tra</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Ổ cứng SSD bị Bad Sector, Chập IC nguồn mainboard, Hỏng cáp màn hình..." [(ngModel)]="progressForm.actualError"></textarea>
+          </div>
+
+          <!-- Chi tiết cách khắc phục -->
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">2. Chi tiết cách khắc phục / Phương án xử lý</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Đã đóng lại chip nguồn, thay ổ cứng SSD mới và cài đặt lại Win 11 Office 2021..." [(ngModel)]="progressForm.solutionDetail"></textarea>
+          </div>
+
+          <!-- Thông tin linh kiện thay thế -->
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">3. Thông tin linh kiện sửa chữa / Thay thế chi tiết (nếu có)</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Ổ cứng SSD Kingston NVMe 512GB (S/N: KS-512-9988), 1 Thanh RAM DDR4 16GB..." [(ngModel)]="progressForm.replacedParts"></textarea>
+          </div>
+
+          <!-- Chi phí sửa chữa / linh kiện -->
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label fs-7 fw-bold text-gray-700">Tổng chi phí sửa chữa / linh kiện (VNĐ)</label>
+              <input type="number" class="form-control form-control-solid fs-7" placeholder="0" [(ngModel)]="progressForm.repairCost" />
+            </div>
+            <div class="col-6">
+              <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú bổ sung</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Đã dán tem bảo hành linh kiện..." [(ngModel)]="progressForm.note" />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeProgressModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-success fw-bold" [disabled]="isSubmittingProgress" (click)="submitProgress()">
+            @if (isSubmittingProgress) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+            } @else {
+              <i class="bi bi-check-circle-fill me-1"></i> Cập Nhật Kết Quả
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 4: Xem Chi Tiết Phiếu Báo Hỏng IT -->
+@if (isViewModalOpen && selectedRepairDetail) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-4 mb-0 text-gray-900 d-flex align-items-center gap-2">
+            <i class="bi bi-journal-text text-primary fs-3"></i>
+            Chi Tiết Phiếu Yêu Cầu Báo Hỏng IT: {{ selectedRepairDetail.code }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeViewModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-4 rounded-3 bg-light-primary border border-primary border-dashed mb-4">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h3 class="fw-bold text-gray-900 fs-5 mb-1">{{ selectedRepairDetail.equipmentName }}</h3>
+                <div class="fs-7 text-muted">Mã thiết bị: <strong class="text-gray-800">{{ selectedRepairDetail.equipmentCode }}</strong> | S/N: {{ selectedRepairDetail.serialNumber || 'N/A' }}</div>
+              </div>
+              <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(selectedRepairDetail.status)">
+                {{ getStatusLabel(selectedRepairDetail.status) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4 fs-7">
+            <div class="col-6">
+              <strong>Người báo hỏng:</strong> {{ selectedRepairDetail.reporterUserName }} ({{ selectedRepairDetail.reporterDepartmentName || 'N/A' }})
+            </div>
+            <div class="col-6">
+              <strong>Ngày báo hỏng:</strong> {{ selectedRepairDetail.reportedDate | date:'dd/MM/yyyy HH:mm' }}
+            </div>
+            <div class="col-6">
+              <strong>Kỹ thuật viên IT:</strong> {{ selectedRepairDetail.technicianUserName || 'Chưa phân công' }}
+            </div>
+            <div class="col-6">
+              <strong>Mức ưu tiên:</strong> {{ getPriorityLabel(selectedRepairDetail.priority) }}
+            </div>
+          </div>
+
+          <div class="p-3 bg-light rounded mb-3 border">
+            <div class="fw-bold text-gray-900 fs-7 mb-1">Mô tả sự cố ban đầu:</div>
+            <div class="text-gray-700 fs-7">{{ selectedRepairDetail.issueDescription }}</div>
+          </div>
+
+          @if (selectedRepairDetail.actualError) {
+            <div class="p-3 bg-light-warning rounded mb-3 border border-warning border-dashed">
+              <div class="fw-bold text-warning fs-7 mb-1">1. Thông tin lỗi thực tế IT kiểm tra:</div>
+              <div class="text-gray-800 fs-7">{{ selectedRepairDetail.actualError }}</div>
+            </div>
+          }
+
+          @if (selectedRepairDetail.solutionDetail) {
+            <div class="p-3 bg-light-success rounded mb-3 border border-success border-dashed">
+              <div class="fw-bold text-success fs-7 mb-1">2. Chi tiết cách khắc phục / Xử lý:</div>
+              <div class="text-gray-800 fs-7">{{ selectedRepairDetail.solutionDetail }}</div>
+            </div>
+          }
+
+          @if (selectedRepairDetail.replacedParts) {
+            <div class="p-3 bg-light-info rounded mb-3 border border-info border-dashed">
+              <div class="fw-bold text-info fs-7 mb-1">3. Danh mục linh kiện sửa chữa / Thay thế:</div>
+              <div class="text-gray-800 fs-7">{{ selectedRepairDetail.replacedParts }}</div>
+              <div class="fw-bold text-danger fs-7 mt-2">Chi phí linh kiện/sửa chữa: {{ selectedRepairDetail.repairCost | number:'1.0-0' }}đ</div>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

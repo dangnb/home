@@ -64,7 +64,7 @@
           </tr>
         </thead>
         <tbody class="text-gray-600 fw-semibold">
-          @for (user of paginatedUsers; track user.id) {
+          @for (user of filteredUsers(); track user.id) {
             <tr>
               <!-- User Info Column -->
               <td>
@@ -175,30 +175,39 @@
     </div>
 
     <!--begin::Pagination-->
-    @if (totalPages > 1) {
-      <div class="d-flex flex-stack flex-wrap pt-4">
-        <div class="fs-7 fw-semibold text-gray-700">
-          Hiển thị trang {{ currentPage }} / {{ totalPages }} (Tổng {{ filteredUsers().length }} người dùng)
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-4 border-top mt-2">
+      <div class="d-flex align-items-center gap-3">
+        <span class="fs-7 text-gray-600">
+          Hiển thị <strong>{{ filteredUsers().length }}</strong> / <strong>{{ totalCount }}</strong> người dùng (Trang {{ currentPage }}/{{ totalPages }})
+        </span>
+        <div class="d-flex align-items-center gap-2 ms-2">
+          <span class="fs-7 text-gray-500">Hiển thị:</span>
+          <select class="form-select form-select-solid fs-7 py-1 px-2 w-75px" [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+            @for (size of pageSizeOptions; track size) {
+              <option [value]="size">{{ size }}</option>
+            }
+          </select>
         </div>
-        <ul class="pagination pagination-outline">
-          <li class="page-item previous" [class.disabled]="currentPage === 1">
-            <a href="javascript:void(0)" class="page-link" (click)="setPage(currentPage - 1)">
-              <i class="bi bi-chevron-left fs-7"></i>
-            </a>
-          </li>
-          @for (p of totalPagesArray; track p) {
-            <li class="page-item" [class.active]="p === currentPage">
-              <a href="javascript:void(0)" class="page-link" (click)="setPage(p)">{{ p }}</a>
-            </li>
-          }
-          <li class="page-item next" [class.disabled]="currentPage === totalPages">
-            <a href="javascript:void(0)" class="page-link" (click)="setPage(currentPage + 1)">
-              <i class="bi bi-chevron-right fs-7"></i>
-            </a>
-          </li>
-        </ul>
       </div>
-    }
+
+      <ul class="pagination pagination-outline mb-0">
+        <li class="page-item previous" [class.disabled]="currentPage === 1">
+          <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="setPage(currentPage - 1)">
+            <i class="bi bi-chevron-left fs-7"></i>
+          </a>
+        </li>
+        @for (p of totalPagesArray; track p) {
+          <li class="page-item" [class.active]="p === currentPage">
+            <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="setPage(p)">{{ p }}</a>
+          </li>
+        }
+        <li class="page-item next" [class.disabled]="currentPage === totalPages">
+          <a href="javascript:void(0)" class="page-link py-1 px-3" (click)="setPage(currentPage + 1)">
+            <i class="bi bi-chevron-right fs-7"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
     <!--end::Pagination-->
   </div>
   <!--end::Card body-->

@@ -52,9 +52,74 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
     public string? IdCardNumber { get; private set; }
 
     /// <summary>
-    /// Ngày chính thức gia nhập tổ chức
+    /// Mã số thuế cá nhân
+    /// </summary>
+    public string? TaxCode { get; private set; }
+
+    /// <summary>
+    /// Số sổ BHXH
+    /// </summary>
+    public string? SocialInsuranceNumber { get; private set; }
+
+    /// <summary>
+    /// Số tài khoản ngân hàng nhận lương
+    /// </summary>
+    public string? BankAccountNumber { get; private set; }
+
+    /// <summary>
+    /// Tên ngân hàng
+    /// </summary>
+    public string? BankName { get; private set; }
+
+    /// <summary>
+    /// Chi nhánh ngân hàng
+    /// </summary>
+    public string? BankBranch { get; private set; }
+
+    /// <summary>
+    /// Địa chỉ thường trú
+    /// </summary>
+    public string? PermanentAddress { get; private set; }
+
+    /// <summary>
+    /// Địa chỉ tạm trú / Nơi ở hiện tại
+    /// </summary>
+    public string? TemporaryAddress { get; private set; }
+
+    /// <summary>
+    /// Người liên hệ khẩn cấp
+    /// </summary>
+    public string? EmergencyContactName { get; private set; }
+
+    /// <summary>
+    /// SĐT người liên hệ khẩn cấp
+    /// </summary>
+    public string? EmergencyContactPhone { get; private set; }
+
+    /// <summary>
+    /// Tình trạng hôn nhân (SINGLE, MARRIED, DIVORCED)
+    /// </summary>
+    public string? MaritalStatus { get; private set; } = "SINGLE";
+
+    /// <summary>
+    /// Ngày gia nhập tổ chức (thử việc)
     /// </summary>
     public DateOnly? JoinedDate { get; private set; }
+
+    /// <summary>
+    /// Ngày kết thúc thử việc
+    /// </summary>
+    public DateOnly? ProbationEndDate { get; private set; }
+
+    /// <summary>
+    /// Ngày vào chính thức
+    /// </summary>
+    public DateOnly? OfficialJoinedDate { get; private set; }
+
+    /// <summary>
+    /// Đường dẫn ảnh đại diện avatar
+    /// </summary>
+    public string? AvatarUrl { get; private set; }
 
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
@@ -79,7 +144,20 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         long? managerId = null,
         DateOnly? dateOfBirth = null,
         string? idCardNumber = null,
-        DateOnly? joinedDate = null)
+        string? taxCode = null,
+        string? socialInsuranceNumber = null,
+        string? bankAccountNumber = null,
+        string? bankName = null,
+        string? bankBranch = null,
+        string? permanentAddress = null,
+        string? temporaryAddress = null,
+        string? emergencyContactName = null,
+        string? emergencyContactPhone = null,
+        string? maritalStatus = null,
+        DateOnly? joinedDate = null,
+        DateOnly? probationEndDate = null,
+        DateOnly? officialJoinedDate = null,
+        string? avatarUrl = null)
     {
         if (tenantId <= 0)
             throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
@@ -110,7 +188,20 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
             ManagerId = managerId,
             DateOfBirth = dateOfBirth,
             IdCardNumber = idCardNumber?.Trim(),
+            TaxCode = taxCode?.Trim(),
+            SocialInsuranceNumber = socialInsuranceNumber?.Trim(),
+            BankAccountNumber = bankAccountNumber?.Trim(),
+            BankName = bankName?.Trim(),
+            BankBranch = bankBranch?.Trim(),
+            PermanentAddress = permanentAddress?.Trim(),
+            TemporaryAddress = temporaryAddress?.Trim(),
+            EmergencyContactName = emergencyContactName?.Trim(),
+            EmergencyContactPhone = emergencyContactPhone?.Trim(),
+            MaritalStatus = maritalStatus?.Trim() ?? "SINGLE",
             JoinedDate = joinedDate ?? today,
+            ProbationEndDate = probationEndDate,
+            OfficialJoinedDate = officialJoinedDate,
+            AvatarUrl = avatarUrl?.Trim(),
             Status = EntityStatus.ACTIVE,
             CreatedAt = DateTime.UtcNow
         };
@@ -126,7 +217,20 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         long? managerId = null,
         DateOnly? dateOfBirth = null,
         string? idCardNumber = null,
-        DateOnly? joinedDate = null)
+        string? taxCode = null,
+        string? socialInsuranceNumber = null,
+        string? bankAccountNumber = null,
+        string? bankName = null,
+        string? bankBranch = null,
+        string? permanentAddress = null,
+        string? temporaryAddress = null,
+        string? emergencyContactName = null,
+        string? emergencyContactPhone = null,
+        string? maritalStatus = null,
+        DateOnly? joinedDate = null,
+        DateOnly? probationEndDate = null,
+        DateOnly? officialJoinedDate = null,
+        string? avatarUrl = null)
     {
         if (string.IsNullOrWhiteSpace(jobTitle))
             throw new DomainException("Chức danh / vị trí công việc không được để trống.");
@@ -147,10 +251,20 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         ManagerId = managerId;
         DateOfBirth = dateOfBirth;
         IdCardNumber = idCardNumber?.Trim();
-        if (joinedDate.HasValue)
-        {
-            JoinedDate = joinedDate.Value;
-        }
+        TaxCode = taxCode?.Trim();
+        SocialInsuranceNumber = socialInsuranceNumber?.Trim();
+        BankAccountNumber = bankAccountNumber?.Trim();
+        BankName = bankName?.Trim();
+        BankBranch = bankBranch?.Trim();
+        PermanentAddress = permanentAddress?.Trim();
+        TemporaryAddress = temporaryAddress?.Trim();
+        EmergencyContactName = emergencyContactName?.Trim();
+        EmergencyContactPhone = emergencyContactPhone?.Trim();
+        MaritalStatus = maritalStatus?.Trim() ?? "SINGLE";
+        if (joinedDate.HasValue) JoinedDate = joinedDate.Value;
+        ProbationEndDate = probationEndDate;
+        OfficialJoinedDate = officialJoinedDate;
+        AvatarUrl = avatarUrl?.Trim();
         UpdatedAt = DateTime.UtcNow;
     }
 

@@ -41,6 +41,27 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>
+    /// Lấy danh sách chọn nhanh nhân sự tinh gọn cho Select Dropdown (Public/All Users)
+    /// </summary>
+    [HttpGet("lookup")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetLookup(
+        [FromQuery] string? keyword,
+        [FromQuery] long? departmentId,
+        [FromQuery] int limit = 200,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new HrmPlatform.Application.Features.Employees.Queries.GetEmployeeLookupQuery
+        {
+            Keyword = keyword,
+            DepartmentId = departmentId,
+            Limit = limit
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Lấy chi tiết hồ sơ nhân sự theo ID (Dapper Read)
     /// </summary>
     [HttpGet("{id:long}")]

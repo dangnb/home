@@ -45,6 +45,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<EmployeeProfile> EmployeeProfiles => Set<EmployeeProfile>();
     public DbSet<Attendance> Attendances => Set<Attendance>();
     public DbSet<LeaveRequest> LeaveRequests => Set<LeaveRequest>();
+    public DbSet<RewardDiscipline> RewardDisciplines => Set<RewardDiscipline>();
+    public DbSet<EmployeeContract> EmployeeContracts => Set<EmployeeContract>();
+    public DbSet<EmployeeJobHistory> EmployeeJobHistories => Set<EmployeeJobHistory>();
+    public DbSet<HrPolicy> HrPolicies => Set<HrPolicy>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<Equipment> Equipments => Set<Equipment>();
+    public DbSet<EquipmentHistory> EquipmentHistories => Set<EquipmentHistory>();
+    public DbSet<EquipmentRepair> EquipmentRepairs => Set<EquipmentRepair>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

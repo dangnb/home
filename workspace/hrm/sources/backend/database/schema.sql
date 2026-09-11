@@ -180,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `departments` (
     `name` VARCHAR(150) NOT NULL,
     `code` VARCHAR(50) NOT NULL,
     `manager_id` BIGINT DEFAULT NULL COMMENT 'Trưởng phòng (FK -> users.id)',
+    `parent_id` BIGINT DEFAULT NULL COMMENT 'Phòng ban cấp trên (FK -> departments.id)',
     `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' COMMENT 'ACTIVE, INACTIVE, LOCKED, DELETED',
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `created_by` BIGINT DEFAULT NULL,
@@ -207,7 +208,20 @@ CREATE TABLE IF NOT EXISTS `employee_profiles` (
     `gender` VARCHAR(20) NOT NULL DEFAULT 'OTHER' COMMENT 'MALE, FEMALE, OTHER',
     `date_of_birth` DATE DEFAULT NULL,
     `id_card_number` VARCHAR(50) DEFAULT NULL,
+    `tax_code` VARCHAR(50) DEFAULT NULL COMMENT 'Mã số thuế cá nhân',
+    `social_insurance_number` VARCHAR(50) DEFAULT NULL COMMENT 'Số sổ BHXH',
+    `bank_account_number` VARCHAR(50) DEFAULT NULL COMMENT 'Số tài khoản ngân hàng',
+    `bank_name` VARCHAR(150) DEFAULT NULL COMMENT 'Tên ngân hàng',
+    `bank_branch` VARCHAR(150) DEFAULT NULL COMMENT 'Chi nhánh ngân hàng',
+    `permanent_address` VARCHAR(255) DEFAULT NULL COMMENT 'Địa chỉ thường trú',
+    `temporary_address` VARCHAR(255) DEFAULT NULL COMMENT 'Địa chỉ tạm trú',
+    `emergency_contact_name` VARCHAR(150) DEFAULT NULL COMMENT 'Tên người liên hệ khẩn cấp',
+    `emergency_contact_phone` VARCHAR(50) DEFAULT NULL COMMENT 'SĐT liên hệ khẩn cấp',
+    `marital_status` VARCHAR(20) DEFAULT 'SINGLE' COMMENT 'SINGLE, MARRIED, DIVORCED',
     `joined_date` DATE DEFAULT NULL,
+    `probation_end_date` DATE DEFAULT NULL COMMENT 'Ngày kết thúc thử việc',
+    `official_joined_date` DATE DEFAULT NULL COMMENT 'Ngày chính thức',
+    `avatar_url` VARCHAR(500) DEFAULT NULL COMMENT 'Đường dẫn ảnh đại diện avatar',
     `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' COMMENT 'ACTIVE, INACTIVE, LOCKED, DELETED',
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `created_by` BIGINT DEFAULT NULL,
@@ -223,6 +237,143 @@ CREATE TABLE IF NOT EXISTS `employee_profiles` (
     CONSTRAINT `fk_employee_department` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE SET NULL,
     CONSTRAINT `fk_employee_manager` FOREIGN KEY (`manager_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Hồ sơ thông tin nhân viên';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_contracts
+-- Hợp đồng lao động nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_contracts` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `contract_number` VARCHAR(100) NOT NULL,
+    `contract_type` VARCHAR(50) NOT NULL,
+    `sign_date` DATE NOT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE DEFAULT NULL,
+    `basic_salary` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `insurance_salary` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `note` TEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_contracts_tenant_number` (`tenant_id`, `contract_number`),
+    KEY `idx_contracts_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_contracts_expiry` (`tenant_id`, `end_date`, `status`),
+    CONSTRAINT `fk_contracts_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_contracts_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Hợp đồng lao động nhân sự';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_dependents
+-- Người phụ thuộc giảm trừ gia cảnh
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_dependents` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `full_name` VARCHAR(255) NOT NULL,
+    `relationship` VARCHAR(50) NOT NULL,
+    `date_of_birth` DATE DEFAULT NULL,
+    `id_card_number` VARCHAR(50) DEFAULT NULL,
+    `tax_code` VARCHAR(50) DEFAULT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_dependents_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_dependents_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_dependents_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Người phụ thuộc giảm trừ gia cảnh';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_job_history
+-- Lịch sử biến động công tác nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_job_history` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `decision_number` VARCHAR(100) DEFAULT NULL,
+    `change_type` VARCHAR(50) NOT NULL,
+    `old_department_id` BIGINT DEFAULT NULL,
+    `new_department_id` BIGINT DEFAULT NULL,
+    `old_job_title` VARCHAR(150) DEFAULT NULL,
+    `new_job_title` VARCHAR(150) DEFAULT NULL,
+    `old_manager_id` BIGINT DEFAULT NULL,
+    `new_manager_id` BIGINT DEFAULT NULL,
+    `effective_date` DATE NOT NULL,
+    `note` TEXT DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `approval_status` VARCHAR(30) NOT NULL DEFAULT 'PENDING_APPROVAL' COMMENT 'DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED',
+    `approver_id` BIGINT DEFAULT NULL,
+    `approved_at` DATETIME(6) DEFAULT NULL,
+    `rejection_reason` VARCHAR(500) DEFAULT NULL,
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_job_history_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_job_history_tenant_approval` (`tenant_id`, `approval_status`),
+    CONSTRAINT `fk_job_history_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_job_history_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_job_history_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lịch sử biến động công tác';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_documents
+-- Tài liệu đính kèm hồ sơ nhân viên
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_documents` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `document_type` VARCHAR(50) NOT NULL,
+    `document_name` VARCHAR(255) NOT NULL,
+    `file_url` VARCHAR(500) NOT NULL,
+    `file_size` BIGINT DEFAULT 0,
+    `issued_date` DATE DEFAULT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_docs_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_docs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_docs_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tài liệu đính kèm hồ sơ';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_certificates
+-- Bằng cấp và chứng chỉ chuyên môn
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_certificates` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `certificate_name` VARCHAR(255) NOT NULL,
+    `issuing_organization` VARCHAR(255) DEFAULT NULL,
+    `issue_date` DATE DEFAULT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `score_or_grade` VARCHAR(50) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_certs_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_certs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_certs_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bằng cấp chứng chỉ';
+
 
 -- -----------------------------------------------------------------------------
 -- TABLE: attendances
@@ -276,5 +427,338 @@ CREATE TABLE IF NOT EXISTS `leave_requests` (
     CONSTRAINT `fk_leave_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     CONSTRAINT `fk_leave_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Đơn xin nghỉ phép';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: reward_disciplines
+-- Quản lý Quyết định Khen thưởng và Kỷ luật của Nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reward_disciplines` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL COMMENT 'FK -> employee_profiles.id',
+    `type` VARCHAR(20) NOT NULL COMMENT 'REWARD, DISCIPLINE',
+    `category` VARCHAR(50) NOT NULL COMMENT 'PERFORMANCE, EXCELLENCE, INNOVATION, LATE_VIOLATION, SAFETY_VIOLATION, DISCIPLINE_BREACH, BONUS, OTHER',
+    `title` VARCHAR(255) NOT NULL,
+    `decision_number` VARCHAR(100) DEFAULT NULL,
+    `decision_date` DATE NOT NULL,
+    `effective_date` DATE NOT NULL,
+    `amount` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `reason` TEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'APPROVED' COMMENT 'PENDING, APPROVED, REJECTED, CANCELLED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_reward_disc_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_reward_disc_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_reward_disc_tenant_type` (`tenant_id`, `type`),
+    CONSTRAINT `fk_reward_disc_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_reward_disc_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách quyết định thưởng phạt nhân sự';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: hr_policies
+-- Quản lý Quy định, Quy chế & Chính sách HR Công ty
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hr_policies` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `policy_code` VARCHAR(100) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `category` VARCHAR(50) NOT NULL COMMENT 'BENEFITS, WORKING_HOURS, INSURANCE_WELFARE, CODE_OF_CONDUCT, SAFETY_HEALTH, OTHER',
+    `effective_date` DATE NOT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `summary` VARCHAR(500) DEFAULT NULL,
+    `content` LONGTEXT DEFAULT NULL,
+    `relationship` VARCHAR(50) NOT NULL,
+    `date_of_birth` DATE DEFAULT NULL,
+    `id_card_number` VARCHAR(50) DEFAULT NULL,
+    `tax_code` VARCHAR(50) DEFAULT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date` DATE DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_dependents_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_dependents_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_dependents_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Người phụ thuộc giảm trừ gia cảnh';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_job_history
+-- Lịch sử biến động công tác nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_job_history` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `decision_number` VARCHAR(100) DEFAULT NULL,
+    `change_type` VARCHAR(50) NOT NULL,
+    `old_department_id` BIGINT DEFAULT NULL,
+    `new_department_id` BIGINT DEFAULT NULL,
+    `old_job_title` VARCHAR(150) DEFAULT NULL,
+    `new_job_title` VARCHAR(150) DEFAULT NULL,
+    `old_manager_id` BIGINT DEFAULT NULL,
+    `new_manager_id` BIGINT DEFAULT NULL,
+    `effective_date` DATE NOT NULL,
+    `note` TEXT DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `approval_status` VARCHAR(30) NOT NULL DEFAULT 'PENDING_APPROVAL' COMMENT 'DRAFT, PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED',
+    `approver_id` BIGINT DEFAULT NULL,
+    `approved_at` DATETIME(6) DEFAULT NULL,
+    `rejection_reason` VARCHAR(500) DEFAULT NULL,
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_job_history_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_job_history_tenant_approval` (`tenant_id`, `approval_status`),
+    CONSTRAINT `fk_job_history_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_job_history_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_job_history_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lịch sử biến động công tác';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_documents
+-- Tài liệu đính kèm hồ sơ nhân viên
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_documents` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `document_type` VARCHAR(50) NOT NULL,
+    `document_name` VARCHAR(255) NOT NULL,
+    `file_url` VARCHAR(500) NOT NULL,
+    `file_size` BIGINT DEFAULT 0,
+    `issued_date` DATE DEFAULT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_docs_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_docs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_docs_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tài liệu đính kèm hồ sơ';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: employee_certificates
+-- Bằng cấp và chứng chỉ chuyên môn
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `employee_certificates` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL,
+    `certificate_name` VARCHAR(255) NOT NULL,
+    `issuing_organization` VARCHAR(255) DEFAULT NULL,
+    `issue_date` DATE DEFAULT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `score_or_grade` VARCHAR(50) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_certs_tenant_employee` (`tenant_id`, `employee_id`),
+    CONSTRAINT `fk_certs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_certs_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bằng cấp chứng chỉ';
+
+
+-- -----------------------------------------------------------------------------
+-- TABLE: attendances
+-- Dữ liệu chấm công hàng ngày
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `attendances` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `work_date` DATE NOT NULL,
+    `check_in` DATETIME(6) DEFAULT NULL,
+    `check_out` DATETIME(6) DEFAULT NULL,
+    `late_minutes` INT NOT NULL DEFAULT 0,
+    `early_minutes` INT NOT NULL DEFAULT 0,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'PRESENT' COMMENT 'PRESENT, LATE, ABSENT',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_attendances_tenant_user_date` (`tenant_id`, `user_id`, `work_date`),
+    KEY `idx_attendances_tenant_date` (`tenant_id`, `work_date`),
+    KEY `idx_attendances_user_date` (`user_id`, `work_date`),
+    CONSTRAINT `fk_attendances_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_attendances_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bảng ghi chấm công nhân viên';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: leave_requests
+-- Yêu cầu đơn nghỉ phép
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `leave_requests` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `leave_type` VARCHAR(20) NOT NULL COMMENT 'ANNUAL, SICK, UNPAID',
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
+    `reason` TEXT DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT 'PENDING, APPROVED, REJECTED',
+    `approver_id` BIGINT DEFAULT NULL COMMENT 'Người phê duyệt (FK -> users.id)',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_leave_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_leave_tenant_user` (`tenant_id`, `user_id`),
+    KEY `idx_leave_approver` (`approver_id`),
+    CONSTRAINT `fk_leave_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_leave_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_leave_approver` FOREIGN KEY (`approver_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Đơn xin nghỉ phép';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: reward_disciplines
+-- Quản lý Quyết định Khen thưởng và Kỷ luật của Nhân sự
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reward_disciplines` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `employee_id` BIGINT NOT NULL COMMENT 'FK -> employee_profiles.id',
+    `type` VARCHAR(20) NOT NULL COMMENT 'REWARD, DISCIPLINE',
+    `category` VARCHAR(50) NOT NULL COMMENT 'PERFORMANCE, EXCELLENCE, INNOVATION, LATE_VIOLATION, SAFETY_VIOLATION, DISCIPLINE_BREACH, BONUS, OTHER',
+    `title` VARCHAR(255) NOT NULL,
+    `decision_number` VARCHAR(100) DEFAULT NULL,
+    `decision_date` DATE NOT NULL,
+    `effective_date` DATE NOT NULL,
+    `amount` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `reason` TEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'APPROVED' COMMENT 'PENDING, APPROVED, REJECTED, CANCELLED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_reward_disc_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_reward_disc_tenant_employee` (`tenant_id`, `employee_id`),
+    KEY `idx_reward_disc_tenant_type` (`tenant_id`, `type`),
+    CONSTRAINT `fk_reward_disc_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_reward_disc_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách quyết định thưởng phạt nhân sự';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: hr_policies
+-- Quản lý Quy định, Quy chế & Chính sách HR Công ty
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hr_policies` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `policy_code` VARCHAR(100) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `category` VARCHAR(50) NOT NULL COMMENT 'BENEFITS, WORKING_HOURS, INSURANCE_WELFARE, CODE_OF_CONDUCT, SAFETY_HEALTH, OTHER',
+    `effective_date` DATE NOT NULL,
+    `expiry_date` DATE DEFAULT NULL,
+    `summary` VARCHAR(500) DEFAULT NULL,
+    `content` LONGTEXT DEFAULT NULL,
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'PUBLISHED' COMMENT 'DRAFT, PUBLISHED, ARCHIVED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_policy_code` (`tenant_id`, `policy_code`),
+    KEY `idx_policies_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_policies_tenant_category` (`tenant_id`, `category`),
+    CONSTRAINT `fk_policies_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quy định, quy chế & chính sách HR công ty';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: notifications
+-- Thông báo hệ thống & Tiến trình duyệt Lệnh điều động
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `notifications` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `user_id` BIGINT NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `message` TEXT NOT NULL,
+    `notification_type` VARCHAR(100) NOT NULL,
+    `reference_id` BIGINT DEFAULT NULL,
+    `target_url` VARCHAR(500) DEFAULT NULL,
+    `is_read` TINYINT(1) NOT NULL DEFAULT 0,
+    `read_at` DATETIME(6) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_notif_tenant_user` (`tenant_id`, `user_id`),
+    KEY `idx_notif_read` (`tenant_id`, `user_id`, `is_read`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách thông báo hệ thống';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: equipments
+-- Quản lý Trang Thiết Bị công ty (Laptop, Màn hình, Điện thoại, Thiết bị VP)
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `equipments` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `code` VARCHAR(50) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `category` VARCHAR(50) NOT NULL DEFAULT 'LAPTOP' COMMENT 'LAPTOP, MONITOR, PHONE, DESK_CHAIR, PERIPHERAL, OTHER',
+    `serial_number` VARCHAR(100) DEFAULT NULL,
+    `specifications` TEXT DEFAULT NULL,
+    `purchase_date` DATE DEFAULT NULL,
+    `warranty_end_date` DATE DEFAULT NULL,
+    `status` VARCHAR(50) NOT NULL DEFAULT 'AVAILABLE' COMMENT 'AVAILABLE, ASSIGNED, BROKEN, MAINTENANCE, DISPOSED',
+    `current_user_id` BIGINT DEFAULT NULL COMMENT 'ID tài khoản User đang giữ/sử dụng',
+    `assigned_date` DATETIME(6) DEFAULT NULL COMMENT 'Thời điểm bàn giao gần nhất',
+    `note` TEXT DEFAULT NULL,
+    `status_entity` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' COMMENT 'ACTIVE, INACTIVE, DELETED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_equipments_tenant_code` (`tenant_id`, `code`),
+    KEY `idx_equipments_tenant_status` (`tenant_id`, `status`),
+    KEY `idx_equipments_current_user` (`tenant_id`, `current_user_id`),
+    CONSTRAINT `fk_equipments_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_equipments_current_user` FOREIGN KEY (`current_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh mục trang thiết bị công ty';
+
+-- -----------------------------------------------------------------------------
+-- TABLE: equipment_histories
+-- Nhật ký bàn giao, thu hồi, báo hỏng thiết bị
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `equipment_histories` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `equipment_id` BIGINT NOT NULL,
+    `user_id` BIGINT DEFAULT NULL COMMENT 'Nhân sự liên quan (nhận bàn giao / báo hỏng / trả về)',
+    `action_type` VARCHAR(50) NOT NULL COMMENT 'HANDOVER, REVOKE, REPORT_BROKEN, REPAIR_COMPLETED, DISPOSE',
+    `action_date` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `condition_status` VARCHAR(255) DEFAULT NULL COMMENT 'Tình trạng thiết bị lúc thao tác (Mới 100%, Trầy xước, Hỏng màn hình...)',
+    `performed_by` BIGINT DEFAULT NULL COMMENT 'ID người thực hiện thao tác (Admin / IT)',
+    `note` TEXT DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL,
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `idx_equipment_histories_equipment` (`tenant_id`, `equipment_id`),
+    KEY `idx_equipment_histories_user` (`tenant_id`, `user_id`),
+    CONSTRAINT `fk_equipment_histories_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+    CONSTRAINT `fk_equipment_histories_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipments` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Nhật ký thao tác trang thiết bị (Bàn giao/Thu hồi/Báo hỏng)';
 
 SET FOREIGN_KEY_CHECKS = 1;

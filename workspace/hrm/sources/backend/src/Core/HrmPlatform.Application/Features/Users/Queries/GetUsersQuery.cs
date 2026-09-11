@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using HrmPlatform.Application.Common.Extensions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using MediatR;
@@ -48,14 +49,11 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedResu
     public async Task<PaginatedResultDto<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId;
-        var offset = Math.Max(0, (request.Page - 1) * request.PageSize);
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE u.status != 'DELETED'";
         var parameters = new DynamicParameters();
-        parameters.Add("Limit", request.PageSize);
-        parameters.Add("Offset", offset);
 
         if (tenantId.HasValue && !_currentUserService.IsSuperAdmin)
         {
@@ -93,7 +91,6 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedResu
             LEFT JOIN roles r ON ur.role_id = r.id
             {whereClause};
         ";
-        var totalCount = await connection.ExecuteScalarAsync<int>(countSql, parameters);
 
         var dataSql = $@"
             SELECT 
@@ -118,11 +115,15 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedResu
             ) ur ON u.id = ur.user_id
             LEFT JOIN roles r ON ur.role_id = r.id
             {whereClause}
-            ORDER BY u.id ASC
-            LIMIT @Limit OFFSET @Offset;
-        ";
+            ORDER BY u.id ASC";
 
-        var items = (await connection.QueryAsync<UserDto>(dataSql, parameters)).ToList();
-        return PaginatedResultDto<UserDto>.Create(items, totalCount, request.Page, request.PageSize);
+        return await connection.QueryPaginatedAsync<UserDto>(
+            countSql,
+            dataSql,
+            parameters,
+            request.Page,
+            request.PageSize,
+            cancellationToken);
     }
 }
+

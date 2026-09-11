@@ -1,0 +1,880 @@
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Lệnh Điều Động & Biến Động Công Tác</h1>
+      <span class="text-muted fs-7">Quản lý các Quyết định điều chuyển phòng ban, bổ nhiệm chức vụ và trình duyệt điều động nhân sự</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="btn btn-sm btn-primary fw-bold" (click)="openCreateModal()">
+        <i class="bi bi-person-gear me-1"></i>Lập Lệnh Điều Động Mới
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Summary Cards -->
+  <div class="row g-4">
+    <!-- Total Transfers Card -->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Tổng Quyết Định</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-journal-text fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-gray-900 mb-1">{{ summary().totalTransfers }}</div>
+        <span class="fs-8 text-muted">Toàn bộ đề xuất điều động</span>
+      </div>
+    </div>
+
+    <!-- Pending Approval Card -->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Chờ Phê Duyệt</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+            <i class="bi bi-clock-history fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-warning mb-1">{{ summary().pendingTransfers }}</div>
+        <span class="fs-8 text-muted">Đang chờ trình duyệt</span>
+      </div>
+    </div>
+
+    <!-- Approved Card -->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Đã Phê Duyệt</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-check-circle-fill fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-success mb-1">{{ summary().approvedTransfers }}</div>
+        <span class="fs-8 text-muted">Đã đồng bộ hồ sơ nhân sự</span>
+      </div>
+    </div>
+
+    <!-- Rejected Card -->
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Từ Chối Phê Duyệt</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-danger text-danger d-flex align-items-center justify-content-center">
+            <i class="bi bi-x-circle-fill fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-danger mb-1">{{ summary().rejectedTransfers }}</div>
+        <span class="fs-8 text-muted">Bị từ chối trình duyệt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Card Table & Filters -->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!-- Card Header -->
+    <div class="card-header border-0 pt-6 pb-0">
+      <div class="card-title w-100 me-0">
+        <!-- Main Search Bar & Filter Toggle Row -->
+        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+          <!-- Search Box -->
+          <div class="position-relative flex-grow-1" style="max-width: 480px;">
+            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+            <input 
+              type="text" 
+              class="form-control form-control-solid ps-10 fs-7" 
+              placeholder="Nhập số QĐ, tên nhân viên, chức danh..." 
+              [(ngModel)]="filterKeyword"
+              (keyup.enter)="applyFilter()"
+            />
+            @if (filterKeyword) {
+              <button 
+                type="button" 
+                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                (click)="clearSingleFilter('keyword')"
+              >
+                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+              </button>
+            }
+          </div>
+
+          <!-- Action Buttons (Advanced Filter Toggle & Reset) -->
+          <div class="d-flex align-items-center gap-2">
+            <button 
+              type="button" 
+              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
+              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+              (click)="toggleAdvancedFilter()"
+            >
+              <i class="bi bi-sliders2 fs-6"></i>
+              <span>Bộ Lọc Nâng Cao</span>
+              @if (activeAdvancedFilterCount > 0) {
+                <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
+                  {{ activeAdvancedFilterCount }}
+                </span>
+              }
+            </button>
+
+            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+              <button 
+                type="button" 
+                class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                (click)="resetFilters()" 
+                title="Xóa toàn bộ bộ lọc"
+              >
+                <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                <span>Xóa bộ lọc</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filter Tags & Drawer (placed directly under card header to avoid header clipping) -->
+    <div class="px-6 pt-3 pb-0">
+      <!-- Active Filter Tags / Chips -->
+      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+          @if (filterKeyword) {
+            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ khóa: "{{ filterKeyword }}"
+              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+            </span>
+          }
+          @if (filterChangeType !== 'ALL') {
+            <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Loại: {{ getChangeTypeLabel(filterChangeType) }}
+              <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('changeType')"></i>
+            </span>
+          }
+          @if (filterApprovalStatus !== 'ALL') {
+            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Trạng thái: {{ getApprovalStatusLabel(filterApprovalStatus) }}
+              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('approvalStatus')"></i>
+            </span>
+          }
+          @if (filterFromDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Từ: {{ filterFromDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('fromDate')"></i>
+            </span>
+          }
+          @if (filterToDate) {
+            <span class="badge badge-light-success border border-success border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+              Đến: {{ filterToDate | date:'dd/MM/yyyy' }}
+              <i class="bi bi-x-lg cursor-pointer text-success" (click)="clearSingleFilter('toDate')"></i>
+            </span>
+          }
+        </div>
+      }
+
+      <!-- Collapsible Advanced Filter Drawer Panel -->
+      @if (isAdvancedFilterOpen()) {
+        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <div class="fw-bold fs-7 text-gray-800 d-flex align-items-center gap-2">
+              <i class="bi bi-sliders text-primary fs-6"></i>
+              Tùy Chọn Lọc Nâng Cao Điều Động (Advanced Filters)
+            </div>
+            <span class="fs-8 text-muted">Lọc theo loại biến động, trạng thái duyệt và khoảng thời gian</span>
+          </div>
+
+          <div class="row g-3">
+            <!-- From Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày hiệu lực</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterFromDate"
+                  (change)="applyFilter()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- To Date -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày hiệu lực</label>
+              <div class="position-relative">
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7 ps-9" 
+                  [(ngModel)]="filterToDate"
+                  (change)="applyFilter()"
+                />
+                <i class="bi bi-calendar-event position-absolute top-50 translate-middle-y ms-3 text-gray-500 fs-7"></i>
+              </div>
+            </div>
+
+            <!-- Change Type -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Loại biến động</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterChangeType"
+                (change)="applyFilter()"
+              >
+                <option value="ALL">-- Tất cả loại --</option>
+                <option value="DEPARTMENT_TRANSFER">Điều chuyển phòng ban</option>
+                <option value="POSITION_PROMOTION">Bổ nhiệm / Thăng chức</option>
+                <option value="DUAL_TRANSFER">Kiêm nhiệm / Đột xuất</option>
+                <option value="RESIGNATION_TERMINATION">Cho thôi việc / Chấm dứt HD</option>
+              </select>
+            </div>
+
+            <!-- Approval Status -->
+            <div class="col-md-3 col-6">
+              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái duyệt</label>
+              <select 
+                class="form-select form-select-solid fs-7" 
+                [(ngModel)]="filterApprovalStatus"
+                (change)="applyFilter()"
+              >
+                <option value="ALL">-- Tất cả trạng thái --</option>
+                <option value="DRAFT">Bản nháp</option>
+                <option value="PENDING">Chờ duyệt</option>
+                <option value="APPROVED">Đã phê duyệt</option>
+                <option value="REJECTED">Từ chối phê duyệt</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Card Body Table -->
+    <div class="card-body pt-0">
+      <div class="table-responsive" style="min-height: 340px;">
+        <table class="table align-middle table-row-dashed fs-6 gy-4">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+              <th class="min-w-130px">Số Quyết Định</th>
+              <th class="min-w-170px">Nhân Sự Điều Động</th>
+              <th class="min-w-150px">Loại Điều Động</th>
+              <th class="min-w-210px">Phòng Ban (Cũ ➔ Mới)</th>
+              <th class="min-w-190px">Chức Danh (Cũ ➔ Mới)</th>
+              <th class="min-w-130px">Trạng Thái Duyệt</th>
+              <th class="min-w-100px">Ngày Hiệu Lực</th>
+              <th class="text-end min-w-120px">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 fw-semibold">
+            @for (item of items(); track item.id) {
+              <tr>
+                <!-- Decision Number -->
+                <td>
+                  <span class="badge badge-light-secondary font-monospace fw-bold text-dark fs-7 px-2 py-1 cursor-pointer" (click)="viewTransferDetail(item)">
+                    {{ item.decisionNumber }}
+                  </span>
+                </td>
+
+                <!-- Employee Info -->
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="symbol symbol-35px symbol-circle me-3 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-6">
+                      {{ item.employeeName ? item.employeeName.charAt(0).toUpperCase() : 'N' }}
+                    </div>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-800 fw-bold hover-primary cursor-pointer" (click)="viewTransferDetail(item)">{{ item.employeeName }}</span>
+                      <span class="text-gray-500 fs-8">ID: #{{ item.employeeId }}</span>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Change Type Badge -->
+                <td>
+                  <span class="badge fw-bold px-3 py-2" [ngClass]="getChangeTypeBadgeClass(item.changeType)">
+                    {{ getChangeTypeLabel(item.changeType) }}
+                  </span>
+                </td>
+
+                <!-- Department Change -->
+                <td>
+                  <div class="d-flex align-items-center gap-1 fs-7">
+                    <span class="text-muted">{{ item.oldDepartmentName || 'Chưa phân công' }}</span>
+                    <i class="bi bi-arrow-right text-primary fs-8 mx-1"></i>
+                    <span class="fw-bold text-gray-900">{{ item.newDepartmentName || 'Chưa phân công' }}</span>
+                  </div>
+                </td>
+
+                <!-- Job Title Change -->
+                <td>
+                  <div class="d-flex align-items-center gap-1 fs-7">
+                    <span class="text-muted">{{ item.oldJobTitle || 'Nhân viên' }}</span>
+                    <i class="bi bi-arrow-right text-success fs-8 mx-1"></i>
+                    <span class="fw-bold text-gray-900">{{ item.newJobTitle || 'Nhân viên' }}</span>
+                  </div>
+                </td>
+
+                <!-- Approval Status Badge & Step Indicator -->
+                <td>
+                  <div class="d-flex flex-column align-items-start gap-1">
+                    <span class="badge fw-bold px-3 py-1" [ngClass]="getApprovalStatusBadgeClass(item.approvalStatus)">
+                      {{ getApprovalStatusLabel(item.approvalStatus) }}
+                    </span>
+                    @if (item.approvalStatus === 'PENDING_APPROVAL' || item.currentStep) {
+                      <span class="badge badge-light-info text-info fw-bold fs-9">
+                        <i class="bi bi-diagram-3-fill me-1"></i>{{ getStepName(item.currentStep || 1) }}
+                      </span>
+                    }
+                  </div>
+                </td>
+
+                <!-- Effective Date -->
+                <td>
+                  <span class="text-gray-800 fs-7 fw-bold">{{ item.effectiveDate | date:'dd/MM/yyyy' }}</span>
+                </td>
+
+                <!-- Action Dropdown -->
+                <td class="text-end position-relative">
+                  <button 
+                    type="button" 
+                    class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                    (click)="toggleDropdown(item.id, $event)"
+                  >
+                    Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                  </button>
+
+                  @if (openDropdownId() === item.id) {
+                    <div 
+                      class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-200px bg-white rounded-3 action-dropdown-menu"
+                      style="z-index: 105;"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="viewTransferDetail(item); closeDropdown()">
+                        <i class="bi bi-eye-fill text-info fs-6"></i>
+                        <span>Xem Chi Tiết & Stepper</span>
+                      </a>
+
+                      @if (item.approvalStatus === 'PENDING_APPROVAL' || (item.approvalStatus === 'APPROVED' && (item.currentStep || 1) === 5)) {
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openApproveModal(item); closeDropdown()">
+                          <i class="bi bi-check-circle-fill text-success fs-6"></i>
+                          <span>Duyệt {{ getStepName(item.currentStep || 1) }}</span>
+                        </a>
+
+                        @if (item.approvalStatus === 'PENDING_APPROVAL') {
+                          <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-warning hover-bg-light-warning" (click)="openRejectModal(item); closeDropdown()">
+                            <i class="bi bi-x-circle-fill text-warning fs-6"></i>
+                            <span>Từ Chối Duyệt</span>
+                          </a>
+                        }
+                      }
+
+                      <div class="dropdown-divider my-1"></div>
+
+                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-danger hover-bg-light-danger" (click)="deleteTransfer(item); closeDropdown()">
+                        <i class="bi bi-trash-fill text-danger fs-6"></i>
+                        <span>Xóa Lệnh điều động</span>
+                      </a>
+                    </div>
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (items().length === 0 && !isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <i class="bi bi-person-gear fs-2x d-block mb-2"></i>
+                  Chưa có Lệnh điều động nhân sự nào phù hợp
+                </td>
+              </tr>
+            }
+
+            @if (isLoading()) {
+              <tr>
+                <td colspan="8" class="text-center py-10 text-muted">
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu từ máy chủ...
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <app-pagination
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [totalCount]="totalCount"
+        [itemCount]="items().length"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="onPageChange($event)"
+        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+      ></app-pagination>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Lập Lệnh Điều Động Mới -->
+@if (isModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-4 mb-0">
+            <i class="bi bi-person-gear text-primary me-2"></i>
+            Trình Duyệt Lệnh Điều Động & Biến Động Công Tác
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-8">
+          <!-- Select Employee -->
+          <div class="mb-4">
+            <label class="required fs-7 fw-semibold mb-1">Nhân sự điều động:</label>
+            <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.employeeId" (change)="onEmployeeSelected()">
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.id">{{ emp.fullName }} ({{ emp.jobTitle || 'NV' }} - {{ emp.departmentName || 'Phòng ban' }})</option>
+              }
+            </select>
+          </div>
+
+          <!-- Current Info Preview Banner -->
+          @if (selectedEmployeeInfo) {
+            <div class="alert alert-light-info d-flex align-items-center p-3 mb-4 rounded-3 border border-info border-opacity-25">
+              <i class="bi bi-info-circle-fill fs-4 text-info me-3"></i>
+              <div class="fs-7 text-gray-800">
+                <strong>Thông tin hiện tại:</strong> {{ selectedEmployeeInfo.fullName }} —
+                <span class="text-primary">{{ selectedEmployeeInfo.jobTitle || 'Nhân viên' }}</span> tại
+                <span class="text-primary">{{ selectedEmployeeInfo.departmentName || 'Chưa phân phòng ban' }}</span>.
+              </div>
+            </div>
+          }
+
+          <!-- Decision Number & Change Type -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <label class="fs-7 fw-semibold mb-1">Số Quyết Định:</label>
+              <input 
+                type="text" 
+                class="form-control form-control-sm form-control-solid" 
+                placeholder="Tự động sinh (VD: QDDD-2026/0001)" 
+                [(ngModel)]="formData.decisionNumber"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="required fs-7 fw-semibold mb-1">Loại điều động / Biến động:</label>
+              <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.changeType">
+                <option [value]="1">Điều chuyển phòng ban</option>
+                <option [value]="2">Bổ nhiệm / Thăng chức</option>
+                <option [value]="3">Giáng chức / Chuyển vị trí</option>
+                <option [value]="4">Thay đổi Quản lý trực tiếp</option>
+                <option [value]="5">Chuyển địa điểm làm việc</option>
+                <option [value]="6">🛑 Cho thôi việc / Cho nghỉ việc</option>
+                <option [value]="7">❌ Chấm dứt hợp đồng / Sa thải</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- New Department, Job Title & Manager -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <label class="fs-7 fw-semibold mb-1">Phòng Ban Mới:</label>
+              <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.newDepartmentId">
+                <option [value]="0">Giữ nguyên phòng ban hiện tại</option>
+                @for (d of departments(); track d.id) {
+                  <option [value]="d.id">{{ d.name }} ({{ d.code }})</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="fs-7 fw-semibold mb-1">Chức Danh Mới:</label>
+              <input 
+                type="text" 
+                class="form-control form-control-sm form-control-solid" 
+                placeholder="VD: Trưởng Phòng Kế Toán" 
+                [(ngModel)]="formData.newJobTitle"
+              />
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <label class="fs-7 fw-semibold mb-1">Quản Lý Trực Tiếp Mới:</label>
+              <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.newManagerId">
+                <option [value]="0">Không chọn (hoặc giữ nguyên)</option>
+                @for (m of employees(); track m.id) {
+                  <option [value]="m.id">{{ m.fullName }} ({{ m.jobTitle || 'NV' }})</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="required fs-7 fw-semibold mb-1">Ngày Có Hiệu Lực:</label>
+              <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="formData.effectiveDate" />
+            </div>
+          </div>
+
+          <!-- Note -->
+          <div class="mb-4">
+            <label class="fs-7 fw-semibold mb-1">Lý do & Ghi chú trình duyệt:</label>
+            <textarea class="form-control form-control-sm form-control-solid" rows="3" placeholder="Nhập lý do điều chuyển, bổ nhiệm..." [(ngModel)]="formData.note"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-8 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmitting" (click)="saveTransfer()">
+            @if (isSubmitting) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...
+            } @else {
+              <span>Trình Duyệt Lệnh Điều Động</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Từ Chối Duyệt -->
+@if (isRejectModalOpen && selectedTransferForReject) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-550px">
+      <div class="modal-content">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-5 mb-0 text-danger">
+            <i class="bi bi-x-circle-fill me-2"></i>Từ Chối Duyệt Lệnh Điều Động
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeRejectModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-4 px-lg-6">
+          <p class="fs-7 text-gray-700 mb-3">
+            Bạn đang từ chối Quyết định điều động <strong>{{ selectedTransferForReject.decisionNumber }}</strong> cho nhân viên <strong>{{ selectedTransferForReject.employeeName }}</strong>.
+          </p>
+
+          <div class="mb-3">
+            <label class="required fs-7 fw-semibold mb-1">Lý do từ chối phê duyệt:</label>
+            <textarea 
+              class="form-control form-control-sm form-control-solid" 
+              rows="4" 
+              placeholder="Nhập lý do từ chối trình duyệt..." 
+              [(ngModel)]="rejectReason"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-6 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeRejectModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-danger fw-bold" [disabled]="isRejecting" (click)="confirmRejectTransfer()">
+            @if (isRejecting) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang từ chối...
+            } @else {
+              <span>Xác Nhận Từ Chối</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Phê Duyệt Lệnh Điều Động (Multi-Step) -->
+@if (isApproveModalOpen && selectedTransferForApprove) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-550px">
+      <div class="modal-content">
+        <div class="modal-header py-3 px-lg-6 bg-light-success border-0">
+          <div class="d-flex flex-column">
+            <h3 class="modal-title fw-bold text-success fs-5 mb-1">
+              <i class="bi bi-check-circle-fill me-2 fs-4 text-success"></i>Duyệt {{ getStepName(selectedTransferForApprove.currentStep || 1) }}
+            </h3>
+            <span class="fs-8 text-gray-600">Lệnh điều động: {{ selectedTransferForApprove.decisionNumber }}</span>
+          </div>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeApproveModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-4 px-lg-6">
+          <p class="text-gray-800 fs-6 mb-3">
+            Xác nhận thực hiện duyệt cấp cho nhân sự <strong class="text-gray-900">{{ selectedTransferForApprove.employeeName }}</strong>:
+          </p>
+
+          <div class="p-3 bg-light rounded-3 mb-4 border border-dashed border-gray-300">
+            <div class="d-flex justify-content-between align-items-center mb-2 fs-7">
+              <span class="text-muted">Loại biến động:</span>
+              <span class="badge fw-bold" [ngClass]="getChangeTypeBadgeClass(selectedTransferForApprove.changeType)">
+                {{ getChangeTypeLabel(selectedTransferForApprove.changeType) }}
+              </span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2 fs-7">
+              <span class="text-muted">Phòng ban mới:</span>
+              <span class="fw-bold text-gray-900">{{ selectedTransferForApprove.newDepartmentName || 'Giữ nguyên' }}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center fs-7">
+              <span class="text-muted">Chức danh mới:</span>
+              <span class="fw-bold text-gray-900">{{ selectedTransferForApprove.newJobTitle || 'Giữ nguyên' }}</span>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">Ý kiến / Ghi chú phê duyệt cấp này:</label>
+            <textarea 
+              class="form-control form-control-solid fs-7" 
+              rows="3" 
+              placeholder="Nhập ghi chú hoặc yêu cầu bàn giao công việc..."
+              [(ngModel)]="approveNote"
+            ></textarea>
+          </div>
+
+          @if ((selectedTransferForApprove.currentStep || 1) === 4) {
+            <div class="alert alert-light-warning d-flex align-items-start p-3 mb-0 rounded-3 border border-warning border-opacity-25">
+              <i class="bi bi-info-circle-fill fs-4 text-warning me-2 mt-1"></i>
+              <div class="fs-7 text-gray-700">
+                <strong>Lưu ý Giám đốc:</strong> Ngay khi bấm Phê duyệt cấp này, Quyết định sẽ chính thức ban hành và tự động đồng bộ Hồ sơ nhân sự (Phòng ban/Chức danh/Quản lý).
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3 px-lg-6 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeApproveModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-success fw-bold" [disabled]="isApproving" (click)="confirmApproveTransfer()">
+            @if (isApproving) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...
+            } @else {
+              <span><i class="bi bi-check2-circle me-1"></i>Xác Nhận Duyệt Cấp {{ selectedTransferForApprove.currentStep || 1 }}</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Xem Chi Tiết Lệnh Điều Động -->
+@if (isViewModalOpen && selectedTransferForView) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content">
+        <div class="modal-header py-4">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge badge-light-secondary font-monospace fw-bold fs-7">{{ selectedTransferForView.decisionNumber }}</span>
+            <span class="badge fw-bold px-3 py-1 fs-8" [ngClass]="getApprovalStatusBadgeClass(selectedTransferForView.approvalStatus)">
+              {{ getApprovalStatusLabel(selectedTransferForView.approvalStatus) }}
+            </span>
+          </div>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeViewModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-8">
+          <h2 class="fw-bold fs-4 text-gray-900 mb-2">Lệnh Điều Động: {{ selectedTransferForView.employeeName }}</h2>
+          <span class="badge fw-bold px-3 py-1 fs-8 mb-4" [ngClass]="getChangeTypeBadgeClass(selectedTransferForView.changeType)">
+            {{ getChangeTypeLabel(selectedTransferForView.changeType) }}
+          </span>
+
+          <div class="row g-4 mb-4 p-4 bg-light rounded-3">
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Phòng Ban Ban Đầu:</span>
+              <span class="fs-7 fw-bold text-gray-800">{{ selectedTransferForView.oldDepartmentName || 'Chưa phân công' }}</span>
+            </div>
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Phòng Ban Điều Chuyển Mới:</span>
+              <span class="fs-7 fw-bold text-primary">{{ selectedTransferForView.newDepartmentName || 'Chưa phân công' }}</span>
+            </div>
+
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Chức Danh Ban Đầu:</span>
+              <span class="fs-7 fw-bold text-gray-800">{{ selectedTransferForView.oldJobTitle || 'Nhân viên' }}</span>
+            </div>
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Chức Danh Mới:</span>
+              <span class="fs-7 fw-bold text-success">{{ selectedTransferForView.newJobTitle || 'Nhân viên' }}</span>
+            </div>
+
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Quản Lý Trực Tiếp Cũ:</span>
+              <span class="fs-7 fw-bold text-gray-800">{{ selectedTransferForView.oldManagerName || 'Chưa phân công' }}</span>
+            </div>
+            <div class="col-md-6">
+              <span class="fs-8 text-gray-500 d-block mb-1">Quản Lý Trực Tiếp Mới:</span>
+              <span class="fs-7 fw-bold text-info">{{ selectedTransferForView.newManagerName || 'Chưa phân công' }}</span>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <span class="fs-8 text-muted me-2">Ngày hiệu lực:</span>
+              <strong class="fs-7 text-gray-800">{{ selectedTransferForView.effectiveDate | date:'dd/MM/yyyy' }}</strong>
+            </div>
+            <div class="col-md-6">
+              <span class="fs-8 text-muted me-2">Ngày khởi tạo:</span>
+              <strong class="fs-7 text-gray-800">{{ selectedTransferForView.createdAt | date:'dd/MM/yyyy HH:mm' }}</strong>
+            </div>
+          </div>
+
+          <!-- 5-Step Enterprise Stepper Timeline Audit Trail -->
+          <div class="mb-4">
+            <h4 class="fw-bold fs-6 text-gray-800 mb-3"><i class="bi bi-diagram-3-fill me-2 text-primary"></i>Tiến trình Phê duyệt 5 Cấp Enterprise:</h4>
+            
+            <div class="p-4 bg-light rounded-3 border">
+              <!-- Step 1 -->
+              <div class="d-flex align-items-start mb-3">
+                <div class="me-3 mt-1">
+                  @if (selectedTransferForView.currentManagerStatus === 'APPROVED') {
+                    <span class="badge badge-circle badge-success me-2"><i class="bi bi-check text-white"></i></span>
+                  } @else if ((selectedTransferForView.currentStep || 1) === 1 && selectedTransferForView.approvalStatus === 'PENDING_APPROVAL') {
+                    <span class="badge badge-circle badge-primary me-2"><i class="bi bi-hourglass-split text-white"></i></span>
+                  } @else {
+                    <span class="badge badge-circle badge-secondary me-2">1</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong class="fs-7 text-gray-800">Cấp 1: Quản lý Phòng cũ (Bàn giao)</strong>
+                    <span class="badge fs-9" [ngClass]="selectedTransferForView.currentManagerStatus === 'APPROVED' ? 'badge-light-success text-success' : 'badge-light-warning text-warning'">
+                      {{ selectedTransferForView.currentManagerStatus === 'APPROVED' ? 'Đã duyệt' : 'Chờ duyệt' }}
+                    </span>
+                  </div>
+                  @if (selectedTransferForView.currentManagerNote) {
+                    <div class="fs-8 text-gray-600 mt-1 italic">"{{ selectedTransferForView.currentManagerNote }}"</div>
+                  }
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="d-flex align-items-start mb-3">
+                <div class="me-3 mt-1">
+                  @if (selectedTransferForView.newManagerStatus === 'APPROVED') {
+                    <span class="badge badge-circle badge-success me-2"><i class="bi bi-check text-white"></i></span>
+                  } @else if ((selectedTransferForView.currentStep || 1) === 2 && selectedTransferForView.approvalStatus === 'PENDING_APPROVAL') {
+                    <span class="badge badge-circle badge-primary me-2"><i class="bi bi-hourglass-split text-white"></i></span>
+                  } @else {
+                    <span class="badge badge-circle badge-secondary me-2">2</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong class="fs-7 text-gray-800">Cấp 2: Quản lý Phòng mới (Tiếp nhận)</strong>
+                    <span class="badge fs-9" [ngClass]="selectedTransferForView.newManagerStatus === 'APPROVED' ? 'badge-light-success text-success' : 'badge-light-secondary text-muted'">
+                      {{ selectedTransferForView.newManagerStatus === 'APPROVED' ? 'Đã duyệt' : 'Chờ duyệt' }}
+                    </span>
+                  </div>
+                  @if (selectedTransferForView.newManagerNote) {
+                    <div class="fs-8 text-gray-600 mt-1 italic">"{{ selectedTransferForView.newManagerNote }}"</div>
+                  }
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="d-flex align-items-start mb-3">
+                <div class="me-3 mt-1">
+                  @if (selectedTransferForView.hrStatus === 'APPROVED') {
+                    <span class="badge badge-circle badge-success me-2"><i class="bi bi-check text-white"></i></span>
+                  } @else if ((selectedTransferForView.currentStep || 1) === 3 && selectedTransferForView.approvalStatus === 'PENDING_APPROVAL') {
+                    <span class="badge badge-circle badge-primary me-2"><i class="bi bi-hourglass-split text-white"></i></span>
+                  } @else {
+                    <span class="badge badge-circle badge-secondary me-2">3</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong class="fs-7 text-gray-800">Cấp 3: Phòng Nhân sự (Cấp QĐ & Định biên)</strong>
+                    <span class="badge fs-9" [ngClass]="selectedTransferForView.hrStatus === 'APPROVED' ? 'badge-light-success text-success' : 'badge-light-secondary text-muted'">
+                      {{ selectedTransferForView.hrStatus === 'APPROVED' ? 'Đã duyệt' : 'Chờ duyệt' }}
+                    </span>
+                  </div>
+                  @if (selectedTransferForView.hrNote) {
+                    <div class="fs-8 text-gray-600 mt-1 italic">"{{ selectedTransferForView.hrNote }}"</div>
+                  }
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="d-flex align-items-start mb-3">
+                <div class="me-3 mt-1">
+                  @if (selectedTransferForView.directorStatus === 'APPROVED' || selectedTransferForView.approvalStatus === 'APPROVED') {
+                    <span class="badge badge-circle badge-success me-2"><i class="bi bi-check text-white"></i></span>
+                  } @else if ((selectedTransferForView.currentStep || 1) === 4 && selectedTransferForView.approvalStatus === 'PENDING_APPROVAL') {
+                    <span class="badge badge-circle badge-primary me-2"><i class="bi bi-hourglass-split text-white"></i></span>
+                  } @else {
+                    <span class="badge badge-circle badge-secondary me-2">4</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong class="fs-7 text-gray-800">Cấp 4: Ban Giám Đốc (Phê duyệt QĐ & Đồng bộ Hồ sơ)</strong>
+                    <span class="badge fs-9" [ngClass]="(selectedTransferForView.directorStatus === 'APPROVED' || selectedTransferForView.approvalStatus === 'APPROVED') ? 'badge-light-success text-success' : 'badge-light-secondary text-muted'">
+                      {{ (selectedTransferForView.directorStatus === 'APPROVED' || selectedTransferForView.approvalStatus === 'APPROVED') ? 'Đã duyệt' : 'Chờ duyệt' }}
+                    </span>
+                  </div>
+                  @if (selectedTransferForView.directorNote) {
+                    <div class="fs-8 text-gray-600 mt-1 italic">"{{ selectedTransferForView.directorNote }}"</div>
+                  }
+                </div>
+              </div>
+
+              <!-- Step 5 -->
+              <div class="d-flex align-items-start">
+                <div class="me-3 mt-1">
+                  @if (selectedTransferForView.employeeAckStatus === 'ACKNOWLEDGED') {
+                    <span class="badge badge-circle badge-success me-2"><i class="bi bi-check text-white"></i></span>
+                  } @else if ((selectedTransferForView.currentStep || 1) === 5) {
+                    <span class="badge badge-circle badge-info me-2"><i class="bi bi-person-check text-white"></i></span>
+                  } @else {
+                    <span class="badge badge-circle badge-secondary me-2">5</span>
+                  }
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <strong class="fs-7 text-gray-800">Cấp 5: Nhân viên Tiếp nhận (Xác nhận nhận lệnh)</strong>
+                    <span class="badge fs-9" [ngClass]="selectedTransferForView.employeeAckStatus === 'ACKNOWLEDGED' ? 'badge-light-success text-success' : 'badge-light-info text-info'">
+                      {{ selectedTransferForView.employeeAckStatus === 'ACKNOWLEDGED' ? 'Đã xác nhận' : 'Chờ xác nhận' }}
+                    </span>
+                  </div>
+                  @if (selectedTransferForView.employeeAckNote) {
+                    <div class="fs-8 text-gray-600 mt-1 italic">"{{ selectedTransferForView.employeeAckNote }}"</div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @if (selectedTransferForView.approvalStatus === 'APPROVED') {
+            <div class="alert alert-light-success p-3 mb-4 rounded-3 border border-success border-opacity-25">
+              <strong class="d-block mb-1 text-success fs-7"><i class="bi bi-check-circle-fill me-1"></i>Thông tin phê duyệt:</strong>
+              <span class="fs-7 text-gray-800">
+                Ban Giám đốc đã phê duyệt ban hành Quyết định. Hồ sơ nhân sự đã tự động đồng bộ!
+              </span>
+            </div>
+          }
+
+          @if (selectedTransferForView.approvalStatus === 'REJECTED') {
+            <div class="alert alert-light-danger p-3 mb-4 rounded-3 border border-danger border-opacity-25">
+              <strong class="d-block mb-1 text-danger fs-7"><i class="bi bi-x-circle-fill me-1"></i>Lý do từ chối:</strong>
+              <span class="fs-7 text-gray-800">{{ selectedTransferForView.rejectionReason || 'Không có ghi chú lý do từ chối.' }}</span>
+            </div>
+          }
+
+          @if (selectedTransferForView.note) {
+            <div class="mb-2">
+              <label class="fs-7 fw-semibold text-gray-600 mb-1">Ghi chú & Lý do trình duyệt ban đầu:</label>
+              <div class="p-3 bg-light rounded-3 fs-7 text-gray-800">{{ selectedTransferForView.note }}</div>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3 px-lg-8 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

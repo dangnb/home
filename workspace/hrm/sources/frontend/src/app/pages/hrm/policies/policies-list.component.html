@@ -1,0 +1,462 @@
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Chính Sách & Quy Định HR Công Ty</h1>
+      <span class="text-muted fs-7">Kho quy chế, chính sách đãi ngộ, chế độ làm việc và bảo hiểm ban hành toàn công ty</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="btn btn-sm btn-primary fw-bold" (click)="openCreateModal()">
+        <i class="bi bi-file-earmark-text-fill me-1"></i>Ban Hành Chính Sách Mới
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Summary Cards -->
+  <div class="row g-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Tổng Chính Sách</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-book-half fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-gray-900 mb-1">{{ summary().totalPolicies }}</div>
+        <span class="fs-8 text-muted">Toàn bộ văn bản quy chế</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Chế Độ & Phụ Cấp</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-gift-fill fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-success mb-1">{{ summary().benefitsPolicies }}</div>
+        <span class="fs-8 text-muted">Quy định thưởng & đãi ngộ</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Thời Giờ Làm Việc</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+            <i class="bi bi-clock-history fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-info mb-1">{{ summary().workingHoursPolicies }}</div>
+        <span class="fs-8 text-muted">Quy định ca làm & nghỉ phép</span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card card-flush shadow-sm card-bordered h-100 p-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <span class="fs-7 fw-semibold text-gray-500 text-uppercase">Bảo Hiểm & Phúc Lợi</span>
+          <div class="symbol symbol-40px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+            <i class="bi bi-shield-check fs-4"></i>
+          </div>
+        </div>
+        <div class="fs-2x fw-bold text-warning mb-1">{{ summary().insurancePolicies }}</div>
+        <span class="fs-8 text-muted">Bảo hiểm & sức khỏe</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Toolbar -->
+  <div class="card card-flush shadow-sm card-bordered p-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex flex-wrap align-items-center gap-3">
+        <!-- Search Keyword -->
+        <div class="d-flex align-items-center position-relative my-1">
+          <i class="bi bi-search fs-5 position-absolute ms-4 text-gray-500"></i>
+          <input 
+            type="text" 
+            class="form-control form-control-sm form-control-solid w-280px ps-12" 
+            placeholder="Tìm tên chính sách, mã quy định..." 
+            [(ngModel)]="filterKeyword"
+            (keyup.enter)="applyFilter()"
+          />
+        </div>
+
+        <!-- Category Filter -->
+        <div class="my-1">
+          <select class="form-select form-select-sm form-select-solid w-200px" [(ngModel)]="filterCategory" (change)="applyFilter()">
+            <option value="ALL">Tất cả danh mục</option>
+            <option value="BENEFITS">Chế độ & Phụ cấp</option>
+            <option value="WORKING_HOURS">Thời giờ làm việc & OT</option>
+            <option value="INSURANCE_WELFARE">Bảo hiểm & Phúc lợi</option>
+            <option value="CODE_OF_CONDUCT">Quy tắc ứng xử</option>
+            <option value="SAFETY_HEALTH">An toàn & Sức khỏe</option>
+          </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="my-1">
+          <select class="form-select form-select-sm form-select-solid w-160px" [(ngModel)]="filterStatus" (change)="applyFilter()">
+            <option value="ALL">Tất cả trạng thái</option>
+            <option value="PUBLISHED">Đã ban hành</option>
+            <option value="DRAFT">Bản nháp</option>
+            <option value="ARCHIVED">Đã hết hiệu lực</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-sm btn-light btn-active-light-primary" (click)="applyFilter()">
+        <i class="bi bi-funnel me-1"></i>Lọc Chính Sách
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards Grid View -->
+  <div class="row g-4">
+    @for (item of items(); track item.id) {
+      <div class="col-md-6 col-xl-4">
+        <div class="card card-flush shadow-sm card-bordered h-100 hover-elevation-2 cursor-pointer transition-all" (click)="viewPolicyDetail(item)">
+          <div class="card-header pt-5 pb-3 border-0">
+            <div class="card-title flex-column">
+              <div class="d-flex align-items-center justify-content-between w-100 mb-2">
+                <span class="badge badge-light-secondary font-monospace fw-bold text-dark fs-8 px-2 py-1">
+                  {{ item.policyCode }}
+                </span>
+                <span class="badge fw-bold px-3 py-1 fs-8" [ngClass]="getStatusBadgeClass(item.status)">
+                  {{ getStatusLabel(item.status) }}
+                </span>
+              </div>
+              <h3 class="card-label fw-bold text-gray-900 fs-5 lh-base text-truncate-2" [title]="item.title">
+                {{ item.title }}
+              </h3>
+            </div>
+          </div>
+
+          <div class="card-body pt-0 pb-4">
+            <div class="mb-3">
+              <span class="badge fw-semibold px-2 py-1 fs-8 me-2" [ngClass]="getCategoryBadgeClass(item.category)">
+                {{ getCategoryLabel(item.category) }}
+              </span>
+              <span class="fs-8 text-muted">
+                <i class="bi bi-calendar3 me-1"></i>Từ {{ item.effectiveDate | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+
+            <p class="text-gray-600 fs-7 text-truncate-3 mb-0" style="min-height: 48px;">
+              {{ item.summary || 'Nhấn để xem toàn bộ nội dung chi tiết bài viết quy định chính sách này...' }}
+            </p>
+          </div>
+
+          <div class="card-footer py-3 border-top d-flex align-items-center justify-content-between bg-light-subtle rounded-bottom">
+            <span class="fs-8 text-primary fw-bold">
+              Xem chi tiết <i class="bi bi-arrow-right ms-1"></i>
+            </span>
+
+            <div class="d-flex align-items-center gap-2" (click)="$event.stopPropagation()">
+              <button type="button" class="btn btn-icon btn-sm btn-light-primary" (click)="openEditModal(item)" title="Chỉnh sửa">
+                <i class="bi bi-pencil-fill fs-7"></i>
+              </button>
+              <button type="button" class="btn btn-icon btn-sm btn-light-danger" (click)="deletePolicy(item)" title="Xóa">
+                <i class="bi bi-trash-fill fs-7"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (items().length === 0 && !isLoading()) {
+      <div class="col-12">
+        <div class="card card-flush shadow-sm card-bordered py-10 text-center text-muted">
+          <i class="bi bi-book fs-3x d-block mb-3 text-gray-400"></i>
+          <span class="fs-6 fw-semibold">Không tìm thấy bài viết chính sách nào phù hợp</span>
+        </div>
+      </div>
+    }
+
+    @if (isLoading()) {
+      <div class="col-12 text-center py-10 text-muted">
+        <span class="spinner-border spinner-border-sm me-2"></span> Đang tải danh sách chính sách công ty...
+      </div>
+    }
+  </div>
+
+  <!-- Pagination -->
+  <app-pagination
+    [currentPage]="currentPage"
+    [pageSize]="pageSize"
+    [totalCount]="totalCount"
+    [itemCount]="items().length"
+    [pageSizeOptions]="pageSizeOptions"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+  ></app-pagination>
+</div>
+
+<!-- Modal Xem Chi Tiết Bài Viết Chính Sách -->
+@if (isViewModalOpen && selectedPolicyForView) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-750px">
+      <div class="modal-content">
+        <div class="modal-header py-4">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge badge-light-secondary font-monospace fw-bold fs-7">{{ selectedPolicyForView.policyCode }}</span>
+            <span class="badge fw-bold px-3 py-1 fs-8" [ngClass]="getCategoryBadgeClass(selectedPolicyForView.category)">
+              {{ getCategoryLabel(selectedPolicyForView.category) }}
+            </span>
+          </div>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeViewModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-8" style="max-height: 70vh; overflow-y: auto;">
+          <h2 class="fw-bold fs-3 text-gray-900 mb-3">{{ selectedPolicyForView.title }}</h2>
+
+          <div class="d-flex align-items-center gap-4 text-muted fs-7 mb-4 pb-3 border-bottom">
+            <span><i class="bi bi-calendar-event me-1"></i>Ban hành: {{ selectedPolicyForView.effectiveDate | date:'dd/MM/yyyy' }}</span>
+            @if (selectedPolicyForView.expiryDate) {
+              <span><i class="bi bi-calendar-x me-1"></i>Hết hạn: {{ selectedPolicyForView.expiryDate | date:'dd/MM/yyyy' }}</span>
+            }
+            <span class="badge fw-bold px-2 py-1 fs-8" [ngClass]="getStatusBadgeClass(selectedPolicyForView.status)">
+              {{ getStatusLabel(selectedPolicyForView.status) }}
+            </span>
+          </div>
+
+          @if (selectedPolicyForView.summary) {
+            <div class="alert alert-light-primary p-4 mb-4 rounded-3 border border-primary border-opacity-25">
+              <strong class="d-block mb-1 text-primary">Tóm tắt nội dung chính:</strong>
+              <p class="mb-0 fs-7 text-gray-800">{{ selectedPolicyForView.summary }}</p>
+            </div>
+          }
+
+          <div class="fs-6 text-gray-800 lh-lg rich-text-view p-4 bg-light-subtle rounded-3 border" [innerHTML]="getSafeHtml(selectedPolicyForView.content || '<em>Chưa có nội dung văn bản chi tiết.</em>')">
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-8 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal Ban Hành / Chỉnh Sửa Chính Sách -->
+@if (isModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-750px">
+      <div class="modal-content">
+        <div class="modal-header py-4">
+          <h2 class="fw-bold fs-4 mb-0">
+            <i class="bi me-2 text-primary" [ngClass]="isEditing ? 'bi-pencil-square' : 'bi-file-earmark-text-fill'"></i>
+            {{ isEditing ? 'Chỉnh Sửa Bài Viết Chính Sách' : 'Ban Hành Chính Sách Mới' }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-8" style="max-height: 78vh; overflow-y: auto;">
+          <!-- Policy Code & Title -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-5">
+              <label class="fs-7 fw-semibold mb-1">Mã Chính Sách:</label>
+              <input 
+                type="text" 
+                class="form-control form-control-sm form-control-solid" 
+                placeholder="Tự động (VD: CS-2026/0001)" 
+                [(ngModel)]="formData.policyCode"
+                [disabled]="isEditing"
+              />
+            </div>
+
+            <div class="col-md-7">
+              <label class="required fs-7 fw-semibold mb-1">Danh mục chính sách:</label>
+              <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.category">
+                <option [value]="1">Chế độ đãi ngộ, Phụ cấp & Thưởng</option>
+                <option [value]="2">Thời giờ làm việc, OT & Nghỉ ngơi</option>
+                <option [value]="3">Bảo hiểm, Khám sức khỏe & Phúc lợi</option>
+                <option [value]="4">Quy tắc ứng xử & Văn hóa doanh nghiệp</option>
+                <option [value]="5">An toàn & Sức khỏe lao động</option>
+                <option [value]="6">Quy định khác</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="required fs-7 fw-semibold mb-1">Tên / Tiêu đề bài viết chính sách:</label>
+            <input 
+              type="text" 
+              class="form-control form-control-sm form-control-solid" 
+              placeholder="VD: Quy định phụ cấp ăn trưa và phụ cấp đi lại năm 2026" 
+              [(ngModel)]="formData.title"
+            />
+          </div>
+
+          <!-- Effective & Expiry Dates -->
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <label class="required fs-7 fw-semibold mb-1">Ngày ban hành / Hiệu lực:</label>
+              <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="formData.effectiveDate" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="fs-7 fw-semibold mb-1">Ngày hết hạn (Nếu có):</label>
+              <input type="date" class="form-control form-control-sm form-control-solid" [(ngModel)]="formData.expiryDate" placeholder="Để trống nếu không hết hạn" />
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="mb-4">
+            <label class="fs-7 fw-semibold mb-1">Tóm tắt ngắn gọn:</label>
+            <textarea class="form-control form-control-sm form-control-solid" rows="2" placeholder="Tóm tắt trọng tâm chính sách..." [(ngModel)]="formData.summary"></textarea>
+          </div>
+
+          <!-- Rich Text Content Editor -->
+          <div class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <label class="fs-7 fw-semibold mb-0">Nội dung chi tiết văn bản quy định:</label>
+              <div class="btn-group btn-group-sm" role="group">
+                <button 
+                  type="button" 
+                  class="btn py-1 px-3 fs-8" 
+                  [class.btn-primary]="editorMode === 'visual'" 
+                  [class.btn-light]="editorMode !== 'visual'"
+                  (click)="editorMode = 'visual'"
+                >
+                  <i class="bi bi-eye me-1"></i>Trực quan
+                </button>
+                <button 
+                  type="button" 
+                  class="btn py-1 px-3 fs-8" 
+                  [class.btn-primary]="editorMode === 'code'" 
+                  [class.btn-light]="editorMode !== 'code'"
+                  (click)="editorMode = 'code'"
+                >
+                  <i class="bi bi-code-slash me-1"></i>Mã HTML
+                </button>
+              </div>
+            </div>
+
+            @if (editorMode === 'visual') {
+              <div class="editor-container border rounded-3 overflow-hidden shadow-xs">
+                <!-- Editor Toolbar -->
+                <div class="editor-toolbar bg-light px-3 py-2 border-bottom d-flex flex-wrap align-items-center gap-1">
+                  <!-- Headings -->
+                  <select class="form-select form-select-sm form-select-solid w-130px me-1" (mousedown)="$event.preventDefault()" (change)="setHeading($event)">
+                    <option value="p">Văn bản (P)</option>
+                    <option value="h2">Tiêu đề lớn (H2)</option>
+                    <option value="h3">Tiêu đề phụ (H3)</option>
+                    <option value="blockquote">Trích dẫn (Quote)</option>
+                  </select>
+
+                  <div class="vr mx-1 my-1"></div>
+
+                  <!-- Formatting buttons -->
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('bold')" title="In đậm (Ctrl+B)">
+                    <i class="bi bi-type-bold fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('italic')" title="In nghiêng (Ctrl+I)">
+                    <i class="bi bi-type-italic fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('underline')" title="Gạch chân (Ctrl+U)">
+                    <i class="bi bi-type-underline fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('strikeThrough')" title="Gạch ngang">
+                    <i class="bi bi-type-strikethrough fs-6"></i>
+                  </button>
+
+                  <div class="vr mx-1 my-1"></div>
+
+                  <!-- Lists -->
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('insertUnorderedList')" title="Danh sách chấm tròn">
+                    <i class="bi bi-list-ul fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('insertOrderedList')" title="Danh sách số">
+                    <i class="bi bi-list-ol fs-6"></i>
+                  </button>
+
+                  <div class="vr mx-1 my-1"></div>
+
+                  <!-- Alignments -->
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('justifyLeft')" title="Căn trái">
+                    <i class="bi bi-text-left fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('justifyCenter')" title="Căn giữa">
+                    <i class="bi bi-text-center fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('justifyRight')" title="Căn phải">
+                    <i class="bi bi-text-right fs-6"></i>
+                  </button>
+
+                  <div class="vr mx-1 my-1"></div>
+
+                  <!-- Colors -->
+                  <div class="d-flex align-items-center gap-1 ms-1 me-1">
+                    <button type="button" class="btn btn-icon btn-xs rounded-circle bg-primary" (mousedown)="$event.preventDefault()" (click)="setTextColor('#3E97FF')" title="Chữ Xanh Blue"></button>
+                    <button type="button" class="btn btn-icon btn-xs rounded-circle bg-success" (mousedown)="$event.preventDefault()" (click)="setTextColor('#50CD89')" title="Chữ Xanh Lá"></button>
+                    <button type="button" class="btn btn-icon btn-xs rounded-circle bg-danger" (mousedown)="$event.preventDefault()" (click)="setTextColor('#F1416C')" title="Chữ Đỏ"></button>
+                    <button type="button" class="btn btn-icon btn-xs rounded-circle bg-warning" (mousedown)="$event.preventDefault()" (click)="setTextColor('#FFC700')" title="Chữ Vàng Cam"></button>
+                    <button type="button" class="btn btn-icon btn-xs rounded-circle bg-dark" (mousedown)="$event.preventDefault()" (click)="setTextColor('#181C32')" title="Chữ Đen"></button>
+                  </div>
+
+                  <div class="vr mx-1 my-1"></div>
+
+                  <!-- Link & HR -->
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="insertLink()" title="Chèn liên kết URL">
+                    <i class="bi bi-link-45deg fs-5"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-primary" (mousedown)="$event.preventDefault()" (click)="execCommand('insertHorizontalRule')" title="Chèn đường phân cách (HR)">
+                    <i class="bi bi-hr fs-6"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-sm btn-light btn-active-light-danger" (mousedown)="$event.preventDefault()" (click)="execCommand('removeFormat')" title="Xóa định dạng">
+                    <i class="bi bi-eraser-fill fs-6"></i>
+                  </button>
+                </div>
+
+                <!-- Editable Surface -->
+                <div 
+                  #editorDiv
+                  class="rich-editor-content p-4 bg-white text-gray-800 fs-6" 
+                  contenteditable="true"
+                  (input)="onEditorInput($event)"
+                  style="min-height: 250px; max-height: 400px; overflow-y: auto; outline: none;"
+                ></div>
+              </div>
+            } @else {
+              <textarea 
+                class="form-control form-control-sm form-control-solid font-monospace fs-7" 
+                rows="10" 
+                placeholder="<b>Nhập mã HTML...</b>" 
+                [(ngModel)]="formData.content"
+              ></textarea>
+            }
+          </div>
+
+          <!-- Status -->
+          <div class="mb-4">
+            <label class="required fs-7 fw-semibold mb-1">Trạng thái phát hành:</label>
+            <select class="form-select form-select-sm form-select-solid" [(ngModel)]="formData.status">
+              <option [value]="2">Ban hành công khai (PUBLISHED)</option>
+              <option [value]="1">Lưu bản nháp (DRAFT)</option>
+              <option [value]="3">Lưu trữ / Hết hiệu lực (ARCHIVED)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3 px-lg-8 border-0 bg-light">
+          <button type="button" class="btn btn-sm btn-light fw-bold" (click)="closeModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmitting" (click)="savePolicy()">
+            @if (isSubmitting) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang lưu...
+            } @else {
+              <span>{{ isEditing ? 'Cập Nhật Bài Viết' : 'Ban Hành Bài Viết' }}</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

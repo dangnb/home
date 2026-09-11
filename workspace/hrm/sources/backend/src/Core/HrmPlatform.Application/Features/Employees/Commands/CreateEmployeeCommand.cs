@@ -25,7 +25,20 @@ public record CreateEmployeeCommand : IRequest<long>
     public Gender Gender { get; init; } = Gender.OTHER;
     public DateOnly? DateOfBirth { get; init; }
     public string? IdCardNumber { get; init; }
+    public string? TaxCode { get; init; }
+    public string? SocialInsuranceNumber { get; init; }
+    public string? BankAccountNumber { get; init; }
+    public string? BankName { get; init; }
+    public string? BankBranch { get; init; }
+    public string? PermanentAddress { get; init; }
+    public string? TemporaryAddress { get; init; }
+    public string? EmergencyContactName { get; init; }
+    public string? EmergencyContactPhone { get; init; }
+    public string? MaritalStatus { get; init; }
     public DateOnly? JoinedDate { get; init; }
+    public DateOnly? ProbationEndDate { get; init; }
+    public DateOnly? OfficialJoinedDate { get; init; }
+    public string? AvatarUrl { get; init; }
 }
 
 public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
@@ -121,7 +134,20 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             managerId: request.ManagerId,
             dateOfBirth: request.DateOfBirth,
             idCardNumber: request.IdCardNumber,
-            joinedDate: request.JoinedDate
+            taxCode: request.TaxCode,
+            socialInsuranceNumber: request.SocialInsuranceNumber,
+            bankAccountNumber: request.BankAccountNumber,
+            bankName: request.BankName,
+            bankBranch: request.BankBranch,
+            permanentAddress: request.PermanentAddress,
+            temporaryAddress: request.TemporaryAddress,
+            emergencyContactName: request.EmergencyContactName,
+            emergencyContactPhone: request.EmergencyContactPhone,
+            maritalStatus: request.MaritalStatus,
+            joinedDate: request.JoinedDate,
+            probationEndDate: request.ProbationEndDate,
+            officialJoinedDate: request.OfficialJoinedDate,
+            avatarUrl: request.AvatarUrl
         );
 
         _context.EmployeeProfiles.Add(profile);
