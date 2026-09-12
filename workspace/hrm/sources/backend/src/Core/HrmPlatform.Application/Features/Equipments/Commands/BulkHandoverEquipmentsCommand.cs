@@ -90,11 +90,11 @@ public class BulkHandoverEquipmentsCommandHandler : IRequestHandler<BulkHandover
 
             if (isDept)
             {
-                equipment.Handover(null, request.TargetDepartmentId.Value, request.ConditionStatus, request.Note, "DEPARTMENT");
+                equipment.Handover(null, request.TargetDepartmentId!.Value, request.ConditionStatus, request.Note, "DEPARTMENT");
             }
             else
             {
-                equipment.Handover(actualUserId.Value, null, request.ConditionStatus, request.Note, "EMPLOYEE");
+                equipment.Handover(actualUserId!.Value, null, request.ConditionStatus, request.Note, "EMPLOYEE");
             }
 
             countHandedOver++;

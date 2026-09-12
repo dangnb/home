@@ -1,0 +1,310 @@
+<!-- ════════════════════════════════════════════════════════════════════════
+     PM DASHBOARD — Tổng Quan & Khởi Tạo Dự Án (Marketing / Sales)
+════════════════════════════════════════════════════════════════════════ -->
+<div class="pm-page">
+  <!-- Header -->
+  <div class="pm-header">
+    <div>
+      <h1 class="pm-title">Tổng Quan <span>Dự Án</span></h1>
+      <p class="pm-subtitle">Pipeline kinh doanh — từ Lead đến Ký hợp đồng</p>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center">
+      <!-- Toggle view -->
+      <div class="view-toggle">
+        <button [class.active]="pipelineView" (click)="pipelineView=true" title="Pipeline View"><i class="bi bi-columns-gap"></i></button>
+        <button [class.active]="!pipelineView" (click)="pipelineView=false" title="Table View"><i class="bi bi-table"></i></button>
+      </div>
+      <button class="btn-create" (click)="openCreate()"><i class="bi bi-plus-lg"></i> Khai Báo Dự Án</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-icon purple"><i class="bi bi-kanban"></i></div><div><div class="stat-val">{{stats.totalProjects}}</div><div class="stat-lbl">Tổng Dự Án</div></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="bi bi-trophy"></i></div><div><div class="stat-val" style="color:#4ade80">{{stats.wonProjects}}</div><div class="stat-lbl">Thắng Thầu</div></div></div>
+    <div class="stat-card"><div class="stat-icon red"><i class="bi bi-x-circle"></i></div><div><div class="stat-val" style="color:#f87171">{{stats.lostProjects}}</div><div class="stat-lbl">Thua Thầu</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-exclamation-triangle"></i></div><div><div class="stat-val">{{stats.overdueProjects}}</div><div class="stat-lbl">Quá Deadline</div></div></div>
+    <div class="stat-card stat-wide"><div class="stat-icon teal"><i class="bi bi-currency-exchange"></i></div><div><div class="stat-val val-sm">{{fmt(stats.totalContractValue)}}</div><div class="stat-lbl">Tổng Giá Trị HĐ</div></div></div>
+    <div class="stat-card stat-wide"><div class="stat-icon blue"><i class="bi bi-file-earmark-bar-graph"></i></div><div><div class="stat-val val-sm">{{fmt(stats.totalQuotedValue)}}</div><div class="stat-lbl">Tổng Báo Giá</div></div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <div class="search-wrap"><i class="bi bi-search"></i><input type="text" [(ngModel)]="filters.keyword" (ngModelChange)="onSearch($event)" placeholder="Tìm dự án, khách hàng..."></div>
+    <select [(ngModel)]="filters.priority" (ngModelChange)="onFilter()">
+      <option value="ALL">Mọi ưu tiên</option>
+      <option value="CRITICAL">🔥 Khẩn Cấp</option>
+      <option value="HIGH">Cao</option>
+      <option value="MEDIUM">Trung Bình</option>
+      <option value="LOW">Thấp</option>
+    </select>
+    <select [(ngModel)]="filters.projectType" (ngModelChange)="onFilter()">
+      <option value="ALL">Mọi loại HĐ</option>
+      <option value="FIXED_PRICE">Trọn Gói</option>
+      <option value="TIME_MATERIAL">Theo Giờ</option>
+      <option value="RETAINER">Thuê Bao</option>
+    </select>
+    <span class="count-badge">{{totalCount}} dự án</span>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-wrap" *ngIf="isLoading"><div class="spinner"></div></div>
+
+  <!-- ═══ PIPELINE VIEW ═══ -->
+  <ng-container *ngIf="!isLoading && pipelineView">
+    <div class="pipeline-board">
+      <div class="pipeline-stage" *ngFor="let stage of salesStages">
+        <div class="stage-header" [style.background]="stage.bg" [style.border-color]="stage.color + '30'">
+          <div class="stage-title" [style.color]="stage.color">
+            <i class="bi" [ngClass]="stage.icon"></i> {{stage.label}}
+          </div>
+          <div class="stage-count" [style.background]="stage.color + '20'" [style.color]="stage.color">
+            {{getStageProjects(stage.key).length}}
+          </div>
+        </div>
+
+        <div class="stage-cards">
+          <div class="project-card" *ngFor="let p of getStageProjects(stage.key)" [class.overdue]="p.isOverdue">
+            <!-- Priority dot -->
+            <div class="card-priority" [ngClass]="getPriority(p.priority).cls">{{getPriority(p.priority).label}}</div>
+            <div class="card-code">{{p.code}}</div>
+            <div class="card-name">{{p.name}}</div>
+            <div class="card-customer"><i class="bi bi-building"></i> {{p.customerName}}</div>
+
+            <div class="card-value" *ngIf="p.contractValue || p.quotedValue">
+              <i class="bi bi-currency-exchange"></i>
+              {{p.contractValue ? fmt(p.contractValue) : '~'+fmt(p.quotedValue)}}
+            </div>
+
+            <div class="card-deadline" *ngIf="p.plannedEndDate" [class.overdue-text]="p.isOverdue">
+              <i class="bi bi-calendar-event"></i>
+              {{p.plannedEndDate}} <span *ngIf="p.isOverdue" class="overdue-tag">QUÁ HẠN</span>
+            </div>
+
+            <!-- Progress bar (chỉ hiện khi có tech) -->
+            <div class="card-progress" *ngIf="p.overallProgressPercent > 0">
+              <div class="prog-bar"><div class="prog-fill" [style.width.%]="p.overallProgressPercent"></div></div>
+              <span>{{p.overallProgressPercent}}%</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="card-actions">
+              <button class="act-btn" *ngFor="let ns of nextStageOptions(p.salesStatus)" (click)="openSalesStatus(p, ns)" title="Chuyển sang {{salesStatusMap[ns]?.label}}">
+                <i class="bi bi-arrow-right-circle"></i> → {{salesStatusMap[ns]?.label}}
+              </button>
+              <button class="act-btn act-sign" *ngIf="canSign(p)" (click)="openSignContract(p)"><i class="bi bi-pen"></i> Ký HĐ</button>
+              <button class="act-btn act-docs" (click)="openDocuments(p)"><i class="bi bi-paperclip"></i></button>
+              <button class="act-btn act-lost" *ngIf="canClose(p)" (click)="openCloseLost(p)"><i class="bi bi-x-circle"></i></button>
+            </div>
+          </div>
+
+          <div class="stage-empty" *ngIf="getStageProjects(stage.key).length === 0">
+            <i class="bi bi-inbox"></i> Chưa có dự án
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ═══ TABLE VIEW ═══ -->
+  <ng-container *ngIf="!isLoading && !pipelineView">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mã / Tên</th><th>Khách Hàng</th><th>Trạng Thái KD</th><th>Ưu Tiên</th><th>Giá Trị</th><th>Deadline</th><th>NV KD</th><th>Thao Tác</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let p of projects" [class.tr-overdue]="p.isOverdue">
+            <td><div class="tc-code">{{p.code}}</div><div class="tc-name">{{p.name}}</div></td>
+            <td>{{p.customerName}}</td>
+            <td><span class="badge-stage" [style.background]="getSales(p.salesStatus).bg" [style.color]="getSales(p.salesStatus).color"><i class="bi" [ngClass]="getSales(p.salesStatus).icon"></i> {{getSales(p.salesStatus).label}}</span></td>
+            <td><span class="pr-dot" [ngClass]="getPriority(p.priority).cls">{{getPriority(p.priority).label}}</span></td>
+            <td class="val-green">{{p.contractValue ? fmt(p.contractValue) : p.quotedValue ? '~'+fmt(p.quotedValue) : '—'}}</td>
+            <td [class.overdue-text]="p.isOverdue">{{p.plannedEndDate || '—'}}</td>
+            <td>{{p.salesUserName || '—'}}</td>
+            <td>
+              <div style="display:flex; gap:5px">
+                <button class="tbl-btn" *ngIf="canSign(p)" (click)="openSignContract(p)" title="Ký HĐ"><i class="bi bi-pen"></i></button>
+                <button class="tbl-btn" *ngFor="let ns of nextStageOptions(p.salesStatus)" (click)="openSalesStatus(p, ns)" title="Tiến bước">→</button>
+                <button class="tbl-btn" (click)="openDocuments(p)" title="Tài liệu"><i class="bi bi-paperclip"></i></button>
+                <button class="tbl-btn tbl-lost" *ngIf="canClose(p)" (click)="openCloseLost(p)" title="Thua thầu"><i class="bi bi-x-circle"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty-wrap" *ngIf="projects.length === 0"><i class="bi bi-kanban"></i><p>Chưa có dự án nào</p></div>
+    </div>
+  </ng-container>
+</div>
+
+
+<!-- ══════════════════════ MODAL: TẠO DỰ ÁN ══════════════════════════ -->
+<div class="modal-bg" *ngIf="activeModal === 'create'" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-plus-circle"></i> Khai Báo Dự Án Mới</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="fg span-2"><label>Tên Dự Án <span class="req">*</span></label><input type="text" [(ngModel)]="createForm.name" placeholder="VD: Hệ thống CRM Công ty ABC"></div>
+      <div class="fg"><label>Tên Khách Hàng <span class="req">*</span></label><input type="text" [(ngModel)]="createForm.customerName" placeholder="Tên doanh nghiệp..."></div>
+      <div class="fg"><label>Người Đầu Mối</label><input type="text" [(ngModel)]="createForm.customerContactName" placeholder="Tên người liên hệ KH"></div>
+      <div class="fg"><label>SĐT KH</label><input type="text" [(ngModel)]="createForm.customerPhone" placeholder="0901xxxxxx"></div>
+      <div class="fg"><label>Email KH</label><input type="email" [(ngModel)]="createForm.customerEmail" placeholder="email@domain.com"></div>
+      <div class="fg"><label>ID NV Kinh Doanh <span class="req">*</span></label><input type="number" [(ngModel)]="createForm.salesUserId" placeholder="ID nhân viên phụ trách"></div>
+      <div class="fg"><label>ID Phòng KD</label><input type="number" [(ngModel)]="createForm.salesDepartmentId" placeholder="ID phòng kinh doanh"></div>
+      <div class="fg"><label>Loại Hợp Đồng</label>
+        <select [(ngModel)]="createForm.projectType">
+          <option value="FIXED_PRICE">Trọn Gói (Fixed Price)</option>
+          <option value="TIME_MATERIAL">Theo Giờ (T&M)</option>
+          <option value="RETAINER">Thuê Bao</option>
+        </select>
+      </div>
+      <div class="fg"><label>Độ Ưu Tiên</label>
+        <select [(ngModel)]="createForm.priority">
+          <option value="LOW">Thấp</option><option value="MEDIUM">Trung Bình</option><option value="HIGH">Cao</option><option value="CRITICAL">🔥 Khẩn Cấp</option>
+        </select>
+      </div>
+      <div class="fg"><label>Giá Trị Báo Giá (VNĐ)</label><input type="number" [(ngModel)]="createForm.quotedValue" placeholder="Ước tính giá trị dự án"></div>
+      <div class="fg"><label>Bắt Đầu Dự Kiến</label><input type="date" [(ngModel)]="createForm.plannedStartDate"></div>
+      <div class="fg"><label>Deadline Bàn Giao</label><input type="date" [(ngModel)]="createForm.plannedEndDate"></div>
+      <div class="fg span-2"><label>Mô Tả Yêu Cầu / Phạm Vi</label><textarea [(ngModel)]="createForm.description" rows="3" placeholder="Mô tả tổng quan yêu cầu..."></textarea></div>
+      <div class="fg span-2"><label>Ghi Chú Nội Bộ</label><textarea [(ngModel)]="createForm.internalNote" rows="2" placeholder="Ghi chú nội bộ (không hiển thị KH)..."></textarea></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-primary" (click)="saveCreate()" [disabled]="isSaving"><i class="bi" [ngClass]="isSaving?'bi-hourglass-split':'bi-check2'"></i> {{isSaving?'Đang lưu...':'Khai Báo Dự Án'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ MODAL: KÝ HĐ ══════════════════════════════ -->
+<div class="modal-bg" *ngIf="activeModal === 'signContract'" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-pen"></i> Ký Hợp Đồng — {{selectedProject?.code}}</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="fg"><label>Giá Trị HĐ (VNĐ) <span class="req">*</span></label><input type="number" [(ngModel)]="signContractForm.contractValue"></div>
+      <div class="fg"><label>Ngày Ký <span class="req">*</span></label><input type="date" [(ngModel)]="signContractForm.contractSignedDate"></div>
+      <div class="fg span-2"><label>Tên File HĐ</label><input type="text" [(ngModel)]="signContractForm.contractFileRef" placeholder="HD_XXX_2026.pdf"></div>
+      <div class="fg"><label>Bảo Hành (Tháng)</label><input type="number" [(ngModel)]="signContractForm.warrantyMonths" min="0"></div>
+      <div class="fg"><label>Ngày Bắt Đầu KT</label><input type="date" [(ngModel)]="signContractForm.plannedStartDate"></div>
+      <div class="fg"><label>Deadline</label><input type="date" [(ngModel)]="signContractForm.plannedEndDate"></div>
+      <div class="info-box">
+        <i class="bi bi-info-circle"></i> Sau khi ký HĐ, hệ thống sẽ <strong>tự động thông báo Kỹ Thuật</strong> để phân công triển khai.
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-success" (click)="saveSignContract()" [disabled]="isSaving"><i class="bi bi-pen"></i> {{isSaving?'Đang lưu...':'Xác Nhận Ký HĐ'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ MODAL: CHUYỂN TRẠNG THÁI ══════════════════ -->
+<div class="modal-bg" *ngIf="activeModal === 'salesStatus'" (click)="close()">
+  <div class="modal-box modal-sm" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-arrow-right-circle"></i> Chuyển Giai Đoạn</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div style="margin-bottom:14px; color:#94a3b8; font-size:0.875rem">
+        Dự án <strong style="color:#f1f5f9">{{selectedProject?.code}} — {{selectedProject?.name}}</strong><br>
+        Chuyển sang: <span class="badge-stage" [style.background]="getSales(salesStatusForm.newStatus).bg" [style.color]="getSales(salesStatusForm.newStatus).color">{{getSales(salesStatusForm.newStatus).label}}</span>
+      </div>
+      <div class="fg span-2"><label>Ghi Chú</label><textarea [(ngModel)]="salesStatusForm.note" rows="2" placeholder="Ghi chú chuyển giai đoạn..."></textarea></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-primary" (click)="saveSalesStatus()" [disabled]="isSaving"><i class="bi bi-check2"></i> {{isSaving?'Đang lưu...':'Xác Nhận'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ MODAL: THUA THẦU ══════════════════════════ -->
+<div class="modal-bg" *ngIf="activeModal === 'closeLost'" (click)="close()">
+  <div class="modal-box modal-sm" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl" style="color:#f87171"><i class="bi bi-x-circle"></i> Đánh Dấu Thua Thầu</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div style="margin-bottom:12px; font-size:0.875rem; color:#94a3b8">Dự án: <strong style="color:#f1f5f9">{{selectedProject?.code}} — {{selectedProject?.name}}</strong></div>
+      <div class="fg span-2"><label>Lý Do Thua Thầu / Hủy <span class="req">*</span></label><textarea [(ngModel)]="closeLostForm.reason" rows="3" placeholder="VD: KH chọn nhà cung cấp khác, ngân sách bị cắt..."></textarea></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-danger" (click)="saveCloseLost()" [disabled]="isSaving"><i class="bi bi-x-circle"></i> {{isSaving?'Đang lưu...':'Xác Nhận Thua Thầu'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------------- MODAL: T�I LI?U D? �N ------------------------ -->
+<div class="modal-bg" *ngIf="activeModal === 'documents'" (click)="close()">
+  <div class="modal-box modal-docs" (click)="$event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-ttl"><i class="bi bi-paperclip"></i> T�i Li?u � {{selectedProject?.code}} {{selectedProject?.name}}</div>
+      <button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <!-- Upload Zone -->
+    <div class="upload-zone">
+      <div class="uz-header"><i class="bi bi-cloud-upload"></i> ��nh K�m T�i Li?u M?i</div>
+      <div class="uz-row">
+        <div class="file-pick-area">
+          <input type="file" id="doc-file-input" (change)="onFileSelected($event)" style="display:none" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.png,.jpg,.jpeg,.gif,.txt,.csv">
+          <label for="doc-file-input" class="file-pick-btn">
+            <i class="bi bi-folder2-open"></i>
+            <span *ngIf="!selectedFile">Ch?n File</span>
+            <span *ngIf="selectedFile" class="chosen-name" [title]="selectedFile.name">{{selectedFile.name}} ({{fmtSize(selectedFile.size)}})</span>
+          </label>
+        </div>
+        <select [(ngModel)]="uploadDocForm.documentType" class="doc-type-sel">
+          <option value="CONTRACT">?? H?p �?ng</option>
+          <option value="QUOTATION">?? B�o Gi�</option>
+          <option value="REQUIREMENT">?? Y�u C?u / SRS</option>
+          <option value="DESIGN">?? Thi?t K? / Mockup</option>
+          <option value="TECHNICAL">?? T�i Li?u K? Thu?t</option>
+          <option value="HANDOVER">?? B�n Giao</option>
+          <option value="OTHER">?? Kh�c</option>
+        </select>
+        <input type="text" [(ngModel)]="uploadDocForm.description" placeholder="Ghi ch� (tu? ch?n)..." class="doc-desc-input">
+        <button class="btn-upload" (click)="uploadDocument()" [disabled]="isUploadingDoc || !selectedFile">
+          <i class="bi" [ngClass]="isUploadingDoc ? 'bi-hourglass-split' : 'bi-cloud-upload'"></i>
+          {{isUploadingDoc ? '�ang t?i...' : 'T?i L�n'}}
+        </button>
+      </div>
+      <div class="upload-err" *ngIf="uploadError"><i class="bi bi-exclamation-circle"></i> {{uploadError}}</div>
+      <div class="upload-hint">H? tr?: PDF, Word, Excel, PowerPoint, ?nh, ZIP. T?i da 50MB m?i file.</div>
+    </div>
+
+    <!-- Documents List -->
+    <div class="doc-list-wrap">
+      <div class="loading-wrap" *ngIf="isLoadingDocs" style="padding:30px"><div class="spinner"></div></div>
+      <ng-container *ngIf="!isLoadingDocs">
+        <div class="doc-item" *ngFor="let doc of projectDocuments">
+          <div class="di-icon">
+            <i class="bi" [ngClass]="getDocIcon(doc.mimeType)"></i>
+          </div>
+          <div class="di-info">
+            <div class="di-name">{{doc.fileName}}</div>
+            <div class="di-meta">
+              <span class="di-type">{{doc.documentType}}</span>
+              <span>{{fmtSize(doc.fileSizeBytes)}}</span>
+              <span *ngIf="doc.uploadedByName"><i class="bi bi-person"></i> {{doc.uploadedByName}}</span>
+              <span><i class="bi bi-clock"></i> {{doc.createdAt | date:'dd/MM/yyyy HH:mm'}}</span>
+            </div>
+            <div class="di-desc" *ngIf="doc.description">{{doc.description}}</div>
+          </div>
+          <div class="di-actions">
+            <a [href]="getDocUrl(doc)" target="_blank" class="di-btn di-download" title="T?i xu?ng"><i class="bi bi-download"></i></a>
+            <button class="di-btn di-delete" (click)="deleteDocument(doc.id)" title="X�a"><i class="bi bi-trash3"></i></button>
+          </div>
+        </div>
+        <div class="doc-empty" *ngIf="projectDocuments.length === 0">
+          <i class="bi bi-folder2-open"></i>
+          <p>Chua c� t�i li?u n�o</p>
+          <small>Upload t�i li?u d?u ti�n b?ng form ph�a tr�n</small>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">��ng</button>
+    </div>
+  </div>
+</div>

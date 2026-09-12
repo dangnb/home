@@ -33,5 +33,10 @@ public interface IApplicationDbContext
     DbSet<EquipmentHistory> EquipmentHistories { get; }
     DbSet<EquipmentRepair> EquipmentRepairs { get; }
 
+    DbSet<Project> Projects { get; }
+    DbSet<ProjectMilestone> ProjectMilestones { get; }
+    DbSet<ProjectTask> ProjectTasks { get; }
+    DbSet<ProjectMember> ProjectMembers { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

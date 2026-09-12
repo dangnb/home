@@ -159,6 +159,20 @@ public class EquipmentsController : ControllerBase
         await _sender.Send(command, cancellationToken);
         return Ok(new { success = true, message = "Đã ghi nhận báo hỏng trang thiết bị thành công." });
     }
+
+    /// <summary>
+    /// Cập nhật thông tin trang thiết bị
+    /// </summary>
+    [HttpPut("{id:long}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(long id, [FromBody] UpdateEquipmentCommand command, CancellationToken cancellationToken)
+    {
+        command.Id = id;
+        await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, message = "Đã cập nhật thông tin trang thiết bị thành công." });
+    }
 }
 
 public record HandoverEquipmentRequest(string? TargetType = "EMPLOYEE", long? TargetUserId = null, long? TargetDepartmentId = null, string? ConditionStatus = null, string? Note = null);

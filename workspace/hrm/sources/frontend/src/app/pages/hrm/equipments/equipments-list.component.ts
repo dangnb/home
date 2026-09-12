@@ -95,6 +95,21 @@ export class EquipmentsListComponent implements OnInit {
     note: ''
   };
 
+  // Modal Edit Equipment
+  isEditModalOpen = false;
+  isSubmittingEdit = false;
+  selectedEquipmentForEdit: EquipmentItem | null = null;
+  editForm = {
+    code: '',
+    name: '',
+    category: 'LAPTOP',
+    serialNumber: '',
+    specifications: '',
+    purchaseDate: '',
+    warrantyEndDate: '',
+    note: ''
+  };
+
   // Modal Handover (Bàn Giao đơn lẻ & hàng loạt)
   isHandoverModalOpen = false;
   isBulkHandover = false;
@@ -439,6 +454,60 @@ export class EquipmentsListComponent implements OnInit {
       error: (err) => {
         this.isSubmittingCreate = false;
         const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi tạo thiết bị.';
+        this.toastService.error('Lỗi', msg);
+      }
+    });
+  }
+
+  // --- Handlers Modal Edit ---
+  openEditModal(item: EquipmentItem) {
+    this.selectedEquipmentForEdit = item;
+    this.editForm = {
+      code: item.code || '',
+      name: item.name || '',
+      category: item.category || 'LAPTOP',
+      serialNumber: item.serialNumber || '',
+      specifications: item.specifications || '',
+      purchaseDate: item.purchaseDate ? item.purchaseDate.split('T')[0] : '',
+      warrantyEndDate: item.warrantyEndDate ? item.warrantyEndDate.split('T')[0] : '',
+      note: item.note || ''
+    };
+    this.isEditModalOpen = true;
+    this.closeDropdown();
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+    this.selectedEquipmentForEdit = null;
+  }
+
+  submitEdit() {
+    if (!this.selectedEquipmentForEdit) return;
+    if (!this.editForm.code.trim() || !this.editForm.name.trim()) {
+      this.toastService.warning('Thiếu thông tin', 'Vui lòng nhập Mã và Tên trang thiết bị.');
+      return;
+    }
+
+    this.isSubmittingEdit = true;
+    this.equipmentService.updateEquipment(this.selectedEquipmentForEdit.id, {
+      code: this.editForm.code.trim(),
+      name: this.editForm.name.trim(),
+      category: this.editForm.category,
+      serialNumber: this.editForm.serialNumber.trim() || undefined,
+      specifications: this.editForm.specifications.trim() || undefined,
+      purchaseDate: this.editForm.purchaseDate || undefined,
+      warrantyEndDate: this.editForm.warrantyEndDate || undefined,
+      note: this.editForm.note.trim() || undefined
+    }).subscribe({
+      next: () => {
+        this.toastService.success('Thành công', 'Đã cập nhật thông tin trang thiết bị thành công.');
+        this.isSubmittingEdit = false;
+        this.closeEditModal();
+        this.loadItems();
+      },
+      error: (err) => {
+        this.isSubmittingEdit = false;
+        const msg = err?.error?.detail || err?.error?.message || 'Có lỗi xảy ra khi cập nhật thiết bị.';
         this.toastService.error('Lỗi', msg);
       }
     });

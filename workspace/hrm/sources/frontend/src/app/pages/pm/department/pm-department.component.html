@@ -1,0 +1,283 @@
+<div class="dept-page">
+  <!-- Header -->
+  <div class="dept-header">
+    <div>
+      <h1 class="dept-title">Quản Lý <span>Phòng Kỹ Thuật</span></h1>
+      <p class="dept-sub">Theo dõi dự án, phân công nhân sự và quản lý workload team</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-c"><div class="si blue"><i class="bi bi-kanban"></i></div><div><div class="sv">{{stats.activeTechProjects || 0}}</div><div class="sl">Dự Án Đang Chạy</div></div></div>
+    <div class="stat-c"><div class="si orange"><i class="bi bi-clock"></i></div><div><div class="sv">{{stats.pendingAssignmentProjects || 0}}</div><div class="sl">Chờ Phân Công</div></div></div>
+    <div class="stat-c"><div class="si red"><i class="bi bi-exclamation-triangle"></i></div><div><div class="sv">{{stats.overdueProjects || 0}}</div><div class="sl">Quá Deadline</div></div></div>
+    <div class="stat-c"><div class="si green"><i class="bi bi-check-circle"></i></div><div><div class="sv">{{stats.wonProjects || 0}}</div><div class="sl">Đã Hoàn Thành</div></div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <select [(ngModel)]="filters.techStatus" (ngModelChange)="onFilter()">
+      <option value="ALL">Mọi trạng thái KT</option>
+      <option value="PENDING_ASSIGNMENT">Chờ Phân Công</option>
+      <option value="PLANNING">Lập Kế Hoạch</option>
+      <option value="IN_PROGRESS">Đang Triển Khai</option>
+      <option value="TESTING_UAT">Kiểm Thử UAT</option>
+      <option value="HANDOVER_PENDING">Chờ Bàn Giao</option>
+      <option value="COMPLETED">Hoàn Thành</option>
+    </select>
+    <select [(ngModel)]="filters.salesStatus" (ngModelChange)="onFilter()">
+      <option value="ALL">Mọi giai đoạn KD</option>
+      <option value="CONTRACT_SIGNED">Đã Ký HĐ</option>
+      <option value="CLOSED_WON">Thắng Thầu</option>
+    </select>
+  </div>
+
+  <div class="main-grid">
+    <!-- ════ PROJECT LIST ════ -->
+    <div class="proj-section">
+      <div class="section-title"><i class="bi bi-kanban-fill"></i> Danh Sách Dự Án ({{projects.length}})</div>
+
+      <div class="loading-wrap" *ngIf="isLoading"><div class="spinner"></div></div>
+
+      <ng-container *ngIf="!isLoading">
+        <div class="proj-card" *ngFor="let p of projects" [class.overdue]="p.isOverdue">
+          <!-- Top -->
+          <div class="pc-top">
+            <div>
+              <div class="pc-code">{{p.code}}</div>
+              <div class="pc-name">{{p.name}}</div>
+              <div class="pc-customer"><i class="bi bi-building"></i> {{p.customerName}}</div>
+            </div>
+            <div style="text-align:right; flex-shrink:0">
+              <div class="pc-value" *ngIf="p.contractValue">{{fmt(p.contractValue)}}</div>
+              <div class="pc-deadline" *ngIf="p.plannedEndDate" [class.over]="p.isOverdue"><i class="bi bi-calendar-event"></i> {{p.plannedEndDate}}</div>
+            </div>
+          </div>
+
+          <!-- Tech Status -->
+          <div class="pc-status-row">
+            <span class="tech-badge" [style.background]="getTech(p.techStatus).color + '18'" [style.color]="getTech(p.techStatus).color" [style.border-color]="getTech(p.techStatus).color + '30'">
+              <i class="bi" [ngClass]="getTech(p.techStatus).icon"></i> {{getTech(p.techStatus).label}}
+            </span>
+            <span *ngIf="p.techLeadUserName" class="pm-chip"><i class="bi bi-person-badge"></i> {{p.techLeadUserName}}</span>
+            <span *ngIf="!p.techLeadUserName" class="no-pm">Chưa có PM</span>
+          </div>
+
+          <!-- Progress -->
+          <div class="pc-progress" *ngIf="p.overallProgressPercent > 0 || p.totalTasks > 0">
+            <div class="prog-row">
+              <span class="prog-label">Tiến độ</span>
+              <span class="prog-pct">{{p.overallProgressPercent}}%</span>
+            </div>
+            <div class="prog-bg"><div class="prog-fill" [style.width.%]="p.overallProgressPercent"></div></div>
+            <div class="task-summary">
+              {{p.completedTasks}}/{{p.totalTasks}} task hoàn thành
+              <span *ngIf="p.blockedTasks > 0" style="color:#f87171"> · ⚠{{p.blockedTasks}} blocked</span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="pc-actions">
+            <button class="pc-btn" (click)="openDetail(p)"><i class="bi bi-eye"></i> Xem Chi Tiết</button>
+            <button class="pc-btn pc-assign" (click)="openAssignMember(p)"><i class="bi bi-person-plus"></i> Gán Nhân Sự</button>
+            <button class="pc-btn pc-task" (click)="openCreateTask(p)" *ngIf="['PLANNING','IN_PROGRESS','TESTING_UAT'].includes(p.techStatus)"><i class="bi bi-plus-circle"></i> Tạo Task</button>
+            <button class="pc-btn pc-next" (click)="openUpdateTechStatus(p)" *ngIf="getNextStatus(p.techStatus)">
+              <i class="bi bi-arrow-right-circle"></i> {{getTech(getNextStatus(p.techStatus)!).label}}
+            </button>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="projects.length === 0">
+          <i class="bi bi-kanban"></i>
+          <p>Không có dự án nào phù hợp</p>
+          <small>Thay đổi bộ lọc để xem dự án khác</small>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- ════ WORKLOAD PANEL ════ -->
+    <div class="workload-section">
+      <div class="section-title"><i class="bi bi-people-fill"></i> Workload Team</div>
+      <div class="workload-card" *ngFor="let m of workload">
+        <div class="wl-top">
+          <div class="wl-avatar"><i class="bi bi-person-fill"></i></div>
+          <div class="wl-info">
+            <div class="wl-name">{{m.name}}</div>
+            <div class="wl-role">{{m.role}}</div>
+          </div>
+          <div class="wl-util" [ngClass]="getUtilizationClass(m.utilization)">{{m.utilization}}%</div>
+        </div>
+        <div class="wl-progress-bar">
+          <div class="wp-fill" [ngClass]="getUtilizationClass(m.utilization)" [style.width.%]="m.utilization"></div>
+        </div>
+        <div class="wl-stats">
+          <span><i class="bi bi-list-check"></i> {{m.tasks}} tasks</span>
+          <span><i class="bi bi-play-circle"></i> {{m.inProgress}} đang làm</span>
+          <span><i class="bi bi-stopwatch"></i> {{m.totalHours}}h</span>
+        </div>
+      </div>
+
+      <!-- Blocked Tasks Alert -->
+      <div class="blocked-alert" *ngIf="stats.overdueProjects > 0">
+        <div class="ba-title"><i class="bi bi-exclamation-triangle-fill"></i> Cần Xử Lý Gấp</div>
+        <div class="ba-body">Có <strong>{{stats.overdueProjects}}</strong> dự án quá deadline. Kiểm tra và cập nhật trạng thái ngay.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ MODAL: CHI TIẾT DỰ ÁN ════ -->
+<div class="modal-bg" *ngIf="activeModal === 'detail' && selectedProject" (click)="close()">
+  <div class="modal-box modal-xl" (click)="$event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-ttl"><i class="bi bi-kanban"></i> {{selectedProject.code}} — {{selectedProject.name}}</div>
+      <button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="dg-item"><div class="dg-label">Khách Hàng</div><div class="dg-val">{{selectedProject.customerName}}</div></div>
+        <div class="dg-item"><div class="dg-label">PM Kỹ Thuật</div><div class="dg-val" style="color:#a78bfa">{{selectedProject.techLeadUserName || 'Chưa phân công'}}</div></div>
+        <div class="dg-item"><div class="dg-label">Trạng Thái KT</div>
+          <div class="dg-val"><span class="tech-badge" [style.color]="getTech(selectedProject.techStatus).color" [style.background]="getTech(selectedProject.techStatus).color+'15'">{{getTech(selectedProject.techStatus).label}}</span></div>
+        </div>
+        <div class="dg-item"><div class="dg-label">Giá Trị HĐ</div><div class="dg-val" style="color:#4ade80; font-weight:700">{{fmt(selectedProject.contractValue)}}</div></div>
+        <div class="dg-item"><div class="dg-label">Deadline</div><div class="dg-val" [class.over]="selectedProject.isOverdue">{{selectedProject.plannedEndDate || '—'}}</div></div>
+        <div class="dg-item"><div class="dg-label">Bảo Hành</div><div class="dg-val">{{selectedProject.warrantyMonths}} tháng</div></div>
+        <div class="dg-item dg-full">
+          <div class="dg-label">Tiến Độ Tổng Thể</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:5px">
+            <div class="prog-bg" style="flex:1"><div class="prog-fill" [style.width.%]="selectedProject.overallProgressPercent"></div></div>
+            <span style="color:#94a3b8; font-size:0.85rem">{{selectedProject.overallProgressPercent}}%</span>
+          </div>
+          <div class="task-summary" style="margin-top:4px">{{selectedProject.completedTasks}}/{{selectedProject.totalTasks}} tasks · {{selectedProject.blockedTasks}} blocked</div>
+        </div>
+      </div>
+
+      <!-- Milestones -->
+      <div class="detail-section-title"><i class="bi bi-flag-fill"></i> Hạng Mục ({{selectedProject.milestones?.length || 0}})</div>
+      <div class="milestone-list" *ngIf="selectedProject.milestones?.length > 0">
+        <div class="milestone-row" *ngFor="let m of selectedProject.milestones">
+          <div><div class="mr-title">{{m.title}}</div><div class="mr-meta">Deadline: {{m.dueDate || '—'}} · {{m.paymentPercent}}% ({{fmt(m.paymentAmount)}})</div></div>
+          <div>
+            <span class="ms-badge" [style.color]="m.milestoneStatus==='COMPLETED'?'#4ade80':m.milestoneStatus==='IN_PROGRESS'?'#818cf8':'#64748b'">
+              {{m.milestoneStatus === 'COMPLETED' ? 'Hoàn thành' : m.milestoneStatus === 'IN_PROGRESS' ? 'Đang làm' : 'Chờ'}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="no-data" *ngIf="!(selectedProject.milestones?.length > 0)">Chưa có hạng mục</div>
+
+      <!-- Tasks -->
+      <div class="detail-section-title"><i class="bi bi-list-check"></i> Tasks ({{selectedProject.tasks?.length || 0}})</div>
+      <div class="task-table" *ngIf="selectedProject.tasks?.length > 0">
+        <div class="tt-row tt-head"><span>Task</span><span>Assignee</span><span>Trạng Thái</span><span>Tiến Độ</span></div>
+        <div class="tt-row" *ngFor="let t of selectedProject.tasks">
+          <span class="tt-title">{{t.title}}</span>
+          <span class="tt-assignee">{{t.assigneeUserName || '—'}}</span>
+          <span>
+            <span class="status-micro" [style.color]="t.taskStatus==='COMPLETED'?'#4ade80':t.taskStatus==='BLOCKED'?'#f87171':t.taskStatus==='IN_PROGRESS'?'#818cf8':'#64748b'">{{t.taskStatus}}</span>
+          </span>
+          <span>
+            <div class="prog-bg" style="width:80px"><div class="prog-fill" [style.width.%]="t.progressPercent" [style.background]="t.taskStatus==='BLOCKED'?'#f87171':'#818cf8'"></div></div>
+          </span>
+        </div>
+      </div>
+      <div class="no-data" *ngIf="!(selectedProject.tasks?.length > 0)">Chưa có task</div>
+
+      <!-- Members -->
+      <div class="detail-section-title"><i class="bi bi-people-fill"></i> Thành Viên ({{selectedProject.members?.length || 0}})</div>
+      <div class="members-wrap" *ngIf="selectedProject.members?.length > 0">
+        <span class="member-chip" *ngFor="let m of selectedProject.members">
+          <i class="bi bi-person-circle"></i> {{m.userFullName}} <span class="role-tag">({{m.role}})</span>
+        </span>
+      </div>
+      <div class="no-data" *ngIf="!(selectedProject.members?.length > 0)">Chưa có thành viên</div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Đóng</button>
+      <button class="btn-primary" (click)="openAssignMember(selectedProject)"><i class="bi bi-person-plus"></i> Gán Thêm Nhân Sự</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: GÁN NHÂN SỰ ════ -->
+<div class="modal-bg" *ngIf="activeModal === 'assignMember'" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-person-plus"></i> Gán Nhân Sự — {{selectedProject?.code}}</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body" style="display:flex; flex-direction:column; gap:14px">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="info-box"><i class="bi bi-info-circle"></i> Nhân viên <strong>đầu tiên</strong> trong danh sách sẽ được đặt làm <strong>PM Kỹ Thuật / Tech Lead</strong> của dự án.</div>
+      <div class="fg">
+        <label>ID Nhân Viên (cách nhau bằng dấu phẩy) <span class="req">*</span></label>
+        <input type="text" [(ngModel)]="assignForm.userIds" placeholder="VD: 5, 12, 18, 24">
+      </div>
+      <div class="fg">
+        <label>Vai Trò Mặc Định (trừ người đầu)</label>
+        <select [(ngModel)]="assignForm.roles">
+          <option value="DEV">Developer</option>
+          <option value="DESIGNER">Designer</option>
+          <option value="TESTER">Tester / QA</option>
+          <option value="DEVOPS">DevOps</option>
+          <option value="BA">BA / Analyst</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-primary" (click)="saveAssignMember()" [disabled]="isSaving"><i class="bi bi-check2"></i> {{isSaving ? 'Đang lưu...' : 'Xác Nhận Phân Công'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: CẬP NHẬT TRẠNG THÁI KỸ THUẬT ════ -->
+<div class="modal-bg" *ngIf="activeModal === 'updateTechStatus'" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-arrow-right-circle"></i> Chuyển Trạng Thái KT</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body" style="display:flex; flex-direction:column; gap:14px">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div style="font-size:0.875rem; color:#94a3b8">
+        Dự án <strong style="color:#f1f5f9">{{selectedProject?.code}}</strong><br>
+        Hiện tại: <span [style.color]="getTech(selectedProject?.techStatus).color">{{getTech(selectedProject?.techStatus).label}}</span>
+      </div>
+      <div class="fg">
+        <label>Chuyển Sang Trạng Thái</label>
+        <select [(ngModel)]="techStatusForm.newTechStatus">
+          <option value="PLANNING">Lập Kế Hoạch</option>
+          <option value="IN_PROGRESS">Triển Khai</option>
+          <option value="TESTING_UAT">Kiểm Thử UAT</option>
+          <option value="HANDOVER_PENDING">Chờ Bàn Giao</option>
+          <option value="COMPLETED">Hoàn Thành</option>
+          <option value="WARRANTY">Bảo Hành</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-primary" (click)="saveTechStatus()" [disabled]="isSaving"><i class="bi bi-check2"></i> {{isSaving ? 'Đang lưu...' : 'Cập Nhật'}}</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MODAL: TẠO TASK ════ -->
+<div class="modal-bg" *ngIf="activeModal === 'createTask'" (click)="close()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr"><div class="modal-ttl"><i class="bi bi-plus-circle"></i> Tạo Task — {{selectedProject?.code}}</div><button class="modal-x" (click)="close()"><i class="bi bi-x-lg"></i></button></div>
+    <div class="modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
+      <div class="err" *ngIf="errorMessage" style="grid-column:1/-1"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="fg" style="grid-column:1/-1"><label>Tiêu Đề Task <span class="req">*</span></label><input type="text" [(ngModel)]="createTaskForm.title" placeholder="VD: Thiết kế màn hình Login"></div>
+      <div class="fg"><label>Loại Task</label><select [(ngModel)]="createTaskForm.taskType"><option value="DESIGN">Thiết Kế</option><option value="DEVELOPMENT">Lập Trình</option><option value="TESTING">Kiểm Thử</option><option value="DEPLOYMENT">Triển Khai</option><option value="DOCUMENT">Tài Liệu</option><option value="BUGFIX">Sửa Lỗi</option></select></div>
+      <div class="fg"><label>Ưu Tiên</label><select [(ngModel)]="createTaskForm.priority"><option value="LOW">Thấp</option><option value="MEDIUM">Trung Bình</option><option value="HIGH">Cao</option><option value="CRITICAL">🔥 Khẩn</option></select></div>
+      <div class="fg"><label>ID Kỹ Sư Phụ Trách</label><input type="number" [(ngModel)]="createTaskForm.assigneeUserId" placeholder="ID nhân viên"></div>
+      <div class="fg"><label>Giờ Ước Tính</label><input type="number" [(ngModel)]="createTaskForm.estimatedHours" min="0" step="0.5"></div>
+      <div class="fg"><label>Deadline</label><input type="date" [(ngModel)]="createTaskForm.dueDate"></div>
+      <div class="fg"><label>Tags</label><input type="text" [(ngModel)]="createTaskForm.tags" placeholder="Feature, API, Bug..."></div>
+      <div class="fg" style="grid-column:1/-1"><label>Mô Tả</label><textarea [(ngModel)]="createTaskForm.description" rows="3" placeholder="Mô tả yêu cầu kỹ thuật..."></textarea></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="close()">Hủy</button>
+      <button class="btn-primary" (click)="saveCreateTask()" [disabled]="isSaving"><i class="bi bi-check2"></i> {{isSaving ? 'Đang tạo...' : 'Tạo Task'}}</button>
+    </div>
+  </div>
+</div>
