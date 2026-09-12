@@ -1,110 +1,187 @@
-<!--begin::Row of Roles-->
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-9 mb-10">
-  @for (role of roles(); track role.id) {
-    <!--begin::Col-->
-    <div class="col-md-4">
-      <!--begin::Card-->
-      <div class="card card-flush h-md-100 shadow-sm">
-        <!--begin::Card header-->
-        <div class="card-header">
-          <!--begin::Card title-->
-          <div class="card-title">
-            <h2 class="text-gray-900">{{ role.name }}</h2>
-          </div>
-          <!--end::Card title-->
-        </div>
-        <!--end::Card header-->
-
-        <!--begin::Card body-->
-        <div class="card-body pt-1">
-          <!--begin::Users-->
-          <div class="fw-bold text-gray-600 mb-4">Total users with this role: {{ role.totalUsers }}</div>
-          <!--end::Users-->
-
-          <!--begin::Description-->
-          <p class="text-muted fs-7 mb-4">{{ role.description }}</p>
-          <!--end::Description-->
-
-          <!--begin::Permissions-->
-          <div class="d-flex flex-column text-gray-600 mb-5">
-            @for (perm of role.permissions; track perm) {
-              <div class="d-flex align-items-center py-1 fs-7">
-                <span class="bullet bg-primary me-3"></span>
-                {{ perm }}
-              </div>
-            }
-          </div>
-          <!--end::Permissions-->
-        </div>
-        <!--end::Card body-->
-
-        <!--begin::Card footer-->
-        <div class="card-footer flex-wrap pt-0 d-flex gap-2">
-          <a routerLink="/users" class="btn btn-sm btn-light btn-active-primary">View Role</a>
-          <button type="button" class="btn btn-sm btn-light btn-active-light-primary" (click)="openEditRoleModal(role)">Edit Role</button>
-        </div>
-        <!--end::Card footer-->
-      </div>
-      <!--end::Card-->
-    </div>
-    <!--end::Col-->
-  }
-
-  <!--begin::Add Role Card-->
-  <div class="col-md-4">
-    <!--begin::Card-->
-    <div class="card h-md-100 border-dashed border-2 shadow-none bg-light-primary">
-      <!--begin::Card body-->
-      <div class="card-body d-flex flex-center flex-column py-10">
-        <!--begin::Illustration-->
-        <img src="assets/media/illustrations/sketchy-1/4.png" alt="" class="mw-100 mh-150px mb-6" />
-        <!--end::Illustration-->
-        <!--begin::Button-->
-        <button type="button" class="btn btn-primary" (click)="openAddRoleModal()">
-          <i class="bi bi-plus-circle me-2 fs-5"></i> Add New Role
-        </button>
-        <!--end::Button-->
-      </div>
-      <!--end::Card body-->
-    </div>
-    <!--end::Card-->
+<!--begin::Header Toolbar-->
+<div class="d-flex flex-wrap flex-stack pb-6 mb-4 border-bottom">
+  <div>
+    <h1 class="text-gray-900 fw-bold fs-2 mb-1">
+      <i class="bi bi-shield-lock-fill text-primary me-2 fs-2"></i> Vai Trò & Phân Quyền (RBAC)
+    </h1>
+    <span class="text-muted fs-6 fw-semibold">
+      Quản lý phân cấp vai trò và thiết lập ma trận quyền hạn động kết nối trực tiếp cơ sở dữ liệu
+    </span>
   </div>
-  <!--end::Add Role Card-->
+
+  <div class="d-flex align-items-center gap-2 gap-lg-3 mt-3 mt-md-0">
+    <a routerLink="/users/permissions" class="btn btn-sm btn-light-primary">
+      <i class="bi bi-key me-1"></i> Tra Cứu Danh Mục Quyền
+    </a>
+    <button type="button" class="btn btn-sm btn-primary" (click)="openAddRoleModal()">
+      <i class="bi bi-plus-circle me-1"></i> Thêm Vai Trò Mới
+    </button>
+  </div>
 </div>
-<!--end::Row of Roles-->
+<!--end::Header Toolbar-->
+
+@if (isLoadingRoles()) {
+  <div class="text-center py-12">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Đang tải...</span>
+    </div>
+    <div class="text-muted fs-6 mt-3">Đang tải danh sách vai trò hệ thống...</div>
+  </div>
+} @else {
+  <!--begin::Row of Roles-->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-5 g-xl-7 mb-10">
+    @for (role of roles(); track role.id) {
+      <!--begin::Col-->
+      <div class="col-md-6 col-xl-4">
+        <!--begin::Card-->
+        <div class="card card-flush h-100 shadow-sm border border-gray-200">
+          <!--begin::Card header-->
+          <div class="card-header pt-5 pb-3">
+            <div class="card-title d-flex flex-column">
+              <div class="d-flex align-items-center gap-2">
+                <h2 class="text-gray-900 fw-bold fs-4 mb-0">{{ role.name }}</h2>
+                @if (role.isSystemRole) {
+                  <span class="badge badge-light-primary fs-8 fw-semibold" title="Vai trò hệ thống mặc định, không thể xóa">
+                    <i class="bi bi-lock-fill me-1"></i> Hệ Thống
+                  </span>
+                } @else {
+                  <span class="badge badge-light-success fs-8 fw-semibold">
+                    Tùy Biến
+                  </span>
+                }
+              </div>
+              <span class="text-muted fs-8 font-monospace mt-1">Mã: {{ role.code }}</span>
+            </div>
+
+            <div class="card-toolbar">
+              @if (!role.isSystemRole) {
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-sm btn-light-danger" 
+                  title="Xóa vai trò"
+                  (click)="promptDeleteRole(role)"
+                >
+                  <i class="bi bi-trash fs-6"></i>
+                </button>
+              }
+            </div>
+          </div>
+          <!--end::Card header-->
+
+          <!--begin::Card body-->
+          <div class="card-body pt-0 pb-4">
+            <!--Total Users-->
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge badge-light-info fw-bold fs-7 px-3 py-2">
+                <i class="bi bi-people me-1"></i> {{ role.totalUsers }} tài khoản đang sử dụng
+              </span>
+            </div>
+
+            <!--Description-->
+            <p class="text-gray-600 fs-7 mb-4 text-truncate-2" style="min-height: 40px;">
+              {{ role.description || 'Chưa có mô tả chi tiết cho vai trò này.' }}
+            </p>
+
+            <!--Permissions Summary-->
+            <div class="border rounded p-3 bg-light-secondary mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold text-gray-700 fs-8 text-uppercase">Phân Quyền Đã Cấp:</span>
+                <span class="badge badge-primary fs-8 fw-bold">
+                  {{ role.permissionIds?.length || 0 }} / {{ allPermissions().length }} quyền
+                </span>
+              </div>
+
+              <div class="d-flex flex-wrap gap-1">
+                @for (perm of (role.permissionNames || role.permissionCodes || []).slice(0, 3); track perm) {
+                  <span class="badge badge-white border text-gray-700 fs-9 py-1 px-2">
+                    {{ perm }}
+                  </span>
+                }
+                @if ((role.permissionIds?.length || 0) > 3) {
+                  <span class="badge badge-light-primary fs-9 py-1 px-2">
+                    +{{ (role.permissionIds?.length || 0) - 3 }} quyền khác
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+          <!--end::Card body-->
+
+          <!--begin::Card footer-->
+          <div class="card-footer pt-0 pb-4 d-flex justify-content-between align-items-center">
+            <button 
+              type="button" 
+              class="btn btn-sm btn-light-primary w-100" 
+              (click)="openEditRoleModal(role)"
+            >
+              <i class="bi bi-pencil-square me-1"></i> Thiết Lập Quyền Hạn
+            </button>
+          </div>
+          <!--end::Card footer-->
+        </div>
+        <!--end::Card-->
+      </div>
+      <!--end::Col-->
+    }
+
+    <!--begin::Add Role Card-->
+    <div class="col-md-6 col-xl-4">
+      <div 
+        class="card h-100 border-dashed border-2 shadow-none bg-light-primary hover-elevate cursor-pointer d-flex flex-center flex-column py-10"
+        (click)="openAddRoleModal()"
+        style="min-height: 250px;"
+      >
+        <div class="symbol symbol-60px mb-4">
+          <span class="symbol-label bg-white text-primary shadow-sm">
+            <i class="bi bi-plus-lg fs-2x text-primary"></i>
+          </span>
+        </div>
+        <div class="fw-bold fs-5 text-gray-900 mb-1">Thêm Mới Vai Trò</div>
+        <div class="text-muted fs-7 text-center px-6">
+          Tạo nhóm vai trò mới và phân quyền ma trận linh hoạt theo nhu cầu doanh nghiệp
+        </div>
+      </div>
+    </div>
+    <!--end::Add Role Card-->
+  </div>
+  <!--end::Row of Roles-->
+}
 
 <!--begin::Users Assigned Table Card-->
-<div class="card shadow-sm">
+<div class="card shadow-sm border-0">
   <!--begin::Card header-->
   <div class="card-header border-0 pt-6">
-    <!--begin::Card title-->
     <div class="card-title">
+      <div class="d-flex flex-column">
+        <h2 class="text-gray-900 fw-bold fs-4 mb-1">Danh Sách Người Dùng Được Gán Vai Trò</h2>
+        <span class="text-muted fs-7">Kiểm tra các tài khoản nhân viên và vai trò tương ứng trong hệ thống</span>
+      </div>
+    </div>
+
+    <!--begin::Card toolbar-->
+    <div class="card-toolbar d-flex flex-wrap gap-3">
+      <!--Search-->
       <div class="d-flex align-items-center position-relative my-1">
         <i class="bi bi-search position-absolute ms-4 text-gray-500 fs-5"></i>
         <input 
           type="text" 
           [ngModel]="userSearchTerm()" 
           (ngModelChange)="userSearchTerm.set($event)"
-          class="form-control form-control-solid w-250px ps-12" 
-          placeholder="Search user..."
+          class="form-control form-control-solid w-250px ps-12 fs-7" 
+          placeholder="Tìm tên, email người dùng..."
         />
       </div>
-    </div>
-    <!--end::Card title-->
 
-    <!--begin::Card toolbar-->
-    <div class="card-toolbar d-flex gap-3">
+      <!--Role Filter-->
       <select 
-        class="form-select form-select-solid w-150px" 
+        class="form-select form-select-solid w-180px fs-7" 
         [ngModel]="selectedRoleFilter()" 
         (ngModelChange)="selectedRoleFilter.set($event)"
       >
-        <option value="All">All Roles</option>
-        <option value="Administrator">Administrator</option>
-        <option value="Developer">Developer</option>
-        <option value="Analyst">Analyst</option>
-        <option value="Support">Support</option>
-        <option value="Trial">Trial</option>
+        <option value="All">Tất Cả Vai Trò</option>
+        @for (r of roles(); track r.id) {
+          <option [value]="r.code">{{ r.name }}</option>
+        }
       </select>
     </div>
     <!--end::Card toolbar-->
@@ -112,166 +189,235 @@
   <!--end::Card header-->
 
   <!--begin::Card body-->
-  <div class="card-body py-4">
-    <div class="table-responsive">
-      <table class="table align-middle table-row-dashed fs-6 gy-5">
-        <thead>
-          <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-            <th class="min-w-125px">User</th>
-            <th class="min-w-125px">Role</th>
-            <th class="min-w-125px">Two-Step</th>
-            <th class="min-w-125px">Joined Date</th>
-            <th class="min-w-100px">Status</th>
-            <th class="text-end min-w-100px">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-600 fw-semibold">
-          @for (user of filteredUsers(); track user.id) {
-            <tr>
-              <!--User Info-->
-              <td class="d-flex align-items-center">
-                <div class="symbol symbol-circle symbol-45px overflow-hidden me-3">
-                  <img [src]="user.avatar || 'assets/media/avatars/300-1.jpg'" [alt]="user.name" class="w-100" />
-                </div>
-                <div class="d-flex flex-column">
-                  <a routerLink="/profile" class="text-gray-800 text-hover-primary mb-1 fw-bold">{{ user.name }}</a>
-                  <span class="fs-7 text-muted">{{ user.email }}</span>
-                </div>
-              </td>
-
-              <!--Role-->
-              <td>
-                <span class="badge badge-light-primary fw-bold">{{ user.role }}</span>
-              </td>
-
-              <!--Two Step-->
-              <td>
-                @if (user.twoStep) {
-                  <span class="badge badge-light-success fw-bold">Enabled</span>
-                } @else {
-                  <span class="badge badge-light-danger fw-bold">Disabled</span>
-                }
-              </td>
-
-              <!--Joined Date-->
-              <td>{{ user.joinedDate }}</td>
-
-              <!--Status-->
-              <td>
-                <span [class]="'badge badge-light-' + user.statusColor + ' fw-bold'">
-                  {{ user.status }}
-                </span>
-              </td>
-
-              <!--Actions-->
-              <td class="text-end">
-                <button 
-                  type="button" 
-                  class="btn btn-icon btn-light-danger btn-sm" 
-                  (click)="deleteUser(user.id)"
-                  title="Remove user"
-                >
-                  <i class="bi bi-trash fs-5"></i>
-                </button>
-              </td>
+  <div class="card-body pt-0">
+    @if (isLoadingUsers()) {
+      <div class="text-center py-8">
+        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+        <span class="text-muted fs-7 ms-2">Đang tải danh sách người dùng...</span>
+      </div>
+    } @else if (filteredUsers().length === 0) {
+      <div class="text-center py-10 text-muted">
+        <i class="bi bi-people fs-2x mb-2 d-block"></i>
+        Không tìm thấy người dùng nào phù hợp với bộ lọc.
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table align-middle table-row-dashed fs-7 gy-4">
+          <thead>
+            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0 border-bottom border-gray-200">
+              <th class="min-w-200px">Người Dùng</th>
+              <th class="min-w-150px">Vai Trò (Role)</th>
+              <th class="min-w-120px">Số Điện Thoại</th>
+              <th class="min-w-100px text-center">Trạng Thái</th>
+              <th class="min-w-100px text-end">Thao Tác</th>
             </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="text-center py-5 text-muted">
-                No users found for this role filter.
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody class="text-gray-600 fw-semibold">
+            @for (user of filteredUsers(); track user.id) {
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="symbol symbol-circle symbol-40px me-3">
+                      <span class="symbol-label bg-light-primary text-primary fw-bold fs-6">
+                        {{ (user.fullName || user.name || user.username || 'U').charAt(0).toUpperCase() }}
+                      </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-900 fw-bold fs-6">{{ user.fullName || user.name }}</span>
+                      <span class="text-muted fs-8">{{ user.email }} ({{ user.username }})</span>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="badge badge-light-primary fs-8 fw-semibold">
+                    <i class="bi bi-shield-check me-1"></i>
+                    {{ user.role || user.roleCode || 'Chưa gán' }}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="text-gray-700 fs-7">{{ user.phone || 'Chưa cập nhật' }}</span>
+                </td>
+
+                <td class="text-center">
+                  @if (user.status === 'ACTIVE') {
+                    <span class="badge badge-light-success fs-8 fw-semibold">Hoạt Động</span>
+                  } @else {
+                    <span class="badge badge-light-danger fs-8 fw-semibold">{{ user.status }}</span>
+                  }
+                </td>
+
+                <td class="text-end">
+                  <a [routerLink]="['/users/view', user.id]" class="btn btn-icon btn-sm btn-light-primary me-1" title="Chi tiết">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
   <!--end::Card body-->
 </div>
 <!--end::Users Assigned Table Card-->
 
-<!--begin::Modal - Add / Update Role-->
+<!--begin::Modal - Add / Update Role with Dynamic Permission Matrix-->
 @if (isRoleModalOpen()) {
-  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mw-750px">
-      <div class="modal-content">
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered mw-900px modal-dialog-scrollable">
+      <div class="modal-content shadow-lg">
         <!--Modal header-->
-        <div class="modal-header">
-          <h2 class="fw-bold">{{ editingRoleId() ? 'Update Role' : 'Add New Role' }}</h2>
-          <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="closeRoleModal()">
-            <i class="bi bi-x-lg fs-4"></i>
+        <div class="modal-header pb-0 border-0 justify-content-between">
+          <div>
+            <h2 class="fw-bold text-gray-900 mb-1">
+              {{ editingRole() ? 'Cập Nhật Vai Trò & Phân Quyền' : 'Thêm Mới Vai Trò Hệ Thống' }}
+            </h2>
+            <span class="text-muted fs-7">
+              {{ editingRole() ? 'Chỉnh sửa tên và cấu hình quyền hạn cho vai trò ' + editingRole()?.name : 'Tạo mã vai trò và thiết lập ma trận quyền hạn chi tiết' }}
+            </span>
           </div>
+
+          <button type="button" class="btn btn-icon btn-sm btn-light" (click)="closeRoleModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
         </div>
 
         <!--Modal body-->
-        <div class="modal-body scroll-y mx-5 my-5">
+        <div class="modal-body scroll-y px-6 py-4">
           <form (ngSubmit)="saveRole()">
-            <!--Role Name Input-->
-            <div class="fv-row mb-7">
-              <label class="fs-5 fw-bold form-label mb-2">
-                <span class="required">Role name</span>
-              </label>
-              <input 
-                type="text" 
-                class="form-control form-control-solid" 
-                placeholder="Enter a role name (e.g. Moderator)" 
-                [ngModel]="modalRoleName()" 
-                (ngModelChange)="modalRoleName.set($event)"
-                name="roleName"
-                required 
-              />
-            </div>
+            <!--Role Basic Info-->
+            <div class="row g-4 mb-5">
+              @if (!editingRole()) {
+                <div class="col-md-6">
+                  <label class="required fs-6 fw-bold form-label mb-2">Mã Vai Trò (Code)</label>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-solid font-monospace" 
+                    placeholder="VD: TECH_LEAD, STORE_MANAGER..." 
+                    [ngModel]="modalRoleCode()" 
+                    (ngModelChange)="modalRoleCode.set($event)"
+                    name="roleCode"
+                    required 
+                  />
+                  <div class="text-muted fs-8 mt-1">Chỉ gồm chữ cái in hoa, số và dấu gạch dưới (_).</div>
+                </div>
+              }
 
-            <!--Role Permissions Header-->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h3 class="fs-5 fw-bold m-0">Role Permissions</h3>
-              <label class="form-check form-check-custom form-check-solid">
+              <div [ngClass]="editingRole() ? 'col-12' : 'col-md-6'">
+                <label class="required fs-6 fw-bold form-label mb-2">Tên Hiển Thị Vai Trò</label>
                 <input 
-                  class="form-check-input" 
-                  type="checkbox" 
-                  [checked]="selectAllPermissions()" 
-                  (change)="toggleSelectAll()"
+                  type="text" 
+                  class="form-control form-control-solid" 
+                  placeholder="VD: Trưởng Nhóm Kỹ Thuật, Quản Lý Kho..." 
+                  [ngModel]="modalRoleName()" 
+                  (ngModelChange)="modalRoleName.set($event)"
+                  name="roleName"
+                  required 
                 />
-                <span class="form-check-label fw-bold">Select All</span>
-              </label>
+              </div>
+
+              <div class="col-12">
+                <label class="fs-6 fw-bold form-label mb-2">Mô Tả Vai Trò & Trách Nhiệm</label>
+                <textarea 
+                  class="form-control form-control-solid" 
+                  rows="2"
+                  placeholder="Nhập mô tả ngắn về vai trò và phạm vi trách nhiệm..."
+                  [ngModel]="modalRoleDescription()" 
+                  (ngModelChange)="modalRoleDescription.set($event)"
+                  name="roleDescription"
+                ></textarea>
+              </div>
             </div>
 
-            <!--Permissions Table Matrix-->
-            <div class="table-responsive">
-              <table class="table align-middle table-row-dashed fs-6 gy-4">
-                <tbody class="text-gray-600 fw-semibold">
-                  @for (mod of permissionModules(); track mod.name) {
-                    <tr>
-                      <td class="text-gray-800 fw-bold">{{ mod.name }}</td>
-                      <td>
-                        <label class="form-check form-check-custom form-check-solid">
-                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.read" [name]="mod.name + '_read'" />
-                          <span class="form-check-label">Read</span>
-                        </label>
-                      </td>
-                      <td>
-                        <label class="form-check form-check-custom form-check-solid">
-                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.write" [name]="mod.name + '_write'" />
-                          <span class="form-check-label">Write</span>
-                        </label>
-                      </td>
-                      <td>
-                        <label class="form-check form-check-custom form-check-solid">
-                          <input class="form-check-input" type="checkbox" [(ngModel)]="mod.create" [name]="mod.name + '_create'" />
-                          <span class="form-check-label">Create</span>
-                        </label>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
+            <!--Permission Matrix Header-->
+            <div class="d-flex flex-wrap justify-content-between align-items-center p-4 bg-light-primary rounded mb-4">
+              <div>
+                <h3 class="fs-6 fw-bold text-primary m-0">
+                  <i class="bi bi-shield-check me-1"></i> Ma Trận Phân Quyền Chi Tiết
+                </h3>
+                <span class="text-muted fs-8">
+                  Đã chọn: <strong class="text-primary">{{ selectedPermissionIds().size }}</strong> / {{ allPermissions().length }} quyền hạn
+                </span>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <button 
+                  type="button" 
+                  class="btn btn-sm"
+                  [ngClass]="isAllPermissionsSelected() ? 'btn-danger' : 'btn-outline-primary'"
+                  (click)="toggleAllPermissions()"
+                >
+                  <i class="bi {{ isAllPermissionsSelected() ? 'bi-x-circle' : 'bi-check-all' }} me-1"></i>
+                  {{ isAllPermissionsSelected() ? 'Bỏ Chọn Tất Cả' : 'Chọn Toàn Bộ Quyền' }}
+                </button>
+              </div>
+            </div>
+
+            <!--Grouped Modules Permission Matrix-->
+            <div class="d-flex flex-column gap-3 mb-4">
+              @for (group of permissionsByModule(); track group.module) {
+                <div class="border rounded p-4 bg-white shadow-xs">
+                  <!--Module Header-->
+                  <div class="d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="badge {{ group.meta.badgeClass }} px-2 py-1 fs-7">
+                        <i class="bi {{ group.meta.icon }} me-1"></i>
+                        {{ group.meta.label }}
+                      </span>
+                      <span class="text-muted fs-8">({{ group.permissions.length }} quyền)</span>
+                    </div>
+
+                    <label class="form-check form-check-custom form-check-solid cursor-pointer">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        [checked]="isModuleAllSelected(group.module)" 
+                        (change)="toggleModuleAll(group.module)"
+                      />
+                      <span class="form-check-label fw-bold fs-8 text-gray-700">Chọn cả nhóm</span>
+                    </label>
+                  </div>
+
+                  <!--Permissions Checkboxes Grid-->
+                  <div class="row g-3">
+                    @for (perm of group.permissions; track perm.id) {
+                      <div class="col-md-6 col-xl-4">
+                        <div 
+                          class="form-check form-check-custom form-check-solid p-2 rounded cursor-pointer h-100"
+                          [ngClass]="isPermissionSelected(perm.id) ? 'bg-light-primary border border-primary' : 'bg-light border border-transparent'"
+                          (click)="togglePermission(perm.id)"
+                        >
+                          <input 
+                            class="form-check-input me-2" 
+                            type="checkbox" 
+                            [checked]="isPermissionSelected(perm.id)"
+                            (click)="$event.stopPropagation()"
+                            (change)="togglePermission(perm.id)"
+                          />
+                          <div class="d-flex flex-column">
+                            <span class="fw-bold text-gray-900 fs-7">{{ perm.name }}</span>
+                            <span class="text-muted fs-8 font-monospace">{{ perm.code }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
             </div>
 
             <!--Modal Actions-->
-            <div class="text-center pt-8">
-              <button type="button" class="btn btn-light me-3" (click)="closeRoleModal()">Cancel</button>
-              <button type="submit" class="btn btn-primary">
-                <span>Save Role</span>
+            <div class="text-end pt-4 border-top">
+              <button type="button" class="btn btn-light me-3" (click)="closeRoleModal()">Hủy</button>
+              <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+                @if (isSaving()) {
+                  <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+                } @else {
+                  <i class="bi bi-check-lg me-1"></i> Lưu Vai Trò
+                }
               </button>
             </div>
           </form>
@@ -281,3 +427,33 @@
   </div>
 }
 <!--end::Modal-->
+
+<!--begin::Delete Confirm Modal-->
+@if (isDeleteModalOpen()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1070;">
+    <div class="modal-dialog modal-dialog-centered mw-450px">
+      <div class="modal-content shadow-lg">
+        <div class="modal-body text-center p-6">
+          <div class="symbol symbol-60px mb-4">
+            <span class="symbol-label bg-light-danger text-danger">
+              <i class="bi bi-exclamation-triangle-fill fs-2x text-danger"></i>
+            </span>
+          </div>
+          <h3 class="fw-bold text-gray-900 mb-2">Xác Nhận Xóa Vai Trò</h3>
+          <p class="text-gray-600 fs-7 mb-6">
+            Bạn có chắc chắn muốn xóa vai trò <strong class="text-danger">{{ roleToDelete()?.name }}</strong>?
+            Hành động này sẽ xóa toàn bộ liên kết phân quyền của vai trò này.
+          </p>
+
+          <div class="d-flex justify-content-center gap-3">
+            <button type="button" class="btn btn-light" (click)="closeDeleteModal()">Hủy Bỏ</button>
+            <button type="button" class="btn btn-danger" (click)="confirmDeleteRole()">
+              <i class="bi bi-trash me-1"></i> Xóa Vai Trò
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+<!--end::Delete Confirm Modal-->

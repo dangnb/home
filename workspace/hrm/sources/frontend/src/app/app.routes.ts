@@ -195,8 +195,8 @@ export const routes: Routes = [
       },
       {
         path: 'users/permissions',
-        redirectTo: 'users/roles',
-        pathMatch: 'full'
+        loadComponent: () => import('./pages/users/permissions-list/permissions-list.component').then(m => m.PermissionsListComponent),
+        title: 'Danh Mục Quyền Hạn - HRM Platform'
       },
       {
         path: 'profile',
