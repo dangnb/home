@@ -160,8 +160,109 @@ public class AssetsController : ControllerBase
         await _sender.Send(command, cancellationToken);
         return Ok(new { success = true, message = "Hoàn tất xử lý bảo trì tài sản thành công." });
     }
+
+    /// <summary>
+    /// Điều chuyển tài sản giữa các nhân sự (Transfer Flow)
+    /// </summary>
+    [HttpPost("{id:long}/transfer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Transfer(long id, [FromBody] TransferAssetRequest request, CancellationToken cancellationToken)
+    {
+        var command = new TransferAssetCommand
+        {
+            AssetId = id,
+            TargetUserId = request.TargetUserId,
+            Reason = request.Reason
+        };
+
+        var txId = await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, transactionId = txId, message = "Đã thực hiện điều chuyển tài sản thành công." });
+    }
+
+    /// <summary>
+    /// Thanh lý / Phế bỏ tài sản (Disposal Flow)
+    /// </summary>
+    [HttpPost("{id:long}/dispose")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DisposeAsset(long id, [FromBody] DisposeAssetRequest request, CancellationToken cancellationToken)
+    {
+        var command = new DisposeAssetCommand
+        {
+            AssetId = id,
+            DisposalReason = request.DisposalReason,
+            SalvageValue = request.SalvageValue
+        };
+
+        await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, message = "Đã thực hiện thanh lý tài sản thành công." });
+    }
+
+    /// <summary>
+    /// Tính toán trích khấu hao tài sản tự động theo tháng (Straight-line Depreciation)
+    /// </summary>
+    [HttpPost("depreciate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CalculateDepreciation([FromBody] CalculateAssetDepreciationCommand command, CancellationToken cancellationToken)
+    {
+        var count = await _sender.Send(command, cancellationToken);
+        return Ok(new { success = true, processedCount = count, message = $"Đã tính khấu hao thành công cho {count} tài sản." });
+    }
+
+    /// <summary>
+    /// Tra cứu danh sách phiếu bảo hỏng & sửa chữa tài sản (có lọc từ ngày - đến ngày)
+    /// </summary>
+    [HttpGet("maintenance-tickets")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMaintenanceTickets(
+        [FromQuery] string? keyword,
+        [FromQuery] string? status,
+        [FromQuery] long? assetId,
+        [FromQuery] System.DateTime? fromDate,
+        [FromQuery] System.DateTime? toDate,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new GetMaintenanceTicketsQuery
+        {
+            Keyword = keyword,
+            Status = status,
+            AssetId = assetId,
+            FromDate = fromDate,
+            ToDate = toDate,
+            Page = page,
+            PageSize = pageSize
+        }, cancellationToken);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Lịch sử trích khấu hao tài sản
+    /// </summary>
+    [HttpGet("depreciations")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetDepreciations(
+        [FromQuery] long? assetId,
+        [FromQuery] int? year,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await _sender.Send(new GetAssetDepreciationsQuery
+        {
+            AssetId = assetId,
+            Year = year
+        }, cancellationToken);
+
+        return Ok(result);
+    }
 }
 
 public record AllocateAssetRequest(long AssigneeUserId, string? ConditionNotes = null);
 public record RecoverAssetRequest(string? ConditionNotes = null);
 public record CreateMaintenanceTicketRequest(string IssueDescription);
+public record TransferAssetRequest(long TargetUserId, string? Reason = null);
+public record DisposeAssetRequest(string DisposalReason, decimal SalvageValue = 0);
+

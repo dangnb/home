@@ -88,6 +88,11 @@ export class SidebarComponent implements OnInit {
       route: '/hrm/equipments'
     },
     {
+      title: 'Quản Lý Tài Sản SaaS',
+      icon: 'bi-laptop',
+      route: '/hrm/assets'
+    },
+    {
       title: 'Báo Hỏng & Sửa IT',
       icon: 'bi-tools',
       route: '/hrm/equipment-repairs'
