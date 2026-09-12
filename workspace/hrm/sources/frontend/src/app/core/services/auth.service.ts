@@ -134,6 +134,21 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  hasPermission(permission: string): boolean {
+    const user = this.currentUser();
+    if (!user) return false;
+    if (user.isSuperAdmin || user.roles?.includes('TENANT_ADMIN')) return true;
+    if (!permission) return true;
+    return user.permissions?.includes(permission.trim().toLowerCase()) ?? false;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.currentUser();
+    if (!user) return false;
+    if (user.isSuperAdmin) return true;
+    return user.roles?.includes(role.trim().toUpperCase()) ?? false;
+  }
+
   private clearSession(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);

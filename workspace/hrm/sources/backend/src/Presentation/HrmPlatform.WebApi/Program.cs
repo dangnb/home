@@ -74,6 +74,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Cấu hình Dynamic Permission Policy Provider & Handler
+builder.Services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationPolicyProvider, HrmPlatform.WebApi.Authorization.PermissionPolicyProvider>();
+builder.Services.AddScoped<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, HrmPlatform.WebApi.Authorization.PermissionAuthorizationHandler>();
+
 var app = builder.Build();
 
 // 4. Tự động kiểm tra & khởi tạo CSDL MariaDB nếu cần

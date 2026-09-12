@@ -7,10 +7,14 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.AspNetCore.Authorization;
+using HrmPlatform.WebApi.Authorization;
+
 namespace HrmPlatform.WebApi.Controllers;
 
 [ApiController]
 [Route("api/v1/assets")]
+[Authorize]
 public class AssetsController : ControllerBase
 {
     private readonly ISender _sender;
@@ -24,6 +28,7 @@ public class AssetsController : ControllerBase
     /// Lấy danh sách hồ sơ tài sản & thiết bị (phân trang, lọc theo danh mục, trạng thái)
     /// </summary>
     [HttpGet]
+    [HasPermission("asset:read")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
         [FromQuery] string? keyword,
