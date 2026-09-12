@@ -14,6 +14,31 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       // ==========================================
+      // PROJECT MANAGEMENT MODULE (Standalone)
+      // ==========================================
+      {
+        path: 'pm',
+        loadComponent: () => import('./pages/pm/pm-layout.component').then(m => m.PmLayoutComponent),
+        children: [
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          {
+            path: 'dashboard',
+            loadComponent: () => import('./pages/pm/dashboard/pm-dashboard.component').then(m => m.PmDashboardComponent),
+            title: 'Quản Lý Dự Án — Tổng Quan'
+          },
+          {
+            path: 'my-schedule',
+            loadComponent: () => import('./pages/pm/my-schedule/pm-schedule.component').then(m => m.PmScheduleComponent),
+            title: 'Lịch Làm Việc Cá Nhân — PM'
+          },
+          {
+            path: 'department',
+            loadComponent: () => import('./pages/pm/department/pm-department.component').then(m => m.PmDepartmentComponent),
+            title: 'Quản Lý Phòng Ban — PM'
+          }
+        ]
+      },
+      // ==========================================
       // CORE HRM PLATFORM ROUTES
       // ==========================================
       {
@@ -78,7 +103,7 @@ export const routes: Routes = [
             path: 'equipment-repairs',
             loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
             title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
-          }
+          },
         ]
       },
       // ==========================================

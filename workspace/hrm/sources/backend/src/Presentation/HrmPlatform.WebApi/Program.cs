@@ -24,6 +24,15 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
+// Cho phép upload file lớn (50 MB)
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(o =>
+{
+    o.MultipartBodyLengthLimit = 52_428_800;
+});
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 52_428_800;
+});
 builder.Services.AddOpenApi();
 
 // Cấu hình CORS cho phép Frontend Angular kết nối
@@ -72,6 +81,15 @@ await DatabaseInitializer.InitializeAsync(app.Configuration, app.Logger, app.Env
 
 // Cấu hình CORS middleware
 app.UseCors();
+
+// Serve static files (tài liệu dự án upload)
+var wwwrootPath = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+Directory.CreateDirectory(wwwrootPath);
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(wwwrootPath),
+    RequestPath = ""
+});
 
 // 5. Global Exception Handling Middleware (RFC 7807)
 app.UseMiddleware<ExceptionHandlingMiddleware>();

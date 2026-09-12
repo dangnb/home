@@ -37,8 +37,8 @@ public class AssetsController : ControllerBase
         var result = await _sender.Send(new GetAssetsQuery
         {
             Keyword = keyword,
-            Category = category,
-            Status = status,
+            Category = category?.ToString(),
+            Status = status?.ToString(),
             AssigneeUserId = assigneeUserId,
             Page = page,
             PageSize = pageSize

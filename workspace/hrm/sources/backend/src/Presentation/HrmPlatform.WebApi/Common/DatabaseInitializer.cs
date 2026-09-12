@@ -369,6 +369,8 @@ public static class DatabaseInitializer
                     }
                 }
 
+
+
                 if (File.Exists(seedPath))
                 {
                     var seedSql = await File.ReadAllTextAsync(seedPath);

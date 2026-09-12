@@ -94,6 +94,19 @@ export class SidebarComponent implements OnInit {
     },
 
     // ==========================================
+    // MODULE
+    // ==========================================
+    {
+      title: 'Module Khác',
+      isHeading: true
+    },
+    {
+      title: 'Quản Lý Dự Án',
+      icon: 'bi-kanban',
+      route: '/pm/dashboard'
+    },
+
+    // ==========================================
     // 2. QUẢN TRỊ HỆ THỐNG
     // ==========================================
     {

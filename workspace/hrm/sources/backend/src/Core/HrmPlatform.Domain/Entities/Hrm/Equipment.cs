@@ -71,6 +71,33 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         };
     }
 
+    public void UpdateDetails(
+        string code,
+        string name,
+        EquipmentCategory category,
+        string? serialNumber,
+        string? specifications,
+        DateOnly? purchaseDate,
+        DateOnly? warrantyEndDate,
+        string? note)
+    {
+        if (string.IsNullOrWhiteSpace(code))
+            throw new DomainException("Mã trang thiết bị không được để trống.");
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new DomainException("Tên trang thiết bị không được để trống.");
+
+        Code = code.Trim().ToUpper();
+        Name = name.Trim();
+        Category = category;
+        SerialNumber = serialNumber?.Trim();
+        Specifications = specifications?.Trim();
+        PurchaseDate = purchaseDate;
+        WarrantyEndDate = warrantyEndDate;
+        Note = note?.Trim();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void Handover(long? targetUserId, long? targetDepartmentId, string? conditionStatus, string? note, string targetType = "EMPLOYEE")
     {
         if (targetType.ToUpper() == "DEPARTMENT")
