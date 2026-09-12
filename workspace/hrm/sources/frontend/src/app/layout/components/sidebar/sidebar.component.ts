@@ -91,14 +91,9 @@ export class SidebarComponent implements OnInit {
       isHeading: true
     },
     {
-      title: 'Quản Lý Tài Sản SaaS',
+      title: 'Quản Lý Thiết Bị & Tài Sản',
       icon: 'bi-laptop',
       route: '/equipment/assets'
-    },
-    {
-      title: 'Quản Lý Thiết Bị Kho',
-      icon: 'bi-box-seam',
-      route: '/equipment/inventory'
     },
     {
       title: 'Báo Hỏng & Sửa Chữa IT',
