@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { AuthService } from '../../../core/services/auth.service';
+
 export interface MenuItem {
   title: string;
   icon?: string;
@@ -12,6 +14,8 @@ export interface MenuItem {
   isHeading?: boolean;
   children?: MenuItem[];
   isOpen?: boolean;
+  requiredPermission?: string;
+  requiredRole?: string;
 }
 
 @Component({
@@ -23,11 +27,14 @@ export interface MenuItem {
 })
 export class SidebarComponent implements OnInit {
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   @Input() isMobileOpen = false;
   @Input() isCollapsed = false;
   @Output() toggleCollapse = new EventEmitter<void>();
   @Output() closeMobileSidebar = new EventEmitter<void>();
+
+  filteredMenuItems: MenuItem[] = [];
 
   menuItems: MenuItem[] = [
     // ==========================================
@@ -88,17 +95,20 @@ export class SidebarComponent implements OnInit {
     // ==========================================
     {
       title: 'Thiết Bị & Tài Sản',
-      isHeading: true
+      isHeading: true,
+      requiredPermission: 'asset:read'
     },
     {
-      title: 'Quản Lý Thiết Bị',
+      title: 'Quản Lý Kho & Tài Sản',
       icon: 'bi-box-seam',
-      route: '/hrm/equipments'
+      route: '/equipment/assets',
+      requiredPermission: 'asset:read'
     },
     {
       title: 'Báo Hỏng & Sửa IT',
       icon: 'bi-tools',
-      route: '/hrm/equipment-repairs'
+      route: '/equipment/repairs',
+      requiredPermission: 'asset:read'
     },
 
     // ==========================================
@@ -115,34 +125,43 @@ export class SidebarComponent implements OnInit {
     },
 
     // ==========================================
-    // 2. QUẢN TRỊ HỆ THỐNG
+    // 4. QUẢN TRỊ HỆ THỐNG
     // ==========================================
     {
       title: 'Quản Trị Hệ Thống',
-      isHeading: true
+      isHeading: true,
+      requiredRole: 'TENANT_ADMIN'
     },
     {
       title: 'Người Dùng & Tài Khoản',
       icon: 'bi-person-lines-fill',
-      route: '/users'
+      route: '/users',
+      requiredRole: 'TENANT_ADMIN'
     },
     {
       title: 'Vai Trò & Chức Năng',
       icon: 'bi-shield-lock',
-      route: '/users/roles'
+      route: '/users/roles',
+      requiredRole: 'TENANT_ADMIN'
     },
     {
       title: 'Danh Mục Quyền Hạn',
       icon: 'bi-key',
-      route: '/users/permissions'
+      route: '/users/permissions',
+      requiredRole: 'TENANT_ADMIN'
     },
 
     // ==========================================
-    // 3. TÀI KHOẢN CỦA TÔI
+    // 5. CÁ NHÂN (SELF-SERVICE)
     // ==========================================
     {
       title: 'Cá Nhân',
       isHeading: true
+    },
+    {
+      title: 'Thiết Bị Của Tôi',
+      icon: 'bi-laptop',
+      route: '/equipment/my-assets'
     },
     {
       title: 'Hồ Sơ Cá Nhân',
@@ -157,6 +176,7 @@ export class SidebarComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.filterMenuByPermissions();
     this.updateActiveAccordions(this.router.url);
 
     this.router.events
@@ -164,6 +184,49 @@ export class SidebarComponent implements OnInit {
       .subscribe((event: any) => {
         this.updateActiveAccordions(event.urlAfterRedirects || event.url);
       });
+  }
+
+  private filterMenuByPermissions(): void {
+    const isItemAllowed = (item: MenuItem): boolean => {
+      if (item.requiredRole && !this.authService.hasRole(item.requiredRole)) {
+        return false;
+      }
+      if (item.requiredPermission && !this.authService.hasPermission(item.requiredPermission)) {
+        return false;
+      }
+      return true;
+    };
+
+    const filterItems = (items: MenuItem[]): MenuItem[] => {
+      const result: MenuItem[] = [];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        if (item.isHeading) {
+          // Keep heading only if at least one subsequent non-heading item until the next heading is allowed
+          let hasChildAllowed = false;
+          for (let j = i + 1; j < items.length; j++) {
+            if (items[j].isHeading) break;
+            if (isItemAllowed(items[j])) {
+              hasChildAllowed = true;
+              break;
+            }
+          }
+          if (hasChildAllowed) {
+            result.push(item);
+          }
+        } else if (isItemAllowed(item)) {
+          const newItem = { ...item };
+          if (newItem.children && newItem.children.length > 0) {
+            newItem.children = filterItems(newItem.children);
+          }
+          result.push(newItem);
+        }
+      }
+      return result;
+    };
+
+    this.filteredMenuItems = filterItems(this.menuItems);
   }
 
   updateActiveAccordions(currentUrl: string): void {
@@ -192,7 +255,7 @@ export class SidebarComponent implements OnInit {
       return anyActive;
     };
 
-    checkActive(this.menuItems);
+    checkActive(this.filteredMenuItems);
   }
 
   isItemActive(item: MenuItem): boolean {

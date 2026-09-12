@@ -46,7 +46,7 @@
         id="#kt_app_sidebar_menu" 
         data-kt-menu="true"
       >
-        @for (item of menuItems; track item.title) {
+        @for (item of filteredMenuItems; track item.title) {
           @if (item.isHeading) {
             <!--begin:Heading item-->
             <div class="menu-item pt-5">

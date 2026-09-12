@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { MasterLayoutComponent } from './layout/master-layout.component';
 import { authGuard } from './core/guards/auth.guard';
 
+import { permissionGuard } from './core/guards/permission.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -44,20 +46,28 @@ export const routes: Routes = [
       {
         path: 'equipment',
         children: [
-          { path: '', redirectTo: 'assets', pathMatch: 'full' },
+          { path: '', redirectTo: 'my-assets', pathMatch: 'full' },
+          {
+            path: 'my-assets',
+            loadComponent: () => import('./pages/hrm/my-assets/my-assets-list.component').then(m => m.MyAssetsListComponent),
+            title: 'Thiết Bị Của Tôi'
+          },
           {
             path: 'assets',
             loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            canActivate: [permissionGuard('asset:read')],
             title: 'Quản Lý Thiết Bị & Tài Sản SaaS'
           },
           {
             path: 'inventory',
             loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            canActivate: [permissionGuard('equipment:read')],
             title: 'Quản Lý Trang Thiết Bị Kho'
           },
           {
             path: 'repairs',
             loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            canActivate: [permissionGuard('asset:read')],
             title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT'
           }
         ]
