@@ -3,6 +3,7 @@ using System.Reflection;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Audit;
+using HrmPlatform.Domain.Entities.Config;
 using HrmPlatform.Domain.Entities.Hrm;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -58,6 +59,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<AssetTransaction> AssetTransactions => Set<AssetTransaction>();
     public DbSet<MaintenanceTicket> MaintenanceTickets => Set<MaintenanceTicket>();
     public DbSet<AssetDepreciation> AssetDepreciations => Set<AssetDepreciation>();
+    public DbSet<SystemCatalog> SystemCatalogs => Set<SystemCatalog>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

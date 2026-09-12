@@ -146,6 +146,21 @@ export const routes: Routes = [
         ]
       },
       // ==========================================
+      // SYSTEM CONFIGURATION MODULE ROUTES
+      // ==========================================
+      {
+        path: 'config',
+        children: [
+          { path: '', redirectTo: 'catalogs', pathMatch: 'full' },
+          {
+            path: 'catalogs',
+            loadComponent: () => import('./pages/config/system-catalogs/system-catalogs.component').then(m => m.SystemCatalogsComponent),
+            canActivate: [permissionGuard('config:manage')],
+            title: 'Danh Mục Hệ Thống — System Configuration'
+          }
+        ]
+      },
+      // ==========================================
       // EXISTING TEMPLATE ROUTES
       // ==========================================
       {

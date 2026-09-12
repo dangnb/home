@@ -1,4 +1,5 @@
 using HrmPlatform.Domain.Entities.Audit;
+using HrmPlatform.Domain.Entities.Config;
 using HrmPlatform.Domain.Entities.Hrm;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -38,6 +39,7 @@ public interface IApplicationDbContext
     DbSet<AssetTransaction> AssetTransactions { get; }
     DbSet<MaintenanceTicket> MaintenanceTickets { get; }
     DbSet<AssetDepreciation> AssetDepreciations { get; }
+    DbSet<SystemCatalog> SystemCatalogs { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -150,6 +150,12 @@ export class SidebarComponent implements OnInit {
       route: '/users/permissions',
       requiredRole: 'TENANT_ADMIN'
     },
+    {
+      title: 'Danh Mục Hệ Thống',
+      icon: 'bi-sliders',
+      route: '/config/catalogs',
+      requiredRole: 'TENANT_ADMIN'
+    },
 
     // ==========================================
     // 5. CÁ NHÂN (SELF-SERVICE)
