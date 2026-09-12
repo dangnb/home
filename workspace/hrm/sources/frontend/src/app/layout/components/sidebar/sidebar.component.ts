@@ -100,11 +100,6 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-tools',
       route: '/hrm/equipment-repairs'
     },
-    {
-      title: 'Quản Lý Tài Sản',
-      icon: 'bi-laptop',
-      route: '/hrm/assets'
-    },
 
     // ==========================================
     // 3. QUẢN LÝ DỰ ÁN (PM)
