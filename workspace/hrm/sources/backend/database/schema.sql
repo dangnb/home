@@ -757,4 +757,28 @@ CREATE TABLE IF NOT EXISTS `equipment_histories` (
     CONSTRAINT `fk_equipment_histories_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipments` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Nhật ký thao tác trang thiết bị (Bàn giao/Thu hồi/Báo hỏng)';
 
+-- -----------------------------------------------------------------------------
+-- TABLE: system_catalogs
+-- Danh mục cấu hình hệ thống master data (Multi-tenant)
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `system_catalogs` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tenant_id` BIGINT NOT NULL,
+    `catalog_type` VARCHAR(50) NOT NULL COMMENT 'LEAVE_TYPE, JOB_POSITION, EDUCATION_LEVEL, ASSET_CATEGORY, CONTRACT_TYPE, NATIONALITY, DEPARTMENT_TYPE',
+    `code` VARCHAR(100) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `is_system_default` TINYINT(1) NOT NULL DEFAULT 0,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE' COMMENT 'ACTIVE, INACTIVE, DELETED',
+    `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `created_by` BIGINT DEFAULT NULL,
+    `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+    `updated_by` BIGINT DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_system_catalogs_tenant_type_code` (`tenant_id`, `catalog_type`, `code`),
+    KEY `idx_system_catalogs_tenant_type_status` (`tenant_id`, `catalog_type`, `status`),
+    CONSTRAINT `fk_system_catalogs_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh mục cấu hình hệ thống master data';
+
 SET FOREIGN_KEY_CHECKS = 1;
