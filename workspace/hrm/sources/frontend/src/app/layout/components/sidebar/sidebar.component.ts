@@ -82,31 +82,39 @@ export class SidebarComponent implements OnInit {
       icon: 'bi-book-half',
       route: '/hrm/policies'
     },
+
+    // ==========================================
+    // 2. QUẢN LÝ THIẾT BỊ & TÀI SẢN (EQUIPMENT & ASSETS MODULE)
+    // ==========================================
     {
-      title: 'Quản Lý Thiết Bị',
-      icon: 'bi-box-seam',
-      route: '/hrm/equipments'
+      title: 'Thiết Bị & Tài Sản',
+      isHeading: true
     },
     {
       title: 'Quản Lý Tài Sản SaaS',
       icon: 'bi-laptop',
-      route: '/hrm/assets'
+      route: '/equipment/assets'
     },
     {
-      title: 'Báo Hỏng & Sửa IT',
+      title: 'Quản Lý Thiết Bị Kho',
+      icon: 'bi-box-seam',
+      route: '/equipment/inventory'
+    },
+    {
+      title: 'Báo Hỏng & Sửa Chữa IT',
       icon: 'bi-tools',
-      route: '/hrm/equipment-repairs'
+      route: '/equipment/repairs'
     },
 
     // ==========================================
-    // MODULE
+    // 3. QUẢN LÝ DỰ ÁN (PM)
     // ==========================================
     {
-      title: 'Module Khác',
+      title: 'Dự Án & Phòng Ban',
       isHeading: true
     },
     {
-      title: 'Quản Lý Dự Án',
+      title: 'Quản Lý Dự Án PM',
       icon: 'bi-kanban',
       route: '/pm/dashboard'
     },

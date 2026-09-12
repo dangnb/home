@@ -39,6 +39,30 @@ export const routes: Routes = [
         ]
       },
       // ==========================================
+      // STANDALONE EQUIPMENT & ASSETS MODULE ROUTES
+      // ==========================================
+      {
+        path: 'equipment',
+        children: [
+          { path: '', redirectTo: 'assets', pathMatch: 'full' },
+          {
+            path: 'assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Thiết Bị & Tài Sản SaaS'
+          },
+          {
+            path: 'inventory',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Kho'
+          },
+          {
+            path: 'repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT'
+          }
+        ]
+      },
+      // ==========================================
       // CORE HRM PLATFORM ROUTES
       // ==========================================
       {
