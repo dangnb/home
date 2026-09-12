@@ -30,6 +30,8 @@ public class EquipmentRepairsController : ControllerBase
         [FromQuery] string? priority,
         [FromQuery] long? technicianUserId,
         [FromQuery] long? equipmentId,
+        [FromQuery] DateOnly? fromDate,
+        [FromQuery] DateOnly? toDate,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -41,6 +43,8 @@ public class EquipmentRepairsController : ControllerBase
             Priority = priority,
             TechnicianUserId = technicianUserId,
             EquipmentId = equipmentId,
+            FromDate = fromDate,
+            ToDate = toDate,
             Page = page,
             PageSize = pageSize
         }, cancellationToken);

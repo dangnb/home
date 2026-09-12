@@ -1094,7 +1094,7 @@
 }
 
 // ============================================================
-// Unified Typography System (Font Family & Font Size Consistency)
+// Unified Typography System (Font Family & Strict Font Size Standardization)
 // ============================================================
 html, body, div, p, span, h1, h2, h3, h4, h5, h6,
 a, input, select, textarea, button, table, th, td, label,
@@ -1108,48 +1108,173 @@ body {
   letter-spacing: -0.011em !important;
 }
 
-// Title Hierarchy
-h1, .page-title h1, .main-title, .view-title {
-  font-size: 1.35rem !important; /* ~21px */
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
+// 1. Unified Page Headers across ALL screens
+.app-content, .content-area, #kt_app_content, .view-header {
+  h1, .page-title h1, .main-title, .view-title {
+    font-size: 1.25rem !important; /* 20px uniform title */
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.3 !important;
+  }
+
+  h2, h3, .card-title, h4, h5, .modal-title {
+    font-size: 1rem !important; /* 16px uniform section header */
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.35 !important;
+  }
+
+  .view-subtitle, .text-muted, p.text-muted {
+    font-size: 0.8125rem !important; /* 13px */
+  }
 }
 
-h2, h3, .card-title, h5 {
-  font-size: 1.05rem !important; /* ~17px */
-  font-weight: 600 !important;
-  letter-spacing: -0.01em !important;
+// 2. Strict Table Font Normalization across ALL screens
+.table, table {
+  thead th, th {
+    font-size: 0.75rem !important; /* 12px uppercase headers */
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  tbody td, td {
+    font-size: 0.85rem !important; /* 13.5px body text */
+    font-weight: 400 !important;
+    padding: 0.75rem 1rem !important;
+    vertical-align: middle !important;
+  }
 }
 
-// Data Tables
-.table th, table thead th {
-  font-size: 0.78rem !important; /* ~12px uppercase */
-  font-weight: 600 !important;
-  letter-spacing: 0.03em !important;
-  text-transform: uppercase !important;
-}
-
-.table td, table tbody td {
-  font-size: 0.875rem !important; /* 14px */
-  font-weight: 400 !important;
-  vertical-align: middle !important;
-}
-
-// Form Controls & Buttons
-.form-control, .form-select, .btn {
-  font-size: 0.875rem !important; /* 14px */
+// 3. Strict Form Controls, Buttons, Selects Normalization
+.form-control,
+.form-select,
+.input-group-text,
+.btn,
+button,
+select,
+input {
+  font-size: 0.85rem !important; /* 13.5px */
   font-weight: 500 !important;
 }
 
-// Badges & Micro Text
+.btn-sm, .form-control-sm, .form-select-sm {
+  font-size: 0.8125rem !important; /* 13px */
+  padding: 0.4rem 0.75rem !important;
+}
+
+.btn-lg, .form-control-lg, .form-select-lg {
+  font-size: 0.9375rem !important; /* 15px */
+  padding: 0.65rem 1.25rem !important;
+}
+
+// 4. Badges, Status Pills & Micro Text
 .badge {
   font-size: 0.75rem !important; /* 12px */
   font-weight: 600 !important;
+  padding: 0.35rem 0.65rem !important;
 }
 
-.text-muted, .view-subtitle, .kpi-title {
-  font-size: 0.8125rem !important; /* 13px */
+// 5. Utility Classes Normalization inside Main Content Area
+.app-content, #kt_app_content {
+  .fs-1 { font-size: 1.35rem !important; }
+  .fs-2 { font-size: 1.2rem !important; }
+  .fs-3 { font-size: 1.1rem !important; }
+  .fs-4 { font-size: 1.0rem !important; }
+  .fs-5 { font-size: 0.925rem !important; }
+  .fs-6 { font-size: 0.875rem !important; }
+  .fs-7 { font-size: 0.8125rem !important; }
+  .fs-8 { font-size: 0.75rem !important; }
+  .fs-9 { font-size: 0.7rem !important; }
+  .fs-base { font-size: 0.875rem !important; }
 }
+
+// ============================================================
+// Collapsed / Minimized Sidebar - Pixel Perfect Styling & Layout
+// ============================================================
+[data-kt-app-sidebar-minimize="on"],
+body[data-kt-app-sidebar-minimize="on"] {
+  // 1. Completely hide section headers when collapsed
+  .app-sidebar .menu-section-label,
+  .app-sidebar .menu-content {
+    display: none !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  // 2. Center menu links and icons perfectly in collapsed sidebar
+  .app-sidebar #kt_app_sidebar_menu_scroll {
+    .menu-item {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+
+      .menu-link {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 8px 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        margin: 4px auto !important;
+
+        .menu-title,
+        .menu-arrow {
+          display: none !important;
+          opacity: 0 !important;
+          width: 0 !important;
+        }
+
+        .menu-icon {
+          margin: 0 !important;
+          width: 36px !important;
+          height: 36px !important;
+          min-width: 36px !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          border-radius: 10px !important;
+        }
+      }
+    }
+  }
+
+  // 3. Fix Footer Docs Button in collapsed sidebar
+  #kt_app_sidebar_footer,
+  .app-sidebar-footer {
+    padding: 10px 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+
+    a {
+      width: 42px !important;
+      height: 42px !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 10px !important;
+      margin: 0 auto !important;
+
+      .btn-label {
+        display: none !important;
+      }
+
+      app-keenicon, i {
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+    }
+  }
+}
+
+
 
 
 

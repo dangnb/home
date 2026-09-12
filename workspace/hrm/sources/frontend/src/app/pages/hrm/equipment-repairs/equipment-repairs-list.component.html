@@ -1,352 +1,711 @@
 <div class="d-flex flex-column gap-6">
-  <!-- Header Page Title -->
+  <!-- Top Nav Header & Tab Switcher -->
   <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
     <div>
-      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT (IT Service Desk)</h1>
-      <span class="text-muted fs-7">Tiếp nhận báo hỏng sự cố trang thiết bị, phân công kỹ thuật viên IT, cập nhật thông tin lỗi & chi tiết linh kiện sửa chữa</span>
+      <h1 class="text-gray-900 fw-bold fs-3 mb-1">Quản Lý Yêu Cầu Báo Hỏng & Kho Linh Kiện Sửa Chữa IT</h1>
+      <span class="text-muted fs-7">Tiếp nhận sự cố thiết bị, phân công IT, quản lý kho linh kiện thay thế & chi phí sửa chữa</span>
     </div>
+    
     <div class="d-flex align-items-center gap-3">
-      <button type="button" class="btn btn-sm btn-danger fw-bold" (click)="openCreateModal()">
-        <i class="bi bi-exclamation-triangle-fill me-1"></i>Tạo Phiếu Báo Hỏng IT
-      </button>
+      <!-- Tabs Switcher -->
+      <div class="bg-light-secondary p-1 rounded-3 d-flex align-items-center border border-gray-300">
+        <button 
+          type="button" 
+          class="btn btn-sm fw-bold px-4 py-2 transition-all" 
+          [class.btn-white]="activeTab() === 'repairs'"
+          [class.shadow-xs]="activeTab() === 'repairs'"
+          [class.text-primary]="activeTab() === 'repairs'"
+          [class.text-gray-600]="activeTab() !== 'repairs'"
+          (click)="switchTab('repairs')"
+        >
+          <i class="bi bi-tools me-2 fs-6"></i>🛠️ Yêu Cầu Sửa Chữa IT
+        </button>
+
+        <button 
+          type="button" 
+          class="btn btn-sm fw-bold px-4 py-2 transition-all position-relative" 
+          [class.btn-white]="activeTab() === 'parts'"
+          [class.shadow-xs]="activeTab() === 'parts'"
+          [class.text-primary]="activeTab() === 'parts'"
+          [class.text-gray-600]="activeTab() !== 'parts'"
+          (click)="switchTab('parts')"
+        >
+          <i class="bi bi-box-seam me-2 fs-6"></i>📦 Kho Linh Kiện IT
+          @if (partsSummary().lowStockParts > 0) {
+            <span class="badge badge-circle bg-danger fs-9 ms-1 text-white shadow-xs" style="min-width: 18px; height: 18px; padding: 0 4px;">
+              {{ partsSummary().lowStockParts }}
+            </span>
+          }
+        </button>
+      </div>
+
+      @if (activeTab() === 'repairs') {
+        <button type="button" class="btn btn-sm btn-danger fw-bold shadow-xs" (click)="openCreateModal()">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>Tạo Phiếu Báo Hỏng IT
+        </button>
+      } @else {
+        <button type="button" class="btn btn-sm btn-primary fw-bold shadow-xs" (click)="openCreatePartModal()">
+          <i class="bi bi-plus-lg me-1"></i>Thêm Linh Kiện Vào Kho
+        </button>
+      }
     </div>
   </div>
 
-  <!-- KPI Summary Banner -->
-  <div class="row g-4">
-    <!-- Card 1: Tổng số phiếu -->
-    <div class="col-md-3 col-6">
-      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
-        <div class="card-body p-4 d-flex align-items-center justify-content-between">
-          <div>
-            <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Phiếu Yêu Cầu</span>
-            <span class="fs-2x fw-bold text-gray-900">{{ summary().totalRepairs }}</span>
+  @if (activeTab() === 'repairs') {
+    <!-- ==================== TAB 1: YÊU CẦU SỬA CHỮA IT ==================== -->
+
+    <!-- KPI Summary Banner -->
+    <div class="row g-4">
+      <!-- Card 1: Tổng số phiếu -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Phiếu Yêu Cầu</span>
+              <span class="fs-2x fw-bold text-gray-900">{{ summary().totalRepairs }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+              <i class="bi bi-journal-text fs-3"></i>
+            </div>
           </div>
-          <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
-            <i class="bi bi-journal-text fs-3"></i>
+        </div>
+      </div>
+
+      <!-- Card 2: Chờ tiếp nhận -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Chờ Tiếp Nhận / Phân Công</span>
+              <span class="fs-2x fw-bold text-warning">{{ summary().pendingRepairs }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+              <i class="bi bi-hourglass-split fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Đang sửa chữa -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Kiểm Tra / Sửa Chữa</span>
+              <span class="fs-2x fw-bold text-primary">{{ summary().inProgressRepairs }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+              <i class="bi bi-tools fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Hoàn tất & Chi phí -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Đã Hoàn Thành (Chi Phí)</span>
+              <span class="fs-2x fw-bold text-success">{{ summary().completedRepairs }}</span>
+              <span class="fs-8 text-muted d-block mt-1">Tổng tiền: <strong class="text-danger">{{ summary().totalRepairCost | number:'1.0-0' }}đ</strong></span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+              <i class="bi bi-check-circle-fill fs-3"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Card 2: Chờ tiếp nhận -->
-    <div class="col-md-3 col-6">
-      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
-        <div class="card-body p-4 d-flex align-items-center justify-content-between">
-          <div>
-            <span class="fs-8 text-muted fw-semibold d-block mb-1">Chờ Tiếp Nhận / Phân Công</span>
-            <span class="fs-2x fw-bold text-warning">{{ summary().pendingRepairs }}</span>
-          </div>
-          <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
-            <i class="bi bi-hourglass-split fs-3"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3: Đang sửa chữa -->
-    <div class="col-md-3 col-6">
-      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
-        <div class="card-body p-4 d-flex align-items-center justify-content-between">
-          <div>
-            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Kiểm Tra / Sửa Chữa</span>
-            <span class="fs-2x fw-bold text-primary">{{ summary().inProgressRepairs }}</span>
-          </div>
-          <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
-            <i class="bi bi-tools fs-3"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 4: Hoàn tất & Chi phí -->
-    <div class="col-md-3 col-6">
-      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
-        <div class="card-body p-4 d-flex align-items-center justify-content-between">
-          <div>
-            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đã Hoàn Thành (Chi Phí)</span>
-            <span class="fs-2x fw-bold text-success">{{ summary().completedRepairs }}</span>
-            <span class="fs-8 text-muted d-block mt-1">Tổng tiền: <strong class="text-danger">{{ summary().totalRepairCost | number:'1.0-0' }}đ</strong></span>
-          </div>
-          <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
-            <i class="bi bi-check-circle-fill fs-3"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Table Card -->
-  <div class="card card-flush shadow-sm card-bordered">
-    <!-- Header Controls -->
-    <div class="card-header border-0 pt-6 pb-0">
-      <div class="card-title w-100 me-0">
-        <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
-          <!-- Search Box -->
-          <div class="position-relative flex-grow-1" style="max-width: 480px;">
-            <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
-            <input 
-              type="text" 
-              class="form-control form-control-solid ps-10 fs-7" 
-              placeholder="Nhập mã phiếu, mã thiết bị, tên máy, người báo hỏng hoặc IT..." 
-              [(ngModel)]="filterKeyword"
-              (keyup.enter)="onFilterChange()"
-            />
-            @if (filterKeyword) {
-              <button 
-                type="button" 
-                class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
-                (click)="clearSingleFilter('keyword')"
-              >
-                <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
-              </button>
-            }
-          </div>
-
-          <!-- Advanced Filters Button -->
-          <div class="d-flex align-items-center gap-2">
-            <button 
-              type="button" 
-              class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
-              [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
-              [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
-              (click)="toggleAdvancedFilter()"
-            >
-              <i class="bi bi-sliders2 fs-6"></i>
-              <span>Bộ Lọc Nâng Cao</span>
-              @if (activeAdvancedFilterCount > 0) {
-                <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
-                  {{ activeAdvancedFilterCount }}
-                </span>
+    <!-- Main Table Card -->
+    <div class="card card-flush shadow-sm card-bordered">
+      <!-- Header Controls -->
+      <div class="card-header border-0 pt-6 pb-0">
+        <div class="card-title w-100 me-0">
+          <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+            <!-- Search Box -->
+            <div class="position-relative flex-grow-1" style="max-width: 480px;">
+              <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-solid ps-10 fs-7" 
+                placeholder="Nhập mã phiếu, mã thiết bị, tên máy, người báo hỏng..." 
+                [(ngModel)]="filterKeyword"
+                (keyup.enter)="onFilterChange()"
+              />
+              @if (filterKeyword) {
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                  (click)="clearSingleFilter('keyword')"
+                >
+                  <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+                </button>
               }
-            </button>
+            </div>
 
-            @if (filterKeyword || activeAdvancedFilterCount > 0) {
+            <!-- Advanced Filters Button -->
+            <div class="d-flex align-items-center gap-2">
               <button 
                 type="button" 
-                class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
-                (click)="resetFilters()" 
-                title="Xóa toàn bộ bộ lọc"
+                class="btn btn-sm fs-7 fw-bold d-flex align-items-center gap-2 h-38px px-4 transition-all"
+                [class.btn-primary]="isAdvancedFilterOpen() || activeAdvancedFilterCount > 0"
+                [class.btn-light-primary]="!isAdvancedFilterOpen() && activeAdvancedFilterCount === 0"
+                (click)="toggleAdvancedFilter()"
               >
-                <i class="bi bi-arrow-counterclockwise fs-6"></i>
-                <span>Xóa bộ lọc</span>
+                <i class="bi bi-sliders2 fs-6"></i>
+                <span>Bộ Lọc Nâng Cao</span>
+                @if (activeAdvancedFilterCount > 0) {
+                  <span class="badge badge-circle bg-white text-danger ms-1 fs-8 fw-bolder d-inline-flex align-items-center justify-content-center shadow-xs" style="min-width: 20px; height: 20px; padding: 0 6px;">
+                    {{ activeAdvancedFilterCount }}
+                  </span>
+                }
               </button>
-            }
+
+              @if (filterKeyword || activeAdvancedFilterCount > 0) {
+                <button 
+                  type="button" 
+                  class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-4 d-flex align-items-center gap-2" 
+                  (click)="resetFilters()" 
+                  title="Xóa toàn bộ bộ lọc"
+                >
+                  <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                  <span>Xóa bộ lọc</span>
+                </button>
+              }
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Active Filter Tags & Drawer Panel -->
-    <div class="px-6 pt-3 pb-0">
-      @if (activeAdvancedFilterCount > 0 || filterKeyword) {
-        <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
-          <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
-          @if (filterKeyword) {
-            <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
-              Từ khóa: "{{ filterKeyword }}"
-              <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
-            </span>
-          }
-          @if (filterStatus !== 'ALL') {
-            <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
-              Trạng thái: {{ getStatusLabel(filterStatus) }}
-              <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
-            </span>
-          }
-          @if (filterPriority !== 'ALL') {
-            <span class="badge badge-light-danger border border-danger border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
-              Ưu tiên: {{ getPriorityLabel(filterPriority) }}
-              <i class="bi bi-x-lg cursor-pointer text-danger" (click)="clearSingleFilter('priority')"></i>
-            </span>
-          }
-        </div>
-      }
+      <!-- Active Filter Tags & Drawer Panel -->
+      <div class="px-6 pt-3 pb-0">
+        @if (activeAdvancedFilterCount > 0 || filterKeyword) {
+          <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
+            <span class="fs-8 text-muted fw-semibold me-1"><i class="bi bi-funnel me-1"></i>Đang lọc:</span>
+            @if (filterKeyword) {
+              <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ khóa: "{{ filterKeyword }}"
+                <i class="bi bi-x-lg cursor-pointer text-primary" (click)="clearSingleFilter('keyword')"></i>
+              </span>
+            }
+            @if (filterStatus !== 'ALL') {
+              <span class="badge badge-light-warning border border-warning border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Trạng thái: {{ getStatusLabel(filterStatus) }}
+                <i class="bi bi-x-lg cursor-pointer text-warning" (click)="clearSingleFilter('status')"></i>
+              </span>
+            }
+            @if (filterPriority !== 'ALL') {
+              <span class="badge badge-light-danger border border-danger border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Ưu tiên: {{ getPriorityLabel(filterPriority) }}
+                <i class="bi bi-x-lg cursor-pointer text-danger" (click)="clearSingleFilter('priority')"></i>
+              </span>
+            }
+            @if (filterFromDate) {
+              <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Từ ngày: {{ filterFromDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('fromDate')"></i>
+              </span>
+            }
+            @if (filterToDate) {
+              <span class="badge badge-light-info border border-info border-dashed fs-8 px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+                Đến ngày: {{ filterToDate | date:'dd/MM/yyyy' }}
+                <i class="bi bi-x-lg cursor-pointer text-info" (click)="clearSingleFilter('toDate')"></i>
+              </span>
+            }
+          </div>
+        }
 
-      @if (isAdvancedFilterOpen()) {
-        <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái xử lý IT</label>
-              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
-                <option value="ALL">-- Tất cả trạng thái --</option>
-                <option value="PENDING">⏳ Chờ tiếp nhận / Phân công IT</option>
-                <option value="IN_PROGRESS">🔧 Đang kiểm tra / Sửa chữa</option>
-                <option value="COMPLETED">✅ Đã hoàn thành sửa</option>
-                <option value="UNREPAIRABLE">❌ Không thể sửa (Thanh lý)</option>
-              </select>
-            </div>
+        @if (isAdvancedFilterOpen()) {
+          <div class="bg-light-secondary border border-gray-300 rounded-3 p-4 mb-3 shadow-xs">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Trạng thái xử lý IT</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+                  <option value="ALL">-- Tất cả trạng thái --</option>
+                  <option value="PENDING">⏳ Chờ tiếp nhận / Phân công IT</option>
+                  <option value="IN_PROGRESS">🔧 Đang kiểm tra / Sửa chữa</option>
+                  <option value="COMPLETED">✅ Đã hoàn thành sửa</option>
+                  <option value="UNREPAIRABLE">❌ Không thể sửa (Thanh lý)</option>
+                </select>
+              </div>
 
-            <div class="col-md-4">
-              <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Mức độ ưu tiên sự cố</label>
-              <select class="form-select form-select-solid fs-7" [(ngModel)]="filterPriority" (change)="onFilterChange()">
-                <option value="ALL">-- Tất cả mức ưu tiên --</option>
-                <option value="URGENT">🔴 Khẩn cấp (Sửa ngay)</option>
-                <option value="HIGH">🟠 Cao</option>
-                <option value="MEDIUM">🟡 Trung bình</option>
-                <option value="LOW">🟢 Thấp</option>
-              </select>
+              <div class="col-md-3">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Mức độ ưu tiên sự cố</label>
+                <select class="form-select form-select-solid fs-7" [(ngModel)]="filterPriority" (change)="onFilterChange()">
+                  <option value="ALL">-- Tất cả mức ưu tiên --</option>
+                  <option value="URGENT">🔴 Khẩn cấp (Sửa ngay)</option>
+                  <option value="HIGH">🟠 Cao</option>
+                  <option value="MEDIUM">🟡 Trung bình</option>
+                  <option value="LOW">🟢 Thấp</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Từ ngày tạo phiếu</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  [(ngModel)]="filterFromDate" 
+                  (change)="onFilterChange()" 
+                />
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fs-8 fw-semibold text-gray-700 mb-1">Đến ngày tạo phiếu</label>
+                <input 
+                  type="date" 
+                  class="form-control form-control-solid fs-7" 
+                  [(ngModel)]="filterToDate" 
+                  (change)="onFilterChange()" 
+                />
+              </div>
             </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
 
-    <!-- Table Body -->
-    <div class="card-body pt-0">
-      <div class="table-responsive" style="min-height: 340px;">
-        <table class="table align-middle table-row-dashed fs-6 gy-4">
-          <thead>
-            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-              <th class="min-w-130px">Mã Phiếu IT</th>
-              <th class="min-w-220px">Trang Thiết Bị Báo Hỏng</th>
-              <th class="min-w-180px">Người Báo Hỏng</th>
-              <th class="min-w-140px">Ưu Tiên</th>
-              <th class="min-w-180px">Kỹ Thuật Viên IT</th>
-              <th class="min-w-140px">Trạng Thái</th>
-              <th class="min-w-120px">Chi Phí</th>
-              <th class="text-end min-w-140px">Thao Tác</th>
-            </tr>
-          </thead>
-          <tbody class="text-gray-700 fw-semibold">
-            @for (item of items(); track item.id) {
-              <tr>
-                <!-- Code & Date -->
-                <td>
-                  <div class="d-flex flex-column">
-                    <span class="fw-bold text-gray-900 hover-primary cursor-pointer" (click)="openViewModal(item)">{{ item.code }}</span>
-                    <span class="text-muted fs-8">{{ item.reportedDate | date:'dd/MM/yyyy HH:mm' }}</span>
-                  </div>
-                </td>
-
-                <!-- Equipment Info -->
-                <td>
-                  <div class="d-flex flex-column">
-                    <span class="text-gray-900 fw-bold">{{ item.equipmentName }}</span>
-                    <span class="text-muted fs-8">Mã: <strong>{{ item.equipmentCode }}</strong> | S/N: {{ item.serialNumber || 'N/A' }}</span>
-                  </div>
-                </td>
-
-                <!-- Reporter -->
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="symbol symbol-30px symbol-circle me-2 bg-light-danger text-danger d-flex align-items-center justify-content-center fw-bold fs-7">
-                      {{ item.reporterUserName.charAt(0).toUpperCase() }}
-                    </div>
+      <!-- Table Body -->
+      <div class="card-body pt-0">
+        <div class="table-responsive" style="min-height: 340px;">
+          <table class="table align-middle table-row-dashed fs-6 gy-4">
+            <thead>
+              <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                <th class="min-w-130px">Mã Phiếu IT</th>
+                <th class="min-w-220px">Trang Thiết Bị Báo Hỏng</th>
+                <th class="min-w-180px">Người Báo Hỏng</th>
+                <th class="min-w-140px">Ưu Tiên</th>
+                <th class="min-w-180px">Kỹ Thuật Viên IT</th>
+                <th class="min-w-140px">Trạng Thái</th>
+                <th class="min-w-120px">Chi Phí</th>
+                <th class="text-end min-w-140px">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-700 fw-semibold">
+              @for (item of items(); track item.id) {
+                <tr>
+                  <td>
                     <div class="d-flex flex-column">
-                      <span class="text-gray-900 fw-bold fs-7">👤 {{ item.reporterUserName }}</span>
-                      <span class="text-muted fs-8">{{ item.reporterDepartmentName || 'Phòng ban' }}</span>
+                      <span class="fw-bold text-gray-900 hover-primary cursor-pointer" (click)="openViewModal(item)">{{ item.code }}</span>
+                      <span class="text-muted fs-8">{{ item.reportedDate | date:'dd/MM/yyyy HH:mm' }}</span>
                     </div>
-                  </div>
-                </td>
+                  </td>
 
-                <!-- Priority -->
-                <td>
-                  <span class="badge px-3 py-2" [ngClass]="getPriorityBadgeClass(item.priority)">
-                    {{ getPriorityLabel(item.priority) }}
-                  </span>
-                </td>
+                  <td>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-900 fw-bold">{{ item.equipmentName }}</span>
+                      <span class="text-muted fs-8">Mã: <strong>{{ item.equipmentCode }}</strong> | S/N: {{ item.serialNumber || 'N/A' }}</span>
+                    </div>
+                  </td>
 
-                <!-- Technician -->
-                <td>
-                  @if (item.technicianUserId && item.technicianUserName) {
+                  <td>
                     <div class="d-flex align-items-center">
-                      <div class="symbol symbol-30px symbol-circle me-2 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7">
-                        👨‍💻
+                      <div class="symbol symbol-30px symbol-circle me-2 bg-light-danger text-danger d-flex align-items-center justify-content-center fw-bold fs-7">
+                        {{ item.reporterUserName.charAt(0).toUpperCase() }}
                       </div>
                       <div class="d-flex flex-column">
-                        <span class="text-gray-900 fw-bold fs-7">{{ item.technicianUserName }}</span>
-                        <span class="text-muted fs-8">Kỹ thuật viên IT</span>
+                        <span class="text-gray-900 fw-bold fs-7">👤 {{ item.reporterUserName }}</span>
+                        <span class="text-muted fs-8">{{ item.reporterDepartmentName || 'Phòng ban' }}</span>
                       </div>
                     </div>
-                  } @else {
-                    <button type="button" class="btn btn-sm btn-light-warning fs-8 py-1 px-2 fw-bold" (click)="openAssignModal(item)">
-                      <i class="bi bi-person-plus me-1"></i>Chưa phân công IT
-                    </button>
-                  }
-                </td>
+                  </td>
 
-                <!-- Status -->
-                <td>
-                  <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(item.status)">
-                    {{ getStatusLabel(item.status) }}
-                  </span>
-                </td>
+                  <td>
+                    <span class="badge px-3 py-2" [ngClass]="getPriorityBadgeClass(item.priority)">
+                      {{ getPriorityLabel(item.priority) }}
+                    </span>
+                  </td>
 
-                <!-- Repair Cost -->
-                <td>
-                  <span class="fw-bold text-danger fs-7">{{ item.repairCost | number:'1.0-0' }}đ</span>
-                </td>
+                  <td>
+                    @if (item.technicianUserId && item.technicianUserName) {
+                      <div class="d-flex align-items-center">
+                        <div class="symbol symbol-30px symbol-circle me-2 bg-light-primary text-primary d-flex align-items-center justify-content-center fw-bold fs-7">
+                          👨‍💻
+                        </div>
+                        <div class="d-flex flex-column">
+                          <span class="text-gray-900 fw-bold fs-7">{{ item.technicianUserName }}</span>
+                          <span class="text-muted fs-8">Kỹ thuật viên IT</span>
+                        </div>
+                      </div>
+                    } @else {
+                      <button type="button" class="btn btn-sm btn-light-warning fs-8 py-1 px-2 fw-bold" (click)="openAssignModal(item)">
+                        <i class="bi bi-person-plus me-1"></i>Chưa phân công IT
+                      </button>
+                    }
+                  </td>
 
-                <!-- Actions Dropdown -->
-                <td class="text-end position-relative">
-                  <button 
-                    type="button" 
-                    class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
-                    (click)="toggleDropdown(item.id, $event)"
-                  >
-                    Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
-                  </button>
+                  <td>
+                    <span class="badge px-3 py-2" [ngClass]="getStatusBadgeClass(item.status)">
+                      {{ getStatusLabel(item.status) }}
+                    </span>
+                  </td>
 
-                  @if (openDropdownId() === item.id) {
-                    <div 
-                      class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-220px bg-white rounded-3 action-dropdown-menu"
-                      style="z-index: 105;"
-                      (click)="$event.stopPropagation()"
+                  <td>
+                    <span class="fw-bold text-danger fs-7">{{ item.repairCost | number:'1.0-0' }}đ</span>
+                  </td>
+
+                  <td class="text-end position-relative">
+                    <button 
+                      type="button" 
+                      class="btn btn-sm btn-light btn-active-light-primary fs-7 px-3 py-1 fw-bold" 
+                      (click)="toggleDropdown(item.id, $event)"
                     >
-                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="openViewModal(item); closeDropdown()">
-                        <i class="bi bi-eye-fill text-info fs-6"></i>
-                        <span>Xem Chi Tiết Phiếu</span>
-                      </a>
+                      Thao tác <i class="bi bi-chevron-down ms-1 fs-8"></i>
+                    </button>
 
-                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-primary hover-bg-light-primary" (click)="openAssignModal(item); closeDropdown()">
-                        <i class="bi bi-person-check-fill text-primary fs-6"></i>
-                        <span>👨‍💻 Phân Công IT Xử Lý</span>
-                      </a>
+                    @if (openDropdownId() === item.id) {
+                      <div 
+                        class="dropdown-menu dropdown-menu-end show position-absolute end-0 mt-1 shadow-lg border-0 py-2 min-w-220px bg-white rounded-3 action-dropdown-menu"
+                        style="z-index: 105;"
+                        (click)="$event.stopPropagation()"
+                      >
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-gray-700 hover-bg-light" (click)="openViewModal(item); closeDropdown()">
+                          <i class="bi bi-eye-fill text-info fs-6"></i>
+                          <span>Xem Chi Tiết Phiếu</span>
+                        </a>
 
-                      <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openProgressModal(item); closeDropdown()">
-                        <i class="bi bi-tools text-success fs-6"></i>
-                        <span>🔧 Cập Nhật Lỗi & Linh Kiện Sửa</span>
-                      </a>
-                    </div>
-                  }
-                </td>
-              </tr>
-            }
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-primary hover-bg-light-primary" (click)="openAssignModal(item); closeDropdown()">
+                          <i class="bi bi-person-check-fill text-primary fs-6"></i>
+                          <span>👨‍💻 Phân Công IT Xử Lý</span>
+                        </a>
 
-            @if (items().length === 0 && !isLoading()) {
-              <tr>
-                <td colspan="8" class="text-center py-10 text-muted">
-                  <i class="bi bi-tools fs-2x d-block mb-2"></i>
-                  Chưa có yêu cầu báo hỏng sự cố IT nào được ghi nhận
-                </td>
-              </tr>
-            }
+                        <a class="dropdown-item d-flex align-items-center gap-2 px-4 py-2 cursor-pointer text-success hover-bg-light-success" (click)="openProgressModal(item); closeDropdown()">
+                          <i class="bi bi-tools text-success fs-6"></i>
+                          <span>🔧 Cập Nhật Lỗi & Linh Kiện Sửa</span>
+                        </a>
+                      </div>
+                    }
+                  </td>
+                </tr>
+              }
 
-            @if (isLoading()) {
-              <tr>
-                <td colspan="8" class="text-center py-10 text-muted">
-                  <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu phiếu sửa chữa IT...
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+              @if (items().length === 0 && !isLoading()) {
+                <tr>
+                  <td colspan="8" class="text-center py-10 text-muted">
+                    <i class="bi bi-tools fs-2x d-block mb-2"></i>
+                    Chưa có yêu cầu báo hỏng sự cố IT nào được ghi nhận
+                  </td>
+                </tr>
+              }
+
+              @if (isLoading()) {
+                <tr>
+                  <td colspan="8" class="text-center py-10 text-muted">
+                    <span class="spinner-border spinner-border-sm me-2"></span> Đang tải dữ liệu phiếu sửa chữa IT...
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Component -->
+        <app-pagination
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          [totalCount]="totalCount"
+          [itemCount]="items().length"
+          [pageSizeOptions]="pageSizeOptions"
+          (pageChange)="currentPage = $event; loadItems()"
+          (pageSizeChange)="pageSize = $event; onPageSizeChange()"
+        ></app-pagination>
+      </div>
+    </div>
+
+  } @else {
+
+    <!-- ==================== TAB 2: KHO & DANH MỤC LINH KIỆN IT ==================== -->
+
+    <!-- KPI Summary Banner Parts -->
+    <div class="row g-4">
+      <!-- Card 1: Chủng loại -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Chủng Loại Linh Kiện Kho</span>
+              <span class="fs-2x fw-bold text-gray-900">{{ partsSummary().totalParts }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+              <i class="bi bi-cpu fs-3"></i>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Pagination Component -->
-      <app-pagination
-        [currentPage]="currentPage"
-        [pageSize]="pageSize"
-        [totalCount]="totalCount"
-        [itemCount]="items().length"
-        [pageSizeOptions]="pageSizeOptions"
-        (pageChange)="currentPage = $event; loadItems()"
-        (pageSizeChange)="pageSize = $event; onPageSizeChange()"
-      ></app-pagination>
+      <!-- Card 2: Tổng tồn kho -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Lượng Tồn Kho</span>
+              <span class="fs-2x fw-bold text-success">{{ partsSummary().totalStockQuantity }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+              <i class="bi bi-box-seam fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Cảnh báo tồn kho -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Cảnh Báo Sắp Hết Hàng</span>
+              <span class="fs-2x fw-bold text-danger">{{ partsSummary().lowStockParts }}</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-danger text-danger d-flex align-items-center justify-content-center">
+              <i class="bi bi-exclamation-octagon-fill fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Tổng giá trị kho -->
+      <div class="col-md-3 col-6">
+        <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+          <div class="card-body p-4 d-flex align-items-center justify-content-between">
+            <div>
+              <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Giá Trị Kho Linh Kiện</span>
+              <span class="fs-2x fw-bold text-info">{{ partsSummary().totalStockValue | number:'1.0-0' }}đ</span>
+            </div>
+            <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+              <i class="bi bi-cash-stack fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Main Parts Table Card -->
+    <div class="card card-flush shadow-sm card-bordered">
+      <!-- Header Controls -->
+      <div class="card-header border-0 pt-6 pb-0">
+        <div class="card-title w-100 me-0">
+          <div class="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
+            <!-- Search Box -->
+            <div class="position-relative flex-grow-1" style="max-width: 400px;">
+              <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-solid ps-10 fs-7" 
+                placeholder="Nhập mã, tên linh kiện, thông số kỹ thuật..." 
+                [(ngModel)]="partFilterKeyword"
+                (keyup.enter)="onPartFilterChange()"
+              />
+              @if (partFilterKeyword) {
+                <button 
+                  type="button" 
+                  class="btn btn-icon btn-sm btn-active-color-primary position-absolute top-50 end-0 translate-middle-y me-2"
+                  (click)="partFilterKeyword = ''; onPartFilterChange()"
+                >
+                  <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
+                </button>
+              }
+            </div>
+
+            <!-- Filters -->
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <select class="form-select form-select-solid fs-7 w-200px" [(ngModel)]="partFilterCategory" (change)="onPartFilterChange()">
+                <option value="ALL">-- Tất cả danh mục --</option>
+                <option value="RAM">💾 RAM / Bộ Nhớ</option>
+                <option value="SSD_HDD">💽 Ổ Cứng SSD / HDD</option>
+                <option value="MAINBOARD">🔌 Mainboard / Bo Mạch</option>
+                <option value="CPU">⚡ CPU / Vi Xử Lý</option>
+                <option value="VGA">🎨 VGA / Card Đồ Họa</option>
+                <option value="POWER_SUPPLY">🔋 Nguồn (PSU)</option>
+                <option value="MONITOR">🖥️ Màn Hình</option>
+                <option value="KEYBOARD_MOUSE">⌨️ Bàn Phím / Chuột</option>
+                <option value="CABLE_ADAPTER">🔌 Cáp / Adapter Sạc</option>
+                <option value="OTHER">📦 Khác</option>
+              </select>
+
+              <div class="form-check form-check-custom form-check-solid">
+                <input 
+                  class="form-check-input h-20px w-20px" 
+                  type="checkbox" 
+                  id="chkLowStock"
+                  [(ngModel)]="partFilterLowStockOnly" 
+                  (change)="onPartFilterChange()"
+                />
+                <label class="form-check-label fs-7 fw-bold text-gray-700 cursor-pointer ms-2" for="chkLowStock">
+                  ⚠️ Chỉ xem linh kiện sắp hết (tồn &le; tối thiểu)
+                </label>
+              </div>
+
+              @if (partFilterKeyword || partFilterCategory !== 'ALL' || partFilterLowStockOnly) {
+                <button 
+                  type="button" 
+                  class="btn btn-sm btn-light-danger fw-bold fs-7 h-38px px-3 d-flex align-items-center gap-1" 
+                  (click)="resetPartFilters()" 
+                >
+                  <i class="bi bi-arrow-counterclockwise fs-6"></i>
+                  <span>Xóa lọc</span>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Parts Body -->
+      <div class="card-body pt-4">
+        <div class="table-responsive" style="min-height: 340px;">
+          <table class="table align-middle table-row-dashed fs-6 gy-3">
+            <thead>
+              <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                <th class="min-w-120px">Mã Linh Kiện</th>
+                <th class="min-w-220px">Tên Linh Kiện & Thông Số</th>
+                <th class="min-w-130px">Danh Mục</th>
+                <th class="min-w-100px text-center">Đơn Vị</th>
+                <th class="min-w-130px text-center">Tồn Kho</th>
+                <th class="min-w-130px text-end">Đơn Giá Tồn (đ)</th>
+                <th class="min-w-140px text-end">Tổng Giá Trị (đ)</th>
+                <th class="text-end min-w-140px">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-700 fw-semibold">
+              @for (part of parts(); track part.id) {
+                <tr>
+                  <!-- Code -->
+                  <td>
+                    <span class="fw-bold text-gray-900 fs-7">{{ part.code }}</span>
+                  </td>
+
+                  <!-- Name & Specifications -->
+                  <td>
+                    <div class="d-flex flex-column">
+                      <span class="text-gray-900 fw-bold fs-7">{{ part.name }}</span>
+                      @if (part.specifications) {
+                        <span class="text-muted fs-8">{{ part.specifications }}</span>
+                      }
+                    </div>
+                  </td>
+
+                  <!-- Category -->
+                  <td>
+                    <span class="badge badge-light-primary border border-primary border-dashed fs-8 px-2 py-1">
+                      @switch (part.category) {
+                        @case ('RAM') { 💾 RAM }
+                        @case ('SSD_HDD') { 💽 SSD/HDD }
+                        @case ('MAINBOARD') { 🔌 Mainboard }
+                        @case ('CPU') { ⚡ CPU }
+                        @case ('VGA') { 🎨 VGA }
+                        @case ('POWER_SUPPLY') { 🔋 Nguồn PSU }
+                        @case ('MONITOR') { 🖥️ Màn hình }
+                        @case ('KEYBOARD_MOUSE') { ⌨️ Phím/Chuột }
+                        @case ('CABLE_ADAPTER') { 🔌 Cáp/Sạc }
+                        @default { 📦 Linh kiện IT }
+                      }
+                    </span>
+                  </td>
+
+                  <!-- Unit -->
+                  <td class="text-center">
+                    <span class="fs-7 text-gray-800">{{ part.unit }}</span>
+                  </td>
+
+                  <!-- Stock Quantity -->
+                  <td class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-1">
+                      <span 
+                        class="badge fs-7 px-3 py-2 fw-bolder"
+                        [class.badge-light-danger]="part.isLowStock"
+                        [class.text-danger]="part.isLowStock"
+                        [class.badge-light-success]="!part.isLowStock"
+                        [class.text-success]="!part.isLowStock"
+                      >
+                        {{ part.stockQuantity }} {{ part.unit }}
+                      </span>
+                      @if (part.isLowStock) {
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-6" title="Tồn kho thấp hơn mức tối thiểu ({{ part.minStockQuantity }})"></i>
+                      }
+                    </div>
+                  </td>
+
+                  <!-- Unit Price -->
+                  <td class="text-end">
+                    <span class="fs-7 text-gray-800 fw-semibold">{{ part.unitPrice | number:'1.0-0' }}đ</span>
+                  </td>
+
+                  <!-- Total Value -->
+                  <td class="text-end">
+                    <span class="fw-bold text-danger fs-7">{{ part.totalValue | number:'1.0-0' }}đ</span>
+                  </td>
+
+                  <!-- Actions -->
+                  <td class="text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-1">
+                      <button 
+                        type="button" 
+                        class="btn btn-icon btn-sm btn-light-primary h-30px w-30px" 
+                        (click)="openStockAdjustModal(part)" 
+                        title="Điều chỉnh số lượng tồn kho (Nhập/Xuất kho)"
+                      >
+                        <i class="bi bi-plus-slash-minus fs-7"></i>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        class="btn btn-icon btn-sm btn-light-info h-30px w-30px" 
+                        (click)="openEditPartModal(part)" 
+                        title="Chỉnh sửa thông tin linh kiện"
+                      >
+                        <i class="bi bi-pencil-square fs-7"></i>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        class="btn btn-icon btn-sm btn-light-danger h-30px w-30px" 
+                        (click)="deletePart(part)" 
+                        title="Xóa linh kiện khỏi kho"
+                      >
+                        <i class="bi bi-trash fs-7"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+
+              @if (parts().length === 0 && !isPartsLoading()) {
+                <tr>
+                  <td colspan="8" class="text-center py-10 text-muted">
+                    <i class="bi bi-box-seam fs-2x d-block mb-2"></i>
+                    Chưa có linh kiện nào trong kho đáp ứng bộ lọc
+                  </td>
+                </tr>
+              }
+
+              @if (isPartsLoading()) {
+                <tr>
+                  <td colspan="8" class="text-center py-10 text-muted">
+                    <span class="spinner-border spinner-border-sm me-2"></span> Đang tải kho linh kiện IT...
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination for Parts -->
+        <app-pagination
+          [currentPage]="partCurrentPage"
+          [pageSize]="partPageSize"
+          [totalCount]="partTotalCount"
+          [itemCount]="parts().length"
+          [pageSizeOptions]="pageSizeOptions"
+          (pageChange)="partCurrentPage = $event; loadParts()"
+          (pageSizeChange)="partPageSize = $event; onPartPageSizeChange()"
+        ></app-pagination>
+      </div>
+    </div>
+  }
 </div>
+
+<!-- ==================== MODALS ==================== -->
 
 <!-- Modal 1: Tạo Phiếu Báo Hỏng IT -->
 @if (isCreateModalOpen) {
@@ -560,7 +919,7 @@
 <!-- Modal 3: Kỹ Thuật Viên Cập Nhật Lỗi Thực Tế, Cách Khắc Phục & Linh Kiện Thay Thế -->
 @if (isProgressModalOpen && selectedRepairForProgress) {
   <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mw-650px">
+    <div class="modal-dialog modal-dialog-centered mw-700px">
       <div class="modal-content border-0 shadow-lg rounded-3">
         <div class="modal-header py-4 bg-light-success">
           <h2 class="fw-bold fs-4 mb-0 text-success d-flex align-items-center gap-2">
@@ -582,7 +941,7 @@
           <div class="mb-4">
             <label class="form-label required fs-7 fw-bold text-gray-700">Trạng Thái Sửa Chữa</label>
             <select class="form-select form-select-solid fs-7" [(ngModel)]="progressForm.status">
-              <option value="IN_PROGRESS">🔧 Đang tiến hành kiểm tra / sửa chữa</option>
+              <option value="IN_PROGRESS">🔧 Đang tiến hành kiểm tra / Sửa chữa</option>
               <option value="COMPLETED">✅ Đã hoàn thành sửa chữa (Máy đã hoạt động tốt)</option>
               <option value="UNREPAIRABLE">❌ Không thể khắc phục (Đề xuất thanh lý / Đổi máy mới)</option>
             </select>
@@ -600,17 +959,108 @@
             <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Đã đóng lại chip nguồn, thay ổ cứng SSD mới và cài đặt lại Win 11 Office 2021..." [(ngModel)]="progressForm.solutionDetail"></textarea>
           </div>
 
-          <!-- Thông tin linh kiện thay thế -->
+          <!-- Danh sách Linh kiện Thay thế / Sửa chữa -->
           <div class="mb-4">
-            <label class="form-label fs-7 fw-bold text-gray-700">3. Thông tin linh kiện sửa chữa / Thay thế chi tiết (nếu có)</label>
-            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Ổ cứng SSD Kingston NVMe 512GB (S/N: KS-512-9988), 1 Thanh RAM DDR4 16GB..." [(ngModel)]="progressForm.replacedParts"></textarea>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <label class="form-label fs-7 fw-bold text-gray-700 mb-0">3. Danh sách linh kiện / Vật tư thay thế</label>
+              <button type="button" class="btn btn-sm btn-light-primary py-1 px-3 fs-8 fw-bold" (click)="addReplacedPart()">
+                <i class="bi bi-plus-lg me-1"></i>Thêm dòng linh kiện
+              </button>
+            </div>
+
+            <div class="table-responsive border rounded-3 overflow-hidden bg-body">
+              <table class="table align-middle table-row-dashed fs-8 gy-2 mb-0">
+                <thead class="bg-light text-muted fw-bold">
+                  <tr>
+                    <th class="ps-3 min-w-180px">Tên Linh Kiện / Vật Tư</th>
+                    <th class="min-w-100px">Số Serial (S/N)</th>
+                    <th class="w-80px text-center">SL</th>
+                    <th class="min-w-120px text-end">Đơn Giá (đ)</th>
+                    <th class="min-w-120px text-end">Thành Tiền (đ)</th>
+                    <th class="pe-3 w-40px text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (part of replacedPartsList(); track $index) {
+                    <tr>
+                      <td class="ps-3">
+                        <!-- Select catalog lookup or type free-text -->
+                        <div class="d-flex flex-column gap-1">
+                          @if (catalogPartsLookup().length > 0) {
+                            <select 
+                              class="form-select form-select-solid form-select-sm fs-8 text-primary fw-semibold"
+                              (change)="selectCatalogPartForRepair($index, catalogPartsLookup()[$any($event.target).selectedIndex - 1])"
+                            >
+                              <option value="">-- Chọn từ Kho Linh Kiện --</option>
+                              @for (catPart of catalogPartsLookup(); track catPart.id) {
+                                <option [value]="catPart.id">
+                                  {{ catPart.name }} (Tồn: {{ catPart.stockQuantity }} - {{ catPart.unitPrice | number:'1.0-0' }}đ)
+                                </option>
+                              }
+                            </select>
+                          }
+                          <input 
+                            type="text" 
+                            class="form-control form-control-solid form-control-sm fs-8" 
+                            placeholder="Hoặc nhập tên linh kiện..."
+                            [(ngModel)]="part.name" 
+                          />
+                        </div>
+                      </td>
+                      <td class="align-top pt-3">
+                        <input 
+                          type="text" 
+                          class="form-control form-control-solid form-control-sm fs-8" 
+                          placeholder="S/N (nếu có)"
+                          [(ngModel)]="part.serialNumber" 
+                        />
+                      </td>
+                      <td class="text-center align-top pt-3">
+                        <input 
+                          type="number" 
+                          min="1" 
+                          class="form-control form-control-solid form-control-sm fs-8 text-center" 
+                          [(ngModel)]="part.quantity" 
+                          (input)="recalculateTotalRepairCost()"
+                        />
+                      </td>
+                      <td class="align-top pt-3">
+                        <input 
+                          type="number" 
+                          min="0" 
+                          class="form-control form-control-solid form-control-sm fs-8 text-end" 
+                          placeholder="0"
+                          [(ngModel)]="part.unitPrice" 
+                          (input)="recalculateTotalRepairCost()"
+                        />
+                      </td>
+                      <td class="text-end fw-bold text-gray-900 pe-2 align-top pt-4">
+                        {{ ((part.quantity || 1) * (part.unitPrice || 0)) | number:'1.0-0' }}đ
+                      </td>
+                      <td class="pe-3 text-center align-top pt-3">
+                        <button type="button" class="btn btn-icon btn-sm btn-light-danger h-25px w-25px" (click)="removeReplacedPart($index)" title="Xóa linh kiện">
+                          <i class="bi bi-trash fs-8"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                  @if (replacedPartsList().length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center py-3 text-muted fs-8">
+                        Chưa có linh kiện nào. Nhấn "Thêm dòng linh kiện" để tạo chi tiết.
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <!-- Chi phí sửa chữa / linh kiện -->
+          <!-- Chi phí sửa chữa & Ghi chú -->
           <div class="row g-4 mb-4">
             <div class="col-6">
-              <label class="form-label fs-7 fw-bold text-gray-700">Tổng chi phí sửa chữa / linh kiện (VNĐ)</label>
-              <input type="number" class="form-control form-control-solid fs-7" placeholder="0" [(ngModel)]="progressForm.repairCost" />
+              <label class="form-label fs-7 fw-bold text-gray-700">Tự động tính Tổng chi phí (VNĐ)</label>
+              <input type="number" class="form-control form-control-solid fs-7 fw-bold text-danger" placeholder="0" [(ngModel)]="progressForm.repairCost" readonly />
             </div>
             <div class="col-6">
               <label class="form-label fs-7 fw-bold text-gray-700">Ghi chú bổ sung</label>
@@ -637,7 +1087,7 @@
 <!-- Modal 4: Xem Chi Tiết Phiếu Báo Hỏng IT -->
 @if (isViewModalOpen && selectedRepairDetail) {
   <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered mw-650px">
+    <div class="modal-dialog modal-dialog-centered mw-700px">
       <div class="modal-content border-0 shadow-lg rounded-3">
         <div class="modal-header py-4">
           <h2 class="fw-bold fs-4 mb-0 text-gray-900 d-flex align-items-center gap-2">
@@ -698,15 +1148,212 @@
 
           @if (selectedRepairDetail.replacedParts) {
             <div class="p-3 bg-light-info rounded mb-3 border border-info border-dashed">
-              <div class="fw-bold text-info fs-7 mb-1">3. Danh mục linh kiện sửa chữa / Thay thế:</div>
-              <div class="text-gray-800 fs-7">{{ selectedRepairDetail.replacedParts }}</div>
-              <div class="fw-bold text-danger fs-7 mt-2">Chi phí linh kiện/sửa chữa: {{ selectedRepairDetail.repairCost | number:'1.0-0' }}đ</div>
+              <div class="fw-bold text-info fs-7 mb-2 d-flex align-items-center justify-content-between">
+                <span>3. Danh mục linh kiện / Vật tư sửa chữa thay thế:</span>
+                <span class="badge badge-light-danger text-danger fw-bold fs-7">
+                  Tổng chi phí: {{ selectedRepairDetail.repairCost | number:'1.0-0' }}đ
+                </span>
+              </div>
+              
+              @if (parseReplacedParts(selectedRepairDetail.replacedParts); as parsedPartsList) {
+                @if (parsedPartsList.length > 0) {
+                  <div class="table-responsive bg-white rounded border overflow-hidden">
+                    <table class="table align-middle table-sm fs-8 mb-0">
+                      <thead class="bg-light fw-bold text-gray-700">
+                        <tr>
+                          <th class="ps-3">Tên Linh Kiện / Vật Tư</th>
+                          <th>Số Serial (S/N)</th>
+                          <th class="text-center">Số Lượng</th>
+                          <th class="text-end">Đơn Giá</th>
+                          <th class="text-end pe-3">Thành Tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (p of parsedPartsList; track $index) {
+                          <tr>
+                            <td class="ps-3 fw-bold text-gray-900">{{ p.name }}</td>
+                            <td class="text-muted">{{ p.serialNumber || 'N/A' }}</td>
+                            <td class="text-center fw-semibold">{{ p.quantity }}</td>
+                            <td class="text-end">{{ p.unitPrice | number:'1.0-0' }}đ</td>
+                            <td class="text-end pe-3 fw-bold text-danger">{{ (p.quantity * p.unitPrice) | number:'1.0-0' }}đ</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                } @else {
+                  <div class="text-gray-800 fs-7">{{ selectedRepairDetail.replacedParts }}</div>
+                }
+              }
             </div>
           }
         </div>
 
         <div class="modal-footer py-3">
           <button type="button" class="btn btn-sm btn-light" (click)="closeViewModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 5: Thêm / Chỉnh Sửa Linh Kiện IT Trong Kho -->
+@if (isPartModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-600px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-primary">
+          <h2 class="fw-bold fs-4 mb-0 text-primary d-flex align-items-center gap-2">
+            <i class="bi bi-box-seam text-primary fs-3"></i>
+            {{ editingPartId ? 'Chỉnh Sửa Thông Tin Linh Kiện Kho' : 'Thêm Linh Kiện Mới Vào Kho IT' }}
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closePartModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Mã Linh Kiện</label>
+              <input 
+                type="text" 
+                class="form-control form-control-solid fs-7" 
+                placeholder="VD: PART-RAM-01" 
+                [(ngModel)]="partForm.code"
+                [readonly]="editingPartId !== null" 
+              />
+            </div>
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Tên Linh Kiện / Vật Tư</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: RAM Kingston DDR4 16GB 3200MHz" [(ngModel)]="partForm.name" />
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Phân Loại Danh Mục</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="partForm.category">
+                <option value="RAM">💾 RAM / Bộ Nhớ</option>
+                <option value="SSD_HDD">💽 Ổ Cứng SSD / HDD</option>
+                <option value="MAINBOARD">🔌 Mainboard / Bo Mạch</option>
+                <option value="CPU">⚡ CPU / Vi Xử Lý</option>
+                <option value="VGA">🎨 VGA / Card Đồ Họa</option>
+                <option value="POWER_SUPPLY">🔋 Nguồn (PSU)</option>
+                <option value="MONITOR">🖥️ Màn Hình</option>
+                <option value="KEYBOARD_MOUSE">⌨️ Bàn Phím / Chuột</option>
+                <option value="CABLE_ADAPTER">🔌 Cáp / Adapter Sạc</option>
+                <option value="OTHER">📦 Khác</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Đơn Vị Tính</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="partForm.unit">
+                <option value="Cái">Cái</option>
+                <option value="Bộ">Bộ</option>
+                <option value="Chiếc">Chiếc</option>
+                <option value="Thanh">Thanh</option>
+                <option value="Sợi">Sợi</option>
+                <option value="Hộp">Hộp</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-4">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Số Lượng Tồn</label>
+              <input type="number" min="0" class="form-control form-control-solid fs-7" [(ngModel)]="partForm.stockQuantity" />
+            </div>
+            <div class="col-4">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Cảnh Báo Tồn Min</label>
+              <input type="number" min="0" class="form-control form-control-solid fs-7 text-danger fw-bold" [(ngModel)]="partForm.minStockQuantity" />
+            </div>
+            <div class="col-4">
+              <label class="form-label required fs-7 fw-bold text-gray-700">Đơn Giá Tồn (đ)</label>
+              <input type="number" min="0" class="form-control form-control-solid fs-7" placeholder="0" [(ngModel)]="partForm.unitPrice" />
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fs-7 fw-bold text-gray-700">Thông Số Kỹ Thuật / Mô Tả</label>
+            <textarea class="form-control form-control-solid fs-7" rows="2" placeholder="VD: Chuẩn DDR4 Bus 3200, Bảo hành 36 tháng..." [(ngModel)]="partForm.specifications"></textarea>
+          </div>
+
+          @if (editingPartId) {
+            <div class="mb-0">
+              <label class="form-label fs-7 fw-bold text-gray-700">Trạng Thái Trực Quan</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="partForm.status">
+                <option value="ACTIVE">Hoạt động (Sẵn sàng sử dụng)</option>
+                <option value="INACTIVE">Ngừng áp dụng</option>
+              </select>
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closePartModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" [disabled]="isSubmittingPart" (click)="submitPart()">
+            @if (isSubmittingPart) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang lưu...
+            } @else {
+              <i class="bi bi-check-circle-fill me-1"></i> {{ editingPartId ? 'Cập Nhật Linh Kiện' : 'Tạo Linh Kiện' }}
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal 6: Điều Chỉnh Số Lượng Tồn Kho Linh Kiện (Quick Stock Adjustment) -->
+@if (isStockAdjustModalOpen && selectedPartForStockAdjust) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg rounded-3">
+        <div class="modal-header py-4 bg-light-info">
+          <h2 class="fw-bold fs-4 mb-0 text-info d-flex align-items-center gap-2">
+            <i class="bi bi-plus-slash-minus text-info fs-3"></i>
+            Nhập / Xuất Kho Linh Kiện Nhanh
+          </h2>
+          <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" (click)="closeStockAdjustModal()">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-lg-6">
+          <div class="p-3 rounded-3 bg-light border border-gray-300 mb-4">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedPartForStockAdjust.name }} ({{ selectedPartForStockAdjust.code }})</div>
+            <div class="text-muted fs-8">Tồn hiện tại: <strong class="text-primary fs-7">{{ selectedPartForStockAdjust.stockQuantity }} {{ selectedPartForStockAdjust.unit }}</strong></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fs-7 fw-bold text-gray-700">Số lượng điều chỉnh (Dương = Nhập kho, Âm = Xuất kho)</label>
+            <div class="d-flex align-items-center gap-3">
+              <input 
+                type="number" 
+                class="form-control form-control-solid fs-5 fw-bold text-center" 
+                style="max-width: 180px;"
+                [(ngModel)]="stockAdjustDelta" 
+              />
+              <div class="d-flex flex-column">
+                <span class="fs-8 text-muted">Kết quả tồn dự kiến sau điều chỉnh:</span>
+                <span class="fs-6 fw-bolder" [class.text-success]="(selectedPartForStockAdjust.stockQuantity + stockAdjustDelta) >= 0" [class.text-danger]="(selectedPartForStockAdjust.stockQuantity + stockAdjustDelta) < 0">
+                  {{ selectedPartForStockAdjust.stockQuantity + stockAdjustDelta }} {{ selectedPartForStockAdjust.unit }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer py-3">
+          <button type="button" class="btn btn-sm btn-light" (click)="closeStockAdjustModal()">Hủy</button>
+          <button type="button" class="btn btn-sm btn-info fw-bold" [disabled]="isSubmittingStockAdjust" (click)="submitStockAdjust()">
+            @if (isSubmittingStockAdjust) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Đang cập nhật...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i> Xác Nhận Điều Chỉnh Kho
+            }
+          </button>
         </div>
       </div>
     </div>

@@ -59,6 +59,8 @@ public class GetEquipmentRepairsQuery : IRequest<object>
     public string? Priority { get; set; }
     public long? TechnicianUserId { get; set; }
     public long? EquipmentId { get; set; }
+    public DateOnly? FromDate { get; set; }
+    public DateOnly? ToDate { get; set; }
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
 }
@@ -112,6 +114,18 @@ public class GetEquipmentRepairsQueryHandler : IRequestHandler<GetEquipmentRepai
         {
             whereClause += " AND r.equipment_id = @EquipmentId";
             parameters.Add("EquipmentId", request.EquipmentId.Value);
+        }
+
+        if (request.FromDate.HasValue)
+        {
+            whereClause += " AND r.created_at >= @FromDate";
+            parameters.Add("FromDate", request.FromDate.Value.ToDateTime(TimeOnly.MinValue));
+        }
+
+        if (request.ToDate.HasValue)
+        {
+            whereClause += " AND r.created_at <= @ToDate";
+            parameters.Add("ToDate", request.ToDate.Value.ToDateTime(TimeOnly.MaxValue));
         }
 
         // Summary Query

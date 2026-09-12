@@ -32,6 +32,12 @@ public interface IApplicationDbContext
     DbSet<Equipment> Equipments { get; }
     DbSet<EquipmentHistory> EquipmentHistories { get; }
     DbSet<EquipmentRepair> EquipmentRepairs { get; }
+    DbSet<EquipmentPart> EquipmentParts { get; }
+
+    DbSet<Asset> Assets { get; }
+    DbSet<AssetTransaction> AssetTransactions { get; }
+    DbSet<MaintenanceTicket> MaintenanceTickets { get; }
+    DbSet<AssetDepreciation> AssetDepreciations { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

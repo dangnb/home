@@ -9,6 +9,8 @@ export interface EquipmentRepairFilterParams {
   priority?: string;
   technicianUserId?: number;
   equipmentId?: number;
+  fromDate?: string;
+  toDate?: string;
   page?: number;
   pageSize?: number;
 }
@@ -28,6 +30,8 @@ export class EquipmentRepairService {
       if (params.priority) httpParams = httpParams.set('priority', params.priority);
       if (params.technicianUserId) httpParams = httpParams.set('technicianUserId', params.technicianUserId.toString());
       if (params.equipmentId) httpParams = httpParams.set('equipmentId', params.equipmentId.toString());
+      if (params.fromDate) httpParams = httpParams.set('fromDate', params.fromDate);
+      if (params.toDate) httpParams = httpParams.set('toDate', params.toDate);
       if (params.page) httpParams = httpParams.set('page', params.page.toString());
       if (params.pageSize) httpParams = httpParams.set('pageSize', params.pageSize.toString());
     }

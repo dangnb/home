@@ -31,6 +31,7 @@ public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery,
                 t.CreatedAt, 
                 t.Status
             FROM InventoryTransactions t
+            WHERE t.CompanyId = @CompanyId AND (t.IsDeleted = 0 OR t.IsDeleted IS NULL)
             ORDER BY t.CreatedAt DESC
         ";
 

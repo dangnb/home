@@ -53,6 +53,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Equipment> Equipments => Set<Equipment>();
     public DbSet<EquipmentHistory> EquipmentHistories => Set<EquipmentHistory>();
     public DbSet<EquipmentRepair> EquipmentRepairs => Set<EquipmentRepair>();
+    public DbSet<EquipmentPart> EquipmentParts => Set<EquipmentPart>();
+    public DbSet<Asset> Assets => Set<Asset>();
+    public DbSet<AssetTransaction> AssetTransactions => Set<AssetTransaction>();
+    public DbSet<MaintenanceTicket> MaintenanceTickets => Set<MaintenanceTicket>();
+    public DbSet<AssetDepreciation> AssetDepreciations => Set<AssetDepreciation>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

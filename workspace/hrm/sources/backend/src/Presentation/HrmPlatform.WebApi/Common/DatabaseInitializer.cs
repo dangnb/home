@@ -165,6 +165,30 @@ public static class DatabaseInitializer
 
                     try
                     {
+                        var alterEquipmentsSql = "ALTER TABLE `equipments` ADD COLUMN `current_department_id` BIGINT DEFAULT NULL COMMENT 'ID Phòng ban đang tiếp nhận thiết bị';";
+                        using var eqCmd = new MySqlCommand(alterEquipmentsSql, dbConn);
+                        await eqCmd.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterEqHistDeptSql = "ALTER TABLE `equipment_histories` ADD COLUMN `department_id` BIGINT DEFAULT NULL COMMENT 'Phòng ban liên quan';";
+                        using var cmd = new MySqlCommand(alterEqHistDeptSql, dbConn);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
+                        var alterEqHistTargetSql = "ALTER TABLE `equipment_histories` ADD COLUMN `target_type` VARCHAR(50) DEFAULT 'EMPLOYEE' COMMENT 'EMPLOYEE hoặc DEPARTMENT';";
+                        using var cmd = new MySqlCommand(alterEqHistTargetSql, dbConn);
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                    catch { /* Column already exists */ }
+
+                    try
+                    {
                         var createRepairsTableSql = @"
                             CREATE TABLE IF NOT EXISTS `equipment_repairs` (
                                 `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -204,6 +228,144 @@ public static class DatabaseInitializer
                     catch (Exception ex)
                     {
                         logger.LogWarning("Notice equipment_repairs check: {Message}", ex.Message);
+                    }
+
+                    try
+                    {
+                        var createPartsTableSql = @"
+                            CREATE TABLE IF NOT EXISTS `equipment_parts` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `code` VARCHAR(50) NOT NULL,
+                                `name` VARCHAR(255) NOT NULL,
+                                `category` VARCHAR(50) NOT NULL DEFAULT 'OTHER',
+                                `unit` VARCHAR(20) NOT NULL DEFAULT 'Cái',
+                                `stock_quantity` INT NOT NULL DEFAULT 0,
+                                `min_stock_quantity` INT NOT NULL DEFAULT 2,
+                                `unit_price` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `specifications` TEXT DEFAULT NULL,
+                                `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `uk_equipment_parts_tenant_code` (`tenant_id`, `code`),
+                                KEY `idx_equipment_parts_tenant_category` (`tenant_id`, `category`),
+                                KEY `idx_equipment_parts_tenant_status` (`tenant_id`, `status`),
+                                CONSTRAINT `fk_equipment_parts_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var partsCmd = new MySqlCommand(createPartsTableSql, dbConn);
+                        await partsCmd.ExecuteNonQueryAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning("Notice equipment_parts check: {Message}", ex.Message);
+                    }
+
+                    try
+                    {
+                        var createAssetsSql = @"
+                            CREATE TABLE IF NOT EXISTS `assets` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `asset_code` VARCHAR(50) NOT NULL,
+                                `name` VARCHAR(255) NOT NULL,
+                                `category` VARCHAR(50) NOT NULL DEFAULT 'IT',
+                                `serial_number` VARCHAR(100) DEFAULT NULL,
+                                `purchase_date` DATE DEFAULT NULL,
+                                `purchase_price` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `current_value` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `assignee_id` BIGINT DEFAULT NULL,
+                                `status` VARCHAR(50) NOT NULL DEFAULT 'DRAFT',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `uk_assets_tenant_code` (`tenant_id`, `asset_code`),
+                                KEY `idx_assets_tenant_status` (`tenant_id`, `status`),
+                                KEY `idx_assets_assignee` (`tenant_id`, `assignee_id`),
+                                CONSTRAINT `fk_assets_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+                                CONSTRAINT `fk_assets_assignee` FOREIGN KEY (`assignee_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var assetsCmd = new MySqlCommand(createAssetsSql, dbConn);
+                        await assetsCmd.ExecuteNonQueryAsync();
+
+                        var createAssetTxSql = @"
+                            CREATE TABLE IF NOT EXISTS `asset_transactions` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `asset_id` BIGINT NOT NULL,
+                                `action_type` VARCHAR(50) NOT NULL,
+                                `from_user_id` BIGINT DEFAULT NULL,
+                                `to_user_id` BIGINT DEFAULT NULL,
+                                `transaction_date` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `condition_notes` TEXT DEFAULT NULL,
+                                `status` VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                KEY `idx_asset_transactions_asset` (`tenant_id`, `asset_id`),
+                                KEY `idx_asset_transactions_to_user` (`tenant_id`, `to_user_id`),
+                                CONSTRAINT `fk_asset_transactions_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+                                CONSTRAINT `fk_asset_transactions_asset` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`id`) ON DELETE CASCADE
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var assetTxCmd = new MySqlCommand(createAssetTxSql, dbConn);
+                        await assetTxCmd.ExecuteNonQueryAsync();
+
+                        var createMaintSql = @"
+                            CREATE TABLE IF NOT EXISTS `maintenance_tickets` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `asset_id` BIGINT NOT NULL,
+                                `reported_by` BIGINT NOT NULL,
+                                `technician_id` BIGINT DEFAULT NULL,
+                                `issue_description` TEXT NOT NULL,
+                                `resolution_notes` TEXT DEFAULT NULL,
+                                `repair_cost` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `status` VARCHAR(50) NOT NULL DEFAULT 'OPEN',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                KEY `idx_maintenance_tickets_asset` (`tenant_id`, `asset_id`),
+                                KEY `idx_maintenance_tickets_reporter` (`tenant_id`, `reported_by`),
+                                KEY `idx_maintenance_tickets_technician` (`tenant_id`, `technician_id`),
+                                CONSTRAINT `fk_maintenance_tickets_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+                                CONSTRAINT `fk_maintenance_tickets_asset` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`id`) ON DELETE CASCADE
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var maintCmd = new MySqlCommand(createMaintSql, dbConn);
+                        await maintCmd.ExecuteNonQueryAsync();
+
+                        var createDeprSql = @"
+                            CREATE TABLE IF NOT EXISTS `asset_depreciations` (
+                                `id` BIGINT NOT NULL AUTO_INCREMENT,
+                                `tenant_id` BIGINT NOT NULL,
+                                `asset_id` BIGINT NOT NULL,
+                                `period_month` INT NOT NULL,
+                                `period_year` INT NOT NULL,
+                                `depreciated_amount` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `remaining_value` DECIMAL(18,2) NOT NULL DEFAULT '0.00',
+                                `status` VARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
+                                `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                `created_by` BIGINT DEFAULT NULL,
+                                `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
+                                `updated_by` BIGINT DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                UNIQUE KEY `uk_asset_depreciations_period` (`tenant_id`, `asset_id`, `period_year`, `period_month`),
+                                CONSTRAINT `fk_asset_depreciations_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
+                                CONSTRAINT `fk_asset_depreciations_asset` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`id`) ON DELETE CASCADE
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+                        using var deprCmd = new MySqlCommand(createDeprSql, dbConn);
+                        await deprCmd.ExecuteNonQueryAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning("Notice assets tables creation check: {Message}", ex.Message);
                     }
                 }
 

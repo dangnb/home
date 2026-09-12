@@ -472,22 +472,18 @@ CREATE TABLE IF NOT EXISTS `hr_policies` (
     `expiry_date` DATE DEFAULT NULL,
     `summary` VARCHAR(500) DEFAULT NULL,
     `content` LONGTEXT DEFAULT NULL,
-    `relationship` VARCHAR(50) NOT NULL,
-    `date_of_birth` DATE DEFAULT NULL,
-    `id_card_number` VARCHAR(50) DEFAULT NULL,
-    `tax_code` VARCHAR(50) DEFAULT NULL,
-    `start_date` DATE NOT NULL,
-    `end_date` DATE DEFAULT NULL,
-    `status` VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    `attachment_url` VARCHAR(500) DEFAULT NULL,
+    `status` VARCHAR(20) NOT NULL DEFAULT 'PUBLISHED',
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `created_by` BIGINT DEFAULT NULL,
     `updated_at` DATETIME(6) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(6),
     `updated_by` BIGINT DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `idx_dependents_tenant_employee` (`tenant_id`, `employee_id`),
-    CONSTRAINT `fk_dependents_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT,
-    CONSTRAINT `fk_dependents_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee_profiles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Người phụ thuộc giảm trừ gia cảnh';
+    UNIQUE KEY `uk_hr_policies_tenant_code` (`tenant_id`, `policy_code`),
+    KEY `idx_hr_policies_tenant_category` (`tenant_id`, `category`),
+    KEY `idx_hr_policies_tenant_status` (`tenant_id`, `status`),
+    CONSTRAINT `fk_hr_policies_tenant` FOREIGN KEY (`tenant_id`) REFERENCES `tenants` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quản lý Quy định, Quy chế & Chính sách HR Công ty';
 
 -- -----------------------------------------------------------------------------
 -- TABLE: employee_job_history
