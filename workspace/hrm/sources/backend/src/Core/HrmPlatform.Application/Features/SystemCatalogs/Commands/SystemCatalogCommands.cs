@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.SystemCatalogs.Commands;
 // ============================================================
 // CREATE
 // ============================================================
-public record CreateSystemCatalogCommand : IRequest<long>
+public record CreateSystemCatalogCommand : IRequest<Guid>
 {
     public string CatalogType { get; init; } = string.Empty;
     public string Code { get; init; } = string.Empty;
@@ -43,7 +43,7 @@ public class CreateSystemCatalogCommandValidator : AbstractValidator<CreateSyste
     }
 }
 
-public class CreateSystemCatalogCommandHandler : IRequestHandler<CreateSystemCatalogCommand, long>
+public class CreateSystemCatalogCommandHandler : IRequestHandler<CreateSystemCatalogCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -54,7 +54,7 @@ public class CreateSystemCatalogCommandHandler : IRequestHandler<CreateSystemCat
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateSystemCatalogCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateSystemCatalogCommand request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId
             ?? throw new UnauthorizedAccessException("Không xác định được Tenant hiện tại.");
@@ -93,7 +93,7 @@ public class CreateSystemCatalogCommandHandler : IRequestHandler<CreateSystemCat
 // ============================================================
 public record UpdateSystemCatalogCommand : IRequest
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
     public string? Description { get; init; }
     public int SortOrder { get; init; } = 0;
@@ -103,7 +103,7 @@ public class UpdateSystemCatalogCommandValidator : AbstractValidator<UpdateSyste
 {
     public UpdateSystemCatalogCommandValidator()
     {
-        RuleFor(x => x.Id).GreaterThan(0).WithMessage("ID danh mục không hợp lệ.");
+        RuleFor(x => x.Id).NotEmpty().WithMessage("ID danh mục không hợp lệ.");
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Tên danh mục không được để trống.")
             .MaximumLength(255).WithMessage("Tên danh mục không vượt quá 255 ký tự.");
@@ -137,7 +137,7 @@ public class UpdateSystemCatalogCommandHandler : IRequestHandler<UpdateSystemCat
 // ============================================================
 // TOGGLE STATUS (Activate / Deactivate)
 // ============================================================
-public record ToggleSystemCatalogStatusCommand(long Id, bool Activate) : IRequest;
+public record ToggleSystemCatalogStatusCommand(Guid Id, bool Activate) : IRequest;
 
 public class ToggleSystemCatalogStatusCommandHandler : IRequestHandler<ToggleSystemCatalogStatusCommand>
 {
@@ -169,7 +169,7 @@ public class ToggleSystemCatalogStatusCommandHandler : IRequestHandler<ToggleSys
 // ============================================================
 // DELETE (Soft Delete)
 // ============================================================
-public record DeleteSystemCatalogCommand(long Id) : IRequest;
+public record DeleteSystemCatalogCommand(Guid Id) : IRequest;
 
 public class DeleteSystemCatalogCommandHandler : IRequestHandler<DeleteSystemCatalogCommand>
 {

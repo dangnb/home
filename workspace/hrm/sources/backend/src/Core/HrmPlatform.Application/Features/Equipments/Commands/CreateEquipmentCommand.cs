@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Equipments.Commands;
 
-public class CreateEquipmentCommand : IRequest<long>
+public class CreateEquipmentCommand : IRequest<Guid>
 {
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -37,7 +37,7 @@ public class CreateEquipmentCommandValidator : AbstractValidator<CreateEquipment
     }
 }
 
-public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentCommand, long>
+public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -48,9 +48,9 @@ public class CreateEquipmentCommandHandler : IRequestHandler<CreateEquipmentComm
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEquipmentCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var codeUpper = request.Code.Trim().ToUpper();
         var exists = await _context.Equipments

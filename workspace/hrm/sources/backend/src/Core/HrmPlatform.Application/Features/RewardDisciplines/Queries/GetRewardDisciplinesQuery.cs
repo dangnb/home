@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ namespace HrmPlatform.Application.Features.RewardDisciplines.Queries;
 
 public class RewardDisciplineDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long EmployeeId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; set; }
     public string EmployeeName { get; set; } = string.Empty;
     public string JobTitle { get; set; } = string.Empty;
     public string? DepartmentName { get; set; }
@@ -28,7 +28,7 @@ public class RewardDisciplineDto
     public string? Reason { get; set; }
     public string? AttachmentUrl { get; set; }
     public string Status { get; set; } = string.Empty;
-    public long? ApproverId { get; set; }
+    public Guid? ApproverId { get; set; }
     public string? ApproverName { get; set; }
     public DateTime? ApprovedAt { get; set; }
     public string? RejectionReason { get; set; }
@@ -39,7 +39,7 @@ public class GetRewardDisciplinesQuery : IRequest<PaginatedResultDto<RewardDisci
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public long? EmployeeId { get; set; }
+    public Guid? EmployeeId { get; set; }
     public string? Type { get; set; }
     public string? Category { get; set; }
     public string? Status { get; set; }
@@ -61,14 +61,14 @@ public class GetRewardDisciplinesQueryHandler : IRequestHandler<GetRewardDiscipl
 
     public async Task<PaginatedResultDto<RewardDisciplineDto>> Handle(GetRewardDisciplinesQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE rd.tenant_id = @TenantId";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.EmployeeId.HasValue && request.EmployeeId.Value > 0)
+        if (request.EmployeeId.HasValue && request.EmployeeId.Value != Guid.Empty)
         {
             whereClause += " AND rd.employee_id = @EmployeeId";
             parameters.Add("EmployeeId", request.EmployeeId.Value);

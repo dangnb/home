@@ -10,7 +10,7 @@ public abstract class BaseEntity<TStatus> : IAuditableEntity
     /// <summary>
     /// Định danh duy nhất (Khóa chính)
     /// </summary>
-    public long Id { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
 
     /// <summary>
     /// Trạng thái hoạt động của thực thể
@@ -25,7 +25,7 @@ public abstract class BaseEntity<TStatus> : IAuditableEntity
     /// <summary>
     /// Người tạo bản ghi (FK -> users.id)
     /// </summary>
-    public long? CreatedBy { get; set; }
+    public Guid? CreatedBy { get; set; }
 
     /// <summary>
     /// Thời điểm cập nhật bản ghi gần nhất
@@ -35,7 +35,7 @@ public abstract class BaseEntity<TStatus> : IAuditableEntity
     /// <summary>
     /// Người cập nhật bản ghi gần nhất (FK -> users.id)
     /// </summary>
-    public long? UpdatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
 }
 
 /// <summary>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,12 +12,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Roles.Commands;
 
-public record CreateRoleCommand : IRequest<long>
+public record CreateRoleCommand : IRequest<Guid>
 {
     public string Code { get; init; } = string.Empty;
     public string Name { get; init; } = string.Empty;
     public string? Description { get; init; }
-    public List<long> PermissionIds { get; init; } = new();
+    public List<Guid> PermissionIds { get; init; } = new();
 }
 
 public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
@@ -35,7 +35,7 @@ public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     }
 }
 
-public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, long>
+public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -46,7 +46,7 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, long>
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId;
         var currentUserId = _currentUserService.UserId;

@@ -1,5 +1,5 @@
 export interface SystemPermission {
-  id: number;
+  id: string;
   module: string;
   code: string;
   name: string;
@@ -9,15 +9,15 @@ export interface SystemPermission {
 }
 
 export interface RoleDetail {
-  id: number;
-  tenantId?: number | null;
+  id: string;
+  tenantId?: string | null;
   code: string;
   name: string;
   description?: string;
   status: string;
   totalUsers: number;
   isSystemRole: boolean;
-  permissionIds: number[];
+  permissionIds: string[];
   permissionCodes: string[];
   permissionNames: string[];
 }
@@ -26,12 +26,12 @@ export interface CreateRoleDto {
   code: string;
   name: string;
   description?: string;
-  permissionIds: number[];
+  permissionIds: string[];
 }
 
 export interface UpdateRoleDto {
-  id: number;
+  id: string;
   name: string;
   description?: string;
-  permissionIds: number[];
+  permissionIds: string[];
 }

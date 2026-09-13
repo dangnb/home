@@ -10,7 +10,7 @@ namespace HrmPlatform.Application.Features.LeaveRequests.Commands;
 
 public record ApproveLeaveRequestCommand : IRequest
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public bool IsApproved { get; init; }
     public string? Comment { get; init; }
 }
@@ -20,7 +20,7 @@ public class ApproveLeaveRequestCommandValidator : AbstractValidator<ApproveLeav
     public ApproveLeaveRequestCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID đơn xin nghỉ không hợp lệ.");
+            .NotEmpty().WithMessage("ID đơn xin nghỉ không hợp lệ.");
     }
 }
 
@@ -39,7 +39,7 @@ public class ApproveLeaveRequestCommandHandler : IRequestHandler<ApproveLeaveReq
 
     public async Task Handle(ApproveLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var approverId = _currentUserService.UserId ?? 1;
+        var approverId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var leaveRequest = await _context.LeaveRequests
             .FirstOrDefaultAsync(l => l.Id == request.Id, cancellationToken);

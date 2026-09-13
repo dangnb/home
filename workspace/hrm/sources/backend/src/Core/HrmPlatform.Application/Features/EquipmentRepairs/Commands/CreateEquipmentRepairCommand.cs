@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.EquipmentRepairs.Commands;
 
-public class CreateEquipmentRepairCommand : IRequest<long>
+public class CreateEquipmentRepairCommand : IRequest<Guid>
 {
-    public long EquipmentId { get; set; }
+    public Guid EquipmentId { get; set; }
     public string IssueDescription { get; set; } = string.Empty;
     public string Priority { get; set; } = EquipmentRepairPriority.MEDIUM;
     public string? Note { get; set; }
 }
 
-public class CreateEquipmentRepairCommandHandler : IRequestHandler<CreateEquipmentRepairCommand, long>
+public class CreateEquipmentRepairCommandHandler : IRequestHandler<CreateEquipmentRepairCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -30,10 +30,10 @@ public class CreateEquipmentRepairCommandHandler : IRequestHandler<CreateEquipme
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEquipmentRepairCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEquipmentRepairCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var equipment = await _context.Equipments
             .FirstOrDefaultAsync(e => e.Id == request.EquipmentId && e.TenantId == tenantId, cancellationToken);

@@ -11,11 +11,11 @@ namespace HrmPlatform.Application.Features.Employees.Queries;
 
 public class EmployeeLookupDto
 {
-    public long Id { get; set; }
-    public long UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     public string FullName { get; set; } = string.Empty;
     public string? EmployeeCode { get; set; }
-    public long? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
     public string? JobTitle { get; set; }
     public string? AvatarUrl { get; set; }
@@ -24,7 +24,7 @@ public class EmployeeLookupDto
 public class GetEmployeeLookupQuery : IRequest<List<EmployeeLookupDto>>
 {
     public string? Keyword { get; set; }
-    public long? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     public int Limit { get; set; } = 200;
 }
 
@@ -41,7 +41,7 @@ public class GetEmployeeLookupQueryHandler : IRequestHandler<GetEmployeeLookupQu
 
     public async Task<List<EmployeeLookupDto>> Handle(GetEmployeeLookupQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -49,7 +49,7 @@ public class GetEmployeeLookupQueryHandler : IRequestHandler<GetEmployeeLookupQu
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
+        if (request.DepartmentId.HasValue && request.DepartmentId.Value != Guid.Empty)
         {
             whereClause += " AND ep.department_id = @DepartmentId";
             parameters.Add("DepartmentId", request.DepartmentId.Value);

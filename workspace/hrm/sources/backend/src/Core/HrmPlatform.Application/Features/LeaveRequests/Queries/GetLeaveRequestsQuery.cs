@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ namespace HrmPlatform.Application.Features.LeaveRequests.Queries;
 
 public class LeaveRequestDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid UserId { get; set; }
     public string EmployeeName { get; set; } = string.Empty;
     public string? DepartmentName { get; set; }
     public string LeaveType { get; set; } = string.Empty;
@@ -23,7 +23,7 @@ public class LeaveRequestDto
     public int TotalDays { get; set; } = 1;
     public string? Reason { get; set; }
     public string Status { get; set; } = string.Empty;
-    public long? ApproverId { get; set; }
+    public Guid? ApproverId { get; set; }
     public string? ApproverName { get; set; }
     public DateTime CreatedAt { get; set; }
 }
@@ -32,7 +32,7 @@ public class GetLeaveRequestsQuery : IRequest<PaginatedResultDto<LeaveRequestDto
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public long? UserId { get; set; }
+    public Guid? UserId { get; set; }
     public string? Status { get; set; }
     public string? LeaveType { get; set; }
     public string? Keyword { get; set; }
@@ -53,14 +53,14 @@ public class GetLeaveRequestsQueryHandler : IRequestHandler<GetLeaveRequestsQuer
 
     public async Task<PaginatedResultDto<LeaveRequestDto>> Handle(GetLeaveRequestsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var whereClause = "WHERE lr.tenant_id = @TenantId";
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.UserId.HasValue && request.UserId.Value > 0)
+        if (request.UserId.HasValue && request.UserId.Value != Guid.Empty)
         {
             whereClause += " AND lr.user_id = @UserId";
             parameters.Add("UserId", request.UserId.Value);

@@ -19,7 +19,7 @@ public class TenantResolverMiddleware
         // 1. Kiểm tra Header X-Tenant-Id
         if (context.Request.Headers.TryGetValue("X-Tenant-Id", out var tenantIdHeader))
         {
-            if (long.TryParse(tenantIdHeader.ToString(), out var tenantId) && tenantId > 0)
+            if (Guid.TryParse(tenantIdHeader.ToString(), out var tenantId) && tenantId != Guid.Empty)
             {
                 context.Items["CurrentTenantId"] = tenantId;
                 _logger.LogDebug("Đã nhận diện TenantId={TenantId} từ HTTP Header X-Tenant-Id", tenantId);
@@ -43,7 +43,7 @@ public class TenantResolverMiddleware
             var tenantClaim = context.User.FindFirst("tenant_id")?.Value
                 ?? context.User.FindFirst("tenantId")?.Value;
 
-            if (long.TryParse(tenantClaim, out var tenantId) && tenantId > 0)
+            if (Guid.TryParse(tenantClaim, out var tenantId) && tenantId != Guid.Empty)
             {
                 context.Items["CurrentTenantId"] = tenantId;
                 _logger.LogDebug("Đã nhận diện TenantId={TenantId} từ JWT Claims", tenantId);

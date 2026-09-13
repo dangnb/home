@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,26 +11,26 @@ namespace HrmPlatform.Application.Features.EmployeeTransfers.Queries;
 
 public class EmployeeTransferDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long EmployeeId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; set; }
     public string EmployeeName { get; set; } = string.Empty;
     public string DecisionNumber { get; set; } = string.Empty;
     public string ChangeType { get; set; } = string.Empty;
-    public long? OldDepartmentId { get; set; }
+    public Guid? OldDepartmentId { get; set; }
     public string? OldDepartmentName { get; set; }
-    public long? NewDepartmentId { get; set; }
+    public Guid? NewDepartmentId { get; set; }
     public string? NewDepartmentName { get; set; }
     public string? OldJobTitle { get; set; }
     public string? NewJobTitle { get; set; }
-    public long? OldManagerId { get; set; }
+    public Guid? OldManagerId { get; set; }
     public string? OldManagerName { get; set; }
-    public long? NewManagerId { get; set; }
+    public Guid? NewManagerId { get; set; }
     public string? NewManagerName { get; set; }
     public string EffectiveDate { get; set; } = string.Empty;
     public string? Note { get; set; }
     public string ApprovalStatus { get; set; } = "PENDING_APPROVAL";
-    public long? ApproverId { get; set; }
+    public Guid? ApproverId { get; set; }
     public string? ApproverName { get; set; }
     public DateTime? ApprovedAt { get; set; }
     public string? RejectionReason { get; set; }
@@ -69,7 +69,7 @@ public class GetEmployeeTransfersQuery : IRequest<PaginatedResultDto<EmployeeTra
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public long? EmployeeId { get; set; }
+    public Guid? EmployeeId { get; set; }
     public string? ChangeType { get; set; }
     public string? ApprovalStatus { get; set; }
     public string? Keyword { get; set; }
@@ -90,7 +90,7 @@ public class GetEmployeeTransfersQueryHandler : IRequestHandler<GetEmployeeTrans
 
     public async Task<PaginatedResultDto<EmployeeTransferDto>> Handle(GetEmployeeTransfersQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -98,7 +98,7 @@ public class GetEmployeeTransfersQueryHandler : IRequestHandler<GetEmployeeTrans
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.EmployeeId.HasValue && request.EmployeeId.Value > 0)
+        if (request.EmployeeId.HasValue && request.EmployeeId.Value != Guid.Empty)
         {
             whereClause += " AND jh.employee_id = @EmployeeId";
             parameters.Add("EmployeeId", request.EmployeeId.Value);

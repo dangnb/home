@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.EmployeeContracts.Commands;
 
 public class UpdateEmployeeContractCommand : IRequest
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public EmployeeContractType ContractType { get; set; }
     public DateOnly SignDate { get; set; }
     public DateOnly StartDate { get; set; }
@@ -36,7 +36,7 @@ public class UpdateEmployeeContractCommandHandler : IRequestHandler<UpdateEmploy
 
     public async Task Handle(UpdateEmployeeContractCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var contract = await _context.EmployeeContracts
             .FirstOrDefaultAsync(c => c.Id == request.Id && c.TenantId == tenantId, cancellationToken);

@@ -54,20 +54,22 @@ export const routes: Routes = [
           },
           {
             path: 'assets',
-            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
-            canActivate: [permissionGuard('asset:read')],
-            title: 'Quản Lý Thiết Bị & Tài Sản SaaS'
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Doanh Nghiệp'
           },
           {
             path: 'inventory',
             loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
-            canActivate: [permissionGuard('equipment:read')],
             title: 'Quản Lý Trang Thiết Bị Kho'
+          },
+          {
+            path: 'saas-assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Thiết Bị & Tài Sản SaaS'
           },
           {
             path: 'repairs',
             loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
-            canActivate: [permissionGuard('asset:read')],
             title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT'
           }
         ]
@@ -143,6 +145,35 @@ export const routes: Routes = [
             loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
             title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
           },
+        ]
+      },
+      // ==========================================
+      // EQUIPMENT & ASSETS MODULE ROUTES
+      // ==========================================
+      {
+        path: 'equipment',
+        children: [
+          { path: '', redirectTo: 'assets', pathMatch: 'full' },
+          {
+            path: 'assets',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Doanh Nghiệp - HRM Platform'
+          },
+          {
+            path: 'inventory',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Kho Thiết Bị - HRM Platform'
+          },
+          {
+            path: 'saas-assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Tài Sản & Khấu Hao - HRM Platform'
+          },
+          {
+            path: 'repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
+          }
         ]
       },
       // ==========================================

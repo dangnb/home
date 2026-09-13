@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -26,8 +26,8 @@ public class GetMyAssetsQueryHandler : IRequestHandler<GetMyAssetsQuery, List<As
 
     public async Task<List<AssetDto>> Handle(GetMyAssetsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var currentUserId = _currentUserService.UserId ?? 0;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var currentUserId = _currentUserService.UserId ?? Guid.Empty;
 
         return await _context.Assets
             .Include(a => a.Assignee)

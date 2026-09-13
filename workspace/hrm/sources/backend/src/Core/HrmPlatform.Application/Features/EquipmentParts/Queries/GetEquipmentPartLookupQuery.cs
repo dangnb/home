@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace HrmPlatform.Application.Features.EquipmentParts.Queries;
 
 public class EquipmentPartLookupDto
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
@@ -39,7 +39,7 @@ public class GetEquipmentPartLookupQueryHandler : IRequestHandler<GetEquipmentPa
 
     public async Task<List<EquipmentPartLookupDto>> Handle(GetEquipmentPartLookupQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

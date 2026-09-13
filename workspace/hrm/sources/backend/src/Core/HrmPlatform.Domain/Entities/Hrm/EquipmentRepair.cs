@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -34,15 +34,15 @@ public static class EquipmentRepairPriority
 /// </summary>
 public class EquipmentRepair : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public string Code { get; private set; } = string.Empty;
-    public long EquipmentId { get; private set; }
-    public long ReporterUserId { get; private set; }
+    public Guid EquipmentId { get; private set; }
+    public Guid ReporterUserId { get; private set; }
     public DateTime ReportedDate { get; private set; }
     public string IssueDescription { get; private set; } = string.Empty;
     public string Priority { get; private set; } = EquipmentRepairPriority.MEDIUM;
     
-    public long? TechnicianUserId { get; private set; }
+    public Guid? TechnicianUserId { get; private set; }
     public DateTime? AssignedDate { get; private set; }
     
     public string RepairStatus { get; private set; } = EquipmentRepairStatus.PENDING;
@@ -65,25 +65,22 @@ public class EquipmentRepair : BaseEntity, ITenantScopedEntity
     protected EquipmentRepair() { }
 
     public static EquipmentRepair Create(
-        long tenantId,
+        Guid tenantId,
         string code,
-        long equipmentId,
-        long reporterUserId,
+        Guid equipmentId,
+        Guid reporterUserId,
         string issueDescription,
         string priority = EquipmentRepairPriority.MEDIUM,
         string? note = null,
-        long? createdBy = null)
+        Guid?createdBy = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã phiếu sửa chữa không được để trống.");
 
-        if (equipmentId <= 0)
+        if (equipmentId == Guid.Empty)
             throw new DomainException("Trang thiết bị không hợp lệ.");
 
-        if (reporterUserId <= 0)
+        if (reporterUserId == Guid.Empty)
             throw new DomainException("Người báo hỏng không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(issueDescription))
@@ -106,9 +103,9 @@ public class EquipmentRepair : BaseEntity, ITenantScopedEntity
         return repair;
     }
 
-    public void AssignTechnician(long technicianUserId, long performedBy)
+    public void AssignTechnician(Guid technicianUserId, Guid performedBy)
     {
-        if (technicianUserId <= 0)
+        if (technicianUserId == Guid.Empty)
             throw new DomainException("Kỹ thuật viên IT không hợp lệ.");
 
         TechnicianUserId = technicianUserId;
@@ -130,7 +127,7 @@ public class EquipmentRepair : BaseEntity, ITenantScopedEntity
         string? replacedParts,
         decimal? repairCost,
         string? note,
-        long performedBy)
+        Guid performedBy)
     {
         if (string.IsNullOrWhiteSpace(status))
             throw new DomainException("Trạng thái xử lý không được để trống.");

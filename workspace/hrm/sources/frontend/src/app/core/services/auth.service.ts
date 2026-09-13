@@ -13,11 +13,11 @@ interface LoginApiResponse {
     tokenType: string;
     expiresIn: number;
     user: {
-      id: number;
+      id: string;
       username: string;
       email: string;
       fullName: string;
-      tenantId: number | null;
+      tenantId: string | null;
       isSuperAdmin: boolean;
       roles: string[];
       permissions: string[];
@@ -137,16 +137,24 @@ export class AuthService {
   hasPermission(permission: string): boolean {
     const user = this.currentUser();
     if (!user) return false;
-    if (user.isSuperAdmin || user.roles?.includes('TENANT_ADMIN')) return true;
+    if (user.isSuperAdmin || user.roles?.some(r => r.toUpperCase() === 'SUPER_ADMIN' || r.toUpperCase() === 'TENANT_ADMIN')) return true;
     if (!permission) return true;
-    return user.permissions?.includes(permission.trim().toLowerCase()) ?? false;
+
+    const target = permission.trim().toLowerCase().replace(':', '.');
+    return user.permissions?.some(p => {
+      const pNorm = p.trim().toLowerCase().replace(':', '.');
+      return pNorm === target || 
+             pNorm === target.replace('view', 'read') || 
+             pNorm === target.replace('read', 'view') ||
+             pNorm.startsWith(target.split('.')[0]);
+    }) ?? false;
   }
 
   hasRole(role: string): boolean {
     const user = this.currentUser();
     if (!user) return false;
     if (user.isSuperAdmin) return true;
-    return user.roles?.includes(role.trim().toUpperCase()) ?? false;
+    return user.roles?.some(r => r.trim().toUpperCase() === role.trim().toUpperCase()) ?? false;
   }
 
   private clearSession(): void {

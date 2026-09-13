@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -12,10 +12,10 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class MaintenanceTicket : BaseEntity<MaintenanceTicketStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long AssetId { get; private set; }
-    public long ReportedBy { get; private set; }
-    public long? TechnicianId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid AssetId { get; private set; }
+    public Guid ReportedBy { get; private set; }
+    public Guid? TechnicianId { get; private set; }
     public string IssueDescription { get; private set; } = string.Empty;
     public string? ResolutionNotes { get; private set; }
     public decimal RepairCost { get; private set; }
@@ -30,18 +30,15 @@ public class MaintenanceTicket : BaseEntity<MaintenanceTicketStatus>, ITenantSco
     protected MaintenanceTicket() { }
 
     public static MaintenanceTicket Create(
-        long tenantId,
-        long assetId,
-        long reportedBy,
+        Guid tenantId,
+        Guid assetId,
+        Guid reportedBy,
         string issueDescription)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
-        if (assetId <= 0)
+        if (assetId == Guid.Empty)
             throw new DomainException("AssetId không hợp lệ.");
 
-        if (reportedBy <= 0)
+        if (reportedBy == Guid.Empty)
             throw new DomainException("Người báo hỏng không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(issueDescription))
@@ -59,9 +56,9 @@ public class MaintenanceTicket : BaseEntity<MaintenanceTicketStatus>, ITenantSco
         };
     }
 
-    public void AssignTechnician(long technicianId)
+    public void AssignTechnician(Guid technicianId)
     {
-        if (technicianId <= 0)
+        if (technicianId == Guid.Empty)
             throw new DomainException("ID kỹ thuật viên không hợp lệ.");
 
         TechnicianId = technicianId;

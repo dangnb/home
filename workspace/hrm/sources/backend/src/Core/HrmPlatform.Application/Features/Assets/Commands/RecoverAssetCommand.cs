@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Assets.Commands;
 
-public class RecoverAssetCommand : IRequest<long>
+public class RecoverAssetCommand : IRequest<Guid>
 {
-    public long AssetId { get; set; }
+    public Guid AssetId { get; set; }
     public string? ConditionNotes { get; set; }
 }
 
@@ -21,11 +21,11 @@ public class RecoverAssetCommandValidator : AbstractValidator<RecoverAssetComman
     public RecoverAssetCommandValidator()
     {
         RuleFor(x => x.AssetId)
-            .GreaterThan(0).WithMessage("ID tài sản không hợp lệ.");
+            .NotEmpty().WithMessage("ID tài sản không hợp lệ.");
     }
 }
 
-public class RecoverAssetCommandHandler : IRequestHandler<RecoverAssetCommand, long>
+public class RecoverAssetCommandHandler : IRequestHandler<RecoverAssetCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -36,9 +36,9 @@ public class RecoverAssetCommandHandler : IRequestHandler<RecoverAssetCommand, l
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(RecoverAssetCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(RecoverAssetCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var asset = await _context.Assets
             .FirstOrDefaultAsync(a => a.Id == request.AssetId && a.TenantId == tenantId, cancellationToken);
@@ -65,7 +65,7 @@ public class RecoverAssetCommandHandler : IRequestHandler<RecoverAssetCommand, l
 
         _context.AssetTransactions.Add(transaction);
 
-        if (oldAssigneeId.HasValue && oldAssigneeId.Value > 0)
+        if (oldAssigneeId.HasValue && oldAssigneeId.Value != Guid.Empty)
         {
             var notification = Notification.Create(
                 tenantId: tenantId,

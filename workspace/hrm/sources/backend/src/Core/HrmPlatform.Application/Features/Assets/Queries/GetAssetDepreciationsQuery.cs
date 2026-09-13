@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.Assets.Queries;
 
 public class AssetDepreciationDto
 {
-    public long Id { get; set; }
-    public long AssetId { get; set; }
+    public Guid Id { get; set; }
+    public Guid AssetId { get; set; }
     public string AssetCode { get; set; } = string.Empty;
     public string AssetName { get; set; } = string.Empty;
     public int PeriodMonth { get; set; }
@@ -24,7 +24,7 @@ public class AssetDepreciationDto
 
 public class GetAssetDepreciationsQuery : IRequest<object>
 {
-    public long? AssetId { get; set; }
+    public Guid? AssetId { get; set; }
     public int? Year { get; set; }
 }
 
@@ -41,7 +41,7 @@ public class GetAssetDepreciationsQueryHandler : IRequestHandler<GetAssetDepreci
 
     public async Task<object> Handle(GetAssetDepreciationsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -49,7 +49,7 @@ public class GetAssetDepreciationsQueryHandler : IRequestHandler<GetAssetDepreci
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.AssetId.HasValue && request.AssetId.Value > 0)
+        if (request.AssetId.HasValue && request.AssetId.Value != Guid.Empty)
         {
             whereClause += " AND d.asset_id = @AssetId";
             parameters.Add("AssetId", request.AssetId.Value);

@@ -1,4 +1,80 @@
-/* Custom styles for Assets Management UI */
+/* Custom styles for Metronic Assets & Depreciation UI */
 :host {
   display: block;
+}
+
+.table {
+  tbody tr {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: var(--bs-light-subtle, #f8f9fa);
+    }
+  }
+}
+
+.hover-elevate-up {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.menu-sub-dropdown {
+  animation: menuDropdownFadeIn 0.2s ease;
+}
+
+@keyframes menuDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.badge-light-primary {
+  color: #3e97ff;
+  background-color: #f1faff;
+}
+
+.badge-light-success {
+  color: #50cd89;
+  background-color: #e8fff3;
+}
+
+.badge-light-warning {
+  color: #ffc700;
+  background-color: #fff8dd;
+}
+
+.badge-light-danger {
+  color: #f1416c;
+  background-color: #fff5f8;
+}
+
+.badge-light-info {
+  color: #7239ea;
+  background-color: #f8f5ff;
+}
+
+.badge-light-secondary {
+  color: #7e8299;
+  background-color: #f5f8fa;
+}
+
+.badge-light-dark {
+  color: #181c32;
+  background-color: #eff2f5;
+}
+
+.text-purple {
+  color: #7239ea !important;
+}
+
+.modal-content {
+  border-radius: 0.75rem;
 }

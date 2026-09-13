@@ -41,5 +41,10 @@ public interface IApplicationDbContext
     DbSet<AssetDepreciation> AssetDepreciations { get; }
     DbSet<SystemCatalog> SystemCatalogs { get; }
 
+    DbSet<Project> Projects { get; }
+    DbSet<ProjectMilestone> ProjectMilestones { get; }
+    DbSet<ProjectTask> ProjectTasks { get; }
+    DbSet<ProjectMember> ProjectMembers { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

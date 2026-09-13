@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Features.Equipments.Commands;
 using HrmPlatform.Application.Features.Equipments.Queries;
@@ -28,8 +28,8 @@ public class EquipmentsController : ControllerBase
         [FromQuery] string? keyword,
         [FromQuery] string? category,
         [FromQuery] string? status,
-        [FromQuery] long? departmentId,
-        [FromQuery] long? currentUserId,
+        [FromQuery] Guid? departmentId,
+        [FromQuery] Guid? currentUserId,
         [FromQuery] DateOnly? assignedFromDate,
         [FromQuery] DateOnly? assignedToDate,
         [FromQuery] int page = 1,
@@ -55,10 +55,10 @@ public class EquipmentsController : ControllerBase
     /// <summary>
     /// Lấy chi tiết trang thiết bị kèm lịch sử bàn giao/thu hồi/báo hỏng
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetEquipmentByIdQuery { Id = id }, cancellationToken);
         return Ok(result);
@@ -79,10 +79,10 @@ public class EquipmentsController : ControllerBase
     /// <summary>
     /// Bàn giao trang thiết bị cho nhân sự hoặc phòng ban
     /// </summary>
-    [HttpPost("{id:long}/handover")]
+    [HttpPost("{id:guid}/handover")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Handover(long id, [FromBody] HandoverEquipmentRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Handover(Guid id, [FromBody] HandoverEquipmentRequest request, CancellationToken cancellationToken)
     {
         var command = new HandoverEquipmentCommand
         {
@@ -113,10 +113,10 @@ public class EquipmentsController : ControllerBase
     /// <summary>
     /// Thu hồi trang thiết bị về kho
     /// </summary>
-    [HttpPost("{id:long}/revoke")]
+    [HttpPost("{id:guid}/revoke")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Revoke(long id, [FromBody] RevokeEquipmentRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Revoke(Guid id, [FromBody] RevokeEquipmentRequest request, CancellationToken cancellationToken)
     {
         var command = new RevokeEquipmentCommand
         {
@@ -144,10 +144,10 @@ public class EquipmentsController : ControllerBase
     /// <summary>
     /// Báo hỏng sự cố trang thiết bị
     /// </summary>
-    [HttpPost("{id:long}/report-broken")]
+    [HttpPost("{id:guid}/report-broken")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ReportBroken(long id, [FromBody] ReportBrokenEquipmentRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> ReportBroken(Guid id, [FromBody] ReportBrokenEquipmentRequest request, CancellationToken cancellationToken)
     {
         var command = new ReportBrokenEquipmentCommand
         {
@@ -163,11 +163,11 @@ public class EquipmentsController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin trang thiết bị
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateEquipmentCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEquipmentCommand command, CancellationToken cancellationToken)
     {
         command.Id = id;
         await _sender.Send(command, cancellationToken);
@@ -175,6 +175,6 @@ public class EquipmentsController : ControllerBase
     }
 }
 
-public record HandoverEquipmentRequest(string? TargetType = "EMPLOYEE", long? TargetUserId = null, long? TargetDepartmentId = null, string? ConditionStatus = null, string? Note = null);
+public record HandoverEquipmentRequest(string? TargetType = "EMPLOYEE", Guid? TargetUserId = null, Guid? TargetDepartmentId = null, string? ConditionStatus = null, string? Note = null);
 public record RevokeEquipmentRequest(string? ConditionStatus = null, string? Note = null);
 public record ReportBrokenEquipmentRequest(string Description, string? Note = null);

@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Features.Assets.Commands;
 using HrmPlatform.Application.Features.Assets.Queries;
@@ -34,7 +34,7 @@ public class AssetsController : ControllerBase
         [FromQuery] string? keyword,
         [FromQuery] AssetCategory? category,
         [FromQuery] AssetStatus? status,
-        [FromQuery] long? assigneeUserId,
+        [FromQuery] Guid? assigneeUserId,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
@@ -89,10 +89,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Nghiệp vụ Cấp phát (Allocate) tài sản cho nhân sự
     /// </summary>
-    [HttpPost("{id:long}/allocate")]
+    [HttpPost("{id:guid}/allocate")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Allocate(long id, [FromBody] AllocateAssetRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Allocate(Guid id, [FromBody] AllocateAssetRequest request, CancellationToken cancellationToken)
     {
         var command = new AllocateAssetCommand
         {
@@ -108,10 +108,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Nghiệp vụ Thu hồi (Recover) tài sản về kho
     /// </summary>
-    [HttpPost("{id:long}/recover")]
+    [HttpPost("{id:guid}/recover")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Recover(long id, [FromBody] RecoverAssetRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Recover(Guid id, [FromBody] RecoverAssetRequest request, CancellationToken cancellationToken)
     {
         var command = new RecoverAssetCommand
         {
@@ -138,10 +138,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Tạo phiếu báo hỏng & yêu cầu sửa chữa bảo trì tài sản (Maintenance Flow)
     /// </summary>
-    [HttpPost("{id:long}/maintenance-tickets")]
+    [HttpPost("{id:guid}/maintenance-tickets")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateMaintenanceTicket(long id, [FromBody] CreateMaintenanceTicketRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateMaintenanceTicket(Guid id, [FromBody] CreateMaintenanceTicketRequest request, CancellationToken cancellationToken)
     {
         var command = new CreateMaintenanceTicketCommand
         {
@@ -156,10 +156,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Kỹ thuật viên hoàn tất xử lý sửa chữa bảo trì tài sản (Resolve Maintenance Ticket)
     /// </summary>
-    [HttpPost("maintenance-tickets/{ticketId:long}/resolve")]
+    [HttpPost("maintenance-tickets/{ticketId:guid}/resolve")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ResolveMaintenanceTicket(long ticketId, [FromBody] ResolveMaintenanceTicketCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> ResolveMaintenanceTicket(Guid ticketId, [FromBody] ResolveMaintenanceTicketCommand command, CancellationToken cancellationToken)
     {
         command.TicketId = ticketId;
         await _sender.Send(command, cancellationToken);
@@ -169,10 +169,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Điều chuyển tài sản giữa các nhân sự (Transfer Flow)
     /// </summary>
-    [HttpPost("{id:long}/transfer")]
+    [HttpPost("{id:guid}/transfer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Transfer(long id, [FromBody] TransferAssetRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Transfer(Guid id, [FromBody] TransferAssetRequest request, CancellationToken cancellationToken)
     {
         var command = new TransferAssetCommand
         {
@@ -188,10 +188,10 @@ public class AssetsController : ControllerBase
     /// <summary>
     /// Thanh lý / Phế bỏ tài sản (Disposal Flow)
     /// </summary>
-    [HttpPost("{id:long}/dispose")]
+    [HttpPost("{id:guid}/dispose")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> DisposeAsset(long id, [FromBody] DisposeAssetRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> DisposeAsset(Guid id, [FromBody] DisposeAssetRequest request, CancellationToken cancellationToken)
     {
         var command = new DisposeAssetCommand
         {
@@ -224,7 +224,7 @@ public class AssetsController : ControllerBase
     public async Task<IActionResult> GetMaintenanceTickets(
         [FromQuery] string? keyword,
         [FromQuery] string? status,
-        [FromQuery] long? assetId,
+        [FromQuery] Guid? assetId,
         [FromQuery] System.DateTime? fromDate,
         [FromQuery] System.DateTime? toDate,
         [FromQuery] int page = 1,
@@ -251,7 +251,7 @@ public class AssetsController : ControllerBase
     [HttpGet("depreciations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetDepreciations(
-        [FromQuery] long? assetId,
+        [FromQuery] Guid? assetId,
         [FromQuery] int? year,
         CancellationToken cancellationToken = default)
     {
@@ -265,9 +265,9 @@ public class AssetsController : ControllerBase
     }
 }
 
-public record AllocateAssetRequest(long AssigneeUserId, string? ConditionNotes = null);
+public record AllocateAssetRequest(Guid AssigneeUserId, string? ConditionNotes = null);
 public record RecoverAssetRequest(string? ConditionNotes = null);
 public record CreateMaintenanceTicketRequest(string IssueDescription);
-public record TransferAssetRequest(long TargetUserId, string? Reason = null);
+public record TransferAssetRequest(Guid TargetUserId, string? Reason = null);
 public record DisposeAssetRequest(string DisposalReason, decimal SalvageValue = 0);
 

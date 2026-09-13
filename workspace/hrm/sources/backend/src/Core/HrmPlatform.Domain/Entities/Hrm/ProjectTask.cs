@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Enums;
@@ -11,10 +11,10 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class ProjectTask : BaseEntity
 {
-    public long ProjectId { get; private set; }
+    public Guid ProjectId { get; private set; }
 
     /// <summary>FK → Hạng mục / Milestone cha (nullable — task tổng quát không thuộc milestone nào)</summary>
-    public long? MilestoneId { get; private set; }
+    public Guid? MilestoneId { get; private set; }
 
     /// <summary>Tiêu đề công việc</summary>
     public string Title { get; private set; } = string.Empty;
@@ -23,10 +23,10 @@ public class ProjectTask : BaseEntity
     public string? Description { get; private set; }
 
     /// <summary>Người được phân công thực hiện</summary>
-    public long? AssigneeUserId { get; private set; }
+    public Guid? AssigneeUserId { get; private set; }
 
     /// <summary>Người phân công (PM)</summary>
-    public long? AssignedByUserId { get; private set; }
+    public Guid? AssignedByUserId { get; private set; }
 
     /// <summary>Loại công việc kỹ thuật</summary>
     public ProjectTaskType TaskType { get; private set; } = ProjectTaskType.DEVELOPMENT;
@@ -70,19 +70,19 @@ public class ProjectTask : BaseEntity
     protected ProjectTask() { }
 
     public static ProjectTask Create(
-        long projectId,
+        Guid projectId,
         string title,
         string? description,
         ProjectTaskType taskType,
         ProjectTaskPriority priority,
-        long? assigneeUserId,
-        long? assignedByUserId,
+        Guid?assigneeUserId,
+        Guid?assignedByUserId,
         decimal estimatedHours,
         DateOnly? dueDate,
-        long? milestoneId = null,
+        Guid?milestoneId = null,
         string? tags = null)
     {
-        if (projectId <= 0) throw new DomainException("ProjectId không hợp lệ.");
+        if (projectId == Guid.Empty) throw new DomainException("ProjectId không hợp lệ.");
         if (string.IsNullOrWhiteSpace(title)) throw new DomainException("Tiêu đề công việc không được để trống.");
 
         return new ProjectTask
@@ -109,10 +109,10 @@ public class ProjectTask : BaseEntity
         string? description,
         ProjectTaskType taskType,
         ProjectTaskPriority priority,
-        long? assigneeUserId,
+        Guid?assigneeUserId,
         decimal estimatedHours,
         DateOnly? dueDate,
-        long? milestoneId,
+        Guid?milestoneId,
         string? tags)
     {
         Title = title.Trim();

@@ -68,8 +68,9 @@ public class CrossCuttingConcernsTests
     public async Task TenantResolverMiddleware_ShouldExtractTenantIdAndCodeFromHeaders()
     {
         // Arrange
+        var tenantId = Guid.Parse("01956100-0000-7000-8000-000000000042");
         var context = new DefaultHttpContext();
-        context.Request.Headers["X-Tenant-Id"] = "42";
+        context.Request.Headers["X-Tenant-Id"] = tenantId.ToString();
         context.Request.Headers["X-Tenant-Code"] = "ACME";
 
         var middleware = new TenantResolverMiddleware(
@@ -80,7 +81,7 @@ public class CrossCuttingConcernsTests
         await middleware.InvokeAsync(context);
 
         // Assert
-        Assert.Equal(42L, context.Items["CurrentTenantId"]);
+        Assert.Equal(tenantId, context.Items["CurrentTenantId"]);
         Assert.Equal("ACME", context.Items["CurrentTenantCode"]);
     }
     #endregion

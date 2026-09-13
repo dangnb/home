@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace HrmPlatform.Application.Features.Roles.Queries;
 
 public class GetRoleByIdQuery : IRequest<ApiResponseDto<RoleDetailDto>>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, ApiResponseDto<RoleDetailDto>>
@@ -61,7 +61,7 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, ApiResp
             ORDER BY p.module ASC, p.id ASC;
         ";
 
-        var perms = (await connection.QueryAsync<(long PermissionId, string PermissionCode, string PermissionName)>(permsSql, new { RoleId = request.Id })).ToList();
+        var perms = (await connection.QueryAsync<(Guid PermissionId, string PermissionCode, string PermissionName)>(permsSql, new { RoleId = request.Id })).ToList();
         role.PermissionIds = perms.Select(p => p.PermissionId).ToList();
         role.PermissionCodes = perms.Select(p => p.PermissionCode).ToList();
         role.PermissionNames = perms.Select(p => p.PermissionName).ToList();

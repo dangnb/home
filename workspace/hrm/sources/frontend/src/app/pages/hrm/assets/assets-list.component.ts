@@ -529,35 +529,65 @@ export class AssetsListComponent implements OnInit {
   // Label Helpers
   getCategoryLabel(category: string): string {
     switch (category) {
-      case 'IT': return '💻 Thiết bị IT (Laptop/PC)';
-      case 'MACHINERY': return '⚙️ Máy móc / Động cơ';
-      case 'VEHICLE': return '🚗 Phương tiện vận tải';
-      case 'OFFICE': return '🏢 Đồ dùng văn phòng';
-      default: return category;
+      case 'IT': return 'Thiết bị IT (Laptop/PC)';
+      case 'MACHINERY': return 'Máy móc / Động cơ';
+      case 'VEHICLE': return 'Phương tiện vận tải';
+      case 'OFFICE': return 'Đồ dùng văn phòng';
+      default: return category || 'Khác';
+    }
+  }
+
+  getCategoryIcon(category: string): string {
+    switch (category) {
+      case 'IT': return 'bi-laptop';
+      case 'MACHINERY': return 'bi-gear-wide-connected';
+      case 'VEHICLE': return 'bi-truck';
+      case 'OFFICE': return 'bi-building';
+      default: return 'bi-box-seam';
+    }
+  }
+
+  getCategoryColor(category: string): string {
+    switch (category) {
+      case 'IT': return 'bg-light-primary text-primary';
+      case 'MACHINERY': return 'bg-light-warning text-warning';
+      case 'VEHICLE': return 'bg-light-info text-info';
+      case 'OFFICE': return 'bg-light-success text-success';
+      default: return 'bg-light-secondary text-gray-700';
     }
   }
 
   getStatusLabel(status: string): string {
     switch (status) {
-      case 'DRAFT': return '📝 Bản nháp';
-      case 'AVAILABLE': return '🟢 Sẵn sàng cấp phát';
-      case 'IN_USE': return '🔵 Đang sử dụng';
-      case 'MAINTENANCE': return '🟡 Đang bảo trì';
-      case 'BROKEN': return '🔴 Đang báo hỏng';
-      case 'DISPOSED': return '⚪ Đã thanh lý';
-      default: return status;
+      case 'DRAFT': return 'Bản nháp';
+      case 'AVAILABLE': return 'Sẵn sàng cấp phát';
+      case 'IN_USE': return 'Đang sử dụng';
+      case 'MAINTENANCE': return 'Đang bảo trì';
+      case 'BROKEN': return 'Đang báo hỏng';
+      case 'DISPOSED': return 'Đã thanh lý';
+      default: return status || 'Không xác định';
     }
   }
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'DRAFT': return 'bg-gray-100 text-gray-800';
-      case 'AVAILABLE': return 'bg-green-100 text-green-800 border border-green-200';
-      case 'IN_USE': return 'bg-blue-100 text-blue-800 border border-blue-200';
-      case 'MAINTENANCE': return 'bg-amber-100 text-amber-800 border border-amber-200';
-      case 'BROKEN': return 'bg-red-100 text-red-800 border border-red-200';
-      case 'DISPOSED': return 'bg-gray-200 text-gray-700';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'DRAFT': return 'badge-light-secondary text-gray-700';
+      case 'AVAILABLE': return 'badge-light-success text-success';
+      case 'IN_USE': return 'badge-light-primary text-primary';
+      case 'MAINTENANCE': return 'badge-light-warning text-warning';
+      case 'BROKEN': return 'badge-light-danger text-danger';
+      case 'DISPOSED': return 'badge-light-dark text-gray-600';
+      default: return 'badge-light-secondary text-gray-700';
+    }
+  }
+
+  getMaintenanceStatusBadge(status: string): string {
+    switch (status) {
+      case 'OPEN': return 'badge-light-warning text-warning';
+      case 'IN_PROGRESS': return 'badge-light-primary text-primary';
+      case 'RESOLVED': return 'badge-light-success text-success';
+      case 'CANCELLED': return 'badge-light-dark text-gray-600';
+      default: return 'badge-light-secondary text-gray-700';
     }
   }
 }

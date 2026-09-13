@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Enums;
 using HrmPlatform.Domain.Exceptions;
@@ -10,7 +10,7 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class ProjectMilestone : BaseEntity
 {
-    public long ProjectId { get; private set; }
+    public Guid ProjectId { get; private set; }
 
     /// <summary>Tiêu đề hạng mục (VD: "Thiết kế UI/UX", "Phát triển Backend API")</summary>
     public string Title { get; private set; } = string.Empty;
@@ -46,7 +46,7 @@ public class ProjectMilestone : BaseEntity
     protected ProjectMilestone() { }
 
     public static ProjectMilestone Create(
-        long projectId,
+        Guid projectId,
         string title,
         string? description,
         DateOnly? dueDate,
@@ -54,7 +54,7 @@ public class ProjectMilestone : BaseEntity
         decimal paymentAmount,
         int sortOrder = 0)
     {
-        if (projectId <= 0) throw new DomainException("ProjectId không hợp lệ.");
+        if (projectId == Guid.Empty) throw new DomainException("ProjectId không hợp lệ.");
         if (string.IsNullOrWhiteSpace(title)) throw new DomainException("Tiêu đề hạng mục không được để trống.");
 
         return new ProjectMilestone

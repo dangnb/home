@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.Assets.Commands;
 
 public class ResolveMaintenanceTicketCommand : IRequest<bool>
 {
-    public long TicketId { get; set; }
-    public long? TechnicianId { get; set; }
+    public Guid TicketId { get; set; }
+    public Guid? TechnicianId { get; set; }
     public string ResolutionNotes { get; set; } = string.Empty;
     public decimal RepairCost { get; set; }
 }
@@ -22,7 +22,7 @@ public class ResolveMaintenanceTicketCommandValidator : AbstractValidator<Resolv
     public ResolveMaintenanceTicketCommandValidator()
     {
         RuleFor(x => x.TicketId)
-            .GreaterThan(0).WithMessage("ID phiếu bảo trì không hợp lệ.");
+            .NotEmpty().WithMessage("ID phiếu bảo trì không hợp lệ.");
 
         RuleFor(x => x.ResolutionNotes)
             .NotEmpty().WithMessage("Vui lòng nhập phương án xử lý / kết quả khắc phục.");
@@ -45,7 +45,7 @@ public class ResolveMaintenanceTicketCommandHandler : IRequestHandler<ResolveMai
 
     public async Task<bool> Handle(ResolveMaintenanceTicketCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var ticket = await _context.MaintenanceTickets
             .Include(m => m.Asset)
@@ -54,7 +54,7 @@ public class ResolveMaintenanceTicketCommandHandler : IRequestHandler<ResolveMai
         if (ticket == null)
             throw new NotFoundException($"Không tìm thấy phiếu bảo trì có ID = {request.TicketId}");
 
-        if (request.TechnicianId.HasValue && request.TechnicianId.Value > 0)
+        if (request.TechnicianId.HasValue && request.TechnicianId.Value != Guid.Empty)
         {
             ticket.AssignTechnician(request.TechnicianId.Value);
         }

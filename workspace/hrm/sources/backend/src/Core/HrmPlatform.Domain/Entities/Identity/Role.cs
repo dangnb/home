@@ -13,7 +13,7 @@ public class Role : BaseEntity, IMayHaveTenant
     /// <summary>
     /// TenantId (null nếu là vai trò hệ thống như SUPER_ADMIN, TENANT_ADMIN mặc định)
     /// </summary>
-    public long? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
 
     /// <summary>
     /// Mã vai trò (SUPER_ADMIN, TENANT_ADMIN, HR_MANAGER, EMPLOYEE...)
@@ -43,7 +43,7 @@ public class Role : BaseEntity, IMayHaveTenant
     /// <summary>
     /// Factory Method khởi tạo Vai trò mới
     /// </summary>
-    public static Role Create(string code, string name, string? description = null, long? tenantId = null)
+    public static Role Create(string code, string name, string? description = null, Guid? tenantId = null)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã vai trò không được để trống.");
@@ -51,7 +51,7 @@ public class Role : BaseEntity, IMayHaveTenant
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên vai trò không được để trống.");
 
-        if (tenantId.HasValue && tenantId.Value <= 0)
+        if (tenantId.HasValue && tenantId.Value == Guid.Empty)
             throw new DomainException("TenantId không hợp lệ.");
 
         return new Role

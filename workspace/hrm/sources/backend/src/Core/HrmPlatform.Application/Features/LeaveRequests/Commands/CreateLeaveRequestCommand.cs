@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Entities.Hrm;
@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.LeaveRequests.Commands;
 
-public record CreateLeaveRequestCommand : IRequest<long>
+public record CreateLeaveRequestCommand : IRequest<Guid>
 {
-    public long? TargetUserId { get; init; }
+    public Guid? TargetUserId { get; init; }
     public LeaveType LeaveType { get; init; } = LeaveType.ANNUAL;
     public DateOnly StartDate { get; init; }
     public DateOnly EndDate { get; init; }
@@ -33,7 +33,7 @@ public class CreateLeaveRequestCommandValidator : AbstractValidator<CreateLeaveR
     }
 }
 
-public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveRequestCommand, long>
+public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveRequestCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -46,11 +46,11 @@ public class CreateLeaveRequestCommandHandler : IRequestHandler<CreateLeaveReque
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateLeaveRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var currentUserId = _currentUserService.UserId ?? 1;
-        var targetId = (request.TargetUserId.HasValue && request.TargetUserId.Value > 0) ? request.TargetUserId.Value : currentUserId;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var currentUserId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var targetId = (request.TargetUserId.HasValue && request.TargetUserId.Value != Guid.Empty) ? request.TargetUserId.Value : currentUserId;
 
         var empProfile = await _context.EmployeeProfiles
             .FirstOrDefaultAsync(ep => ep.TenantId == tenantId && (ep.UserId == targetId || ep.Id == targetId), cancellationToken);

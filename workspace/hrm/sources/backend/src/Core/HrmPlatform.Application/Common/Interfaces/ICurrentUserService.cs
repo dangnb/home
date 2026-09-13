@@ -8,12 +8,12 @@ public interface ICurrentUserService
     /// <summary>
     /// ID tài khoản người dùng đang đăng nhập
     /// </summary>
-    long? UserId { get; }
+    Guid? UserId { get; }
 
     /// <summary>
     /// ID Tenant của người dùng đang thao tác
     /// </summary>
-    long? TenantId { get; }
+    Guid? TenantId { get; }
 
     /// <summary>
     /// Cho biết người dùng hiện tại có phải là Super Administrator toàn cục không

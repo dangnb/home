@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,10 +13,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.RewardDisciplines.Commands;
 
-public class CreateBatchRewardDisciplineCommand : IRequest<List<long>>
+public class CreateBatchRewardDisciplineCommand : IRequest<List<Guid>>
 {
-    public List<long> EmployeeIds { get; set; } = new();
-    public long? DepartmentId { get; set; }
+    public List<Guid> EmployeeIds { get; set; } = new();
+    public Guid? DepartmentId { get; set; }
     public bool ApplyToAllInDepartment { get; set; }
     public RewardDisciplineType Type { get; set; }
     public RewardDisciplineCategory Category { get; set; }
@@ -30,7 +30,7 @@ public class CreateBatchRewardDisciplineCommand : IRequest<List<long>>
     public RewardDisciplineStatus Status { get; set; } = RewardDisciplineStatus.PENDING;
 }
 
-public class CreateBatchRewardDisciplineCommandHandler : IRequestHandler<CreateBatchRewardDisciplineCommand, List<long>>
+public class CreateBatchRewardDisciplineCommandHandler : IRequestHandler<CreateBatchRewardDisciplineCommand, List<Guid>>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -41,9 +41,9 @@ public class CreateBatchRewardDisciplineCommandHandler : IRequestHandler<CreateB
         _currentUserService = currentUserService;
     }
 
-    public async Task<List<long>> Handle(CreateBatchRewardDisciplineCommand request, CancellationToken cancellationToken)
+    public async Task<List<Guid>> Handle(CreateBatchRewardDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         if (string.IsNullOrWhiteSpace(request.Title))
             throw new DomainException("Tiêu đề quyết định thưởng/phạt không được để trống.");
@@ -52,9 +52,9 @@ public class CreateBatchRewardDisciplineCommandHandler : IRequestHandler<CreateB
             throw new DomainException("Số tiền thưởng/phạt không được là số âm.");
 
         // 1. Resolve Target Employee IDs
-        var targetEmployeeIds = request.EmployeeIds?.Where(id => id > 0).Distinct().ToList() ?? new List<long>();
+        var targetEmployeeIds = request.EmployeeIds?.Where(id => id != Guid.Empty).Distinct().ToList() ?? new List<Guid>();
 
-        if (request.ApplyToAllInDepartment && request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
+        if (request.ApplyToAllInDepartment && request.DepartmentId.HasValue && request.DepartmentId.Value != Guid.Empty)
         {
             var deptEmployees = await _context.EmployeeProfiles
                 .Where(e => e.TenantId == tenantId && e.DepartmentId == request.DepartmentId.Value && e.Status != EntityStatus.DELETED)

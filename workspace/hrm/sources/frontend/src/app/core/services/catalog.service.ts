@@ -13,8 +13,8 @@ export type SystemCatalogType =
   | 'DEPARTMENT_TYPE';
 
 export interface SystemCatalogDto {
-  id: number;
-  tenantId: number;
+  id: string;
+  tenantId: string;
   catalogType: string;
   code: string;
   name: string;
@@ -60,18 +60,18 @@ export class CatalogService {
   }
 
   /** Cập nhật danh mục */
-  update(type: string, id: number, dto: { name: string; description?: string; sortOrder?: number }): Observable<any> {
+  update(type: string, id: string, dto: { name: string; description?: string; sortOrder?: number }): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${type}/${id}`, dto);
   }
 
   /** Bật/Tắt danh mục */
-  toggleStatus(type: string, id: number, activate: boolean): Observable<any> {
+  toggleStatus(type: string, id: string, activate: boolean): Observable<any> {
     const params = new HttpParams().set('activate', activate.toString());
     return this.http.patch<any>(`${this.apiUrl}/${type}/${id}/status`, null, { params });
   }
 
   /** Xóa mềm danh mục */
-  delete(type: string, id: number): Observable<any> {
+  delete(type: string, id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${type}/${id}`);
   }
 }

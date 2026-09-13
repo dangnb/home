@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
@@ -9,9 +9,9 @@ namespace HrmPlatform.Application.Features.HrPolicies.Queries;
 
 public class GetHrPolicyByIdQuery : IRequest<HrPolicyDto>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    public GetHrPolicyByIdQuery(long id)
+    public GetHrPolicyByIdQuery(Guid id)
     {
         Id = id;
     }
@@ -30,7 +30,7 @@ public class GetHrPolicyByIdQueryHandler : IRequestHandler<GetHrPolicyByIdQuery,
 
     public async Task<HrPolicyDto> Handle(GetHrPolicyByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Exceptions;
@@ -29,7 +29,7 @@ public static class EquipmentPartStatus
 /// </summary>
 public class EquipmentPart : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public string Code { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public string Category { get; private set; } = EquipmentPartCategory.OTHER;
@@ -47,7 +47,7 @@ public class EquipmentPart : BaseEntity, ITenantScopedEntity
     protected EquipmentPart() { }
 
     public static EquipmentPart Create(
-        long tenantId,
+        Guid tenantId,
         string code,
         string name,
         string category = EquipmentPartCategory.OTHER,
@@ -56,11 +56,8 @@ public class EquipmentPart : BaseEntity, ITenantScopedEntity
         int minStockQuantity = 2,
         decimal unitPrice = 0,
         string? specifications = null,
-        long? createdBy = null)
+        Guid?createdBy = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã linh kiện không được để trống.");
 
@@ -93,7 +90,7 @@ public class EquipmentPart : BaseEntity, ITenantScopedEntity
         decimal unitPrice,
         string? specifications,
         string status,
-        long performedBy)
+        Guid performedBy)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên linh kiện không được để trống.");
@@ -110,14 +107,14 @@ public class EquipmentPart : BaseEntity, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AdjustStock(int deltaQuantity, long performedBy)
+    public void AdjustStock(int deltaQuantity, Guid performedBy)
     {
         StockQuantity = Math.Max(0, StockQuantity + deltaQuantity);
         UpdatedBy = performedBy;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void SoftDelete(long performedBy)
+    public void SoftDelete(Guid performedBy)
     {
         PartStatus = EquipmentPartStatus.DELETED;
         UpdatedBy = performedBy;

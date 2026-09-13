@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
@@ -13,7 +13,7 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public string Code { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public EquipmentCategory Category { get; private set; } = EquipmentCategory.LAPTOP;
@@ -21,8 +21,8 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
     public string? Specifications { get; private set; }
     public DateOnly? PurchaseDate { get; private set; }
     public DateOnly? WarrantyEndDate { get; private set; }
-    public long? CurrentUserId { get; private set; }
-    public long? CurrentDepartmentId { get; private set; }
+    public Guid? CurrentUserId { get; private set; }
+    public Guid? CurrentDepartmentId { get; private set; }
     public DateTime? AssignedDate { get; private set; }
     public string? Note { get; private set; }
 
@@ -36,7 +36,7 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
     protected Equipment() { }
 
     public static Equipment Create(
-        long tenantId,
+        Guid tenantId,
         string code,
         string name,
         EquipmentCategory category,
@@ -46,9 +46,6 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         DateOnly? warrantyEndDate = null,
         string? note = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã trang thiết bị không được để trống.");
 
@@ -98,11 +95,11 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Handover(long? targetUserId, long? targetDepartmentId, string? conditionStatus, string? note, string targetType = "EMPLOYEE")
+    public void Handover(Guid?targetUserId, Guid?targetDepartmentId, string? conditionStatus, string? note, string targetType = "EMPLOYEE")
     {
         if (targetType.ToUpper() == "DEPARTMENT")
         {
-            if (!targetDepartmentId.HasValue || targetDepartmentId <= 0)
+            if (!targetDepartmentId.HasValue || targetDepartmentId == Guid.Empty)
                 throw new DomainException("Phòng ban nhận bàn giao thiết bị không hợp lệ.");
 
             CurrentDepartmentId = targetDepartmentId;
@@ -110,7 +107,7 @@ public class Equipment : BaseEntity<EquipmentStatus>, ITenantScopedEntity
         }
         else
         {
-            if (!targetUserId.HasValue || targetUserId <= 0)
+            if (!targetUserId.HasValue || targetUserId == Guid.Empty)
                 throw new DomainException("Tài khoản nhân sự nhận thiết bị không hợp lệ.");
 
             CurrentUserId = targetUserId;

@@ -12,7 +12,7 @@ namespace HrmPlatform.Application.Features.Equipments.Commands;
 
 public class ReportBrokenEquipmentCommand : IRequest<bool>
 {
-    public long EquipmentId { get; set; }
+    public Guid EquipmentId { get; set; }
     public string Description { get; set; } = string.Empty;
     public string? Note { get; set; }
 }
@@ -22,7 +22,7 @@ public class ReportBrokenEquipmentCommandValidator : AbstractValidator<ReportBro
     public ReportBrokenEquipmentCommandValidator()
     {
         RuleFor(x => x.EquipmentId)
-            .GreaterThan(0).WithMessage("ID trang thiết bị không hợp lệ.");
+            .NotEmpty().WithMessage("ID trang thiết bị không hợp lệ.");
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("Mô tả sự cố hỏng hóc không được để trống.")
@@ -43,7 +43,7 @@ public class ReportBrokenEquipmentCommandHandler : IRequestHandler<ReportBrokenE
 
     public async Task<bool> Handle(ReportBrokenEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var equipment = await _context.Equipments
             .Include(e => e.Histories)

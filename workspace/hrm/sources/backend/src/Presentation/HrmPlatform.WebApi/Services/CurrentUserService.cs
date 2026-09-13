@@ -15,7 +15,7 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public long? UserId
+    public Guid? UserId
     {
         get
         {
@@ -26,11 +26,11 @@ public class CurrentUserService : ICurrentUserService
                 ?? user.FindFirst("sub")?.Value
                 ?? user.FindFirst("uid")?.Value;
 
-            return long.TryParse(idClaim, out var id) ? id : null;
+            return Guid.TryParse(idClaim, out var id) ? id : null;
         }
     }
 
-    public long? TenantId
+    public Guid? TenantId
     {
         get
         {
@@ -38,7 +38,7 @@ public class CurrentUserService : ICurrentUserService
             if (context == null) return null;
 
             // 1. Ưu tiên lấy từ HttpContext.Items do TenantResolverMiddleware giải quyết
-            if (context.Items.TryGetValue("CurrentTenantId", out var item) && item is long tenantId)
+            if (context.Items.TryGetValue("CurrentTenantId", out var item) && item is Guid tenantId)
             {
                 return tenantId;
             }
@@ -48,12 +48,12 @@ public class CurrentUserService : ICurrentUserService
             var tenantClaim = user?.FindFirst("tenant_id")?.Value
                 ?? user?.FindFirst("tenantId")?.Value;
 
-            if (long.TryParse(tenantClaim, out var claimTenantId))
+            if (Guid.TryParse(tenantClaim, out var claimTenantId))
             {
                 return claimTenantId;
             }
 
-            return 1L;
+            return Guid.Parse("01956100-0000-7000-8000-000000000001");
         }
     }
 

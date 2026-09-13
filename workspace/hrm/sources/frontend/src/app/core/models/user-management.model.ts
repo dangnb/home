@@ -1,5 +1,5 @@
 export interface ManagedUser {
-  id: string | number;
+  id: string;
   username: string;
   name: string;
   fullName?: string;
@@ -8,7 +8,7 @@ export interface ManagedUser {
   avatar?: string;
   initials?: string;
   initialsColor?: string;
-  roleId?: number;
+  roleId?: string;
   roleCode?: string;
   role: string;
   twoStep?: boolean;
@@ -21,7 +21,7 @@ export interface ManagedUser {
 }
 
 export interface RoleOption {
-  id: number;
+  id: string;
   code: string;
   name: string;
   description?: string;
@@ -33,20 +33,20 @@ export interface CreateUserDto {
   password: string;
   fullName: string;
   phone?: string;
-  roleId?: number;
+  roleId?: string;
   roleCode?: string;
   status?: string;
   twoStep?: boolean;
 }
 
 export interface UpdateUserDto {
-  id?: number | string;
+  id?: string;
   fullName?: string;
   name?: string;
   email?: string;
   phone?: string;
   password?: string;
-  roleId?: number;
+  roleId?: string;
   roleCode?: string;
   status?: string;
   twoStep?: boolean;

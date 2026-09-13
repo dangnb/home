@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
@@ -14,7 +14,7 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Asset : BaseEntity<AssetStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public string AssetCode { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
     public AssetCategory Category { get; private set; } = AssetCategory.IT;
@@ -22,7 +22,7 @@ public class Asset : BaseEntity<AssetStatus>, ITenantScopedEntity
     public DateOnly? PurchaseDate { get; private set; }
     public decimal PurchasePrice { get; private set; }
     public decimal CurrentValue { get; private set; }
-    public long? AssigneeId { get; private set; }
+    public Guid? AssigneeId { get; private set; }
 
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
@@ -35,7 +35,7 @@ public class Asset : BaseEntity<AssetStatus>, ITenantScopedEntity
     protected Asset() { }
 
     public static Asset Create(
-        long tenantId,
+        Guid tenantId,
         string assetCode,
         string name,
         AssetCategory category,
@@ -43,9 +43,6 @@ public class Asset : BaseEntity<AssetStatus>, ITenantScopedEntity
         string? serialNumber = null,
         DateOnly? purchaseDate = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
         if (string.IsNullOrWhiteSpace(assetCode))
             throw new DomainException("Mã tài sản không được để trống.");
 
@@ -79,9 +76,9 @@ public class Asset : BaseEntity<AssetStatus>, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Allocate(long assigneeId)
+    public void Allocate(Guid assigneeId)
     {
-        if (assigneeId <= 0)
+        if (assigneeId == Guid.Empty)
             throw new DomainException("ID người nhận tài sản không hợp lệ.");
 
         if (Status != AssetStatus.AVAILABLE)

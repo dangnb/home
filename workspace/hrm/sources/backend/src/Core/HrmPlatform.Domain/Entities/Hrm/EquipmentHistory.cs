@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -11,15 +11,15 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class EquipmentHistory : BaseEntity<EntityStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long EquipmentId { get; private set; }
-    public long? UserId { get; private set; }
-    public long? DepartmentId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid EquipmentId { get; private set; }
+    public Guid? UserId { get; private set; }
+    public Guid? DepartmentId { get; private set; }
     public string TargetType { get; private set; } = "EMPLOYEE"; // EMPLOYEE or DEPARTMENT
     public EquipmentActionType ActionType { get; private set; }
     public DateTime ActionDate { get; private set; }
     public string? ConditionStatus { get; private set; }
-    public long? PerformedBy { get; private set; }
+    public Guid? PerformedBy { get; private set; }
     public string? Note { get; private set; }
 
     #region Navigation Properties
@@ -33,14 +33,14 @@ public class EquipmentHistory : BaseEntity<EntityStatus>, ITenantScopedEntity
     protected EquipmentHistory() { }
 
     public static EquipmentHistory Create(
-        long tenantId,
-        long equipmentId,
-        long? userId,
+        Guid tenantId,
+        Guid equipmentId,
+        Guid?userId,
         EquipmentActionType actionType,
         string? conditionStatus = null,
         string? note = null,
-        long? performedBy = null,
-        long? departmentId = null,
+        Guid?performedBy = null,
+        Guid?departmentId = null,
         string targetType = "EMPLOYEE")
     {
         return new EquipmentHistory

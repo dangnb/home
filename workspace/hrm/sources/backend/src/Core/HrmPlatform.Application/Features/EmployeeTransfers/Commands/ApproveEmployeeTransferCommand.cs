@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.EmployeeTransfers.Commands;
 
 public class ApproveEmployeeTransferCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class ApproveEmployeeTransferCommandHandler : IRequestHandler<ApproveEmployeeTransferCommand, bool>
@@ -27,8 +27,8 @@ public class ApproveEmployeeTransferCommandHandler : IRequestHandler<ApproveEmpl
 
     public async Task<bool> Handle(ApproveEmployeeTransferCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var currentUserId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var currentUserId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var history = await _context.EmployeeJobHistories
             .FirstOrDefaultAsync(j => j.Id == request.Id && j.TenantId == tenantId, cancellationToken);

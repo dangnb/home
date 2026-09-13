@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Interfaces;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.EquipmentParts.Commands;
 
-public class CreateEquipmentPartCommand : IRequest<long>
+public class CreateEquipmentPartCommand : IRequest<Guid>
 {
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ public class CreateEquipmentPartCommand : IRequest<long>
     public string? Specifications { get; set; }
 }
 
-public class CreateEquipmentPartCommandHandler : IRequestHandler<CreateEquipmentPartCommand, long>
+public class CreateEquipmentPartCommandHandler : IRequestHandler<CreateEquipmentPartCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -32,10 +32,10 @@ public class CreateEquipmentPartCommandHandler : IRequestHandler<CreateEquipment
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEquipmentPartCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEquipmentPartCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var codeUpper = request.Code.Trim().ToUpper();
         var exists = await _context.EquipmentParts

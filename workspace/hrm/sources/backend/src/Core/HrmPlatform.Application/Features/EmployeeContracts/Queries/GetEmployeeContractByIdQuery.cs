@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
@@ -9,9 +9,9 @@ namespace HrmPlatform.Application.Features.EmployeeContracts.Queries;
 
 public class GetEmployeeContractByIdQuery : IRequest<EmployeeContractDto>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    public GetEmployeeContractByIdQuery(long id)
+    public GetEmployeeContractByIdQuery(Guid id)
     {
         Id = id;
     }
@@ -30,7 +30,7 @@ public class GetEmployeeContractByIdQueryHandler : IRequestHandler<GetEmployeeCo
 
     public async Task<EmployeeContractDto> Handle(GetEmployeeContractByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

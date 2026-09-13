@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,15 +11,15 @@ namespace HrmPlatform.Application.Features.Roles.Queries;
 
 public class RoleDetailDto
 {
-    public long Id { get; set; }
-    public long? TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid? TenantId { get; set; }
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string Status { get; set; } = "ACTIVE";
     public int TotalUsers { get; set; }
     public bool IsSystemRole { get; set; }
-    public List<long> PermissionIds { get; set; } = new();
+    public List<Guid> PermissionIds { get; set; } = new();
     public List<string> PermissionCodes { get; set; } = new();
     public List<string> PermissionNames { get; set; } = new();
 }
@@ -78,7 +78,7 @@ public class GetRolesWithDetailsQueryHandler : IRequestHandler<GetRolesWithDetai
             ORDER BY p.module ASC, p.id ASC;
         ";
 
-        var rolePermissions = (await connection.QueryAsync<(long RoleId, long PermissionId, string PermissionCode, string PermissionName)>(rolePermissionsSql)).ToList();
+        var rolePermissions = (await connection.QueryAsync<(Guid RoleId, Guid PermissionId, string PermissionCode, string PermissionName)>(rolePermissionsSql)).ToList();
         var permissionsByRole = rolePermissions.GroupBy(rp => rp.RoleId).ToDictionary(g => g.Key, g => g.ToList());
 
         foreach (var role in roles)

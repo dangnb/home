@@ -9,11 +9,11 @@ namespace HrmPlatform.Application.Features.Employees.Commands;
 
 public record UpdateEmployeeCommand : IRequest
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string FullName { get; init; } = string.Empty;
     public string? Phone { get; init; }
-    public long? DepartmentId { get; init; }
-    public long? ManagerId { get; init; }
+    public Guid? DepartmentId { get; init; }
+    public Guid? ManagerId { get; init; }
     public string JobTitle { get; init; } = string.Empty;
     public Gender Gender { get; init; } = Gender.OTHER;
     public DateOnly? DateOfBirth { get; init; }
@@ -39,7 +39,7 @@ public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCo
     public UpdateEmployeeCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID hồ sơ nhân sự không hợp lệ.");
+            .NotEmpty().WithMessage("ID hồ sơ nhân sự không hợp lệ.");
 
         RuleFor(x => x.FullName)
             .NotEmpty().WithMessage("Họ và tên không được để trống.")

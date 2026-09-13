@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace HrmPlatform.Application.Features.Equipments.Commands;
 
 public class BulkRevokeEquipmentsCommand : IRequest<int>
 {
-    public List<long> EquipmentIds { get; set; } = new List<long>();
+    public List<Guid> EquipmentIds { get; set; } = new List<Guid>();
     public string? ConditionStatus { get; set; }
     public string? Note { get; set; }
 }
@@ -42,7 +42,7 @@ public class BulkRevokeEquipmentsCommandHandler : IRequestHandler<BulkRevokeEqui
 
     public async Task<int> Handle(BulkRevokeEquipmentsCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         if (request.EquipmentIds == null || !request.EquipmentIds.Any())
             throw new BadRequestException("Vui lòng chọn danh sách trang thiết bị cần thu hồi.");
@@ -65,7 +65,7 @@ public class BulkRevokeEquipmentsCommandHandler : IRequestHandler<BulkRevokeEqui
             var previousUserId = equipment.CurrentUserId;
             equipment.Revoke(request.ConditionStatus, request.Note);
 
-            if (previousUserId.HasValue && previousUserId.Value > 0)
+            if (previousUserId.HasValue && previousUserId.Value != Guid.Empty)
             {
                 var notification = Notification.Create(
                     tenantId: tenantId,

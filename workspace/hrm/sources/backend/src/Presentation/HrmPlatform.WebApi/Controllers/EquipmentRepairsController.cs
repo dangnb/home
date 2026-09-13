@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Features.EquipmentRepairs.Commands;
 using HrmPlatform.Application.Features.EquipmentRepairs.Queries;
@@ -28,8 +28,8 @@ public class EquipmentRepairsController : ControllerBase
         [FromQuery] string? keyword,
         [FromQuery] string? status,
         [FromQuery] string? priority,
-        [FromQuery] long? technicianUserId,
-        [FromQuery] long? equipmentId,
+        [FromQuery] Guid? technicianUserId,
+        [FromQuery] Guid? equipmentId,
         [FromQuery] DateOnly? fromDate,
         [FromQuery] DateOnly? toDate,
         [FromQuery] int page = 1,
@@ -55,10 +55,10 @@ public class EquipmentRepairsController : ControllerBase
     /// <summary>
     /// Lấy chi tiết phiếu sửa chữa IT
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetEquipmentRepairByIdQuery(id), cancellationToken);
         return Ok(result);
@@ -79,10 +79,10 @@ public class EquipmentRepairsController : ControllerBase
     /// <summary>
     /// Phân công nhân viên IT chịu trách nhiệm sửa chữa
     /// </summary>
-    [HttpPut("{id:long}/assign")]
+    [HttpPut("{id:guid}/assign")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> AssignTechnician(long id, [FromBody] AssignTechnicianRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AssignTechnician(Guid id, [FromBody] AssignTechnicianRequest request, CancellationToken cancellationToken)
     {
         var command = new AssignTechnicianCommand
         {
@@ -97,10 +97,10 @@ public class EquipmentRepairsController : ControllerBase
     /// <summary>
     /// Nhân viên IT cập nhật tiến độ, lỗi thực tế, cách khắc phục, linh kiện thay thế và chi phí
     /// </summary>
-    [HttpPut("{id:long}/progress")]
+    [HttpPut("{id:guid}/progress")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateProgress(long id, [FromBody] UpdateRepairProgressRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateProgress(Guid id, [FromBody] UpdateRepairProgressRequest request, CancellationToken cancellationToken)
     {
         var command = new UpdateRepairProgressCommand
         {
@@ -118,7 +118,7 @@ public class EquipmentRepairsController : ControllerBase
     }
 }
 
-public record AssignTechnicianRequest(long TechnicianUserId);
+public record AssignTechnicianRequest(Guid TechnicianUserId);
 public record UpdateRepairProgressRequest(
     string Status, 
     string? ActualError = null, 

@@ -50,7 +50,7 @@ export class EmployeesListComponent implements OnInit {
   isModalOpen = false;
   isEditMode = false;
   isSubmitting = false;
-  currentEmployeeId: number | string | null = null;
+  currentEmployeeId: string | null = null;
 
   // Delete Modal State
   isDeleteModalOpen = false;
@@ -321,8 +321,8 @@ export class EmployeesListComponent implements OnInit {
         id: this.currentEmployeeId,
         fullName: this.formData.fullName.trim(),
         phone: this.formData.phone ? this.formData.phone.trim() : undefined,
-        departmentId: this.formData.departmentId ? Number(this.formData.departmentId) : undefined,
-        managerId: this.formData.managerId ? Number(this.formData.managerId) : undefined,
+        departmentId: this.formData.departmentId ? String(this.formData.departmentId) : undefined,
+        managerId: this.formData.managerId ? String(this.formData.managerId) : undefined,
         jobTitle: this.formData.jobTitle.trim() || 'Nhân viên',
         gender: this.formData.gender,
         dateOfBirth: this.formData.dateOfBirth || undefined,
@@ -363,8 +363,8 @@ export class EmployeesListComponent implements OnInit {
         password: this.formData.password.trim() || '123456',
         fullName: this.formData.fullName.trim(),
         phone: this.formData.phone ? this.formData.phone.trim() : undefined,
-        departmentId: this.formData.departmentId ? Number(this.formData.departmentId) : undefined,
-        managerId: this.formData.managerId ? Number(this.formData.managerId) : undefined,
+        departmentId: this.formData.departmentId ? String(this.formData.departmentId) : undefined,
+        managerId: this.formData.managerId ? String(this.formData.managerId) : undefined,
         jobTitle: this.formData.jobTitle.trim() || 'Nhân viên',
         gender: this.formData.gender,
         dateOfBirth: this.formData.dateOfBirth || undefined,

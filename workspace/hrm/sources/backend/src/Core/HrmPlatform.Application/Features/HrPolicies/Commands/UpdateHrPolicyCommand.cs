@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.HrPolicies.Commands;
 
 public class UpdateHrPolicyCommand : IRequest
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public HrPolicyCategory Category { get; set; }
     public DateOnly EffectiveDate { get; set; }
@@ -35,7 +35,7 @@ public class UpdateHrPolicyCommandHandler : IRequestHandler<UpdateHrPolicyComman
 
     public async Task Handle(UpdateHrPolicyCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var policy = await _context.HrPolicies
             .FirstOrDefaultAsync(p => p.Id == request.Id && p.TenantId == tenantId, cancellationToken);

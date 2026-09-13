@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.Equipments.Queries;
 
 public class EquipmentDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
@@ -21,9 +21,9 @@ public class EquipmentDto
     public DateOnly? PurchaseDate { get; set; }
     public DateOnly? WarrantyEndDate { get; set; }
     public string Status { get; set; } = string.Empty;
-    public long? CurrentUserId { get; set; }
+    public Guid? CurrentUserId { get; set; }
     public string? CurrentUserName { get; set; }
-    public long? CurrentDepartmentId { get; set; }
+    public Guid? CurrentDepartmentId { get; set; }
     public string? CurrentDepartmentName { get; set; }
     public string? DepartmentName { get; set; }
     public DateTime? AssignedDate { get; set; }
@@ -45,8 +45,8 @@ public class GetEquipmentsQuery : IRequest<object>
     public string? Keyword { get; set; }
     public string? Category { get; set; }
     public string? Status { get; set; }
-    public long? DepartmentId { get; set; }
-    public long? CurrentUserId { get; set; }
+    public Guid? DepartmentId { get; set; }
+    public Guid? CurrentUserId { get; set; }
     public DateOnly? AssignedFromDate { get; set; }
     public DateOnly? AssignedToDate { get; set; }
     public int Page { get; set; } = 1;
@@ -66,7 +66,7 @@ public class GetEquipmentsQueryHandler : IRequestHandler<GetEquipmentsQuery, obj
 
     public async Task<object> Handle(GetEquipmentsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -92,13 +92,13 @@ public class GetEquipmentsQueryHandler : IRequestHandler<GetEquipmentsQuery, obj
             parameters.Add("Status", request.Status.Trim().ToUpper());
         }
 
-        if (request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
+        if (request.DepartmentId.HasValue && request.DepartmentId.Value != Guid.Empty)
         {
             whereClause += " AND ep.department_id = @DepartmentId";
             parameters.Add("DepartmentId", request.DepartmentId.Value);
         }
 
-        if (request.CurrentUserId.HasValue && request.CurrentUserId.Value > 0)
+        if (request.CurrentUserId.HasValue && request.CurrentUserId.Value != Guid.Empty)
         {
             whereClause += " AND e.current_user_id = @CurrentUserId";
             parameters.Add("CurrentUserId", request.CurrentUserId.Value);

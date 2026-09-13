@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
@@ -12,7 +12,7 @@ namespace HrmPlatform.Application.Features.RewardDisciplines.Commands;
 
 public class UpdateRewardDisciplineCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public RewardDisciplineType Type { get; set; }
     public RewardDisciplineCategory Category { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -37,7 +37,7 @@ public class UpdateRewardDisciplineCommandHandler : IRequestHandler<UpdateReward
 
     public async Task<bool> Handle(UpdateRewardDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var entity = await _context.RewardDisciplines
             .FirstOrDefaultAsync(r => r.Id == request.Id && r.TenantId == tenantId, cancellationToken);

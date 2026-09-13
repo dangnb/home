@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.SystemCatalogs.Commands;
+﻿using HrmPlatform.Application.Features.SystemCatalogs.Commands;
 using HrmPlatform.Application.Features.SystemCatalogs.Queries;
 using HrmPlatform.WebApi.Authorization;
 using MediatR;
@@ -79,11 +79,11 @@ public class SystemCatalogsController : ControllerBase
     /// Cập nhật danh mục
     /// PUT /api/v1/config/{type}/{id}
     /// </summary>
-    [HttpPut("{type}/{id:long}")]
+    [HttpPut("{type}/{id:guid}")]
     [HasPermission("config:manage")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(string type, long id, [FromBody] UpdateSystemCatalogRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(string type, Guid id, [FromBody] UpdateSystemCatalogRequest request, CancellationToken cancellationToken)
     {
         await _sender.Send(new UpdateSystemCatalogCommand
         {
@@ -100,11 +100,11 @@ public class SystemCatalogsController : ControllerBase
     /// Bật/Tắt danh mục (kích hoạt / vô hiệu hóa)
     /// PATCH /api/v1/config/{type}/{id}/status?activate=true
     /// </summary>
-    [HttpPatch("{type}/{id:long}/status")]
+    [HttpPatch("{type}/{id:guid}/status")]
     [HasPermission("config:manage")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> ToggleStatus(string type, long id, [FromQuery] bool activate, CancellationToken cancellationToken)
+    public async Task<IActionResult> ToggleStatus(string type, Guid id, [FromQuery] bool activate, CancellationToken cancellationToken)
     {
         await _sender.Send(new ToggleSystemCatalogStatusCommand(id, activate), cancellationToken);
         var action = activate ? "kích hoạt" : "vô hiệu hóa";
@@ -115,11 +115,11 @@ public class SystemCatalogsController : ControllerBase
     /// Xóa mềm danh mục
     /// DELETE /api/v1/config/{type}/{id}
     /// </summary>
-    [HttpDelete("{type}/{id:long}")]
+    [HttpDelete("{type}/{id:guid}")]
     [HasPermission("config:manage")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(string type, long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(string type, Guid id, CancellationToken cancellationToken)
     {
         await _sender.Send(new DeleteSystemCatalogCommand(id), cancellationToken);
         return NoContent();

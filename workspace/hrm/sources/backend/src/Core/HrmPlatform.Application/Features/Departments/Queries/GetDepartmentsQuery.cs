@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,13 +11,13 @@ namespace HrmPlatform.Application.Features.Departments.Queries;
 
 public class DepartmentDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
-    public long? ManagerId { get; set; }
+    public Guid? ManagerId { get; set; }
     public string? ManagerName { get; set; }
-    public long? ParentId { get; set; }
+    public Guid? ParentId { get; set; }
     public string? ParentName { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
@@ -44,7 +44,7 @@ public class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, P
 
     public async Task<PaginatedResultDto<DepartmentDto>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

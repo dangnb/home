@@ -53,7 +53,7 @@ export class SystemCatalogsComponent implements OnInit {
   isEditMode = false;
   submitting = false;
   errorMessage = '';
-  editingItemId: number | null = null;
+  editingItemId: string | null = null;
 
   form = {
     code: '',

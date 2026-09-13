@@ -14,7 +14,7 @@ namespace HrmPlatform.Application.Features.Assets.Commands;
 
 public class OffboardingRecoverAssetsCommand : IRequest<int>
 {
-    public long EmployeeUserId { get; set; }
+    public Guid EmployeeUserId { get; set; }
     public string? Reason { get; set; }
 }
 
@@ -23,7 +23,7 @@ public class OffboardingRecoverAssetsCommandValidator : AbstractValidator<Offboa
     public OffboardingRecoverAssetsCommandValidator()
     {
         RuleFor(x => x.EmployeeUserId)
-            .GreaterThan(0).WithMessage("ID nhân sự nghỉ việc không hợp lệ.");
+            .NotEmpty().WithMessage("ID nhân sự nghỉ việc không hợp lệ.");
     }
 }
 
@@ -40,7 +40,7 @@ public class OffboardingRecoverAssetsCommandHandler : IRequestHandler<Offboardin
 
     public async Task<int> Handle(OffboardingRecoverAssetsCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var assignedAssets = await _context.Assets
             .Where(a => a.TenantId == tenantId && a.AssigneeId == request.EmployeeUserId && a.Status == AssetStatus.IN_USE)

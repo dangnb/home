@@ -9,14 +9,14 @@ export interface ApiResponse<T> {
 }
 
 export interface Department {
-  id: number | string;
-  tenantId?: number;
+  id: string;
+  tenantId?: string;
   code: string;
   name: string;
   description?: string;
-  managerId?: number | string;
+  managerId?: string;
   managerName?: string;
-  parentId?: number | string;
+  parentId?: string;
   parentName?: string;
   status: string; // 'ACTIVE', 'INACTIVE', 'DELETED'
   createdAt?: string;
@@ -27,33 +27,33 @@ export interface CreateDepartmentDto {
   code: string;
   name: string;
   description?: string;
-  managerId?: number | string;
-  parentId?: number | string;
+  managerId?: string;
+  parentId?: string;
 }
 
 export interface UpdateDepartmentDto {
-  id?: number | string;
+  id?: string;
   code: string;
   name: string;
   description?: string;
-  managerId?: number | string;
-  parentId?: number | string;
+  managerId?: string;
+  parentId?: string;
   status?: string;
 }
 
 export interface Employee {
-  id: number | string;
-  tenantId?: number | string;
-  userId?: number | string;
+  id: string;
+  tenantId?: string;
+  userId?: string;
   username?: string;
   fullName: string;
   email: string;
   phone?: string;
   jobTitle?: string;
   position?: string; // alias for jobTitle
-  departmentId?: number | string;
+  departmentId?: string;
   departmentName?: string;
-  managerId?: number | string;
+  managerId?: string;
   managerName?: string;
   gender: string | number; // 'MALE', 'FEMALE', 'OTHER' or 1, 2, 3
   dateOfBirth?: string;
@@ -85,8 +85,8 @@ export interface CreateEmployeeDto {
   password?: string;
   fullName: string;
   phone?: string;
-  departmentId?: number | string;
-  managerId?: number | string;
+  departmentId?: string;
+  managerId?: string;
   jobTitle: string;
   gender: string;
   dateOfBirth?: string;
@@ -112,11 +112,11 @@ export interface CreateEmployeeDto {
 }
 
 export interface UpdateEmployeeDto {
-  id?: number | string;
+  id?: string;
   fullName: string;
   phone?: string;
-  departmentId?: number | string;
-  managerId?: number | string;
+  departmentId?: string;
+  managerId?: string;
   jobTitle: string;
   gender: string;
   dateOfBirth?: string;
@@ -147,7 +147,7 @@ export interface ImportEmployeeItemDto {
   password?: string;
   phone?: string;
   jobTitle?: string;
-  departmentId?: number | string;
+  departmentId?: string;
   departmentName?: string;
   gender?: string;
   dateOfBirth?: string;
@@ -162,7 +162,7 @@ export interface ImportEmployeesResult {
   successCount: number;
   failureCount: number;
   errors: string[];
-  createdIds: number[];
+  createdIds: string[];
 }
 
 export enum AttendanceStatus {

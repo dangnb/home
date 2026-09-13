@@ -17,11 +17,11 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     }
 
     public string GenerateToken(
-        long userId,
+        Guid userId,
         string username,
         string email,
         string fullName,
-        long? tenantId,
+        Guid? tenantId,
         IEnumerable<string> roles,
         IEnumerable<string> permissions,
         bool isSuperAdmin)

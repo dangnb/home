@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.Roles.Queries;
 
 public class PermissionDto
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Module { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;

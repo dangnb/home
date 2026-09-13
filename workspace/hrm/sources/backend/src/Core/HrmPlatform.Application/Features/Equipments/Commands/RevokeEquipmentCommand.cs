@@ -12,7 +12,7 @@ namespace HrmPlatform.Application.Features.Equipments.Commands;
 
 public class RevokeEquipmentCommand : IRequest<bool>
 {
-    public long EquipmentId { get; set; }
+    public Guid EquipmentId { get; set; }
     public string? ConditionStatus { get; set; }
     public string? Note { get; set; }
 }
@@ -22,7 +22,7 @@ public class RevokeEquipmentCommandValidator : AbstractValidator<RevokeEquipment
     public RevokeEquipmentCommandValidator()
     {
         RuleFor(x => x.EquipmentId)
-            .GreaterThan(0).WithMessage("ID trang thiết bị không hợp lệ.");
+            .NotEmpty().WithMessage("ID trang thiết bị không hợp lệ.");
     }
 }
 
@@ -39,7 +39,7 @@ public class RevokeEquipmentCommandHandler : IRequestHandler<RevokeEquipmentComm
 
     public async Task<bool> Handle(RevokeEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var equipment = await _context.Equipments
             .Include(e => e.Histories)
@@ -56,7 +56,7 @@ public class RevokeEquipmentCommandHandler : IRequestHandler<RevokeEquipmentComm
         var previousUserId = equipment.CurrentUserId;
         equipment.Revoke(request.ConditionStatus, request.Note);
 
-        if (previousUserId.HasValue && previousUserId.Value > 0)
+        if (previousUserId.HasValue && previousUserId.Value != Guid.Empty)
         {
             var notification = Notification.Create(
                 tenantId: tenantId,

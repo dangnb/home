@@ -40,7 +40,7 @@ export class RolesListComponent implements OnInit {
   readonly modalRoleCode = signal<string>('');
   readonly modalRoleName = signal<string>('');
   readonly modalRoleDescription = signal<string>('');
-  readonly selectedPermissionIds = signal<Set<number>>(new Set());
+  readonly selectedPermissionIds = signal<Set<string>>(new Set());
 
   // Delete Confirm Modal
   readonly isDeleteModalOpen = signal<boolean>(false);
@@ -162,11 +162,11 @@ export class RolesListComponent implements OnInit {
 
   // --- Permission Selection Handlers ---
 
-  isPermissionSelected(id: number): boolean {
+  isPermissionSelected(id: string): boolean {
     return this.selectedPermissionIds().has(id);
   }
 
-  togglePermission(id: number): void {
+  togglePermission(id: string): void {
     const current = new Set(this.selectedPermissionIds());
     if (current.has(id)) {
       current.delete(id);
@@ -312,7 +312,7 @@ export class RolesListComponent implements OnInit {
     this.roleToDelete.set(null);
   }
 
-  deleteUser(id: string | number): void {
+  deleteUser(id: string): void {
     if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
       this.userService.deleteUser(id).subscribe({
         next: () => {

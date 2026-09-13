@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.EquipmentParts.Commands;
 
 public class UpdateEquipmentPartCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Category { get; set; } = EquipmentPartCategory.OTHER;
     public string Unit { get; set; } = "Cái";
@@ -35,8 +35,8 @@ public class UpdateEquipmentPartCommandHandler : IRequestHandler<UpdateEquipment
 
     public async Task<bool> Handle(UpdateEquipmentPartCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var part = await _context.EquipmentParts
             .FirstOrDefaultAsync(p => p.Id == request.Id && p.TenantId == tenantId && p.PartStatus != EquipmentPartStatus.DELETED, cancellationToken);

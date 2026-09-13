@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Assets.Commands;
 
-public class CreateMaintenanceTicketCommand : IRequest<long>
+public class CreateMaintenanceTicketCommand : IRequest<Guid>
 {
-    public long AssetId { get; set; }
+    public Guid AssetId { get; set; }
     public string IssueDescription { get; set; } = string.Empty;
 }
 
@@ -21,14 +21,14 @@ public class CreateMaintenanceTicketCommandValidator : AbstractValidator<CreateM
     public CreateMaintenanceTicketCommandValidator()
     {
         RuleFor(x => x.AssetId)
-            .GreaterThan(0).WithMessage("ID tài sản không hợp lệ.");
+            .NotEmpty().WithMessage("ID tài sản không hợp lệ.");
 
         RuleFor(x => x.IssueDescription)
             .NotEmpty().WithMessage("Mô tả sự cố hỏng hóc không được để trống.");
     }
 }
 
-public class CreateMaintenanceTicketCommandHandler : IRequestHandler<CreateMaintenanceTicketCommand, long>
+public class CreateMaintenanceTicketCommandHandler : IRequestHandler<CreateMaintenanceTicketCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -39,10 +39,10 @@ public class CreateMaintenanceTicketCommandHandler : IRequestHandler<CreateMaint
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateMaintenanceTicketCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateMaintenanceTicketCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var currentUserId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var currentUserId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var asset = await _context.Assets
             .FirstOrDefaultAsync(a => a.Id == request.AssetId && a.TenantId == tenantId, cancellationToken);

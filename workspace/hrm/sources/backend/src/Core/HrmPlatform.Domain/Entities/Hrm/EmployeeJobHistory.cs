@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -12,21 +12,21 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class EmployeeJobHistory : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long EmployeeId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; private set; }
     public string? DecisionNumber { get; private set; }
     public TransferChangeType ChangeType { get; private set; }
-    public long? OldDepartmentId { get; private set; }
-    public long? NewDepartmentId { get; private set; }
+    public Guid? OldDepartmentId { get; private set; }
+    public Guid? NewDepartmentId { get; private set; }
     public string? OldJobTitle { get; private set; }
     public string? NewJobTitle { get; private set; }
-    public long? OldManagerId { get; private set; }
-    public long? NewManagerId { get; private set; }
+    public Guid? OldManagerId { get; private set; }
+    public Guid? NewManagerId { get; private set; }
     public DateOnly EffectiveDate { get; private set; }
     public string? Note { get; private set; }
 
     public TransferApprovalStatus ApprovalStatus { get; private set; } = TransferApprovalStatus.PENDING_APPROVAL;
-    public long? ApproverId { get; private set; }
+    public Guid? ApproverId { get; private set; }
     public DateTime? ApprovedAt { get; private set; }
     public string? RejectionReason { get; private set; }
 
@@ -71,21 +71,21 @@ public class EmployeeJobHistory : BaseEntity, ITenantScopedEntity
     }
 
     public static EmployeeJobHistory Create(
-        long tenantId,
-        long employeeId,
+        Guid tenantId,
+        Guid employeeId,
         string? decisionNumber,
         TransferChangeType changeType,
-        long? oldDepartmentId,
-        long? newDepartmentId,
+        Guid?oldDepartmentId,
+        Guid?newDepartmentId,
         string? oldJobTitle,
         string? newJobTitle,
-        long? oldManagerId,
-        long? newManagerId,
+        Guid?oldManagerId,
+        Guid?newManagerId,
         DateOnly effectiveDate,
         string? note = null,
         TransferApprovalStatus approvalStatus = TransferApprovalStatus.PENDING_APPROVAL)
     {
-        if (employeeId <= 0)
+        if (employeeId == Guid.Empty)
             throw new DomainException("Mã nhân sự không hợp lệ.");
 
         return new EmployeeJobHistory
@@ -107,9 +107,9 @@ public class EmployeeJobHistory : BaseEntity, ITenantScopedEntity
         };
     }
 
-    public bool ApproveStep(int step, long reviewerId, string? note)
+    public bool ApproveStep(int step, Guid reviewerId, string? note)
     {
-        if (reviewerId <= 0)
+        if (reviewerId == Guid.Empty)
             throw new DomainException("Mã người phê duyệt không hợp lệ.");
 
         if (ApprovalStatus == TransferApprovalStatus.REJECTED || ApprovalStatus == TransferApprovalStatus.CANCELLED)
@@ -156,7 +156,7 @@ public class EmployeeJobHistory : BaseEntity, ITenantScopedEntity
         return isDirectorApproved;
     }
 
-    public void AcknowledgeByEmployee(long employeeId, string? note)
+    public void AcknowledgeByEmployee(Guid employeeId, string? note)
     {
         if (EmployeeId != employeeId)
             throw new DomainException("Chỉ nhân viên được điều động mới có thể xác nhận lệnh này.");
@@ -171,14 +171,14 @@ public class EmployeeJobHistory : BaseEntity, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void Approve(long approverId)
+    public void Approve(Guid approverId)
     {
         ApproveStep(4, approverId, "Phê duyệt trực tiếp từ Ban Giám Đốc");
     }
 
-    public void Reject(long approverId, string reason)
+    public void Reject(Guid approverId, string reason)
     {
-        if (approverId <= 0)
+        if (approverId == Guid.Empty)
             throw new DomainException("Mã người từ chối không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(reason))

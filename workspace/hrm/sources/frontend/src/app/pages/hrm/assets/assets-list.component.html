@@ -1,514 +1,846 @@
-<div class="p-6 max-w-[1600px] mx-auto space-y-6">
-  <!-- Header Title & Navigation -->
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="d-flex flex-column gap-6">
+  <!-- Header Page Title -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
     <div>
-      <h1 class="text-2xl font-bold text-slate-800 tracking-tight flex items-center gap-2">
-        <span class="p-2 bg-indigo-600/10 text-indigo-600 rounded-xl">🏢</span>
-        Quản Lý Thiết Bị & Tài Sản SaaS
-      </h1>
-      <p class="text-slate-500 text-sm mt-1">
-        Vòng đời tài sản: Khai báo $\rightarrow$ Cấp phát $\rightarrow$ Bảo trì $\rightarrow$ Điều chuyển $\rightarrow$ Khấu hao $\rightarrow$ Thanh lý
-      </p>
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="badge badge-light-primary fw-bolder fs-8 px-3 py-1">FIXED ASSET MODULE</span>
+        <h1 class="text-gray-900 fw-bold fs-3 mb-0">Quản Lý Tài Sản & Khấu Hao Kế Toán</h1>
+      </div>
+      <span class="text-muted fs-7">Quản lý vòng đời tài sản doanh nghiệp: Khai báo, cấp phát nhân sự, điều chuyển, bảo trì sự cố, trích khấu hao và thanh lý</span>
     </div>
-    <div class="flex items-center gap-3">
-      <button 
-        (click)="openDepreciateModal()" 
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-medium text-sm rounded-xl shadow-sm transition-all duration-200">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-        Tính Khấu Hao Tháng
+    <div class="d-flex align-items-center gap-2">
+      <button type="button" class="btn btn-sm btn-light-warning fw-bold d-flex align-items-center gap-2" (click)="openDepreciateModal()">
+        <i class="bi bi-calculator fs-5"></i>
+        <span>Tính Khấu Hao Tháng</span>
       </button>
-      <button 
-        (click)="openCreateModal()" 
-        class="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl shadow-sm transition-all duration-200">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        Khai Báo Tài Sản Mới
+      <button type="button" class="btn btn-sm btn-primary fw-bold d-flex align-items-center gap-2" (click)="openCreateModal()">
+        <i class="bi bi-plus-lg fs-6"></i>
+        <span>Khai Báo Tài Sản Mới</span>
       </button>
     </div>
   </div>
 
-  <!-- Summary Stats Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-    <div class="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-      <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-      </div>
-      <div>
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tổng Tài Sản</div>
-        <div class="text-2xl font-bold text-slate-800 mt-0.5">{{ summary().totalAssets }}</div>
-      </div>
-    </div>
-
-    <div class="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-      <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <div>
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sẵn Sàng Kho</div>
-        <div class="text-2xl font-bold text-emerald-600 mt-0.5">{{ summary().availableAssets }}</div>
+  <!-- KPI Summary Cards Banner -->
+  <div class="row g-4">
+    <!-- Card 1: Tổng số tài sản -->
+    <div class="col-xl col-md-4 col-sm-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Số Tài Sản</span>
+            <span class="fs-2x fw-bold text-gray-900">{{ summary().totalAssets }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+            <i class="bi bi-box-seam-fill fs-3"></i>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-      <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-      </div>
-      <div>
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Đang Cấp Phát</div>
-        <div class="text-2xl font-bold text-blue-600 mt-0.5">{{ summary().inUseAssets }}</div>
-      </div>
-    </div>
-
-    <div class="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-      <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-      </div>
-      <div>
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Bảo Trì / Sự Cố</div>
-        <div class="text-2xl font-bold text-amber-600 mt-0.5">{{ summary().maintenanceAssets }}</div>
+    <!-- Card 2: Sẵn sàng kho -->
+    <div class="col-xl col-md-4 col-sm-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Sẵn Sàng Trong Kho</span>
+            <span class="fs-2x fw-bold text-success">{{ summary().availableAssets }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-success text-success d-flex align-items-center justify-content-center">
+            <i class="bi bi-check-circle-fill fs-3"></i>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white/80 backdrop-blur-md p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-      <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <div>
-        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tổng Giá Trị Khai Báo</div>
-        <div class="text-xl font-bold text-purple-700 mt-0.5">{{ summary().totalAssetValue | number:'1.0-0' }} đ</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Tabs Navigation -->
-  <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
-    <button 
-      (click)="switchTab('ASSETS')" 
-      [class.text-indigo-600]="activeTab === 'ASSETS'"
-      [class.border-indigo-600]="activeTab === 'ASSETS'"
-      class="px-4 py-2 font-medium text-sm border-b-2 border-transparent transition-all duration-200 flex items-center gap-2">
-      📦 Danh Sách Tài Sản Kho
-    </button>
-    <button 
-      (click)="switchTab('MAINTENANCE')" 
-      [class.text-indigo-600]="activeTab === 'MAINTENANCE'"
-      [class.border-indigo-600]="activeTab === 'MAINTENANCE'"
-      class="px-4 py-2 font-medium text-sm border-b-2 border-transparent transition-all duration-200 flex items-center gap-2">
-      🛠️ Phiếu Bảo Trì & Sửa Chữa
-    </button>
-    <button 
-      (click)="switchTab('DEPRECIATION')" 
-      [class.text-indigo-600]="activeTab === 'DEPRECIATION'"
-      [class.border-indigo-600]="activeTab === 'DEPRECIATION'"
-      class="px-4 py-2 font-medium text-sm border-b-2 border-transparent transition-all duration-200 flex items-center gap-2">
-      📈 Lịch Sử Trích Khấu Hao
-    </button>
-  </div>
-
-  <!-- Filters Bar -->
-  <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-      <!-- Search Keyword -->
-      <div class="relative">
-        <input 
-          type="text" 
-          [(ngModel)]="filterKeyword" 
-          (keyup.enter)="onFilterChange()" 
-          placeholder="Mã, tên tài sản, serial..." 
-          class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all" />
-        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      </div>
-
-      <!-- Category Filter -->
-      <select 
-        [(ngModel)]="filterCategory" 
-        (change)="onFilterChange()" 
-        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-500 outline-none">
-        <option value="ALL">-- Tất cả danh mục --</option>
-        <option value="IT">💻 Thiết bị IT (Laptop/PC)</option>
-        <option value="MACHINERY">⚙️ Máy móc / Động cơ</option>
-        <option value="VEHICLE">🚗 Phương tiện vận tải</option>
-        <option value="OFFICE">🏢 Đồ dùng văn phòng</option>
-      </select>
-
-      <!-- Status Filter -->
-      <select 
-        [(ngModel)]="filterStatus" 
-        (change)="onFilterChange()" 
-        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-indigo-500 outline-none">
-        <option value="ALL">-- Tất cả trạng thái --</option>
-        <option value="AVAILABLE">🟢 Sẵn sàng cấp phát</option>
-        <option value="IN_USE">🔵 Đang sử dụng</option>
-        <option value="MAINTENANCE">🟡 Đang bảo trì</option>
-        <option value="BROKEN">🔴 Đang báo hỏng</option>
-        <option value="DISPOSED">⚪ Đã thanh lý</option>
-      </select>
-
-      <!-- Reset Filter Button -->
-      <div class="flex items-center gap-2">
-        <button 
-          (click)="onFilterChange()" 
-          class="flex-1 py-2.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-medium text-sm rounded-xl transition-all">
-          Lọc Dữ Liệu
-        </button>
-        <button 
-          (click)="resetFilters()" 
-          class="px-3.5 py-2.5 text-slate-500 hover:bg-slate-100 rounded-xl text-sm font-medium transition-all">
-          Đặt Lại
-        </button>
+    <!-- Card 3: Đang cấp phát -->
+    <div class="col-xl col-md-4 col-sm-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Đang Cấp Phát</span>
+            <span class="fs-2x fw-bold text-primary">{{ summary().inUseAssets }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+            <i class="bi bi-person-workspace fs-3"></i>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div *ngIf="activeTab === 'MAINTENANCE'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2 border-t border-slate-100">
-      <div>
-        <label class="block text-xs text-slate-500 mb-1">Từ ngày tạo phiếu</label>
-        <input type="date" [(ngModel)]="filterFromDate" (change)="onFilterChange()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
+    <!-- Card 4: Đang bảo trì -->
+    <div class="col-xl col-md-4 col-sm-6">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Bảo Trì / Sự Cố</span>
+            <span class="fs-2x fw-bold text-warning">{{ summary().maintenanceAssets }}</span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+            <i class="bi bi-tools fs-3"></i>
+          </div>
+        </div>
       </div>
-      <div>
-        <label class="block text-xs text-slate-500 mb-1">Đến ngày tạo phiếu</label>
-        <input type="date" [(ngModel)]="filterToDate" (change)="onFilterChange()" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
+    </div>
+
+    <!-- Card 5: Tổng giá trị tài sản -->
+    <div class="col-xl col-md-8 col-sm-12">
+      <div class="card card-flush shadow-sm card-bordered bg-body h-100">
+        <div class="card-body p-4 d-flex align-items-center justify-content-between">
+          <div>
+            <span class="fs-8 text-muted fw-semibold d-block mb-1">Tổng Nguyên Giá Khai Báo</span>
+            <span class="fs-2x fw-bold text-purple" style="color: #7239ea;">{{ summary().totalAssetValue | number:'1.0-0' }} <small class="fs-7 text-muted fw-normal">đ</small></span>
+          </div>
+          <div class="symbol symbol-45px symbol-circle bg-light text-purple d-flex align-items-center justify-content-center" style="background-color: #f8f5ff; color: #7239ea;">
+            <i class="bi bi-cash-stack fs-3"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 1: ASSETS LIST -->
-  <div *ngIf="activeTab === 'ASSETS'" class="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse text-sm">
-        <thead>
-          <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase font-semibold">
-            <th class="py-3.5 px-4">Mã & Tên Tài Sản</th>
-            <th class="py-3.5 px-4">Danh Mục</th>
-            <th class="py-3.5 px-4">Số Serial / Ngày Mua</th>
-            <th class="py-3.5 px-4 text-right">Giá Mua</th>
-            <th class="py-3.5 px-4 text-right">Giá Trị Hiện Tại</th>
-            <th class="py-3.5 px-4">Người Nắm Giữ</th>
-            <th class="py-3.5 px-4">Trạng Thái</th>
-            <th class="py-3.5 px-4 text-center">Thao Tác</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          <tr *ngFor="let item of items()" class="hover:bg-slate-50/50 transition-colors">
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-800">{{ item.name }}</div>
-              <div class="text-xs text-indigo-600 font-mono mt-0.5">{{ item.assetCode }}</div>
-            </td>
-            <td class="py-3.5 px-4 text-slate-600">
-              {{ getCategoryLabel(item.category) }}
-            </td>
-            <td class="py-3.5 px-4 text-slate-600">
-              <div class="font-mono text-xs">{{ item.serialNumber || 'N/A' }}</div>
-              <div class="text-xs text-slate-400 mt-0.5">{{ item.purchaseDate || 'Chưa cập nhật' }}</div>
-            </td>
-            <td class="py-3.5 px-4 text-right font-medium text-slate-700">
-              {{ item.purchasePrice | number:'1.0-0' }} đ
-            </td>
-            <td class="py-3.5 px-4 text-right font-semibold text-purple-700">
-              {{ item.currentValue | number:'1.0-0' }} đ
-            </td>
-            <td class="py-3.5 px-4">
-              <span *ngIf="item.assigneeName" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">
-                👤 {{ item.assigneeName }}
-              </span>
-              <span *ngIf="!item.assigneeName" class="text-xs text-slate-400 italic">-- Trong kho --</span>
-            </td>
-            <td class="py-3.5 px-4">
-              <span [class]="'px-2.5 py-1 rounded-full text-xs font-medium ' + getStatusBadgeClass(item.status)">
-                {{ getStatusLabel(item.status) }}
-              </span>
-            </td>
-            <td class="py-3.5 px-4 text-center">
-              <div class="relative inline-block text-left">
+  <!-- Main Content Card -->
+  <div class="card card-flush shadow-sm card-bordered">
+    <!-- Header with Metronic Line Tabs -->
+    <div class="card-header border-0 pt-3 pb-0 px-6">
+      <div class="card-title w-100 m-0">
+        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-6 fw-bold w-100">
+          <li class="nav-item">
+            <a 
+              class="nav-link text-active-primary py-4 cursor-pointer d-flex align-items-center gap-2" 
+              [class.active]="activeTab === 'ASSETS'"
+              (click)="switchTab('ASSETS')">
+              <i class="bi bi-box-seam fs-5"></i>
+              <span>Danh Mục Tài Sản Kho</span>
+              <span class="badge badge-light-primary fs-8 ms-1">{{ totalCount }}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link text-active-primary py-4 cursor-pointer d-flex align-items-center gap-2" 
+              [class.active]="activeTab === 'MAINTENANCE'"
+              (click)="switchTab('MAINTENANCE')">
+              <i class="bi bi-tools fs-5"></i>
+              <span>Phiếu Bảo Trì & Sửa Chữa</span>
+              @if (maintenanceTickets().length > 0) {
+                <span class="badge badge-light-warning fs-8 ms-1">{{ maintenanceTickets().length }}</span>
+              }
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              class="nav-link text-active-primary py-4 cursor-pointer d-flex align-items-center gap-2" 
+              [class.active]="activeTab === 'DEPRECIATION'"
+              (click)="switchTab('DEPRECIATION')">
+              <i class="bi bi-graph-up-arrow fs-5"></i>
+              <span>Lịch Sử Trích Khấu Hao</span>
+              @if (depreciations().length > 0) {
+                <span class="badge badge-light-info fs-8 ms-1">{{ depreciations().length }}</span>
+              }
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="card-body pt-4 pb-0 px-6">
+      <div class="p-4 rounded bg-light-subtle border border-gray-200">
+        <div class="row g-3 align-items-center">
+          <!-- Search input -->
+          <div class="col-lg-4 col-md-6">
+            <div class="position-relative">
+              <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 fs-6 text-gray-500"></i>
+              <input 
+                type="text" 
+                class="form-control form-control-solid ps-10 fs-7" 
+                placeholder="Nhập mã, tên tài sản, serial..." 
+                [(ngModel)]="filterKeyword"
+                (keyup.enter)="onFilterChange()"
+              />
+              @if (filterKeyword) {
                 <button 
-                  (click)="toggleDropdown(item.id, $event)" 
-                  class="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                  type="button" 
+                  class="btn btn-icon btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+                  (click)="filterKeyword = ''; onFilterChange()"
+                >
+                  <i class="bi bi-x-circle-fill text-gray-500 fs-6"></i>
                 </button>
-                <div 
-                  *ngIf="openDropdownId() === item.id" 
-                  class="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-lg border border-slate-100 z-50 py-1 text-sm">
-                  <button (click)="openAllocateModal(item)" *ngIf="item.status === 'AVAILABLE'" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-blue-600 font-medium">
-                    👉 Cấp phát tài sản
-                  </button>
-                  <button (click)="recoverAsset(item)" *ngIf="item.status === 'IN_USE'" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-emerald-600 font-medium">
-                    🔄 Thu hồi về kho
-                  </button>
-                  <button (click)="openTransferModal(item)" *ngIf="item.status === 'IN_USE' || item.status === 'AVAILABLE'" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-indigo-600 font-medium">
-                    🔀 Điều chuyển nhân sự
-                  </button>
-                  <button (click)="openMaintenanceModal(item)" *ngIf="item.status !== 'DISPOSED'" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-amber-600 font-medium">
-                    🛠️ Phiếu báo hỏng
-                  </button>
-                  <button (click)="openDisposeModal(item)" *ngIf="item.status !== 'DISPOSED'" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-red-600 font-medium border-t border-slate-100">
-                    🗑️ Thanh lý phế bỏ
-                  </button>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr *ngIf="items().length === 0">
-            <td colspan="8" class="py-12 text-center text-slate-400">
-              Không tìm thấy hồ sơ tài sản nào phù hợp.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+              }
+            </div>
+          </div>
 
-    <!-- Pagination Component -->
-    <div class="p-4 border-t border-slate-100">
-      <app-pagination
-        [currentPage]="currentPage"
-        [pageSize]="pageSize"
-        [totalCount]="totalCount"
-        (pageChange)="currentPage = $event; loadAssets()">
-      </app-pagination>
-    </div>
-  </div>
+          <!-- Category select -->
+          <div class="col-lg-3 col-md-6">
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="filterCategory" (change)="onFilterChange()">
+              <option value="ALL">-- Tất cả danh mục --</option>
+              <option value="IT">Thiết bị IT (Laptop/PC)</option>
+              <option value="MACHINERY">Máy móc / Động cơ</option>
+              <option value="VEHICLE">Phương tiện vận tải</option>
+              <option value="OFFICE">Đồ dùng văn phòng</option>
+            </select>
+          </div>
 
-  <!-- TAB 2: MAINTENANCE TICKETS -->
-  <div *ngIf="activeTab === 'MAINTENANCE'" class="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-    <div class="p-4 bg-slate-50/50 border-b border-slate-200 font-semibold text-slate-700">
-      Danh Sách Phiếu Báo Hỏng & Yêu Cầu Sửa Chữa
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse text-sm">
-        <thead>
-          <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase font-semibold">
-            <th class="py-3.5 px-4">Tài Sản</th>
-            <th class="py-3.5 px-4">Mô Tả Sự Cố</th>
-            <th class="py-3.5 px-4">Người Báo Hỏng</th>
-            <th class="py-3.5 px-4">Chi Phí Sửa Chữa</th>
-            <th class="py-3.5 px-4">Trạng Thái Phiếu</th>
-            <th class="py-3.5 px-4">Ngày Tạo</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          <tr *ngFor="let ticket of maintenanceTickets()" class="hover:bg-slate-50/50">
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-800">{{ ticket.assetName }}</div>
-              <div class="text-xs text-indigo-600 font-mono">{{ ticket.assetCode }}</div>
-            </td>
-            <td class="py-3.5 px-4 text-slate-700 max-w-xs truncate">
-              {{ ticket.issueDescription }}
-            </td>
-            <td class="py-3.5 px-4 text-slate-600">
-              👤 {{ ticket.reporterName || 'Nhân sự' }}
-            </td>
-            <td class="py-3.5 px-4 font-semibold text-slate-800">
-              {{ ticket.repairCost | number:'1.0-0' }} đ
-            </td>
-            <td class="py-3.5 px-4">
-              <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                {{ ticket.status }}
-              </span>
-            </td>
-            <td class="py-3.5 px-4 text-xs text-slate-500">
-              {{ ticket.createdAt | date:'dd/MM/yyyy HH:mm' }}
-            </td>
-          </tr>
-          <tr *ngIf="maintenanceTickets().length === 0">
-            <td colspan="6" class="py-12 text-center text-slate-400">
-              Chưa có phiếu bảo trì nào.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+          <!-- Status select -->
+          <div class="col-lg-3 col-md-6">
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="filterStatus" (change)="onFilterChange()">
+              <option value="ALL">-- Tất cả trạng thái --</option>
+              <option value="AVAILABLE">Sẵn sàng cấp phát</option>
+              <option value="IN_USE">Đang sử dụng</option>
+              <option value="MAINTENANCE">Đang bảo trì</option>
+              <option value="BROKEN">Đang báo hỏng</option>
+              <option value="DISPOSED">Đã thanh lý</option>
+            </select>
+          </div>
 
-  <!-- TAB 3: DEPRECIATIONS -->
-  <div *ngIf="activeTab === 'DEPRECIATION'" class="bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-    <div class="p-4 bg-slate-50/50 border-b border-slate-200 font-semibold text-slate-700">
-      Nhật Ký Trích Khấu Hao Định Kỳ Tháng
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse text-sm">
-        <thead>
-          <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase font-semibold">
-            <th class="py-3.5 px-4">Tài Sản</th>
-            <th class="py-3.5 px-4">Kỳ Khấu Hao</th>
-            <th class="py-3.5 px-4 text-right">Số Tiền Khấu Hao</th>
-            <th class="py-3.5 px-4 text-right">Giá Trị Còn Lại</th>
-            <th class="py-3.5 px-4">Ngày Thực Hiện</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100">
-          <tr *ngFor="let dep of depreciations()" class="hover:bg-slate-50/50">
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-800">{{ dep.assetName }}</div>
-              <div class="text-xs text-indigo-600 font-mono">{{ dep.assetCode }}</div>
-            </td>
-            <td class="py-3.5 px-4 font-semibold text-indigo-600">
-              Tháng {{ dep.periodMonth }}/{{ dep.periodYear }}
-            </td>
-            <td class="py-3.5 px-4 text-right font-semibold text-red-600">
-              - {{ dep.depreciatedAmount | number:'1.0-0' }} đ
-            </td>
-            <td class="py-3.5 px-4 text-right font-bold text-purple-700">
-              {{ dep.remainingValue | number:'1.0-0' }} đ
-            </td>
-            <td class="py-3.5 px-4 text-xs text-slate-500">
-              {{ dep.createdAt | date:'dd/MM/yyyy HH:mm' }}
-            </td>
-          </tr>
-          <tr *ngIf="depreciations().length === 0">
-            <td colspan="5" class="py-12 text-center text-slate-400">
-              Chưa có dữ liệu trích khấu hao.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+          <!-- Filter buttons -->
+          <div class="col-lg-2 col-md-6 d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-primary flex-grow-1 fw-bold fs-7" (click)="onFilterChange()">
+              <i class="bi bi-funnel me-1"></i>Lọc
+            </button>
+            <button type="button" class="btn btn-sm btn-light fw-bold fs-7" (click)="resetFilters()" title="Đặt lại bộ lọc">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
 
-<!-- MODAL CREATE ASSET -->
-<div *ngIf="isCreateModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4">
-    <h3 class="text-lg font-bold text-slate-800">Khai Báo Tài Sản Mới</h3>
-    
-    <div class="space-y-3">
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Mã tài sản</label>
-        <input type="text" [(ngModel)]="createForm.assetCode" class="w-full px-3 py-2 border rounded-xl text-sm" />
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Tên tài sản</label>
-        <input type="text" [(ngModel)]="createForm.name" placeholder="VD: Laptop Dell XPS 15" class="w-full px-3 py-2 border rounded-xl text-sm" />
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Danh mục</label>
-        <select [(ngModel)]="createForm.category" class="w-full px-3 py-2 border rounded-xl text-sm">
-          <option value="IT">💻 IT (Laptop/PC)</option>
-          <option value="MACHINERY">⚙️ Máy móc</option>
-          <option value="VEHICLE">🚗 Phương tiện</option>
-          <option value="OFFICE">🏢 Văn phòng</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Giá mua (VNĐ)</label>
-        <input type="number" [(ngModel)]="createForm.purchasePrice" class="w-full px-3 py-2 border rounded-xl text-sm" />
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Số Serial</label>
-        <input type="text" [(ngModel)]="createForm.serialNumber" class="w-full px-3 py-2 border rounded-xl text-sm" />
+        <!-- Extra Date Range Filters for Maintenance Tab -->
+        @if (activeTab === 'MAINTENANCE') {
+          <div class="row g-3 align-items-center mt-2 pt-3 border-top border-gray-200">
+            <div class="col-md-3">
+              <label class="form-label fs-8 text-muted mb-1">Từ ngày tạo phiếu</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="filterFromDate" (change)="onFilterChange()" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fs-8 text-muted mb-1">Đến ngày tạo phiếu</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="filterToDate" (change)="onFilterChange()" />
+            </div>
+          </div>
+        }
       </div>
     </div>
 
-    <div class="flex items-center justify-end gap-3 pt-3">
-      <button (click)="closeCreateModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitCreate()" [disabled]="isSubmittingCreate" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded-xl font-medium">Lưu Hồ Sơ</button>
-    </div>
-  </div>
-</div>
+    <!-- TAB 1: ASSETS LIST TABLE -->
+    @if (activeTab === 'ASSETS') {
+      <div class="card-body px-6 py-4">
+        <div class="table-responsive">
+          <table class="table align-middle table-row-dashed fs-7 gy-4">
+            <thead>
+              <tr class="text-start text-muted fw-bold fs-8 text-uppercase gs-0">
+                <th class="min-w-200px">Mã & Tên Tài Sản</th>
+                <th class="min-w-130px">Danh Mục</th>
+                <th class="min-w-130px">S/N & Ngày Mua</th>
+                <th class="min-w-120px text-end">Nguyên Giá</th>
+                <th class="min-w-120px text-end">Giá Trị Còn Lại</th>
+                <th class="min-w-150px">Người Sử Dụng</th>
+                <th class="min-w-120px text-center">Trạng Thái</th>
+                <th class="min-w-100px text-end">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+              @for (item of items(); track item.id) {
+                <tr class="hover-elevate-up">
+                  <td>
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="symbol symbol-40px symbol-circle" [ngClass]="getCategoryColor(item.category)">
+                        <i class="bi fs-4" [ngClass]="getCategoryIcon(item.category)"></i>
+                      </div>
+                      <div>
+                        <span class="text-gray-900 fw-bold text-hover-primary d-block fs-6 mb-0">{{ item.name }}</span>
+                        <span class="badge badge-light fw-bold font-monospace fs-8 text-primary">{{ item.assetCode }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="text-gray-800 fw-semibold">{{ getCategoryLabel(item.category) }}</span>
+                  </td>
+                  <td>
+                    <div class="font-monospace text-gray-800 fs-8">{{ item.serialNumber || 'N/A' }}</div>
+                    <div class="text-muted fs-8">{{ item.purchaseDate || 'Chưa cập nhật' }}</div>
+                  </td>
+                  <td class="text-end fw-bold text-gray-800">
+                    {{ item.purchasePrice | number:'1.0-0' }} đ
+                  </td>
+                  <td class="text-end fw-bolder" style="color: #7239ea;">
+                    {{ item.currentValue | number:'1.0-0' }} đ
+                  </td>
+                  <td>
+                    @if (item.assigneeName) {
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="symbol symbol-25px symbol-circle bg-light-primary text-primary fs-8 fw-bold d-flex align-items-center justify-content-center">
+                          {{ item.assigneeName.charAt(0) }}
+                        </div>
+                        <span class="text-gray-900 fw-semibold">{{ item.assigneeName }}</span>
+                      </div>
+                    } @else {
+                      <span class="badge badge-light-secondary fs-8">Trong kho lưu trữ</span>
+                    }
+                  </td>
+                  <td class="text-center">
+                    <span class="badge fw-bold px-3 py-1 fs-8" [ngClass]="getStatusBadgeClass(item.status)">
+                      {{ getStatusLabel(item.status) }}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <div class="position-relative d-inline-block">
+                      <button 
+                        type="button" 
+                        class="btn btn-sm btn-icon btn-light btn-active-light-primary" 
+                        (click)="toggleDropdown(item.id, $event)"
+                        title="Tùy chọn thao tác"
+                      >
+                        <i class="bi bi-three-dots-vertical fs-6"></i>
+                      </button>
 
-<!-- MODAL ALLOCATE ASSET -->
-<div *ngIf="isAllocateModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-    <h3 class="text-lg font-bold text-slate-800">Cấp Phát Tài Sản Phân Cho Nhân Sự</h3>
-    
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Chọn Nhân Sự Tiếp Nhận</label>
-      <select [(ngModel)]="allocateForm.assigneeUserId" class="w-full px-3 py-2 border rounded-xl text-sm">
-        <option *ngFor="let emp of employees()" [value]="emp.userId || emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
-      </select>
-    </div>
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú tình trạng</label>
-      <textarea [(ngModel)]="allocateForm.conditionNotes" rows="3" class="w-full px-3 py-2 border rounded-xl text-sm"></textarea>
-    </div>
+                      @if (openDropdownId() === item.id) {
+                        <div 
+                          class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-2 shadow-lg border border-gray-200 show position-absolute end-0 z-index-dropdown bg-white"
+                          style="top: 100%; right: 0; z-index: 1050;"
+                        >
+                          @if (item.status === 'AVAILABLE') {
+                            <div class="menu-item px-3">
+                              <a class="menu-link px-3 text-primary d-flex align-items-center gap-2" (click)="openAllocateModal(item)">
+                                <i class="bi bi-person-plus text-primary fs-6"></i>
+                                <span>Cấp phát tài sản</span>
+                              </a>
+                            </div>
+                          }
+                          @if (item.status === 'IN_USE') {
+                            <div class="menu-item px-3">
+                              <a class="menu-link px-3 text-success d-flex align-items-center gap-2" (click)="recoverAsset(item)">
+                                <i class="bi bi-box-arrow-in-down-left text-success fs-6"></i>
+                                <span>Thu hồi về kho</span>
+                              </a>
+                            </div>
+                          }
+                          @if (item.status === 'IN_USE' || item.status === 'AVAILABLE') {
+                            <div class="menu-item px-3">
+                              <a class="menu-link px-3 text-info d-flex align-items-center gap-2" (click)="openTransferModal(item)">
+                                <i class="bi bi-arrow-left-right text-info fs-6"></i>
+                                <span>Điều chuyển nội bộ</span>
+                              </a>
+                            </div>
+                          }
+                          @if (item.status !== 'DISPOSED') {
+                            <div class="menu-item px-3">
+                              <a class="menu-link px-3 text-warning d-flex align-items-center gap-2" (click)="openMaintenanceModal(item)">
+                                <i class="bi bi-tools text-warning fs-6"></i>
+                                <span>Tạo phiếu báo hỏng</span>
+                              </a>
+                            </div>
+                            <div class="separator my-1 border-gray-200"></div>
+                            <div class="menu-item px-3">
+                              <a class="menu-link px-3 text-danger d-flex align-items-center gap-2" (click)="openDisposeModal(item)">
+                                <i class="bi bi-trash text-danger fs-6"></i>
+                                <span>Thanh lý phế bỏ</span>
+                              </a>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
 
-    <div class="flex items-center justify-end gap-3 pt-2">
-      <button (click)="closeAllocateModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitAllocate()" [disabled]="isSubmittingAllocate" class="px-4 py-2 text-sm bg-blue-600 text-white rounded-xl font-medium">Xác Nhận Cấp Phát</button>
-    </div>
-  </div>
-</div>
+              @if (items().length === 0 && !isLoading()) {
+                <tr>
+                  <td colspan="8" class="text-center py-10">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                      <i class="bi bi-inbox fs-3x text-muted mb-3"></i>
+                      <span class="text-gray-500 fs-6 fw-semibold">Không tìm thấy hồ sơ tài sản nào phù hợp</span>
+                      <span class="text-muted fs-7">Hãy thử thay đổi từ khóa hoặc bộ lọc danh mục/trạng thái</span>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
 
-<!-- MODAL TRANSFER ASSET -->
-<div *ngIf="isTransferModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-    <h3 class="text-lg font-bold text-slate-800">Điều Chuyển Tài Sản Nội Bộ</h3>
-    
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Nhân Sự Mới Tiếp Nhận</label>
-      <select [(ngModel)]="transferForm.targetUserId" class="w-full px-3 py-2 border rounded-xl text-sm">
-        <option *ngFor="let emp of employees()" [value]="emp.userId || emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
-      </select>
-    </div>
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Lý do điều chuyển</label>
-      <textarea [(ngModel)]="transferForm.reason" rows="3" class="w-full px-3 py-2 border rounded-xl text-sm"></textarea>
-    </div>
-
-    <div class="flex items-center justify-end gap-3 pt-2">
-      <button (click)="closeTransferModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitTransfer()" [disabled]="isSubmittingTransfer" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded-xl font-medium">Điều Chuyển</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL DISPOSE ASSET -->
-<div *ngIf="isDisposeModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-    <h3 class="text-lg font-bold text-red-600">Thanh Lý / Phế Bỏ Tài Sản</h3>
-    
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Lý do thanh lý</label>
-      <textarea [(ngModel)]="disposeForm.disposalReason" rows="3" class="w-full px-3 py-2 border rounded-xl text-sm"></textarea>
-    </div>
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Giá trị thu hồi phế liệu (VNĐ)</label>
-      <input type="number" [(ngModel)]="disposeForm.salvageValue" class="w-full px-3 py-2 border rounded-xl text-sm" />
-    </div>
-
-    <div class="flex items-center justify-end gap-3 pt-2">
-      <button (click)="closeDisposeModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitDispose()" [disabled]="isSubmittingDispose" class="px-4 py-2 text-sm bg-red-600 text-white rounded-xl font-medium">Xác Nhận Thanh Lý</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL MAINTENANCE TICKET -->
-<div *ngIf="isMaintenanceModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-    <h3 class="text-lg font-bold text-amber-600">Tạo Phiếu Báo Hỏng / Sửa Chữa</h3>
-    
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Mô tả sự cố chi tiết</label>
-      <textarea [(ngModel)]="maintenanceForm.issueDescription" rows="4" placeholder="VD: Màn hình bị chớp, bàn phím hỏng nút Space..." class="w-full px-3 py-2 border rounded-xl text-sm"></textarea>
-    </div>
-
-    <div class="flex items-center justify-end gap-3 pt-2">
-      <button (click)="closeMaintenanceModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitMaintenance()" [disabled]="isSubmittingMaintenance" class="px-4 py-2 text-sm bg-amber-600 text-white rounded-xl font-medium">Gửi Phiếu Báo Hỏng</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL DEPRECIATION RUN -->
-<div *ngIf="isDepreciateModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-    <h3 class="text-lg font-bold text-slate-800">Tính Khấu Hao Tự Động Hàng Tháng</h3>
-    
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Tháng</label>
-        <input type="number" [(ngModel)]="depreciateForm.month" min="1" max="12" class="w-full px-3 py-2 border rounded-xl text-sm" />
+        <!-- Pagination -->
+        <div class="d-flex align-items-center justify-content-between pt-4 border-top border-gray-200">
+          <app-pagination
+            class="w-100"
+            [currentPage]="currentPage"
+            [pageSize]="pageSize"
+            [totalCount]="totalCount"
+            (pageChange)="currentPage = $event; loadAssets()">
+          </app-pagination>
+        </div>
       </div>
-      <div>
-        <label class="block text-xs font-semibold text-slate-600 mb-1">Năm</label>
-        <input type="number" [(ngModel)]="depreciateForm.year" class="w-full px-3 py-2 border rounded-xl text-sm" />
-      </div>
-    </div>
-    <div>
-      <label class="block text-xs font-semibold text-slate-600 mb-1">Vòng đời sử dụng hữu ích (Tháng)</label>
-      <input type="number" [(ngModel)]="depreciateForm.usefulLifeMonths" class="w-full px-3 py-2 border rounded-xl text-sm" />
-    </div>
+    }
 
-    <div class="flex items-center justify-end gap-3 pt-2">
-      <button (click)="closeDepreciateModal()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Hủy</button>
-      <button (click)="submitDepreciate()" [disabled]="isSubmittingDepreciate" class="px-4 py-2 text-sm bg-amber-600 text-white rounded-xl font-medium">Chạy Tính Khấu Hao</button>
-    </div>
+    <!-- TAB 2: MAINTENANCE TICKETS TABLE -->
+    @if (activeTab === 'MAINTENANCE') {
+      <div class="card-body px-6 py-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h4 class="card-title fw-bold text-gray-900 fs-6 m-0">Nhật Ký Phiếu Báo Hỏng & Yêu Cầu Sửa Chữa</h4>
+          <span class="text-muted fs-7">Ghi nhận các sự cố kỹ thuật và chi phí bảo trì thực tế</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle table-row-dashed fs-7 gy-4">
+            <thead>
+              <tr class="text-start text-muted fw-bold fs-8 text-uppercase gs-0">
+                <th class="min-w-180px">Tài Sản</th>
+                <th class="min-w-250px">Mô Tả Sự Cố</th>
+                <th class="min-w-150px">Người Báo Hỏng</th>
+                <th class="min-w-120px text-end">Chi Phí Thực Tế</th>
+                <th class="min-w-120px text-center">Trạng Thái Phiếu</th>
+                <th class="min-w-140px text-end">Thời Gian Tạo</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+              @for (ticket of maintenanceTickets(); track ticket.id) {
+                <tr>
+                  <td>
+                    <div class="text-gray-900 fw-bold">{{ ticket.assetName }}</div>
+                    <span class="badge badge-light fw-bold font-monospace fs-8 text-primary">{{ ticket.assetCode }}</span>
+                  </td>
+                  <td>
+                    <span class="text-gray-800">{{ ticket.issueDescription }}</span>
+                  </td>
+                  <td>
+                    <span class="text-gray-900 fw-semibold">{{ ticket.reporterName || 'Nhân sự nội bộ' }}</span>
+                  </td>
+                  <td class="text-end fw-bold text-danger">
+                    {{ ticket.repairCost | number:'1.0-0' }} đ
+                  </td>
+                  <td class="text-center">
+                    <span class="badge fw-bold px-3 py-1 fs-8" [ngClass]="getMaintenanceStatusBadge(ticket.status)">
+                      {{ ticket.status }}
+                    </span>
+                  </td>
+                  <td class="text-end text-muted fs-8">
+                    {{ ticket.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                </tr>
+              }
+
+              @if (maintenanceTickets().length === 0 && !isLoadingMaintenance()) {
+                <tr>
+                  <td colspan="6" class="text-center py-10">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                      <i class="bi bi-shield-check fs-3x text-success mb-3"></i>
+                      <span class="text-gray-500 fs-6 fw-semibold">Hiện chưa có phiếu báo hỏng nào</span>
+                      <span class="text-muted fs-7">Toàn bộ trang thiết bị đang hoạt động ổn định</span>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- TAB 3: DEPRECIATION TABLE -->
+    @if (activeTab === 'DEPRECIATION') {
+      <div class="card-body px-6 py-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h4 class="card-title fw-bold text-gray-900 fs-6 m-0">Nhật Ký Trích Khấu Hao Định Kỳ</h4>
+          <button type="button" class="btn btn-sm btn-primary fw-bold" (click)="openDepreciateModal()">
+            <i class="bi bi-calculator me-1"></i>Chạy Khấu Hao Tháng Này
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle table-row-dashed fs-7 gy-4">
+            <thead>
+              <tr class="text-start text-muted fw-bold fs-8 text-uppercase gs-0">
+                <th class="min-w-180px">Tài Sản</th>
+                <th class="min-w-130px text-center">Kỳ Khấu Hao</th>
+                <th class="min-w-150px text-end">Mức Khấu Hao Kỳ</th>
+                <th class="min-w-150px text-end">Giá Trị Còn Lại</th>
+                <th class="min-w-150px text-end">Thời Điểm Ghi Nhận</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+              @for (dep of depreciations(); track dep.id) {
+                <tr>
+                  <td>
+                    <div class="text-gray-900 fw-bold">{{ dep.assetName }}</div>
+                    <span class="badge badge-light fw-bold font-monospace fs-8 text-primary">{{ dep.assetCode }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge badge-light-primary fw-bold fs-8">Tháng {{ dep.periodMonth }}/{{ dep.periodYear }}</span>
+                  </td>
+                  <td class="text-end fw-bold text-danger">
+                    - {{ dep.depreciatedAmount | number:'1.0-0' }} đ
+                  </td>
+                  <td class="text-end fw-bolder" style="color: #7239ea;">
+                    {{ dep.remainingValue | number:'1.0-0' }} đ
+                  </td>
+                  <td class="text-end text-muted fs-8">
+                    {{ dep.createdAt | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                </tr>
+              }
+
+              @if (depreciations().length === 0 && !isLoadingDepreciations()) {
+                <tr>
+                  <td colspan="5" class="text-center py-10">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                      <i class="bi bi-graph-down fs-3x text-muted mb-3"></i>
+                      <span class="text-gray-500 fs-6 fw-semibold">Chưa có lịch sử trích khấu hao</span>
+                      <span class="text-muted fs-7">Nhấn nút "Tính Khấu Hao Tháng" ở trên để hạch toán khấu hao định kỳ</span>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
   </div>
 </div>
+
+<!-- ============================================================== -->
+<!-- MODAL 1: KHAI BÁO TÀI SẢN MỚI                                -->
+<!-- ============================================================== -->
+@if (isCreateModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+              <i class="bi bi-box-seam-fill fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0">Khai Báo Tài Sản Mới</h3>
+              <span class="text-muted fs-7">Đăng ký tài sản vào hệ thống để bắt đầu theo dõi vòng đời & khấu hao</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeCreateModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-6 px-6">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Mã Tài Sản</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: AST-IT-001" [(ngModel)]="createForm.assetCode" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Tên Tài Sản</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: Laptop Dell XPS 15 9530" [(ngModel)]="createForm.name" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Phân Loại Danh Mục</label>
+              <select class="form-select form-select-solid fs-7" [(ngModel)]="createForm.category">
+                <option value="IT">💻 Thiết bị CNTT (Laptop/PC)</option>
+                <option value="MACHINERY">⚙️ Máy móc / Động cơ</option>
+                <option value="VEHICLE">🚗 Phương tiện vận tải</option>
+                <option value="OFFICE">🏢 Đồ dùng văn phòng</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Nguyên Giá Mua Vào (VNĐ)</label>
+              <input type="number" class="form-control form-control-solid fs-7" placeholder="VD: 35000000" [(ngModel)]="createForm.purchasePrice" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold fs-7 mb-1">Số Serial / Service Tag</label>
+              <input type="text" class="form-control form-control-solid fs-7" placeholder="VD: SN-2024-998811" [(ngModel)]="createForm.serialNumber" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold fs-7 mb-1">Ngày Mua Vào</label>
+              <input type="date" class="form-control form-control-solid fs-7" [(ngModel)]="createForm.purchaseDate" />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeCreateModal()">Hủy Bỏ</button>
+          <button type="button" class="btn btn-primary fs-7 fw-bold" [disabled]="isSubmittingCreate" (click)="submitCreate()">
+            @if (isSubmittingCreate) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Lưu...
+            } @else {
+              <i class="bi bi-check2-circle me-1"></i>Lưu Hồ Sơ Tài Sản
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================== -->
+<!-- MODAL 2: CẤP PHÁT TÀI SẢN CHO NHÂN SỰ                         -->
+<!-- ============================================================== -->
+@if (isAllocateModalOpen && selectedAssetForAllocate) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-primary text-primary d-flex align-items-center justify-content-center">
+              <i class="bi bi-person-check-fill fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0">Cấp Phát Tài Sản</h3>
+              <span class="text-muted fs-7">Bàn giao tài sản cho nhân viên quản lý & sử dụng</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeAllocateModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-6">
+          <div class="p-3 rounded bg-light-primary mb-4 border border-primary-subtle">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedAssetForAllocate.name }}</div>
+            <div class="text-muted fs-8">Mã: <strong class="text-primary font-monospace">{{ selectedAssetForAllocate.assetCode }}</strong> | Giá trị: <strong>{{ selectedAssetForAllocate.currentValue | number:'1.0-0' }} đ</strong></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fw-semibold fs-7 mb-1">Chọn Nhân Sự Tiếp Nhận</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="allocateForm.assigneeUserId">
+              <option [value]="0">-- Chọn nhân sự từ danh sách --</option>
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.userId || emp.id">{{ emp.fullName }} ({{ emp.employeeCode }}) - {{ emp.departmentName || 'Nhân sự' }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fw-semibold fs-7 mb-1">Ghi Chú Tình Trạng Lúc Giao</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="VD: Máy mới 100%, đầy đủ sạc cáp..." [(ngModel)]="allocateForm.conditionNotes"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeAllocateModal()">Hủy</button>
+          <button type="button" class="btn btn-primary fs-7 fw-bold" [disabled]="isSubmittingAllocate" (click)="submitAllocate()">
+            @if (isSubmittingAllocate) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Xử Lý...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i>Xác Nhận Cấp Phát
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================== -->
+<!-- MODAL 3: ĐIỀU CHUYỂN TÀI SẢN NỘI BỘ                           -->
+<!-- ============================================================== -->
+@if (isTransferModalOpen && selectedAssetForTransfer) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-info text-info d-flex align-items-center justify-content-center">
+              <i class="bi bi-arrow-left-right fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0">Điều Chuyển Tài Sản</h3>
+              <span class="text-muted fs-7">Chuyển quyền quản lý/sử dụng tài sản sang nhân sự khác</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeTransferModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-6">
+          <div class="p-3 rounded bg-light mb-4 border border-gray-200">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedAssetForTransfer.name }}</div>
+            <div class="text-muted fs-8">Mã: <strong class="text-info font-monospace">{{ selectedAssetForTransfer.assetCode }}</strong> | Người giữ hiện tại: <strong class="text-gray-900">{{ selectedAssetForTransfer.assigneeName || 'Kho' }}</strong></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fw-semibold fs-7 mb-1">Nhân Sự Mới Tiếp Nhận</label>
+            <select class="form-select form-select-solid fs-7" [(ngModel)]="transferForm.targetUserId">
+              <option [value]="0">-- Chọn nhân sự tiếp nhận mới --</option>
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.userId || emp.id">{{ emp.fullName }} ({{ emp.employeeCode }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fw-semibold fs-7 mb-1">Lý Do Điều Chuyển</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="VD: Thay đổi nhân sự dự án, điều chuyển phòng ban..." [(ngModel)]="transferForm.reason"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeTransferModal()">Hủy</button>
+          <button type="button" class="btn btn-info fs-7 fw-bold text-white" [disabled]="isSubmittingTransfer" (click)="submitTransfer()">
+            @if (isSubmittingTransfer) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Chuyển...
+            } @else {
+              <i class="bi bi-arrow-repeat me-1"></i>Xác Nhận Điều Chuyển
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================== -->
+<!-- MODAL 4: PHIẾU BÁO HỎNG / BẢO TRÌ SỰ CỐ                       -->
+<!-- ============================================================== -->
+@if (isMaintenanceModalOpen && selectedAssetForMaintenance) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+              <i class="bi bi-tools fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0">Tạo Phiếu Báo Hỏng</h3>
+              <span class="text-muted fs-7">Ghi nhận sự cố hư hỏng để phòng IT/Bảo trì xử lý</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeMaintenanceModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-6">
+          <div class="p-3 rounded bg-light-warning mb-4 border border-warning-subtle">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedAssetForMaintenance.name }}</div>
+            <div class="text-muted fs-8">Mã: <strong class="text-warning font-monospace">{{ selectedAssetForMaintenance.assetCode }}</strong> | S/N: {{ selectedAssetForMaintenance.serialNumber || 'N/A' }}</div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label required fw-semibold fs-7 mb-1">Mô Tả Sự Cố Chi Tiết</label>
+            <textarea class="form-control form-control-solid fs-7" rows="4" placeholder="VD: Màn hình bị chớp, máy không khởi động được, pin phồng..." [(ngModel)]="maintenanceForm.issueDescription"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeMaintenanceModal()">Hủy</button>
+          <button type="button" class="btn btn-warning fs-7 fw-bold text-white" [disabled]="isSubmittingMaintenance" (click)="submitMaintenance()">
+            @if (isSubmittingMaintenance) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Gửi...
+            } @else {
+              <i class="bi bi-send me-1"></i>Gửi Phiếu Báo Hỏng
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================== -->
+<!-- MODAL 5: THANH LÝ / PHẾ BỎ TÀI SẢN                             -->
+<!-- ============================================================== -->
+@if (isDisposeModalOpen && selectedAssetForDispose) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-danger text-danger d-flex align-items-center justify-content-center">
+              <i class="bi bi-trash-fill fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0 text-danger">Thanh Lý / Phế Bỏ Tài Sản</h3>
+              <span class="text-muted fs-7">Loại bỏ tài sản khỏi sổ theo dõi và thu hồi giá trị còn lại (nếu có)</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeDisposeModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-6">
+          <div class="p-3 rounded bg-light-danger mb-4 border border-danger-subtle">
+            <div class="fw-bold text-gray-900 fs-6">{{ selectedAssetForDispose.name }}</div>
+            <div class="text-muted fs-8">Mã: <strong class="text-danger font-monospace">{{ selectedAssetForDispose.assetCode }}</strong> | Giá trị sổ sách còn lại: <strong>{{ selectedAssetForDispose.currentValue | number:'1.0-0' }} đ</strong></div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label required fw-semibold fs-7 mb-1">Lý Do Thanh Lý</label>
+            <textarea class="form-control form-control-solid fs-7" rows="3" placeholder="VD: Hết thời gian trích khấu hao, thiết bị hư hỏng không còn khả năng sửa chữa..." [(ngModel)]="disposeForm.disposalReason"></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fw-semibold fs-7 mb-1">Giá Trị Thu Hồi Phế Liệu (VNĐ)</label>
+            <input type="number" class="form-control form-control-solid fs-7" placeholder="VD: 500000" [(ngModel)]="disposeForm.salvageValue" />
+            <span class="text-muted fs-8 mt-1 d-block">Số tiền thực tế thu hồi được sau khi bán phế liệu/thanh lý tài sản</span>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeDisposeModal()">Hủy</button>
+          <button type="button" class="btn btn-danger fs-7 fw-bold" [disabled]="isSubmittingDispose" (click)="submitDispose()">
+            @if (isSubmittingDispose) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Thanh Lý...
+            } @else {
+              <i class="bi bi-exclamation-triangle-fill me-1"></i>Xác Nhận Thanh Lý
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============================================================== -->
+<!-- MODAL 6: TÍNH KHẤU HAO TỰ ĐỘNG HÀNG THÁNG                      -->
+<!-- ============================================================== -->
+@if (isDepreciateModalOpen) {
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered mw-500px">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0 pt-6 px-6">
+          <div class="d-flex align-items-center gap-3">
+            <div class="symbol symbol-45px symbol-circle bg-light-warning text-warning d-flex align-items-center justify-content-center">
+              <i class="bi bi-calculator-fill fs-3"></i>
+            </div>
+            <div>
+              <h3 class="modal-title fw-bold text-gray-900 fs-4 mb-0">Chạy Khấu Hao Định Kỳ</h3>
+              <span class="text-muted fs-7">Hệ thống sẽ tự động tính khấu hao đường thẳng cho toàn bộ tài sản đủ điều kiện</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-icon btn-light" (click)="closeDepreciateModal()">
+            <i class="bi bi-x-lg fs-6"></i>
+          </button>
+        </div>
+
+        <div class="modal-body py-5 px-6">
+          <div class="row g-4 mb-4">
+            <div class="col-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Tháng Hạch Toán</label>
+              <input type="number" class="form-control form-control-solid fs-7" min="1" max="12" [(ngModel)]="depreciateForm.month" />
+            </div>
+            <div class="col-6">
+              <label class="form-label required fw-semibold fs-7 mb-1">Năm Hạch Toán</label>
+              <input type="number" class="form-control form-control-solid fs-7" [(ngModel)]="depreciateForm.year" />
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label required fw-semibold fs-7 mb-1">Khung Thời Gian Khấu Hao Tiêu Chuẩn (Tháng)</label>
+            <input type="number" class="form-control form-control-solid fs-7" placeholder="VD: 36 tháng" [(ngModel)]="depreciateForm.usefulLifeMonths" />
+            <span class="text-muted fs-8 mt-1 d-block">Mặc định: 36 tháng (3 năm) đối với thiết bị CNTT & văn phòng</span>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 pb-6 px-6">
+          <button type="button" class="btn btn-light fs-7 fw-bold" (click)="closeDepreciateModal()">Hủy</button>
+          <button type="button" class="btn btn-warning fs-7 fw-bold text-white" [disabled]="isSubmittingDepreciate" (click)="submitDepreciate()">
+            @if (isSubmittingDepreciate) {
+              <span class="spinner-border spinner-border-sm me-2"></span>Đang Tính Toán...
+            } @else {
+              <i class="bi bi-lightning-charge-fill me-1"></i>Thực Hiện Tính Khấu Hao
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -12,11 +12,11 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class AssetTransaction : BaseEntity<AssetTransactionStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long AssetId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid AssetId { get; private set; }
     public AssetTransactionActionType ActionType { get; private set; }
-    public long? FromUserId { get; private set; }
-    public long? ToUserId { get; private set; }
+    public Guid? FromUserId { get; private set; }
+    public Guid? ToUserId { get; private set; }
     public DateTime TransactionDate { get; private set; }
     public string? ConditionNotes { get; private set; }
 
@@ -30,20 +30,17 @@ public class AssetTransaction : BaseEntity<AssetTransactionStatus>, ITenantScope
     protected AssetTransaction() { }
 
     public static AssetTransaction Create(
-        long tenantId,
-        long assetId,
+        Guid tenantId,
+        Guid assetId,
         AssetTransactionActionType actionType,
-        long? fromUserId,
-        long? toUserId,
+        Guid?fromUserId,
+        Guid?toUserId,
         string? conditionNotes = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
-        if (assetId <= 0)
+        if (assetId == Guid.Empty)
             throw new DomainException("AssetId không hợp lệ.");
 
-        if (actionType == AssetTransactionActionType.ALLOCATE && (!toUserId.HasValue || toUserId <= 0))
+        if (actionType == AssetTransactionActionType.ALLOCATE && (!toUserId.HasValue || toUserId == Guid.Empty))
             throw new DomainException("Cấp phát tài sản bắt buộc phải chọn người nhận (ToUserId).");
 
         return new AssetTransaction

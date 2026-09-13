@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -9,9 +9,9 @@ namespace HrmPlatform.Application.Features.EmployeeContracts.Commands;
 
 public class DeleteEmployeeContractCommand : IRequest
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    public DeleteEmployeeContractCommand(long id)
+    public DeleteEmployeeContractCommand(Guid id)
     {
         Id = id;
     }
@@ -30,7 +30,7 @@ public class DeleteEmployeeContractCommandHandler : IRequestHandler<DeleteEmploy
 
     public async Task Handle(DeleteEmployeeContractCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var contract = await _context.EmployeeContracts
             .FirstOrDefaultAsync(c => c.Id == request.Id && c.TenantId == tenantId, cancellationToken);

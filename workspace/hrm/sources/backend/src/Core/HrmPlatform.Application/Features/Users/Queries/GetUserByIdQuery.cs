@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
@@ -8,7 +8,7 @@ namespace HrmPlatform.Application.Features.Users.Queries;
 
 public class GetUserByIdQuery : IRequest<ApiResponseDto<UserDto>>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, ApiResponseDto<UserDto>>

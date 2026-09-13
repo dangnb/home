@@ -1,12 +1,12 @@
 export interface User {
-  id: string | number;
+  id: string;
   name: string;
   username?: string;
   email: string;
   avatar?: string;
   role: string;
   company?: string;
-  tenantId?: number | null;
+  tenantId?: string | null;
   isSuperAdmin?: boolean;
   roles?: string[];
   permissions?: string[];

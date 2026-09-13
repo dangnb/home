@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
 using HrmPlatform.Domain.Enums;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.SystemCatalogs.Queries;
 // ============================================================
 public class SystemCatalogDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string CatalogType { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -46,7 +46,7 @@ public class GetSystemCatalogsQueryHandler : IRequestHandler<GetSystemCatalogsQu
 
     public async Task<List<SystemCatalogDto>> Handle(GetSystemCatalogsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -105,7 +105,7 @@ public class GetAllSystemCatalogsGroupedQueryHandler : IRequestHandler<GetAllSys
 
     public async Task<Dictionary<string, List<SystemCatalogDto>>> Handle(GetAllSystemCatalogsGroupedQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

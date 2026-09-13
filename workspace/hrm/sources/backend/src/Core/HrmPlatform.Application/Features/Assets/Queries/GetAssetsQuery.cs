@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.Assets.Queries;
 
 public class AssetDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string AssetCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
@@ -20,7 +20,7 @@ public class AssetDto
     public DateOnly? PurchaseDate { get; set; }
     public decimal PurchasePrice { get; set; }
     public decimal CurrentValue { get; set; }
-    public long? AssigneeId { get; set; }
+    public Guid? AssigneeId { get; set; }
     public string? AssigneeName { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
@@ -42,7 +42,7 @@ public class GetAssetsQuery : IRequest<object>
     public string? Keyword { get; set; }
     public string? Category { get; set; }
     public string? Status { get; set; }
-    public long? AssigneeUserId { get; set; }
+    public Guid? AssigneeUserId { get; set; }
 }
 
 public class GetAssetsQueryHandler : IRequestHandler<GetAssetsQuery, object>
@@ -58,7 +58,7 @@ public class GetAssetsQueryHandler : IRequestHandler<GetAssetsQuery, object>
 
     public async Task<object> Handle(GetAssetsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -84,7 +84,7 @@ public class GetAssetsQueryHandler : IRequestHandler<GetAssetsQuery, object>
             parameters.Add("Status", request.Status.Trim().ToUpper());
         }
 
-        if (request.AssigneeUserId.HasValue && request.AssigneeUserId.Value > 0)
+        if (request.AssigneeUserId.HasValue && request.AssigneeUserId.Value != Guid.Empty)
         {
             whereClause += " AND a.assignee_id = @AssigneeUserId";
             parameters.Add("AssigneeUserId", request.AssigneeUserId.Value);

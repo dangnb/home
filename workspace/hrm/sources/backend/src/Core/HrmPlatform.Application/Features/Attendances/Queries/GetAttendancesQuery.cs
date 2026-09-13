@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,9 +12,9 @@ namespace HrmPlatform.Application.Features.Attendances.Queries;
 
 public class AttendanceDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid UserId { get; set; }
     public string EmployeeName { get; set; } = string.Empty;
     public string WorkDate { get; set; } = string.Empty;
     public DateTime? CheckIn { get; set; }
@@ -27,7 +27,7 @@ public class AttendanceDto
 
 public class GetAttendancesQuery : IRequest<ApiResponseDto<List<AttendanceDto>>>
 {
-    public long? UserId { get; set; }
+    public Guid? UserId { get; set; }
     public string? StartDate { get; set; }
     public string? EndDate { get; set; }
 }
@@ -45,7 +45,7 @@ public class GetAttendancesQueryHandler : IRequestHandler<GetAttendancesQuery, A
 
     public async Task<ApiResponseDto<List<AttendanceDto>>> Handle(GetAttendancesQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -53,7 +53,7 @@ public class GetAttendancesQueryHandler : IRequestHandler<GetAttendancesQuery, A
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.UserId.HasValue && request.UserId.Value > 0)
+        if (request.UserId.HasValue && request.UserId.Value != Guid.Empty)
         {
             whereClause += " AND a.user_id = @UserId";
             parameters.Add("UserId", request.UserId.Value);

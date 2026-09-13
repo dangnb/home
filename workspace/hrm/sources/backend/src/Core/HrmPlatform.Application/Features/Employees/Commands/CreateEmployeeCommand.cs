@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Entities.Hrm;
@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Employees.Commands;
 
-public record CreateEmployeeCommand : IRequest<long>
+public record CreateEmployeeCommand : IRequest<Guid>
 {
     // Thông tin tài khoản User
     public string Username { get; init; } = string.Empty;
@@ -19,8 +19,8 @@ public record CreateEmployeeCommand : IRequest<long>
     public string? Phone { get; init; }
 
     // Thông tin hồ sơ nhân sự
-    public long? DepartmentId { get; init; }
-    public long? ManagerId { get; init; }
+    public Guid? DepartmentId { get; init; }
+    public Guid? ManagerId { get; init; }
     public string JobTitle { get; init; } = string.Empty;
     public Gender Gender { get; init; } = Gender.OTHER;
     public DateOnly? DateOfBirth { get; init; }
@@ -68,7 +68,7 @@ public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCo
     }
 }
 
-public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, long>
+public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -81,9 +81,9 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         // 1. Kiểm tra trùng lặp Username và Email toàn hệ thống
         var usernameExists = await _context.Users

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class AssetDepreciation : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long AssetId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid AssetId { get; private set; }
     public int PeriodMonth { get; private set; }
     public int PeriodYear { get; private set; }
     public decimal DepreciatedAmount { get; private set; }
@@ -26,17 +26,14 @@ public class AssetDepreciation : BaseEntity, ITenantScopedEntity
     protected AssetDepreciation() { }
 
     public static AssetDepreciation Create(
-        long tenantId,
-        long assetId,
+        Guid tenantId,
+        Guid assetId,
         int periodMonth,
         int periodYear,
         decimal depreciatedAmount,
         decimal remainingValue)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
-        if (assetId <= 0)
+        if (assetId == Guid.Empty)
             throw new DomainException("AssetId không hợp lệ.");
 
         if (periodMonth < 1 || periodMonth > 12)

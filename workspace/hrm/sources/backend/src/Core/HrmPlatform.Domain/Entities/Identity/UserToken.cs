@@ -8,9 +8,9 @@ namespace HrmPlatform.Domain.Entities.Identity;
 /// </summary>
 public class UserToken
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
 
-    public long UserId { get; private set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// Chuỗi băm của Refresh Token bảo mật
@@ -59,13 +59,13 @@ public class UserToken
     /// Factory Method khởi tạo UserToken
     /// </summary>
     public static UserToken Create(
-        long userId,
+        Guid userId,
         string tokenHash,
         DateTime expiresAt,
         string? deviceInfo = null,
         string? ipAddress = null)
     {
-        if (userId <= 0)
+        if (userId == Guid.Empty)
             throw new DomainException("UserId không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(tokenHash))

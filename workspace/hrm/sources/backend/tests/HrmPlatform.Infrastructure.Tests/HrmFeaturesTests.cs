@@ -14,6 +14,12 @@ namespace HrmPlatform.Infrastructure.Tests;
 
 public class HrmFeaturesTests
 {
+    private static readonly Guid Tenant1Id = Guid.Parse("01956100-0000-7000-8000-000000000001");
+    private static readonly Guid User1Id = Guid.Parse("01956100-0000-7000-8000-000000000002");
+    private static readonly Guid User5Id = Guid.Parse("01956100-0000-7000-8000-000000000005");
+    private static readonly Guid User20Id = Guid.Parse("01956100-0000-7000-8000-000000000020");
+    private static readonly Guid User50Id = Guid.Parse("01956100-0000-7000-8000-000000000050");
+
     private ApplicationDbContext CreateDbContext(TestCurrentUserService currentUserService, string dbName)
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -28,7 +34,7 @@ public class HrmFeaturesTests
     public async Task Departments_CreateAndUpdate_ShouldWorkSuccessfully()
     {
         var dbName = Guid.NewGuid().ToString();
-        var currentUserService = new TestCurrentUserService { UserId = 1, TenantId = 1, IsSuperAdmin = false };
+        var currentUserService = new TestCurrentUserService { UserId = User1Id, TenantId = Tenant1Id, IsSuperAdmin = false };
 
         using var context = CreateDbContext(currentUserService, dbName);
 
@@ -40,7 +46,7 @@ public class HrmFeaturesTests
             Code = "IT"
         }, CancellationToken.None);
 
-        Assert.True(deptId > 0);
+        Assert.NotEqual(Guid.Empty, deptId);
 
         // 2. Kiểm tra trùng lặp mã phòng ban
         await Assert.ThrowsAsync<BadRequestException>(() =>
@@ -69,7 +75,7 @@ public class HrmFeaturesTests
     public async Task Employees_CreateEmployee_ShouldCreateUserAndProfileWithHashedPassword()
     {
         var dbName = Guid.NewGuid().ToString();
-        var currentUserService = new TestCurrentUserService { UserId = 1, TenantId = 1, IsSuperAdmin = false };
+        var currentUserService = new TestCurrentUserService { UserId = User1Id, TenantId = Tenant1Id, IsSuperAdmin = false };
 
         using var context = CreateDbContext(currentUserService, dbName);
 
@@ -89,7 +95,7 @@ public class HrmFeaturesTests
             Gender = Gender.MALE
         }, CancellationToken.None);
 
-        Assert.True(empId > 0);
+        Assert.NotEqual(Guid.Empty, empId);
 
         var profile = await context.EmployeeProfiles.Include(e => e.User).FirstOrDefaultAsync(e => e.Id == empId);
         Assert.NotNull(profile);
@@ -108,7 +114,7 @@ public class HrmFeaturesTests
     public async Task Attendances_CheckInAndCheckOut_ShouldCalculateLateAndEarlyMinutes()
     {
         var dbName = Guid.NewGuid().ToString();
-        var currentUserService = new TestCurrentUserService { UserId = 50, TenantId = 1, IsSuperAdmin = false };
+        var currentUserService = new TestCurrentUserService { UserId = User50Id, TenantId = Tenant1Id, IsSuperAdmin = false };
 
         using var context = CreateDbContext(currentUserService, dbName);
 
@@ -118,11 +124,11 @@ public class HrmFeaturesTests
 
         var attendanceId = await checkInHandler.Handle(new CheckInCommand
         {
-            UserId = 50,
+            UserId = User50Id,
             CheckInTime = checkInTime
         }, CancellationToken.None);
 
-        Assert.True(attendanceId > 0);
+        Assert.NotEqual(Guid.Empty, attendanceId);
 
         var record = await context.Attendances.FindAsync(attendanceId);
         Assert.NotNull(record);
@@ -133,7 +139,7 @@ public class HrmFeaturesTests
         await Assert.ThrowsAsync<BadRequestException>(() =>
             checkInHandler.Handle(new CheckInCommand
             {
-                UserId = 50,
+                UserId = User50Id,
                 CheckInTime = checkInTime.AddMinutes(5)
             }, CancellationToken.None));
 
@@ -143,7 +149,7 @@ public class HrmFeaturesTests
 
         await checkOutHandler.Handle(new CheckOutCommand
         {
-            UserId = 50,
+            UserId = User50Id,
             CheckOutTime = checkOutTime
         }, CancellationToken.None);
 
@@ -157,7 +163,7 @@ public class HrmFeaturesTests
     public async Task LeaveRequests_CreateAndApprove_ShouldTransitionStatus()
     {
         var dbName = Guid.NewGuid().ToString();
-        var employeeUser = new TestCurrentUserService { UserId = 20, TenantId = 1, IsSuperAdmin = false };
+        var employeeUser = new TestCurrentUserService { UserId = User20Id, TenantId = Tenant1Id, IsSuperAdmin = false };
 
         using var context = CreateDbContext(employeeUser, dbName);
 
@@ -171,14 +177,14 @@ public class HrmFeaturesTests
             Reason = "Nghỉ phép gia đình"
         }, CancellationToken.None);
 
-        Assert.True(leaveId > 0);
+        Assert.NotEqual(Guid.Empty, leaveId);
 
         var request = await context.LeaveRequests.FindAsync(leaveId);
         Assert.NotNull(request);
         Assert.Equal(LeaveRequestStatus.PENDING, request.Status);
 
         // 2. Người quản lý phê duyệt đơn
-        var managerUser = new TestCurrentUserService { UserId = 5, TenantId = 1, IsSuperAdmin = false };
+        var managerUser = new TestCurrentUserService { UserId = User5Id, TenantId = Tenant1Id, IsSuperAdmin = false };
         var approveHandler = new ApproveLeaveRequestCommandHandler(context, managerUser);
 
         await approveHandler.Handle(new ApproveLeaveRequestCommand
@@ -190,6 +196,6 @@ public class HrmFeaturesTests
         var approvedRequest = await context.LeaveRequests.FindAsync(leaveId);
         Assert.NotNull(approvedRequest);
         Assert.Equal(LeaveRequestStatus.APPROVED, approvedRequest.Status);
-        Assert.Equal(5, approvedRequest.ApproverId);
+        Assert.Equal(User5Id, approvedRequest.ApproverId);
     }
 }

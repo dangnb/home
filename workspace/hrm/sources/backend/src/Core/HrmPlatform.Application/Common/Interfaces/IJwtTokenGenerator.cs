@@ -9,11 +9,11 @@ public interface IJwtTokenGenerator
     /// Tạo Access Token có chữ ký bảo mật từ danh tính người dùng và quyền hạn
     /// </summary>
     string GenerateToken(
-        long userId,
+        Guid userId,
         string username,
         string email,
         string fullName,
-        long? tenantId,
+        Guid? tenantId,
         IEnumerable<string> roles,
         IEnumerable<string> permissions,
         bool isSuperAdmin);

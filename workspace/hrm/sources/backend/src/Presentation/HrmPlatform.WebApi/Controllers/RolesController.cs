@@ -32,10 +32,10 @@ public class RolesController : ControllerBase
     /// <summary>
     /// Lấy chi tiết vai trò theo ID kèm danh sách quyền hạn
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetRoleByIdQuery { Id = id }, cancellationToken);
         return Ok(result);
@@ -56,13 +56,13 @@ public class RolesController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin vai trò và danh sách quyền hạn
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateRoleCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRoleCommand command, CancellationToken cancellationToken)
     {
-        if (command.Id == 0 || command.Id == id)
+        if (command.Id == Guid.Empty || command.Id == id)
         {
             command = command with { Id = id };
         }
@@ -78,11 +78,11 @@ public class RolesController : ControllerBase
     /// <summary>
     /// Xóa vai trò (chỉ xóa được vai trò tùy biến không có người dùng liên kết)
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         await _sender.Send(new DeleteRoleCommand(id), cancellationToken);
         return NoContent();

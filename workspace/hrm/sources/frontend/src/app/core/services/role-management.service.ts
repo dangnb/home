@@ -30,7 +30,7 @@ export class RoleManagementService {
     return this.http.get<ApiResponse<RoleDetail[]>>(this.rolesUrl);
   }
 
-  getRoleById(id: number): Observable<ApiResponse<RoleDetail>> {
+  getRoleById(id: string): Observable<ApiResponse<RoleDetail>> {
     return this.http.get<ApiResponse<RoleDetail>>(`${this.rolesUrl}/${id}`);
   }
 
@@ -38,11 +38,11 @@ export class RoleManagementService {
     return this.http.post<any>(this.rolesUrl, dto);
   }
 
-  updateRole(id: number, dto: UpdateRoleDto): Observable<any> {
+  updateRole(id: string, dto: UpdateRoleDto): Observable<any> {
     return this.http.put<any>(`${this.rolesUrl}/${id}`, dto);
   }
 
-  deleteRole(id: number): Observable<any> {
+  deleteRole(id: string): Observable<any> {
     return this.http.delete<any>(`${this.rolesUrl}/${id}`);
   }
 }

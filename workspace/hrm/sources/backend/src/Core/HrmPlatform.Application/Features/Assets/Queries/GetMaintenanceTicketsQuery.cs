@@ -11,14 +11,14 @@ namespace HrmPlatform.Application.Features.Assets.Queries;
 
 public class MaintenanceTicketDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long AssetId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid AssetId { get; set; }
     public string AssetCode { get; set; } = string.Empty;
     public string AssetName { get; set; } = string.Empty;
     public long ReportedBy { get; set; }
     public string ReporterName { get; set; } = string.Empty;
-    public long? TechnicianId { get; set; }
+    public Guid? TechnicianId { get; set; }
     public string? TechnicianName { get; set; }
     public string IssueDescription { get; set; } = string.Empty;
     public string? ResolutionNotes { get; set; }
@@ -33,7 +33,7 @@ public class GetMaintenanceTicketsQuery : IRequest<object>
     public int PageSize { get; set; } = 20;
     public string? Keyword { get; set; }
     public string? Status { get; set; }
-    public long? AssetId { get; set; }
+    public Guid? AssetId { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
 }
@@ -51,7 +51,7 @@ public class GetMaintenanceTicketsQueryHandler : IRequestHandler<GetMaintenanceT
 
     public async Task<object> Handle(GetMaintenanceTicketsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -71,7 +71,7 @@ public class GetMaintenanceTicketsQueryHandler : IRequestHandler<GetMaintenanceT
             parameters.Add("Status", request.Status.Trim().ToUpper());
         }
 
-        if (request.AssetId.HasValue && request.AssetId.Value > 0)
+        if (request.AssetId.HasValue && request.AssetId.Value != Guid.Empty)
         {
             whereClause += " AND m.asset_id = @AssetId";
             parameters.Add("AssetId", request.AssetId.Value);

@@ -17,7 +17,7 @@ public class User : BaseEntity, IMayHaveTenant
     /// <summary>
     /// ID của doanh nghiệp (Null đối với SuperAdmin)
     /// </summary>
-    public long? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
 
     /// <summary>
     /// Tên đăng nhập duy nhất
@@ -64,15 +64,15 @@ public class User : BaseEntity, IMayHaveTenant
     /// Factory Method tạo User mới đảm bảo trạng thái hợp lệ ngay từ đầu
     /// </summary>
     public static User Create(
-        long? tenantId,
+        Guid? tenantId,
         string username,
         string email,
         string passwordHash,
         string fullName,
         string? phone = null)
     {
-        if (tenantId.HasValue && tenantId.Value <= 0)
-            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
+        if (tenantId.HasValue && tenantId.Value == Guid.Empty)
+            throw new DomainException("TenantId không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(username))
             throw new DomainException("Tên đăng nhập không được để trống.");

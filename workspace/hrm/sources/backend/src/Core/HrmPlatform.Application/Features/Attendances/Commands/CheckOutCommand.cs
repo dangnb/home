@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Common.Exceptions;
+﻿using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +7,7 @@ namespace HrmPlatform.Application.Features.Attendances.Commands;
 
 public record CheckOutCommand : IRequest
 {
-    public long? UserId { get; init; }
+    public Guid? UserId { get; init; }
     public DateTime? CheckOutTime { get; init; }
 }
 

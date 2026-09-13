@@ -11,10 +11,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Assets.Commands;
 
-public class TransferAssetCommand : IRequest<long>
+public class TransferAssetCommand : IRequest<Guid>
 {
-    public long AssetId { get; set; }
-    public long TargetUserId { get; set; }
+    public Guid AssetId { get; set; }
+    public Guid TargetUserId { get; set; }
     public string? Reason { get; set; }
 }
 
@@ -22,12 +22,12 @@ public class TransferAssetCommandValidator : AbstractValidator<TransferAssetComm
 {
     public TransferAssetCommandValidator()
     {
-        RuleFor(x => x.AssetId).GreaterThan(0).WithMessage("AssetId không hợp lệ.");
-        RuleFor(x => x.TargetUserId).GreaterThan(0).WithMessage("TargetUserId người tiếp nhận không hợp lệ.");
+        RuleFor(x => x.AssetId).NotEmpty().WithMessage("AssetId không hợp lệ.");
+        RuleFor(x => x.TargetUserId).NotEmpty().WithMessage("TargetUserId người tiếp nhận không hợp lệ.");
     }
 }
 
-public class TransferAssetCommandHandler : IRequestHandler<TransferAssetCommand, long>
+public class TransferAssetCommandHandler : IRequestHandler<TransferAssetCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -38,9 +38,9 @@ public class TransferAssetCommandHandler : IRequestHandler<TransferAssetCommand,
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(TransferAssetCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(TransferAssetCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
         var currentUserId = _currentUserService.UserId;
 
         var asset = await _context.Assets

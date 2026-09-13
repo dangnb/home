@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
@@ -10,7 +10,7 @@ namespace HrmPlatform.Application.Features.RewardDisciplines.Queries;
 
 public class GetRewardDisciplineByIdQuery : IRequest<RewardDisciplineDto>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetRewardDisciplineByIdQueryHandler : IRequestHandler<GetRewardDisciplineByIdQuery, RewardDisciplineDto>
@@ -26,7 +26,7 @@ public class GetRewardDisciplineByIdQueryHandler : IRequestHandler<GetRewardDisc
 
     public async Task<RewardDisciplineDto> Handle(GetRewardDisciplineByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
         using var connection = _sqlConnectionFactory.CreateConnection();
 
         var sql = $@"

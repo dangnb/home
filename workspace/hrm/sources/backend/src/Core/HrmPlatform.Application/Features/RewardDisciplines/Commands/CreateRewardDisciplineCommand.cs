@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.RewardDisciplines.Commands;
 
-public class CreateRewardDisciplineCommand : IRequest<long>
+public class CreateRewardDisciplineCommand : IRequest<Guid>
 {
-    public long EmployeeId { get; set; }
+    public Guid EmployeeId { get; set; }
     public RewardDisciplineType Type { get; set; }
     public RewardDisciplineCategory Category { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -27,7 +27,7 @@ public class CreateRewardDisciplineCommand : IRequest<long>
     public RewardDisciplineStatus Status { get; set; } = RewardDisciplineStatus.PENDING;
 }
 
-public class CreateRewardDisciplineCommandHandler : IRequestHandler<CreateRewardDisciplineCommand, long>
+public class CreateRewardDisciplineCommandHandler : IRequestHandler<CreateRewardDisciplineCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -38,9 +38,9 @@ public class CreateRewardDisciplineCommandHandler : IRequestHandler<CreateReward
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateRewardDisciplineCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateRewardDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var employeeExists = await _context.EmployeeProfiles
             .AnyAsync(e => e.Id == request.EmployeeId && e.TenantId == tenantId, cancellationToken);

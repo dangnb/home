@@ -5,5 +5,5 @@ namespace HrmPlatform.Domain.Common;
 /// </summary>
 public interface IMayHaveTenant
 {
-    long? TenantId { get; set; }
+    Guid? TenantId { get; set; }
 }

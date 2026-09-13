@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Application.Features.HrPolicies.Queries;
 
 public class HrPolicyDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string PolicyCode { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty; // BENEFITS, WORKING_HOURS, INSURANCE_WELFARE, CODE_OF_CONDUCT, SAFETY_HEALTH, OTHER
@@ -56,7 +56,7 @@ public class GetHrPoliciesQueryHandler : IRequestHandler<GetHrPoliciesQuery, Pag
 
     public async Task<PaginatedResultDto<HrPolicyDto>> Handle(GetHrPoliciesQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

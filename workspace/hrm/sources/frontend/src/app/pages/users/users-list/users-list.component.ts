@@ -45,7 +45,7 @@ export class UsersListComponent implements OnInit {
   // Add / Edit Modal state
   isUserModalOpen = false;
   isEditing = false;
-  editingUserId: number | string | null = null;
+  editingUserId: string | null = null;
   isSaving = false;
 
   formData = {
@@ -54,7 +54,7 @@ export class UsersListComponent implements OnInit {
     email: '',
     phone: '',
     password: '',
-    roleId: 4,
+    roleId: '',
     status: 'ACTIVE'
   };
 
@@ -156,7 +156,7 @@ export class UsersListComponent implements OnInit {
       email: '',
       phone: '',
       password: '',
-      roleId: this.roles().length > 0 ? this.roles()[this.roles().length - 1].id : 4,
+      roleId: this.roles().length > 0 ? this.roles()[this.roles().length - 1].id : '',
       status: 'ACTIVE'
     };
     this.isUserModalOpen = true;
@@ -172,7 +172,7 @@ export class UsersListComponent implements OnInit {
       email: user.email,
       phone: user.phone || '',
       password: '', // Để trống nếu không đổi
-      roleId: user.roleId || 4,
+      roleId: user.roleId || '',
       status: user.status || 'ACTIVE'
     };
     this.isUserModalOpen = true;
@@ -213,7 +213,7 @@ export class UsersListComponent implements OnInit {
         email: this.formData.email.trim().toLowerCase(),
         phone: this.formData.phone?.trim() || undefined,
         password: this.formData.password?.trim() || undefined,
-        roleId: Number(this.formData.roleId),
+        roleId: this.formData.roleId || undefined,
         status: this.formData.status
       };
 
@@ -237,7 +237,7 @@ export class UsersListComponent implements OnInit {
         fullName: this.formData.fullName.trim(),
         password: this.formData.password.trim(),
         phone: this.formData.phone?.trim() || undefined,
-        roleId: Number(this.formData.roleId),
+        roleId: this.formData.roleId || undefined,
         status: this.formData.status
       };
 

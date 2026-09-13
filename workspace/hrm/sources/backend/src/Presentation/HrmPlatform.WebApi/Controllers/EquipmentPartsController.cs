@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Features.EquipmentParts.Commands;
 using HrmPlatform.Application.Features.EquipmentParts.Queries;
@@ -75,10 +75,10 @@ public class EquipmentPartsController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin linh kiện IT
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateEquipmentPartCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEquipmentPartCommand command, CancellationToken cancellationToken)
     {
         command.Id = id;
         await _sender.Send(command, cancellationToken);
@@ -88,10 +88,10 @@ public class EquipmentPartsController : ControllerBase
     /// <summary>
     /// Điều chỉnh nhanh số lượng tồn kho (Nhập/Xuất kho)
     /// </summary>
-    [HttpPost("{id:long}/stock-adjust")]
+    [HttpPost("{id:guid}/stock-adjust")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> AdjustStock(long id, [FromBody] AdjustStockRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AdjustStock(Guid id, [FromBody] AdjustStockRequest request, CancellationToken cancellationToken)
     {
         var command = new AdjustEquipmentPartStockCommand
         {
@@ -106,10 +106,10 @@ public class EquipmentPartsController : ControllerBase
     /// <summary>
     /// Vô hiệu hóa / Xóa linh kiện
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         await _sender.Send(new DeleteEquipmentPartCommand(id), cancellationToken);
         return Ok(new { success = true, message = "Xóa linh kiện thành công." });

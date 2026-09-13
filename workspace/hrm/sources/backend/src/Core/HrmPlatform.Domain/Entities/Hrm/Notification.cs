@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 
 namespace HrmPlatform.Domain.Entities.Hrm;
@@ -8,12 +8,12 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Notification : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
 
     /// <summary>
     /// ID tài khoản User nhận thông báo (FK -> users.id)
     /// </summary>
-    public long UserId { get; private set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// Tiêu đề thông báo
@@ -33,7 +33,7 @@ public class Notification : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// ID thực thể liên quan (vd: EmployeeJobHistory.Id)
     /// </summary>
-    public long? ReferenceId { get; private set; }
+    public Guid? ReferenceId { get; private set; }
 
     /// <summary>
     /// Đường dẫn tới màn hình xử lý (vd: /hrm/transfers)
@@ -51,12 +51,12 @@ public class Notification : BaseEntity, ITenantScopedEntity
     public DateTime? ReadAt { get; private set; }
 
     public static Notification Create(
-        long tenantId,
-        long userId,
+        Guid tenantId,
+        Guid userId,
         string title,
         string message,
         string notificationType,
-        long? referenceId = null,
+        Guid?referenceId = null,
         string? targetUrl = null)
     {
         return new Notification

@@ -13,7 +13,7 @@ public class SystemCatalog : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// ID Tenant sở hữu danh mục này (Multi-tenant isolation)
     /// </summary>
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
 
     /// <summary>
     /// Loại danh mục (phân biệt nhóm danh mục)
@@ -52,7 +52,7 @@ public class SystemCatalog : BaseEntity, ITenantScopedEntity
 
     protected SystemCatalog() { }
 
-    private SystemCatalog(long tenantId, SystemCatalogType catalogType, string code, string name, string? description, int sortOrder, bool isSystemDefault)
+    private SystemCatalog(Guid tenantId, SystemCatalogType catalogType, string code, string name, string? description, int sortOrder, bool isSystemDefault)
     {
         TenantId = tenantId;
         CatalogType = catalogType;
@@ -68,7 +68,7 @@ public class SystemCatalog : BaseEntity, ITenantScopedEntity
     // ============================================================
 
     public static SystemCatalog Create(
-        long tenantId,
+        Guid tenantId,
         SystemCatalogType catalogType,
         string code,
         string name,

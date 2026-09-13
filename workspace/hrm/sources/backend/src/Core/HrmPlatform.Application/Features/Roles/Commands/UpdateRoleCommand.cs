@@ -14,10 +14,10 @@ namespace HrmPlatform.Application.Features.Roles.Commands;
 
 public record UpdateRoleCommand : IRequest<Unit>
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
     public string? Description { get; init; }
-    public List<long> PermissionIds { get; init; } = new();
+    public List<Guid> PermissionIds { get; init; } = new();
 }
 
 public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
@@ -25,7 +25,7 @@ public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
     public UpdateRoleCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID vai trò không hợp lệ.");
+            .NotEmpty().WithMessage("ID vai trò không hợp lệ.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Tên vai trò không được để trống.")
@@ -59,7 +59,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Unit>
 
         // Đồng bộ danh sách permissions
         var existingPermIds = role.RolePermissions.Select(rp => rp.PermissionId).ToHashSet();
-        var desiredPermIds = (request.PermissionIds ?? new List<long>()).Distinct().ToHashSet();
+        var desiredPermIds = (request.PermissionIds ?? new List<Guid>()).Distinct().ToHashSet();
 
         // Xóa những quyền không còn được chọn
         var permsToRemove = role.RolePermissions.Where(rp => !desiredPermIds.Contains(rp.PermissionId)).ToList();

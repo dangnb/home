@@ -12,7 +12,7 @@ namespace HrmPlatform.Application.Features.Equipments.Commands;
 
 public class UpdateEquipmentCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public EquipmentCategory Category { get; set; } = EquipmentCategory.LAPTOP;
@@ -28,7 +28,7 @@ public class UpdateEquipmentCommandValidator : AbstractValidator<UpdateEquipment
     public UpdateEquipmentCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID trang thiết bị không hợp lệ.");
+            .NotEmpty().WithMessage("ID trang thiết bị không hợp lệ.");
 
         RuleFor(x => x.Code)
             .NotEmpty().WithMessage("Mã trang thiết bị không được để trống.")
@@ -53,7 +53,7 @@ public class UpdateEquipmentCommandHandler : IRequestHandler<UpdateEquipmentComm
 
     public async Task<bool> Handle(UpdateEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var equipment = await _context.Equipments
             .FirstOrDefaultAsync(e => e.Id == request.Id && e.TenantId == tenantId, cancellationToken);

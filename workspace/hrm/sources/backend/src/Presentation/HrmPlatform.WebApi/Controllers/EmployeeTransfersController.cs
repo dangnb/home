@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.EmployeeTransfers.Commands;
+﻿using HrmPlatform.Application.Features.EmployeeTransfers.Commands;
 using HrmPlatform.Application.Features.EmployeeTransfers.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,7 @@ public class EmployeeTransfersController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] long? employeeId,
+        [FromQuery] Guid? employeeId,
         [FromQuery] string? changeType,
         [FromQuery] string? approvalStatus,
         [FromQuery] string? keyword,
@@ -73,10 +73,10 @@ public class EmployeeTransfersController : ControllerBase
     /// <summary>
     /// Phê duyệt Lệnh điều động + Tự động đồng bộ Hồ sơ nhân sự
     /// </summary>
-    [HttpPost("{id:long}/approve")]
+    [HttpPost("{id:guid}/approve")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Approve(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Approve(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new ApproveEmployeeTransferCommand { Id = id }, cancellationToken);
         return Ok(new { succeeded = true, message = "Đã phê duyệt Lệnh điều động và cập nhật Hồ sơ nhân sự thành công!" });
@@ -85,10 +85,10 @@ public class EmployeeTransfersController : ControllerBase
     /// <summary>
     /// Từ chối Lệnh điều động công tác
     /// </summary>
-    [HttpPost("{id:long}/reject")]
+    [HttpPost("{id:guid}/reject")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Reject(long id, [FromBody] RejectEmployeeTransferRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Reject(Guid id, [FromBody] RejectEmployeeTransferRequest request, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new RejectEmployeeTransferCommand { Id = id, Reason = request.Reason }, cancellationToken);
         return Ok(new { succeeded = true, message = "Đã từ chối Lệnh điều động thành công." });
@@ -97,10 +97,10 @@ public class EmployeeTransfersController : ControllerBase
     /// <summary>
     /// Phê duyệt cấp tiếp theo trong Quy trình Phê duyệt Multi-Step (Cấp 1..4)
     /// </summary>
-    [HttpPost("{id:long}/approve-step")]
+    [HttpPost("{id:guid}/approve-step")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ApproveStep(long id, [FromBody] ApproveStepRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ApproveStep(Guid id, [FromBody] ApproveStepRequest request, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new ApproveEmployeeTransferStepCommand { Id = id, Step = request.Step, Note = request.Note }, cancellationToken);
         return Ok(new { succeeded = true, message = $"Đã phê duyệt Cấp {request.Step} thành công!" });
@@ -109,10 +109,10 @@ public class EmployeeTransfersController : ControllerBase
     /// <summary>
     /// Bước 5: Nhân viên Tiếp nhận & Xác nhận Lệnh điều động
     /// </summary>
-    [HttpPost("{id:long}/acknowledge")]
+    [HttpPost("{id:guid}/acknowledge")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Acknowledge(long id, [FromBody] AcknowledgeTransferRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Acknowledge(Guid id, [FromBody] AcknowledgeTransferRequest request, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new AcknowledgeEmployeeTransferCommand { Id = id, Note = request.Note }, cancellationToken);
         return Ok(new { succeeded = true, message = "Nhân viên đã xác nhận đồng ý tiếp nhận Lệnh điều động!" });
@@ -121,10 +121,10 @@ public class EmployeeTransfersController : ControllerBase
     /// <summary>
     /// Xóa Lệnh điều động
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new DeleteEmployeeTransferCommand(id), cancellationToken);
         return Ok(new { succeeded = true, message = "Đã xóa Lệnh điều động thành công." });

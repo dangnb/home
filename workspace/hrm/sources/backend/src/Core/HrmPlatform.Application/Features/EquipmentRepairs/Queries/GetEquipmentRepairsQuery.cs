@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,23 +11,23 @@ namespace HrmPlatform.Application.Features.EquipmentRepairs.Queries;
 
 public class EquipmentRepairDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
     public string Code { get; set; } = string.Empty;
-    public long EquipmentId { get; set; }
+    public Guid EquipmentId { get; set; }
     public string EquipmentCode { get; set; } = string.Empty;
     public string EquipmentName { get; set; } = string.Empty;
     public string EquipmentCategory { get; set; } = string.Empty;
     public string? SerialNumber { get; set; }
     
-    public long ReporterUserId { get; set; }
+    public Guid ReporterUserId { get; set; }
     public string ReporterUserName { get; set; } = string.Empty;
     public string? ReporterDepartmentName { get; set; }
     public DateTime ReportedDate { get; set; }
     public string IssueDescription { get; set; } = string.Empty;
     public string Priority { get; set; } = string.Empty;
     
-    public long? TechnicianUserId { get; set; }
+    public Guid? TechnicianUserId { get; set; }
     public string? TechnicianUserName { get; set; }
     public DateTime? AssignedDate { get; set; }
     
@@ -57,8 +57,8 @@ public class GetEquipmentRepairsQuery : IRequest<object>
     public string? Keyword { get; set; }
     public string? Status { get; set; }
     public string? Priority { get; set; }
-    public long? TechnicianUserId { get; set; }
-    public long? EquipmentId { get; set; }
+    public Guid? TechnicianUserId { get; set; }
+    public Guid? EquipmentId { get; set; }
     public DateOnly? FromDate { get; set; }
     public DateOnly? ToDate { get; set; }
     public int Page { get; set; } = 1;
@@ -78,7 +78,7 @@ public class GetEquipmentRepairsQueryHandler : IRequestHandler<GetEquipmentRepai
 
     public async Task<object> Handle(GetEquipmentRepairsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -104,13 +104,13 @@ public class GetEquipmentRepairsQueryHandler : IRequestHandler<GetEquipmentRepai
             parameters.Add("Priority", request.Priority.Trim().ToUpper());
         }
 
-        if (request.TechnicianUserId.HasValue && request.TechnicianUserId.Value > 0)
+        if (request.TechnicianUserId.HasValue && request.TechnicianUserId.Value != Guid.Empty)
         {
             whereClause += " AND r.technician_user_id = @TechnicianUserId";
             parameters.Add("TechnicianUserId", request.TechnicianUserId.Value);
         }
 
-        if (request.EquipmentId.HasValue && request.EquipmentId.Value > 0)
+        if (request.EquipmentId.HasValue && request.EquipmentId.Value != Guid.Empty)
         {
             whereClause += " AND r.equipment_id = @EquipmentId";
             parameters.Add("EquipmentId", request.EquipmentId.Value);

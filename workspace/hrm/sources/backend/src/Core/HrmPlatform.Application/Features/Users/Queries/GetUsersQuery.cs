@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,8 +12,8 @@ namespace HrmPlatform.Application.Features.Users.Queries;
 
 public class UserDto
 {
-    public long Id { get; set; }
-    public long? TenantId { get; set; }
+    public Guid Id { get; set; }
+    public Guid? TenantId { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ public class UserDto
     public string Status { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
-    public long? RoleId { get; set; }
+    public Guid? RoleId { get; set; }
     public string? RoleCode { get; set; }
     public string? RoleName { get; set; }
 }

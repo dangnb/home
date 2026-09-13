@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Assets.Commands;
 
-public class CreateAssetCommand : IRequest<long>
+public class CreateAssetCommand : IRequest<Guid>
 {
     public string AssetCode { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -39,7 +39,7 @@ public class CreateAssetCommandValidator : AbstractValidator<CreateAssetCommand>
     }
 }
 
-public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, long>
+public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -50,9 +50,9 @@ public class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, lon
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateAssetCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateAssetCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var codeExists = await _context.Assets
             .AnyAsync(a => a.TenantId == tenantId && a.AssetCode == request.AssetCode.Trim().ToUpper(), cancellationToken);

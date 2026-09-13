@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.Notifications.Commands;
+﻿using HrmPlatform.Application.Features.Notifications.Commands;
 using HrmPlatform.Application.Features.Notifications.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +33,9 @@ public class NotificationsController : ControllerBase
     /// <summary>
     /// Đánh dấu thông báo đã đọc
     /// </summary>
-    [HttpPost("{id:long}/read")]
+    [HttpPost("{id:guid}/read")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> MarkRead(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> MarkRead(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new MarkNotificationReadCommand { Id = id }, cancellationToken);
         return Ok(new { succeeded = true, message = "Đã đánh dấu thông báo là đã đọc." });

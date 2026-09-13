@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
@@ -10,9 +10,9 @@ namespace HrmPlatform.Application.Features.EquipmentRepairs.Queries;
 
 public class GetEquipmentRepairByIdQuery : IRequest<EquipmentRepairDto>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    public GetEquipmentRepairByIdQuery(long id)
+    public GetEquipmentRepairByIdQuery(Guid id)
     {
         Id = id;
     }
@@ -31,7 +31,7 @@ public class GetEquipmentRepairByIdQueryHandler : IRequestHandler<GetEquipmentRe
 
     public async Task<EquipmentRepairDto> Handle(GetEquipmentRepairByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

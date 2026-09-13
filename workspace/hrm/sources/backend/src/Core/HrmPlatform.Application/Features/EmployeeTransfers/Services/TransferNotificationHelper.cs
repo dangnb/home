@@ -11,27 +11,29 @@ namespace HrmPlatform.Application.Features.EmployeeTransfers.Services;
 
 public static class TransferNotificationHelper
 {
+    private static readonly Guid DefaultAdminUserId = Guid.Parse("01956100-0000-7000-8000-000000000003");
+
     public static async Task SendStepNotificationAsync(
         IApplicationDbContext context,
         EmployeeJobHistory history,
-        long tenantId,
+        Guid tenantId,
         CancellationToken cancellationToken)
     {
         var employee = await context.EmployeeProfiles
             .FirstOrDefaultAsync(e => e.Id == history.EmployeeId && e.TenantId == tenantId, cancellationToken);
         var employeeName = employee != null ? await GetUserNameAsync(context, employee.UserId, cancellationToken) : "Nhân viên";
 
-        long targetUserId = 1;
+        Guid targetUserId = DefaultAdminUserId;
         string stepRole = "";
 
         switch (history.CurrentStep)
         {
             case 1:
-                targetUserId = await ResolveUserIdAsync(context, history.OldManagerId ?? employee?.ManagerId, 1, tenantId, cancellationToken);
+                targetUserId = await ResolveUserIdAsync(context, history.OldManagerId ?? employee?.ManagerId, DefaultAdminUserId, tenantId, cancellationToken);
                 stepRole = "Trưởng phòng Quản lý hiện tại";
                 break;
             case 2:
-                targetUserId = await ResolveUserIdAsync(context, history.NewManagerId ?? employee?.ManagerId, 1, tenantId, cancellationToken);
+                targetUserId = await ResolveUserIdAsync(context, history.NewManagerId ?? employee?.ManagerId, DefaultAdminUserId, tenantId, cancellationToken);
                 stepRole = "Trưởng phòng tiếp nhận";
                 break;
             case 3:
@@ -44,11 +46,11 @@ public static class TransferNotificationHelper
                 break;
         }
 
-        var targetUserIds = new HashSet<long> { targetUserId };
+        var targetUserIds = new HashSet<Guid> { targetUserId };
         // Always include creator / default admin so current user sees notification in test environment
-        if (history.CreatedBy.HasValue && history.CreatedBy.Value > 0)
+        if (history.CreatedBy.HasValue && history.CreatedBy.Value != Guid.Empty)
             targetUserIds.Add(history.CreatedBy.Value);
-        targetUserIds.Add(1);
+        targetUserIds.Add(DefaultAdminUserId);
 
         foreach (var userId in targetUserIds)
         {
@@ -69,7 +71,7 @@ public static class TransferNotificationHelper
     public static async Task SendCompletedNotificationsAsync(
         IApplicationDbContext context,
         EmployeeJobHistory history,
-        long tenantId,
+        Guid tenantId,
         CancellationToken cancellationToken)
     {
         var employee = await context.EmployeeProfiles
@@ -77,18 +79,18 @@ public static class TransferNotificationHelper
 
         var employeeName = employee != null ? await GetUserNameAsync(context, employee.UserId, cancellationToken) : "Nhân viên";
 
-        var targetUserIds = new HashSet<long> { 1 }; // Always include admin
+        var targetUserIds = new HashSet<Guid> { DefaultAdminUserId }; // Always include admin
 
-        if (employee != null && employee.UserId > 0)
+        if (employee != null && employee.UserId != Guid.Empty)
             targetUserIds.Add(employee.UserId);
 
-        var oldManagerUserId = await ResolveUserIdAsync(context, history.OldManagerId, 0, tenantId, cancellationToken);
-        if (oldManagerUserId > 0) targetUserIds.Add(oldManagerUserId);
+        var oldManagerUserId = await ResolveUserIdAsync(context, history.OldManagerId, Guid.Empty, tenantId, cancellationToken);
+        if (oldManagerUserId != Guid.Empty) targetUserIds.Add(oldManagerUserId);
 
-        var newManagerUserId = await ResolveUserIdAsync(context, history.NewManagerId, 0, tenantId, cancellationToken);
-        if (newManagerUserId > 0) targetUserIds.Add(newManagerUserId);
+        var newManagerUserId = await ResolveUserIdAsync(context, history.NewManagerId, Guid.Empty, tenantId, cancellationToken);
+        if (newManagerUserId != Guid.Empty) targetUserIds.Add(newManagerUserId);
 
-        if (history.CreatedBy.HasValue && history.CreatedBy.Value > 0)
+        if (history.CreatedBy.HasValue && history.CreatedBy.Value != Guid.Empty)
             targetUserIds.Add(history.CreatedBy.Value);
 
         foreach (var userId in targetUserIds)
@@ -110,7 +112,7 @@ public static class TransferNotificationHelper
     public static async Task SendRejectedNotificationsAsync(
         IApplicationDbContext context,
         EmployeeJobHistory history,
-        long tenantId,
+        Guid tenantId,
         string reason,
         CancellationToken cancellationToken)
     {
@@ -119,12 +121,12 @@ public static class TransferNotificationHelper
 
         var employeeName = employee != null ? await GetUserNameAsync(context, employee.UserId, cancellationToken) : "Nhân viên";
 
-        var targetUserIds = new HashSet<long> { 1 };
+        var targetUserIds = new HashSet<Guid> { DefaultAdminUserId };
 
-        if (employee != null && employee.UserId > 0)
+        if (employee != null && employee.UserId != Guid.Empty)
             targetUserIds.Add(employee.UserId);
 
-        if (history.CreatedBy.HasValue && history.CreatedBy.Value > 0)
+        if (history.CreatedBy.HasValue && history.CreatedBy.Value != Guid.Empty)
             targetUserIds.Add(history.CreatedBy.Value);
 
         foreach (var userId in targetUserIds)
@@ -143,12 +145,12 @@ public static class TransferNotificationHelper
         }
     }
 
-    private static async Task<long> ResolveUserIdAsync(IApplicationDbContext context, long? employeeId, long fallbackUserId, long tenantId, CancellationToken ct)
+    private static async Task<Guid> ResolveUserIdAsync(IApplicationDbContext context, Guid? employeeId, Guid fallbackUserId, Guid tenantId, CancellationToken ct)
     {
-        if (employeeId.HasValue && employeeId.Value > 0)
+        if (employeeId.HasValue && employeeId.Value != Guid.Empty)
         {
             var emp = await context.EmployeeProfiles.FirstOrDefaultAsync(e => e.Id == employeeId.Value && e.TenantId == tenantId, ct);
-            if (emp != null && emp.UserId > 0)
+            if (emp != null && emp.UserId != Guid.Empty)
             {
                 return emp.UserId;
             }
@@ -156,21 +158,21 @@ public static class TransferNotificationHelper
         return fallbackUserId;
     }
 
-    private static async Task<string> GetUserNameAsync(IApplicationDbContext context, long userId, CancellationToken ct)
+    private static async Task<string> GetUserNameAsync(IApplicationDbContext context, Guid userId, CancellationToken ct)
     {
         var u = await context.Users.FirstOrDefaultAsync(x => x.Id == userId, ct);
         return u?.FullName ?? "Nhân viên";
     }
 
-    private static async Task<long> GetHRManagerUserIdAsync(IApplicationDbContext context, long tenantId, CancellationToken ct)
+    private static async Task<Guid> GetHRManagerUserIdAsync(IApplicationDbContext context, Guid tenantId, CancellationToken ct)
     {
         var hrUser = await context.Users.FirstOrDefaultAsync(u => u.TenantId == tenantId && u.Username.Contains("hr"), ct);
-        return hrUser?.Id ?? 1;
+        return hrUser?.Id ?? DefaultAdminUserId;
     }
 
-    private static async Task<long> GetDirectorUserIdAsync(IApplicationDbContext context, long tenantId, CancellationToken ct)
+    private static async Task<Guid> GetDirectorUserIdAsync(IApplicationDbContext context, Guid tenantId, CancellationToken ct)
     {
         var dirUser = await context.Users.FirstOrDefaultAsync(u => u.TenantId == tenantId && (u.Username.Contains("director") || u.Username.Contains("admin")), ct);
-        return dirUser?.Id ?? 1;
+        return dirUser?.Id ?? DefaultAdminUserId;
     }
 }

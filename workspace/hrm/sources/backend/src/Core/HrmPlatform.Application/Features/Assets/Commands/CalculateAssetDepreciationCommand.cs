@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ public class CalculateAssetDepreciationCommandValidator : AbstractValidator<Calc
     {
         RuleFor(x => x.Month).InclusiveBetween(1, 12).WithMessage("Tháng phải từ 1 đến 12.");
         RuleFor(x => x.Year).GreaterThanOrEqualTo(2020).WithMessage("Năm không hợp lệ.");
-        RuleFor(x => x.UsefulLifeMonths).GreaterThan(0).WithMessage("Thời gian sử dụng hữu ích phải > 0.");
+        RuleFor(x => x.UsefulLifeMonths).GreaterThan(0).WithMessage("Thời gian sử dụng hữu ích phải != Guid.Empty.");
     }
 }
 
@@ -41,7 +41,7 @@ public class CalculateAssetDepreciationCommandHandler : IRequestHandler<Calculat
 
     public async Task<int> Handle(CalculateAssetDepreciationCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
         var currentUserId = _currentUserService.UserId;
 
         // Lấy danh sách tài sản active ngoại trừ DISPOSED & DRAFT

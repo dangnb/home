@@ -28,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     #region Tenant & User Context for Global Query Filters
-    public long? CurrentTenantId => _currentUserService.TenantId;
+    public Guid? CurrentTenantId => _currentUserService.TenantId;
     public bool IsSuperAdmin => _currentUserService.IsSuperAdmin;
     #endregion
 
@@ -60,6 +60,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<MaintenanceTicket> MaintenanceTickets => Set<MaintenanceTicket>();
     public DbSet<AssetDepreciation> AssetDepreciations => Set<AssetDepreciation>();
     public DbSet<SystemCatalog> SystemCatalogs => Set<SystemCatalog>();
+
+    public DbSet<Project> Projects => Set<Project>();
+    public DbSet<ProjectMilestone> ProjectMilestones => Set<ProjectMilestone>();
+    public DbSet<ProjectTask> ProjectTasks => Set<ProjectTask>();
+    public DbSet<ProjectMember> ProjectMembers => Set<ProjectMember>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -98,7 +103,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var currentTenantExpr = Expression.Property(Expression.Constant(this), nameof(CurrentTenantId));
 
                 // e.TenantId == CurrentTenantId
-                var nullableTenantId = Expression.Convert(tenantIdProp, typeof(long?));
+                var nullableTenantId = Expression.Convert(tenantIdProp, typeof(Guid?));
                 var tenantEquals = Expression.Equal(nullableTenantId, currentTenantExpr);
 
                 // IsSuperAdmin || (e.TenantId == CurrentTenantId)
@@ -116,7 +121,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var currentTenantExpr = Expression.Property(Expression.Constant(this), nameof(CurrentTenantId));
 
                 // e.TenantId == null
-                var tenantIsNull = Expression.Equal(tenantIdProp, Expression.Constant(null, typeof(long?)));
+                var tenantIsNull = Expression.Equal(tenantIdProp, Expression.Constant(null, typeof(Guid?)));
 
                 // e.TenantId == CurrentTenantId
                 var tenantEquals = Expression.Equal(tenantIdProp, currentTenantExpr);

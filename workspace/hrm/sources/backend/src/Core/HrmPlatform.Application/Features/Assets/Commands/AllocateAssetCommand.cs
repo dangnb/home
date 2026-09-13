@@ -11,10 +11,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Assets.Commands;
 
-public class AllocateAssetCommand : IRequest<long>
+public class AllocateAssetCommand : IRequest<Guid>
 {
-    public long AssetId { get; set; }
-    public long AssigneeUserId { get; set; }
+    public Guid AssetId { get; set; }
+    public Guid AssigneeUserId { get; set; }
     public string? ConditionNotes { get; set; }
 }
 
@@ -23,14 +23,14 @@ public class AllocateAssetCommandValidator : AbstractValidator<AllocateAssetComm
     public AllocateAssetCommandValidator()
     {
         RuleFor(x => x.AssetId)
-            .GreaterThan(0).WithMessage("ID tài sản không hợp lệ.");
+            .NotEmpty().WithMessage("ID tài sản không hợp lệ.");
 
         RuleFor(x => x.AssigneeUserId)
-            .GreaterThan(0).WithMessage("Vui lòng chọn nhân sự tiếp nhận tài sản.");
+            .NotEmpty().WithMessage("Vui lòng chọn nhân sự tiếp nhận tài sản.");
     }
 }
 
-public class AllocateAssetCommandHandler : IRequestHandler<AllocateAssetCommand, long>
+public class AllocateAssetCommandHandler : IRequestHandler<AllocateAssetCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -41,9 +41,9 @@ public class AllocateAssetCommandHandler : IRequestHandler<AllocateAssetCommand,
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(AllocateAssetCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(AllocateAssetCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var asset = await _context.Assets
             .FirstOrDefaultAsync(a => a.Id == request.AssetId && a.TenantId == tenantId, cancellationToken);

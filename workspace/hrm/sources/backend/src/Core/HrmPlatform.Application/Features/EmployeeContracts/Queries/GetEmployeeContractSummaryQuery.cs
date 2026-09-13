@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using HrmPlatform.Application.Common.Interfaces;
@@ -23,7 +23,7 @@ public class GetEmployeeContractSummaryQueryHandler : IRequestHandler<GetEmploye
 
     public async Task<EmployeeContractSummaryDto> Handle(GetEmployeeContractSummaryQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

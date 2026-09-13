@@ -50,14 +50,14 @@ export class DepartmentsListComponent implements OnInit {
   isModalOpen = false;
   isEditMode = false;
   isSubmitting = false;
-  currentDepartmentId: number | string | null = null;
+  currentDepartmentId: string | null = null;
 
   // Form Model
   formData = {
     code: '',
     name: '',
     description: '',
-    parentId: '' as string | number,
+    parentId: '',
     status: 'ACTIVE'
   };
 
@@ -272,7 +272,7 @@ export class DepartmentsListComponent implements OnInit {
         code: this.formData.code.trim().toUpperCase(),
         name: this.formData.name.trim(),
         description: this.formData.description?.trim() || undefined,
-        parentId: this.formData.parentId ? Number(this.formData.parentId) : undefined,
+        parentId: this.formData.parentId ? String(this.formData.parentId) : undefined,
         status: this.formData.status
       };
 
@@ -294,7 +294,7 @@ export class DepartmentsListComponent implements OnInit {
         code: this.formData.code.toUpperCase().trim(),
         name: this.formData.name.trim(),
         description: this.formData.description?.trim() || undefined,
-        parentId: this.formData.parentId ? Number(this.formData.parentId) : undefined
+        parentId: this.formData.parentId ? String(this.formData.parentId) : undefined
       };
 
       this.departmentService.createDepartment(dto).subscribe({

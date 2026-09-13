@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Common.Exceptions;
+﻿using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Enums;
 using MediatR;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Employees.Commands;
 
-public record DeleteEmployeeCommand(long Id) : IRequest;
+public record DeleteEmployeeCommand(Guid Id) : IRequest;
 
 public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
 {

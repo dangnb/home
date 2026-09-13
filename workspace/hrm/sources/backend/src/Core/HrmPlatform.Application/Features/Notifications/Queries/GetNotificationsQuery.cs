@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,11 +11,11 @@ namespace HrmPlatform.Application.Features.Notifications.Queries;
 
 public class NotificationDto
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public string NotificationType { get; set; } = string.Empty;
-    public long? ReferenceId { get; set; }
+    public Guid? ReferenceId { get; set; }
     public string? TargetUrl { get; set; }
     public bool IsRead { get; set; }
     public DateTime? ReadAt { get; set; }
@@ -41,8 +41,8 @@ public class GetNotificationsQueryHandler : IRequestHandler<GetNotificationsQuer
 
     public async Task<List<NotificationDto>> Handle(GetNotificationsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var query = _context.Notifications
             .Where(n => n.TenantId == tenantId && n.UserId == userId);

@@ -16,7 +16,7 @@ public record ImportEmployeeItemDto
     public string? Password { get; init; }
     public string? Phone { get; init; }
     public string? JobTitle { get; init; }
-    public long? DepartmentId { get; init; }
+    public Guid? DepartmentId { get; init; }
     public string? DepartmentName { get; init; }
     public Gender Gender { get; init; } = Gender.OTHER;
     public DateOnly? DateOfBirth { get; init; }
@@ -30,7 +30,7 @@ public record ImportEmployeesResultDto
     public int SuccessCount { get; init; }
     public int FailureCount { get; init; }
     public List<string> Errors { get; init; } = new();
-    public List<long> CreatedIds { get; init; } = new();
+    public List<Guid> CreatedIds { get; init; } = new();
 }
 
 public record ImportEmployeesCommand : IRequest<ImportEmployeesResultDto>
@@ -53,7 +53,7 @@ public class ImportEmployeesCommandHandler : IRequestHandler<ImportEmployeesComm
 
     public async Task<ImportEmployeesResultDto> Handle(ImportEmployeesCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         if (request.Items == null || request.Items.Count == 0)
         {
@@ -84,7 +84,7 @@ public class ImportEmployeesCommandHandler : IRequestHandler<ImportEmployeesComm
             .FirstOrDefaultAsync(r => r.Code == "EMPLOYEE", cancellationToken);
 
         var errors = new List<string>();
-        var createdIds = new List<long>();
+        var createdIds = new List<Guid>();
         var successCount = 0;
         var failureCount = 0;
 
@@ -135,7 +135,7 @@ public class ImportEmployeesCommandHandler : IRequestHandler<ImportEmployeesComm
             }
 
             // Xác định phòng ban
-            long? deptId = item.DepartmentId;
+            Guid? deptId = item.DepartmentId;
             if (!deptId.HasValue && !string.IsNullOrWhiteSpace(item.DepartmentName))
             {
                 var matchDept = departments.FirstOrDefault(d => 

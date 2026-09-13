@@ -95,20 +95,22 @@ export class SidebarComponent implements OnInit {
     // ==========================================
     {
       title: 'Thiết Bị & Tài Sản',
-      isHeading: true,
-      requiredPermission: 'asset:read'
+      isHeading: true
     },
     {
-      title: 'Quản Lý Kho & Tài Sản',
+      title: 'Quản Lý Trang Thiết Bị',
       icon: 'bi-box-seam',
-      route: '/equipment/assets',
-      requiredPermission: 'asset:read'
+      route: '/equipment/assets'
+    },
+    {
+      title: 'Tài Sản & Khấu Hao',
+      icon: 'bi-cash-coin',
+      route: '/equipment/saas-assets'
     },
     {
       title: 'Báo Hỏng & Sửa IT',
       icon: 'bi-tools',
-      route: '/equipment/repairs',
-      requiredPermission: 'asset:read'
+      route: '/equipment/repairs'
     },
 
     // ==========================================

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Roles.Commands;
 
-public record DeleteRoleCommand(long Id) : IRequest<Unit>;
+public record DeleteRoleCommand(Guid Id) : IRequest<Unit>;
 
 public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
 {
@@ -38,7 +38,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
         }
 
         // Bảo vệ vai trò hệ thống
-        if (role.TenantId == null || role.Id <= 4 || SystemRoles.Contains(role.Code))
+        if (role.TenantId == null || SystemRoles.Contains(role.Code))
         {
             throw new BadRequestException($"Vai trò hệ thống mặc định '{role.Name}' ({role.Code}) không được phép xóa.");
         }

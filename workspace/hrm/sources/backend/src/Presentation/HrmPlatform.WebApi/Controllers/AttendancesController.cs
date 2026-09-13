@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.Attendances.Commands;
+﻿using HrmPlatform.Application.Features.Attendances.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ public class AttendancesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] long? userId,
+        [FromQuery] Guid? userId,
         [FromQuery] string? startDate,
         [FromQuery] string? endDate,
         CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ public class AttendancesController : ControllerBase
     [HttpGet("summary")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetSummary(
-        [FromQuery] long? userId,
+        [FromQuery] Guid? userId,
         [FromQuery] int? year,
         [FromQuery] int? month,
         CancellationToken cancellationToken = default)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
@@ -13,7 +13,7 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Project : BaseEntity, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
 
     /// <summary>Mã dự án tự sinh, định dạng DPA-[YEAR]-[SEQ]</summary>
     public string Code { get; private set; } = string.Empty;
@@ -34,16 +34,16 @@ public class Project : BaseEntity, ITenantScopedEntity
     public string? CustomerEmail { get; private set; }
 
     /// <summary>ID nhân viên kinh doanh phụ trách</summary>
-    public long SalesUserId { get; private set; }
+    public Guid SalesUserId { get; private set; }
 
     /// <summary>ID phòng kinh doanh phụ trách</summary>
-    public long SalesDepartmentId { get; private set; }
+    public Guid SalesDepartmentId { get; private set; }
 
     /// <summary>ID Lead Kỹ thuật / PM được phân công (nullable cho đến khi phân công)</summary>
-    public long? TechLeadUserId { get; private set; }
+    public Guid? TechLeadUserId { get; private set; }
 
     /// <summary>ID phòng kỹ thuật thực hiện</summary>
-    public long? TechDepartmentId { get; private set; }
+    public Guid? TechDepartmentId { get; private set; }
 
     /// <summary>Loại hợp đồng / mô hình dự án</summary>
     public ProjectType ProjectType { get; private set; } = ProjectType.FIXED_PRICE;
@@ -110,12 +110,12 @@ public class Project : BaseEntity, ITenantScopedEntity
     protected Project() { }
 
     public static Project Create(
-        long tenantId,
+        Guid tenantId,
         string code,
         string name,
         string customerName,
-        long salesUserId,
-        long salesDepartmentId,
+        Guid salesUserId,
+        Guid salesDepartmentId,
         ProjectType projectType,
         ProjectPriority priority,
         string? customerContactName = null,
@@ -127,11 +127,11 @@ public class Project : BaseEntity, ITenantScopedEntity
         string? description = null,
         string? internalNote = null)
     {
-        if (tenantId <= 0) throw new DomainException("TenantId không hợp lệ.");
+        if (tenantId == Guid.Empty) throw new DomainException("TenantId không hợp lệ.");
         if (string.IsNullOrWhiteSpace(code)) throw new DomainException("Mã dự án không được để trống.");
         if (string.IsNullOrWhiteSpace(name)) throw new DomainException("Tên dự án không được để trống.");
         if (string.IsNullOrWhiteSpace(customerName)) throw new DomainException("Tên khách hàng không được để trống.");
-        if (salesUserId <= 0) throw new DomainException("Nhân viên kinh doanh phụ trách không hợp lệ.");
+        if (salesUserId == Guid.Empty) throw new DomainException("Nhân viên kinh doanh phụ trách không hợp lệ.");
 
         return new Project
         {
@@ -229,7 +229,7 @@ public class Project : BaseEntity, ITenantScopedEntity
     }
 
     /// <summary>Phân công Team Kỹ thuật</summary>
-    public void AssignTechTeam(long techLeadUserId, long? techDepartmentId)
+    public void AssignTechTeam(Guid techLeadUserId, Guid?techDepartmentId)
     {
         if (TechStatus != ProjectTechStatus.PENDING_ASSIGNMENT)
             throw new DomainException("Dự án không ở trạng thái chờ phân công kỹ thuật.");

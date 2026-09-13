@@ -9,7 +9,7 @@ namespace HrmPlatform.Application.Features.Assets.Queries;
 
 public class AssetDashboardReportDto
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public int TotalAssets { get; set; }
     public int AvailableCount { get; set; }
     public int InUseCount { get; set; }
@@ -39,7 +39,7 @@ public class GetAssetDashboardQueryHandler : IRequestHandler<GetAssetDashboardQu
 
     public async Task<AssetDashboardReportDto> Handle(GetAssetDashboardQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
