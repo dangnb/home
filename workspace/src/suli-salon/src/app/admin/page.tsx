@@ -1,4 +1,5 @@
 import { getServices, getCategories, getAppointments, getGalleryItems } from "@/lib/db";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./admin.module.css";
 
@@ -73,7 +74,18 @@ export default async function AdminDashboard() {
             <tbody>
               {services.slice(0, 5).map((service) => (
                 <tr key={service.slug}>
-                  <td>{service.image && <img src={service.image} alt={service.name} className={styles.thumb} />}</td>
+                  <td>
+                    {service.image && (
+                      <Image
+                        src={service.image}
+                        alt={service.name}
+                        width={68}
+                        height={50}
+                        sizes="68px"
+                        className={styles.thumb}
+                      />
+                    )}
+                  </td>
                   <td><strong style={{ color: "#302821" }}>{service.name}</strong></td><td><span className={styles.badge}>{service.categoryId}</span></td>
                   <td style={{ color: "#7d7166" }}>{service.duration} phút</td>
                   <td><span style={{ color: "#876938", fontWeight: 700 }}>{service.price}</span>{service.promoPrice && <span style={{ textDecoration: "line-through", color: "#a79b90", marginLeft: 6, fontSize: 12 }}>{service.promoPrice}</span>}</td>

@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { setupReveal } from "@/lib/animations";
+import { MdCheckCircle } from "react-icons/md";
 
 export default function AboutSection() {
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function AboutSection() {
               "Clean, comfortable atmosphere"
             ].map((text, idx) => (
               <li key={idx} className="flex items-start gap-3 hover:translate-x-2 transition-transform">
-                <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                <MdCheckCircle className="text-primary" size={24} aria-hidden="true" />
                 <span className="font-body-md text-on-surface">{text}</span>
               </li>
             ))}

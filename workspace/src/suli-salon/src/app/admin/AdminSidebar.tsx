@@ -5,18 +5,34 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./admin.module.css";
 import BrandLogo from "@/components/BrandLogo";
+import {
+  MdArticle,
+  MdCalendarMonth,
+  MdCategory,
+  MdClose,
+  MdDashboard,
+  MdGroups,
+  MdInfo,
+  MdLanguage,
+  MdLogout,
+  MdMenu,
+  MdPayments,
+  MdPhotoLibrary,
+  MdSettings,
+  MdSpa,
+} from "react-icons/md";
 
 const navItems = [
-  { href: "/admin", label: "Tổng quan", icon: "dashboard" },
-  { href: "/admin/bookings", label: "Lịch hẹn", icon: "calendar_month" },
-  { href: "/admin/services", label: "Dịch vụ", icon: "spa" },
-  { href: "/admin/gallery", label: "Bộ sưu tập", icon: "photo_library" },
-  { href: "/admin/posts", label: "Bài viết", icon: "article" },
-  { href: "/admin/categories", label: "Danh mục", icon: "category" },
-  { href: "/admin/pricing", label: "Bảng giá", icon: "payments" },
-  { href: "/admin/team", label: "Đội ngũ", icon: "groups" },
-  { href: "/admin/about", label: "Trang giới thiệu", icon: "info" },
-  { href: "/admin/settings", label: "Cài đặt", icon: "settings" },
+  { href: "/admin", label: "Tổng quan", icon: MdDashboard },
+  { href: "/admin/bookings", label: "Lịch hẹn", icon: MdCalendarMonth },
+  { href: "/admin/services", label: "Dịch vụ", icon: MdSpa },
+  { href: "/admin/gallery", label: "Bộ sưu tập", icon: MdPhotoLibrary },
+  { href: "/admin/posts", label: "Bài viết", icon: MdArticle },
+  { href: "/admin/categories", label: "Danh mục", icon: MdCategory },
+  { href: "/admin/pricing", label: "Bảng giá", icon: MdPayments },
+  { href: "/admin/team", label: "Đội ngũ", icon: MdGroups },
+  { href: "/admin/about", label: "Trang giới thiệu", icon: MdInfo },
+  { href: "/admin/settings", label: "Cài đặt", icon: MdSettings },
 ];
 
 export default function AdminSidebar() {
@@ -55,7 +71,7 @@ export default function AdminSidebar() {
           aria-controls="admin-navigation"
           onClick={() => setIsOpen((open) => !open)}
         >
-          <span className="material-symbols-outlined">{isOpen ? "close" : "menu"}</span>
+          {isOpen ? <MdClose aria-hidden="true" /> : <MdMenu aria-hidden="true" />}
         </button>
       </div>
 
@@ -72,26 +88,30 @@ export default function AdminSidebar() {
 
         <nav className={styles.sidebarNav}>
           <span className={styles.navSection}>Quản lý salon</span>
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`${styles.navItem} ${isActive(item.href) ? styles.navActive : ""}`}
-              onClick={() => setIsOpen(false)}
-            >
-              <span className={`material-symbols-outlined ${styles.navIcon}`}>{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${styles.navItem} ${isActive(item.href) ? styles.navActive : ""}`}
+                onClick={() => setIsOpen(false)}
+              >
+                <Icon className={styles.navIcon} aria-hidden="true" />
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className={styles.sidebarFooter}>
           <a href="/" target="_blank" rel="noreferrer" className={styles.viewSite}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>language</span>
+            <MdLanguage size={16} aria-hidden="true" />
             Xem website
           </a>
           <button type="button" onClick={handleLogout} className={styles.logoutBtn}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>logout</span>
+            <MdLogout size={16} aria-hidden="true" />
             Đăng xuất
           </button>
         </div>

@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Montserrat, Marcellus } from "next/font/google";
+import { Montserrat, Marcellus, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import PublicShell from "@/components/PublicShell";
 import { getSettings } from "@/lib/db";
 
-const montserrat = Montserrat({ subsets: ["latin", "vietnamese"], variable: '--font-montserrat' });
-const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: '--font-marcellus' });
+const montserrat = Montserrat({ subsets: ["latin", "vietnamese"], variable: "--font-montserrat" });
+const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: "--font-marcellus" });
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
+});
 
 import NextTopLoader from "nextjs-toploader";
 import Preloader from "@/components/Preloader";
@@ -39,11 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang="vi" suppressHydrationWarning>
-      <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-      </head>
-      <body className={`${montserrat.variable} ${marcellus.variable} font-sans bg-background text-on-background`} suppressHydrationWarning>
+      <body className={`${montserrat.variable} ${marcellus.variable} ${playfairDisplay.variable} font-sans bg-background text-on-background`} suppressHydrationWarning>
         <NextTopLoader color="var(--primary)" height={3} showSpinner={false} />
         <Preloader>
           <PublicShell settings={s}>

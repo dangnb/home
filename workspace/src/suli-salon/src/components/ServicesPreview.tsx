@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { setupReveal } from "@/lib/animations";
+import { MdArrowForward } from "react-icons/md";
 
 export default function ServicesPreview() {
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function ServicesPreview() {
               <div className="absolute bottom-0 left-0 p-8 w-full">
                 <h3 className="font-headline-sm text-headline-sm text-white mb-2">{service.title}</h3>
                 <Link href="/services" className="font-label-caps text-white text-[10px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center">
-                  VIEW DETAILS <span className="material-symbols-outlined ml-2 text-[16px]">arrow_forward</span>
+                  VIEW DETAILS <MdArrowForward className="ml-2 text-[16px]" aria-hidden="true" />
                 </Link>
               </div>
             </div>

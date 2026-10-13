@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
@@ -63,7 +64,14 @@ export default function ServicesListPage() {
                   <tr key={s.slug}>
                     <td>
                       {s.image ? (
-                        <img src={s.image} alt={s.name} className={styles.thumb} />
+                        <Image
+                          src={s.image}
+                          alt={s.name}
+                          width={68}
+                          height={50}
+                          sizes="68px"
+                          className={styles.thumb}
+                        />
                       ) : (
                         <div
                           className={styles.thumb}

@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import type { SiteSettings } from "@/lib/db";
 import Link from "next/link";
+import { MdCalendarMonth } from "react-icons/md";
 
 interface Props {
   children: React.ReactNode;
@@ -25,7 +26,7 @@ export default function PublicShell({ children, settings }: Props) {
       <div className="fixed bottom-8 right-8 z-40 md:hidden">
         <Link href="/booking">
           <button className="gold-shimmer-btn text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>calendar_month</span>
+            <MdCalendarMonth size={24} aria-hidden="true" />
           </button>
         </Link>
       </div>
