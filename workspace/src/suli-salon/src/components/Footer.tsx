@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/db";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function Footer({ settings }: { settings: SiteSettings }) {
     if (!settings) return null;
@@ -10,9 +11,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px 48px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 40 }}>
                 {/* Brand */}
                 <div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 16 }}>{settings.siteName || "Suli Salon"}</div>
+                    <BrandLogo light style={{ marginBottom: 16 }} />
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, color: "#888", maxWidth: 240 }}>
-                        {settings.tagline || "Elevating beauty through precision and artistry. Your destination for premium nail care in Prague."}
+                        {settings.tagline || "Nâng niu vẻ đẹp qua sự tỉ mỉ và nghệ thuật. Điểm đến cho dịch vụ chăm sóc móng cao cấp."}
                     </p>
                     <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
                         {settings.facebook && <a href={settings.facebook} target="_blank" rel="noreferrer" style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", color: "#888", transition: "all .3s", textDecoration: "none", fontSize: 14 }}>f</a>}
@@ -22,21 +23,26 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 </div>
                 {/* Quick Links */}
                 <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Quick Links</h4>
+                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Liên kết nhanh</h4>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                        {["Services", "Gallery", "About", "Contact"].map((l) => (
-                            <li key={l}>
-                                <Link href={`/${l.toLowerCase()}`} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", textDecoration: "none", transition: "color .25s" }}
+                        {[
+                            { label: "Dịch vụ", href: "/services" },
+                            { label: "Bộ sưu tập", href: "/gallery" },
+                            { label: "Giới thiệu", href: "/about" },
+                            { label: "Liên hệ", href: "/contact" },
+                        ].map((l) => (
+                            <li key={l.href}>
+                                <Link href={l.href} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", textDecoration: "none", transition: "color .25s" }}
                                     onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = "#C2A979")}
                                     onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = "#888")}
-                                >{l}</Link>
+                                >{l.label}</Link>
                             </li>
                         ))}
                     </ul>
                 </div>
                 {/* Contact */}
                 <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Contact</h4>
+                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Liên hệ</h4>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", lineHeight: 1.7 }}>
                         <div style={{ fontWeight: 600, color: "#ccc", marginBottom: 6 }}>Hotline: {settings.hotline}</div>
                         <div>📍 {settings.address}</div>

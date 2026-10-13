@@ -5,12 +5,12 @@ import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
 import { getServiceImageFallback } from "@/lib/service-images";
 
 const FEATURES = [
-    "Professional and experienced team",
-    "Precision and attention to every detail",
-    "Modern nail designs & latest trends",
-    "High-quality, trusted products",
-    "Personalized care for every client",
-    "Clean, comfortable atmosphere",
+    "Đội ngũ chuyên nghiệp, giàu kinh nghiệm",
+    "Tỉ mỉ trong từng chi tiết",
+    "Thiết kế móng hiện đại, bắt kịp xu hướng",
+    "Sản phẩm chất lượng, được chọn lọc kỹ",
+    "Chăm sóc cá nhân hóa cho từng khách hàng",
+    "Không gian sạch sẽ, thoải mái",
 ];
 
 /* ─────────────────────────────────────────────────────── */
@@ -52,7 +52,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
 
     async function handleSubmit() {
         if (!formData.name || !formData.phone || !formData.date || !formData.time || !formData.serviceName) {
-            setErrorMsg("Please fill in all required fields.");
+            setErrorMsg("Vui lòng điền đầy đủ các trường bắt buộc.");
             return;
         }
         setStatus("loading");
@@ -76,7 +76,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
             setTimeout(() => { setOpen(false); setStatus("idle"); }, 3000);
         } catch {
             setStatus("error");
-            setErrorMsg("Something went wrong. Please try again.");
+            setErrorMsg("Có lỗi xảy ra. Vui lòng thử lại.");
         }
     }
 
@@ -104,7 +104,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                     pointerEvents: open ? "none" : "auto",
                 }}
             >
-                Book Now
+                Đặt lịch ngay
             </button>
 
             {/* Overlay */}
@@ -136,7 +136,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
                             <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{settings.siteName || "Suli Salon"}</div>
-                            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2, fontStyle: "italic" }}>Book Appointment</h2>
+                            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2, fontStyle: "italic" }}>Đặt lịch hẹn</h2>
                         </div>
                         <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: "#888", lineHeight: 1 }}>✕</button>
                     </div>
@@ -146,8 +146,8 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                     {status === "success" ? (
                         <div style={{ textAlign: "center", padding: "40px 0", color: "#166534" }}>
                             <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-                            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, margin: "0 0 8px" }}>Booking Sent!</h3>
-                            <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14 }}>We will contact you shortly to confirm your appointment.</p>
+                            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, margin: "0 0 8px" }}>Đã gửi yêu cầu!</h3>
+                            <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14 }}>Chúng tôi sẽ sớm liên hệ để xác nhận lịch hẹn của bạn.</p>
                         </div>
                     ) : (
                         <>
@@ -201,7 +201,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                             onMouseOver={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "0.88" }}
                             onMouseOut={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "1" }}
                         >
-                            {status === "loading" ? "Sending..." : "Send Request"}
+                            {status === "loading" ? "Đang gửi..." : "Gửi yêu cầu"}
                         </button>
                     </div>
                 )}
@@ -240,7 +240,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                 {/* Left */}
                 <div className="reveal is-visible" style={{ zIndex: 2 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        {settings.bannerBadge || "PREMIUM EXPERIENCE"}
+                        {settings.bannerBadge || "TRẢI NGHIỆM CAO CẤP"}
                     </div>
                     <h1
                         ref={titleRef}
@@ -281,7 +281,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         />
                         {/* Badge overlay */}
                         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 80px 0" }}>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>NAIL ART</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>NGHỆ THUẬT MÓNG</div>
                         </div>
                     </div>
 
@@ -373,13 +373,13 @@ function About({ settings }: { settings: SiteSettings }) {
                 {/* Text side */}
                 <div className="reveal" data-delay="150">
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 16 }}>
-                        About {settings.siteName || "Suli Salon"}
+                        Về {settings.siteName || "Suli Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,3.5vw,48px)", fontWeight: 700, color: "#2E2E2E", lineHeight: 1.2, fontStyle: "italic", margin: "0 0 24px" }}>
-                        Style That Speaks for You
+                    Vẻ đẹp mang dấu ấn riêng của bạn
                     </h2>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", marginBottom: 36 }}>
-                        Precision nail design created for your unique look. We blend traditional techniques with contemporary aesthetics to deliver results that truly reflect you.
+                        Thiết kế móng tinh tế dành riêng cho phong cách của bạn. Chúng tôi kết hợp kỹ thuật chỉn chu cùng thẩm mỹ hiện đại để tạo nên vẻ đẹp thật sự thuộc về bạn.
                     </p>
                     <ul style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 32px", marginBottom: 40, padding: 0, listStyle: "none" }}>
                         {FEATURES.map((f, i) => (
@@ -402,7 +402,7 @@ function About({ settings }: { settings: SiteSettings }) {
                             onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
                         >
-                            Explore Our Story
+                            Khám phá câu chuyện của chúng tôi
                         </button>
                     </a>
                 </div>
@@ -424,7 +424,7 @@ function Services({ services, settings }: { services: ServiceData[], settings: S
                         {settings.siteName || "Suli Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,3.5vw,44px)", fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2 }}>
-                        Professional Manicure &amp; Pedicure in Prague
+                        Chăm sóc móng chuyên nghiệp
                     </h2>
                     <div style={{ width: 80, height: 3, background: "linear-gradient(90deg,#C2A979,#a08040)", marginTop: 20 }} />
                 </div>
@@ -441,7 +441,7 @@ function Services({ services, settings }: { services: ServiceData[], settings: S
                             <ServiceCard title={s.name} img={s.image} slug={s.slug} />
                         </div>
                     ))}
-                    {displayServices.length === 0 && <p>No services yet.</p>}
+                    {displayServices.length === 0 && <p>Chưa có dịch vụ nào.</p>}
                 </div>
             </div>
         </section>

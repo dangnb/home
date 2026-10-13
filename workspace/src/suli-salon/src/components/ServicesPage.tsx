@@ -60,7 +60,7 @@ function ServiceRow({ item, index }: { item: ServiceItem; index: number }) {
                     <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 17, fontWeight: 600, color: "#2E2E2E" }}>{item.name}</span>
                     {item.popular && (
                         <span style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", fontSize: 9, fontFamily: "Montserrat,sans-serif", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", borderRadius: 2 }}>
-                            Popular
+                            Nổi bật
                         </span>
                     )}
                 </div>
@@ -88,7 +88,7 @@ function ServiceRow({ item, index }: { item: ServiceItem; index: number }) {
                             boxShadow: hov ? "0 4px 16px rgba(194,169,121,.3)" : "none",
                         }}
                     >
-                        Book →
+                        Đặt lịch →
                     </button>
                 </Link>
             </div>
@@ -195,19 +195,19 @@ export default function ServicesPage({ services, categories }: { services: Servi
 
                 <div style={{ position: "relative", zIndex: 1 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        What We Offer
+                        Dịch vụ của chúng tôi
                     </div>
                     <h1
                         ref={titleRef}
                         style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(40px,6vw,76px)", fontWeight: 700, color: "#2E2E2E", margin: "0 0 20px", lineHeight: 1.1, letterSpacing: "-0.02em", fontStyle: "italic", transition: "transform .12s ease-out" }}
                     >
-                        Our Services
+                        Dịch vụ
                     </h1>
                     <p
                         ref={subRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", maxWidth: 500, margin: "0 auto", transition: "transform .12s ease-out" }}
                     >
-                        Every treatment is crafted with intention — luxury care, transparent pricing, and no compromises.
+                        Mỗi dịch vụ được thực hiện chỉn chu — chăm sóc cao cấp, giá minh bạch và không thỏa hiệp về chất lượng.
                     </p>
                 </div>
             </section>
@@ -281,17 +281,17 @@ export default function ServicesPage({ services, categories }: { services: Servi
                             {/* Stats pills */}
                             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                                 <div style={{ background: "#F4F1EA", padding: "8px 16px", fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B" }}>
-                                    {activeCat.items.length} services
+                                    {activeCat.items.length} dịch vụ
                                 </div>
                                 <div style={{ background: "#F4F1EA", padding: "8px 16px", fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B" }}>
-                                    {activeCat.items.filter((i) => i.popular).length} popular
+                                    {activeCat.items.filter((i) => i.popular).length} nổi bật
                                 </div>
                             </div>
                         </div>
 
                         {/* Right: service list */}
                         <div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 6 }}>Service Menu</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 6 }}>Danh sách dịch vụ</div>
                             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 34, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 8px" }}>{activeCat.label}</h2>
                             <div style={{ width: 60, height: 2, background: "linear-gradient(90deg,#C2A979,#a08040)", marginBottom: 32 }} />
 

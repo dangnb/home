@@ -2,8 +2,8 @@ import ServicesPage from "@/components/ServicesPage";
 import { getServices, getCategories } from "@/lib/db";
 
 export const metadata = {
-  title: "Services | Suli Salon",
-  description: "Explore our full menu of professional services.",
+  title: "Dịch vụ | Suli Salon",
+  description: "Khám phá các dịch vụ chăm sóc móng chuyên nghiệp tại Suli Salon.",
 };
 
 export default async function Services() {

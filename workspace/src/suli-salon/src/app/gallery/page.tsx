@@ -2,8 +2,8 @@ import GalleryPage from "@/components/GalleryPage";
 import { getGalleryItems } from "@/lib/db";
 
 export const metadata = {
-  title: "Gallery | Suli Salon",
-  description: "Browse our curated gallery of luxury nail art.",
+  title: "Bộ sưu tập | Suli Salon",
+  description: "Khám phá bộ sưu tập các mẫu móng nghệ thuật tại Suli Salon.",
 };
 
 export default async function Gallery() {

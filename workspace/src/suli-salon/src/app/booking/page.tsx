@@ -2,8 +2,8 @@ import BookingPage from "@/components/BookingPage";
 import { getServices, getSettings, getCategories } from "@/lib/db";
 
 export const metadata = {
-  title: "Book Appointment | Suli Salon – Luxury Nail Gallery in Prague",
-  description: "Book your next nail, facial, eyelash, or brow appointment at Suli Salon Prague.",
+  title: "Đặt lịch | Suli Salon",
+  description: "Đặt lịch chăm sóc móng tại Suli Salon một cách nhanh chóng và thuận tiện.",
 };
 
 export default async function Booking() {

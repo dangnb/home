@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import styles from "./login.module.css";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -50,9 +51,9 @@ export default function AdminLogin() {
 
         {/* Logo */}
         <div className={styles.logoSection}>
-          <div className={styles.logoLabel}>ADMIN PORTAL</div>
-          <h1 className={styles.logo}>Suli Salon</h1>
-          <p className={styles.tagline}>Luxury Nail Gallery in Prague</p>
+          <div className={styles.logoLabel}>CỔNG QUẢN TRỊ</div>
+          <BrandLogo className={styles.logo} />
+          <p className={styles.tagline}>Nghệ thuật móng tinh tế</p>
         </div>
 
         {/* Divider */}

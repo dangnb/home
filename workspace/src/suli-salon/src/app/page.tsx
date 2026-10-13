@@ -2,9 +2,9 @@ import HomePage from "@/components/HomePage";
 import { getServices, getGalleryItems, getSettings, type ServiceData, type GalleryItemData, type SiteSettings } from "@/lib/db";
 
 export const metadata = {
-  title: "Suli Salon | Luxury Nail Gallery in Prague",
+  title: "Suli Salon | Nghệ thuật móng tinh tế",
   description:
-    "High-quality nail care, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague.",
+    "Chăm sóc móng cao cấp với đội ngũ tận tâm và kỹ thuật tỉ mỉ. Khám phá vẻ đẹp mang dấu ấn riêng của bạn tại Suli Salon.",
 };
 
 export default async function Home() {

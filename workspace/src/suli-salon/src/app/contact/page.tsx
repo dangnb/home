@@ -2,8 +2,8 @@ import ContactPage from "@/components/ContactPage";
 import { getSettings } from "@/lib/db";
 
 export const metadata = {
-    title: "Contact Us | Suli Salon",
-    description: "Get in touch with Suli Salon.",
+    title: "Liên hệ | Suli Salon",
+    description: "Liên hệ Suli Salon để được tư vấn và đặt lịch.",
 };
 
 export default async function Contact() {
