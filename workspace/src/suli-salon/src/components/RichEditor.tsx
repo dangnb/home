@@ -13,7 +13,7 @@ type DynamicReactQuillProps = ReactQuill["props"] & {
 const DynamicReactQuill = dynamic<DynamicReactQuillProps>(
   async () => {
     const { default: RQ } = await import("react-quill-new");
-    return function DynamicQuillWrapper({ forwardedRef, ...props }: DynamicQuillProps) {
+    return function DynamicQuillWrapper({ forwardedRef, ...props }: DynamicReactQuillProps) {
       return <RQ ref={forwardedRef} {...props} />;
     };
   },
