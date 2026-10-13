@@ -5,8 +5,12 @@ import type ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import styles from "./RichEditor.module.css";
 
+type DynamicReactQuillProps = ReactQuill["props"] & {
+  ref?: React.Ref<ReactQuill>;
+};
+
 // Load ReactQuill dynamically to avoid SSR issues
-const DynamicReactQuill = dynamic<ReactQuill["props"]>(
+const DynamicReactQuill = dynamic<DynamicReactQuillProps>(
   async () => (await import("react-quill-new")).default,
   { ssr: false },
 );
