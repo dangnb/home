@@ -1,11 +1,11 @@
-// prisma/seed.ts – Seed data for Suli Salon (Nail Salon)
+// prisma/seed.ts – Seed data for Mộc Salon (Nail Salon)
 import { PrismaClient } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding Suli Salon database...");
+  console.log("🌱 Seeding Mộc Salon database...");
 
   // ── 1. Admin User ──────────────────────────
   const adminEmail = process.env.ADMIN_EMAIL || "admin@duthuyensonghan.vn";
@@ -176,7 +176,7 @@ async function main() {
 
   // ── 6. Settings ────────────────────────────
   const settings: Record<string, string> = {
-    siteName: "Suli Salon – Luxury Nail Gallery",
+    siteName: "Mộc Salon – Luxury Nail Gallery",
     tagline: "Premium Nail Care in Prague",
     hotline: "+420 123 456 789",
     email: "info@sulisalon.com",
@@ -184,10 +184,10 @@ async function main() {
     workingHours: "Mon–Sat: 9:00–20:00, Sun: 10:00–18:00",
     facebook: "https://facebook.com/sulisalon",
     instagram: "https://instagram.com/sulisalon",
-    seoTitle: "Suli Salon – Luxury Nail Gallery in Prague",
-    seoDescription: "Premium nail care, gel manicures, nail art, and pedicures in Prague. Book your appointment today.",
+    seoTitle: "Mộc Salon – Luxury Nail Gallery in Prague",
+    seoDescription: "Premium nail care, gel manicures, nail art, and pedicures in Prague. Book your appointment today at Mộc Salon.",
     seoKeywords: "nail salon prague, gel nails, manicure, pedicure, nail art",
-    copyright: "© 2025 Suli Salon – All rights reserved",
+    copyright: "© 2025 Mộc Salon – All rights reserved",
   };
 
   for (const [key, value] of Object.entries(settings)) {

@@ -49,7 +49,7 @@ export default function AdminSidebar() {
       <div className={styles.mobileBar}>
         <Link href="/admin" className={styles.mobileBrand} onClick={() => setIsOpen(false)}>
           <BrandLogo compact />
-          <span>Suli Salon</span>
+          <span>Mộc Salon</span>
         </Link>
         <button
           type="button"
@@ -69,7 +69,7 @@ export default function AdminSidebar() {
         <div className={styles.sidebarLogo}>
           <BrandLogo compact />
           <div>
-            <div className={styles.logoText}>Suli Salon</div>
+            <div className={styles.logoText}>Mộc Salon</div>
             <div className={styles.logoSub}>Không gian quản trị</div>
           </div>
         </div>

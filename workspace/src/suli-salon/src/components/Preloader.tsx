@@ -120,8 +120,8 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
-    // Split "Suli Salon" into letters for staggered animation
-    const logoText = "Suli Salon";
+    // Split the Mộc Salon wordmark into letters for staggered animation
+    const logoText = "Mộc Salon";
     const letters = logoText.split("");
 
     return (

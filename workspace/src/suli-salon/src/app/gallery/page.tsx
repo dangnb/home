@@ -2,8 +2,8 @@ import GalleryPage from "@/components/GalleryPage";
 import { getGalleryItems } from "@/lib/db";
 
 export const metadata = {
-  title: "Bộ sưu tập | Suli Salon",
-  description: "Khám phá bộ sưu tập các mẫu móng nghệ thuật tại Suli Salon.",
+  title: "Bộ sưu tập | Mộc Salon",
+  description: "Khám phá bộ sưu tập các mẫu móng nghệ thuật tại Mộc Salon.",
 };
 
 export default async function Gallery() {

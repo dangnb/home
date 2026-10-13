@@ -287,7 +287,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                                     </svg>
                                 ),
                                 label: "Follow Us",
-                                lines: ["@sulisalon.prague", "facebook.com/sulisalon"],
+                                lines: [settings.instagram, settings.facebook].filter(Boolean),
                             },
                         ].map((card, i) => (
                             <div key={i} className="reveal info-card" data-delay={String(i * 80)}
@@ -326,7 +326,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                         {settings.mapEmbedUrl && (
                             <div style={{ overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,.1)", height: 340 }}>
                                 <iframe
-                                    title="Suli Salon location"
+                                    title="Mộc Salon location"
                                     src={settings.mapEmbedUrl}
                                     width="100%"
                                     height="100%"
@@ -405,7 +405,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                             "We don't just do nails — we create experiences."
                         </p>
                         <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979" }}>
-                            — Suli Nguyen, Founder
+                            — Mộc Salon
                         </div>
                     </div>
                 </div>

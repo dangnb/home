@@ -63,8 +63,8 @@ export default function ServicesClient() {
         <div className={styles.branchSelector}>
           <span className={styles.branchLabel}>Branch</span>
           <select className={styles.branchSelect}>
-            <option>Suli Salon - Praha 12</option>
-            <option>Suli Salon - Center</option>
+            <option>Mộc Salon - Praha 12</option>
+            <option>Mộc Salon - Center</option>
           </select>
         </div>
 

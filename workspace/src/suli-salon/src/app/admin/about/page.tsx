@@ -83,7 +83,7 @@ export default function AdminAboutContentPage() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Trang giới thiệu</h1>
-          <p className={styles.pageSubtitle}>Cập nhật câu chuyện thương hiệu và những giá trị cốt lõi của Suli Salon.</p>
+          <p className={styles.pageSubtitle}>Cập nhật câu chuyện thương hiệu và những giá trị cốt lõi của Mộc Salon.</p>
         </div>
         <button onClick={handleSave} className={styles.btnPrimary} disabled={isSaving}>
           {isSaving ? "Đang lưu..." : "Lưu thay đổi"}

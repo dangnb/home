@@ -2,8 +2,8 @@ import BookingPage from "@/components/BookingPage";
 import { getServices, getSettings, getCategories } from "@/lib/db";
 
 export const metadata = {
-  title: "Đặt lịch | Suli Salon",
-  description: "Đặt lịch chăm sóc móng tại Suli Salon một cách nhanh chóng và thuận tiện.",
+  title: "Đặt lịch | Mộc Salon",
+  description: "Đặt lịch chăm sóc móng tại Mộc Salon một cách nhanh chóng và thuận tiện.",
 };
 
 export default async function Booking() {

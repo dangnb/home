@@ -1,4 +1,4 @@
-// src/lib/db.ts - Database operations for Suli Salon
+// src/lib/db.ts - Database operations for Mộc Salon
 import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
@@ -127,7 +127,7 @@ export interface SiteSettings {
 
 // ── Default Settings ─────────────────────────────
 const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: "Suli Salon",
+  siteName: "Mộc Salon",
   tagline: "Nghệ thuật móng tinh tế",
   hotline: "+84 123 456 789",
   hotline2: "",
@@ -142,22 +142,22 @@ const DEFAULT_SETTINGS: SiteSettings = {
   mapEmbedUrl: "",
   mapLat: "50.0755",
   mapLng: "14.4378",
-  seoTitle: "Suli Salon – Nghệ thuật móng tinh tế",
-  seoDescription: "Dịch vụ chăm sóc móng cao cấp, sơn gel, nail art và pedicure. Đặt lịch ngay tại Suli Salon.",
+  seoTitle: "Mộc Salon – Nghệ thuật móng tinh tế",
+  seoDescription: "Dịch vụ chăm sóc móng cao cấp, sơn gel, nail art và pedicure. Đặt lịch ngay tại Mộc Salon.",
   seoKeywords: "nail salon, chăm sóc móng, sơn gel, nail art, manicure, pedicure",
   footerTaglines: [
     "✨ Premium nail care experience",
     "💅 Skilled nail artists",
     "🌟 Quality products only",
   ],
-  copyright: "© 2025 Suli Salon – Bảo lưu mọi quyền",
+  copyright: "© 2025 Mộc Salon – Bảo lưu mọi quyền",
   departureSlots: [
     "09:00", "10:00", "11:00", "13:00",
     "14:00", "15:00", "16:00", "17:00", "18:00",
   ],
   bannerImage: "",
   bannerBadge: "⭐ Được khách hàng yêu thích",
-  bannerTitle: "Suli Salon\nNghệ thuật móng tinh tế",
+  bannerTitle: "Mộc Salon\nNghệ thuật móng tinh tế",
   bannerSubtitle: "Chăm sóc móng cao cấp, tôn vinh vẻ đẹp riêng của bạn",
   bannerCta1Text: "Đặt lịch ngay",
   bannerCta1Link: "/booking",
@@ -170,7 +170,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     { value: "7", label: "Ngày phục vụ" },
   ],
   aboutHeadline: "Tỉ mỉ trong từng nét đẹp",
-  aboutSubheadline: "Suli Salon mang đến trải nghiệm chăm sóc móng chỉn chu, kết hợp kỹ thuật tinh tế với không gian thư giãn dành riêng cho bạn.",
+  aboutSubheadline: "Mộc Salon mang đến trải nghiệm chăm sóc móng chỉn chu, kết hợp kỹ thuật tinh tế với không gian thư giãn dành riêng cho bạn.",
   aboutValues: [
     { title: "Tỉ mỉ", description: "Mỗi đường nét và bước chăm sóc đều được thực hiện cẩn trọng." },
     { title: "Vệ sinh", description: "Dụng cụ được khử khuẩn kỹ lưỡng để bạn luôn an tâm." },

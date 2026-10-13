@@ -119,7 +119,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
 
                 {/* Salon name watermark in center */}
                 <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontFamily: "'Playfair Display',serif", fontSize: "clamp(48px,8vw,120px)", fontWeight: 700, fontStyle: "italic", color: "rgba(255,255,255,.08)", letterSpacing: "0.04em", whiteSpace: "nowrap", pointerEvents: "none", userSelect: "none" }}>
-                    {(settings.siteName || "SULI").split(" ")[0].toUpperCase()}
+                    {(settings.siteName || "MỘC").split(" ")[0].toUpperCase()}
                 </div>
 
                 {/* Text block — bottom left glass card */}
@@ -132,7 +132,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             <em>{settings.aboutHeadline || "A Decade of Refined Artistry"}</em>
                         </h1>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.75, color: "rgba(255,255,255,.78)", maxWidth: 440, marginBottom: 32 }}>
-                            {settings.aboutSubheadline || `For over 10 years, ${settings.siteName || "Suli Salon"} has been the sanctuary for those seeking precision, beauty, and the ultimate in beauty artistry.`}
+                            {settings.aboutSubheadline || `For over 10 years, ${settings.siteName || "Mộc Salon"} has been the sanctuary for those seeking precision, beauty, and the ultimate in beauty artistry.`}
                         </p>
                         <a href="/booking">
                             <button
@@ -162,7 +162,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             Redefining Luxury and Relaxation
                         </h2>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.8, color: "#6B6B6B", marginBottom: 20 }}>
-                            Founded on the principles of "Work Perfectionism," {settings.siteName || "Suli Salon"} was born from a desire to create more than just a beauty destination. We envisioned a sanctuary, a space where every stroke of art and every drop of service is a statement to our commitment to excellence.
+                            Founded on the principles of "Work Perfectionism," {settings.siteName || "Mộc Salon"} was born from a desire to create more than just a beauty destination. We envisioned a sanctuary, a space where every stroke of art and every drop of service is a statement to our commitment to excellence.
                         </p>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.8, color: "#6B6B6B", marginBottom: 0 }}>
                             Our dream is to provide a sanctuary environment where our team can receive the trims of the week and, in exchange, come forward, not just in appearance, but in spirit. We believe that true luxury falls through the absence of clutter and the presence of intention.

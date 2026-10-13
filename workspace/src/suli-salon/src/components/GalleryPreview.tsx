@@ -24,7 +24,7 @@ export default function GalleryPreview() {
     <section className="py-32 bg-surface px-margin-desktop reveal">
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-20">
-          <h2 className="font-headline-md text-display-lg text-primary italic mb-2">Suli Salon</h2>
+          <h2 className="font-headline-md text-display-lg text-primary italic mb-2">Mộc Salon</h2>
           <p className="font-label-caps text-label-caps text-secondary tracking-widest uppercase">Luxury Nail Gallery in Prague</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[300px]">

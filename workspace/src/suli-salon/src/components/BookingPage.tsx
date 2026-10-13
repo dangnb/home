@@ -63,7 +63,7 @@ function StepBar({ current }: { current: number }) {
 /* ─────────────────────────────────────────────────────── */
 export default function BookingPage({ services, settings, categories }: { services: ServiceData[], settings: SiteSettings, categories: CategoryData[] }) {
     const BRANCHES = [
-        { id: "main", name: settings.siteName || "Suli Salon", address: settings.address, hours: settings.workingHours || "Mon-Sun: 9:00 - 20:00" },
+        { id: "main", name: settings.siteName || "Mộc Salon", address: settings.address, hours: settings.workingHours || "Mon-Sun: 9:00 - 20:00" },
     ];
     
     const [step, setStep] = useState(1);
@@ -339,7 +339,7 @@ export default function BookingPage({ services, settings, categories }: { servic
                     <div style={{ background: "#1A1A1A", padding: "40px 36px", position: "sticky", top: 100, minHeight: 400, display: "flex", flexDirection: "column" }}>
                         {/* Logo */}
                         <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 32 }}>
-                            {settings.siteName || "Suli Salon"}
+                            {settings.siteName || "Mộc Salon"}
                         </div>
 
                         <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#555", marginBottom: 24 }}>

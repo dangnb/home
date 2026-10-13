@@ -1,4 +1,4 @@
-// Prisma Schema – Suli Salon (Nail Salon in Prague)
+// Prisma Schema – Mộc Salon
 
 generator client {
   provider = "prisma-client-js"

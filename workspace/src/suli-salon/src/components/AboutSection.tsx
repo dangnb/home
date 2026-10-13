@@ -28,7 +28,7 @@ export default function AboutSection() {
         </div>
 
         <div className="lg:col-span-7">
-          <span className="font-label-caps text-label-caps text-primary uppercase mb-4 block">About Suli Salon</span>
+          <span className="font-label-caps text-label-caps text-primary uppercase mb-4 block">About Mộc Salon</span>
           <h2 className="font-display-lg text-display-lg mb-8 italic">Style That Speaks for You</h2>
           <p className="font-body-lg text-body-lg text-secondary mb-10">Precision nail design created for your unique look. We blend traditional techniques with contemporary aesthetics.</p>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 mb-12">

@@ -12,7 +12,7 @@ export default function ServicesPreview() {
     <section className="py-32 px-margin-desktop">
       <div className="max-w-container-max mx-auto">
         <div className="mb-16 reveal">
-          <span className="font-label-caps text-label-caps text-primary uppercase block mb-2">Salon Suli</span>
+          <span className="font-label-caps text-label-caps text-primary uppercase block mb-2">Mộc Salon</span>
           <h2 className="font-display-lg text-display-lg max-w-2xl">Professional Manicure & Pedicure in Prague</h2>
           <div className="w-24 h-1 bg-primary mt-6"></div>
         </div>

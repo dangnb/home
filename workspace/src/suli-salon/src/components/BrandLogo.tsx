@@ -12,7 +12,7 @@ export default function BrandLogo({ compact = false, light = false, className, s
     const gradientId = useId();
 
     return (
-        <div className={className} style={{ display: "inline-flex", alignItems: "center", gap: compact ? 0 : 10, ...style }} aria-label="Suli Salon">
+        <div className={className} style={{ display: "inline-flex", alignItems: "center", gap: compact ? 0 : 10, ...style }} aria-label="Mộc Salon">
             <svg width={compact ? 34 : 42} height={compact ? 34 : 42} viewBox="0 0 48 48" fill="none" aria-hidden="true">
                 <defs>
                     <linearGradient id={gradientId} x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
@@ -27,7 +27,7 @@ export default function BrandLogo({ compact = false, light = false, className, s
             </svg>
             {!compact && (
                 <span style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
-                    <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fontWeight: 800, fontStyle: "italic", color: textColor, letterSpacing: "-0.025em" }}>Suli Salon</span>
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 30, fontWeight: 800, fontStyle: "italic", color: textColor, letterSpacing: "-0.025em" }}>Mộc Salon</span>
                     <span style={{ marginTop: 5, fontFamily: "Montserrat, sans-serif", fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", color: "#C2A979", textTransform: "uppercase" }}>Nghệ thuật móng tinh tế</span>
                 </span>
             )}

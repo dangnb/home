@@ -25,7 +25,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
                 <div style={{ position: "relative", maxWidth: 680, margin: "0 auto" }}>
                     <p style={{ color: "#C2A979", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".16em", textTransform: "uppercase", margin: "0 0 16px" }}>Cảm hứng làm đẹp</p>
                     <h1 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: "clamp(38px,6vw,68px)", fontStyle: "italic", margin: "0 0 18px", lineHeight: 1.1 }}>Góc chia sẻ</h1>
-                    <p style={{ color: "#6B6B6B", fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, margin: 0 }}>Cập nhật xu hướng, bí quyết chăm sóc móng và những câu chuyện làm đẹp từ Suli Salon.</p>
+                    <p style={{ color: "#6B6B6B", fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, margin: 0 }}>Cập nhật xu hướng, bí quyết chăm sóc móng và những câu chuyện làm đẹp từ Mộc Salon.</p>
                 </div>
             </section>
 
@@ -53,7 +53,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
                                         {CATEGORY_LABELS[post.categoryId] || "Chia sẻ"} · {formatDate(post.createdAt)}
                                     </div>
                                     <h2 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: 25, lineHeight: 1.25, margin: "0 0 14px" }}>{post.title}</h2>
-                                    <p style={{ color: "#777", fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, margin: "0 0 22px", flex: 1 }}>{post.excerpt || "Khám phá những chia sẻ và cảm hứng làm đẹp từ Suli Salon."}</p>
+                                    <p style={{ color: "#777", fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, margin: "0 0 22px", flex: 1 }}>{post.excerpt || "Khám phá những chia sẻ và cảm hứng làm đẹp từ Mộc Salon."}</p>
                                     <Link href={`/bai-viet/${post.slug}`} style={{ color: "#A08040", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textDecoration: "none", textTransform: "uppercase" }}>Đọc thêm →</Link>
                                 </div>
                             </article>

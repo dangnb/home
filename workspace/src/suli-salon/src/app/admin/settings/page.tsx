@@ -137,7 +137,7 @@ export default function SettingsPage() {
                 label="Tên đơn vị"
                 value={form.siteName}
                 onChange={(e) => set("siteName", e.target.value)}
-                placeholder="Suli Salon"
+                placeholder="Mộc Salon"
               />
               <FormInput
                 label="Slogan / Tagline"
@@ -167,7 +167,7 @@ export default function SettingsPage() {
                 icon="✉️"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
-                placeholder="info@sulisalon.vn"
+                placeholder="info@example.com"
               />
               <FormInput
                 label="Giờ làm việc"
@@ -223,7 +223,7 @@ export default function SettingsPage() {
             <div className={styles.formGrid}>
               {[
                 { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://www.facebook.com/2datickets" },
-                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@sulisalon" },
+                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@your-account" },
                 { key: "youtube", icon: "🔴", label: "YouTube", placeholder: "https://www.youtube.com/@2datickets" },
                 { key: "zalo", icon: "🔷", label: "Zalo", placeholder: "https://zalo.me/0796768636" },
                 { key: "instagram", icon: "🟣", label: "Instagram", placeholder: "https://www.instagram.com/..." },
@@ -319,7 +319,7 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề trang (SEO Title)</label>
                 <input value={form.seoTitle} onChange={e => set("seoTitle", e.target.value)}
-                  placeholder="Suli Salon – Nghệ thuật móng tinh tế" />
+                  placeholder="Mộc Salon – Nghệ thuật móng tinh tế" />
                 <span style={{ fontSize: "0.8rem", color: form.seoTitle.length > 60 ? "#c24138" : "#75695e", fontWeight: 500 }}>
                   {form.seoTitle.length}/60 ký tự {form.seoTitle.length > 60 ? "⚠️ Quá dài" : "✓"}
                 </span>
@@ -361,7 +361,7 @@ export default function SettingsPage() {
               <div className={styles.formField}>
                 <label>Dòng bản quyền</label>
                 <input value={form.copyright} onChange={e => set("copyright", e.target.value)}
-                  placeholder="© 2026 Suli Salon – Bảo lưu mọi quyền" />
+                  placeholder="© 2026 Mộc Salon – Bảo lưu mọi quyền" />
               </div>
 
               <div className={styles.formField}>
@@ -488,7 +488,7 @@ export default function SettingsPage() {
                 <div className={sStyles.inputWithIcon}>
                   <span className={sStyles.inputIcon}>🖼️</span>
                   <input value={form.bannerImage ?? ""} onChange={e => set("bannerImage", e.target.value)}
-                    placeholder="https://.../banner-suli-salon.jpg" />
+                    placeholder="https://.../banner-moc-salon.jpg" />
                 </div>
                 {form.bannerImage && (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -510,7 +510,7 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề chính</label>
                 <textarea value={form.bannerTitle ?? ""} onChange={e => set("bannerTitle", e.target.value)}
-                  rows={3} placeholder={"Suli Salon\nNghệ thuật móng tinh tế"} />
+                  rows={3} placeholder={"Mộc Salon\nNghệ thuật móng tinh tế"} />
                 <span style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500 }}>Dùng Enter để xuống dòng trong tiêu đề</span>
               </div>
 

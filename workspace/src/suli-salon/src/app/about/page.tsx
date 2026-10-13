@@ -2,8 +2,8 @@ import AboutPage from "@/components/AboutPage";
 import { getSettings, getTeamMembers } from "@/lib/db";
 
 export const metadata = {
-    title: "Giới thiệu | Suli Salon",
-    description: "Khám phá câu chuyện và giá trị của Suli Salon.",
+    title: "Giới thiệu | Mộc Salon",
+    description: "Khám phá câu chuyện và giá trị của Mộc Salon.",
 };
 
 export default async function About() {

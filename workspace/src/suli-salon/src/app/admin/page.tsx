@@ -24,7 +24,7 @@ export default async function AdminDashboard() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Tổng quan</h1>
-          <p className={styles.pageSubtitle}>Theo dõi nhanh hoạt động của Suli Salon hôm nay.</p>
+          <p className={styles.pageSubtitle}>Theo dõi nhanh hoạt động của Mộc Salon hôm nay.</p>
         </div>
         <div className={styles.pageActions}>
           <Link href="/admin/services/new" className={styles.btnPrimary}>+ Thêm dịch vụ</Link>

@@ -135,7 +135,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                 <div style={{ padding: "32px 28px 24px", borderBottom: "1px solid #E8E0D0" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{settings.siteName || "Suli Salon"}</div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{settings.siteName || "Mộc Salon"}</div>
                             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2, fontStyle: "italic" }}>Đặt lịch hẹn</h2>
                         </div>
                         <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: "#888", lineHeight: 1 }}>✕</button>
@@ -373,7 +373,7 @@ function About({ settings }: { settings: SiteSettings }) {
                 {/* Text side */}
                 <div className="reveal" data-delay="150">
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 16 }}>
-                        Về {settings.siteName || "Suli Salon"}
+                        Về {settings.siteName || "Mộc Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,3.5vw,48px)", fontWeight: 700, color: "#2E2E2E", lineHeight: 1.2, fontStyle: "italic", margin: "0 0 24px" }}>
                     Vẻ đẹp mang dấu ấn riêng của bạn
@@ -421,7 +421,7 @@ function Services({ services, settings }: { services: ServiceData[], settings: S
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ marginBottom: 56 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 12 }}>
-                        {settings.siteName || "Suli Salon"}
+                        {settings.siteName || "Mộc Salon"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,3.5vw,44px)", fontWeight: 700, color: "#2E2E2E", margin: 0, lineHeight: 1.2 }}>
                         Chăm sóc móng chuyên nghiệp

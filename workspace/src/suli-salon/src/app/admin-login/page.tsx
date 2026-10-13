@@ -8,7 +8,7 @@ import BrandLogo from "@/components/BrandLogo";
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState(
-    process.env.NODE_ENV === "development" ? "admin@sulisalon.vn" : ""
+    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
   );
   const [password, setPassword] = useState(
     process.env.NODE_ENV === "development" ? "admin123456" : ""
@@ -79,7 +79,7 @@ export default function AdminLogin() {
               onChange={e => setEmail(e.target.value)}
               onFocus={() => setFocused("email")}
               onBlur={() => setFocused(null)}
-              placeholder="admin@sulisalon.com"
+              placeholder="admin@duthuyensonghan.vn"
               required
               autoFocus
             />

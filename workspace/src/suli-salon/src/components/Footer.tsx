@@ -66,7 +66,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 </div>
             </div>
             <div style={{ borderTop: "1px solid #2a2a2a", padding: "20px 64px", maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", margin: 0 }}>{settings.copyright || "© 2025 Suli Salon – Bảo lưu mọi quyền"}</p>
+                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", margin: 0 }}>{settings.copyright || "© 2025 Mộc Salon – Bảo lưu mọi quyền"}</p>
                 <div style={{ display: "flex", gap: 24 }}>
                     {settings.footerTaglines && settings.footerTaglines.length > 0 ? (
                         settings.footerTaglines.map((l, i) => (

@@ -69,7 +69,7 @@ export default function PostsListPage() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Bài viết</h1>
-          <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản những chia sẻ từ Suli Salon.</p>
+          <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản những chia sẻ từ Mộc Salon.</p>
         </div>
         <Link href="/admin/posts/new" className={styles.btnPrimary}>
           + Thêm bài viết

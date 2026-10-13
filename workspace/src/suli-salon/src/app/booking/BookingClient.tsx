@@ -54,7 +54,7 @@ export default function BookingClient() {
                 className={`${styles.selectCard} ${formData.branch === "Praha 12" ? styles.selectedCard : ""}`}
                 onClick={() => setFormData({ ...formData, branch: "Praha 12" })}
               >
-                <h4>Suli Salon - Praha 12</h4>
+                <h4>Mộc Salon - Praha 12</h4>
                 <p>Nové Dvory 123, 142 00 Praha 4</p>
                 {formData.branch === "Praha 12" && <FaCheckCircle className={styles.checkIcon} />}
               </div>
@@ -62,7 +62,7 @@ export default function BookingClient() {
                 className={`${styles.selectCard} ${formData.branch === "Center" ? styles.selectedCard : ""}`}
                 onClick={() => setFormData({ ...formData, branch: "Center" })}
               >
-                <h4>Suli Salon - Center</h4>
+                <h4>Mộc Salon - Center</h4>
                 <p>Wenceslas Square 1, 110 00 Praha 1</p>
                 {formData.branch === "Center" && <FaCheckCircle className={styles.checkIcon} />}
               </div>
