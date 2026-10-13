@@ -11,10 +11,10 @@ export interface ProjectFilterParams {
   techStatus?: string;
   priority?: string;
   projectType?: string;
-  salesUserId?: number;
-  techLeadUserId?: number;
-  salesDepartmentId?: number;
-  techDepartmentId?: number;
+  salesUserId?: string | number;
+  techLeadUserId?: string | number;
+  salesDepartmentId?: string | number;
+  techDepartmentId?: string | number;
   contractSignedFrom?: string;
   contractSignedTo?: string;
   isOverdue?: boolean;
@@ -46,7 +46,7 @@ export class ProjectService {
     return this.http.get<any>(this.apiUrl, { params: httpParams });
   }
 
-  getProject(id: number): Observable<any> {
+  getProject(id: string | number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
@@ -54,48 +54,48 @@ export class ProjectService {
     return this.http.post<any>(this.apiUrl, dto);
   }
 
-  updateProject(id: number, dto: any): Observable<any> {
+  updateProject(id: string | number, dto: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, dto);
   }
 
-  signContract(id: number, dto: any): Observable<any> {
+  signContract(id: string | number, dto: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/sign-contract`, dto);
   }
 
-  advanceSalesStatus(id: number, dto: { newStatus: string; note?: string }): Observable<any> {
+  advanceSalesStatus(id: string | number, dto: { newStatus: string; note?: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/sales-status`, dto);
   }
 
-  closeLost(id: number, dto: { reason: string }): Observable<any> {
+  closeLost(id: string | number, dto: { reason: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/close-lost`, dto);
   }
 
-  assignTechTeam(id: number, dto: { techLeadUserId: number; techDepartmentId?: number; memberUserIds?: number[] }): Observable<any> {
+  assignTechTeam(id: string | number, dto: { techLeadUserId: string | number; techDepartmentId?: string | number; memberUserIds?: (string | number)[] }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/assign-tech`, dto);
   }
 
-  updateTechStatus(id: number, dto: { newTechStatus: string }): Observable<any> {
+  updateTechStatus(id: string | number, dto: { newTechStatus: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/tech-status`, dto);
   }
 
-  createMilestone(projectId: number, dto: any): Observable<any> {
+  createMilestone(projectId: string | number, dto: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${projectId}/milestones`, dto);
   }
 
-  createTask(projectId: number, dto: any): Observable<any> {
+  createTask(projectId: string | number, dto: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${projectId}/tasks`, dto);
   }
 
-  updateTaskProgress(taskId: number, dto: { progressPercent: number; actualHours: number; newStatus: string; blockedReason?: string }): Observable<any> {
+  updateTaskProgress(taskId: string | number, dto: { progressPercent: number; actualHours: number; newStatus: string; blockedReason?: string }): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/tasks/${taskId}/progress`, dto);
   }
 
   // ─── Documents ────────────────────────────────────────────────────────────
-  getProjectDocuments(projectId: number): Observable<any> {
+  getProjectDocuments(projectId: string | number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${projectId}/documents`);
   }
 
-  uploadDocument(projectId: number, file: File, documentType: string, description?: string): Observable<any> {
+  uploadDocument(projectId: string | number, file: File, documentType: string, description?: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('documentType', documentType);
@@ -103,7 +103,7 @@ export class ProjectService {
     return this.http.post<any>(`${this.apiUrl}/${projectId}/documents`, formData);
   }
 
-  deleteDocument(documentId: number): Observable<any> {
+  deleteDocument(documentId: string | number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/documents/${documentId}`);
   }
 }

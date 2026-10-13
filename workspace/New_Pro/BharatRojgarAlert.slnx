@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BharatRojgar.Application/BharatRojgar.Application.csproj" />
+    <Project Path="src/BharatRojgar.Domain/BharatRojgar.Domain.csproj" />
+    <Project Path="src/BharatRojgar.Infrastructure/BharatRojgar.Infrastructure.csproj" />
+    <Project Path="src/BharatRojgar.WebApi/BharatRojgar.WebApi.csproj" />
+  </Folder>
+</Solution>

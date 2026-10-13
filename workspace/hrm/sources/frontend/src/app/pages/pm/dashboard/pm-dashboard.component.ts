@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil, debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { ProjectService } from '../../../core/hrm/services/project.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 type ModalType = 'create' | 'signContract' | 'salesStatus' | 'closeLost' | 'documents' | null;
 
@@ -24,6 +25,7 @@ const SALES_STAGES = [
 })
 export class PmDashboardComponent implements OnInit, OnDestroy {
   private svc = inject(ProjectService);
+  private auth = inject(AuthService);
   private destroy$ = new Subject<void>();
   private search$ = new Subject<string>();
 
@@ -85,7 +87,12 @@ export class PmDashboardComponent implements OnInit, OnDestroy {
   getStageProjects(stageKey: string) { return this.projects.filter(p => p.salesStatus === stageKey); }
 
   // ── Modals ──────────────────────────────────────────────────────────
-  openCreate() { this.createForm = this.defaultCreate(); this.errorMessage = ''; this.activeModal = 'create'; }
+  openCreate() {
+    this.createForm = this.defaultCreate();
+    this.createForm.salesUserId = this.auth.currentUser()?.id || null;
+    this.errorMessage = '';
+    this.activeModal = 'create';
+  }
   openSignContract(p: any) { this.selectedProject = p; this.signContractForm = this.defaultSignContract(); this.errorMessage = ''; this.activeModal = 'signContract'; }
   openSalesStatus(p: any, next: string) { this.selectedProject = p; this.salesStatusForm = { newStatus: next, note: '' }; this.errorMessage = ''; this.activeModal = 'salesStatus'; }
   openCloseLost(p: any) { this.selectedProject = p; this.closeLostForm = { reason: '' }; this.errorMessage = ''; this.activeModal = 'closeLost'; }
@@ -101,10 +108,16 @@ export class PmDashboardComponent implements OnInit, OnDestroy {
   close() { this.activeModal = null; this.errorMessage = ''; }
 
   saveCreate() {
-    if (!this.createForm.name?.trim() || !this.createForm.customerName?.trim()) { this.errorMessage = 'Vui lòng điền đầy đủ Tên dự án và Tên khách hàng.'; return; }
-    if (!this.createForm.salesUserId) { this.errorMessage = 'Vui lòng nhập ID nhân viên kinh doanh phụ trách.'; return; }
+    if (!this.createForm.name?.trim() || !this.createForm.customerName?.trim()) {
+      this.errorMessage = 'Vui lòng điền đầy đủ Tên dự án và Tên khách hàng.';
+      return;
+    }
+    const payload = { ...this.createForm };
+    if (!payload.salesUserId) {
+      payload.salesUserId = this.auth.currentUser()?.id || null;
+    }
     this.isSaving = true;
-    this.svc.createProject(this.createForm).pipe(finalize(() => this.isSaving = false), takeUntil(this.destroy$))
+    this.svc.createProject(payload).pipe(finalize(() => this.isSaving = false), takeUntil(this.destroy$))
       .subscribe({ next: () => { this.close(); this.load(); }, error: e => { this.errorMessage = e?.error?.message || 'Có lỗi xảy ra.'; } });
   }
 
@@ -165,7 +178,7 @@ export class PmDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteDocument(docId: number) {
+  deleteDocument(docId: string | number) {
     if (!confirm('Xác nhận xóa tài liệu này?')) return;
     this.svc.deleteDocument(docId).pipe(takeUntil(this.destroy$))
       .subscribe({ next: () => this.loadDocuments() });
@@ -193,7 +206,7 @@ export class PmDashboardComponent implements OnInit, OnDestroy {
 
   private defaultCreate() {
     return { name: '', customerName: '', customerContactName: '', customerPhone: '', customerEmail: '',
-      salesUserId: null as number | null, salesDepartmentId: null as number | null,
+      salesUserId: null as string | number | null, salesDepartmentId: null as string | number | null,
       projectType: 'FIXED_PRICE', priority: 'MEDIUM', quotedValue: null as number | null,
       plannedStartDate: '', plannedEndDate: '', description: '', internalNote: '' };
   }
