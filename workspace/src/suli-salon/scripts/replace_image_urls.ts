@@ -88,23 +88,26 @@ async function main() {
     }
   }
 
-  // Cruises
-  const cruises = await prisma.cruise.findMany();
-  for (const cruise of cruises) {
+  // Services
+  const services = await prisma.service.findMany();
+  for (const service of services) {
     let updated = false;
-    let newMain = cruise.mainImage;
-    let newGallery = cruise.gallery;
-    let newDesc = cruise.description;
-    
+    let newImage = service.image;
+    let newGallery = service.gallery;
+    let newDescription = service.description;
+
     for (const [oldUrl, newUrl] of Object.entries(map)) {
-      if (newMain?.includes(oldUrl)) { newMain = newMain.split(oldUrl).join(newUrl); updated = true; }
+      if (newImage?.includes(oldUrl)) { newImage = newImage.split(oldUrl).join(newUrl); updated = true; }
       if (newGallery?.includes(oldUrl)) { newGallery = newGallery.split(oldUrl).join(newUrl); updated = true; }
-      if (newDesc?.includes(oldUrl)) { newDesc = newDesc.split(oldUrl).join(newUrl); updated = true; }
+      if (newDescription?.includes(oldUrl)) { newDescription = newDescription.split(oldUrl).join(newUrl); updated = true; }
     }
-    
+
     if (updated) {
-      await prisma.cruise.update({ where: { id: cruise.id }, data: { mainImage: newMain, gallery: newGallery, description: newDesc } });
-      console.log(`Updated cruise: ${cruise.slug}`);
+      await prisma.service.update({
+        where: { id: service.id },
+        data: { image: newImage, gallery: newGallery, description: newDescription },
+      });
+      console.log(`Updated service: ${service.slug}`);
     }
   }
 
