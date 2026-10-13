@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Montserrat, Marcellus } from "next/font/google";
 import "./globals.css";
 import PublicShell from "@/components/PublicShell";
-import { getSettings, getCruises } from "@/lib/db";
+import { getSettings } from "@/lib/db";
 
 const montserrat = Montserrat({ subsets: ["latin", "vietnamese"], variable: '--font-montserrat' });
 const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: '--font-marcellus' });
@@ -37,9 +36,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const s = await getSettings();
-  const allCruises = await getCruises();
-  const regularCruises = allCruises.filter(c => c.categoryId === "regular" || c.categoryId.includes("khong-an"));
-  const dinnerCruises = allCruises.filter(c => c.categoryId === "dinner" || c.categoryId === "vip" || c.categoryId.includes("nha-hang"));
 
   return (
     <html lang="vi" suppressHydrationWarning>
@@ -50,7 +46,7 @@ export default async function RootLayout({
       <body className={`${montserrat.variable} ${marcellus.variable} font-sans bg-background text-on-background`} suppressHydrationWarning>
         <NextTopLoader color="var(--primary)" height={3} showSpinner={false} />
         <Preloader>
-          <PublicShell settings={s} regularCruises={regularCruises} dinnerCruises={dinnerCruises}>
+          <PublicShell settings={s}>
             {children}
           </PublicShell>
         </Preloader>

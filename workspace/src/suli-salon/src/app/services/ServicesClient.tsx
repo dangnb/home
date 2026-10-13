@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import styles from "./Services.module.css";
 import { useSearchParams } from "next/navigation";
@@ -42,18 +42,14 @@ const mockServices: Record<string, ServiceItem[]> = {
   ],
 };
 
-export default function ServicesClient() {
-  const searchParams = useSearchParams();
-  const catParam = searchParams.get("categoryId");
-  
-  const [activeCategory, setActiveCategory] = useState("nails");
+function getInitialCategory(categoryId: string | null) {
+  return categories.some((category) => category.id === categoryId)
+    ? categoryId
+    : "nails";
+}
 
-  useEffect(() => {
-    if (catParam && categories.some(c => c.id === catParam)) {
-      setActiveCategory(catParam);
-    }
-  }, [catParam]);
-
+function ServicesContent({ initialCategory }: { initialCategory: string }) {
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const currentServices = mockServices[activeCategory as keyof typeof mockServices] || [];
 
   return (
@@ -114,4 +110,11 @@ export default function ServicesClient() {
       </div>
     </div>
   );
+}
+
+export default function ServicesClient() {
+  const searchParams = useSearchParams();
+  const initialCategory = getInitialCategory(searchParams.get("categoryId"));
+
+  return <ServicesContent key={initialCategory} initialCategory={initialCategory} />;
 }

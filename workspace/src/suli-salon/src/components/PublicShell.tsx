@@ -2,18 +2,15 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import FloatingButtons from "./FloatingButtons";
-import type { SiteSettings, CruiseData } from "@/lib/db";
+import type { SiteSettings } from "@/lib/db";
 import Link from "next/link";
 
 interface Props {
   children: React.ReactNode;
   settings: SiteSettings;
-  regularCruises: Pick<CruiseData, "name" | "slug">[];
-  dinnerCruises: Pick<CruiseData, "name" | "slug">[];
 }
 
-export default function PublicShell({ children, settings, regularCruises, dinnerCruises }: Props) {
+export default function PublicShell({ children, settings }: Props) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
@@ -21,7 +18,7 @@ export default function PublicShell({ children, settings, regularCruises, dinner
 
   return (
     <>
-      <Navbar settings={settings} />
+      <Navbar />
       {children}
       <Footer settings={settings} />
       {/* CTA Widget (Mobile Mobile) */}

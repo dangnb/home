@@ -30,7 +30,6 @@ interface SiteSettings {
 
 export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings | null>(null);
-  const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("contact");
@@ -106,12 +105,6 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {msg.text && (
-        <p className={msg.type === "error" ? styles.alertError : styles.alertSuccess}
-          style={{ marginBottom: "1.5rem" }}>
-          {msg.type === "error" ? "⚠️ " : "✅ "}{msg.text}
-        </p>
-      )}
 
       <form onSubmit={handleSave}>
         {/* Tab navigation */}
@@ -288,7 +281,7 @@ export default function SettingsPage() {
                   placeholder="https://www.google.com/maps/embed?pb=..."
                 />
                 <span style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500, lineHeight: 1.5 }}>
-                  Vào Google Maps → Chia sẻ → Nhúng bản đồ → Sao chép URL trong thẻ src=""
+                  {`Vào Google Maps → Chia sẻ → Nhúng bản đồ → Sao chép URL trong thẻ src=""`}
                 </span>
               </div>
             </div>

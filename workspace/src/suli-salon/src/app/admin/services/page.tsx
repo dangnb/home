@@ -62,7 +62,6 @@ export default function ServicesListPage() {
                 {services.map((s) => (
                   <tr key={s.slug}>
                     <td>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       {s.image ? (
                         <img src={s.image} alt={s.name} className={styles.thumb} />
                       ) : (

@@ -13,7 +13,7 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
   try {
-    const cat = await prisma.category.update({
+    await prisma.category.update({
       where: { id },
       data: {
         label: body.label,

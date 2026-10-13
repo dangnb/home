@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone maintenance utilities, not application source:
+    "checkGallery.js",
+    "scripts/migrate_images.ts",
+    "scripts/rebrand-moc-salon.cjs",
   ]),
 ]);
 

@@ -17,8 +17,9 @@ export async function POST(req: NextRequest) {
   try {
     const item = await createTeamMember(data);
     return NextResponse.json({ success: true, item });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Create failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -34,8 +35,9 @@ export async function PUT(req: NextRequest) {
   try {
     await prisma.teamMember.update({ where: { id }, data });
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Update failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 

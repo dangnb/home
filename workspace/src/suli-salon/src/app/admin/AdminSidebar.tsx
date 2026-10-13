@@ -25,10 +25,6 @@ export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setIsOpen(false);
     }
@@ -81,6 +77,7 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               className={`${styles.navItem} ${isActive(item.href) ? styles.navActive : ""}`}
+              onClick={() => setIsOpen(false)}
             >
               <span className={`material-symbols-outlined ${styles.navIcon}`}>{item.icon}</span>
               {item.label}

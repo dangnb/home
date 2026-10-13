@@ -25,17 +25,17 @@ function useReveal() {
 
 const ICONS = [
     (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg key="home" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
         </svg>
     ),
     (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg key="pencil" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
         </svg>
     ),
     (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg key="shield" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
     )
@@ -162,7 +162,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             Redefining Luxury and Relaxation
                         </h2>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.8, color: "#6B6B6B", marginBottom: 20 }}>
-                            Founded on the principles of "Work Perfectionism," {settings.siteName || "Mộc Salon"} was born from a desire to create more than just a beauty destination. We envisioned a sanctuary, a space where every stroke of art and every drop of service is a statement to our commitment to excellence.
+                            {`Founded on the principles of "Work Perfectionism," ${settings.siteName || "Mộc Salon"} was born from a desire to create more than just a beauty destination. We envisioned a sanctuary, a space where every stroke of art and every drop of service is a statement to our commitment to excellence.`}
                         </p>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.8, color: "#6B6B6B", marginBottom: 0 }}>
                             Our dream is to provide a sanctuary environment where our team can receive the trims of the week and, in exchange, come forward, not just in appearance, but in spirit. We believe that true luxury falls through the absence of clutter and the presence of intention.
@@ -300,7 +300,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                     {member.name}
                                 </h3>
                                 <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 15, fontStyle: "italic", color: "#888", margin: 0, lineHeight: 1.6 }}>
-                                    "{member.bio}"
+                                    {`"${member.bio}"`}
                                 </p>
                             </div>
                         ))}

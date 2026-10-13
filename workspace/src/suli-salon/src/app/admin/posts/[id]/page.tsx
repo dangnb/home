@@ -98,10 +98,7 @@ export default function PostFormPage({
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   useEffect(() => {
-    if (isNew) {
-      setIsInitialLoading(false);
-      return;
-    }
+    if (isNew) return;
 
     fetch(`/api/posts/${id}`)
       .then(async (r) => {

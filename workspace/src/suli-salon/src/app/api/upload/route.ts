@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    let buffer = Buffer.from(await file.arrayBuffer());
+    const buffer = Buffer.from(await file.arrayBuffer());
 
     // Check if Cloudinary is configured
     if (!process.env.CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME === "your_cloud_name") {

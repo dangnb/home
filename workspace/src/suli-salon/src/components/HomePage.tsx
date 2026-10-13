@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
 import { getServiceImageFallback } from "@/lib/service-images";
 
@@ -180,7 +179,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[], sett
                                 <select value={formData.serviceName} onChange={e => setFormData({ ...formData, serviceName: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
                                     <option value="">Select a service...</option>
                                     {services.map(s => (
-                                        <option key={s.id} value={s.title}>{s.title}</option>
+                                        <option key={s.id} value={s.name}>{s.name}</option>
                                     ))}
                                 </select>
                             </div>
@@ -496,7 +495,7 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
 /* ─────────────────────────────────────────────────────── */
 /* Gallery – Bento Grid                                     */
 /* ─────────────────────────────────────────────────────── */
-function Gallery({ gallery, settings }: { gallery: GalleryItemData[], settings: SiteSettings }) {
+function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
     const defaultGallery: GalleryItemData[] = [
         { id: "default-banner", title: "Nail artistry", image: "/uploads/banner.png", category: "Nails", order: 0, isActive: true },
         { id: "default-pedicure", title: "Pedicure care", image: "/uploads/pedicure.png", category: "Pedicure", order: 1, isActive: true },
@@ -592,7 +591,7 @@ export default function HomePage({ services, gallery, settings }: { services: Se
                 <Hero settings={settings} />
                 <About settings={settings} />
                 <Services services={services} settings={settings} />
-                <Gallery gallery={gallery} settings={settings} />
+                <Gallery gallery={gallery} />
             </main>
 
             <SlideOutBooking services={services} settings={settings} />

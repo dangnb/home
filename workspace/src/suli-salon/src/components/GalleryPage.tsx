@@ -5,7 +5,7 @@ import type { GalleryItemData } from "@/lib/db";
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
 /* ─────────────────────────────────────────────────────── */
-function useReveal(deps: React.DependencyList = []) {
+function useReveal(activeCategory: string, gallery: GalleryItemData[]) {
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -22,7 +22,7 @@ function useReveal(deps: React.DependencyList = []) {
             document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
         }, 50);
         return () => { clearTimeout(t); observer.disconnect(); };
-    }, deps);
+    }, [activeCategory, gallery]);
 }
 
 /* ─────────────────────────────────────────────────────── */
@@ -125,7 +125,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
     const [activeCategory, setActiveCategory] = useState("Tất cả");
     const [lightboxImg, setLightboxImg] = useState<GalleryItemData | null>(null);
     
-    useReveal([activeCategory, gallery]);
+    useReveal(activeCategory, gallery);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
 

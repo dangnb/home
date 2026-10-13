@@ -40,7 +40,7 @@ function Particles() {
             });
         }
 
-        const draw = (t: number) => {
+        const draw = () => {
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
             dots.forEach((d) => {

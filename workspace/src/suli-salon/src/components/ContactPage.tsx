@@ -58,7 +58,7 @@ function ContactForm() {
                     <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
                     <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 12px" }}>Message Sent!</h3>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#6B6B6B", margin: "0 0 24px" }}>
-                        Thank you for reaching out. We'll get back to you within 24 hours.
+                        {"Thank you for reaching out. We'll get back to you within 24 hours."}
                     </p>
                     <button onClick={() => { setSent(false); setForm({ name: "", email: "", phone: "", service: "", message: "" }); }}
                         style={{ background: "transparent", border: "1.5px solid #C2A979", color: "#C2A979", padding: "10px 24px", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer" }}>
@@ -229,7 +229,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
 
                 <div style={{ position: "relative", zIndex: 1 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        We'd Love to Hear from You
+                        {"We'd Love to Hear from You"}
                     </div>
                     <h1
                         ref={titleRef}
@@ -241,7 +241,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                         ref={subRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", maxWidth: 500, margin: "0 auto", transition: "transform .12s ease-out" }}
                     >
-                        Have a question, want to book, or just want to say hello? We're always happy to connect.
+                        {"Have a question, want to book, or just want to say hello? We're always happy to connect."}
                     </p>
                 </div>
             </section>
@@ -402,7 +402,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                 <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div className="reveal" style={{ textAlign: "center" }}>
                         <p style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(18px,2.5vw,30px)", fontStyle: "italic", color: "#fff", margin: "0 0 4px", lineHeight: 1.5 }}>
-                            "We don't just do nails — we create experiences."
+                            {"We don't just do nails — we create experiences."}
                         </p>
                         <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979" }}>
                             — Mộc Salon

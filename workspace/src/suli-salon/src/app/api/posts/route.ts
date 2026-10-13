@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -37,8 +38,8 @@ export async function POST(req: Request) {
       },
     });
     return NextResponse.json({ success: true, post: p });
-  } catch (e: any) {
-    if (e.code === "P2002") {
+  } catch (error: unknown) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       return NextResponse.json({ error: "Slug already exists" }, { status: 400 });
     }
     return NextResponse.json({ error: "Create failed" }, { status: 500 });

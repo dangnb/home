@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { SiteSettings } from "@/lib/db";
 import BrandLogo from "@/components/BrandLogo";
 
-export default function Navbar({ settings }: { settings: SiteSettings }) {
+export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     useEffect(() => {
         const fn = () => setScrolled(window.scrollY > 40);

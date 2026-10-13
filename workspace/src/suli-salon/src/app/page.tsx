@@ -1,5 +1,5 @@
 import HomePage from "@/components/HomePage";
-import { getServices, getGalleryItems, getSettings, type ServiceData, type GalleryItemData, type SiteSettings } from "@/lib/db";
+import { getServices, getGalleryItems, getSettings } from "@/lib/db";
 
 export const metadata = {
   title: "Mộc Salon | Nghệ thuật móng tinh tế",

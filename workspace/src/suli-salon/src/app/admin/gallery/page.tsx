@@ -57,7 +57,7 @@ export default function GalleryPage() {
       } else {
         flash("error", data.error || "Upload failed");
       }
-    } catch (error) {
+    } catch {
       flash("error", "An error occurred during upload");
     } finally {
       setIsUploading(false);

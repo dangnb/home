@@ -1,11 +1,15 @@
 "use client";
-import { useCallback, useRef, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
+import type ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import styles from "./RichEditor.module.css";
 
 // Load ReactQuill dynamically to avoid SSR issues
-const ReactQuill: any = dynamic(() => import("react-quill-new"), { ssr: false });
+const DynamicReactQuill = dynamic<ReactQuill["props"]>(
+  async () => (await import("react-quill-new")).default,
+  { ssr: false },
+);
 
 interface RichEditorProps {
   value: string;
@@ -20,7 +24,7 @@ export default function RichEditor({
   placeholder = "Bắt đầu soạn thảo nội dung...",
   minHeight = 400,
 }: RichEditorProps) {
-  const reactQuillRef = useRef<any>(null);
+  const reactQuillRef = useRef<ReactQuill | null>(null);
 
   // Custom image upload handler
   const imageHandler = useCallback(() => {
@@ -90,7 +94,7 @@ export default function RichEditor({
 
   return (
     <div className={styles.wrapper} style={{ minHeight: `${minHeight}px` }}>
-      <ReactQuill
+      <DynamicReactQuill
         ref={reactQuillRef}
         theme="snow"
         value={value}

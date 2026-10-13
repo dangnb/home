@@ -64,8 +64,9 @@ export async function GET(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
     return NextResponse.json(post);
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Fetch failed" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Fetch failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 

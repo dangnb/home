@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       },
     });
     return NextResponse.json({ success: true, category: cat });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Error creating category" }, { status: 500 });
   }
 }
