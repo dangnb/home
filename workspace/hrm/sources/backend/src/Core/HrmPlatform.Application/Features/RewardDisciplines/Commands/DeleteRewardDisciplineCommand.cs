@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -10,7 +10,7 @@ namespace HrmPlatform.Application.Features.RewardDisciplines.Commands;
 
 public class DeleteRewardDisciplineCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class DeleteRewardDisciplineCommandHandler : IRequestHandler<DeleteRewardDisciplineCommand, bool>
@@ -26,7 +26,7 @@ public class DeleteRewardDisciplineCommandHandler : IRequestHandler<DeleteReward
 
     public async Task<bool> Handle(DeleteRewardDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var entity = await _context.RewardDisciplines
             .FirstOrDefaultAsync(r => r.Id == request.Id && r.TenantId == tenantId, cancellationToken);

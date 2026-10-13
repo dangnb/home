@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.EmployeeContracts.Commands;
+﻿using HrmPlatform.Application.Features.EmployeeContracts.Commands;
 using HrmPlatform.Application.Features.EmployeeContracts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,7 @@ public class EmployeeContractsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] long? employeeId,
+        [FromQuery] Guid? employeeId,
         [FromQuery] string? contractType,
         [FromQuery] string? status,
         [FromQuery] bool? isExpiringSoon,
@@ -59,10 +59,10 @@ public class EmployeeContractsController : ControllerBase
     /// <summary>
     /// Lấy chi tiết Hợp đồng theo ID
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetEmployeeContractByIdQuery(id), cancellationToken);
         return Ok(result);
@@ -83,10 +83,10 @@ public class EmployeeContractsController : ControllerBase
     /// <summary>
     /// Cập nhật Hợp đồng Lao động
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateEmployeeContractCommand command, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEmployeeContractCommand command, CancellationToken cancellationToken = default)
     {
         command.Id = id;
         await _sender.Send(command, cancellationToken);
@@ -96,10 +96,10 @@ public class EmployeeContractsController : ControllerBase
     /// <summary>
     /// Xóa Hợp đồng Lao động
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new DeleteEmployeeContractCommand(id), cancellationToken);
         return Ok(new { succeeded = true, message = "Đã xóa Hợp đồng Lao động thành công." });

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Application.Features.Notifications.Commands;
 
 public class MarkNotificationReadCommand : IRequest<bool>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class MarkNotificationReadAllCommand : IRequest<bool>
@@ -33,8 +33,8 @@ public class MarkNotificationReadCommandHandler :
 
     public async Task<bool> Handle(MarkNotificationReadCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var notif = await _context.Notifications
             .FirstOrDefaultAsync(n => n.Id == request.Id && n.TenantId == tenantId && n.UserId == userId, cancellationToken);
@@ -49,8 +49,8 @@ public class MarkNotificationReadCommandHandler :
 
     public async Task<bool> Handle(MarkNotificationReadAllCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var unreadNotifs = await _context.Notifications
             .Where(n => n.TenantId == tenantId && n.UserId == userId && !n.IsRead)

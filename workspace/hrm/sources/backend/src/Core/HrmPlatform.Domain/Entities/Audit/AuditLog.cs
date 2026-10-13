@@ -10,17 +10,17 @@ namespace HrmPlatform.Domain.Entities.Audit;
 /// </summary>
 public class AuditLog : IMayHaveTenant
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
 
     /// <summary>
     /// TenantId phát sinh hành động kiểm toán (null nếu là super admin toàn cục)
     /// </summary>
-    public long? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
 
     /// <summary>
     /// ID người dùng thực hiện hành động
     /// </summary>
-    public long? UserId { get; private set; }
+    public Guid? UserId { get; private set; }
 
     /// <summary>
     /// Loại hành động: CREATE, UPDATE, DELETE, LOGIN, LOGOUT, EXPORT...
@@ -78,8 +78,8 @@ public class AuditLog : IMayHaveTenant
         string action,
         string entityName,
         string entityId,
-        long? tenantId = null,
-        long? userId = null,
+        Guid? tenantId = null,
+        Guid? userId = null,
         string? oldData = null,
         string? newData = null,
         string? ipAddress = null,

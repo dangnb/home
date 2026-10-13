@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Common.Exceptions;
+﻿using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Entities.Hrm;
 using HrmPlatform.Domain.Enums;
@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Attendances.Commands;
 
-public record CheckInCommand : IRequest<long>
+public record CheckInCommand : IRequest<Guid>
 {
-    public long? UserId { get; init; }
+    public Guid? UserId { get; init; }
     public DateTime? CheckInTime { get; init; }
 }
 
-public class CheckInCommandHandler : IRequestHandler<CheckInCommand, long>
+public class CheckInCommandHandler : IRequestHandler<CheckInCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -29,7 +29,7 @@ public class CheckInCommandHandler : IRequestHandler<CheckInCommand, long>
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CheckInCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CheckInCommand request, CancellationToken cancellationToken)
     {
         var tenantId = _currentUserService.TenantId;
         if (!tenantId.HasValue)

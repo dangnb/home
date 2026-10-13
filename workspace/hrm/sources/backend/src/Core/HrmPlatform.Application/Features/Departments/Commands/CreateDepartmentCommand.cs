@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Entities.Hrm;
@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Departments.Commands;
 
-public record CreateDepartmentCommand : IRequest<long>
+public record CreateDepartmentCommand : IRequest<Guid>
 {
     public string Name { get; init; } = string.Empty;
     public string Code { get; init; } = string.Empty;
-    public long? ManagerId { get; init; }
-    public long? ParentId { get; init; }
+    public Guid? ManagerId { get; init; }
+    public Guid? ParentId { get; init; }
 }
 
 public class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartmentCommand>
@@ -29,7 +29,7 @@ public class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartme
     }
 }
 
-public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, long>
+public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
 
@@ -38,7 +38,7 @@ public class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCo
         _context = context;
     }
 
-    public async Task<long> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
     {
         // Kiểm tra trùng lặp mã phòng ban trong phạm vi Tenant
         var codeExists = await _context.Departments

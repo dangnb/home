@@ -1,4 +1,5 @@
 using HrmPlatform.Domain.Entities.Audit;
+using HrmPlatform.Domain.Entities.Config;
 using HrmPlatform.Domain.Entities.Hrm;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -32,6 +33,18 @@ public interface IApplicationDbContext
     DbSet<Equipment> Equipments { get; }
     DbSet<EquipmentHistory> EquipmentHistories { get; }
     DbSet<EquipmentRepair> EquipmentRepairs { get; }
+    DbSet<EquipmentPart> EquipmentParts { get; }
+
+    DbSet<Asset> Assets { get; }
+    DbSet<AssetTransaction> AssetTransactions { get; }
+    DbSet<MaintenanceTicket> MaintenanceTickets { get; }
+    DbSet<AssetDepreciation> AssetDepreciations { get; }
+    DbSet<SystemCatalog> SystemCatalogs { get; }
+
+    DbSet<Project> Projects { get; }
+    DbSet<ProjectMilestone> ProjectMilestones { get; }
+    DbSet<ProjectTask> ProjectTasks { get; }
+    DbSet<ProjectMember> ProjectMembers { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

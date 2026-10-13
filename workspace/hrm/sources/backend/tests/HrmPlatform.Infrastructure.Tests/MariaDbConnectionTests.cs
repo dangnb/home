@@ -20,7 +20,7 @@ public class MariaDbConnectionTests
             await conn.OpenAsync();
             Assert.True(conn.State == System.Data.ConnectionState.Open);
 
-            using var cmd = new MySqlCommand($"CREATE DATABASE IF NOT EXISTS `{targetDb}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;", conn);
+            using var cmd = new MySqlCommand($"DROP DATABASE IF EXISTS `{targetDb}`; CREATE DATABASE `{targetDb}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;", conn);
             await cmd.ExecuteNonQueryAsync();
         }
 
@@ -71,7 +71,7 @@ public class MariaDbConnectionTests
             Assert.True(tableCount >= 12, $"Số lượng bảng kỳ vọng >= 12, thực tế: {tableCount}");
 
             // 4. Kiểm tra tài khoản SuperAdmin đã được nạp
-            var checkAdminCmd = new MySqlCommand("SELECT username, email FROM users WHERE id = 1;", dbConn);
+            var checkAdminCmd = new MySqlCommand("SELECT username, email FROM users WHERE id = '01956100-0000-7000-8000-000000000002';", dbConn);
             using var reader = await checkAdminCmd.ExecuteReaderAsync();
             Assert.True(await reader.ReadAsync());
             Assert.Equal("superadmin", reader.GetString(0));

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,16 +12,16 @@ namespace HrmPlatform.Application.Features.Employees.Queries;
 
 public class EmployeeDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid UserId { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
     public string? Phone { get; set; }
-    public long? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
-    public long? ManagerId { get; set; }
+    public Guid? ManagerId { get; set; }
     public string? ManagerName { get; set; }
     public string JobTitle { get; set; } = string.Empty;
     public string Gender { get; set; } = string.Empty;
@@ -49,7 +49,7 @@ public class GetEmployeesQuery : IRequest<PaginatedResultDto<EmployeeDto>>
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public long? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     public string? Status { get; set; }
     public string? Keyword { get; set; }
 }
@@ -67,7 +67,7 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
 
     public async Task<PaginatedResultDto<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -75,7 +75,7 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, Pagin
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.DepartmentId.HasValue && request.DepartmentId.Value > 0)
+        if (request.DepartmentId.HasValue && request.DepartmentId.Value != Guid.Empty)
         {
             whereClause += " AND ep.department_id = @DepartmentId";
             parameters.Add("DepartmentId", request.DepartmentId.Value);

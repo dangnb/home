@@ -12,10 +12,10 @@ namespace HrmPlatform.Application.Features.Equipments.Commands;
 
 public class HandoverEquipmentCommand : IRequest<bool>
 {
-    public long EquipmentId { get; set; }
+    public Guid EquipmentId { get; set; }
     public string TargetType { get; set; } = "EMPLOYEE"; // EMPLOYEE or DEPARTMENT
-    public long? TargetUserId { get; set; }
-    public long? TargetDepartmentId { get; set; }
+    public Guid? TargetUserId { get; set; }
+    public Guid? TargetDepartmentId { get; set; }
     public string? ConditionStatus { get; set; }
     public string? Note { get; set; }
 }
@@ -25,7 +25,7 @@ public class HandoverEquipmentCommandValidator : AbstractValidator<HandoverEquip
     public HandoverEquipmentCommandValidator()
     {
         RuleFor(x => x.EquipmentId)
-            .GreaterThan(0).WithMessage("ID trang thiết bị không hợp lệ.");
+            .NotEmpty().WithMessage("ID trang thiết bị không hợp lệ.");
     }
 }
 
@@ -42,7 +42,7 @@ public class HandoverEquipmentCommandHandler : IRequestHandler<HandoverEquipment
 
     public async Task<bool> Handle(HandoverEquipmentCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var equipment = await _context.Equipments
             .Include(e => e.Histories)
@@ -65,7 +65,7 @@ public class HandoverEquipmentCommandHandler : IRequestHandler<HandoverEquipment
 
         if (isDept)
         {
-            if (!request.TargetDepartmentId.HasValue || request.TargetDepartmentId <= 0)
+            if (!request.TargetDepartmentId.HasValue || request.TargetDepartmentId.Value == Guid.Empty)
                 throw new BadRequestException("Vui lòng chọn phòng ban nhận bàn giao thiết bị.");
 
             var dept = await _context.Departments.FirstOrDefaultAsync(d => d.Id == request.TargetDepartmentId.Value && d.TenantId == tenantId, cancellationToken);
@@ -76,7 +76,7 @@ public class HandoverEquipmentCommandHandler : IRequestHandler<HandoverEquipment
         }
         else
         {
-            if (!request.TargetUserId.HasValue || request.TargetUserId <= 0)
+            if (!request.TargetUserId.HasValue || request.TargetUserId.Value == Guid.Empty)
                 throw new BadRequestException("Vui lòng chọn nhân sự nhận bàn giao thiết bị.");
 
             var empProfile = await _context.EmployeeProfiles

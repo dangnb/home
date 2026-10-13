@@ -1,4 +1,4 @@
-using HrmPlatform.Domain.Common;
+﻿using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,13 +11,13 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class LeaveRequest : BaseEntity<LeaveRequestStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long UserId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid UserId { get; private set; }
     public LeaveType LeaveType { get; private set; } = LeaveType.ANNUAL;
     public DateOnly StartDate { get; private set; }
     public DateOnly EndDate { get; private set; }
     public string? Reason { get; private set; }
-    public long? ApproverId { get; private set; }
+    public Guid? ApproverId { get; private set; }
 
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
@@ -33,17 +33,14 @@ public class LeaveRequest : BaseEntity<LeaveRequestStatus>, ITenantScopedEntity
     /// Factory Method khởi tạo đơn xin nghỉ phép mới
     /// </summary>
     public static LeaveRequest Create(
-        long tenantId,
-        long userId,
+        Guid tenantId,
+        Guid userId,
         LeaveType leaveType,
         DateOnly startDate,
         DateOnly endDate,
         string? reason = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
-
-        if (userId <= 0)
+        if (userId == Guid.Empty)
             throw new DomainException("UserId không hợp lệ (phải lớn hơn 0).");
 
         if (endDate < startDate)
@@ -65,9 +62,9 @@ public class LeaveRequest : BaseEntity<LeaveRequestStatus>, ITenantScopedEntity
     /// <summary>
     /// Phê duyệt đơn xin nghỉ
     /// </summary>
-    public void Approve(long approverId)
+    public void Approve(Guid approverId)
     {
-        if (approverId <= 0)
+        if (approverId == Guid.Empty)
             throw new DomainException("ApproverId không hợp lệ.");
 
         if (Status != LeaveRequestStatus.PENDING)
@@ -81,9 +78,9 @@ public class LeaveRequest : BaseEntity<LeaveRequestStatus>, ITenantScopedEntity
     /// <summary>
     /// Từ chối đơn xin nghỉ
     /// </summary>
-    public void Reject(long approverId, string? reason = null)
+    public void Reject(Guid approverId, string? reason = null)
     {
-        if (approverId <= 0)
+        if (approverId == Guid.Empty)
             throw new DomainException("ApproverId không hợp lệ.");
 
         if (Status != LeaveRequestStatus.PENDING)

@@ -30,11 +30,11 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
                 _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
             var failures = validationResults
-                .Where(r => r.Errors.Count != 0)
+                .Where(r => r.Errors.Count > 0)
                 .SelectMany(r => r.Errors)
                 .ToList();
 
-            if (failures.Count != 0)
+            if (failures.Count > 0)
             {
                 throw new ValidationException(failures);
             }

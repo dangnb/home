@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -10,8 +10,8 @@ namespace HrmPlatform.Application.Features.EquipmentRepairs.Commands;
 
 public class AssignTechnicianCommand : IRequest<bool>
 {
-    public long RepairId { get; set; }
-    public long TechnicianUserId { get; set; }
+    public Guid RepairId { get; set; }
+    public Guid TechnicianUserId { get; set; }
 }
 
 public class AssignTechnicianCommandHandler : IRequestHandler<AssignTechnicianCommand, bool>
@@ -27,8 +27,8 @@ public class AssignTechnicianCommandHandler : IRequestHandler<AssignTechnicianCo
 
     public async Task<bool> Handle(AssignTechnicianCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var repair = await _context.EquipmentRepairs
             .FirstOrDefaultAsync(r => r.Id == request.RepairId && r.TenantId == tenantId, cancellationToken);

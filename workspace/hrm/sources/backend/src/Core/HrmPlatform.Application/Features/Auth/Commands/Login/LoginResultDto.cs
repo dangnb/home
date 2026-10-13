@@ -10,11 +10,11 @@ public class LoginResultDto
 
 public class AuthUserDto
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string FullName { get; set; } = string.Empty;
-    public long? TenantId { get; set; }
+    public Guid? TenantId { get; set; }
     public bool IsSuperAdmin { get; set; }
     public List<string> Roles { get; set; } = new();
     public List<string> Permissions { get; set; } = new();

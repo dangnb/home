@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Application.Common.Models;
@@ -8,7 +8,7 @@ namespace HrmPlatform.Application.Features.LeaveRequests.Queries;
 
 public class GetLeaveRequestByIdQuery : IRequest<ApiResponseDto<LeaveRequestDto>>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetLeaveRequestByIdQueryHandler : IRequestHandler<GetLeaveRequestByIdQuery, ApiResponseDto<LeaveRequestDto>>
@@ -24,7 +24,7 @@ public class GetLeaveRequestByIdQueryHandler : IRequestHandler<GetLeaveRequestBy
 
     public async Task<ApiResponseDto<LeaveRequestDto>> Handle(GetLeaveRequestByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

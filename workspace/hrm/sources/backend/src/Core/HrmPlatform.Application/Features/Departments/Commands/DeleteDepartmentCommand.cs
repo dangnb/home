@@ -1,11 +1,11 @@
-using HrmPlatform.Application.Common.Exceptions;
+﻿using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Departments.Commands;
 
-public record DeleteDepartmentCommand(long Id) : IRequest;
+public record DeleteDepartmentCommand(Guid Id) : IRequest;
 
 public class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepartmentCommand>
 {

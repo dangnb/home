@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class EmployeeContract : BaseEntity<EmployeeContractStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long EmployeeId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; private set; }
     public string ContractNumber { get; private set; } = null!;
     public EmployeeContractType ContractType { get; private set; }
     public DateOnly SignDate { get; private set; }
@@ -36,8 +36,8 @@ public class EmployeeContract : BaseEntity<EmployeeContractStatus>, ITenantScope
     /// Khởi tạo Hợp đồng Lao động mới
     /// </summary>
     public static EmployeeContract Create(
-        long tenantId,
-        long employeeId,
+        Guid tenantId,
+        Guid employeeId,
         string contractNumber,
         EmployeeContractType contractType,
         DateOnly signDate,
@@ -48,7 +48,7 @@ public class EmployeeContract : BaseEntity<EmployeeContractStatus>, ITenantScope
         string? note = null,
         string? attachmentUrl = null)
     {
-        if (employeeId <= 0)
+        if (employeeId == Guid.Empty)
             throw new DomainException("Mã nhân sự không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(contractNumber))

@@ -1,4 +1,4 @@
-using HrmPlatform.Domain.Common;
+﻿using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long EmployeeId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; private set; }
     public RewardDisciplineType Type { get; private set; }
     public RewardDisciplineCategory Category { get; private set; }
     public string Title { get; private set; } = null!;
@@ -23,7 +23,7 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     public string? Reason { get; private set; }
     public string? AttachmentUrl { get; private set; }
 
-    public long? ApproverId { get; private set; }
+    public Guid? ApproverId { get; private set; }
     public DateTime? ApprovedAt { get; private set; }
     public string? RejectionReason { get; private set; }
 
@@ -41,8 +41,8 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     /// Khởi tạo quyết định khen thưởng / kỷ luật mới
     /// </summary>
     public static RewardDiscipline Create(
-        long tenantId,
-        long employeeId,
+        Guid tenantId,
+        Guid employeeId,
         RewardDisciplineType type,
         RewardDisciplineCategory category,
         string title,
@@ -54,10 +54,7 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
         string? attachmentUrl = null,
         RewardDisciplineStatus status = RewardDisciplineStatus.APPROVED)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
-        if (employeeId <= 0)
+        if (employeeId == Guid.Empty)
             throw new DomainException("Vui lòng chọn nhân viên áp dụng.");
 
         if (string.IsNullOrWhiteSpace(title))
@@ -119,9 +116,9 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     /// <summary>
     /// Phê duyệt quyết định
     /// </summary>
-    public void Approve(long approverId)
+    public void Approve(Guid approverId)
     {
-        if (approverId <= 0)
+        if (approverId == Guid.Empty)
             throw new DomainException("Mã người phê duyệt không hợp lệ.");
 
         if (Status == RewardDisciplineStatus.CANCELLED)
@@ -136,9 +133,9 @@ public class RewardDiscipline : BaseEntity<RewardDisciplineStatus>, ITenantScope
     /// <summary>
     /// Từ chối quyết định
     /// </summary>
-    public void Reject(long approverId, string reason)
+    public void Reject(Guid approverId, string reason)
     {
-        if (approverId <= 0)
+        if (approverId == Guid.Empty)
             throw new DomainException("Mã người từ chối không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(reason))

@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.RewardDisciplines.Commands;
+﻿using HrmPlatform.Application.Features.RewardDisciplines.Commands;
 using HrmPlatform.Application.Features.RewardDisciplines.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,7 @@ public class RewardDisciplinesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
-        [FromQuery] long? employeeId,
+        [FromQuery] Guid? employeeId,
         [FromQuery] string? type,
         [FromQuery] string? category,
         [FromQuery] string? status,
@@ -63,10 +63,10 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Lấy chi tiết quyết định thưởng/phạt theo ID
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetRewardDisciplineByIdQuery { Id = id }, cancellationToken);
         return Ok(result);
@@ -99,11 +99,11 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin quyết định thưởng/phạt
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateRewardDisciplineCommand command, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRewardDisciplineCommand command, CancellationToken cancellationToken = default)
     {
         if (id != command.Id)
         {
@@ -117,10 +117,10 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Phê duyệt quyết định Thưởng / Kỷ luật
     /// </summary>
-    [HttpPost("{id:long}/approve")]
+    [HttpPost("{id:guid}/approve")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Approve(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Approve(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new ApproveRewardDisciplineCommand { Id = id }, cancellationToken);
         return Ok(new { success = true, message = "Đã phê duyệt quyết định Thưởng/Kỷ luật thành công!" });
@@ -129,10 +129,10 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Từ chối quyết định Thưởng / Kỷ luật
     /// </summary>
-    [HttpPost("{id:long}/reject")]
+    [HttpPost("{id:guid}/reject")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Reject(long id, [FromBody] RejectRewardDisciplineRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Reject(Guid id, [FromBody] RejectRewardDisciplineRequest request, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new RejectRewardDisciplineCommand { Id = id, Reason = request.Reason }, cancellationToken);
         return Ok(new { success = true, message = "Đã từ chối quyết định Thưởng/Kỷ luật thành công." });
@@ -141,10 +141,10 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Xóa quyết định thưởng/phạt
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new DeleteRewardDisciplineCommand { Id = id }, cancellationToken);
         return Ok(new { success = true, message = "Đã xóa quyết định thưởng/phạt thành công." });
@@ -153,9 +153,9 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Xuất giao diện mẫu Quyết định chuẩn để in ấn / lưu PDF
     /// </summary>
-    [HttpGet("{id:long}/export/html")]
+    [HttpGet("{id:guid}/export/html")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportHtml(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ExportHtml(Guid id, CancellationToken cancellationToken = default)
     {
         var dto = await _sender.Send(new GetRewardDisciplineByIdQuery { Id = id }, cancellationToken);
         var html = HrmPlatform.Application.Features.RewardDisciplines.Export.RewardDisciplineDocumentExporter.GenerateHtmlDocument(dto);
@@ -165,9 +165,9 @@ public class RewardDisciplinesController : ControllerBase
     /// <summary>
     /// Xuất File Word (.doc) Quyết định khen thưởng / kỷ luật
     /// </summary>
-    [HttpGet("{id:long}/export/word")]
+    [HttpGet("{id:guid}/export/word")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> ExportWord(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ExportWord(Guid id, CancellationToken cancellationToken = default)
     {
         var dto = await _sender.Send(new GetRewardDisciplineByIdQuery { Id = id }, cancellationToken);
         var html = HrmPlatform.Application.Features.RewardDisciplines.Export.RewardDisciplineDocumentExporter.GenerateHtmlDocument(dto);

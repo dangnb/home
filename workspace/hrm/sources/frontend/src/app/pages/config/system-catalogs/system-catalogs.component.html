@@ -1,0 +1,218 @@
+<div class="container-fluid py-4">
+  <!-- Page Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1 text-dark">
+        <i class="bi bi-sliders text-primary me-2"></i>Danh Mục Hệ Thống
+      </h3>
+      <p class="text-muted mb-0 small">Quản lý các bảng danh mục cấu hình dùng chung trong toàn bộ hệ thống HRM.</p>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <!-- Sidebar: Tab Loại Danh Mục -->
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3 border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-layout-sidebar me-2"></i>Nhóm Danh Mục</h6>
+        </div>
+        <div class="list-group list-group-flush">
+          <button
+            *ngFor="let entry of catalogTypeEntries"
+            class="list-group-item list-group-item-action d-flex align-items-center gap-3 py-3 border-0"
+            [class.active]="selectedType === entry.key"
+            [class.bg-primary]="selectedType === entry.key"
+            [class.text-white]="selectedType === entry.key"
+            (click)="selectType(entry.key)">
+            <i [class]="'bi ' + entry.meta.icon + ' fs-5'" [class.text-primary]="selectedType !== entry.key"></i>
+            <div class="text-start">
+              <div class="fw-semibold small">{{ entry.meta.label }}</div>
+              <div class="text-muted" style="font-size:0.7rem" [class.text-white-50]="selectedType === entry.key">
+                {{ getCatalogCount(entry.key) }} mục
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content: CRUD Table -->
+    <div class="col-md-9">
+      <div class="card border-0 shadow-sm rounded-3" *ngIf="selectedType">
+        <!-- Card Header -->
+        <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+          <div>
+            <h5 class="fw-bold mb-0">
+              <i [class]="'bi ' + selectedMeta!.icon + ' text-primary me-2'"></i>{{ selectedMeta!.label }}
+            </h5>
+            <p class="text-muted mb-0 small">{{ selectedMeta!.description }}</p>
+          </div>
+          <button class="btn btn-primary btn-sm" (click)="openCreateModal()">
+            <i class="bi bi-plus-lg me-1"></i>Thêm Mới
+          </button>
+        </div>
+
+        <!-- Table -->
+        <div class="card-body p-0">
+          <div *ngIf="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted mt-2 small">Đang tải danh mục...</p>
+          </div>
+
+          <div *ngIf="!loading && currentItems.length === 0" class="text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted"></i>
+            <h6 class="fw-semibold mt-2 text-secondary">Chưa có danh mục nào</h6>
+            <p class="text-muted small mb-3">Nhấn <strong>Thêm Mới</strong> để tạo danh mục đầu tiên.</p>
+            <button class="btn btn-outline-primary btn-sm" (click)="openCreateModal()">
+              <i class="bi bi-plus-lg me-1"></i>Thêm Mới
+            </button>
+          </div>
+
+          <div *ngIf="!loading && currentItems.length > 0" class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light text-secondary small text-uppercase">
+                <tr>
+                  <th class="ps-4" style="width:60px">#</th>
+                  <th style="width:130px">Mã Code</th>
+                  <th>Tên Danh Mục</th>
+                  <th>Mô Tả</th>
+                  <th class="text-center" style="width:80px">Thứ Tự</th>
+                  <th class="text-center" style="width:120px">Trạng Thái</th>
+                  <th class="text-center" style="width:100px">Mặc Định</th>
+                  <th class="text-end pe-4" style="width:140px">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of currentItems; let i = index">
+                  <td class="ps-4 text-muted small">{{ i + 1 }}</td>
+                  <td>
+                    <code class="badge bg-light text-primary border fw-semibold">{{ item.code }}</code>
+                  </td>
+                  <td class="fw-semibold text-dark">{{ item.name }}</td>
+                  <td class="text-muted small">{{ item.description || '—' }}</td>
+                  <td class="text-center">
+                    <span class="badge bg-light text-secondary border">{{ item.sortOrder }}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge rounded-pill"
+                      [class.bg-success]="item.status === 'ACTIVE'"
+                      [class.bg-secondary]="item.status !== 'ACTIVE'">
+                      {{ item.status === 'ACTIVE' ? 'Hoạt động' : 'Tắt' }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span *ngIf="item.isSystemDefault" class="badge bg-warning text-dark" title="Danh mục hệ thống mặc định, không thể xóa">
+                      <i class="bi bi-lock-fill me-1"></i>Mặc định
+                    </span>
+                    <span *ngIf="!item.isSystemDefault" class="text-muted small">—</span>
+                  </td>
+                  <td class="text-end pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn btn-outline-primary" title="Sửa" (click)="openEditModal(item)">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button
+                        class="btn"
+                        [class.btn-outline-warning]="item.status === 'ACTIVE'"
+                        [class.btn-outline-success]="item.status !== 'ACTIVE'"
+                        [title]="item.status === 'ACTIVE' ? 'Tắt hoạt động' : 'Kích hoạt'"
+                        (click)="toggleStatus(item)">
+                        <i [class]="item.status === 'ACTIVE' ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
+                      </button>
+                      <button
+                        class="btn btn-outline-danger"
+                        title="Xóa"
+                        [disabled]="item.isSystemDefault"
+                        (click)="confirmDelete(item)">
+                        <i class="bi bi-trash3"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state khi chưa chọn loại -->
+      <div *ngIf="!selectedType" class="card border-0 shadow-sm rounded-3">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-sliders fs-1 text-muted"></i>
+          <h6 class="fw-semibold mt-3 text-secondary">Chọn một nhóm danh mục</h6>
+          <p class="text-muted small">Bấm vào một trong các nhóm ở bên trái để xem và quản lý danh mục.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Thêm / Sửa Danh Mục -->
+<div class="modal fade" tabindex="-1" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-3">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">
+          <i class="bi bi-collection me-2 text-primary"></i>
+          {{ isEditMode ? 'Chỉnh Sửa Danh Mục' : 'Thêm Mới Danh Mục' }}
+        </h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body p-4">
+        <!-- Loại danh mục (readonly) -->
+        <div class="mb-3">
+          <label class="form-label fw-medium small text-secondary text-uppercase">Nhóm Danh Mục</label>
+          <div class="p-2 bg-light rounded-2 border d-flex align-items-center gap-2">
+            <i [class]="'bi ' + selectedMeta?.icon + ' text-primary'"></i>
+            <span class="fw-semibold">{{ selectedMeta?.label }}</span>
+          </div>
+        </div>
+
+        <!-- Code (chỉ có khi tạo mới) -->
+        <div class="mb-3" *ngIf="!isEditMode">
+          <label class="form-label fw-medium">Mã Code <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="form.code"
+            placeholder="Ví dụ: ANNUAL, BACHELOR, DEFINITE..."
+            style="text-transform:uppercase"
+            (input)="form.code = form.code.toUpperCase()">
+          <div class="form-text text-muted small">Chỉ chữ cái, số và dấu gạch dưới. Không thể thay đổi sau khi tạo.</div>
+        </div>
+
+        <!-- Tên hiển thị -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Tên Danh Mục <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="form.name"
+            placeholder="Ví dụ: Nghỉ phép năm, Kỹ sư cao cấp...">
+        </div>
+
+        <!-- Mô tả -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Mô Tả</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="form.description"
+            placeholder="Mô tả ngắn gọn về danh mục này (không bắt buộc)..."></textarea>
+        </div>
+
+        <!-- Thứ tự -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Thứ Tự Hiển Thị</label>
+          <input type="number" class="form-control" [(ngModel)]="form.sortOrder" min="0" style="max-width:150px">
+          <div class="form-text text-muted small">Số nhỏ hơn sẽ hiển thị trước trong danh sách.</div>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger py-2 small">
+          <i class="bi bi-exclamation-circle me-1"></i>{{ errorMessage }}
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" (click)="closeModal()" [disabled]="submitting">Hủy</button>
+        <button type="button" class="btn btn-primary fw-semibold" (click)="submitForm()"
+          [disabled]="submitting || !form.name.trim() || (!isEditMode && !form.code.trim())">
+          <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>
+          <i *ngIf="!submitting" class="bi bi-check2 me-1"></i>
+          {{ isEditMode ? 'Lưu Thay Đổi' : 'Tạo Danh Mục' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>

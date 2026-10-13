@@ -8,11 +8,11 @@ namespace HrmPlatform.Application.Features.Departments.Commands;
 
 public record UpdateDepartmentCommand : IRequest
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;
     public string Code { get; init; } = string.Empty;
-    public long? ManagerId { get; init; }
-    public long? ParentId { get; init; }
+    public Guid? ManagerId { get; init; }
+    public Guid? ParentId { get; init; }
     public string? Status { get; init; }
 }
 
@@ -21,7 +21,7 @@ public class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartme
     public UpdateDepartmentCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID phòng ban không hợp lệ.");
+            .NotEmpty().WithMessage("ID phòng ban không hợp lệ.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Tên phòng ban không được để trống.")
@@ -89,7 +89,7 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
             }
         }
 
-        department.Update(request.Name, request.Code, request.ManagerId, request.ParentId);
+        department.Update(request.Code, request.Name, request.ManagerId, request.ParentId);
 
         if (!string.IsNullOrWhiteSpace(request.Status))
         {

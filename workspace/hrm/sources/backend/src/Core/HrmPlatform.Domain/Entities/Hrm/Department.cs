@@ -1,4 +1,4 @@
-using HrmPlatform.Domain.Common;
+﻿using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -14,7 +14,7 @@ public class Department : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// Định danh Tenant sở hữu phòng ban
     /// </summary>
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
 
     /// <summary>
     /// Tên phòng ban (vd: Phòng Kỹ thuật, Ban Giám đốc, Phòng Nhân sự)
@@ -29,12 +29,12 @@ public class Department : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// ID người dùng giữ vị trí Trưởng phòng (nullable)
     /// </summary>
-    public long? ManagerId { get; private set; }
+    public Guid? ManagerId { get; private set; }
 
     /// <summary>
     /// ID phòng ban cấp trên trực tiếp (Cha) - Nullable nếu là cấp cao nhất
     /// </summary>
-    public long? ParentId { get; private set; }
+    public Guid? ParentId { get; private set; }
 
     #region Navigation Properties
     public virtual Tenant Tenant { get; private set; } = null!;
@@ -54,13 +54,10 @@ public class Department : BaseEntity, ITenantScopedEntity
     public static Department Create(
         string code,
         string name,
-        long? managerId = null,
-        long? parentId = null,
-        long tenantId = 0)
+        Guid? managerId = null,
+        Guid? parentId = null,
+        Guid tenantId = default)
     {
-        if (tenantId < 0)
-            throw new DomainException("TenantId không hợp lệ.");
-
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã phòng ban không được để trống.");
 
@@ -71,10 +68,10 @@ public class Department : BaseEntity, ITenantScopedEntity
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên phòng ban không được để trống.");
 
-        if (managerId.HasValue && managerId.Value <= 0)
+        if (managerId.HasValue && managerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
-        if (parentId.HasValue && parentId.Value <= 0)
+        if (parentId.HasValue && parentId.Value == Guid.Empty)
             throw new DomainException("ParentId không hợp lệ.");
 
         return new Department
@@ -92,7 +89,7 @@ public class Department : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// Cập nhật thông tin phòng ban
     /// </summary>
-    public void Update(string name, string code, long? managerId = null, long? parentId = null)
+    public void Update(string code, string name, Guid? managerId = null, Guid? parentId = null)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("Mã phòng ban không được để trống.");
@@ -104,10 +101,10 @@ public class Department : BaseEntity, ITenantScopedEntity
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Tên phòng ban không được để trống.");
 
-        if (parentId.HasValue && parentId.Value == Id && Id > 0)
+        if (parentId.HasValue && parentId.Value == Id && Id != Guid.Empty)
             throw new DomainException("Phòng ban không thể là phòng ban cha của chính mình.");
 
-        if (managerId.HasValue && managerId.Value <= 0)
+        if (managerId.HasValue && managerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
         Code = cleanCode;
@@ -117,18 +114,18 @@ public class Department : BaseEntity, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AssignManager(long? managerId)
+    public void AssignManager(Guid? managerId)
     {
-        if (managerId.HasValue && managerId.Value <= 0)
+        if (managerId.HasValue && managerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
         ManagerId = managerId;
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void SetParent(long? parentId)
+    public void SetParent(Guid? parentId)
     {
-        if (parentId.HasValue && parentId.Value == Id && Id > 0)
+        if (parentId.HasValue && parentId.Value == Id && Id != Guid.Empty)
             throw new DomainException("Phòng ban không thể là phòng ban cha của chính mình.");
 
         ParentId = parentId;

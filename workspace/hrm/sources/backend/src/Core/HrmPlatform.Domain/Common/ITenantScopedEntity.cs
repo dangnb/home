@@ -5,5 +5,5 @@ namespace HrmPlatform.Domain.Common;
 /// </summary>
 public interface ITenantScopedEntity
 {
-    long TenantId { get; set; }
+    Guid TenantId { get; set; }
 }

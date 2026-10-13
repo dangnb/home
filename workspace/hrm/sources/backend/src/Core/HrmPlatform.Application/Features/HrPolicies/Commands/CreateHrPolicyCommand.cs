@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.HrPolicies.Commands;
 
-public class CreateHrPolicyCommand : IRequest<long>
+public class CreateHrPolicyCommand : IRequest<Guid>
 {
     public string? PolicyCode { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -24,7 +24,7 @@ public class CreateHrPolicyCommand : IRequest<long>
     public HrPolicyStatus Status { get; set; } = HrPolicyStatus.PUBLISHED;
 }
 
-public class CreateHrPolicyCommandHandler : IRequestHandler<CreateHrPolicyCommand, long>
+public class CreateHrPolicyCommandHandler : IRequestHandler<CreateHrPolicyCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -35,9 +35,9 @@ public class CreateHrPolicyCommandHandler : IRequestHandler<CreateHrPolicyComman
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateHrPolicyCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateHrPolicyCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         string finalCode;
 

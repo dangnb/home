@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -20,7 +20,7 @@ public class AttendanceSummaryDto
 
 public class GetAttendanceSummaryQuery : IRequest<ApiResponseDto<AttendanceSummaryDto>>
 {
-    public long? UserId { get; set; }
+    public Guid? UserId { get; set; }
     public int Year { get; set; }
     public int Month { get; set; }
 }
@@ -38,8 +38,8 @@ public class GetAttendanceSummaryQueryHandler : IRequestHandler<GetAttendanceSum
 
     public async Task<ApiResponseDto<AttendanceSummaryDto>> Handle(GetAttendanceSummaryQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = request.UserId ?? _currentUserService.UserId ?? 0;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = request.UserId ?? _currentUserService.UserId ?? Guid.Empty;
 
         var startDate = $"{request.Year}-{request.Month:D2}-01";
         var lastDay = DateTime.DaysInMonth(request.Year, request.Month);

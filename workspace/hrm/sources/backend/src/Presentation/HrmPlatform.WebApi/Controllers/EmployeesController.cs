@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.Employees.Commands;
+﻿using HrmPlatform.Application.Features.Employees.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +22,7 @@ public class EmployeesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(
         [FromQuery] string? keyword,
-        [FromQuery] long? departmentId,
+        [FromQuery] Guid? departmentId,
         [FromQuery] string? status,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20,
@@ -47,7 +47,7 @@ public class EmployeesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetLookup(
         [FromQuery] string? keyword,
-        [FromQuery] long? departmentId,
+        [FromQuery] Guid? departmentId,
         [FromQuery] int limit = 200,
         CancellationToken cancellationToken = default)
     {
@@ -64,10 +64,10 @@ public class EmployeesController : ControllerBase
     /// <summary>
     /// Lấy chi tiết hồ sơ nhân sự theo ID (Dapper Read)
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new HrmPlatform.Application.Features.Employees.Queries.GetEmployeeByIdQuery { Id = id }, cancellationToken);
         return Ok(result);
@@ -100,11 +100,11 @@ public class EmployeesController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin hồ sơ nhân viên
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateEmployeeCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEmployeeCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
         {
@@ -118,10 +118,10 @@ public class EmployeesController : ControllerBase
     /// <summary>
     /// Xóa mềm hồ sơ nhân sự và vô hiệu hóa tài khoản
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         await _sender.Send(new DeleteEmployeeCommand(id), cancellationToken);
         return NoContent();

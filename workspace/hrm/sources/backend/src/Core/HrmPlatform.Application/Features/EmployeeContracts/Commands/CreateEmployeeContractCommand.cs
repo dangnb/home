@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.EmployeeContracts.Commands;
 
-public class CreateEmployeeContractCommand : IRequest<long>
+public class CreateEmployeeContractCommand : IRequest<Guid>
 {
-    public long EmployeeId { get; set; }
+    public Guid EmployeeId { get; set; }
     public string? ContractNumber { get; set; }
     public EmployeeContractType ContractType { get; set; }
     public DateOnly SignDate { get; set; }
@@ -26,7 +26,7 @@ public class CreateEmployeeContractCommand : IRequest<long>
     public string? AttachmentUrl { get; set; }
 }
 
-public class CreateEmployeeContractCommandHandler : IRequestHandler<CreateEmployeeContractCommand, long>
+public class CreateEmployeeContractCommandHandler : IRequestHandler<CreateEmployeeContractCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -37,9 +37,9 @@ public class CreateEmployeeContractCommandHandler : IRequestHandler<CreateEmploy
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEmployeeContractCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEmployeeContractCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var employeeExists = await _context.EmployeeProfiles
             .AnyAsync(e => e.Id == request.EmployeeId && e.TenantId == tenantId, cancellationToken);

@@ -6,7 +6,7 @@ namespace HrmPlatform.Domain.Common;
 public interface IAuditableEntity
 {
     DateTime CreatedAt { get; set; }
-    long? CreatedBy { get; set; }
+    Guid? CreatedBy { get; set; }
     DateTime? UpdatedAt { get; set; }
-    long? UpdatedBy { get; set; }
+    Guid? UpdatedBy { get; set; }
 }

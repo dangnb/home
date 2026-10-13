@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 export interface NotificationItem {
-  id: number;
+  id: string;
   title: string;
   message: string;
   notificationType: string;
-  referenceId?: number;
+  referenceId?: string;
   targetUrl?: string;
   isRead: boolean;
   readAt?: string;
@@ -52,7 +52,7 @@ export class NotificationService {
       });
   }
 
-  markAsRead(id: number): void {
+  markAsRead(id: string): void {
     this.http.post(`${this.apiUrl}/notifications/${id}/read`, {})
       .subscribe({
         next: () => {

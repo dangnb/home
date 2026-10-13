@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { MasterLayoutComponent } from './layout/master-layout.component';
 import { authGuard } from './core/guards/auth.guard';
 
+import { permissionGuard } from './core/guards/permission.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -12,6 +14,65 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'hrm/dashboard',
         pathMatch: 'full'
+      },
+      // ==========================================
+      // PROJECT MANAGEMENT MODULE (Standalone)
+      // ==========================================
+      {
+        path: 'pm',
+        loadComponent: () => import('./pages/pm/pm-layout.component').then(m => m.PmLayoutComponent),
+        children: [
+          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+          {
+            path: 'dashboard',
+            loadComponent: () => import('./pages/pm/dashboard/pm-dashboard.component').then(m => m.PmDashboardComponent),
+            title: 'Quản Lý Dự Án — Tổng Quan'
+          },
+          {
+            path: 'my-schedule',
+            loadComponent: () => import('./pages/pm/my-schedule/pm-schedule.component').then(m => m.PmScheduleComponent),
+            title: 'Lịch Làm Việc Cá Nhân — PM'
+          },
+          {
+            path: 'department',
+            loadComponent: () => import('./pages/pm/department/pm-department.component').then(m => m.PmDepartmentComponent),
+            title: 'Quản Lý Phòng Ban — PM'
+          }
+        ]
+      },
+      // ==========================================
+      // STANDALONE EQUIPMENT & ASSETS MODULE ROUTES
+      // ==========================================
+      {
+        path: 'equipment',
+        children: [
+          { path: '', redirectTo: 'my-assets', pathMatch: 'full' },
+          {
+            path: 'my-assets',
+            loadComponent: () => import('./pages/hrm/my-assets/my-assets-list.component').then(m => m.MyAssetsListComponent),
+            title: 'Thiết Bị Của Tôi'
+          },
+          {
+            path: 'assets',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Doanh Nghiệp'
+          },
+          {
+            path: 'inventory',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Kho'
+          },
+          {
+            path: 'saas-assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Thiết Bị & Tài Sản SaaS'
+          },
+          {
+            path: 'repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT'
+          }
+        ]
       },
       // ==========================================
       // CORE HRM PLATFORM ROUTES
@@ -75,9 +136,58 @@ export const routes: Routes = [
             title: 'Quản Lý Trang Thiết Bị - HRM Platform'
           },
           {
+            path: 'assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Thiết Bị & Tài Sản - HRM Platform'
+          },
+          {
             path: 'equipment-repairs',
             loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
             title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
+          },
+        ]
+      },
+      // ==========================================
+      // EQUIPMENT & ASSETS MODULE ROUTES
+      // ==========================================
+      {
+        path: 'equipment',
+        children: [
+          { path: '', redirectTo: 'assets', pathMatch: 'full' },
+          {
+            path: 'assets',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Trang Thiết Bị Doanh Nghiệp - HRM Platform'
+          },
+          {
+            path: 'inventory',
+            loadComponent: () => import('./pages/hrm/equipments/equipments-list.component').then(m => m.EquipmentsListComponent),
+            title: 'Quản Lý Kho Thiết Bị - HRM Platform'
+          },
+          {
+            path: 'saas-assets',
+            loadComponent: () => import('./pages/hrm/assets/assets-list.component').then(m => m.AssetsListComponent),
+            title: 'Quản Lý Tài Sản & Khấu Hao - HRM Platform'
+          },
+          {
+            path: 'repairs',
+            loadComponent: () => import('./pages/hrm/equipment-repairs/equipment-repairs-list.component').then(m => m.EquipmentRepairsListComponent),
+            title: 'Quản Lý Yêu Cầu Báo Hỏng & Sửa Chữa IT - HRM Platform'
+          }
+        ]
+      },
+      // ==========================================
+      // SYSTEM CONFIGURATION MODULE ROUTES
+      // ==========================================
+      {
+        path: 'config',
+        children: [
+          { path: '', redirectTo: 'catalogs', pathMatch: 'full' },
+          {
+            path: 'catalogs',
+            loadComponent: () => import('./pages/config/system-catalogs/system-catalogs.component').then(m => m.SystemCatalogsComponent),
+            canActivate: [permissionGuard('config:manage')],
+            title: 'Danh Mục Hệ Thống — System Configuration'
           }
         ]
       },
@@ -116,8 +226,8 @@ export const routes: Routes = [
       },
       {
         path: 'users/permissions',
-        redirectTo: 'users/roles',
-        pathMatch: 'full'
+        loadComponent: () => import('./pages/users/permissions-list/permissions-list.component').then(m => m.PermissionsListComponent),
+        title: 'Danh Mục Quyền Hạn - HRM Platform'
       },
       {
         path: 'profile',

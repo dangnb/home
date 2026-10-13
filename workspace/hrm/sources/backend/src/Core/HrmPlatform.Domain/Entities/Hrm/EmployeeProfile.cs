@@ -1,4 +1,4 @@
-using HrmPlatform.Domain.Common;
+﻿using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -14,22 +14,22 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
     /// <summary>
     /// ID Tenant sở hữu hồ sơ nhân sự
     /// </summary>
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
 
     /// <summary>
     /// ID tài khoản User tương ứng (1-1)
     /// </summary>
-    public long UserId { get; private set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// ID phòng ban trực thuộc
     /// </summary>
-    public long? DepartmentId { get; private set; }
+    public Guid? DepartmentId { get; private set; }
 
     /// <summary>
     /// Quản lý trực tiếp của nhân viên (FK -> User)
     /// </summary>
-    public long? ManagerId { get; private set; }
+    public Guid? ManagerId { get; private set; }
 
     /// <summary>
     /// Chức danh / Vị trí công việc (vd: Software Engineer, Senior HR)
@@ -136,12 +136,12 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
     /// Factory Method tạo Hồ sơ nhân sự mới đảm bảo tính toàn vẹn
     /// </summary>
     public static EmployeeProfile Create(
-        long tenantId,
-        long userId,
+        Guid tenantId,
+        Guid userId,
         string jobTitle,
         Gender gender = Gender.OTHER,
-        long? departmentId = null,
-        long? managerId = null,
+        Guid? departmentId = null,
+        Guid? managerId = null,
         DateOnly? dateOfBirth = null,
         string? idCardNumber = null,
         string? taxCode = null,
@@ -159,11 +159,8 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         DateOnly? officialJoinedDate = null,
         string? avatarUrl = null)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
-
-        if (userId <= 0)
-            throw new DomainException("UserId không hợp lệ (phải lớn hơn 0).");
+        if (userId == Guid.Empty)
+            throw new DomainException("UserId không hợp lệ.");
 
         if (string.IsNullOrWhiteSpace(jobTitle))
             throw new DomainException("Chức danh / vị trí công việc không được để trống.");
@@ -172,10 +169,10 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         if (dateOfBirth.HasValue && dateOfBirth.Value > today)
             throw new DomainException("Ngày sinh không thể ở trong tương lai.");
 
-        if (departmentId.HasValue && departmentId.Value <= 0)
+        if (departmentId.HasValue && departmentId.Value == Guid.Empty)
             throw new DomainException("DepartmentId không hợp lệ.");
 
-        if (managerId.HasValue && managerId.Value <= 0)
+        if (managerId.HasValue && managerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
         return new EmployeeProfile
@@ -213,8 +210,8 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
     public void Update(
         string jobTitle,
         Gender gender,
-        long? departmentId = null,
-        long? managerId = null,
+        Guid? departmentId = null,
+        Guid? managerId = null,
         DateOnly? dateOfBirth = null,
         string? idCardNumber = null,
         string? taxCode = null,
@@ -239,10 +236,10 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         if (dateOfBirth.HasValue && dateOfBirth.Value > today)
             throw new DomainException("Ngày sinh không thể ở trong tương lai.");
 
-        if (departmentId.HasValue && departmentId.Value <= 0)
+        if (departmentId.HasValue && departmentId.Value == Guid.Empty)
             throw new DomainException("DepartmentId không hợp lệ.");
 
-        if (managerId.HasValue && managerId.Value <= 0)
+        if (managerId.HasValue && managerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
         JobTitle = jobTitle.Trim();
@@ -268,12 +265,12 @@ public class EmployeeProfile : BaseEntity, ITenantScopedEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void TransferDepartment(long? departmentId, long? newManagerId = null)
+    public void TransferDepartment(Guid? departmentId, Guid? newManagerId = null)
     {
-        if (departmentId.HasValue && departmentId.Value <= 0)
+        if (departmentId.HasValue && departmentId.Value == Guid.Empty)
             throw new DomainException("DepartmentId không hợp lệ.");
 
-        if (newManagerId.HasValue && newManagerId.Value <= 0)
+        if (newManagerId.HasValue && newManagerId.Value == Guid.Empty)
             throw new DomainException("ManagerId không hợp lệ.");
 
         DepartmentId = departmentId;

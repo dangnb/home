@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
@@ -9,9 +9,9 @@ namespace HrmPlatform.Application.Features.HrPolicies.Commands;
 
 public class DeleteHrPolicyCommand : IRequest
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    public DeleteHrPolicyCommand(long id)
+    public DeleteHrPolicyCommand(Guid id)
     {
         Id = id;
     }
@@ -30,7 +30,7 @@ public class DeleteHrPolicyCommandHandler : IRequestHandler<DeleteHrPolicyComman
 
     public async Task Handle(DeleteHrPolicyCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var policy = await _context.HrPolicies
             .FirstOrDefaultAsync(p => p.Id == request.Id && p.TenantId == tenantId, cancellationToken);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,7 +11,7 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class HrPolicy : BaseEntity<HrPolicyStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
+    public Guid TenantId { get; set; }
     public string PolicyCode { get; private set; } = null!;
     public string Title { get; private set; } = null!;
     public HrPolicyCategory Category { get; private set; }
@@ -30,7 +30,7 @@ public class HrPolicy : BaseEntity<HrPolicyStatus>, ITenantScopedEntity
     }
 
     public static HrPolicy Create(
-        long tenantId,
+        Guid tenantId,
         string policyCode,
         string title,
         HrPolicyCategory category,

@@ -1,4 +1,4 @@
-using HrmPlatform.Domain.Common;
+﻿using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
 using HrmPlatform.Domain.Enums;
@@ -11,8 +11,8 @@ namespace HrmPlatform.Domain.Entities.Hrm;
 /// </summary>
 public class Attendance : BaseEntity<AttendanceStatus>, ITenantScopedEntity
 {
-    public long TenantId { get; set; }
-    public long UserId { get; private set; }
+    public Guid TenantId { get; set; }
+    public Guid UserId { get; private set; }
     public DateOnly WorkDate { get; private set; }
     public DateTime? CheckIn { get; private set; }
     public DateTime? CheckOut { get; private set; }
@@ -32,8 +32,8 @@ public class Attendance : BaseEntity<AttendanceStatus>, ITenantScopedEntity
     /// Factory Method tạo bản ghi chấm công mới
     /// </summary>
     public static Attendance Create(
-        long tenantId,
-        long userId,
+        Guid tenantId,
+        Guid userId,
         DateOnly workDate,
         DateTime? checkIn = null,
         DateTime? checkOut = null,
@@ -41,10 +41,7 @@ public class Attendance : BaseEntity<AttendanceStatus>, ITenantScopedEntity
         int earlyMinutes = 0,
         AttendanceStatus status = AttendanceStatus.PRESENT)
     {
-        if (tenantId <= 0)
-            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
-
-        if (userId <= 0)
+        if (userId == Guid.Empty)
             throw new DomainException("UserId không hợp lệ (phải lớn hơn 0).");
 
         if (lateMinutes < 0)

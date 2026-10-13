@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using HrmPlatform.Application.Common.Exceptions;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Entities.Identity;
@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Users.Commands;
 
-public record CreateUserCommand : IRequest<long>
+public record CreateUserCommand : IRequest<Guid>
 {
     public string Username { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string Password { get; init; } = string.Empty;
     public string FullName { get; init; } = string.Empty;
     public string? Phone { get; init; }
-    public long? RoleId { get; init; }
+    public Guid? RoleId { get; init; }
     public string? RoleCode { get; init; }
-    public long? TenantId { get; init; }
+    public Guid? TenantId { get; init; }
     public string? Status { get; init; }
 }
 
@@ -45,7 +45,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     }
 }
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, long>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -58,7 +58,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, long>
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var normalizedUsername = request.Username.Trim().ToLowerInvariant();
         var normalizedEmail = request.Email.Trim().ToLowerInvariant();
@@ -84,7 +84,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, long>
         }
 
         // 3. Xác định TenantId
-        long? tenantId = request.TenantId ?? _currentUserService.TenantId ?? 1;
+        Guid? tenantId = request.TenantId ?? _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         // 4. Khởi tạo tài khoản qua Factory Method
         var user = User.Create(

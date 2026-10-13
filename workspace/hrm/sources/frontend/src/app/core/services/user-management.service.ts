@@ -49,7 +49,7 @@ export class UserManagementService {
     );
   }
 
-  getUserById(id: string | number): Observable<ApiResponse<ManagedUser>> {
+  getUserById(id: string): Observable<ApiResponse<ManagedUser>> {
     return this.http.get<ApiResponse<ManagedUser>>(`${this.readUrl}/${id}`);
   }
 
@@ -63,15 +63,15 @@ export class UserManagementService {
     return this.http.post<any>(this.writeUrl, dto);
   }
 
-  updateUser(id: string | number, dto: UpdateUserDto): Observable<any> {
+  updateUser(id: string, dto: UpdateUserDto): Observable<any> {
     return this.http.put<any>(`${this.writeUrl}/${id}`, dto);
   }
 
-  deleteUser(id: string | number): Observable<any> {
+  deleteUser(id: string): Observable<any> {
     return this.http.delete<any>(`${this.writeUrl}/${id}`);
   }
 
-  deleteUsers(ids: (string | number)[]): Observable<any[]> {
+  deleteUsers(ids: string[]): Observable<any[]> {
     const requests = ids.map(id => this.deleteUser(id));
     return forkJoin(requests);
   }

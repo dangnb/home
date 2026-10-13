@@ -1,4 +1,4 @@
-using HrmPlatform.Application.Features.HrPolicies.Commands;
+﻿using HrmPlatform.Application.Features.HrPolicies.Commands;
 using HrmPlatform.Application.Features.HrPolicies.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,10 +55,10 @@ public class HrPoliciesController : ControllerBase
     /// <summary>
     /// Lấy chi tiết bài viết Chính sách theo ID
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new GetHrPolicyByIdQuery(id), cancellationToken);
         return Ok(result);
@@ -79,10 +79,10 @@ public class HrPoliciesController : ControllerBase
     /// <summary>
     /// Cập nhật bài viết Chính sách HR
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateHrPolicyCommand command, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateHrPolicyCommand command, CancellationToken cancellationToken = default)
     {
         command.Id = id;
         await _sender.Send(command, cancellationToken);
@@ -92,10 +92,10 @@ public class HrPoliciesController : ControllerBase
     /// <summary>
     /// Xóa bài viết Chính sách HR
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken = default)
     {
         await _sender.Send(new DeleteHrPolicyCommand(id), cancellationToken);
         return Ok(new { succeeded = true, message = "Đã xóa bài viết Chính sách HR thành công." });

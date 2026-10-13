@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,19 +12,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.EmployeeTransfers.Commands;
 
-public class CreateEmployeeTransferCommand : IRequest<long>
+public class CreateEmployeeTransferCommand : IRequest<Guid>
 {
-    public long EmployeeId { get; set; }
+    public Guid EmployeeId { get; set; }
     public string? DecisionNumber { get; set; }
     public TransferChangeType ChangeType { get; set; }
-    public long? NewDepartmentId { get; set; }
+    public Guid? NewDepartmentId { get; set; }
     public string? NewJobTitle { get; set; }
-    public long? NewManagerId { get; set; }
+    public Guid? NewManagerId { get; set; }
     public DateOnly EffectiveDate { get; set; }
     public string? Note { get; set; }
 }
 
-public class CreateEmployeeTransferCommandHandler : IRequestHandler<CreateEmployeeTransferCommand, long>
+public class CreateEmployeeTransferCommandHandler : IRequestHandler<CreateEmployeeTransferCommand, Guid>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
@@ -35,9 +35,9 @@ public class CreateEmployeeTransferCommandHandler : IRequestHandler<CreateEmploy
         _currentUserService = currentUserService;
     }
 
-    public async Task<long> Handle(CreateEmployeeTransferCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateEmployeeTransferCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var employee = await _context.EmployeeProfiles
             .FirstOrDefaultAsync(e => e.Id == request.EmployeeId && e.TenantId == tenantId, cancellationToken);

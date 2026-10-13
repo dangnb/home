@@ -65,4 +65,8 @@ export class EquipmentService {
   reportBrokenEquipment(id: number, dto: { description: string; note?: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/report-broken`, dto);
   }
+
+  updateEquipment(id: number, dto: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, dto);
+  }
 }

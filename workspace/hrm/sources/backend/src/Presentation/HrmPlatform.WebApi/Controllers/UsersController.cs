@@ -58,11 +58,11 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Lấy chi tiết người dùng theo ID (Dapper Read)
     /// </summary>
-    [HttpGet("{id:long}")]
+    [HttpGet("{id:guid}")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(long id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _sender.Send(new HrmPlatform.Application.Features.Users.Queries.GetUserByIdQuery { Id = id }, cancellationToken);
         return Ok(result);
@@ -83,13 +83,13 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Cập nhật thông tin người dùng
     /// </summary>
-    [HttpPut("{id:long}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(long id, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        if (command.Id == 0 || command.Id == id)
+        if (command.Id == Guid.Empty || command.Id == id)
         {
             command = command with { Id = id };
         }
@@ -105,11 +105,11 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Xóa mềm tài khoản người dùng
     /// </summary>
-    [HttpDelete("{id:long}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         await _sender.Send(new DeleteUserCommand(id), cancellationToken);
         return NoContent();

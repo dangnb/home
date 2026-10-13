@@ -7,11 +7,11 @@ namespace HrmPlatform.Domain.Entities.Identity;
 /// </summary>
 public class RolePermission
 {
-    public long RoleId { get; private set; }
-    public long PermissionId { get; private set; }
+    public Guid RoleId { get; private set; }
+    public Guid PermissionId { get; private set; }
 
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public long? CreatedBy { get; private set; }
+    public Guid? CreatedBy { get; private set; }
 
     #region Navigation Properties
     public virtual Role Role { get; private set; } = null!;
@@ -22,12 +22,12 @@ public class RolePermission
     {
     }
 
-    public static RolePermission Create(long roleId, long permissionId, long? createdBy = null)
+    public static RolePermission Create(Guid roleId, Guid permissionId, Guid? createdBy = null)
     {
-        if (roleId <= 0)
+        if (roleId == Guid.Empty)
             throw new DomainException("RoleId không hợp lệ.");
 
-        if (permissionId <= 0)
+        if (permissionId == Guid.Empty)
             throw new DomainException("PermissionId không hợp lệ.");
 
         return new RolePermission

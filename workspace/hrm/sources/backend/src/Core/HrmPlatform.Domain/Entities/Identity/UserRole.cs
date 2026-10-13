@@ -10,9 +10,9 @@ namespace HrmPlatform.Domain.Entities.Identity;
 /// </summary>
 public class UserRole : BaseEntity, IMayHaveTenant
 {
-    public long UserId { get; private set; }
-    public long RoleId { get; private set; }
-    public long? TenantId { get; set; }
+    public Guid UserId { get; private set; }
+    public Guid RoleId { get; private set; }
+    public Guid? TenantId { get; set; }
 
     #region Navigation Properties
     public virtual User User { get; private set; } = null!;
@@ -27,16 +27,16 @@ public class UserRole : BaseEntity, IMayHaveTenant
     /// <summary>
     /// Factory Method tạo liên kết User - Role
     /// </summary>
-    public static UserRole Create(long userId, long roleId, long? tenantId = null)
+    public static UserRole Create(Guid userId, Guid roleId, Guid? tenantId = null)
     {
-        if (userId <= 0)
-            throw new DomainException("UserId không hợp lệ (phải lớn hơn 0).");
+        if (userId == Guid.Empty)
+            throw new DomainException("UserId không hợp lệ.");
 
-        if (roleId <= 0)
-            throw new DomainException("RoleId không hợp lệ (phải lớn hơn 0).");
+        if (roleId == Guid.Empty)
+            throw new DomainException("RoleId không hợp lệ.");
 
-        if (tenantId.HasValue && tenantId.Value <= 0)
-            throw new DomainException("TenantId không hợp lệ (phải lớn hơn 0).");
+        if (tenantId.HasValue && tenantId.Value == Guid.Empty)
+            throw new DomainException("TenantId không hợp lệ.");
 
         return new UserRole
         {
@@ -48,9 +48,9 @@ public class UserRole : BaseEntity, IMayHaveTenant
         };
     }
 
-    public void ChangeRole(long newRoleId)
+    public void ChangeRole(Guid newRoleId)
     {
-        if (newRoleId <= 0)
+        if (newRoleId == Guid.Empty)
             throw new DomainException("RoleId mới không hợp lệ.");
 
         RoleId = newRoleId;

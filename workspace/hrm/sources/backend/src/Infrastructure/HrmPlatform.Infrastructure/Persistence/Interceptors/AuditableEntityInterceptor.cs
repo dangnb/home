@@ -47,7 +47,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
             // 1. Tự động gán TenantId cho ITenantScopedEntity khi thêm mới nếu chưa có giá trị
             if (entry.Entity is ITenantScopedEntity tenantScoped && entry.State == EntityState.Added)
             {
-                if (tenantScoped.TenantId == 0 && currentTenantId.HasValue)
+                if (tenantScoped.TenantId == Guid.Empty && currentTenantId.HasValue)
                 {
                     tenantScoped.TenantId = currentTenantId.Value;
                 }

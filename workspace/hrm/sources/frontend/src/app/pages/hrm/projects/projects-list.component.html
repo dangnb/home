@@ -1,0 +1,593 @@
+<div class="projects-page">
+
+  <!-- ═══════════════════════════ HEADER ══════════════════════════════ -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dự Án <span>Kinh Doanh & Kỹ Thuật</span></h1>
+      <p class="page-subtitle">Quản lý toàn bộ vòng đời dự án từ Lead → Ký HĐ → Triển khai → Nghiệm thu</p>
+    </div>
+    <button class="btn-create" (click)="openCreateModal()">
+      <i class="bi bi-plus-lg"></i> Khai báo Dự Án Mới
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════ STATS ═══════════════════════════════ -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="bi bi-kanban"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">{{stats.totalProjects}}</div>
+        <div class="stat-label">Tổng dự án</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="bi bi-play-circle"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">{{stats.activeTechProjects}}</div>
+        <div class="stat-label">Đang triển khai</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><i class="bi bi-clock"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">{{stats.pendingAssignmentProjects}}</div>
+        <div class="stat-label">Chờ phân công KT</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">{{stats.overdueProjects}}</div>
+        <div class="stat-label">Quá deadline</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="bi bi-currency-exchange"></i></div>
+      <div class="stat-info">
+        <div class="stat-value" style="font-size: 1rem;">{{formatCurrency(stats.totalContractValue)}}</div>
+        <div class="stat-label">Tổng giá trị HĐ</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon teal"><i class="bi bi-trophy"></i></div>
+      <div class="stat-info">
+        <div class="stat-value">
+          <span style="color: #4ade80">{{stats.wonProjects}}</span>
+          <span style="color: #64748b; font-size: 0.9rem"> / </span>
+          <span style="color: #f87171; font-size: 1rem">{{stats.lostProjects}}</span>
+        </div>
+        <div class="stat-label">Thắng / Thua</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ TABS ════════════════════════════════ -->
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'all'" (click)="setTab('all')">
+      <i class="bi bi-grid-3x2-gap"></i> Tất Cả
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'sales'" (click)="setTab('sales')">
+      <i class="bi bi-graph-up-arrow"></i> Pipeline Kinh Doanh
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'tech'" (click)="setTab('tech')">
+      <i class="bi bi-cpu"></i> Triển Khai Kỹ Thuật
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════ FILTERS ═════════════════════════════ -->
+  <div class="filter-bar">
+    <div class="filter-search">
+      <i class="bi bi-search"></i>
+      <input type="text" [(ngModel)]="filters.keyword" (ngModelChange)="onSearch($event)" placeholder="Tìm theo mã, tên dự án, khách hàng...">
+    </div>
+
+    <select class="filter-select" [(ngModel)]="filters.salesStatus" (ngModelChange)="onFilterChange()">
+      <option value="ALL">Tất cả giai đoạn KD</option>
+      <option value="LEAD">Lead</option>
+      <option value="PROPOSAL_SENT">Đã Báo Giá</option>
+      <option value="NEGOTIATION">Đàm Phán</option>
+      <option value="CONTRACT_SIGNED">Đã Ký HĐ</option>
+      <option value="CLOSED_WON">Thắng Thầu</option>
+      <option value="CLOSED_LOST">Thua Thầu</option>
+    </select>
+
+    <select class="filter-select" [(ngModel)]="filters.techStatus" (ngModelChange)="onFilterChange()">
+      <option value="ALL">Tất cả trạng thái KT</option>
+      <option value="PENDING_ASSIGNMENT">Chờ Phân Công</option>
+      <option value="PLANNING">Lập Kế Hoạch</option>
+      <option value="IN_PROGRESS">Đang Triển Khai</option>
+      <option value="TESTING_UAT">Kiểm Thử UAT</option>
+      <option value="HANDOVER_PENDING">Chờ Bàn Giao</option>
+      <option value="COMPLETED">Hoàn Thành</option>
+      <option value="WARRANTY">Bảo Hành</option>
+    </select>
+
+    <select class="filter-select" [(ngModel)]="filters.priority" (ngModelChange)="onFilterChange()">
+      <option value="ALL">Mọi độ ưu tiên</option>
+      <option value="CRITICAL">🔥 Khẩn Cấp</option>
+      <option value="HIGH">Cao</option>
+      <option value="MEDIUM">Trung Bình</option>
+      <option value="LOW">Thấp</option>
+    </select>
+
+    <button class="badge-overdue" [class.active]="filters.isOverdue === true" (click)="filters.isOverdue = filters.isOverdue ? undefined : true; onFilterChange()">
+      <i class="bi bi-exclamation-triangle-fill"></i> Quá Deadline ({{stats.overdueProjects}})
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════ TABLE ═══════════════════════════════ -->
+  <div class="table-wrapper">
+    <ng-container *ngIf="isLoading">
+      <div class="loading-overlay"><div class="spinner"></div></div>
+    </ng-container>
+
+    <ng-container *ngIf="!isLoading">
+      <ng-container *ngIf="projects.length > 0; else emptyState">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã / Tên Dự Án</th>
+                <th>Ưu tiên</th>
+                <th>Trạng Thái KD</th>
+                <th>Trạng Thái KT</th>
+                <th>Giá Trị HĐ</th>
+                <th>Tiến Độ</th>
+                <th>Deadline</th>
+                <th>PM Kỹ Thuật</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of projects" (click)="openDetail(p)">
+                <td>
+                  <div class="project-code">{{p.code}}</div>
+                  <div class="project-name">{{p.name}}</div>
+                  <div class="project-customer">
+                    <i class="bi bi-building" style="margin-right: 4px"></i>{{p.customerName}}
+                  </div>
+                </td>
+                <td>
+                  <span class="priority-dot" [ngClass]="getPriority(p.priority).class">
+                    {{getPriority(p.priority).label}}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="getSalesStatus(p.salesStatus).class">
+                    <i class="bi" [ngClass]="getSalesStatus(p.salesStatus).icon"></i>
+                    {{getSalesStatus(p.salesStatus).label}}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="getTechStatus(p.techStatus).class">
+                    <i class="bi" [ngClass]="getTechStatus(p.techStatus).icon"></i>
+                    {{getTechStatus(p.techStatus).label}}
+                  </span>
+                </td>
+                <td>
+                  <div *ngIf="p.contractValue" class="value-currency">{{formatCurrency(p.contractValue)}}</div>
+                  <div *ngIf="!p.contractValue && p.quotedValue" class="text-muted" style="font-size:0.78rem">~{{formatCurrency(p.quotedValue)}}</div>
+                  <div *ngIf="!p.contractValue && !p.quotedValue" class="text-muted">—</div>
+                </td>
+                <td class="progress-cell">
+                  <div class="progress-text">{{p.overallProgressPercent}}%</div>
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" [ngClass]="getProgressClass(p.overallProgressPercent)"
+                         [style.width.%]="p.overallProgressPercent"></div>
+                  </div>
+                  <div class="task-mini">{{p.completedTasks}}/{{p.totalTasks}} task
+                    <span *ngIf="p.blockedTasks > 0" style="color:#f87171"> · ⚠ {{p.blockedTasks}} blocked</span>
+                  </div>
+                </td>
+                <td>
+                  <div *ngIf="p.plannedEndDate" [class.overdue-flag]="p.isOverdue">
+                    <i *ngIf="p.isOverdue" class="bi bi-exclamation-triangle-fill"></i>
+                    {{p.plannedEndDate}}
+                    <div *ngIf="!p.isOverdue && p.daysUntilDeadline !== null && p.daysUntilDeadline! <= 7" style="color:#fbbf24; font-size:0.72rem">còn {{p.daysUntilDeadline}} ngày</div>
+                  </div>
+                  <span *ngIf="!p.plannedEndDate" class="text-muted">—</span>
+                </td>
+                <td>
+                  <div *ngIf="p.techLeadUserName" style="font-size: 0.85rem; color: #a78bfa">
+                    <i class="bi bi-person-badge"></i> {{p.techLeadUserName}}
+                  </div>
+                  <span *ngIf="!p.techLeadUserName" class="text-muted">Chưa phân công</span>
+                </td>
+                <td (click)="$event.stopPropagation()">
+                  <div style="display:flex; gap:5px; flex-wrap:wrap">
+                    <button class="action-btn" title="Xem chi tiết" (click)="openDetail(p)"><i class="bi bi-eye"></i></button>
+
+                    <button *ngIf="canSignContract(p)" class="action-btn btn-sign" title="Ký hợp đồng"
+                            (click)="openSignContract(p)"><i class="bi bi-pen"></i></button>
+
+                    <button *ngIf="canAssignTech(p)" class="action-btn btn-tech" title="Phân công Kỹ thuật"
+                            (click)="openAssignTech(p)"><i class="bi bi-person-check"></i></button>
+
+                    <button *ngIf="canCreateTask(p)" class="action-btn btn-task" title="Tạo Task"
+                            (click)="openCreateTask(p)"><i class="bi bi-list-check"></i></button>
+
+                    <button *ngIf="p.salesStatus !== 'CLOSED_LOST' && p.salesStatus !== 'CLOSED_WON'" class="action-btn btn-lost" title="Thua thầu / Hủy"
+                            (click)="closeLost(p)"><i class="bi bi-x-circle"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-bar">
+          <div class="pagination-info">
+            Hiển thị {{(filters.page-1)*filters.pageSize + 1}} – {{filters.page*filters.pageSize > totalCount ? totalCount : filters.page*filters.pageSize}} trong tổng số {{totalCount}} dự án
+          </div>
+          <div class="pagination-btns">
+            <button class="page-btn" (click)="changePage(filters.page-1)" [disabled]="filters.page <= 1">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="page-btn" *ngFor="let pg of pagesArray" [class.active]="pg === filters.page" (click)="changePage(pg)">{{pg}}</button>
+            <button class="page-btn" (click)="changePage(filters.page+1)" [disabled]="filters.page >= totalPages">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <div class="empty-icon"><i class="bi bi-kanban"></i></div>
+          <div class="empty-title">Chưa có dự án nào</div>
+          <div class="empty-subtitle">Nhấn "Khai báo Dự Án Mới" để bắt đầu theo dõi pipeline kinh doanh</div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     MODAL: TẠO DỰ ÁN MỚI
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="activeModal === 'create'" (click)="closeModal()">
+  <div class="modal-box modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title"><i class="bi bi-plus-circle"></i> Khai Báo Dự Án Mới</div>
+      <button class="modal-close" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-error" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="form-grid">
+        <div class="form-field span-2">
+          <label>Tên Dự Án <span class="req">*</span></label>
+          <input type="text" [(ngModel)]="createForm.name" placeholder="VD: Hệ thống ERP Công ty ABC">
+        </div>
+        <div class="form-field">
+          <label>Tên Khách Hàng <span class="req">*</span></label>
+          <input type="text" [(ngModel)]="createForm.customerName" placeholder="Tên doanh nghiệp / tổ chức">
+        </div>
+        <div class="form-field">
+          <label>Người Đầu Mối</label>
+          <input type="text" [(ngModel)]="createForm.customerContactName" placeholder="Tên người liên hệ bên KH">
+        </div>
+        <div class="form-field">
+          <label>SĐT Khách Hàng</label>
+          <input type="text" [(ngModel)]="createForm.customerPhone" placeholder="0901xxxxxx">
+        </div>
+        <div class="form-field">
+          <label>Email Khách Hàng</label>
+          <input type="email" [(ngModel)]="createForm.customerEmail" placeholder="email@domain.com">
+        </div>
+        <div class="form-field">
+          <label>ID Nhân Viên KD <span class="req">*</span></label>
+          <input type="number" [(ngModel)]="createForm.salesUserId" placeholder="ID nhân viên kinh doanh phụ trách">
+        </div>
+        <div class="form-field">
+          <label>ID Phòng KD <span class="req">*</span></label>
+          <input type="number" [(ngModel)]="createForm.salesDepartmentId" placeholder="ID phòng kinh doanh">
+        </div>
+        <div class="form-field">
+          <label>Loại Hợp Đồng</label>
+          <select [(ngModel)]="createForm.projectType">
+            <option value="FIXED_PRICE">Trọn Gói (Fixed Price)</option>
+            <option value="TIME_MATERIAL">Theo Giờ (T&M)</option>
+            <option value="RETAINER">Thuê Bao (Retainer)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Độ Ưu Tiên</label>
+          <select [(ngModel)]="createForm.priority">
+            <option value="LOW">Thấp</option>
+            <option value="MEDIUM">Trung Bình</option>
+            <option value="HIGH">Cao</option>
+            <option value="CRITICAL">🔥 Khẩn Cấp</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Giá Trị Báo Giá (VNĐ)</label>
+          <input type="number" [(ngModel)]="createForm.quotedValue" placeholder="Ước tính giá trị dự án">
+        </div>
+        <div class="form-field">
+          <label>Ngày Bắt Đầu Dự Kiến</label>
+          <input type="date" [(ngModel)]="createForm.plannedStartDate">
+        </div>
+        <div class="form-field">
+          <label>Deadline Bàn Giao</label>
+          <input type="date" [(ngModel)]="createForm.plannedEndDate">
+        </div>
+        <div class="form-field span-2">
+          <label>Mô Tả Yêu Cầu / Phạm Vi</label>
+          <textarea [(ngModel)]="createForm.description" rows="3" placeholder="Mô tả yêu cầu tổng quan, phạm vi dự án..."></textarea>
+        </div>
+        <div class="form-field span-2">
+          <label>Ghi Chú Nội Bộ</label>
+          <textarea [(ngModel)]="createForm.internalNote" rows="2" placeholder="Ghi chú nội bộ (không hiển thị với KH)..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeModal()">Hủy</button>
+      <button class="btn btn-primary" (click)="saveCreate()" [disabled]="isSaving">
+        <i class="bi" [ngClass]="isSaving ? 'bi-hourglass-split' : 'bi-check2'"></i>
+        {{isSaving ? 'Đang lưu...' : 'Khai Báo Dự Án'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     MODAL: KÝ HỢP ĐỒNG
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="activeModal === 'signContract'" (click)="closeModal()">
+  <div class="modal-box modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title"><i class="bi bi-pen"></i> Ký Hợp Đồng — {{selectedProject?.code}}</div>
+      <button class="modal-close" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-error" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Giá Trị Hợp Đồng (VNĐ) <span class="req">*</span></label>
+          <input type="number" [(ngModel)]="signContractForm.contractValue" placeholder="Giá trị chính thức hợp đồng">
+        </div>
+        <div class="form-field">
+          <label>Ngày Ký Hợp Đồng <span class="req">*</span></label>
+          <input type="date" [(ngModel)]="signContractForm.contractSignedDate">
+        </div>
+        <div class="form-field span-2">
+          <label>Tên File Hợp Đồng</label>
+          <input type="text" [(ngModel)]="signContractForm.contractFileRef" placeholder="VD: HD_ABCXYZ_2026.pdf">
+        </div>
+        <div class="form-field">
+          <label>Thời Gian Bảo Hành (Tháng)</label>
+          <input type="number" [(ngModel)]="signContractForm.warrantyMonths" min="0" placeholder="0 = không bảo hành">
+        </div>
+        <div class="form-field">
+          <label>Ngày Bắt Đầu KT Dự Kiến</label>
+          <input type="date" [(ngModel)]="signContractForm.plannedStartDate">
+        </div>
+        <div class="form-field">
+          <label>Deadline Bàn Giao</label>
+          <input type="date" [(ngModel)]="signContractForm.plannedEndDate">
+        </div>
+      </div>
+      <div style="margin-top:12px; padding:12px; background:rgba(16,185,129,0.07); border:1px solid rgba(16,185,129,0.2); border-radius:9px; font-size:0.8rem; color:#34d399">
+        <i class="bi bi-info-circle"></i> Sau khi ký hợp đồng, dự án sẽ tự động chuyển sang <strong>Chờ Phân Công Kỹ Thuật</strong> và gửi thông báo cho Trưởng phòng Kỹ Thuật.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeModal()">Hủy</button>
+      <button class="btn btn-success" (click)="saveSignContract()" [disabled]="isSaving">
+        <i class="bi" [ngClass]="isSaving ? 'bi-hourglass-split' : 'bi-pen'"></i>
+        {{isSaving ? 'Đang lưu...' : 'Xác Nhận Ký HĐ'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     MODAL: PHÂN CÔNG KỸ THUẬT
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="activeModal === 'assignTech'" (click)="closeModal()">
+  <div class="modal-box modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title"><i class="bi bi-person-check"></i> Phân Công Team Kỹ Thuật — {{selectedProject?.code}}</div>
+      <button class="modal-close" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-error" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>ID Lead KT / PM <span class="req">*</span></label>
+          <input type="number" [(ngModel)]="assignTechForm.techLeadUserId" placeholder="ID nhân viên phụ trách PM">
+        </div>
+        <div class="form-field">
+          <label>ID Phòng Kỹ Thuật</label>
+          <input type="number" [(ngModel)]="assignTechForm.techDepartmentId" placeholder="ID phòng kỹ thuật">
+        </div>
+      </div>
+      <div style="margin-top:12px; padding:12px; background:rgba(139,92,246,0.07); border:1px solid rgba(139,92,246,0.2); border-radius:9px; font-size:0.8rem; color:#a78bfa">
+        <i class="bi bi-info-circle"></i> PM được chỉ định sẽ nhận thông báo và có thể lập kế hoạch, chia task cho dự án.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeModal()">Hủy</button>
+      <button class="btn btn-primary" (click)="saveAssignTech()" [disabled]="isSaving">
+        <i class="bi" [ngClass]="isSaving ? 'bi-hourglass-split' : 'bi-person-check'"></i>
+        {{isSaving ? 'Đang lưu...' : 'Phân Công'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     MODAL: TẠO TASK KỸ THUẬT
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="activeModal === 'createTask'" (click)="closeModal()">
+  <div class="modal-box modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title"><i class="bi bi-list-check"></i> Tạo Task Kỹ Thuật — {{selectedProject?.code}}</div>
+      <button class="modal-close" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-error" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="form-grid">
+        <div class="form-field span-2">
+          <label>Tiêu Đề Task <span class="req">*</span></label>
+          <input type="text" [(ngModel)]="createTaskForm.title" placeholder="VD: Thiết kế màn hình Dashboard">
+        </div>
+        <div class="form-field">
+          <label>Loại Task</label>
+          <select [(ngModel)]="createTaskForm.taskType">
+            <option value="DESIGN">Thiết Kế UI/UX</option>
+            <option value="DEVELOPMENT">Lập Trình</option>
+            <option value="TESTING">Kiểm Thử</option>
+            <option value="DEPLOYMENT">Triển Khai</option>
+            <option value="DOCUMENT">Tài Liệu</option>
+            <option value="BUGFIX">Sửa Lỗi</option>
+            <option value="MEETING">Họp / Tư Vấn</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Ưu Tiên</label>
+          <select [(ngModel)]="createTaskForm.priority">
+            <option value="LOW">Thấp</option>
+            <option value="MEDIUM">Trung Bình</option>
+            <option value="HIGH">Cao</option>
+            <option value="URGENT">🔥 Khẩn</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>ID Kỹ Sư Phụ Trách</label>
+          <input type="number" [(ngModel)]="createTaskForm.assigneeUserId" placeholder="ID nhân viên thực hiện">
+        </div>
+        <div class="form-field">
+          <label>Giờ Ước Tính</label>
+          <input type="number" [(ngModel)]="createTaskForm.estimatedHours" min="0" step="0.5">
+        </div>
+        <div class="form-field">
+          <label>Deadline Task</label>
+          <input type="date" [(ngModel)]="createTaskForm.dueDate">
+        </div>
+        <div class="form-field">
+          <label>Tags</label>
+          <input type="text" [(ngModel)]="createTaskForm.tags" placeholder="Feature, API, Bug,...">
+        </div>
+        <div class="form-field span-2">
+          <label>Mô Tả Chi Tiết</label>
+          <textarea [(ngModel)]="createTaskForm.description" rows="3" placeholder="Mô tả kỹ thuật, yêu cầu cụ thể..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeModal()">Hủy</button>
+      <button class="btn btn-primary" (click)="saveCreateTask()" [disabled]="isSaving">
+        <i class="bi" [ngClass]="isSaving ? 'bi-hourglass-split' : 'bi-plus-lg'"></i>
+        {{isSaving ? 'Đang tạo...' : 'Tạo Task'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     MODAL: CHI TIẾT DỰ ÁN
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" *ngIf="activeModal === 'detail' && selectedProject" (click)="closeModal()">
+  <div class="modal-box modal-xl" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="bi bi-kanban"></i>
+        <span>{{selectedProject.code}} — {{selectedProject.name}}</span>
+        <span class="badge" style="margin-left:6px" [ngClass]="getSalesStatus(selectedProject.salesStatus).class">
+          {{getSalesStatus(selectedProject.salesStatus).label}}
+        </span>
+      </div>
+      <button class="modal-close" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Thông tin chung -->
+      <div class="detail-grid">
+        <div><div class="detail-label">Khách Hàng</div><div class="detail-value">{{selectedProject.customerName}}</div></div>
+        <div><div class="detail-label">Đầu Mối KH</div><div class="detail-value">{{selectedProject.customerContactName || '—'}}</div></div>
+        <div><div class="detail-label">Nhân Viên KD</div><div class="detail-value">{{selectedProject.salesUserName || '—'}}</div></div>
+        <div><div class="detail-label">Phòng KD</div><div class="detail-value">{{selectedProject.salesDepartmentName || '—'}}</div></div>
+        <div><div class="detail-label">PM Kỹ Thuật</div><div class="detail-value" style="color:#a78bfa">{{selectedProject.techLeadUserName || 'Chưa phân công'}}</div></div>
+        <div><div class="detail-label">Giá Trị HĐ</div><div class="detail-value value-currency">{{formatCurrency(selectedProject.contractValue)}}</div></div>
+        <div><div class="detail-label">Ngày Ký HĐ</div><div class="detail-value">{{selectedProject.contractSignedDate || '—'}}</div></div>
+        <div><div class="detail-label">Deadline</div><div class="detail-value" [class.overdue-flag]="selectedProject.isOverdue">{{selectedProject.plannedEndDate || '—'}}</div></div>
+        <div><div class="detail-label">Tiến Độ</div>
+          <div class="detail-value">
+            {{selectedProject.overallProgressPercent}}%
+            <div class="progress-bar-wrap" style="margin-top:5px; height:8px">
+              <div class="progress-bar-fill" [ngClass]="getProgressClass(selectedProject.overallProgressPercent)"
+                   [style.width.%]="selectedProject.overallProgressPercent"></div>
+            </div>
+          </div>
+        </div>
+        <div><div class="detail-label">Tasks</div><div class="detail-value">{{selectedProject.completedTasks}}/{{selectedProject.totalTasks}} hoàn thành
+          <span *ngIf="selectedProject.blockedTasks > 0" style="color:#f87171"> · ⚠{{selectedProject.blockedTasks}} blocked</span>
+        </div></div>
+      </div>
+
+      <div *ngIf="selectedProject.description">
+        <div class="detail-label">Mô Tả Yêu Cầu</div>
+        <div style="font-size:0.875rem; color:#cbd5e1; margin-top:4px; line-height:1.6">{{selectedProject.description}}</div>
+      </div>
+
+      <!-- Milestones -->
+      <div class="section-title"><i class="bi bi-flag"></i> Hạng Mục / Milestones ({{selectedProject.milestones?.length || 0}})</div>
+      <ng-container *ngIf="selectedProject.milestones?.length > 0; else noMilestones">
+        <div class="milestone-item" *ngFor="let m of selectedProject.milestones">
+          <div>
+            <div class="milestone-title">{{m.title}}</div>
+            <div class="milestone-meta">Deadline: {{m.dueDate || '—'}} · Thanh toán: {{m.paymentPercent}}% ({{formatCurrency(m.paymentAmount)}})</div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center">
+            <span class="badge" [ngClass]="m.milestoneStatus === 'COMPLETED' ? 'badge-done' : m.milestoneStatus === 'IN_PROGRESS' ? 'badge-inprog' : 'badge-na'">
+              {{m.milestoneStatus === 'COMPLETED' ? 'Hoàn thành' : m.milestoneStatus === 'IN_PROGRESS' ? 'Đang làm' : 'Chờ'}}
+            </span>
+            <span *ngIf="m.isPaymentReceived" class="badge badge-won" style="font-size:0.68rem"><i class="bi bi-check"></i>Đã thu</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noMilestones><div class="no-items"><i class="bi bi-flag"></i> Chưa có hạng mục nào</div></ng-template>
+
+      <!-- Tasks -->
+      <div class="section-title"><i class="bi bi-list-check"></i> Công Việc Kỹ Thuật ({{selectedProject.tasks?.length || 0}})</div>
+      <ng-container *ngIf="selectedProject.tasks?.length > 0; else noTasks">
+        <div class="task-item" *ngFor="let t of selectedProject.tasks">
+          <div>
+            <div class="task-title">{{t.title}}</div>
+            <div class="task-meta">
+              <span *ngIf="t.assigneeUserName"><i class="bi bi-person"></i> {{t.assigneeUserName}} · </span>
+              {{t.estimatedHours}}h ước tính · Deadline: {{t.dueDate || '—'}}
+            </div>
+          </div>
+          <div style="display:flex; gap:6px; align-items:center">
+            <span class="badge"
+              [ngClass]="t.taskStatus === 'COMPLETED' ? 'badge-done' : t.taskStatus === 'IN_PROGRESS' ? 'badge-inprog' : t.taskStatus === 'BLOCKED' ? 'badge-lost' : t.taskStatus === 'REVIEW' ? 'badge-testing' : 'badge-na'">
+              {{t.taskStatus}}
+            </span>
+            <span style="font-size:0.78rem; color:#64748b">{{t.progressPercent}}%</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noTasks><div class="no-items"><i class="bi bi-list-check"></i> Chưa có task nào</div></ng-template>
+
+      <!-- Members -->
+      <div class="section-title"><i class="bi bi-people"></i> Thành Viên Dự Án ({{selectedProject.members?.length || 0}})</div>
+      <div *ngIf="selectedProject.members?.length > 0; else noMembers">
+        <span class="member-chip" *ngFor="let m of selectedProject.members">
+          <i class="bi bi-person-circle"></i> {{m.userFullName}} <span style="opacity:0.6">({{m.role}})</span>
+        </span>
+      </div>
+      <ng-template #noMembers><div class="no-items"><i class="bi bi-people"></i> Chưa có thành viên nào</div></ng-template>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" (click)="closeModal()">Đóng</button>
+    </div>
+  </div>
+</div>

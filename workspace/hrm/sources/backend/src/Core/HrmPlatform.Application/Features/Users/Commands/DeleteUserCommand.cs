@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HrmPlatform.Application.Features.Users.Commands;
 
-public record DeleteUserCommand(long Id) : IRequest;
+public record DeleteUserCommand(Guid Id) : IRequest;
 
 public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
 {
@@ -29,7 +29,7 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
         }
 
         // Không cho phép xóa tài khoản SuperAdmin
-        if (user.Id == 1 || user.Username.Equals("superadmin", StringComparison.OrdinalIgnoreCase))
+        if (user.Id == Guid.Parse("01956100-0000-7000-8000-000000000002") || user.Username.Equals("superadmin", StringComparison.OrdinalIgnoreCase))
         {
             throw new BadRequestException("Không thể xóa tài khoản Quản trị viên cấp cao nhất (SuperAdmin).");
         }

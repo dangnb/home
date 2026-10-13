@@ -1,0 +1,10 @@
+.hover-elevate {
+  transition: all 0.15s ease-in-out;
+  &:hover {
+    background-color: var(--bs-light) !important;
+  }
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.85rem 1rem;
+}

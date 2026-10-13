@@ -150,8 +150,8 @@ public class AuditLogInterceptor : SaveChangesInterceptor
         }
 
         public EntityEntry Entry { get; }
-        public long? TenantId { get; set; }
-        public long? UserId { get; set; }
+        public Guid? TenantId { get; set; }
+        public Guid? UserId { get; set; }
         public string? IpAddress { get; set; }
         public string EntityName { get; set; } = string.Empty;
         public string Action { get; set; } = string.Empty;

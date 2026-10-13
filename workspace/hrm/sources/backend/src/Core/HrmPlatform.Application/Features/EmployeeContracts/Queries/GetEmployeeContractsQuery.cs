@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +12,9 @@ namespace HrmPlatform.Application.Features.EmployeeContracts.Queries;
 
 public class EmployeeContractDto
 {
-    public long Id { get; set; }
-    public long TenantId { get; set; }
-    public long EmployeeId { get; set; }
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public Guid EmployeeId { get; set; }
     public string EmployeeName { get; set; } = string.Empty;
     public string JobTitle { get; set; } = string.Empty;
     public string? DepartmentName { get; set; }
@@ -45,7 +45,7 @@ public class GetEmployeeContractsQuery : IRequest<PaginatedResultDto<EmployeeCon
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 20;
-    public long? EmployeeId { get; set; }
+    public Guid? EmployeeId { get; set; }
     public string? ContractType { get; set; }
     public string? Status { get; set; }
     public bool? IsExpiringSoon { get; set; }
@@ -65,7 +65,7 @@ public class GetEmployeeContractsQueryHandler : IRequestHandler<GetEmployeeContr
 
     public async Task<PaginatedResultDto<EmployeeContractDto>> Handle(GetEmployeeContractsQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 
@@ -73,7 +73,7 @@ public class GetEmployeeContractsQueryHandler : IRequestHandler<GetEmployeeContr
         var parameters = new DynamicParameters();
         parameters.Add("TenantId", tenantId);
 
-        if (request.EmployeeId.HasValue && request.EmployeeId.Value > 0)
+        if (request.EmployeeId.HasValue && request.EmployeeId.Value != Guid.Empty)
         {
             whereClause += " AND ec.employee_id = @EmployeeId";
             parameters.Add("EmployeeId", request.EmployeeId.Value);

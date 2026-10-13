@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,11 +12,11 @@ namespace HrmPlatform.Application.Features.Equipments.Queries;
 
 public class EquipmentHistoryDto
 {
-    public long Id { get; set; }
-    public long EquipmentId { get; set; }
-    public long? UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid EquipmentId { get; set; }
+    public Guid? UserId { get; set; }
     public string? UserName { get; set; }
-    public long? DepartmentId { get; set; }
+    public Guid? DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
     public string TargetType { get; set; } = "EMPLOYEE";
     public string ActionType { get; set; } = string.Empty;
@@ -33,7 +33,7 @@ public class EquipmentDetailDto : EquipmentDto
 
 public class GetEquipmentByIdQuery : IRequest<EquipmentDetailDto>
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuery, EquipmentDetailDto>
@@ -49,7 +49,7 @@ public class GetEquipmentByIdQueryHandler : IRequestHandler<GetEquipmentByIdQuer
 
     public async Task<EquipmentDetailDto> Handle(GetEquipmentByIdQuery request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         using var connection = _sqlConnectionFactory.CreateConnection();
 

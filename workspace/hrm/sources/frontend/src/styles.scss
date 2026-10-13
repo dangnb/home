@@ -151,3 +151,73 @@ textarea.form-control-solid {
 }
 
 
+
+/* ==========================================================================
+   PM Module — Design Tokens (Dark / Light Theme)
+   ========================================================================== */
+
+/* -- Dark Mode defaults (body[data-theme="dark"] or no attribute) -- */
+body, body[data-theme="dark"] {
+  --pm-bg:           #0d0f16;
+  --pm-surface:      rgba(255,255,255,0.03);
+  --pm-surface-2:    rgba(255,255,255,0.06);
+  --pm-border:       rgba(255,255,255,0.07);
+  --pm-border-2:     rgba(255,255,255,0.12);
+  --pm-text:         #e2e8f0;
+  --pm-text-2:       #94a3b8;
+  --pm-text-3:       #64748b;
+  --pm-text-4:       #475569;
+  --pm-heading:      #f1f5f9;
+  --pm-sidebar-bg:   linear-gradient(180deg,#0f1117 0%,#111520 100%);
+  --pm-sidebar-border: rgba(255,255,255,0.06);
+  --pm-sidebar-nav-active: linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15));
+  --pm-sidebar-nav-active-border: rgba(99,102,241,0.2);
+  --pm-sidebar-nav-color: #64748b;
+  --pm-sidebar-nav-hover: rgba(255,255,255,0.05);
+  --pm-sidebar-label: #2d3748;
+  --pm-sidebar-user-card: rgba(255,255,255,0.03);
+  --pm-sidebar-footer-border: rgba(255,255,255,0.06);
+  --pm-collapse-btn: rgba(255,255,255,0.04);
+  --pm-collapse-border: rgba(255,255,255,0.08);
+  --pm-stat-bg:      rgba(255,255,255,0.03);
+  --pm-input-bg:     rgba(255,255,255,0.05);
+  --pm-input-border: rgba(255,255,255,0.09);
+  --pm-modal-bg:     #151823;
+  --pm-upload-zone:  rgba(99,102,241,0.04);
+  --pm-upload-zone-border: rgba(99,102,241,0.15);
+  --pm-doc-item-bg:  rgba(255,255,255,0.03);
+  --pm-shadow:       0 25px 60px rgba(0,0,0,0.5);
+}
+
+/* -- Light Mode overrides -- */
+body[data-theme="light"] {
+  --pm-bg:           #f0f2f8;
+  --pm-surface:      #ffffff;
+  --pm-surface-2:    #f8fafc;
+  --pm-border:       #e2e8f0;
+  --pm-border-2:     #cbd5e1;
+  --pm-text:         #1e293b;
+  --pm-text-2:       #475569;
+  --pm-text-3:       #64748b;
+  --pm-text-4:       #94a3b8;
+  --pm-heading:      #0f172a;
+  --pm-sidebar-bg:   linear-gradient(180deg,#1e1b4b 0%,#312e81 100%);
+  --pm-sidebar-border: rgba(255,255,255,0.1);
+  --pm-sidebar-nav-active: linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.1));
+  --pm-sidebar-nav-active-border: rgba(255,255,255,0.3);
+  --pm-sidebar-nav-color: rgba(255,255,255,0.6);
+  --pm-sidebar-nav-hover: rgba(255,255,255,0.08);
+  --pm-sidebar-label: rgba(255,255,255,0.35);
+  --pm-sidebar-user-card: rgba(255,255,255,0.1);
+  --pm-sidebar-footer-border: rgba(255,255,255,0.1);
+  --pm-collapse-btn: rgba(255,255,255,0.1);
+  --pm-collapse-border: rgba(255,255,255,0.2);
+  --pm-stat-bg:      #ffffff;
+  --pm-input-bg:     #ffffff;
+  --pm-input-border: #e2e8f0;
+  --pm-modal-bg:     #ffffff;
+  --pm-upload-zone:  rgba(99,102,241,0.04);
+  --pm-upload-zone-border: rgba(99,102,241,0.2);
+  --pm-doc-item-bg:  #f8fafc;
+  --pm-shadow:       0 20px 60px rgba(0,0,0,0.15);
+}

@@ -10,12 +10,12 @@ namespace HrmPlatform.Application.Features.Users.Commands;
 
 public record UpdateUserCommand : IRequest
 {
-    public long Id { get; init; }
+    public Guid Id { get; init; }
     public string FullName { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string? Phone { get; init; }
     public string? Password { get; init; }
-    public long? RoleId { get; init; }
+    public Guid? RoleId { get; init; }
     public string? RoleCode { get; init; }
     public string? Status { get; init; }
 }
@@ -25,7 +25,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     public UpdateUserCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("ID người dùng không hợp lệ.");
+            .NotEmpty().WithMessage("ID người dùng không hợp lệ.");
 
         RuleFor(x => x.FullName)
             .NotEmpty().WithMessage("Họ và tên không được để trống.")

@@ -1,0 +1,377 @@
+<div class="sched-page">
+  <!-- Header -->
+  <div class="sched-header">
+    <div>
+      <h1 class="sched-title">Lịch Làm Việc <span>Của Tôi</span></h1>
+      <p class="sched-sub">Theo dõi và cập nhật tiến độ công việc hàng ngày</p>
+    </div>
+    <div class="view-switcher">
+      <button [class.active]="viewMode==='kanban'" (click)="viewMode='kanban'"><i class="bi bi-kanban"></i> Kanban</button>
+      <button [class.active]="viewMode==='calendar'" (click)="viewMode='calendar'; buildCalendar()"><i class="bi bi-calendar3"></i> Lịch</button>
+      <button [class.active]="viewMode==='list'" (click)="viewMode='list'"><i class="bi bi-list-ul"></i> Danh Sách</button>
+    </div>
+  </div>
+
+  <!-- My summary -->
+  <div class="my-stats">
+    <div class="ms-card"><i class="bi bi-list-task" style="color:#818cf8"></i><div><div class="ms-val">{{filteredTasks.length}}</div><div class="ms-lbl">Tổng Task</div></div></div>
+    <div class="ms-card"><i class="bi bi-play-circle-fill" style="color:#818cf8"></i><div><div class="ms-val" style="color:#818cf8">{{summaryInProg}}</div><div class="ms-lbl">Đang Làm</div></div></div>
+    <div class="ms-card"><i class="bi bi-check-circle-fill" style="color:#4ade80"></i><div><div class="ms-val" style="color:#4ade80">{{summaryDone}}</div><div class="ms-lbl">Hoàn Thành</div></div></div>
+    <div class="ms-card"><i class="bi bi-slash-circle-fill" style="color:#f87171"></i><div><div class="ms-val" style="color:#f87171">{{summaryBlocked}}</div><div class="ms-lbl">Bị Chặn</div></div></div>
+    <div class="ms-card"><i class="bi bi-clock" style="color:#fbbf24"></i><div><div class="ms-val">{{totalHours}}h</div><div class="ms-lbl">Tổng Giờ Ước Tính</div></div></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <select [(ngModel)]="filterStatus" (ngModelChange)="buildCalendar()">
+      <option value="ALL">Mọi trạng thái</option>
+      <option value="TODO">Cần Làm</option>
+      <option value="IN_PROGRESS">Đang Làm</option>
+      <option value="REVIEW">Chờ Review</option>
+      <option value="BLOCKED">Bị Chặn</option>
+      <option value="COMPLETED">Hoàn Thành</option>
+    </select>
+    <select [(ngModel)]="filterProject" (ngModelChange)="buildCalendar()">
+      <option value="ALL">Mọi dự án</option>
+      <option *ngFor="let p of myProjects" [value]="p">{{p}}</option>
+    </select>
+  </div>
+
+  <!-- ══════════════ KANBAN VIEW ══════════════ -->
+  <div class="kanban-board" *ngIf="viewMode === 'kanban'">
+    <div class="kb-col" *ngFor="let col of kanbanCols">
+      <div class="kb-col-header" [style.border-color]="col.color + '40'" [style.background]="col.color + '10'">
+        <i class="bi" [ngClass]="col.icon" [style.color]="col.color"></i>
+        <span [style.color]="col.color">{{col.label}}</span>
+        <span class="kb-count" [style.background]="col.color + '20'" [style.color]="col.color">{{getColTasks(col.key).length}}</span>
+      </div>
+      <div class="kb-cards">
+        <div class="kb-card" *ngFor="let t of getColTasks(col.key)" [class.blocked]="t.taskStatus === 'BLOCKED'" [class.overdue-card]="isOverdue(t)">
+          <div class="kc-top">
+            <span class="kc-type" [title]="t.taskType"><i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i></span>
+            <span class="kc-priority" [ngClass]="priorityClass[t.priority] || 'p-med'">{{t.priority}}</span>
+          </div>
+          <div class="kc-title">{{t.title}}</div>
+          <div class="kc-project"><i class="bi bi-folder2"></i> {{t.projectCode}}</div>
+          <div class="kc-deadline" [class.over]="isOverdue(t)" *ngIf="t.dueDate">
+            <i class="bi bi-calendar-event"></i> {{t.dueDate}}
+            <span *ngIf="isOverdue(t)" class="over-tag">QUÁ HẠN</span>
+          </div>
+          <div class="kc-blocked" *ngIf="t.blockedReason"><i class="bi bi-exclamation-triangle"></i> {{t.blockedReason}}</div>
+          <div class="kc-progress" *ngIf="t.progressPercent > 0">
+            <div class="prog-bg"><div class="prog-fill" [style.width.%]="t.progressPercent"></div></div>
+            <span>{{t.progressPercent}}%</span>
+          </div>
+          <div class="kc-footer">
+            <span class="kc-hours"><i class="bi bi-stopwatch"></i> {{t.actualHours}}/{{t.estimatedHours}}h</span>
+            <div class="kc-actions">
+              <button class="kc-btn" (click)="openUpdateModal(t)" title="Cập nhật tiến độ"><i class="bi bi-pencil-square"></i></button>
+              <button class="kc-btn kc-advance" *ngIf="statusNextMap[t.taskStatus]" (click)="quickAdvance(t)" title="Chuyển sang bước tiếp theo">→</button>
+            </div>
+          </div>
+        </div>
+        <div class="kb-empty" *ngIf="getColTasks(col.key).length === 0"><i class="bi bi-inbox"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ METRONIC v8.1.1 CALENDAR VIEW ══════════════ -->
+  <div class="cal-card" *ngIf="viewMode === 'calendar'">
+    <!-- Metronic Card Header -->
+    <div class="cal-card-header">
+      <div class="cal-header-left">
+        <div class="cal-header-icon">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+        <div>
+          <div class="cal-card-title">
+            Lịch Kế Hoạch & Công Việc
+            <span class="cal-badge-count">{{filteredTasks.length}} task</span>
+          </div>
+          <div class="cal-card-sub">Quản lý tiến độ và thời hạn công việc theo thời gian thực</div>
+        </div>
+      </div>
+
+      <!-- Center Navigation Controls -->
+      <div class="cal-nav-group">
+        <button class="cal-btn-icon" (click)="prevPeriod()" title="Kỳ trước">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="cal-btn-today" (click)="goToToday()">
+          <i class="bi bi-calendar-event me-1"></i> Hôm nay
+        </button>
+        <button class="cal-btn-icon" (click)="nextPeriod()" title="Kỳ kế tiếp">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+        <span class="cal-period-title">{{currentPeriodLabel | titlecase}}</span>
+      </div>
+
+      <!-- Right Subview Switcher: Tháng / Tuần / Ngày -->
+      <div class="cal-view-group">
+        <button [class.active]="calendarSubView === 'month'" (click)="calendarSubView = 'month'">Tháng</button>
+        <button [class.active]="calendarSubView === 'week'" (click)="calendarSubView = 'week'">Tuần</button>
+        <button [class.active]="calendarSubView === 'day'" (click)="calendarSubView = 'day'">Ngày</button>
+      </div>
+    </div>
+
+    <!-- Metronic Legend & Quick Filter Bar -->
+    <div class="cal-legend-bar">
+      <div class="legend-label"><i class="bi bi-funnel"></i> Trạng thái:</div>
+      <div class="legend-pills">
+        <div class="legend-pill" [class.active]="filterStatus === 'ALL'" (click)="setFilterStatus('ALL')">
+          <span class="l-dot dot-all"></span> Tất cả ({{myTasks.length}})
+        </div>
+        <div class="legend-pill" [class.active]="filterStatus === 'TODO'" (click)="setFilterStatus('TODO')">
+          <span class="l-dot dot-todo"></span> Cần làm
+        </div>
+        <div class="legend-pill" [class.active]="filterStatus === 'IN_PROGRESS'" (click)="setFilterStatus('IN_PROGRESS')">
+          <span class="l-dot dot-prog"></span> Đang làm
+        </div>
+        <div class="legend-pill" [class.active]="filterStatus === 'REVIEW'" (click)="setFilterStatus('REVIEW')">
+          <span class="l-dot dot-review"></span> Chờ Review
+        </div>
+        <div class="legend-pill" [class.active]="filterStatus === 'COMPLETED'" (click)="setFilterStatus('COMPLETED')">
+          <span class="l-dot dot-done"></span> Hoàn thành
+        </div>
+        <div class="legend-pill" [class.active]="filterStatus === 'BLOCKED'" (click)="setFilterStatus('BLOCKED')">
+          <span class="l-dot dot-blocked"></span> Bị chặn
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 1. MONTH VIEW (Lưới Tháng Metronic) ── -->
+    <div class="cal-month-wrap" *ngIf="calendarSubView === 'month'">
+      <div class="cal-grid-header">
+        <div class="cal-col-header" *ngFor="let d of weekDays">{{d}}</div>
+      </div>
+      <div class="cal-grid-body">
+        <div class="cal-cell" *ngFor="let day of calendarDays"
+             [class.other-month]="!day.isCurrentMonth"
+             [class.is-today]="day.isToday"
+             [class.has-tasks]="day.tasks.length > 0"
+             (click)="selectDay(day.date)">
+          <!-- Day header info -->
+          <div class="cell-top">
+            <span class="cell-day-num" [class.today-circle]="day.isToday">{{day.date.getDate()}}</span>
+            <span class="cell-task-counter" *ngIf="day.tasks.length > 0">{{day.tasks.length}}</span>
+          </div>
+
+          <!-- Metronic Event Pills list -->
+          <div class="cell-events">
+            <div class="fc-event" *ngFor="let t of day.tasks.slice(0, 3)"
+                 [ngClass]="'fc-status-' + t.taskStatus.toLowerCase()"
+                 (click)="$event.stopPropagation(); openUpdateModal(t)"
+                 [title]="t.title + ' (' + t.projectCode + ')'">
+              <span class="fc-icon"><i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i></span>
+              <span class="fc-title">{{t.title}}</span>
+            </div>
+
+            <!-- More events pill -->
+            <button class="fc-more-btn" *ngIf="day.tasks.length > 3"
+                    (click)="$event.stopPropagation(); openDayDetail(day.date, day.tasks)">
+              <i class="bi bi-plus-circle-fill"></i> Xem thêm {{day.tasks.length - 3}} task
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. WEEK VIEW (Góc nhìn Tuần) ── -->
+    <div class="cal-week-wrap" *ngIf="calendarSubView === 'week'">
+      <div class="week-cols">
+        <div class="week-col" *ngFor="let col of weekDaysList" [class.week-col-today]="col.isToday">
+          <div class="week-col-hdr">
+            <div class="wch-name">{{col.name}}</div>
+            <div class="wch-date" [class.today-badge]="col.isToday">{{col.date.getDate()}}/{{col.date.getMonth()+1}}</div>
+            <span class="wch-count" *ngIf="col.tasks.length > 0">{{col.tasks.length}} task</span>
+          </div>
+
+          <div class="week-col-tasks">
+            <div class="wt-card" *ngFor="let t of col.tasks"
+                 [ngClass]="'border-status-' + t.taskStatus.toLowerCase()"
+                 (click)="openUpdateModal(t)">
+              <div class="wt-top">
+                <span class="wt-type"><i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i></span>
+                <span class="wt-status-pill" [ngClass]="'badge-status-' + t.taskStatus.toLowerCase()">
+                  {{statusLabels[t.taskStatus] || t.taskStatus}}
+                </span>
+              </div>
+              <div class="wt-title">{{t.title}}</div>
+              <div class="wt-project"><i class="bi bi-folder2"></i> {{t.projectCode}}</div>
+              <div class="wt-prog" *ngIf="t.progressPercent > 0">
+                <div class="prog-bg"><div class="prog-fill" [style.width.%]="t.progressPercent"></div></div>
+                <span>{{t.progressPercent}}%</span>
+              </div>
+              <div class="wt-ftr">
+                <span class="wt-hrs"><i class="bi bi-clock"></i> {{t.actualHours}}/{{t.estimatedHours}}h</span>
+                <span class="wt-prio" [ngClass]="priorityClass[t.priority]">{{t.priority}}</span>
+              </div>
+            </div>
+
+            <div class="week-empty" *ngIf="col.tasks.length === 0">
+              <i class="bi bi-calendar2-check"></i>
+              <span>Trống</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. DAY VIEW (Dòng thời gian Ngày) ── -->
+    <div class="cal-day-wrap" *ngIf="calendarSubView === 'day'">
+      <div class="day-focus-header">
+        <div class="dfh-info">
+          <div class="dfh-date">{{selectedDate.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }) | titlecase}}</div>
+          <div class="dfh-stats">Có <strong>{{dayTasks.length}} công việc</strong> được lên lịch hoàn thành trong ngày này</div>
+        </div>
+      </div>
+
+      <div class="day-tasks-list" *ngIf="dayTasks.length > 0">
+        <div class="day-task-card" *ngFor="let t of dayTasks" [ngClass]="'dt-border-' + t.taskStatus.toLowerCase()">
+          <div class="dtc-icon" [ngClass]="'dtc-icon-' + t.taskStatus.toLowerCase()">
+            <i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i>
+          </div>
+          <div class="dtc-main">
+            <div class="dtc-top">
+              <span class="dtc-title">{{t.title}}</span>
+              <span class="status-pill" [ngClass]="'badge-status-' + t.taskStatus.toLowerCase()">
+                {{statusLabels[t.taskStatus] || t.taskStatus}}
+              </span>
+            </div>
+            <div class="dtc-desc" *ngIf="t.description">{{t.description}}</div>
+            <div class="dtc-meta">
+              <span><i class="bi bi-folder2"></i> {{t.projectCode}} · {{t.projectName}}</span>
+              <span><i class="bi bi-stopwatch"></i> Thực tế: {{t.actualHours}}h / Kế hoạch: {{t.estimatedHours}}h</span>
+              <span class="dtc-prio" [ngClass]="priorityClass[t.priority]">{{t.priority}}</span>
+            </div>
+            <div class="dtc-blocked" *ngIf="t.blockedReason">
+              <i class="bi bi-exclamation-triangle-fill"></i> Lý do chặn: {{t.blockedReason}}
+            </div>
+          </div>
+          <div class="dtc-actions">
+            <button class="btn-metronic-edit" (click)="openUpdateModal(t)" title="Cập nhật tiến độ">
+              <i class="bi bi-pencil-square"></i> Cập nhật
+            </button>
+            <button class="btn-metronic-advance" *ngIf="statusNextMap[t.taskStatus]" (click)="quickAdvance(t)" title="Chuyển bước kế tiếp">
+              Tiếp theo <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-empty" *ngIf="dayTasks.length === 0">
+        <div class="de-icon"><i class="bi bi-calendar2-check"></i></div>
+        <div class="de-title">Không có công việc nào trong ngày này</div>
+        <div class="de-sub">Hãy chọn một ngày khác hoặc tạo công việc mới để lên lịch</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ MODAL: CHI TIẾT CÔNG VIỆC TRONG NGÀY ══════════════ -->
+  <div class="modal-bg" *ngIf="showDayModal" (click)="closeDayModal()">
+    <div class="modal-box day-detail-modal" (click)="$event.stopPropagation()">
+      <div class="modal-hdr">
+        <div class="modal-ttl">
+          <i class="bi bi-calendar-week"></i>
+          <span>Công việc ngày {{dayDetailDate?.getDate()}}/{{(dayDetailDate?.getMonth() ?? 0) + 1}} ({{dayDetailTasks.length}} task)</span>
+        </div>
+        <button class="modal-x" (click)="closeDayModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-task-item" *ngFor="let t of dayDetailTasks" (click)="openUpdateModal(t)">
+          <div class="mti-icon" [ngClass]="'dtc-icon-' + t.taskStatus.toLowerCase()">
+            <i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i>
+          </div>
+          <div class="mti-body">
+            <div class="mti-title">{{t.title}}</div>
+            <div class="mti-meta">{{t.projectCode}} · {{t.actualHours}}/{{t.estimatedHours}}h</div>
+          </div>
+          <span class="status-pill" [ngClass]="'badge-status-' + t.taskStatus.toLowerCase()">
+            {{statusLabels[t.taskStatus] || t.taskStatus}}
+          </span>
+        </div>
+      </div>
+      <div class="modal-ftr">
+        <button class="btn-ghost" (click)="closeDayModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LIST VIEW ══════════════ -->
+  <div class="list-wrap" *ngIf="viewMode === 'list'">
+    <div class="list-item" *ngFor="let t of filteredTasks" [class.overdue-row]="isOverdue(t)">
+      <div class="li-icon" [style.background]="statusColor[t.taskStatus] + '15'" [style.color]="statusColor[t.taskStatus]">
+        <i class="bi" [ngClass]="getTaskIcon(t.taskType)"></i>
+      </div>
+      <div class="li-info">
+        <div class="li-title">{{t.title}}</div>
+        <div class="li-meta">
+          <span><i class="bi bi-folder2"></i> {{t.projectCode}}</span>
+          <span *ngIf="t.dueDate"><i class="bi bi-calendar-event"></i> {{t.dueDate}}</span>
+          <span><i class="bi bi-stopwatch"></i> {{t.actualHours}}/{{t.estimatedHours}}h</span>
+          <span *ngFor="let tag of (t.tags || '').split(',').filter(x => x)" class="li-tag">{{tag.trim()}}</span>
+        </div>
+        <div class="li-blocked" *ngIf="t.blockedReason"><i class="bi bi-exclamation-triangle"></i> {{t.blockedReason}}</div>
+      </div>
+      <div class="li-status">
+        <span class="status-pill" [style.background]="statusColor[t.taskStatus] + '20'" [style.color]="statusColor[t.taskStatus]" [style.border-color]="statusColor[t.taskStatus] + '40'">
+          {{statusLabels[t.taskStatus] || t.taskStatus}}
+        </span>
+        <div class="li-prog" *ngIf="t.progressPercent > 0">
+          <div class="prog-bg"><div class="prog-fill" [style.width.%]="t.progressPercent" [style.background]="statusColor[t.taskStatus]"></div></div>
+          <span>{{t.progressPercent}}%</span>
+        </div>
+      </div>
+      <div class="li-priority" [ngClass]="priorityClass[t.priority]">{{t.priority}}</div>
+      <button class="li-edit" (click)="openUpdateModal(t)"><i class="bi bi-pencil-square"></i></button>
+    </div>
+    <div class="list-empty" *ngIf="filteredTasks.length === 0"><i class="bi bi-check2-all"></i><p>Không có task nào!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL: UPDATE PROGRESS ══════════════ -->
+<div class="modal-bg" *ngIf="showUpdateModal" (click)="closeModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-ttl"><i class="bi bi-pencil-square"></i> Cập Nhật Tiến Độ Task</div>
+      <button class="modal-x" (click)="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body" *ngIf="selectedTask">
+      <div class="err" *ngIf="errorMessage"><i class="bi bi-exclamation-circle"></i>{{errorMessage}}</div>
+      <div class="task-info-box">
+        <div class="tib-title">{{selectedTask.title}}</div>
+        <div class="tib-meta">{{selectedTask.projectCode}} · {{selectedTask.taskType}}</div>
+        <div class="tib-desc" *ngIf="selectedTask.description">{{selectedTask.description}}</div>
+      </div>
+      <div class="fg">
+        <label>Trạng Thái</label>
+        <select [(ngModel)]="updateForm.newStatus">
+          <option value="TODO">Cần Làm</option>
+          <option value="IN_PROGRESS">Đang Làm</option>
+          <option value="REVIEW">Chờ Review (PM)</option>
+          <option value="COMPLETED">Hoàn Thành</option>
+          <option value="BLOCKED">Bị Chặn</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Tiến Độ (%) — {{updateForm.progressPercent}}%</label>
+        <input type="range" min="0" max="100" step="5" [(ngModel)]="updateForm.progressPercent" class="range-input">
+        <div class="prog-bg" style="margin-top:6px"><div class="prog-fill" [style.width.%]="updateForm.progressPercent" style="background:linear-gradient(90deg,#6366f1,#8b5cf6)"></div></div>
+      </div>
+      <div class="fg">
+        <label>Giờ Thực Tế</label>
+        <input type="number" [(ngModel)]="updateForm.actualHours" min="0" step="0.5" placeholder="0">
+      </div>
+      <div class="fg blocked-note" *ngIf="updateForm.newStatus === 'BLOCKED'">
+        <label>Lý Do Bị Chặn</label>
+        <textarea [(ngModel)]="updateForm.blockedReason" rows="2" placeholder="Mô tả nguyên nhân bị chặn..."></textarea>
+      </div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn-ghost" (click)="closeModal()">Hủy</button>
+      <button class="btn-primary" (click)="saveUpdate()" [disabled]="isSaving">
+        <i class="bi" [ngClass]="isSaving ? 'bi-hourglass-split' : 'bi-check2'"></i> {{isSaving ? 'Đang lưu...' : 'Cập Nhật'}}
+      </button>
+    </div>
+  </div>
+</div>

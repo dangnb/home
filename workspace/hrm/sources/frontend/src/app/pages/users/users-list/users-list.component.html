@@ -140,7 +140,7 @@
                         <i class="bi bi-pencil-square me-2 fs-6 text-warning"></i> Chỉnh sửa
                       </a>
                     </div>
-                    @if (user.id !== 1 && user.username !== 'superadmin') {
+                    @if (user.username !== 'superadmin') {
                       <div class="separator my-1 border-gray-200"></div>
                       <div class="menu-item px-3">
                         <a href="javascript:void(0)" class="menu-link px-3 py-2 text-danger d-flex align-items-center" (click)="openDeleteModal(user)">

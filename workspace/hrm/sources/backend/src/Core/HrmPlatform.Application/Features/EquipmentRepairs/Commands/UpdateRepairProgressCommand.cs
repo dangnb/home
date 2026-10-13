@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using HrmPlatform.Application.Common.Exceptions;
@@ -13,7 +13,7 @@ namespace HrmPlatform.Application.Features.EquipmentRepairs.Commands;
 
 public class UpdateRepairProgressCommand : IRequest<bool>
 {
-    public long RepairId { get; set; }
+    public Guid RepairId { get; set; }
     public string Status { get; set; } = string.Empty; // IN_PROGRESS, COMPLETED, UNREPAIRABLE
     public string? ActualError { get; set; }
     public string? SolutionDetail { get; set; }
@@ -35,8 +35,8 @@ public class UpdateRepairProgressCommandHandler : IRequestHandler<UpdateRepairPr
 
     public async Task<bool> Handle(UpdateRepairProgressCommand request, CancellationToken cancellationToken)
     {
-        var tenantId = _currentUserService.TenantId ?? 1;
-        var userId = _currentUserService.UserId ?? 1;
+        var tenantId = _currentUserService.TenantId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
+        var userId = _currentUserService.UserId ?? Guid.Parse("01956100-0000-7000-8000-000000000001");
 
         var repair = await _context.EquipmentRepairs
             .Include(r => r.Equipment)

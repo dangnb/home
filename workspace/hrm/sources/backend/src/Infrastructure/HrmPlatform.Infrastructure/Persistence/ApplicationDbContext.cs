@@ -3,6 +3,7 @@ using System.Reflection;
 using HrmPlatform.Application.Common.Interfaces;
 using HrmPlatform.Domain.Common;
 using HrmPlatform.Domain.Entities.Audit;
+using HrmPlatform.Domain.Entities.Config;
 using HrmPlatform.Domain.Entities.Hrm;
 using HrmPlatform.Domain.Entities.Identity;
 using HrmPlatform.Domain.Entities.Tenants;
@@ -27,7 +28,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     #region Tenant & User Context for Global Query Filters
-    public long? CurrentTenantId => _currentUserService.TenantId;
+    public Guid? CurrentTenantId => _currentUserService.TenantId;
     public bool IsSuperAdmin => _currentUserService.IsSuperAdmin;
     #endregion
 
@@ -53,6 +54,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Equipment> Equipments => Set<Equipment>();
     public DbSet<EquipmentHistory> EquipmentHistories => Set<EquipmentHistory>();
     public DbSet<EquipmentRepair> EquipmentRepairs => Set<EquipmentRepair>();
+    public DbSet<EquipmentPart> EquipmentParts => Set<EquipmentPart>();
+    public DbSet<Asset> Assets => Set<Asset>();
+    public DbSet<AssetTransaction> AssetTransactions => Set<AssetTransaction>();
+    public DbSet<MaintenanceTicket> MaintenanceTickets => Set<MaintenanceTicket>();
+    public DbSet<AssetDepreciation> AssetDepreciations => Set<AssetDepreciation>();
+    public DbSet<SystemCatalog> SystemCatalogs => Set<SystemCatalog>();
+
+    public DbSet<Project> Projects => Set<Project>();
+    public DbSet<ProjectMilestone> ProjectMilestones => Set<ProjectMilestone>();
+    public DbSet<ProjectTask> ProjectTasks => Set<ProjectTask>();
+    public DbSet<ProjectMember> ProjectMembers => Set<ProjectMember>();
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -91,7 +103,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var currentTenantExpr = Expression.Property(Expression.Constant(this), nameof(CurrentTenantId));
 
                 // e.TenantId == CurrentTenantId
-                var nullableTenantId = Expression.Convert(tenantIdProp, typeof(long?));
+                var nullableTenantId = Expression.Convert(tenantIdProp, typeof(Guid?));
                 var tenantEquals = Expression.Equal(nullableTenantId, currentTenantExpr);
 
                 // IsSuperAdmin || (e.TenantId == CurrentTenantId)
@@ -109,7 +121,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
                 var currentTenantExpr = Expression.Property(Expression.Constant(this), nameof(CurrentTenantId));
 
                 // e.TenantId == null
-                var tenantIsNull = Expression.Equal(tenantIdProp, Expression.Constant(null, typeof(long?)));
+                var tenantIsNull = Expression.Equal(tenantIdProp, Expression.Constant(null, typeof(Guid?)));
 
                 // e.TenantId == CurrentTenantId
                 var tenantEquals = Expression.Equal(tenantIdProp, currentTenantExpr);
