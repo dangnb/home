@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import { TeamMemberData } from "@/lib/db";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 export default function AdminTeamPage() {
   const [items, setItems] = useState<TeamMemberData[]>([]);
@@ -9,9 +10,17 @@ export default function AdminTeamPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [newItem, setNewItem] = useState({ name: "", role: "Nail Artist", image: "", bio: "", order: 0 });
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/team").then(r => r.json()).then(setItems);
+    fetch("/api/team")
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(data => setItems(Array.isArray(data) ? data : []))
+      .catch(() => setItems([]))
+      .finally(() => setIsInitialLoading(false));
   }, []);
 
   function flash(type: string, text: string) {
@@ -73,13 +82,13 @@ export default function AdminTeamPage() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Team Members</h1>
-          <p style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>
-            Manage your salon staff ({items.length} members)
+          <h1 className={styles.pageTitle}>Đội ngũ</h1>
+          <p className={styles.pageSubtitle}>
+            {isInitialLoading ? "Đang tải danh sách đội ngũ..." : `Quản lý các nghệ sĩ nail và chuyên viên của salon (${items.length} người).`}
           </p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} className={styles.btnPrimary}>
-          {showAdd ? "Cancel" : "+ Add Member"}
+          {showAdd ? "Đóng" : "+ Thêm thành viên"}
         </button>
       </div>
 
@@ -107,7 +116,7 @@ export default function AdminTeamPage() {
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 <input value={newItem.image} onChange={e => setNewItem(p => ({ ...p, image: e.target.value }))}
                   placeholder="https://..." style={{ flex: 1 }} />
-                <label style={{ background: "#F4F1EA", padding: "8px 12px", borderRadius: 4, cursor: "pointer", border: "1px solid #EAE5DC", display: "inline-block" }}>
+                <label style={{ background: "#F4F1EA", padding: "8px 12px", borderRadius: 12, cursor: "pointer", border: "1px solid #EAE5DC", display: "inline-block" }}>
                   <span style={{ fontSize: 13, fontWeight: 500, color: "#2E2E2E" }}>{isUploading ? "Uploading..." : "Upload File"}</span>
                   <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileUpload} disabled={isUploading} />
                 </label>
@@ -136,28 +145,17 @@ export default function AdminTeamPage() {
         </div>
       )}
 
-      {items.length === 0 ? (
+      {isInitialLoading ? (
+        <AdminLoading variant="cards" label="Đang tải đội ngũ..." />
+      ) : items.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: '#aaa', border: '1px dashed #ccc', borderRadius: 8 }}>
           <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>👥</div>
           No team members added yet.
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '1.5rem',
-        }}>
+        <div className={styles.entityGrid}>
           {items.map(item => (
-            <div key={item.id} style={{
-              background: '#fff',
-              border: '1px solid rgba(194,169,121,0.15)',
-              borderRadius: 8,
-              padding: '1.25rem',
-              position: 'relative',
-              display: 'flex',
-              gap: '1rem',
-              alignItems: 'center'
-            }}>
+            <div key={item.id} className={styles.entityCard} style={{ padding: '1.25rem', position: 'relative', display: 'flex', gap: '1rem', alignItems: 'center' }}>
                 <button onClick={() => handleDelete(item.id)} 
                     style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', color: '#ba1a1a', cursor: 'pointer', fontSize: 16 }}
                     title="Delete Member"

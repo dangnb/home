@@ -298,7 +298,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
                             {activeCat && activeCat.items.map((item, i) => (
                                 <ServiceRow key={item.name} item={item} index={i} />
                             ))}
-                            {activeCat && activeCat.items.length === 0 && <p style={{fontFamily: "Montserrat", fontSize: 13, color: "#888"}}>No services in this category.</p>}
+                            {activeCat && activeCat.items.length === 0 && <p style={{fontFamily: "Montserrat", fontSize: 13, color: "#888"}}>Danh mục này chưa có dịch vụ.</p>}
 
                             {/* Bottom CTA */}
                             <div style={{ marginTop: 36, padding: "28px", background: "#F4F1EA", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>

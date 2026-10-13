@@ -16,22 +16,18 @@ export const revalidate = 300; // Khách xem web sẽ tải bản cache tĩnh (s
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   return {
-    metadataBase: new URL("https://duthuyensonghan.vn"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sulisalon.vn"),
     title: s.seoTitle,
     description: s.seoDescription,
     keywords: s.seoKeywords,
     openGraph: {
       title: s.seoTitle,
       description: s.seoDescription,
-      url: "https://duthuyensonghan.vn",
+      url: process.env.NEXT_PUBLIC_SITE_URL || "https://sulisalon.vn",
       siteName: s.siteName,
       locale: "vi_VN",
       type: "website",
     },
-    icons: {
-      icon: "https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png",
-      apple: "https://res.cloudinary.com/jawkxked/image/upload/v1783152884/duthuyensonghan/ml2q3lowtlmex9s1voav.png",
-    }
   };
 }
 

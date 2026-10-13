@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
 import { FormInput, FormSelect, FormTextarea } from "@/components/Admin/FormComponents";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
@@ -93,12 +94,20 @@ export default function PostFormPage({
   const [content, setContent] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(!isNew);
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   useEffect(() => {
-    if (isNew) return;
+    if (isNew) {
+      setIsInitialLoading(false);
+      return;
+    }
+
     fetch(`/api/posts/${id}`)
-      .then((r) => r.json())
+      .then(async (r) => {
+        if (!r.ok) throw new Error("Post not found");
+        return r.json();
+      })
       .then((data: Post) => {
         setForm({
           title: data.title,
@@ -111,7 +120,9 @@ export default function PostFormPage({
         });
         setContent(data.content);
         setSlugManuallyEdited(true); // don't auto-generate slug for existing posts
-      });
+      })
+      .catch(() => setMsg({ type: "error", text: "Không thể tải bài viết. Vui lòng thử lại." }))
+      .finally(() => setIsInitialLoading(false));
   }, [id, isNew]);
 
   function set<K extends keyof PostForm>(key: K, val: PostForm[K]) {
@@ -156,6 +167,10 @@ export default function PostFormPage({
       const d = await res.json();
       setMsg({ type: "error", text: d.error ?? "Có lỗi xảy ra!" });
     }
+  }
+
+  if (isInitialLoading) {
+    return <AdminLoading variant="form" label="Đang tải bài viết..." />;
   }
 
   return (
@@ -272,23 +287,10 @@ export default function PostFormPage({
 
         {/* ── Status ── */}
         <div className={styles.formCard}>
-          <h3 className={styles.cardSectionTitle}>⚙️ Status Xuất Bản</h3>
-          <div style={{ display: "flex", gap: "1rem" }}>
+          <h3 className={styles.cardSectionTitle}>Trạng thái xuất bản</h3>
+          <div className={styles.actionGroup}>
             <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                cursor: "pointer",
-                padding: "0.75rem 1.25rem",
-                borderRadius: "10px",
-                border: `2px solid ${form.status === "published" ? "#C2A979" : "rgba(194,169,121,0.15)"}`,
-                background: form.status === "published" ? "#faf6ef" : "#fff",
-                transition: "all 0.2s",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                color: form.status === "published" ? "#065f46" : "#888",
-              }}
+              className={`${styles.statusChoice} ${form.status === "published" ? styles.statusChoiceActive : ""}`}
             >
               <input
                 type="radio"
@@ -301,20 +303,7 @@ export default function PostFormPage({
               🌐 Xuất Bản
             </label>
             <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                cursor: "pointer",
-                padding: "0.75rem 1.25rem",
-                borderRadius: "10px",
-                border: `2px solid ${form.status === "draft" ? "#f59e0b" : "rgba(194,169,121,0.15)"}`,
-                background: form.status === "draft" ? "#faf6ef" : "#fff",
-                transition: "all 0.2s",
-                fontWeight: 600,
-                fontSize: "0.875rem",
-                color: form.status === "draft" ? "#92400e" : "#888",
-              }}
+              className={`${styles.statusChoice} ${form.status === "draft" ? styles.statusChoiceActive : ""}`}
             >
               <input
                 type="radio"
@@ -337,14 +326,14 @@ export default function PostFormPage({
             disabled={loading}
             style={{ padding: "0.7rem 1.75rem", fontSize: "0.95rem" }}
           >
-            {loading ? "Đang lưu..." : isNew ? "➕ Tạo Posts" : "💾 Lưu Thay Đổi"}
+            {loading ? "Đang lưu..." : isNew ? "Tạo bài viết" : "Lưu thay đổi"}
           </button>
           <Link
             href="/admin/posts"
             className={styles.btnSecondary}
             style={{ padding: "0.7rem 1.25rem" }}
           >
-            Cancel
+            Hủy
           </Link>
         </div>
       </form>

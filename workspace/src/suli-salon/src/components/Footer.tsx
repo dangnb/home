@@ -13,7 +13,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 <div>
                     <BrandLogo light style={{ marginBottom: 16 }} />
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, color: "#888", maxWidth: 240 }}>
-                        {settings.tagline || "Nâng niu vẻ đẹp qua sự tỉ mỉ và nghệ thuật. Điểm đến cho dịch vụ chăm sóc móng cao cấp."}
+                        Nơi mỗi bộ móng được chăm chút tỉ mỉ, để bạn tự tin tỏa sáng theo cách riêng của mình.
                     </p>
                     <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
                         {settings.facebook && <a href={settings.facebook} target="_blank" rel="noreferrer" style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", color: "#888", transition: "all .3s", textDecoration: "none", fontSize: 14 }}>f</a>}
@@ -28,6 +28,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                         {[
                             { label: "Dịch vụ", href: "/services" },
                             { label: "Bộ sưu tập", href: "/gallery" },
+                            { label: "Bài viết", href: "/bai-viet" },
                             { label: "Giới thiệu", href: "/about" },
                             { label: "Liên hệ", href: "/contact" },
                         ].map((l) => (
@@ -51,28 +52,28 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 </div>
                 {/* Hours */}
                 <div>
-                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Opening Hours</h4>
+                    <h4 style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>Giờ mở cửa</h4>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#888", lineHeight: 2 }}>
                         {settings.workingHours ? (
                             <div>{settings.workingHours}</div>
                         ) : (
                             <>
-                                <div>🕐 Mon – Fri: 10:00 – 18:00</div>
-                                <div>🕐 Sat – Sun: 09:00 – 19:00</div>
+                                <div>🕐 Thứ Hai – Thứ Sáu: 10:00 – 18:00</div>
+                                <div>🕐 Thứ Bảy – Chủ Nhật: 09:00 – 19:00</div>
                             </>
                         )}
                     </div>
                 </div>
             </div>
             <div style={{ borderTop: "1px solid #2a2a2a", padding: "20px 64px", maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", margin: 0 }}>{settings.copyright || "© 2024 Suli Salon. All rights reserved."}</p>
+                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", margin: 0 }}>{settings.copyright || "© 2025 Suli Salon – Bảo lưu mọi quyền"}</p>
                 <div style={{ display: "flex", gap: 24 }}>
                     {settings.footerTaglines && settings.footerTaglines.length > 0 ? (
                         settings.footerTaglines.map((l, i) => (
                             <span key={i} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, color: "#555" }}>{l}</span>
                         ))
                     ) : (
-                        ["Privacy Policy", "Terms of Service", "Careers"].map((l) => (
+                        ["Chính sách bảo mật", "Điều khoản sử dụng", "Tuyển dụng"].map((l) => (
                             <Link key={l} href="#" style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, color: "#555", textDecoration: "none", transition: "color .25s" }}
                                 onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = "#C2A979")}
                                 onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = "#555")}

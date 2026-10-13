@@ -41,6 +41,7 @@ export default function Navbar({ settings }: { settings: SiteSettings }) {
                         { label: "Dịch vụ", href: "/services" },
                         { label: "Giới thiệu", href: "/about" },
                         { label: "Bộ sưu tập", href: "/gallery" },
+                        { label: "Bài viết", href: "/bai-viet" },
                         { label: "Liên hệ", href: "/contact" },
                     ].map((item) => {
                         const href = item.href;

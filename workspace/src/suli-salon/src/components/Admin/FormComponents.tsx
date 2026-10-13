@@ -26,7 +26,7 @@ export function FormInput({ label, required, helpText, icon, className = "", ...
             ) : (
                 <input {...props} value={props.value ?? ""} />
             )}
-            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
+            {helpText && <span className={styles.formHelpText}>{helpText}</span>}
         </div>
     );
 }
@@ -40,7 +40,7 @@ export function FormTextarea({ label, required, helpText, className = "", ...pro
                 {label} {required && <span style={{ color: "#c0392b" }}>*</span>}
             </label>
             <textarea {...props} value={props.value ?? ""} />
-            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
+            {helpText && <span className={styles.formHelpText}>{helpText}</span>}
         </div>
     );
 }
@@ -62,7 +62,7 @@ export function FormSelect({ label, required, helpText, options, className = "",
                     </option>
                 ))}
             </select>
-            {helpText && <span style={{ fontSize: "11px", color: "#aaa", display: "block" }}>{helpText}</span>}
+            {helpText && <span className={styles.formHelpText}>{helpText}</span>}
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "../../admin.module.css";
 import { FormInput, FormTextarea, FormSelect } from "@/components/Admin/FormComponents";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface Category { id: string; label: string; slug: string; }
 
@@ -35,20 +36,40 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
   const [categories, setCategories] = useState<Category[]>([]);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/categories").then(r => r.json()).then(setCategories);
+    const requests: Promise<void>[] = [
+      fetch("/api/categories")
+        .then(async r => {
+          if (!r.ok) throw new Error("Fetch categories failed");
+          return r.json();
+        })
+        .then(data => setCategories(Array.isArray(data) ? data : []))
+        .catch(() => setCategories([])),
+    ];
+
     if (!isNew) {
-      fetch(`/api/services/${slug}`).then(r => r.json()).then(data => {
-        setForm({
-          slug: data.slug, name: data.name, categoryId: data.categoryId,
-          description: data.description ?? "", duration: data.duration ?? 60,
-          price: data.price ?? "", promoPrice: data.promoPrice ?? "",
-          image: data.image ?? "", gallery: data.gallery ?? [],
-          isActive: data.isActive ?? true,
-        });
-      });
+      requests.push(
+        fetch(`/api/services/${slug}`)
+          .then(async r => {
+            if (!r.ok) throw new Error("Service not found");
+            return r.json();
+          })
+          .then(data => {
+            setForm({
+              slug: data.slug, name: data.name, categoryId: data.categoryId,
+              description: data.description ?? "", duration: data.duration ?? 60,
+              price: data.price ?? "", promoPrice: data.promoPrice ?? "",
+              image: data.image ?? "", gallery: Array.isArray(data.gallery) ? data.gallery : [],
+              isActive: data.isActive ?? true,
+            });
+          })
+          .catch(() => setMsg({ type: "error", text: "Không thể tải dịch vụ. Vui lòng thử lại." })),
+      );
     }
+
+    Promise.all(requests).finally(() => setIsInitialLoading(false));
   }, [slug, isNew]);
 
   function set(key: keyof ServiceForm, val: unknown) {
@@ -95,14 +116,18 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
     setSaving(false);
   }
 
+  if (isInitialLoading) {
+    return <AdminLoading variant="form" label="Đang tải thông tin dịch vụ..." />;
+  }
+
   return (
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>{isNew ? "Add New Service" : `Edit: ${form.name}`}</h1>
+          <h1 className={styles.pageTitle}>{isNew ? "Thêm dịch vụ mới" : `Chỉnh sửa: ${form.name}`}</h1>
         </div>
         <div className={styles.pageActions}>
-          <Link href="/admin/services" className={styles.btnSecondary}>← Back</Link>
+          <Link href="/admin/services" className={styles.btnSecondary}>← Quay lại</Link>
         </div>
       </div>
 
@@ -112,7 +137,7 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
       )}
 
       <div className={styles.formCard}>
-        <div className={styles.cardSectionTitle}>Basic Info</div>
+        <div className={styles.cardSectionTitle}>Thông tin cơ bản</div>
         <div className={styles.formGrid}>
           <FormInput label="Service Name" required value={form.name}
             onChange={e => { set("name", e.target.value); if (isNew) set("slug", autoSlug(e.target.value)); }}
@@ -139,28 +164,28 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
             placeholder="690 CZK" icon="🏷️" />
         </div>
 
-        <div className={styles.cardSectionTitle} style={{ marginTop: '2rem' }}>Description</div>
+        <div className={styles.cardSectionTitle} style={{ marginTop: '2rem' }}>Mô tả dịch vụ</div>
         <FormTextarea label="Description" value={form.description}
           onChange={e => set("description", e.target.value)}
           placeholder="Describe this service..."
           rows={6} />
 
-        <div className={styles.cardSectionTitle} style={{ marginTop: '2rem' }}>Image</div>
+        <div className={styles.cardSectionTitle} style={{ marginTop: '2rem' }}>Hình ảnh</div>
         <FormInput label="Main Image URL" value={form.image}
           onChange={e => set("image", e.target.value)}
           placeholder="https://..." />
         {form.image && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={form.image} alt="Preview" style={{ width: 200, height: 140, objectFit: 'cover', borderRadius: 2, marginTop: 8, border: '1px solid rgba(194,169,121,0.15)' }} />
+          <img src={form.image} alt="Preview" style={{ width: 200, height: 140, objectFit: 'cover', borderRadius: 14, marginTop: 8, border: '1px solid rgba(194,169,121,0.15)' }} />
         )}
 
         <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', justifyContent: 'flex-end' }}>
           <Link href="/admin/services" className={styles.btnSecondary} style={{ padding: "0.7rem 1.25rem" }}>
-            Cancel
+            Hủy
           </Link>
           <button onClick={handleSave} disabled={saving} className={styles.btnPrimary}
             style={{ padding: "0.7rem 1.5rem" }}>
-            {saving ? "Saving..." : isNew ? "Create Service" : "Save Changes"}
+            {saving ? "Đang lưu..." : isNew ? "Tạo dịch vụ" : "Lưu thay đổi"}
           </button>
         </div>
       </div>

@@ -108,7 +108,7 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{item.category}</div>
                     <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontStyle: "italic", color: "#fff", marginBottom: 8 }}>{item.title}</div>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", gap: 4 }}>
-                        <span style={{ fontSize: 14 }}>⊕</span> View
+                        <span style={{ fontSize: 14 }}>⊕</span> Xem ảnh
                     </div>
                 </div>
             </div>
@@ -120,9 +120,9 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
 /* Gallery Page                                             */
 /* ─────────────────────────────────────────────────────── */
 export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] }) {
-    const CATEGORIES = ["All", ...Array.from(new Set(gallery.map(g => g.category)))];
+    const CATEGORIES = ["Tất cả", ...Array.from(new Set(gallery.map(g => g.category)))];
 
-    const [activeCategory, setActiveCategory] = useState("All");
+    const [activeCategory, setActiveCategory] = useState("Tất cả");
     const [lightboxImg, setLightboxImg] = useState<GalleryItemData | null>(null);
     
     useReveal([activeCategory, gallery]);
@@ -141,7 +141,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
         return () => window.removeEventListener("mousemove", fn);
     }, []);
 
-    const filtered = activeCategory === "All" ? gallery : gallery.filter((i) => i.category === activeCategory);
+    const filtered = activeCategory === "Tất cả" ? gallery : gallery.filter((i) => i.category === activeCategory);
 
     return (
         <>
@@ -193,19 +193,19 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
                 <div style={{ position: "absolute", bottom: -60, left: -60, width: 280, height: 280, borderRadius: "50%", border: "1px solid rgba(194,169,121,.1)", pointerEvents: "none" }} />
                 <div style={{ position: "relative", zIndex: 1 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        Our Work
+                        Tác phẩm của chúng tôi
                     </div>
                     <h1
                         ref={titleRef}
                         style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(42px,6vw,80px)", fontWeight: 700, color: "#2E2E2E", margin: "0 0 24px", lineHeight: 1.1, letterSpacing: "-0.02em", fontStyle: "italic", transition: "transform .12s ease-out" }}
                     >
-                        Suli Salon Gallery
+                        Bộ sưu tập nghệ thuật móng
                     </h1>
                     <p
                         ref={subRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", maxWidth: 520, margin: "0 auto", transition: "transform .12s ease-out" }}
                     >
-                        A curated showcase of our finest work — every detail crafted with intention, every look a small piece of art.
+                        Nơi lưu giữ những thiết kế nổi bật — mỗi chi tiết đều được chăm chút để tạo nên một tác phẩm nhỏ mang dấu ấn riêng.
                     </p>
                 </div>
             </section>

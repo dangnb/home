@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import bStyles from "./bookings.module.css";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 type AppointmentStatus = "new" | "confirmed" | "cancelled" | "completed";
 
@@ -19,10 +20,10 @@ interface Appointment {
 }
 
 const STATUS_CFG: Record<AppointmentStatus, { label: string; color: string; bg: string }> = {
-  new: { label: "New", color: "#1d4ed8", bg: "#dbeafe" },
-  confirmed: { label: "Confirmed", color: "#065f46", bg: "#d1fae5" },
-  completed: { label: "Completed", color: "#a08040", bg: "#faf6ef" },
-  cancelled: { label: "Cancelled", color: "#991b1b", bg: "#fee2e2" },
+  new: { label: "Mới", color: "#406989", bg: "#e5f0f8" },
+  confirmed: { label: "Đã xác nhận", color: "#387046", bg: "#e6f4e6" },
+  completed: { label: "Hoàn thành", color: "#876938", bg: "#f7efdf" },
+  cancelled: { label: "Đã hủy", color: "#a6453b", bg: "#fff0ed" },
 };
 
 export default function AppointmentsPage() {
@@ -34,8 +35,13 @@ export default function AppointmentsPage() {
 
   useEffect(() => {
     fetch("/api/bookings")
-      .then(r => r.json())
-      .then(data => { setAppointments(data); setLoading(false); });
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(data => setAppointments(Array.isArray(data) ? data : []))
+      .catch(() => setMsg({ type: "error", text: "Không thể tải lịch hẹn. Vui lòng thử lại." }))
+      .finally(() => setLoading(false));
   }, []);
 
   function flash(type: string, text: string) {
@@ -84,9 +90,9 @@ export default function AppointmentsPage() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Appointments</h1>
-          <p style={{ fontSize: "13px", color: "#888", marginTop: "4px" }}>
-            {appointments.length} total · {counts.new} pending
+          <h1 className={styles.pageTitle}>Lịch hẹn</h1>
+          <p className={styles.pageSubtitle}>
+            {loading ? "Đang cập nhật danh sách lịch hẹn..." : `${appointments.length} lịch hẹn · ${counts.new} đang chờ xác nhận`}
           </p>
         </div>
       </div>
@@ -99,10 +105,10 @@ export default function AppointmentsPage() {
       {/* Stats */}
       <div className={styles.statsGrid} style={{ marginBottom: "1.5rem" }}>
         {([
-          { key: "new", icon: "🆕", label: "New", color: "#1d4ed8", bg: "#dbeafe" },
-          { key: "confirmed", icon: "✅", label: "Confirmed", color: "#065f46", bg: "#d1fae5" },
-          { key: "completed", icon: "🏆", label: "Completed", color: "#a08040", bg: "#faf6ef" },
-          { key: "cancelled", icon: "❌", label: "Cancelled", color: "#991b1b", bg: "#fee2e2" },
+          { key: "new", icon: "✦", label: "Mới", color: "#406989", bg: "#e5f0f8" },
+          { key: "confirmed", icon: "✓", label: "Đã xác nhận", color: "#387046", bg: "#e6f4e6" },
+          { key: "completed", icon: "✦", label: "Hoàn thành", color: "#876938", bg: "#f7efdf" },
+          { key: "cancelled", icon: "×", label: "Đã hủy", color: "#a6453b", bg: "#fff0ed" },
         ] as const).map(s => (
           <div key={s.key} className={styles.statCard}
             style={{
@@ -115,7 +121,7 @@ export default function AppointmentsPage() {
             </div>
             <div>
               <span className={styles.statLabel}>{s.label}</span>
-              <div className={styles.statValue}>{counts[s.key]}</div>
+              <div className={styles.statValue}>{loading ? "—" : counts[s.key]}</div>
             </div>
           </div>
         ))}
@@ -124,7 +130,7 @@ export default function AppointmentsPage() {
       {/* Search */}
       <div className={bStyles.toolbar}>
         <input className={bStyles.searchInput} type="text"
-          placeholder="🔍 Search by name, phone, service..."
+          placeholder="Tìm theo tên khách, số điện thoại hoặc dịch vụ..."
           value={search} onChange={e => setSearch(e.target.value)} />
       </div>
 
@@ -132,12 +138,12 @@ export default function AppointmentsPage() {
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
           <span className={styles.tableTitle}>
-            {filter === "all" ? "All Appointments" : STATUS_CFG[filter].label} ({filtered.length})
+            {filter === "all" ? "Tất cả lịch hẹn" : STATUS_CFG[filter].label} ({filtered.length})
           </span>
         </div>
 
         {loading ? (
-          <div style={{ padding: "3rem", textAlign: "center", color: "#aaa" }}>Loading...</div>
+          <AdminLoading variant="table" label="Đang tải lịch hẹn..." />
         ) : filtered.length === 0 ? (
           <div style={{ padding: "3rem", textAlign: "center", color: "#aaa" }}>
             <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>📅</div>

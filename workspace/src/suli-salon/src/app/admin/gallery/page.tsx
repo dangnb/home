@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface GalleryItem {
   id: string;
@@ -20,9 +21,17 @@ export default function GalleryPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [newItem, setNewItem] = useState({ title: "", image: "", category: "Gel Nails" });
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/gallery").then(r => r.json()).then(setItems);
+    fetch("/api/gallery")
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(data => setItems(Array.isArray(data) ? data : []))
+      .catch(() => setItems([]))
+      .finally(() => setIsInitialLoading(false));
   }, []);
 
   function flash(type: string, text: string) {
@@ -86,13 +95,13 @@ export default function GalleryPage() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Gallery</h1>
-          <p style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>
-            Showcase your nail art portfolio ({items.length} images)
+          <h1 className={styles.pageTitle}>Bộ sưu tập</h1>
+          <p className={styles.pageSubtitle}>
+            {isInitialLoading ? "Đang tải bộ sưu tập ảnh..." : `Lưu giữ và sắp xếp các mẫu nail nổi bật (${items.length} ảnh).`}
           </p>
         </div>
         <button onClick={() => setShowAdd(!showAdd)} className={styles.btnPrimary}>
-          {showAdd ? "Cancel" : "+ Add Image"}
+          {showAdd ? "Đóng" : "+ Thêm ảnh"}
         </button>
       </div>
 
@@ -104,14 +113,14 @@ export default function GalleryPage() {
       {/* Add Form */}
       {showAdd && (
         <div className={styles.formCard} style={{ marginBottom: '1.5rem' }}>
-          <div className={styles.cardSectionTitle}>Add New Image</div>
+          <div className={styles.cardSectionTitle}>Thêm ảnh mới</div>
           <div className={styles.formGrid}>
             <div className={styles.formField}>
               <label>Image URL</label>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 <input value={newItem.image} onChange={e => setNewItem(p => ({ ...p, image: e.target.value }))}
                   placeholder="https://..." style={{ flex: 1 }} />
-                <label style={{ background: "#F4F1EA", padding: "8px 12px", borderRadius: 4, cursor: "pointer", border: "1px solid #EAE5DC", display: "inline-block" }}>
+                <label style={{ background: "#F4F1EA", padding: "8px 12px", borderRadius: 12, cursor: "pointer", border: "1px solid #EAE5DC", display: "inline-block" }}>
                   <span style={{ fontSize: 13, fontWeight: 500, color: "#2E2E2E" }}>{isUploading ? "Uploading..." : "Upload File"}</span>
                   <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileUpload} disabled={isUploading} />
                 </label>
@@ -135,7 +144,7 @@ export default function GalleryPage() {
           {newItem.image && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={newItem.image} alt="Preview" style={{
-              width: 200, height: 150, objectFit: 'cover', borderRadius: 2, marginTop: 12,
+              width: 200, height: 150, objectFit: 'cover', borderRadius: 12, marginTop: 12,
               border: '1px solid rgba(194,169,121,0.15)',
             }} />
           )}
@@ -143,7 +152,7 @@ export default function GalleryPage() {
       )}
 
       {/* Filter Tabs */}
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+      <div className={styles.segmentedControls}>
         {CATEGORIES.map(c => (
           <button key={c} onClick={() => setFilter(c)}
             className={styles.btnSecondary}
@@ -158,29 +167,21 @@ export default function GalleryPage() {
       </div>
 
       {/* Gallery Grid */}
-      {filtered.length === 0 ? (
+      {isInitialLoading ? (
+        <AdminLoading variant="cards" label="Đang tải bộ sưu tập..." />
+      ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: '#aaa' }}>
           <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🖼️</div>
           No images yet. Add your first nail art photo!
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '1rem',
-        }}>
+        <div className={styles.galleryGrid}>
           {filtered.map(item => (
-            <div key={item.id} style={{
-              background: '#fff',
-              border: '1px solid rgba(194,169,121,0.15)',
-              overflow: 'hidden',
-              position: 'relative',
-              transition: 'transform 0.25s, box-shadow 0.25s',
-            }}>
+            <div key={item.id} className={styles.galleryCard}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={item.image} alt={item.title || "Nail art"}
-                style={{ width: '100%', height: 200, objectFit: 'cover', display: 'block' }} />
-              <div style={{ padding: '0.75rem' }}>
+                className={styles.galleryImage} />
+              <div className={styles.galleryCardBody}>
                 {item.title && (
                   <div style={{ fontWeight: 600, fontSize: 13, color: '#2E2E2E', marginBottom: 4 }}>{item.title}</div>
                 )}

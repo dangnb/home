@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../admin.module.css";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface Post {
   id: string;
@@ -15,10 +16,10 @@ interface Post {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  "tin-tuc": "News",
-  "kinh-nghiem": "Tips & Guides",
-  "gia-ve": "Pricing",
-  "phao-hoa": "Promotions",
+  "tin-tuc": "Tin tức",
+  "kinh-nghiem": "Kinh nghiệm làm đẹp",
+  "gia-ve": "Bảng giá",
+  "phao-hoa": "Ưu đãi",
 };
 
 function formatDate(iso: string) {
@@ -33,11 +34,17 @@ export default function PostsListPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/posts")
-      .then((r) => r.json())
-      .then(setPosts);
+      .then(async (r) => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(data => setPosts(Array.isArray(data) ? data : []))
+      .catch(() => setPosts([]))
+      .finally(() => setIsInitialLoading(false));
   }, []);
 
   async function handleDelete(id: string, title: string) {
@@ -60,9 +67,12 @@ export default function PostsListPage() {
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>📝 Blog Posts</h1>
+        <div>
+          <h1 className={styles.pageTitle}>Bài viết</h1>
+          <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản những chia sẻ từ Suli Salon.</p>
+        </div>
         <Link href="/admin/posts/new" className={styles.btnPrimary}>
-          + Thêm Posts
+          + Thêm bài viết
         </Link>
       </div>
 
@@ -72,28 +82,30 @@ export default function PostsListPage() {
           <div className={styles.statIconWrap}><span className={styles.statIcon}>📝</span></div>
           <div>
             <span className={styles.statLabel}>Tổng Posts</span>
-            <span className={styles.statValue}>{posts.length}</span>
+            <span className={styles.statValue}>{isInitialLoading ? "—" : posts.length}</span>
           </div>
         </div>
         <div className={styles.statCard} style={{ "--stat-color": "#a08040", "--stat-bg": "#f8f3e8" } as React.CSSProperties}>
           <div className={styles.statIconWrap}><span className={styles.statIcon}>🌐</span></div>
           <div>
             <span className={styles.statLabel}>Đã Xuất Bản</span>
-            <span className={styles.statValue}>{publishedCount}</span>
+            <span className={styles.statValue}>{isInitialLoading ? "—" : publishedCount}</span>
           </div>
         </div>
         <div className={styles.statCard} style={{ "--stat-color": "#f59e0b", "--stat-bg": "#faf6ef" } as React.CSSProperties}>
           <div className={styles.statIconWrap}><span className={styles.statIcon}>📋</span></div>
           <div>
             <span className={styles.statLabel}>Bản Nháp</span>
-            <span className={styles.statValue}>{draftCount}</span>
+            <span className={styles.statValue}>{isInitialLoading ? "—" : draftCount}</span>
           </div>
         </div>
       </div>
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
-          <span className={styles.tableTitle}>All items ({filtered.length} bài)</span>
+          <span className={styles.tableTitle}>
+            {isInitialLoading ? "Danh sách bài viết" : `Danh sách bài viết (${filtered.length})`}
+          </span>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             {/* Search */}
             <input
@@ -104,7 +116,7 @@ export default function PostsListPage() {
               style={{
                 padding: "0.45rem 0.85rem",
                 border: "1.5px solid rgba(194,169,121,0.15)",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 fontSize: "0.875rem",
                 outline: "none",
                 minWidth: "200px",
@@ -117,29 +129,33 @@ export default function PostsListPage() {
               style={{
                 padding: "0.45rem 0.85rem",
                 border: "1.5px solid rgba(194,169,121,0.15)",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 fontSize: "0.875rem",
                 outline: "none",
                 background: "#fff",
                 cursor: "pointer",
               }}
             >
-              <option value="all">All trạng thái</option>
+              <option value="all">Tất cả trạng thái</option>
               <option value="published">Đã xuất bản</option>
               <option value="draft">Bản nháp</option>
             </select>
           </div>
         </div>
 
-        <table className={styles.dataTable}>
+        {isInitialLoading ? (
+          <AdminLoading variant="table" label="Đang tải bài viết..." />
+        ) : (
+          <div className={styles.tableWrap}>
+            <table className={styles.dataTable}>
           <thead>
             <tr>
               <th>Ảnh</th>
               <th>Tiêu Đề</th>
-              <th>Categories</th>
-              <th>Status</th>
-              <th>Ngày Tạo</th>
-              <th>Actions</th>
+              <th>Danh mục</th>
+              <th>Trạng thái</th>
+              <th>Ngày tạo</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -168,7 +184,7 @@ export default function PostsListPage() {
                 </td>
                 <td>
                   <strong style={{ display: "block", marginBottom: "0.2rem" }}>{p.title}</strong>
-                  <code style={{ fontSize: "0.75rem", color: "#aaa" }}>/bai-viet/{p.slug}</code>
+                  <code style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500 }}>/bai-viet/{p.slug}</code>
                 </td>
                 <td>
                   <span className={styles.badge}>
@@ -184,7 +200,7 @@ export default function PostsListPage() {
                         gap: "0.3rem",
                         padding: "0.2rem 0.65rem",
                         borderRadius: "9999px",
-                        fontSize: "0.72rem",
+                        fontSize: "0.8rem",
                         fontWeight: 700,
                         background: "#dcfce7",
                         color: "#166534",
@@ -201,7 +217,7 @@ export default function PostsListPage() {
                         gap: "0.3rem",
                         padding: "0.2rem 0.65rem",
                         borderRadius: "9999px",
-                        fontSize: "0.72rem",
+                        fontSize: "0.8rem",
                         fontWeight: 700,
                         background: "#fef3c7",
                         color: "#92400e",
@@ -218,7 +234,7 @@ export default function PostsListPage() {
                 <td>
                   <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                     <Link href={`/admin/posts/${p.id}`} className={styles.btnEdit}>
-                      ✏️ Edit
+                      Chỉnh sửa
                     </Link>
                     {p.status === "published" && (
                       <a
@@ -249,12 +265,14 @@ export default function PostsListPage() {
                 >
                   {search || statusFilter !== "all"
                     ? "Không tìm thấy post phù hợp."
-                    : <>No posts yet. <Link href="/admin/posts/new" style={{ color: "#C2A979" }}>Add now →</Link></>}
+                    : <>Chưa có bài viết. <Link href="/admin/posts/new" style={{ color: "#876938", fontWeight: 700 }}>Thêm bài viết →</Link></>}
                 </td>
               </tr>
             )}
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

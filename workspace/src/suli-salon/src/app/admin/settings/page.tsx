@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import styles from "../admin.module.css";
 import sStyles from "./settings.module.css";
 import { FormInput } from "@/components/Admin/FormComponents";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface SiteSettings {
   siteName: string; tagline: string;
@@ -31,10 +32,18 @@ export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings | null>(null);
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("contact");
 
   useEffect(() => {
-    fetch("/api/settings").then(r => r.json()).then(setForm);
+    fetch("/api/settings")
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(setForm)
+      .catch(() => setForm(null))
+      .finally(() => setIsInitialLoading(false));
   }, []);
 
   function set<K extends keyof SiteSettings>(key: K, val: SiteSettings[K]) {
@@ -68,12 +77,13 @@ export default function SettingsPage() {
     }
   }
 
-  if (!form) return (
-    <div style={{ padding: "3rem", textAlign: "center", color: "#aaa" }}>
-      <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>⚙️</div>
-      Đang tải cấu hình...
-    </div>
-  );
+  if (isInitialLoading) {
+    return <AdminLoading variant="form" label="Đang tải cấu hình..." />;
+  }
+
+  if (!form) {
+    return <div className={styles.alertError}>Không thể tải cấu hình. Vui lòng làm mới trang để thử lại.</div>;
+  }
 
   const tabs = [
     { id: "contact", label: "📞 Liên hệ", icon: "📞" },
@@ -133,7 +143,7 @@ export default function SettingsPage() {
                 label="Slogan / Tagline"
                 value={form.tagline}
                 onChange={(e) => set("tagline", e.target.value)}
-                placeholder="Professional Nail Salon in Prague"
+                placeholder="Nghệ thuật móng tinh tế"
               />
               <FormInput
                 label="Hotline chính"
@@ -157,7 +167,7 @@ export default function SettingsPage() {
                 icon="✉️"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
-                placeholder="support@duthuyensonghan.vn"
+                placeholder="info@sulisalon.vn"
               />
               <FormInput
                 label="Giờ làm việc"
@@ -213,7 +223,7 @@ export default function SettingsPage() {
             <div className={styles.formGrid}>
               {[
                 { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://www.facebook.com/2datickets" },
-                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@duthuyensonghan.danang" },
+                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@sulisalon" },
                 { key: "youtube", icon: "🔴", label: "YouTube", placeholder: "https://www.youtube.com/@2datickets" },
                 { key: "zalo", icon: "🔷", label: "Zalo", placeholder: "https://zalo.me/0796768636" },
                 { key: "instagram", icon: "🟣", label: "Instagram", placeholder: "https://www.instagram.com/..." },
@@ -232,7 +242,7 @@ export default function SettingsPage() {
                   {(form[s.key as keyof SiteSettings] as string) && (
                     <a href={form[s.key as keyof SiteSettings] as string}
                       target="_blank" rel="noreferrer"
-                      style={{ fontSize: "0.75rem", color: "#C2A979" }}>
+                      style={{ fontSize: "0.8rem", color: "#876938", fontWeight: 600 }}>
                       Kiểm tra link ↗
                     </a>
                   )}
@@ -277,7 +287,7 @@ export default function SettingsPage() {
                   rows={4}
                   placeholder="https://www.google.com/maps/embed?pb=..."
                 />
-                <span style={{ fontSize: "0.75rem", color: "#aaa", lineHeight: 1.5 }}>
+                <span style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500, lineHeight: 1.5 }}>
                   Vào Google Maps → Chia sẻ → Nhúng bản đồ → Sao chép URL trong thẻ src=""
                 </span>
               </div>
@@ -309,8 +319,8 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề trang (SEO Title)</label>
                 <input value={form.seoTitle} onChange={e => set("seoTitle", e.target.value)}
-                  placeholder="Suli Salon – Professional Nail Services" />
-                <span style={{ fontSize: "0.75rem", color: form.seoTitle.length > 60 ? "#ef4444" : "#aaa" }}>
+                  placeholder="Suli Salon – Nghệ thuật móng tinh tế" />
+                <span style={{ fontSize: "0.8rem", color: form.seoTitle.length > 60 ? "#c24138" : "#75695e", fontWeight: 500 }}>
                   {form.seoTitle.length}/60 ký tự {form.seoTitle.length > 60 ? "⚠️ Quá dài" : "✓"}
                 </span>
               </div>
@@ -319,7 +329,7 @@ export default function SettingsPage() {
                 <textarea value={form.seoDescription}
                   onChange={e => set("seoDescription", e.target.value)}
                   rows={3} placeholder="Mô tả ngắn về website..." />
-                <span style={{ fontSize: "0.75rem", color: form.seoDescription.length > 160 ? "#ef4444" : "#aaa" }}>
+                <span style={{ fontSize: "0.8rem", color: form.seoDescription.length > 160 ? "#c24138" : "#75695e", fontWeight: 500 }}>
                   {form.seoDescription.length}/160 ký tự {form.seoDescription.length > 160 ? "⚠️ Quá dài" : "✓"}
                 </span>
               </div>
@@ -327,7 +337,7 @@ export default function SettingsPage() {
                 <label>Keywords</label>
                 <input value={form.seoKeywords} onChange={e => set("seoKeywords", e.target.value)}
                   placeholder="nail salon prague, gel nails, manicure, pedicure, nail art" />
-                <span style={{ fontSize: "0.75rem", color: "#aaa" }}>Separate with commas</span>
+                <span style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500 }}>Separate with commas</span>
               </div>
             </div>
 
@@ -335,7 +345,7 @@ export default function SettingsPage() {
             <div className={sStyles.preview}>
               <div className={sStyles.previewTitle}>Preview kết quả Google</div>
               <div className={sStyles.seoPreview}>
-                <div className={sStyles.seoUrl}>duthuyensonghan.vn</div>
+                <div className={sStyles.seoUrl}>sulisalon.vn</div>
                 <div className={sStyles.seoTitle}>{form.seoTitle || "Tiêu đề trang"}</div>
                 <div className={sStyles.seoDesc}>{form.seoDescription || "Mô tả trang..."}</div>
               </div>
@@ -351,13 +361,13 @@ export default function SettingsPage() {
               <div className={styles.formField}>
                 <label>Dòng bản quyền</label>
                 <input value={form.copyright} onChange={e => set("copyright", e.target.value)}
-                  placeholder="© Copyright 2Da Tickets Nail Services Sông Hàn Đà Nẵng" />
+                  placeholder="© 2026 Suli Salon – Bảo lưu mọi quyền" />
               </div>
 
               <div className={styles.formField}>
                 <label style={{ marginBottom: "0.5rem", display: "block" }}>
                   Taglines footer
-                  <span style={{ fontWeight: 400, color: "#aaa", marginLeft: "0.5rem", fontSize: "0.78rem" }}>
+                  <span style={{ fontWeight: 500, color: "#75695e", marginLeft: "0.5rem", fontSize: "0.8rem" }}>
                     (hiển thị dưới logo)
                   </span>
                 </label>
@@ -371,11 +381,11 @@ export default function SettingsPage() {
                         set("footerTaglines", arr);
                       }}
                       placeholder="✅ Ưu tiên view đẹp."
-                      style={{ flex: 1, padding: "0.6rem 0.85rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
+                      style={{ flex: 1, padding: "0.6rem 0.85rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
                     />
                     <button type="button"
                       onClick={() => set("footerTaglines", form.footerTaglines.filter((_, idx) => idx !== i))}
-                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0 }}>
+                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "12px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0 }}>
                       ✕
                     </button>
                   </div>
@@ -404,7 +414,7 @@ export default function SettingsPage() {
                 <div key={i} style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                   <span style={{
                     width: "26px", height: "26px", borderRadius: "50%",
-                    background: "#C2A979", color: "#fff", fontSize: "0.72rem",
+                    background: "#C2A979", color: "#fff", fontSize: "0.8rem",
                     fontWeight: 800, display: "flex", alignItems: "center",
                     justifyContent: "center", flexShrink: 0,
                   }}>{i + 1}</span>
@@ -418,7 +428,7 @@ export default function SettingsPage() {
                     placeholder="10:00 - Sáng"
                     style={{
                       flex: 1, padding: "0.65rem 0.85rem",
-                      border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px",
+                      border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px",
                       fontSize: "0.875rem", outline: "none", fontFamily: "inherit",
                     }}
                   />
@@ -427,7 +437,7 @@ export default function SettingsPage() {
                     onClick={() => set("departureSlots", (form.departureSlots ?? []).filter((_, idx) => idx !== i))}
                     style={{
                       width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)",
-                      borderRadius: "8px", background: "#fff", color: "#ef4444",
+                      borderRadius: "12px", background: "#fff", color: "#ef4444",
                       cursor: "pointer", flexShrink: 0, fontSize: "0.9rem",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}
@@ -442,7 +452,7 @@ export default function SettingsPage() {
               style={{ marginTop: "0.75rem", fontSize: "0.875rem" }}
               onClick={() => set("departureSlots", [...(form.departureSlots ?? []), ""])}
             >
-              + Thêm chuyến
+              + Thêm khung giờ
             </button>
 
             {/* Preview */}
@@ -451,7 +461,7 @@ export default function SettingsPage() {
               <div style={{ padding: "1rem" }}>
                 <select style={{
                   width: "100%", padding: "0.65rem 0.85rem",
-                  border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px",
+                  border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px",
                   fontSize: "0.875rem", background: "#fff",
                 }}>
                   {(form.departureSlots ?? []).map((slot, i) => (
@@ -478,13 +488,13 @@ export default function SettingsPage() {
                 <div className={sStyles.inputWithIcon}>
                   <span className={sStyles.inputIcon}>🖼️</span>
                   <input value={form.bannerImage ?? ""} onChange={e => set("bannerImage", e.target.value)}
-                    placeholder="https://res.cloudinary.com/jawkxked/image/upload/v1783152870/duthuyensonghan/tje1dltlnhmi7wrkvtra.jpg" />
+                    placeholder="https://.../banner-suli-salon.jpg" />
                 </div>
                 {form.bannerImage && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={form.bannerImage} alt="preview" style={{
                     marginTop: "0.5rem", height: "120px", width: "100%",
-                    objectFit: "cover", borderRadius: "10px", border: "1px solid rgba(194,169,121,0.15)",
+                    objectFit: "cover", borderRadius: "14px", border: "1px solid rgba(194,169,121,0.15)",
                   }} />
                 )}
               </div>
@@ -500,39 +510,39 @@ export default function SettingsPage() {
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Tiêu đề chính</label>
                 <textarea value={form.bannerTitle ?? ""} onChange={e => set("bannerTitle", e.target.value)}
-                  rows={3} placeholder={"Nail Services Sông Hàn Đà Nẵng\nĐặt Vé Giá Tốt – Trực Tiếp Đón Khách"} />
-                <span style={{ fontSize: "0.75rem", color: "#aaa" }}>Dùng Enter để xuống dòng trong tiêu đề</span>
+                  rows={3} placeholder={"Suli Salon\nNghệ thuật móng tinh tế"} />
+                <span style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500 }}>Dùng Enter để xuống dòng trong tiêu đề</span>
               </div>
 
               {/* Subtitle */}
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>Mô tả phụ (tuỳ chọn)</label>
                 <input value={form.bannerSubtitle ?? ""} onChange={e => set("bannerSubtitle", e.target.value)}
-                  placeholder="Trực tiếp đón và dẫn lên nail service..." />
+                  placeholder="Chăm sóc móng tinh tế, dành riêng cho vẻ đẹp của bạn..." />
               </div>
 
               {/* CTA 1 */}
               <div className={styles.formField}>
                 <label>Nút CTA 1 – Text</label>
                 <input value={form.bannerCta1Text ?? ""} onChange={e => set("bannerCta1Text", e.target.value)}
-                  placeholder="📞 Đặt Vé Ngay" />
+                  placeholder="Đặt lịch ngay" />
               </div>
               <div className={styles.formField}>
                 <label>Nút CTA 1 – Link</label>
                 <input value={form.bannerCta1Link ?? ""} onChange={e => set("bannerCta1Link", e.target.value)}
-                  placeholder="tel:0796768636 hoặc /dat-lich" />
+                  placeholder="tel:+84123456789 hoặc /booking" />
               </div>
 
               {/* CTA 2 */}
               <div className={styles.formField}>
                 <label>Nút CTA 2 – Text</label>
                 <input value={form.bannerCta2Text ?? ""} onChange={e => set("bannerCta2Text", e.target.value)}
-                  placeholder="Xem Nail Services ↓" />
+                  placeholder="Khám phá dịch vụ ↓" />
               </div>
               <div className={styles.formField}>
                 <label>Nút CTA 2 – Link</label>
                 <input value={form.bannerCta2Link ?? ""} onChange={e => set("bannerCta2Link", e.target.value)}
-                  placeholder="#khong-an-toi hoặc /gia-ve" />
+                  placeholder="#dich-vu hoặc /services" />
               </div>
             </div>
 
@@ -552,7 +562,7 @@ export default function SettingsPage() {
                         set("bannerStats", arr);
                       }}
                       placeholder="10+"
-                      style={{ width: "90px", padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit", fontWeight: 700 }}
+                      style={{ width: "90px", padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit", fontWeight: 700 }}
                     />
                     <input
                       value={stat.label}
@@ -561,12 +571,12 @@ export default function SettingsPage() {
                         arr[i] = { ...arr[i], label: e.target.value };
                         set("bannerStats", arr);
                       }}
-                      placeholder="Nail Services"
-                      style={{ flex: 1, padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "8px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
+                      placeholder="Năm kinh nghiệm"
+                      style={{ flex: 1, padding: "0.6rem 0.75rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
                     />
                     <button type="button"
                       onClick={() => set("bannerStats", (form.bannerStats ?? []).filter((_, idx) => idx !== i))}
-                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "8px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      style={{ width: "34px", height: "34px", border: "1px solid rgba(192,57,43,0.2)", borderRadius: "12px", background: "#fff", color: "#ef4444", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       ✕
                     </button>
                   </div>
@@ -603,7 +613,7 @@ export default function SettingsPage() {
                   display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem",
                 }}>
                   {form.bannerBadge && (
-                    <span style={{ background: "rgba(1,191,147,0.9)", color: "#fff", fontSize: "0.65rem", fontWeight: 800, padding: "0.25rem 0.75rem", borderRadius: "100px", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                    <span style={{ background: "rgba(1,191,147,0.9)", color: "#fff", fontSize: "0.75rem", fontWeight: 800, padding: "0.25rem 0.75rem", borderRadius: "100px", textTransform: "uppercase", letterSpacing: "0.055em", lineHeight: 1.25 }}>
                       {form.bannerBadge}
                     </span>
                   )}
@@ -612,12 +622,12 @@ export default function SettingsPage() {
                   </p>
                   <div style={{ display: "flex", gap: "0.5rem" }}>
                     {form.bannerCta1Text && (
-                      <span style={{ background: "var(--primary)", color: "#fff", fontSize: "0.72rem", fontWeight: 700, padding: "0.35rem 0.85rem", borderRadius: "100px" }}>
+                      <span style={{ background: "var(--primary)", color: "#fff", fontSize: "0.8rem", fontWeight: 700, padding: "0.35rem 0.85rem", borderRadius: "100px" }}>
                         {form.bannerCta1Text}
                       </span>
                     )}
                     {form.bannerCta2Text && (
-                      <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: "0.72rem", fontWeight: 600, padding: "0.35rem 0.85rem", borderRadius: "100px", border: "1px solid rgba(255,255,255,0.3)" }}>
+                      <span style={{ background: "rgba(255,255,255,0.15)", color: "#fff", fontSize: "0.8rem", fontWeight: 600, padding: "0.35rem 0.85rem", borderRadius: "100px", border: "1px solid rgba(255,255,255,0.3)" }}>
                         {form.bannerCta2Text}
                       </span>
                     )}

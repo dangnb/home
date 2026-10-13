@@ -156,7 +156,7 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.3 }}
                             >
-                                PREMIUM EXPERIENCE
+                                TRẢI NGHIỆM CAO CẤP
                             </motion.div>
 
                             {/* Logo with staggered letters */}
@@ -186,7 +186,7 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 1.2 }}
                             >
-                                Luxury Nail Gallery in Prague
+                                Nghệ thuật móng tinh tế
                             </motion.div>
 
                             {/* Progress bar */}

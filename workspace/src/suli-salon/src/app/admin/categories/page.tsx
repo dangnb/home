@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../admin.module.css";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface Category { id: string; label: string; slug: string; description: string; }
 
@@ -10,8 +11,18 @@ export default function CategoriesPage() {
   const [form, setForm] = useState({ id: "", label: "", slug: "", description: "" });
   const [editing, setEditing] = useState<string | null>(null);
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  useEffect(() => { fetch("/api/categories").then(r => r.json()).then(setCats); }, []);
+  useEffect(() => {
+    fetch("/api/categories")
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then(data => setCats(Array.isArray(data) ? data : []))
+      .catch(() => setCats([]))
+      .finally(() => setIsInitialLoading(false));
+  }, []);
 
   function flash(type: string, text: string) { setMsg({ type, text }); setTimeout(() => setMsg({ type: "", text: "" }), 3000); }
 
@@ -39,15 +50,18 @@ export default function CategoriesPage() {
   return (
     <div>
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>🗂️ Manage Categories</h1>
-        <Link href="/admin" className={styles.btnSecondary}>← Về Dashboard</Link>
+        <div>
+          <h1 className={styles.pageTitle}>Danh mục dịch vụ</h1>
+          <p className={styles.pageSubtitle}>Sắp xếp các nhóm dịch vụ để khách dễ tìm kiếm.</p>
+        </div>
+        <Link href="/admin" className={styles.btnSecondary}>← Về tổng quan</Link>
       </div>
 
       {msg.text && <p className={msg.type === "error" ? styles.alertError : styles.alertSuccess} style={{marginBottom:'1rem'}}>{msg.text}</p>}
 
       {/* Form */}
       <div className={styles.formCard} style={{marginBottom:'1.5rem'}}>
-        <h3 style={{marginBottom:'1rem',fontWeight:700,color:'#0d1f2d'}}>{editing ? "✏️ Chỉnh Edit Categories" : "➕ Thêm Categories New"}</h3>
+        <h3 className={styles.cardSectionTitle}>{editing ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}</h3>
         <div className={styles.formGrid}>
           <div className={styles.formField}>
             <label>ID (không dấu, không khoảng trắng)</label>
@@ -67,31 +81,67 @@ export default function CategoriesPage() {
           </div>
         </div>
         <div style={{display:'flex',gap:'0.75rem',marginTop:'1rem'}}>
-          <button onClick={handleSave} className={styles.btnPrimary}>{editing ? "💾 Lưu Cập Nhật" : "➕ Add New"}</button>
-          {editing && <button onClick={() => { setEditing(null); setForm({ id:"",label:"",slug:"",description:"" }); }} className={styles.btnSecondary}>✕ Cancel</button>}
+          <button onClick={handleSave} className={styles.btnPrimary}>{editing ? "Lưu cập nhật" : "Thêm danh mục"}</button>
+          {editing && <button onClick={() => { setEditing(null); setForm({ id:"",label:"",slug:"",description:"" }); }} className={styles.btnSecondary}>Hủy</button>}
         </div>
       </div>
 
       {/* Table */}
       <div className={styles.tableCard}>
-        <div className={styles.tableHeader}><span className={styles.tableTitle}>All items ({cats.length})</span></div>
-        <table className={styles.dataTable}>
-          <thead><tr><th>ID</th><th>Tên</th><th>Slug</th><th>Mô Tả</th><th>Actions</th></tr></thead>
-          <tbody>
-            {cats.map(cat => (
-              <tr key={cat.id}>
-                <td><code style={{background:'#f1f5f9',padding:'0.15rem 0.4rem',borderRadius:4}}>{cat.id}</code></td>
-                <td><strong>{cat.label}</strong></td>
-                <td style={{color:'#888'}}>{cat.slug}</td>
-                <td style={{color:'#aaa',fontSize:'0.85rem'}}>{cat.description}</td>
-                <td style={{display:'flex',gap:'0.5rem'}}>
-                  <button onClick={() => startEdit(cat)} className={styles.btnEdit}>✏️</button>
-                  <button onClick={() => handleDelete(cat.id)} className={styles.btnDanger}>🗑️</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className={styles.tableHeader}>
+          <span className={styles.tableTitle}>
+            {isInitialLoading ? "Tất cả danh mục" : `Tất cả danh mục (${cats.length})`}
+          </span>
+        </div>
+        {isInitialLoading ? (
+          <AdminLoading variant="table" label="Đang tải danh mục..." />
+        ) : (
+          <div className={styles.tableWrap}>
+            <table className={styles.dataTable}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên</th>
+                  <th>Slug</th>
+                  <th>Mô tả</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cats.map((cat) => (
+                  <tr key={cat.id}>
+                    <td>
+                      <code style={{ background: "#f1f5f9", padding: "0.15rem 0.4rem", borderRadius: 4 }}>
+                        {cat.id}
+                      </code>
+                    </td>
+                    <td>
+                      <strong>{cat.label}</strong>
+                    </td>
+                    <td style={{ color: "#888" }}>{cat.slug}</td>
+                    <td style={{ color: "#aaa", fontSize: "0.85rem" }}>{cat.description}</td>
+                    <td style={{ display: "flex", gap: "0.5rem" }}>
+                      <button onClick={() => startEdit(cat)} className={styles.btnEdit}>
+                        ✏️
+                      </button>
+                      <button onClick={() => handleDelete(cat.id)} className={styles.btnDanger}>
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {cats.length === 0 && (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: "center", padding: "3rem", color: "#aaa" }}>
+                      <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🗂️</div>
+                      Chưa có danh mục nào.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

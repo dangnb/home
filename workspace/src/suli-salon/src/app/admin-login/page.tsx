@@ -8,7 +8,7 @@ import BrandLogo from "@/components/BrandLogo";
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState(
-    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
+    process.env.NODE_ENV === "development" ? "admin@sulisalon.vn" : ""
   );
   const [password, setPassword] = useState(
     process.env.NODE_ENV === "development" ? "admin123456" : ""
@@ -91,7 +91,7 @@ export default function AdminLogin() {
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
-              Password
+              Mật khẩu
             </label>
             <input
               type="password"
@@ -119,11 +119,11 @@ export default function AdminLogin() {
             {loading ? (
               <span className={styles.btnLoading}>
                 <span className={styles.spinner} />
-                Signing in...
+                Đang đăng nhập...
               </span>
             ) : (
               <span className={styles.btnContent}>
-                Sign In
+                Đăng nhập
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
@@ -135,7 +135,7 @@ export default function AdminLogin() {
 
         {/* Hint */}
         <p className={styles.hint}>
-          Default credentials for development only
+Tài khoản mẫu chỉ dùng trong môi trường phát triển
         </p>
       </div>
     </div>

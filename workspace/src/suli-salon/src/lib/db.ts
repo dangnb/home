@@ -417,6 +417,30 @@ export async function getPostBySlug(slug: string): Promise<PostData | null> {
   };
 }
 
+export async function getPublishedPosts(): Promise<PostData[]> {
+  const posts = await prisma.post.findMany({
+    where: { status: "published" },
+    orderBy: { createdAt: "desc" },
+  });
+  return posts.map(p => ({
+    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+  }));
+}
+
+export async function getPublishedPostBySlug(slug: string): Promise<PostData | null> {
+  const p = await prisma.post.findFirst({ where: { slug, status: "published" } });
+  if (!p) return null;
+  return {
+    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+  };
+}
+
 export async function createPost(data: Omit<PostData, "id" | "createdAt" | "updatedAt">): Promise<PostData> {
   const p = await prisma.post.create({ data });
   return {

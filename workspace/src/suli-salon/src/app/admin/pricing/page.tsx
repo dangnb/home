@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
+import AdminLoading from "@/components/Admin/AdminLoading";
 
 interface PriceItem { name: string; duration: string; price: string; }
 interface PriceCategory { category: string; items: PriceItem[]; order: number; }
@@ -11,16 +12,23 @@ export default function PriceListPage() {
   const [categories, setCategories] = useState<PriceCategory[]>([]);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/pricing").then(r => r.json()).then((data: PriceCategory[]) => {
-      if (data.length === 0) {
-        // Init with default categories
-        setCategories(DEFAULT_CATEGORIES.map((c, i) => ({ category: c, items: [], order: i })));
-      } else {
-        setCategories(data);
-      }
-    });
+    fetch("/api/pricing")
+      .then(async r => {
+        if (!r.ok) throw new Error("Fetch failed");
+        return r.json();
+      })
+      .then((data: PriceCategory[]) => {
+        if (!Array.isArray(data) || data.length === 0) {
+          setCategories(DEFAULT_CATEGORIES.map((c, i) => ({ category: c, items: [], order: i })));
+        } else {
+          setCategories(data);
+        }
+      })
+      .catch(() => setCategories(DEFAULT_CATEGORIES.map((c, i) => ({ category: c, items: [], order: i }))))
+      .finally(() => setIsInitialLoading(false));
   }, []);
 
   function flash(type: string, text: string) {
@@ -86,15 +94,13 @@ export default function PriceListPage() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Price List</h1>
-          <p style={{ fontSize: '13px', color: '#888', marginTop: '4px' }}>
-            Manage your service pricing
-          </p>
+          <h1 className={styles.pageTitle}>Bảng giá</h1>
+          <p className={styles.pageSubtitle}>Cập nhật giá và thời lượng cho từng liệu trình tại salon.</p>
         </div>
         <div className={styles.pageActions}>
-          <button onClick={addCategory} className={styles.btnSecondary}>+ Add Category</button>
+          <button onClick={addCategory} className={styles.btnSecondary}>+ Thêm danh mục</button>
           <button onClick={handleSave} disabled={saving} className={styles.btnPrimary}>
-            {saving ? "Saving..." : "💾 Save All"}
+            {saving ? "Đang lưu..." : "Lưu bảng giá"}
           </button>
         </div>
       </div>
@@ -104,14 +110,16 @@ export default function PriceListPage() {
           style={{ marginBottom: "1rem" }}>{msg.text}</p>
       )}
 
-      {categories.map((cat, catIdx) => (
+      {isInitialLoading ? (
+        <AdminLoading variant="form" label="Đang tải bảng giá..." />
+      ) : categories.map((cat, catIdx) => (
         <div key={cat.category} className={styles.formCard} style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className={styles.cardSectionTitle} style={{ borderBottom: 'none', marginBottom: 0, paddingBottom: 0 }}>
               💅 {cat.category}
             </div>
             <button onClick={() => removeCategory(catIdx)} className={styles.btnDanger}
-              style={{ fontSize: 11 }}>Remove</button>
+              style={{ fontSize: 11 }}>Xóa nhóm</button>
           </div>
 
           <div style={{ marginTop: '1rem' }}>
@@ -119,9 +127,9 @@ export default function PriceListPage() {
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 120px 120px 40px',
               gap: '0.5rem', marginBottom: '0.5rem',
-              fontSize: 10, fontWeight: 700, color: '#888', textTransform: 'uppercase', letterSpacing: '0.1em',
+              fontSize: 12, fontWeight: 750, color: '#66594e', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.3,
             }}>
-              <span>Service</span><span>Duration</span><span>Price</span><span></span>
+              <span>Dịch vụ</span><span>Thời lượng</span><span>Giá</span><span></span>
             </div>
 
             {cat.items.map((item, itemIdx) => (
@@ -131,13 +139,13 @@ export default function PriceListPage() {
               }}>
                 <input value={item.name} onChange={e => updateItem(catIdx, itemIdx, "name", e.target.value)}
                   placeholder="Classic Manicure"
-                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 2, fontSize: 14 }} />
+                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 12, fontSize: 14 }} />
                 <input value={item.duration} onChange={e => updateItem(catIdx, itemIdx, "duration", e.target.value)}
                   placeholder="45 min"
-                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 2, fontSize: 14 }} />
+                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 12, fontSize: 14 }} />
                 <input value={item.price} onChange={e => updateItem(catIdx, itemIdx, "price", e.target.value)}
                   placeholder="590 CZK"
-                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 2, fontSize: 14 }} />
+                  style={{ padding: '0.5rem 0.75rem', border: '1px solid rgba(194,169,121,0.2)', borderRadius: 12, fontSize: 14 }} />
                 <button onClick={() => removeItem(catIdx, itemIdx)} className={styles.btnDanger}
                   style={{ padding: '0.4rem', fontSize: 11 }}>✕</button>
               </div>
@@ -145,16 +153,16 @@ export default function PriceListPage() {
 
             <button onClick={() => addItem(catIdx)} className={styles.btnSecondary}
               style={{ marginTop: '0.5rem', fontSize: 12 }}>
-              + Add Service
+              + Thêm dịch vụ
             </button>
           </div>
         </div>
       ))}
 
-      {categories.length === 0 && (
+      {!isInitialLoading && categories.length === 0 && (
         <div style={{ textAlign: 'center', padding: '4rem', color: '#aaa' }}>
           <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>💰</div>
-          No price categories yet. Add one to get started!
+          Chưa có danh mục giá nào. Hãy thêm danh mục đầu tiên.
         </div>
       )}
     </div>
