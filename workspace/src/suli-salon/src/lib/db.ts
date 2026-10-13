@@ -1,4 +1,5 @@
 // src/lib/db.ts - Database operations for Suli Salon
+import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
 // Re-export prisma for direct access
@@ -442,7 +443,16 @@ export async function deletePost(id: string): Promise<boolean> {
 
 // ── Settings ─────────────────────────────────────────
 export async function getSettings(): Promise<SiteSettings> {
-  const rows = await prisma.setting.findMany();
+  let rows: { key: string; value: string }[] = [];
+
+  try {
+    rows = await prisma.setting.findMany();
+  } catch (error) {
+    if (!(error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2021")) {
+      throw error;
+    }
+  }
+
   const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
 
   const settings = { ...DEFAULT_SETTINGS };

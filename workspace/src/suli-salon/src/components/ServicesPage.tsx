@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { ServiceData, CategoryData } from "@/lib/db";
+import { getServiceImageFallback } from "@/lib/service-images";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -109,11 +110,15 @@ export default function ServicesPage({ services, categories }: { services: Servi
         if (c.label.toLowerCase().includes("eye")) icon = "👁️";
         if (c.label.toLowerCase().includes("brow")) icon = "〰️";
         
+        const fallbackImage = getServiceImageFallback(`${c.slug} ${c.label}`);
+        const serviceImage = catServices.find((service) => service.image.trim())?.image;
+
         return {
             id: c.id,
             label: c.label,
             icon,
-            img: (catServices.length > 0 && catServices[0].image) ? catServices[0].image : "/uploads/banner.png",
+            img: serviceImage || fallbackImage,
+            fallbackImage,
             desc: c.description || "Experience our premium treatments crafted with intention.",
             items: catServices.map((s, i) => ({
                 name: s.name,
@@ -124,11 +129,27 @@ export default function ServicesPage({ services, categories }: { services: Servi
         };
     });
 
-    const [activeId, setActiveId] = useState(uiCategories.length > 0 ? uiCategories[0].id : "");
+    const fallbackCategories = [
+        { id: "manicure", slug: "manicure", label: "Manicure", description: "Classic and gel manicures, tailored to a polished finish." },
+        { id: "pedicure", slug: "pedicure", label: "Pedicure", description: "Restorative foot care for lasting comfort and confidence." },
+        { id: "nail-art", slug: "nail-art", label: "Nail Art", description: "Creative, custom designs made to express your style." },
+        { id: "extensions", slug: "extensions", label: "Extensions", description: "Natural-looking length and strength, crafted with precision." },
+        { id: "care", slug: "nail-care", label: "Nail Care", description: "Targeted treatments to repair, nourish, and protect your nails." },
+    ];
+    const displayCategories = uiCategories.length > 0 ? uiCategories : fallbackCategories.map((category) => ({
+        id: category.id,
+        label: category.label,
+        icon: "✦",
+        img: getServiceImageFallback(`${category.slug} ${category.label}`),
+        fallbackImage: getServiceImageFallback(`${category.slug} ${category.label}`),
+        desc: category.description,
+        items: [],
+    }));
+    const [activeId, setActiveId] = useState(displayCategories[0].id);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
 
-    const activeCat = uiCategories.find((c) => c.id === activeId) || uiCategories[0];
+    const activeCat = displayCategories.find((c) => c.id === activeId) || displayCategories[0];
     const catImgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -199,7 +220,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
 
                     {/* Category Tabs */}
                     <div className="reveal" style={{ display: "flex", gap: 0, marginBottom: 60, borderBottom: "1.5px solid #EAE5DC", flexWrap: "wrap" }}>
-                        {uiCategories.map((cat) => (
+                        {displayCategories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => handleCatChange(cat.id)}
@@ -239,6 +260,12 @@ export default function ServicesPage({ services, categories }: { services: Servi
                                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "opacity .25s ease, filter .6s ease, transform .6s ease" }}
                                     onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
                                     onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(30%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                                    onError={(e) => {
+                                        const image = e.currentTarget;
+                                        if (image.src !== new URL(activeCat.fallbackImage, window.location.origin).href) {
+                                            image.src = activeCat.fallbackImage;
+                                        }
+                                    }}
                                 />
                                 {/* Gold bar accent */}
                                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, background: "linear-gradient(90deg,#C2A979,#a08040)" }} />

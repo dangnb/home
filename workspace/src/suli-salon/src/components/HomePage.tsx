@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
+import { getServiceImageFallback } from "@/lib/service-images";
 
 const FEATURES = [
     "Professional and experienced team",
@@ -437,7 +438,7 @@ function Services({ services, settings }: { services: ServiceData[], settings: S
                             style={{ position: "relative", height: 500, overflow: "hidden", cursor: "pointer" }}
                         // Hover handled via CSS group
                         >
-                            <ServiceCard title={s.name} img={s.image || ""} slug={s.slug} />
+                            <ServiceCard title={s.name} img={s.image} slug={s.slug} />
                         </div>
                     ))}
                     {displayServices.length === 0 && <p>No services yet.</p>}
@@ -450,6 +451,7 @@ function Services({ services, settings }: { services: ServiceData[], settings: S
 function ServiceCard({ title, img, slug }: { title: string; img: string; slug: string }) {
     const imgRef = useRef<HTMLImageElement>(null);
     const linkRef = useRef<HTMLAnchorElement>(null);
+    const fallbackImage = getServiceImageFallback(`${slug} ${title}`);
 
     return (
         <div
@@ -466,9 +468,15 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 ref={imgRef}
-                src={img || "https://placehold.co/400x600/f4f1ea/c2a979?text=Nail+Service"}
+                src={img || fallbackImage}
                 alt={title}
                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease" }}
+                onError={(e) => {
+                    const image = e.currentTarget;
+                    if (image.src !== new URL(fallbackImage, window.location.origin).href) {
+                        image.src = fallbackImage;
+                    }
+                }}
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.1) 60%, transparent 100%)" }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, padding: "32px 28px", width: "100%", boxSizing: "border-box" }}>
@@ -489,8 +497,16 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
 /* Gallery – Bento Grid                                     */
 /* ─────────────────────────────────────────────────────── */
 function Gallery({ gallery, settings }: { gallery: GalleryItemData[], settings: SiteSettings }) {
-    // We only display max 10 images on the home page bento grid
-    const items = gallery.slice(0, 10);
+    const defaultGallery: GalleryItemData[] = [
+        { id: "default-banner", title: "Nail artistry", image: "/uploads/banner.png", category: "Nails", order: 0, isActive: true },
+        { id: "default-pedicure", title: "Pedicure care", image: "/uploads/pedicure.png", category: "Pedicure", order: 1, isActive: true },
+        { id: "default-nail-art", title: "Custom nail art", image: "/uploads/nails_art.png", category: "Nail Art", order: 2, isActive: true },
+        { id: "default-team", title: "Salon experience", image: "/uploads/team.png", category: "Salon", order: 3, isActive: true },
+        { id: "default-nails", title: "Signature manicure", image: "/uploads/banner.png", category: "Manicure", order: 4, isActive: true },
+        { id: "default-detail", title: "Luxury detail", image: "/uploads/nails_art.png", category: "Nail Art", order: 5, isActive: true },
+    ];
+    // Use built-in imagery until real gallery records are added in the admin.
+    const items = (gallery.length > 0 ? gallery : defaultGallery).slice(0, 10);
     // Dynamic spans based on position to keep the bento grid interesting
     const spans = ["row-span-2", "", "col-span-2 row-span-2", "", "", "row-span-2", "", "", "col-span-2", ""];
 
@@ -499,7 +515,7 @@ function Gallery({ gallery, settings }: { gallery: GalleryItemData[], settings: 
             <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                 <div className="reveal" style={{ textAlign: "center", marginBottom: 64 }}>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(36px,4vw,54px)", fontWeight: 700, color: "#C2A979", fontStyle: "italic", margin: "0 0 8px" }}>
-                        {settings.siteName || "Suli Salon"}
+                        Nail Art Gallery
                     </h2>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#999" }}>
                         Luxury Nail Gallery in Prague
@@ -508,16 +524,15 @@ function Gallery({ gallery, settings }: { gallery: GalleryItemData[], settings: 
 
                 <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gridAutoRows: 280, gap: 12 }}>
                     {items.map((g, i) => (
-                        <GalleryItem key={g.id} url={g.image} span={spans[i] || ""} />
+                        <GalleryItem key={g.id} url={g.image} alt={g.title || "Gallery"} span={spans[i] || ""} />
                     ))}
-                    {items.length === 0 && <p style={{ gridColumn: "span 4", textAlign: "center" }}>No gallery images yet.</p>}
                 </div>
             </div>
         </section>
     );
 }
 
-function GalleryItem({ url, span }: { url: string; span: string }) {
+function GalleryItem({ url, alt, span }: { url: string; alt: string; span: string }) {
     const ref = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -536,7 +551,7 @@ function GalleryItem({ url, span }: { url: string; span: string }) {
             <img
                 ref={imgRef}
                 src={url}
-                alt="Gallery"
+                alt={alt}
                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease" }}
             />
         </div>
