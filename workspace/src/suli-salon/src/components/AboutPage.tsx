@@ -105,7 +105,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                     position: "relative",
                     height: "82vh",
                     minHeight: 560,
-                    backgroundImage: `url('${settings.bannerImage || "/uploads/banner.png"}')`,
+                    backgroundImage: `url('${settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"}')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center top",
                     display: "flex",
@@ -174,7 +174,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             <div style={{ height: 280, overflow: "hidden" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src={settings.aboutImage1 || "/uploads/pedicure.png"}
+                                    src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
                                     alt="Salon tools"
                                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
                                     onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
@@ -184,7 +184,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                             <div style={{ height: 280, overflow: "hidden" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src={settings.aboutImage2 || "/uploads/nails_art.png"}
+                                    src={settings.aboutImage2 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg"}
                                     alt="Eyelash care"
                                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
                                     onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
@@ -212,7 +212,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                     <div className="reveal reveal-left" style={{ position: "relative", height: 520, overflow: "hidden" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={settings.bannerImage || "/uploads/banner.png"}
+                            src={settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"}
                             alt="Salon interior"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(20%)", transition: "filter .7s, transform .7s" }}
                             onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}

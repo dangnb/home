@@ -392,7 +392,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
             <section style={{ position: "relative", height: 320, overflow: "hidden" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    src="/uploads/banner.png"
+                    src="https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"
                     alt="Salon interior"
                     style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "filter .6s" }}
                     onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}

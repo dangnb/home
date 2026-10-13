@@ -21,19 +21,19 @@ export default function ServicesPreview() {
           {[
             {
               title: "Nails",
-              img: "/uploads/banner.png"
+              img: "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg"
             },
             {
               title: "Facial Care",
-              img: "/uploads/banner.png"
+              img: "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"
             },
             {
               title: "Eyelashes",
-              img: "/uploads/banner.png"
+              img: "https://res.cloudinary.com/jawkxked/image/upload/v1791910446/moc-salon/hrzz84u08aqrlvhimgzk.jpg"
             },
             {
               title: "Eyebrows",
-              img: "/uploads/banner.png"
+              img: "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"
             }
           ].map((service, idx) => (
             <div key={idx} className="group relative overflow-hidden h-[500px] whisper-shadow reveal" data-delay={(idx + 1) * 100}>

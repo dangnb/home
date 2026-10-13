@@ -16,14 +16,14 @@ export default function AboutSection() {
           {/* Overlapping image composition */}
           <div className="relative w-4/5 aspect-[3/4] whisper-shadow">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="Salon Expertise" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="/uploads/banner.png" />
+            <img alt="Salon Expertise" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg" />
             <div className="absolute -top-8 -left-8 bg-primary p-8 text-white hover:scale-110 transition-transform shadow-xl">
               <span className="block font-display-lg text-headline-md leading-none">10++</span>
               <span className="block font-label-caps text-[10px] mt-1">YEARS OF EXPERIENCE</span>
             </div>
             <div className="absolute -bottom-12 -right-12 w-48 h-48 rounded-full border-8 border-white overflow-hidden whisper-shadow hover:scale-105 transition-transform duration-500">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="Detailed Nail Art" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="/uploads/banner.png" />
+              <img alt="Detailed Nail Art" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 transition-all duration-500" src="https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg" />
             </div>
           </div>
         </div>

@@ -6,12 +6,17 @@ import "react-quill-new/dist/quill.snow.css";
 import styles from "./RichEditor.module.css";
 
 type DynamicReactQuillProps = ReactQuill["props"] & {
-  ref?: React.Ref<ReactQuill>;
+  forwardedRef?: React.Ref<ReactQuill>;
 };
 
 // Load ReactQuill dynamically to avoid SSR issues
 const DynamicReactQuill = dynamic<DynamicReactQuillProps>(
-  async () => (await import("react-quill-new")).default,
+  async () => {
+    const { default: RQ } = await import("react-quill-new");
+    return function DynamicQuillWrapper({ forwardedRef, ...props }: DynamicQuillProps) {
+      return <RQ ref={forwardedRef} {...props} />;
+    };
+  },
   { ssr: false },
 );
 
@@ -99,7 +104,7 @@ export default function RichEditor({
   return (
     <div className={styles.wrapper} style={{ minHeight: `${minHeight}px` }}>
       <DynamicReactQuill
-        ref={reactQuillRef}
+        forwardedRef={reactQuillRef}
         theme="snow"
         value={value}
         onChange={onChange}

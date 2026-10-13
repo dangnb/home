@@ -230,7 +230,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
     }, []);
 
     const bannerTitles = (settings.bannerTitle || "Precision\nNail Care").split("\\n");
-    const bgImage = settings.bannerImage || "/uploads/banner.png";
+    const bgImage = settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg";
 
     return (
         <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", overflow: "visible", background: "#FDFBF7", paddingTop: 120, paddingBottom: 60 }}>
@@ -289,7 +289,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={settings.aboutImage1 || "/uploads/pedicure.png"}
+                                src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
                                 alt="Precision nail care detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
                                 onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
@@ -340,7 +340,7 @@ function About({ settings }: { settings: SiteSettings }) {
                     <div style={{ position: "relative", width: "80%", aspectRatio: "3/4", boxShadow: "0 20px 60px rgba(0,0,0,.1)" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={settings.aboutImage2 || "/uploads/nails_art.png"}
+                            src={settings.aboutImage2 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg"}
                             alt="Salon"
                             style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease" }}
                             onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}
@@ -361,7 +361,7 @@ function About({ settings }: { settings: SiteSettings }) {
                         >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={settings.aboutImage1 || "/uploads/pedicure.png"}
+                                src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
                                 alt="Detail"
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             />
@@ -497,12 +497,12 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
 /* ─────────────────────────────────────────────────────── */
 function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
     const defaultGallery: GalleryItemData[] = [
-        { id: "default-banner", title: "Nail artistry", image: "/uploads/banner.png", category: "Nails", order: 0, isActive: true },
-        { id: "default-pedicure", title: "Pedicure care", image: "/uploads/pedicure.png", category: "Pedicure", order: 1, isActive: true },
-        { id: "default-nail-art", title: "Custom nail art", image: "/uploads/nails_art.png", category: "Nail Art", order: 2, isActive: true },
-        { id: "default-team", title: "Salon experience", image: "/uploads/team.png", category: "Salon", order: 3, isActive: true },
-        { id: "default-nails", title: "Signature manicure", image: "/uploads/banner.png", category: "Manicure", order: 4, isActive: true },
-        { id: "default-detail", title: "Luxury detail", image: "/uploads/nails_art.png", category: "Nail Art", order: 5, isActive: true },
+        { id: "default-banner", title: "Nail artistry", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg", category: "Nails", order: 0, isActive: true },
+        { id: "default-pedicure", title: "Pedicure care", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg", category: "Pedicure", order: 1, isActive: true },
+        { id: "default-nail-art", title: "Custom nail art", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg", category: "Nail Art", order: 2, isActive: true },
+        { id: "default-team", title: "Salon experience", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910446/moc-salon/hrzz84u08aqrlvhimgzk.jpg", category: "Salon", order: 3, isActive: true },
+        { id: "default-nails", title: "Signature manicure", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg", category: "Manicure", order: 4, isActive: true },
+        { id: "default-detail", title: "Luxury detail", image: "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg", category: "Nail Art", order: 5, isActive: true },
     ];
     // Use built-in imagery until real gallery records are added in the admin.
     const items = (gallery.length > 0 ? gallery : defaultGallery).slice(0, 10);
