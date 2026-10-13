@@ -10,9 +10,9 @@ interface Props {
 }
 
 export default function FloatingButtons({
-  hotline = "0796768636",
-  zalo = "https://zalo.me/0796768636",
-  messenger = "https://m.me/2datickets",
+  hotline = "0988 123 456",
+  zalo = "https://zalo.me/0988123456",
+  messenger = "https://m.me/mocsalon.vietnam",
 }: Props) {
   const waNumber = `84${hotline.replace(/^0/, "")}`;
 

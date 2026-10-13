@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPublishedPosts } from "@/lib/db";
 
-const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://sulisalon.vn").replace(/\/$/, "");
+const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://mocsalon.vn").replace(/\/$/, "");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await getPublishedPosts();

@@ -144,7 +144,7 @@ export default function SettingsPage() {
                 icon="📞"
                 value={form.hotline}
                 onChange={(e) => set("hotline", e.target.value)}
-                placeholder="0796768636"
+                placeholder="0988 123 456"
                 helpText={`Hiển thị: ${form.hotline ? form.hotline.replace(/(\d{4})(\d{3})(\d{3,4})/, "$1.$2.$3") : "—"}`}
               />
               <FormInput
@@ -152,7 +152,7 @@ export default function SettingsPage() {
                 icon="📞"
                 value={form.hotline2}
                 onChange={(e) => set("hotline2", e.target.value)}
-                placeholder="0900000000"
+                placeholder="024 3988 8888"
               />
               <FormInput
                 label="Email"
@@ -160,21 +160,21 @@ export default function SettingsPage() {
                 icon="✉️"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
-                placeholder="info@example.com"
+                placeholder="contact@mocsalon.vn"
               />
               <FormInput
                 label="Giờ làm việc"
                 icon="🕐"
                 value={form.workingHours}
                 onChange={(e) => set("workingHours", e.target.value)}
-                placeholder="24/7"
+                placeholder="Thứ Hai – Thứ Bảy: 09:00 – 20:00, Chủ Nhật: 09:00 – 18:00"
               />
               <FormInput
                 label="Address"
                 icon="📍"
                 value={form.address}
                 onChange={(e) => set("address", e.target.value)}
-                placeholder="Cảng Sông Thu, dưới chân Cầu Trần Thị Lý, Đà Nẵng"
+                placeholder="Số 123 Phố Huế, Phường Hàng Bài, Quận Hoàn Kiếm, Hà Nội"
                 className={styles.fullWidth}
               />
             </div>
@@ -215,11 +215,11 @@ export default function SettingsPage() {
             <h3 className={styles.cardSectionTitle}>🌐 Social Media</h3>
             <div className={styles.formGrid}>
               {[
-                { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://www.facebook.com/2datickets" },
-                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://www.tiktok.com/@your-account" },
-                { key: "youtube", icon: "🔴", label: "YouTube", placeholder: "https://www.youtube.com/@2datickets" },
-                { key: "zalo", icon: "🔷", label: "Zalo", placeholder: "https://zalo.me/0796768636" },
-                { key: "instagram", icon: "🟣", label: "Instagram", placeholder: "https://www.instagram.com/..." },
+                { key: "facebook", icon: "🔵", label: "Facebook", placeholder: "https://facebook.com/mocsalon.vietnam" },
+                { key: "tiktok", icon: "⚫", label: "TikTok", placeholder: "https://tiktok.com/@mocsalon.official" },
+                { key: "youtube", icon: "🔴", label: "YouTube", placeholder: "https://youtube.com/@mocsalon" },
+                { key: "zalo", icon: "🔷", label: "Zalo", placeholder: "https://zalo.me/0988123456" },
+                { key: "instagram", icon: "🟣", label: "Instagram", placeholder: "https://instagram.com/mocsalon.official" },
               ].map(s => (
                 <div key={s.key} className={styles.formField}>
                   <label>{s.icon} {s.label}</label>
@@ -338,7 +338,7 @@ export default function SettingsPage() {
             <div className={sStyles.preview}>
               <div className={sStyles.previewTitle}>Preview kết quả Google</div>
               <div className={sStyles.seoPreview}>
-                <div className={sStyles.seoUrl}>sulisalon.vn</div>
+                <div className={sStyles.seoUrl}>mocsalon.vn</div>
                 <div className={sStyles.seoTitle}>{form.seoTitle || "Tiêu đề trang"}</div>
                 <div className={sStyles.seoDesc}>{form.seoDescription || "Mô tả trang..."}</div>
               </div>
@@ -354,7 +354,7 @@ export default function SettingsPage() {
               <div className={styles.formField}>
                 <label>Dòng bản quyền</label>
                 <input value={form.copyright} onChange={e => set("copyright", e.target.value)}
-                  placeholder="© 2026 Mộc Salon – Bảo lưu mọi quyền" />
+                  placeholder="© 2025 Mộc Salon – Bảo lưu mọi quyền" />
               </div>
 
               <div className={styles.formField}>
@@ -373,7 +373,7 @@ export default function SettingsPage() {
                         arr[i] = e.target.value;
                         set("footerTaglines", arr);
                       }}
-                      placeholder="✅ Ưu tiên view đẹp."
+                      placeholder="✨ Không gian thư giãn, phong cách mộc tự nhiên"
                       style={{ flex: 1, padding: "0.6rem 0.85rem", border: "1.5px solid rgba(194,169,121,0.15)", borderRadius: "12px", fontSize: "0.875rem", outline: "none", fontFamily: "inherit" }}
                     />
                     <button type="button"

@@ -176,18 +176,18 @@ async function main() {
 
   // ── 6. Settings ────────────────────────────
   const settings: Record<string, string> = {
-    siteName: "Mộc Salon – Luxury Nail Gallery",
-    tagline: "Premium Nail Care in Prague",
-    hotline: "+420 123 456 789",
-    email: "info@sulisalon.com",
-    address: "Náměstí Míru 12, Prague 2, Czech Republic",
-    workingHours: "Mon–Sat: 9:00–20:00, Sun: 10:00–18:00",
-    facebook: "https://facebook.com/sulisalon",
-    instagram: "https://instagram.com/sulisalon",
-    seoTitle: "Mộc Salon – Luxury Nail Gallery in Prague",
-    seoDescription: "Premium nail care, gel manicures, nail art, and pedicures in Prague. Book your appointment today at Mộc Salon.",
-    seoKeywords: "nail salon prague, gel nails, manicure, pedicure, nail art",
-    copyright: "© 2025 Mộc Salon – All rights reserved",
+    siteName: "Mộc Salon – Nghệ thuật móng tinh tế",
+    tagline: "Nghệ thuật móng tinh tế & Chăm sóc móng cao cấp",
+    hotline: "0988 123 456",
+    email: "contact@mocsalon.vn",
+    address: "Số 123 Phố Huế, Phường Hàng Bài, Quận Hoàn Kiếm, Hà Nội",
+    workingHours: "Thứ Hai – Thứ Bảy: 09:00 – 20:00, Chủ Nhật: 09:00 – 18:00",
+    facebook: "https://facebook.com/mocsalon.vietnam",
+    instagram: "https://instagram.com/mocsalon.official",
+    seoTitle: "Mộc Salon – Nghệ thuật móng tinh tế & Chăm sóc móng cao cấp",
+    seoDescription: "Dịch vụ chăm sóc móng cao cấp, sơn gel, nail art và pedicure. Đặt lịch ngay tại Mộc Salon.",
+    seoKeywords: "mộc salon, moc salon, nail salon, làm móng nghệ thuật, chăm sóc móng, sơn gel, nail art",
+    copyright: "© 2025 Mộc Salon – Bảo lưu mọi quyền",
   };
 
   for (const [key, value] of Object.entries(settings)) {

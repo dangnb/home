@@ -130,27 +130,27 @@ export interface SiteSettings {
 // ── Default Settings ─────────────────────────────
 const DEFAULT_SETTINGS: SiteSettings = {
   siteName: "Mộc Salon",
-  tagline: "Nghệ thuật móng tinh tế",
-  hotline: "+84 123 456 789",
-  hotline2: "",
-  email: "info@sulisalon.vn",
-  address: "Số 12 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
-  workingHours: "Thứ Hai – Thứ Bảy: 9:00–20:00, Chủ Nhật: 10:00–18:00",
-  facebook: "https://facebook.com/sulisalon",
-  tiktok: "",
+  tagline: "Nghệ thuật móng tinh tế & Chăm sóc móng cao cấp",
+  hotline: "0988 123 456",
+  hotline2: "024 3988 8888",
+  email: "contact@mocsalon.vn",
+  address: "Số 123 Phố Huế, Phường Hàng Bài, Quận Hoàn Kiếm, Hà Nội",
+  workingHours: "Thứ Hai – Thứ Bảy: 09:00 – 20:00, Chủ Nhật: 09:00 – 18:00",
+  facebook: "https://facebook.com/mocsalon.vietnam",
+  tiktok: "https://tiktok.com/@mocsalon.official",
   youtube: "",
-  zalo: "",
-  instagram: "https://instagram.com/sulisalon",
-  mapEmbedUrl: "",
-  mapLat: "50.0755",
-  mapLng: "14.4378",
-  seoTitle: "Mộc Salon – Nghệ thuật móng tinh tế",
-  seoDescription: "Dịch vụ chăm sóc móng cao cấp, sơn gel, nail art và pedicure. Đặt lịch ngay tại Mộc Salon.",
-  seoKeywords: "nail salon, chăm sóc móng, sơn gel, nail art, manicure, pedicure",
+  zalo: "https://zalo.me/0988123456",
+  instagram: "https://instagram.com/mocsalon.official",
+  mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.4854580214644!2d105.85023437596956!3d21.01325128830906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab8826555555%3A0x6b6e4e0b0e515d9!2zUGjhu5EgSHXhur8sIEhvw6BuIEtp4bq_bSwgSMOgIE7hu5lp!5e0!3m2!1svi!2svn!4v1710000000000!5m2!1svi!2svn",
+  mapLat: "21.0132",
+  mapLng: "105.8502",
+  seoTitle: "Mộc Salon – Nghệ thuật móng tinh tế & Chăm sóc móng cao cấp",
+  seoDescription: "Mộc Salon chuyên dịch vụ làm móng nghệ thuật, chăm sóc móng cao cấp, sơn gel, nail art và spa thư giãn. Đặt lịch ngay hôm nay.",
+  seoKeywords: "mộc salon, moc salon, làm móng nghệ thuật, nail salon hà nội, chăm sóc móng, sơn gel, nail art, pedicure",
   footerTaglines: [
-    "✨ Premium nail care experience",
-    "💅 Skilled nail artists",
-    "🌟 Quality products only",
+    "✨ Không gian thư giãn, phong cách mộc tự nhiên",
+    "💅 Chuyên viên tận tâm, kỹ thuật nail art chuẩn Nhật – Hàn",
+    "🌿 100% dụng cụ tiệt trùng y tế & sơn dưỡng chính hãng",
   ],
   copyright: "© 2025 Mộc Salon – Bảo lưu mọi quyền",
   departureSlots: [
@@ -158,18 +158,18 @@ const DEFAULT_SETTINGS: SiteSettings = {
     "14:00", "15:00", "16:00", "17:00", "18:00",
   ],
   bannerImage: "",
-  bannerBadge: "⭐ Được khách hàng yêu thích",
+  bannerBadge: "⭐ Không gian làm đẹp thư giãn hàng đầu",
   bannerTitle: "Mộc Salon\nNghệ thuật móng tinh tế",
-  bannerSubtitle: "Chăm sóc móng cao cấp, tôn vinh vẻ đẹp riêng của bạn",
+  bannerSubtitle: "Chăm sóc móng cao cấp, tôn vinh vẻ đẹp tự nhiên và phong cách riêng của bạn",
   bannerCta1Text: "Đặt lịch ngay",
   bannerCta1Link: "/booking",
   bannerCta2Text: "Khám phá dịch vụ ↓",
   bannerCta2Link: "#services",
   bannerStats: [
-    { value: "10+", label: "Dịch vụ" },
+    { value: "10+", label: "Dịch vụ cao cấp" },
     { value: "500+", label: "Khách hàng hài lòng" },
-    { value: "5★", label: "Đánh giá" },
-    { value: "7", label: "Ngày phục vụ" },
+    { value: "5★", label: "Đánh giá chất lượng" },
+    { value: "7", label: "Ngày phục vụ / tuần" },
   ],
   aboutHeadline: "Tỉ mỉ trong từng nét đẹp",
   aboutSubheadline: "Mộc Salon mang đến trải nghiệm chăm sóc móng chỉn chu, kết hợp kỹ thuật tinh tế với không gian thư giãn dành riêng cho bạn.",
@@ -177,7 +177,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   aboutImage2: "",
   aboutValues: [
     { title: "Tỉ mỉ", description: "Mỗi đường nét và bước chăm sóc đều được thực hiện cẩn trọng." },
-    { title: "Vệ sinh", description: "Dụng cụ được khử khuẩn kỹ lưỡng để bạn luôn an tâm." },
+    { title: "Vệ sinh", description: "Dụng cụ được khử khuẩn kỹ lưỡng chuẩn y khoa để bạn luôn an tâm." },
     { title: "Thư giãn", description: "Không gian nhẹ nhàng để bạn tận hưởng trọn vẹn thời gian làm đẹp." }
   ],
 };
@@ -486,6 +486,16 @@ export async function getSettings(): Promise<SiteSettings> {
   const settings = { ...DEFAULT_SETTINGS };
   for (const [key, value] of Object.entries(map)) {
     if (key in settings) {
+      const lowerVal = typeof value === "string" ? value.toLowerCase() : "";
+      if (
+        lowerVal.includes("suli") ||
+        lowerVal.includes("duthuyen") ||
+        lowerVal.includes("songhan") ||
+        lowerVal.includes("2da tickets") ||
+        lowerVal.includes("sông thu")
+      ) {
+        continue;
+      }
       const defaultVal = (settings as Record<string, unknown>)[key];
       if (Array.isArray(defaultVal)) {
         (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);

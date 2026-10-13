@@ -21,14 +21,14 @@ export const revalidate = 300; // Khách xem web sẽ tải bản cache tĩnh (s
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sulisalon.vn"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://mocsalon.vn"),
     title: s.seoTitle,
     description: s.seoDescription,
     keywords: s.seoKeywords,
     openGraph: {
       title: s.seoTitle,
       description: s.seoDescription,
-      url: process.env.NEXT_PUBLIC_SITE_URL || "https://sulisalon.vn",
+      url: process.env.NEXT_PUBLIC_SITE_URL || "https://mocsalon.vn",
       siteName: s.siteName,
       locale: "vi_VN",
       type: "website",
@@ -44,7 +44,7 @@ export default async function RootLayout({
   const s = await getSettings();
 
   return (
-    <html lang="vi" suppressHydrationWarning>
+    <html lang="vi" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className={`${montserrat.variable} ${marcellus.variable} ${playfairDisplay.variable} font-sans bg-background text-on-background`} suppressHydrationWarning>
         <NextTopLoader color="var(--primary)" height={3} showSpinner={false} />
         <Preloader>
