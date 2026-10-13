@@ -492,7 +492,10 @@ export async function getSettings(): Promise<SiteSettings> {
         lowerVal.includes("duthuyen") ||
         lowerVal.includes("songhan") ||
         lowerVal.includes("2da tickets") ||
-        lowerVal.includes("sông thu")
+        lowerVal.includes("sông thu") ||
+        lowerVal.includes("prague") ||
+        lowerVal.includes("náměstí") ||
+        lowerVal.includes("czech")
       ) {
         continue;
       }

@@ -253,7 +253,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         ref={descRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.7, color: "#6B6B6B", maxWidth: 440, marginBottom: 40, transition: "transform .12s ease-out" }}
                     >
-                        {settings.bannerSubtitle || "High-quality products, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague."}
+                        {settings.bannerSubtitle || "Sản phẩm cao cấp, kỹ thuật viên chuyên nghiệp và sự tỉ mỉ trong từng chi tiết. Trải nghiệm nghệ thuật làm móng tinh tế tại Mộc Salon."}
                     </p>
                     <a href={settings.bannerCta1Link || "/services"}>
                         <button
@@ -517,7 +517,7 @@ function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
                         Nail Art Gallery
                     </h2>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#999" }}>
-                        Luxury Nail Gallery in Prague
+                        Bộ Sưu Tập Móng Nghệ Thuật – Mộc Salon
                     </p>
                 </div>
 

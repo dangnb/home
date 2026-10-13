@@ -50,7 +50,7 @@ export default function GalleryPreview() {
       <div className="max-w-container-max mx-auto">
         <div className="text-center mb-20">
           <h2 className="font-headline-md text-display-lg text-primary italic mb-2">Mộc Salon</h2>
-          <p className="font-label-caps text-label-caps text-secondary tracking-widest uppercase">Luxury Nail Gallery in Prague</p>
+          <p className="font-label-caps text-label-caps text-secondary tracking-widest uppercase">Bộ Sưu Tập Móng Nghệ Thuật – Mộc Salon</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[300px]">
           <GalleryTile image={images[0]} className="row-span-2" sizes={smallTileSizes} />

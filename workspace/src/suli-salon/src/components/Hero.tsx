@@ -30,7 +30,7 @@ export default function Hero() {
           <span className="font-label-caps text-label-caps text-primary mb-4 block">PREMIUM EXPERIENCE</span>
           <h1 className="font-display-lg text-display-lg lg:text-[72px] leading-tight mb-6 hero-parallax" id="hero-title">Precision Nail Care</h1>
           <p className="font-body-lg text-body-lg text-secondary max-w-lg mb-10 hero-parallax" id="hero-desc">
-            High-quality products, skilled technicians, and attention to detail. Experience the pinnacle of nail artistry in the heart of Prague.
+            Sản phẩm cao cấp, kỹ thuật viên chuyên nghiệp và sự tỉ mỉ trong từng chi tiết. Trải nghiệm nghệ thuật làm móng tinh tế tại Mộc Salon.
           </p>
           <div className="flex gap-4">
             <Link href="/services">

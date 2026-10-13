@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { setupReveal } from "@/lib/animations";
 import { MdArrowForward } from "react-icons/md";
@@ -14,7 +14,7 @@ export default function ServicesPreview() {
       <div className="max-w-container-max mx-auto">
         <div className="mb-16 reveal">
           <span className="font-label-caps text-label-caps text-primary uppercase block mb-2">Mộc Salon</span>
-          <h2 className="font-display-lg text-display-lg max-w-2xl">Professional Manicure & Pedicure in Prague</h2>
+          <h2 className="font-display-lg text-display-lg max-w-2xl">Dịch Vụ Chăm Sóc Móng & Nail Art Chuyên Nghiệp</h2>
           <div className="w-24 h-1 bg-primary mt-6"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
