@@ -122,6 +122,8 @@ export interface SiteSettings {
   bannerStats: { value: string; label: string }[];
   aboutHeadline: string;
   aboutSubheadline: string;
+  aboutImage1: string;
+  aboutImage2: string;
   aboutValues: { title: string; description: string }[];
 }
 
@@ -171,6 +173,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   ],
   aboutHeadline: "Tỉ mỉ trong từng nét đẹp",
   aboutSubheadline: "Mộc Salon mang đến trải nghiệm chăm sóc móng chỉn chu, kết hợp kỹ thuật tinh tế với không gian thư giãn dành riêng cho bạn.",
+  aboutImage1: "",
+  aboutImage2: "",
   aboutValues: [
     { title: "Tỉ mỉ", description: "Mỗi đường nét và bước chăm sóc đều được thực hiện cẩn trọng." },
     { title: "Vệ sinh", description: "Dụng cụ được khử khuẩn kỹ lưỡng để bạn luôn an tâm." },
