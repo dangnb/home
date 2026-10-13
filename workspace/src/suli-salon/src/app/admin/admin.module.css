@@ -44,7 +44,7 @@
   padding: 26px 22px 21px;
   border-bottom: 1px solid rgba(226, 207, 173, .1);
 }
-.logoText { color: #f7e4ba; font-family: 'Playfair Display', Georgia, serif; font-size: 19px; font-weight: 700; font-style: italic; line-height: 1.1; }
+.logoText { color: #f7e4ba; font-family: var(--font-playfair), Georgia, serif; font-size: 19px; font-weight: 700; font-style: italic; line-height: 1.1; }
 .logoSub { color: #cdbb94; font-size: 11px; font-weight: 700; letter-spacing: .12em; margin-top: 5px; text-transform: uppercase; }
 .sidebarNav { flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 20px 14px; }
 .navSection { padding: 0 11px 10px; color: #b8a885; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
@@ -64,7 +64,7 @@
 /* Main layout */
 .adminMain { flex: 1; min-width: 0; max-width: calc(100vw - 272px); padding: 42px clamp(24px, 4vw, 58px) 58px; }
 .pageHeader { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin: 0 0 28px; }
-.pageTitle { margin: 0; color: var(--admin-ink); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(28px, 3vw, 35px); font-weight: 700; letter-spacing: -.018em; line-height: 1.14; }
+.pageTitle { margin: 0; color: var(--admin-ink); font-family: var(--font-playfair), Georgia, serif; font-size: clamp(28px, 3vw, 35px); font-weight: 700; letter-spacing: -.018em; line-height: 1.14; }
 .pageSubtitle { margin: 8px 0 0; color: var(--admin-supporting); font-size: 14px; font-weight: 500; line-height: 1.6; }
 .pageActions, .actionGroup { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
@@ -76,12 +76,12 @@
 .statIconWrap { z-index: 1; display: grid; width: 48px; height: 48px; place-items: center; border-radius: 15px; background: var(--stat-bg, var(--admin-soft)); color: var(--stat-color, var(--admin-gold-deep)); }
 .statIcon { font-size: 21px; }
 .statLabel { display: block; margin-bottom: 5px; color: var(--admin-label); font-size: 11px; font-weight: 750; letter-spacing: .065em; line-height: 1.25; text-transform: uppercase; }
-.statValue { color: var(--admin-ink); font-family: 'Playfair Display', Georgia, serif; font-size: 29px; font-weight: 700; line-height: 1.05; }
+.statValue { color: var(--admin-ink); font-family: var(--font-playfair), Georgia, serif; font-size: 29px; font-weight: 700; line-height: 1.05; }
 
 .tableCard, .formCard, .sectionCard { overflow: hidden; border: 1px solid var(--admin-line); border-radius: 20px; background: rgba(255, 253, 249, .91); box-shadow: 0 12px 36px rgba(65, 45, 27, .05); }
 .formCard, .sectionCard { padding: clamp(20px, 3vw, 30px); }
 .tableHeader { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 18px 22px; border-bottom: 1px solid var(--admin-line); background: linear-gradient(105deg, rgba(250, 246, 239, .88), rgba(255, 253, 249, .92)); }
-.tableTitle, .cardSectionTitle { color: var(--admin-ink); font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; }
+.tableTitle, .cardSectionTitle { color: var(--admin-ink); font-family: var(--font-playfair), Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; }
 .cardSectionTitle { margin: 0 0 22px; padding-bottom: 14px; border-bottom: 1px solid var(--admin-line); }
 .tableWrap { width: 100%; overflow-x: auto; }
 .dataTable { width: 100%; min-width: 680px; border-collapse: collapse; text-align: left; }
@@ -134,7 +134,7 @@
   .sidebar { position: fixed; left: 0; top: 0; width: min(300px, 84vw); transform: translateX(-103%); transition: transform .28s cubic-bezier(.2,.8,.2,1); box-shadow: 18px 0 60px rgba(25, 17, 11, .32); }
   .sidebarOpen { transform: translateX(0); }
   .mobileBar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; min-height: 66px; padding: 0 20px; border-bottom: 1px solid var(--admin-line); background: rgba(255, 253, 249, .86); backdrop-filter: blur(16px); }
-  .mobileBrand { display: flex; align-items: center; gap: 9px; color: var(--admin-ink); font-family: 'Playfair Display', Georgia, serif; font-size: 19px; font-weight: 700; font-style: italic; line-height: 1.1; }
+  .mobileBrand { display: flex; align-items: center; gap: 9px; color: var(--admin-ink); font-family: var(--font-playfair), Georgia, serif; font-size: 19px; font-weight: 700; font-style: italic; line-height: 1.1; }
   .mobileMenuButton { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--admin-line); border-radius: 12px; background: #fffdf9; color: var(--admin-ink); cursor: pointer; }
   .mobileBackdrop { position: fixed; inset: 0; z-index: 25; display: block; background: rgba(38, 29, 21, .38); backdrop-filter: blur(2px); }
   .adminMain { max-width: none; padding: 27px 18px 42px; }

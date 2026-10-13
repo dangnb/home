@@ -42,10 +42,8 @@ const mockServices: Record<string, ServiceItem[]> = {
   ],
 };
 
-function getInitialCategory(categoryId: string | null) {
-  return categories.some((category) => category.id === categoryId)
-    ? categoryId
-    : "nails";
+function getInitialCategory(categoryId: string | null): string {
+  return categories.find((category) => category.id === categoryId)?.id ?? "nails";
 }
 
 function ServicesContent({ initialCategory }: { initialCategory: string }) {
