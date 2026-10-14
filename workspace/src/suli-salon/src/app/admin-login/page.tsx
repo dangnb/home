@@ -44,7 +44,7 @@ export default function AdminLogin() {
     if (res?.ok) {
       try {
         if (rememberMe) {
-          localStorage.setItem("moc_admin_email", email);
+          localStorage.setItem("moc_admin_email", email.trim());
           localStorage.setItem("moc_admin_password", password);
           localStorage.setItem("moc_admin_remember", "true");
         } else {
@@ -58,10 +58,20 @@ export default function AdminLogin() {
       router.push("/admin");
       router.refresh();
     } else {
-      setError(res?.error ?? "Đăng nhập thất bại");
+      const err = res?.error;
+      if (!err || err === "CredentialsSignin") {
+        setError("Mật khẩu không chính xác hoặc tài khoản không tồn tại. Vui lòng kiểm tra lại!");
+      } else if (err === "AccessDenied") {
+        setError("Tài khoản của bạn không có quyền truy cập vào cổng quản trị.");
+      } else {
+        setError(err);
+      }
     }
     setLoading(false);
   }
+
+  const isPasswordError = Boolean(error && (error.toLowerCase().includes("mật khẩu") || error.toLowerCase().includes("tài khoản")));
+  const isEmailError = Boolean(error && (error.toLowerCase().includes("email") || error.toLowerCase().includes("tài khoản")));
 
   return (
     <div className={styles.wrapper}>
@@ -104,13 +114,17 @@ export default function AdminLogin() {
             <input
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => {
+                setEmail(e.target.value);
+                if (error) setError("");
+              }}
               onFocus={() => setFocused("email")}
               onBlur={() => setFocused(null)}
               placeholder="admin@example.com"
               required
               autoComplete="username"
               autoFocus
+              className={isEmailError ? styles.inputError : ""}
             />
           </div>
 
@@ -126,13 +140,16 @@ export default function AdminLogin() {
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => {
+                  setPassword(e.target.value);
+                  if (error) setError("");
+                }}
                 onFocus={() => setFocused("password")}
                 onBlur={() => setFocused(null)}
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
-                className={styles.passwordInput}
+                className={`${styles.passwordInput} ${isPasswordError ? styles.inputError : ""}`}
               />
               <button
                 type="button"
@@ -180,13 +197,13 @@ export default function AdminLogin() {
           </div>
 
           {error && (
-            <div className={styles.error}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className={styles.error} role="alert">
+              <svg className={styles.errorIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
               </svg>
-              {error}
+              <span>{error}</span>
             </div>
           )}
 

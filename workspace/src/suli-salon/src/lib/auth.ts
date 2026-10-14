@@ -15,16 +15,28 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Vui lòng nhập đầy đủ email và mật khẩu.");
+        }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+        const email = credentials.email.trim();
+        const user = await prisma.user.findFirst({
+          where: {
+            email: {
+              equals: email,
+              mode: "insensitive",
+            },
+          },
         });
 
-        if (!user) return null;
+        if (!user) {
+          throw new Error("Tài khoản email này không tồn tại trong hệ thống.");
+        }
 
         const isValid = await compare(credentials.password, user.password);
-        if (!isValid) return null;
+        if (!isValid) {
+          throw new Error("Mật khẩu không chính xác. Vui lòng kiểm tra lại!");
+        }
 
         return {
           id: user.id,
