@@ -219,6 +219,113 @@
   opacity: 1;
 }
 
+/* ── Password Input & Toggle ──────────────────── */
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: 48px !important;
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #c7b48b;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0;
+  transition: color 0.2s, background-color 0.2s, transform 0.15s;
+}
+
+.togglePasswordBtn:hover {
+  color: #f0d7a4;
+  background-color: rgba(194, 169, 121, 0.12);
+}
+
+.togglePasswordBtn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+/* ── Remember Section ─────────────────────────── */
+.rememberSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: -4px 0 2px;
+}
+
+.rememberLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  color: #c9c1b5;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.rememberLabel:hover {
+  color: #f0d7a4;
+}
+
+.rememberCheckbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.customCheckmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(194, 169, 121, 0.35);
+  background: rgba(194, 169, 121, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C2A979;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.rememberCheckbox:focus-visible + .customCheckmark {
+  outline: 2px solid #C2A979;
+  outline-offset: 2px;
+}
+
+.rememberLabel:hover .customCheckmark {
+  border-color: #C2A979;
+  background: rgba(194, 169, 121, 0.12);
+}
+
+.customCheckmarkChecked {
+  border-color: #C2A979;
+  background: rgba(194, 169, 121, 0.2);
+  box-shadow: 0 0 10px rgba(194, 169, 121, 0.25);
+}
+
+.rememberText {
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
 /* ── Error ────────────────────────────────────── */
 .error {
   display: flex;
