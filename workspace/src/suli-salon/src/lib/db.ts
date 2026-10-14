@@ -132,7 +132,7 @@ export interface SiteSettings {
   popupContent: string;
   popupCtaText: string;
   popupCtaLink: string;
-  popupDismissType: "daily" | "session" | "always";
+  popupDismissType: "daily" | "session" | "always" | "until_change";
 }
 
 // ── Default Settings ─────────────────────────────
@@ -609,7 +609,7 @@ export async function getSettings(): Promise<SiteSettings> {
       }
       const defaultVal = (settings as Record<string, unknown>)[key];
       if (typeof defaultVal === "boolean") {
-        (settings as Record<string, unknown>)[key] = value === "true" || value === "1";
+        (settings as Record<string, unknown>)[key] = value === "true" || value === "1" || (value as unknown) === true;
       } else if (Array.isArray(defaultVal)) {
         (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);
       } else {

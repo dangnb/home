@@ -675,15 +675,16 @@ function ServiceDetailModal({
             style={{
                 position: "fixed",
                 inset: 0,
-                zIndex: 350,
-                backgroundColor: "rgba(20, 18, 15, 0.82)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
+                zIndex: 10000,
+                backgroundColor: "rgba(23, 19, 16, 0.72)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "20px 16px",
                 overflowY: "auto",
+                animation: "serviceModalBackdropFade 0.3s ease-out forwards",
             }}
         >
             <div
@@ -693,59 +694,76 @@ function ServiceDetailModal({
                 style={{
                     position: "relative",
                     width: "100%",
-                    maxWidth: 860,
-                    backgroundColor: "#FDFBF7",
-                    borderRadius: 12,
-                    border: "1px solid rgba(194, 169, 121, 0.4)",
-                    boxShadow: "0 28px 70px rgba(0,0,0,0.45)",
+                    maxWidth: 880,
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #FAF7F2 100%)",
+                    borderRadius: 20,
+                    border: "1px solid rgba(194, 169, 121, 0.32)",
+                    boxShadow: "0 28px 70px -15px rgba(28, 22, 17, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.8) inset",
                     overflow: "hidden",
                     display: "grid",
-                    gridTemplateColumns: "1fr 1.15fr",
-                    maxHeight: "min(92vh, 760px)",
+                    gridTemplateColumns: "1fr 1.18fr",
+                    maxHeight: "min(90vh, 760px)",
                     margin: "auto",
+                    animation: "serviceModalCardSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
-                {/* Close Button */}
+                {/* Top Subtle Accent Line */}
+                <div
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 3,
+                        background: "linear-gradient(90deg, transparent, #C2A979 25%, #E7D7AF 50%, #C2A979 75%, transparent)",
+                        zIndex: 15,
+                    }}
+                />
+
+                {/* Minimalist Close Button */}
                 <button
                     type="button"
                     onClick={onClose}
                     aria-label={isEn ? "Close modal" : "Đóng cửa sổ"}
                     style={{
                         position: "absolute",
-                        top: 14,
-                        right: 14,
-                        zIndex: 10,
-                        width: 36,
-                        height: 36,
+                        top: 16,
+                        right: 16,
+                        zIndex: 20,
+                        width: 34,
+                        height: 34,
                         borderRadius: "50%",
-                        backgroundColor: "rgba(46, 46, 46, 0.8)",
-                        color: "#fff",
-                        border: "1px solid rgba(255,255,255,0.2)",
+                        backgroundColor: "rgba(194, 169, 121, 0.08)",
+                        color: "#857567",
+                        border: "1px solid rgba(194, 169, 121, 0.22)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: 18,
+                        fontSize: 13,
                         cursor: "pointer",
-                        transition: "all 0.25s ease",
+                        transition: "all 0.2s ease",
                     }}
                     onMouseOver={(e) => {
-                        e.currentTarget.style.backgroundColor = "#C2A979";
-                        e.currentTarget.style.color = "#2E2E2E";
+                        e.currentTarget.style.backgroundColor = "rgba(194, 169, 121, 0.2)";
+                        e.currentTarget.style.color = "#231B15";
+                        e.currentTarget.style.transform = "scale(1.08)";
                     }}
                     onMouseOut={(e) => {
-                        e.currentTarget.style.backgroundColor = "rgba(46, 46, 46, 0.8)";
-                        e.currentTarget.style.color = "#fff";
+                        e.currentTarget.style.backgroundColor = "rgba(194, 169, 121, 0.08)";
+                        e.currentTarget.style.color = "#857567";
+                        e.currentTarget.style.transform = "scale(1)";
                     }}
                 >
                     ✕
                 </button>
 
-                {/* Left Column: Image & Badges */}
+                {/* Left Column: Editorial Photo Showcase */}
                 <div
+                    className="service-detail-modal-image-col"
                     style={{
                         position: "relative",
-                        minHeight: 280,
-                        backgroundColor: "#181715",
+                        minHeight: 320,
+                        backgroundColor: "#1D1916",
                         overflow: "hidden",
                     }}
                 >
@@ -766,21 +784,24 @@ function ServiceDetailModal({
                             }
                         }}
                     />
+                    {/* Soft atmospheric gradient */}
                     <div
                         style={{
                             position: "absolute",
                             inset: 0,
-                            background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.85) 100%)",
+                            background: "linear-gradient(to bottom, rgba(23, 19, 16, 0.25) 0%, transparent 45%, rgba(23, 19, 16, 0.8) 100%)",
                         }}
                     />
+
+                    {/* Brand & Promo Badge */}
                     <div
                         style={{
                             position: "absolute",
-                            top: 16,
-                            left: 16,
+                            top: 18,
+                            left: 18,
                             display: "flex",
                             flexDirection: "column",
-                            gap: 6,
+                            gap: 8,
                             zIndex: 2,
                         }}
                     >
@@ -790,16 +811,17 @@ function ServiceDetailModal({
                                 alignItems: "center",
                                 gap: 6,
                                 padding: "4px 12px",
-                                borderRadius: 30,
-                                backgroundColor: "rgba(253, 251, 247, 0.92)",
-                                color: "#2E2E2E",
+                                borderRadius: 20,
+                                backgroundColor: "rgba(255, 255, 255, 0.92)",
+                                color: "#2E241E",
                                 fontFamily: "Montserrat, sans-serif",
                                 fontSize: 10,
                                 fontWeight: 700,
-                                letterSpacing: "0.1em",
+                                letterSpacing: "0.12em",
                                 textTransform: "uppercase",
-                                backdropFilter: "blur(4px)",
-                                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                                backdropFilter: "blur(6px)",
+                                border: "1px solid rgba(194, 169, 121, 0.35)",
+                                boxShadow: "0 2px 10px rgba(0,0,0,0.12)",
                             }}
                         >
                             <span style={{ color: "#C2A979" }}>✦</span>
@@ -810,35 +832,39 @@ function ServiceDetailModal({
                                 style={{
                                     display: "inline-flex",
                                     alignItems: "center",
-                                    gap: 4,
-                                    padding: "4px 10px",
-                                    borderRadius: 30,
-                                    background: "#be123c",
-                                    color: "#fff",
+                                    gap: 5,
+                                    padding: "4px 11px",
+                                    borderRadius: 20,
+                                    background: "rgba(139, 38, 53, 0.92)",
+                                    color: "#FFFFFF",
                                     fontFamily: "Montserrat, sans-serif",
-                                    fontSize: 10,
+                                    fontSize: 9.5,
                                     fontWeight: 700,
-                                    letterSpacing: "0.08em",
+                                    letterSpacing: "0.1em",
                                     textTransform: "uppercase",
+                                    backdropFilter: "blur(6px)",
+                                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                                    boxShadow: "0 2px 10px rgba(139, 38, 53, 0.35)",
                                 }}
                             >
-                                🔥 {isEn ? "SPECIAL PROMO" : "ƯU ĐÃI NỔI BẬT"}
+                                <span>✦</span>
+                                <span>{isEn ? "EXCLUSIVE PRIVILEGE" : "ĐẶC QUYỀN ƯU ĐÃI"}</span>
                             </span>
                         )}
                     </div>
 
+                    {/* Bottom Metadata Badges */}
                     <div
                         style={{
                             position: "absolute",
-                            bottom: 16,
-                            left: 16,
-                            right: 16,
+                            bottom: 18,
+                            left: 18,
+                            right: 18,
                             display: "flex",
                             alignItems: "center",
-                            gap: 10,
-                            color: "#fff",
-                            fontFamily: "Montserrat, sans-serif",
-                            fontSize: 12,
+                            gap: 8,
+                            flexWrap: "wrap",
+                            zIndex: 2,
                         }}
                     >
                         <span
@@ -846,163 +872,207 @@ function ServiceDetailModal({
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 6,
-                                background: "rgba(0,0,0,0.6)",
+                                background: "rgba(23, 19, 16, 0.72)",
+                                backdropFilter: "blur(6px)",
+                                WebkitBackdropFilter: "blur(6px)",
                                 padding: "6px 12px",
-                                borderRadius: 6,
-                                border: "1px solid rgba(194, 169, 121, 0.3)",
+                                borderRadius: 20,
+                                border: "1px solid rgba(194, 169, 121, 0.32)",
+                                color: "#F3ECE1",
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 11.5,
+                                fontWeight: 500,
                             }}
                         >
-                            ⏱ {service.duration || 60} {isEn ? "mins" : "phút"}
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            <span>{service.duration || 60} {isEn ? "mins" : "phút"}</span>
                         </span>
                         <span
                             style={{
                                 display: "inline-flex",
                                 alignItems: "center",
                                 gap: 6,
-                                background: "rgba(0,0,0,0.6)",
+                                background: "rgba(23, 19, 16, 0.72)",
+                                backdropFilter: "blur(6px)",
+                                WebkitBackdropFilter: "blur(6px)",
                                 padding: "6px 12px",
-                                borderRadius: 6,
-                                border: "1px solid rgba(194, 169, 121, 0.3)",
+                                borderRadius: 20,
+                                border: "1px solid rgba(194, 169, 121, 0.32)",
+                                color: "#F3ECE1",
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 11.5,
+                                fontWeight: 500,
                             }}
                         >
-                            ✦ {isEn ? "Autoclave Sterilized" : "Vô trùng y khoa"}
+                            <span style={{ color: "#C2A979" }}>✦</span>
+                            <span>{isEn ? "Autoclave Sterilized" : "Vô trùng y khoa"}</span>
                         </span>
                     </div>
                 </div>
 
                 {/* Right Column: Detailed Info & Actions */}
                 <div
+                    className="service-detail-modal-info-col"
                     style={{
-                        padding: "36px 32px 32px",
+                        padding: "32px 36px 30px 32px",
                         display: "flex",
                         flexDirection: "column",
                         overflowY: "auto",
                         boxSizing: "border-box",
                     }}
                 >
-                    <div style={{ marginBottom: 16 }}>
+                    <div style={{ marginBottom: 14 }}>
                         <div
                             style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 5,
                                 fontFamily: "Montserrat, sans-serif",
-                                fontSize: 11,
+                                fontSize: 10.5,
                                 fontWeight: 700,
-                                letterSpacing: "0.16em",
+                                letterSpacing: "0.14em",
                                 textTransform: "uppercase",
-                                color: "#C2A979",
+                                color: "#967840",
                                 marginBottom: 6,
                             }}
                         >
-                            {isEn ? "EXCLUSIVE TREATMENT" : "DỊCH VỤ ĐẶC TRƯNG"}
+                            <span>✦</span>
+                            <span>{isEn ? "EXCLUSIVE TREATMENT" : "DỊCH VỤ ĐẶC TRƯNG"}</span>
                         </div>
                         <h2
                             id="service-modal-title"
                             style={{
-                                fontFamily: "'Playfair Display', serif",
-                                fontSize: "clamp(22px, 2.5vw, 28px)",
+                                fontFamily: "'Playfair Display', Georgia, serif",
+                                fontSize: "clamp(22px, 2.4vw, 26px)",
+                                fontStyle: "italic",
                                 fontWeight: 700,
-                                color: "#2E2E2E",
-                                margin: 0,
-                                lineHeight: 1.25,
+                                color: "#231B15",
+                                margin: "2px 0 0",
+                                lineHeight: 1.3,
                             }}
                         >
                             {title}
                         </h2>
                     </div>
 
-                    {/* Price banner */}
+                    {/* Hairline Divider */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 18px" }}>
+                        <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, rgba(194, 169, 121, 0.35), transparent)" }} />
+                        <span style={{ color: "#C2A979", fontSize: 9, opacity: 0.8 }}>✦</span>
+                        <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(194, 169, 121, 0.35))" }} />
+                    </div>
+
+                    {/* Luxury Price Card */}
                     <div
                         style={{
                             display: "flex",
-                            alignItems: "baseline",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            flexWrap: "wrap",
                             gap: 12,
-                            padding: "14px 18px",
-                            backgroundColor: "#F7F3EB",
-                            borderRadius: 8,
-                            border: "1px solid rgba(194, 169, 121, 0.3)",
+                            padding: "13px 18px",
+                            backgroundColor: "rgba(194, 169, 121, 0.08)",
+                            borderRadius: 10,
+                            border: "1px solid rgba(194, 169, 121, 0.25)",
                             marginBottom: 20,
                         }}
                     >
-                        {promoPrice ? (
-                            <>
-                                <span
-                                    style={{
-                                        fontFamily: "'Playfair Display', serif",
-                                        fontSize: 26,
-                                        fontWeight: 700,
-                                        color: "#C2A979",
-                                    }}
-                                >
-                                    {promoPrice}
-                                </span>
-                                <span
-                                    style={{
-                                        fontFamily: "Montserrat, sans-serif",
-                                        fontSize: 14,
-                                        color: "#999",
-                                        textDecoration: "line-through",
-                                    }}
-                                >
-                                    {price}
-                                </span>
-                                <span
-                                    style={{
-                                        marginLeft: "auto",
-                                        fontFamily: "Montserrat, sans-serif",
-                                        fontSize: 11,
-                                        fontWeight: 700,
-                                        color: "#be123c",
-                                        textTransform: "uppercase",
-                                    }}
-                                >
-                                    {isEn ? "Special offer" : "Giá ưu đãi"}
-                                </span>
-                            </>
-                        ) : (
-                            <>
-                                <span
-                                    style={{
-                                        fontFamily: "'Playfair Display', serif",
-                                        fontSize: 26,
-                                        fontWeight: 700,
-                                        color: "#C2A979",
-                                    }}
-                                >
-                                    {price}
-                                </span>
-                                <span
-                                    style={{
-                                        fontFamily: "Montserrat, sans-serif",
-                                        fontSize: 12,
-                                        color: "#777",
-                                    }}
-                                >
-                                    {isEn ? "/ session (full treatment)" : "/ liệu trình trọn gói"}
-                                </span>
-                            </>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                            {promoPrice ? (
+                                <>
+                                    <span
+                                        style={{
+                                            fontFamily: "'Playfair Display', Georgia, serif",
+                                            fontSize: 25,
+                                            fontWeight: 700,
+                                            color: "#967840",
+                                        }}
+                                    >
+                                        {promoPrice}
+                                    </span>
+                                    <span
+                                        style={{
+                                            fontFamily: "Montserrat, sans-serif",
+                                            fontSize: 13.5,
+                                            color: "#A39282",
+                                            textDecoration: "line-through",
+                                        }}
+                                    >
+                                        {price}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <span
+                                        style={{
+                                            fontFamily: "'Playfair Display', Georgia, serif",
+                                            fontSize: 25,
+                                            fontWeight: 700,
+                                            color: "#967840",
+                                        }}
+                                    >
+                                        {price}
+                                    </span>
+                                    <span
+                                        style={{
+                                            fontFamily: "Montserrat, sans-serif",
+                                            fontSize: 12,
+                                            color: "#857567",
+                                        }}
+                                    >
+                                        {isEn ? "/ full treatment" : "/ liệu trình trọn gói"}
+                                    </span>
+                                </>
+                            )}
+                        </div>
+
+                        {promoPrice && (
+                            <span
+                                style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 4,
+                                    padding: "3px 10px",
+                                    borderRadius: 14,
+                                    backgroundColor: "rgba(139, 38, 53, 0.1)",
+                                    border: "1px solid rgba(139, 38, 53, 0.25)",
+                                    fontFamily: "Montserrat, sans-serif",
+                                    fontSize: 10.5,
+                                    fontWeight: 700,
+                                    color: "#7A1C2A",
+                                    letterSpacing: "0.06em",
+                                    textTransform: "uppercase",
+                                }}
+                            >
+                                ✦ {isEn ? "Special Offer" : "Giá ưu đãi"}
+                            </span>
                         )}
                     </div>
 
                     {/* Description */}
-                    <div style={{ marginBottom: 24 }}>
+                    <div style={{ marginBottom: 20 }}>
                         <div
                             style={{
                                 fontFamily: "Montserrat, sans-serif",
-                                fontSize: 11,
+                                fontSize: 10.5,
                                 fontWeight: 700,
-                                letterSpacing: "0.1em",
+                                letterSpacing: "0.12em",
                                 textTransform: "uppercase",
-                                color: "#666",
-                                marginBottom: 8,
+                                color: "#857567",
+                                marginBottom: 7,
                             }}
                         >
-                            {isEn ? "Treatment Details" : "Mô tả chi tiết"}
+                            {isEn ? "TREATMENT DETAILS" : "CHI TIẾT LIỆU TRÌNH"}
                         </div>
                         <p
                             style={{
                                 fontFamily: "Montserrat, sans-serif",
-                                fontSize: 13.5,
-                                lineHeight: 1.7,
-                                color: "#555",
+                                fontSize: 13,
+                                lineHeight: 1.75,
+                                color: "#54493F",
                                 margin: 0,
                                 whiteSpace: "pre-line",
                             }}
@@ -1011,29 +1081,26 @@ function ServiceDetailModal({
                         </p>
                     </div>
 
-                    {/* Features checklist */}
-                    <div style={{ marginBottom: 28 }}>
+                    {/* Salon Standards Checklist */}
+                    <div style={{ marginBottom: 24 }}>
                         <div
                             style={{
                                 fontFamily: "Montserrat, sans-serif",
-                                fontSize: 11,
+                                fontSize: 10.5,
                                 fontWeight: 700,
-                                letterSpacing: "0.1em",
+                                letterSpacing: "0.12em",
                                 textTransform: "uppercase",
-                                color: "#666",
+                                color: "#857567",
                                 marginBottom: 10,
                             }}
                         >
-                            {isEn ? "Salon Standards & Care" : "Cam kết tại Mộc Salon"}
+                            {isEn ? "SALON STANDARDS & CARE" : "CAM KẾT TẠI MỘC SALON"}
                         </div>
-                        <ul
+                        <div
                             style={{
-                                listStyle: "none",
-                                padding: 0,
-                                margin: 0,
                                 display: "grid",
                                 gridTemplateColumns: "1fr",
-                                gap: 8,
+                                gap: 7,
                             }}
                         >
                             {[
@@ -1042,22 +1109,23 @@ function ServiceDetailModal({
                                 isEn ? "Complimentary herbal tea, light refreshments & relaxing spa vibe" : "Thưởng thức trà thảo mộc & không gian thư giãn phong cách Mộc",
                                 isEn ? "7-day complimentary nail guarantee & aftercare consultation" : "Bảo hành móng 7 ngày & tư vấn chăm sóc móng tại nhà miễn phí",
                             ].map((feat, idx) => (
-                                <li
+                                <div
                                     key={idx}
                                     style={{
                                         display: "flex",
-                                        alignItems: "center",
-                                        gap: 10,
+                                        alignItems: "flex-start",
+                                        gap: 9,
                                         fontFamily: "Montserrat, sans-serif",
-                                        fontSize: 12.5,
-                                        color: "#444",
+                                        fontSize: 12,
+                                        lineHeight: 1.55,
+                                        color: "#4A3F35",
                                     }}
                                 >
-                                    <span style={{ color: "#C2A979", fontWeight: "bold" }}>✓</span>
+                                    <span style={{ color: "#C2A979", fontSize: 11, marginTop: 1, flexShrink: 0 }}>✦</span>
                                     <span>{feat}</span>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
 
                     {/* Actions */}
@@ -1066,7 +1134,7 @@ function ServiceDetailModal({
                             marginTop: "auto",
                             display: "flex",
                             flexDirection: "column",
-                            gap: 10,
+                            gap: 12,
                         }}
                     >
                         <Link
@@ -1076,29 +1144,29 @@ function ServiceDetailModal({
                                 alignItems: "center",
                                 justifyContent: "center",
                                 gap: 8,
-                                padding: "14px 24px",
-                                background: "linear-gradient(135deg, #C2A979 0%, #a08040 100%)",
-                                color: "#fff",
+                                padding: "13px 22px",
+                                background: "linear-gradient(135deg, #C2A979 0%, #A28448 100%)",
+                                color: "#ffffff",
                                 textDecoration: "none",
                                 fontFamily: "Montserrat, sans-serif",
-                                fontSize: 13,
+                                fontSize: 12.5,
                                 fontWeight: 700,
                                 letterSpacing: "0.08em",
                                 textTransform: "uppercase",
-                                borderRadius: 6,
-                                boxShadow: "0 6px 20px rgba(194, 169, 121, 0.4)",
+                                borderRadius: 8,
+                                boxShadow: "0 4px 18px rgba(194, 169, 121, 0.35)",
                                 transition: "all 0.25s ease",
                             }}
                             onMouseOver={(e) => {
-                                e.currentTarget.style.transform = "translateY(-1px)";
-                                e.currentTarget.style.boxShadow = "0 8px 24px rgba(194, 169, 121, 0.5)";
+                                e.currentTarget.style.transform = "translateY(-1.5px)";
+                                e.currentTarget.style.boxShadow = "0 6px 24px rgba(194, 169, 121, 0.48)";
                             }}
                             onMouseOut={(e) => {
                                 e.currentTarget.style.transform = "none";
-                                e.currentTarget.style.boxShadow = "0 6px 20px rgba(194, 169, 121, 0.4)";
+                                e.currentTarget.style.boxShadow = "0 4px 18px rgba(194, 169, 121, 0.35)";
                             }}
                         >
-                            <span>📅 {isEn ? "Book This Treatment Now" : "Đặt lịch dịch vụ này ngay"}</span>
+                            <span>{isEn ? "Book This Treatment" : "Đặt lịch trải nghiệm ngay"}</span>
                             <span>→</span>
                         </Link>
 
@@ -1108,7 +1176,7 @@ function ServiceDetailModal({
                                 alignItems: "center",
                                 justifyContent: "space-between",
                                 gap: 12,
-                                paddingTop: 4,
+                                flexWrap: "wrap",
                             }}
                         >
                             <Link
@@ -1117,34 +1185,54 @@ function ServiceDetailModal({
                                     fontFamily: "Montserrat, sans-serif",
                                     fontSize: 12,
                                     fontWeight: 600,
-                                    color: "#888",
+                                    color: "#857567",
                                     textDecoration: "none",
-                                    transition: "color 0.2s",
+                                    transition: "color 0.2s ease",
                                 }}
-                                onMouseOver={(e) => (e.currentTarget.style.color = "#C2A979")}
-                                onMouseOut={(e) => (e.currentTarget.style.color = "#888")}
+                                onMouseOver={(e) => (e.currentTarget.style.color = "#231B15")}
+                                onMouseOut={(e) => (e.currentTarget.style.color = "#857567")}
                             >
-                                📋 {isEn ? "View all services & prices" : "Xem tất cả dịch vụ & bảng giá"}
+                                {isEn ? "View all treatments →" : "Xem tất cả dịch vụ & bảng giá →"}
                             </Link>
 
                             {settings.hotline && (
                                 <a
                                     href={`tel:${settings.hotline}`}
                                     style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        gap: 5,
                                         fontFamily: "Montserrat, sans-serif",
                                         fontSize: 12,
                                         fontWeight: 600,
-                                        color: "#C2A979",
+                                        color: "#967840",
                                         textDecoration: "none",
+                                        transition: "color 0.2s ease",
                                     }}
+                                    onMouseOver={(e) => (e.currentTarget.style.color = "#231B15")}
+                                    onMouseOut={(e) => (e.currentTarget.style.color = "#967840")}
                                 >
-                                    📞 {settings.hotline}
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                    </svg>
+                                    <span>{settings.hotline}</span>
                                 </a>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                @keyframes serviceModalBackdropFade {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes serviceModalCardSlide {
+                    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+                    to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+            `}</style>
         </div>
     );
 }
@@ -1392,6 +1480,13 @@ export default function HomePage({ services, gallery, settings }: { services: Se
             grid-template-columns: 1fr !important;
             max-height: 90vh !important;
             overflow-y: auto !important;
+          }
+          .service-detail-modal-image-col {
+            min-height: 240px !important;
+            max-height: 280px !important;
+          }
+          .service-detail-modal-info-col {
+            padding: 24px 20px 24px !important;
           }
         }
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
-import { getSettings, type SiteSettings } from "@/lib/db";
+import { getSettings, invalidateDbCache, type SiteSettings } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { parseJsonBody } from "@/lib/validation";
 
@@ -32,8 +33,8 @@ export async function POST(req: Request) {
     }
 
     const entries = Object.entries(body).filter(([key]) => SETTING_KEYS.has(key as keyof SiteSettings));
-    if (entries.length !== Object.keys(body).length) {
-      return NextResponse.json({ error: "Cài đặt không hợp lệ" }, { status: 400 });
+    if (entries.length === 0) {
+      return NextResponse.json({ error: "Không tìm thấy cấu hình hợp lệ để lưu" }, { status: 400 });
     }
 
     await prisma.$transaction(entries.map(([key, value]) => prisma.setting.upsert({
@@ -41,6 +42,17 @@ export async function POST(req: Request) {
       create: { key, value: typeof value === "string" ? value : JSON.stringify(value) },
       update: { value: typeof value === "string" ? value : JSON.stringify(value) },
     })));
+
+    // Xóa cache in-memory và revalidate toàn bộ layout để cập nhật ngay lập tức
+    invalidateDbCache();
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/[locale]", "layout");
+      revalidatePath("/vi", "layout");
+      revalidatePath("/en", "layout");
+    } catch (e) {
+      console.warn("revalidatePath error:", e);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -39,9 +39,13 @@ export default function SettingsPage() {
     });
     setLoading(false);
     if (res.ok) {
+      try {
+        localStorage.removeItem("moc_announcement_dismissed");
+        sessionStorage.removeItem("moc_announcement_dismissed");
+      } catch {}
       Swal.fire({
         title: "Thành công!",
-        text: "Đã lưu cấu hình hệ thống",
+        text: "Đã lưu cấu hình hệ thống & làm mới hiển thị popup",
         icon: "success",
         timer: 2000,
         showConfirmButton: false
@@ -112,6 +116,62 @@ export default function SettingsPage() {
                 <p style={{ fontSize: "0.85rem", color: "#66594e", margin: 0, lineHeight: 1.5 }}>
                   Tự động hiển thị cửa sổ thông báo/khuyến mãi ngay khi khách hàng tải trang web. Hỗ trợ 4 mức quan trọng với màu sắc trực quan tương ứng.
                 </p>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", marginTop: 12 }}>
+                  <a
+                    href="/?preview_popup=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "6px 12px",
+                      borderRadius: 6,
+                      backgroundColor: "rgba(194, 169, 121, 0.15)",
+                      border: "1px solid rgba(194, 169, 121, 0.4)",
+                      color: "#725634",
+                      fontSize: "0.8rem",
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    👁️ Xem thử popup trên web
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      try {
+                        localStorage.removeItem("moc_announcement_dismissed");
+                        sessionStorage.removeItem("moc_announcement_dismissed");
+                      } catch {}
+                      Swal.fire({
+                        title: "Đã làm mới!",
+                        text: "Đã xóa trạng thái đã đóng popup trên trình duyệt này. Bạn có thể mở trang chủ để kiểm tra ngay.",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                      });
+                    }}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "6px 12px",
+                      borderRadius: 6,
+                      backgroundColor: "#f3f4f6",
+                      border: "1px solid #d1d5db",
+                      color: "#374151",
+                      fontSize: "0.8rem",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    🧹 Xóa lịch sử đã xem (để test lại)
+                  </button>
+                </div>
               </div>
 
               {/* Toggle switch */}
@@ -160,40 +220,40 @@ export default function SettingsPage() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 12 }}>
                 {[
                   {
-                    id: "info" as const,
-                    label: "Thông thường",
-                    sub: "Chào mừng / Tin tức chung",
-                    icon: "ℹ️",
-                    color: "#2563EB",
-                    bg: "#EFF6FF",
-                    border: "#3B82F6",
+                    id: "promo" as const,
+                    label: "Đặc quyền & Ưu đãi",
+                    sub: "Khuyến mãi / Voucher & Quà tặng",
+                    icon: "✦",
+                    color: "#C2A979",
+                    bg: "#FAF6EF",
+                    border: "#C2A979",
                   },
                   {
-                    id: "promo" as const,
-                    label: "Khuyến mãi",
-                    sub: "Ưu đãi / Giảm giá đặc biệt",
-                    icon: "🎁",
-                    color: "#BE123C",
-                    bg: "#FFF1F2",
-                    border: "#E11D48",
+                    id: "info" as const,
+                    label: "Thông tin & Chào mừng",
+                    sub: "Giới thiệu / Tin tức chung của Salon",
+                    icon: "✧",
+                    color: "#8C7C6D",
+                    bg: "#F6F4F0",
+                    border: "#8C7C6D",
                   },
                   {
                     id: "warning" as const,
-                    label: "Lưu ý quan trọng",
-                    sub: "Đổi lịch / Hướng dẫn đón tiếp",
-                    icon: "⚠️",
-                    color: "#D97706",
-                    bg: "#FFFBEB",
-                    border: "#F59E0B",
+                    label: "Lưu ý & Chỉ dẫn",
+                    sub: "Hướng dẫn đón tiếp / Điều chỉnh lịch",
+                    icon: "◈",
+                    color: "#B27A43",
+                    bg: "#FBF6EE",
+                    border: "#B27A43",
                   },
                   {
                     id: "urgent" as const,
-                    label: "Khẩn cấp",
-                    sub: "Thông báo gấp / Tạm ngưng",
-                    icon: "🚨",
-                    color: "#DC2626",
-                    bg: "#FEF2F2",
-                    border: "#EF4444",
+                    label: "Thông báo đặc biệt",
+                    sub: "Thông điệp quan trọng / Thông báo gấp",
+                    icon: "❖",
+                    color: "#8B2635",
+                    bg: "#FAF0F2",
+                    border: "#8B2635",
                   },
                 ].map((lvl) => {
                   const isSelected = (form.popupLevel || "promo") === lvl.id;
@@ -323,10 +383,10 @@ export default function SettingsPage() {
               </div>
 
               <div className={`${styles.formField} ${styles.fullWidth}`}>
-                <label>Tần suất hiển thị cho mỗi khách truy cập (Dismiss Mode)</label>
+                <label>Tần suất hiển thị mặc định (Dismiss Mode)</label>
                 <select
                   value={form.popupDismissType || "daily"}
-                  onChange={(e) => set("popupDismissType", e.target.value as "daily" | "session" | "always")}
+                  onChange={(e) => set("popupDismissType", e.target.value as "daily" | "session" | "always" | "until_change")}
                   style={{
                     width: "100%",
                     padding: "10px 14px",
@@ -337,9 +397,10 @@ export default function SettingsPage() {
                     outline: "none",
                   }}
                 >
-                  <option value="daily">🕒 Mỗi khách chỉ thấy 1 lần trong ngày (Khuyên dùng - chuyên nghiệp, không gây phiền)</option>
+                  <option value="daily">🕒 Mỗi khách chỉ thấy 1 lần trong ngày (Khuyên dùng)</option>
+                  <option value="until_change">🔒 Chỉ hiển thị 1 lần cho đến khi có thông báo mới (Tối ưu trải nghiệm khách hàng)</option>
                   <option value="session">🌐 Mỗi khách chỉ thấy 1 lần trong mỗi phiên duyệt web</option>
-                  <option value="always">⚡ Luôn hiển thị mỗi khi tải lại trang (Thích hợp khi test hoặc thông báo khẩn cấp)</option>
+                  <option value="always">⚡ Luôn hiển thị mỗi khi tải lại trang (Thích hợp khi test)</option>
                 </select>
               </div>
             </div>
@@ -347,83 +408,125 @@ export default function SettingsPage() {
             {/* Live Visual Preview Card */}
             <div className={sStyles.preview} style={{ marginTop: 24 }}>
               <div className={sStyles.previewTitle}>
-                👁️ Trình Xem Trước Popup (Live Preview theo mức quan trọng "{form.popupLevel || "promo"}")
+                👁️ Trình Xem Trước Popup (Live Preview chuẩn Luxury Salon)
               </div>
-              <div style={{ padding: "28px 20px", background: "#EAE5DC", display: "flex", justifyContent: "center" }}>
+              <div style={{ padding: "32px 20px", background: "radial-gradient(ellipse at center, #241E1A 0%, #151311 100%)", display: "flex", justifyContent: "center" }}>
                 <div
                   style={{
                     width: "100%",
-                    maxWidth: 500,
-                    background: "#FDFBF7",
-                    borderRadius: 14,
+                    maxWidth: 520,
+                    background: "linear-gradient(180deg, #FFFFFF 0%, #FAF7F2 100%)",
+                    borderRadius: 20,
                     overflow: "hidden",
-                    boxShadow: "0 16px 40px rgba(0,0,0,0.18)",
-                    border: form.popupLevel === "info"
-                      ? "1.5px solid #3B82F6"
-                      : form.popupLevel === "warning"
-                      ? "1.5px solid #F59E0B"
-                      : form.popupLevel === "urgent"
-                      ? "1.5px solid #EF4444"
-                      : "1.5px solid #E11D48",
+                    boxShadow: "0 28px 70px -15px rgba(0,0,0,0.5), 0 0 0 1px rgba(255, 255, 255, 0.8) inset",
+                    border: "1px solid rgba(194, 169, 121, 0.35)",
+                    position: "relative",
                   }}
                 >
+                  {/* Top Line */}
                   <div
                     style={{
-                      padding: "20px 22px 18px",
+                      height: 3,
                       background: form.popupLevel === "info"
-                        ? "linear-gradient(135deg, #0F172A, #1E3A8A 65%, #3B82F6)"
+                        ? "linear-gradient(90deg, transparent, #8C7C6D 30%, #C2A979 50%, #8C7C6D 70%, transparent)"
                         : form.popupLevel === "warning"
-                        ? "linear-gradient(135deg, #451A03, #78350F 55%, #D97706)"
+                        ? "linear-gradient(90deg, transparent, #B27A43 30%, #D8A066 50%, #B27A43 70%, transparent)"
                         : form.popupLevel === "urgent"
-                        ? "linear-gradient(135deg, #450A0A, #7F1D1D 55%, #DC2626)"
-                        : "linear-gradient(135deg, #4C0519, #881337 50%, #C2A979)",
-                      color: "#fff",
+                        ? "linear-gradient(90deg, transparent, #8B2635 30%, #C2A979 50%, #8B2635 70%, transparent)"
+                        : "linear-gradient(90deg, transparent, #C2A979 30%, #E7D7AF 50%, #C2A979 70%, transparent)",
                     }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                  />
+
+                  {/* Header Area */}
+                  <div style={{ padding: "26px 28px 0" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                       <span
                         style={{
-                          fontSize: 10,
+                          fontSize: 10.5,
                           fontWeight: 700,
-                          padding: "3px 10px",
+                          padding: "4px 12px",
                           borderRadius: 20,
-                          backgroundColor: "rgba(255,255,255,0.2)",
+                          backgroundColor: form.popupLevel === "urgent"
+                            ? "rgba(139, 38, 53, 0.1)"
+                            : form.popupLevel === "warning"
+                            ? "rgba(178, 122, 67, 0.12)"
+                            : form.popupLevel === "info"
+                            ? "rgba(140, 124, 109, 0.12)"
+                            : "rgba(194, 169, 121, 0.12)",
+                          border: form.popupLevel === "urgent"
+                            ? "1px solid rgba(139, 38, 53, 0.3)"
+                            : form.popupLevel === "warning"
+                            ? "1px solid rgba(178, 122, 67, 0.35)"
+                            : form.popupLevel === "info"
+                            ? "1px solid rgba(140, 124, 109, 0.32)"
+                            : "1px solid rgba(194, 169, 121, 0.35)",
+                          color: form.popupLevel === "urgent"
+                            ? "#7A1C2A"
+                            : form.popupLevel === "warning"
+                            ? "#8F5824"
+                            : form.popupLevel === "info"
+                            ? "#6B5C4E"
+                            : "#967840",
                           textTransform: "uppercase",
+                          letterSpacing: "0.12em",
                         }}
                       >
-                        {form.popupBadge || "THÔNG BÁO TỪ MỘC SALON"}
+                        {form.popupBadge || "✦ THÔNG BÁO TỪ MỘC SALON"}
                       </span>
-                      <span style={{ fontSize: 13, opacity: 0.7 }}>✕</span>
+                      <span style={{ fontSize: 11, color: "#A39282", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                        Mộc Salon
+                      </span>
                     </div>
-                    <div style={{ fontFamily: "serif", fontSize: 18, fontWeight: 700, lineHeight: 1.3 }}>
+
+                    <div
+                      style={{
+                        fontFamily: "'Playfair Display', Georgia, serif",
+                        fontSize: 22,
+                        fontStyle: "italic",
+                        fontWeight: 700,
+                        lineHeight: 1.35,
+                        color: "#231B15",
+                        marginTop: 14,
+                      }}
+                    >
                       {form.popupTitle || "Tiêu đề thông báo mẫu..."}
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "14px 0 0" }}>
+                      <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(194, 169, 121, 0.35), transparent)" }} />
+                      <span style={{ color: "#C2A979", fontSize: 10, opacity: 0.8 }}>✦</span>
+                      <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg, transparent, rgba(194, 169, 121, 0.35), transparent)" }} />
                     </div>
                   </div>
 
-                  <div style={{ padding: "18px 22px 20px" }}>
-                    <div style={{ fontSize: 13, color: "#4A4036", lineHeight: 1.6, whiteSpace: "pre-line", marginBottom: 18 }}>
-                      {form.popupContent || "Nội dung chi tiết thông báo sẽ được hiển thị tại đây với giao diện rõ ràng, dễ đọc cho khách hàng..."}
+                  {/* Body Area */}
+                  <div style={{ padding: "16px 28px 24px" }}>
+                    <div style={{ fontSize: 13.5, color: "#54493F", lineHeight: 1.8, whiteSpace: "pre-line", marginBottom: 20 }}>
+                      {form.popupContent || "Nội dung chi tiết thông báo sẽ được hiển thị tại đây với giao diện chuẩn salon cao cấp, tinh tế, trang nhã và tự nhiên..."}
                     </div>
 
-                    <div style={{ display: "flex", gap: 10 }}>
+                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                       {form.popupCtaText && (
                         <div
                           style={{
                             flex: 1,
-                            padding: "10px 16px",
+                            minWidth: 140,
+                            padding: "12px 18px",
                             textAlign: "center",
                             color: "#fff",
                             fontSize: 12,
                             fontWeight: 700,
-                            borderRadius: 6,
+                            borderRadius: 8,
                             textTransform: "uppercase",
-                            background: form.popupLevel === "info"
-                              ? "#2563EB"
+                            letterSpacing: "0.08em",
+                            background: form.popupLevel === "urgent"
+                              ? "linear-gradient(135deg, #8B2635 0%, #681522 100%)"
                               : form.popupLevel === "warning"
-                              ? "#D97706"
-                              : form.popupLevel === "urgent"
-                              ? "#DC2626"
-                              : "#BE123C",
+                              ? "linear-gradient(135deg, #B27A43 0%, #8A5420 100%)"
+                              : form.popupLevel === "info"
+                              ? "linear-gradient(135deg, #8C7C6D 0%, #5E5247 100%)"
+                              : "linear-gradient(135deg, #C2A979 0%, #A28448 100%)",
+                            boxShadow: "0 4px 16px rgba(194, 169, 121, 0.35)",
                           }}
                         >
                           {form.popupCtaText} →
@@ -431,17 +534,23 @@ export default function SettingsPage() {
                       )}
                       <div
                         style={{
-                          padding: "10px 16px",
+                          padding: "12px 18px",
                           textAlign: "center",
-                          color: "#666",
+                          color: "#75675A",
                           fontSize: 12,
                           fontWeight: 600,
-                          borderRadius: 6,
-                          border: "1px solid #ccc",
+                          borderRadius: 8,
+                          border: "1.5px solid rgba(117, 103, 90, 0.25)",
+                          flex: form.popupCtaText ? 0 : 1,
                         }}
                       >
                         Đã hiểu / Đóng
                       </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 7, marginTop: 10, color: "#8C7E72", fontSize: 11 }}>
+                      <input type="checkbox" readOnly defaultChecked style={{ accentColor: "#C2A979", width: 13, height: 13 }} />
+                      <span>Không hiển thị lại cho đến khi có thông báo mới</span>
                     </div>
                   </div>
                 </div>
