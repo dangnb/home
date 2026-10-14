@@ -1,20 +1,131 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BrandLogo from "@/components/BrandLogo";
+import { useLocale } from "@/components/LocaleProvider";
+import { SUPPORTED_LOCALES } from "@/lib/i18n/config";
+import { getLocalizedPath, getEquivalentPath } from "@/lib/i18n/routes";
 
-export default function Navbar() {
-    const [scrolled, setScrolled] = useState(false);
-    useEffect(() => {
-        const fn = () => setScrolled(window.scrollY > 40);
-        window.addEventListener("scroll", fn);
-        return () => window.removeEventListener("scroll", fn);
-    }, []);
+function LanguageSwitcher({ className = "", onSelect }: { className?: string; onSelect?: () => void }) {
+    const { locale } = useLocale();
     const pathname = usePathname();
 
     return (
+        <div className={`public-navbar__lang-switch ${className}`.trim()} role="group" aria-label="Ngôn ngữ / Language">
+            {SUPPORTED_LOCALES.map((loc) => {
+                const active = loc === locale;
+                const targetHref = getEquivalentPath(loc, pathname);
+                const title = loc === "vi" ? "Tiếng Việt (Vietnamese)" : "English (Tiếng Anh)";
+                const label = loc === "vi" ? "VN" : "EN";
+
+                return (
+                    <Link
+                        key={loc}
+                        href={targetHref}
+                        className="public-navbar__lang-btn"
+                        data-active={active}
+                        aria-current={active ? "true" : undefined}
+                        hrefLang={loc}
+                        title={title}
+                        onClick={onSelect}
+                    >
+                        {active && <span className="public-navbar__lang-sparkle" aria-hidden="true">✦</span>}
+                        <span className="public-navbar__lang-text">{label}</span>
+                    </Link>
+                );
+            })}
+        </div>
+    );
+}
+
+export default function Navbar() {
+    const { locale, dictionary } = useLocale();
+    const isEn = locale === "en";
+    const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const pathname = usePathname();
+    const [prevPathname, setPrevPathname] = useState(pathname);
+
+    if (prevPathname !== pathname) {
+        setPrevPathname(pathname);
+        setMenuOpen(false);
+    }
+
+    const menuButtonRef = useRef<HTMLButtonElement>(null);
+    const drawerRef = useRef<HTMLDivElement>(null);
+
+    const navItems = [
+        { label: dictionary.nav.services, href: getLocalizedPath(locale, "services") },
+        { label: dictionary.nav.about, href: getLocalizedPath(locale, "about") },
+        { label: dictionary.nav.gallery, href: getLocalizedPath(locale, "gallery") },
+        { label: dictionary.nav.posts, href: getLocalizedPath(locale, "posts") },
+        { label: dictionary.nav.contact, href: getLocalizedPath(locale, "contact") },
+    ];
+    const homeHref = getLocalizedPath(locale, "home");
+    const bookingHref = getLocalizedPath(locale, "booking");
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 40);
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
+        const desktopMedia = window.matchMedia("(min-width: 1024px)");
+        const closeMenuOnDesktop = () => {
+            if (desktopMedia.matches) setMenuOpen(false);
+        };
+
+        desktopMedia.addEventListener("change", closeMenuOnDesktop);
+        return () => desktopMedia.removeEventListener("change", closeMenuOnDesktop);
+    }, []);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        const focusableSelector = 'a[href], button:not([disabled])';
+        const focusables = drawerRef.current?.querySelectorAll<HTMLElement>(focusableSelector);
+        focusables?.[0]?.focus();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setMenuOpen(false);
+                menuButtonRef.current?.focus();
+                return;
+            }
+
+            if (event.key !== "Tab" || !focusables?.length) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [menuOpen]);
+
+    const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+    const closeMenu = () => {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+    };
+
+    return (
         <header
+            className="public-navbar"
             style={{
                 position: "fixed",
                 top: 0,
@@ -30,44 +141,89 @@ export default function Navbar() {
                 padding: scrolled ? "10px 0" : "18px 0",
             }}
         >
-            <nav style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <Link href="/" style={{ textDecoration: "none", transition: "transform .3s" }}>
+            <nav className="public-navbar__inner" aria-label={dictionary.nav.home}>
+                <Link href={homeHref} className="public-navbar__brand" aria-label={dictionary.nav.home}>
                     <BrandLogo />
                 </Link>
 
-                <ul style={{ display: "flex", gap: 40, listStyle: "none", margin: 0, padding: 0 }}>
-                    {[
-                        { label: "Dịch vụ", href: "/services" },
-                        { label: "Giới thiệu", href: "/about" },
-                        { label: "Bộ sưu tập", href: "/gallery" },
-                        { label: "Bài viết", href: "/bai-viet" },
-                        { label: "Liên hệ", href: "/contact" },
-                    ].map((item) => {
-                        const href = item.href;
-                        const isActive = pathname === href || pathname.startsWith(href + '/');
-                        const defaultColor = isActive ? "#C2A979" : "#2E2E2E";
-                        const defaultBorder = isActive ? "#C2A979" : "transparent";
-
+                <ul className="public-navbar__links">
+                    {navItems.map((item) => {
+                        const active = isActive(item.href);
                         return (
                             <li key={item.href}>
-                                <Link href={href} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: defaultColor, textDecoration: "none", transition: "color .3s, border-bottom-color .3s", paddingBottom: 2, borderBottom: `1.5px solid ${defaultBorder}` }}
-                                    onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.borderBottomColor = "#C2A979"; }}
-                                    onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.color = defaultColor; (e.currentTarget as HTMLElement).style.borderBottomColor = defaultBorder; }}
-                                >{item.label}</Link>
+                                <Link
+                                    href={item.href}
+                                    className="public-navbar__link"
+                                    data-active={active}
+                                    aria-current={active ? "page" : undefined}
+                                >
+                                    {item.label}
+                                </Link>
                             </li>
                         );
                     })}
                 </ul>
 
-                <Link href="/booking">
-                    <button style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "14px 28px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", borderRadius: "20px 4px 20px 4px", cursor: "pointer", transition: "all .3s", boxShadow: "0 4px 16px rgba(194,169,121,.35)" }}
-                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(194,169,121,.45)"; }}
-                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(194,169,121,.35)"; }}
+                <div className="public-navbar__actions">
+                    <LanguageSwitcher />
+                    <Link href={bookingHref} className="public-navbar__booking">
+                        {dictionary.nav.booking}
+                    </Link>
+                    <button
+                        ref={menuButtonRef}
+                        type="button"
+                        className="public-navbar__menu-button"
+                        aria-label={menuOpen ? (isEn ? "Close navigation menu" : "Đóng menu điều hướng") : (isEn ? "Open navigation menu" : "Mở menu điều hướng")}
+                        aria-expanded={menuOpen}
+                        aria-controls="public-mobile-menu"
+                        onClick={() => setMenuOpen((open) => !open)}
                     >
-                        Đặt lịch ngay
+                        <span aria-hidden="true">{menuOpen ? "×" : "☰"}</span>
                     </button>
-                </Link>
+                </div>
             </nav>
+
+            {menuOpen && (
+                <div className="public-navbar__mobile-layer">
+                    <button
+                        type="button"
+                        className="public-navbar__backdrop"
+                        aria-label={isEn ? "Close navigation menu" : "Đóng menu điều hướng"}
+                        onClick={closeMenu}
+                    />
+                    <div ref={drawerRef} id="public-mobile-menu" className="public-navbar__drawer" role="dialog" aria-modal="true" aria-label={isEn ? "Navigation menu" : "Menu điều hướng"}>
+                        <button
+                            type="button"
+                            className="public-navbar__drawer-close"
+                            aria-label={isEn ? "Close navigation menu" : "Đóng menu điều hướng"}
+                            onClick={closeMenu}
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <nav aria-label={isEn ? "Mobile navigation" : "Điều hướng trên thiết bị di động"}>
+                            <div className="public-navbar__drawer-lang-wrap">
+                                <div className="public-navbar__drawer-lang-title">✦ {isEn ? "Select Language" : "Chọn ngôn ngữ"}</div>
+                                <LanguageSwitcher onSelect={closeMenu} />
+                            </div>
+                            <ul>
+                                {navItems.map((item) => {
+                                    const active = isActive(item.href);
+                                    return (
+                                        <li key={item.href}>
+                                            <Link href={item.href} className="public-navbar__mobile-link" aria-current={active ? "page" : undefined} onClick={closeMenu}>
+                                                {item.label}
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <Link href={bookingHref} className="public-navbar__mobile-booking" onClick={closeMenu}>
+                                {dictionary.nav.booking}
+                            </Link>
+                        </nav>
+                    </div>
+                </div>
+            )}
         </header>
     );
 }

@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { GalleryItemData } from "@/lib/db";
+import { useLocale } from "@/components/LocaleProvider";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -26,10 +29,6 @@ function useReveal(activeCategory: string, gallery: GalleryItemData[]) {
 }
 
 /* ─────────────────────────────────────────────────────── */
-/* Gallery Data                                             */
-/* ─────────────────────────────────────────────────────── */
-
-/* ─────────────────────────────────────────────────────── */
 /* Lightbox Component                                       */
 /* ─────────────────────────────────────────────────────── */
 function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
@@ -43,11 +42,13 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
     return (
         <div
             onClick={onClose}
+            className="gallery-lightbox"
             style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(0,0,0,.88)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, backdropFilter: "blur(6px)" }}
         >
             <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 900, maxHeight: "85vh", width: "100%" }}>
                 <button
                     onClick={onClose}
+                    aria-label="Close"
                     style={{ position: "absolute", top: -40, right: 0, background: "none", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", opacity: 0.7, zIndex: 1 }}
                 >✕</button>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -69,6 +70,8 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
 /* Gallery Item                                             */
 /* ─────────────────────────────────────────────────────── */
 function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; onClick: () => void; delay: number; index: number }) {
+    const { locale } = useLocale();
+    const isEn = locale === "en";
     const imgRef = useRef<HTMLImageElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -79,10 +82,19 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
 
     return (
         <div
-            className="reveal"
+            className="gallery-item reveal"
             data-delay={String(delay)}
             style={{ overflow: "hidden", cursor: "pointer", position: "relative", ...gridStyles }}
             onClick={onClick}
+            onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onClick();
+                }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={isEn ? `View image ${item.title || item.category}` : `Xem ảnh ${item.title || item.category}`}
             onMouseOver={() => {
                 if (imgRef.current) { imgRef.current.style.transform = "scale(1.07)"; }
                 if (overlayRef.current) overlayRef.current.style.opacity = "1";
@@ -108,7 +120,7 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{item.category}</div>
                     <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontStyle: "italic", color: "#fff", marginBottom: 8 }}>{item.title}</div>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", gap: 4 }}>
-                        <span style={{ fontSize: 14 }}>⊕</span> Xem ảnh
+                        <span style={{ fontSize: 14 }}>⊕</span> {isEn ? "View image" : "Xem ảnh"}
                     </div>
                 </div>
             </div>
@@ -120,12 +132,19 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
 /* Gallery Page                                             */
 /* ─────────────────────────────────────────────────────── */
 export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] }) {
-    const CATEGORIES = ["Tất cả", ...Array.from(new Set(gallery.map(g => g.category)))];
+    const { locale, dictionary } = useLocale();
+    const isEn = locale === "en";
+    const bookingHref = getLocalizedPath(locale, "booking");
 
-    const [activeCategory, setActiveCategory] = useState("Tất cả");
+    const ALL_ID = "ALL";
+    const allLabel = isEn ? "All" : "Tất cả";
+    const rawCategories = Array.from(new Set(gallery.map((g) => g.category)));
+    const categoriesList = [{ id: ALL_ID, label: allLabel }, ...rawCategories.map((c) => ({ id: c, label: c }))];
+
+    const [activeCategoryId, setActiveCategoryId] = useState(ALL_ID);
     const [lightboxImg, setLightboxImg] = useState<GalleryItemData | null>(null);
-    
-    useReveal(activeCategory, gallery);
+
+    useReveal(activeCategoryId, gallery);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
 
@@ -141,7 +160,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
         return () => window.removeEventListener("mousemove", fn);
     }, []);
 
-    const filtered = activeCategory === "Tất cả" ? gallery : gallery.filter((i) => i.category === activeCategory);
+    const filtered = activeCategoryId === ALL_ID ? gallery : gallery.filter((i) => i.category === activeCategoryId);
 
     return (
         <>
@@ -184,6 +203,32 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
           color: #fff;
           box-shadow: 0 4px 16px rgba(194,169,121,.3);
         }
+
+        @media (max-width: 1023px) {
+          .gallery-filters { padding-inline: var(--public-gutter) !important; }
+          .gallery-grid-section { padding-inline: var(--public-gutter) !important; }
+          .gallery-cta { padding-inline: var(--public-gutter) !important; }
+          .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; grid-auto-rows: minmax(180px, 28vw) !important; }
+        }
+
+        @media (max-width: 600px) {
+          .gallery-filters { top: 68px !important; padding-top: 24px !important; }
+          .gallery-filters > div { justify-content: flex-start !important; flex-wrap: nowrap !important; overflow-x: auto; padding-bottom: 20px !important; }
+          .cat-pill { flex: 0 0 auto; min-height: 44px; padding: 9px 17px; }
+          .gallery-grid-section { padding-top: 28px !important; padding-bottom: 64px !important; }
+          .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-auto-rows: 42vw !important; gap: 8px !important; }
+          .gallery-grid .gallery-item { grid-column: auto !important; grid-row: auto !important; }
+          .gallery-item > div:last-child { opacity: 1 !important; }
+          .gallery-item > div:last-child > div { padding: 18px 14px !important; }
+          .gallery-cta { padding-block: 64px !important; }
+          .gallery-lightbox { padding: 16px !important; }
+          .gallery-lightbox > div { max-height: calc(100dvh - 64px) !important; }
+          .gallery-lightbox button { top: -36px !important; min-width: 44px; min-height: 44px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
       `}</style>
 
             {/* ── Hero Banner ─────────────────────────────────── */}
@@ -192,36 +237,38 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
                 <div style={{ position: "absolute", bottom: -60, left: -60, width: 280, height: 280, borderRadius: "50%", border: "1px solid rgba(194,169,121,.1)", pointerEvents: "none" }} />
                 <div style={{ position: "relative", zIndex: 1 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        Tác phẩm của chúng tôi
+                        {isEn ? "Our Portfolio" : "Tác phẩm của chúng tôi"}
                     </div>
                     <h1
                         ref={titleRef}
                         style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(42px,6vw,80px)", fontWeight: 700, color: "#2E2E2E", margin: "0 0 24px", lineHeight: 1.1, letterSpacing: "-0.02em", fontStyle: "italic", transition: "transform .12s ease-out" }}
                     >
-                        Bộ sưu tập nghệ thuật móng
+                        {dictionary.nav.gallery}
                     </h1>
                     <p
                         ref={subRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", maxWidth: 520, margin: "0 auto", transition: "transform .12s ease-out" }}
                     >
-                        Nơi lưu giữ những thiết kế nổi bật — mỗi chi tiết đều được chăm chút để tạo nên một tác phẩm nhỏ mang dấu ấn riêng.
+                        {isEn
+                            ? "A curated showcase of our finest designs — each detail crafted to leave a lasting impression."
+                            : "Nơi lưu giữ những thiết kế nổi bật — mỗi chi tiết đều được chăm chút để tạo nên một tác phẩm nhỏ mang dấu ấn riêng."}
                     </p>
                 </div>
             </section>
 
             {/* ── Filter Pills ────────────────────────────────── */}
-            <section style={{ background: "#FDFBF7", padding: "48px 64px 0", position: "sticky", top: 72, zIndex: 30, boxShadow: "0 2px 20px rgba(0,0,0,.04)" }}>
+            <section className="gallery-filters" style={{ background: "#FDFBF7", padding: "48px 64px 0", position: "sticky", top: 72, zIndex: 30, boxShadow: "0 2px 20px rgba(0,0,0,.04)" }}>
                 <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", gap: 10, justifyContent: "center", paddingBottom: 36, flexWrap: "wrap" }}>
-                    {CATEGORIES.map((cat) => (
+                    {categoriesList.map((cat) => (
                         <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className={`cat-pill${activeCategory === cat ? " active" : ""}`}
+                            key={cat.id}
+                            onClick={() => setActiveCategoryId(cat.id)}
+                            className={`cat-pill${activeCategoryId === cat.id ? " active" : ""}`}
                         >
-                            {cat}
-                            {cat !== "All" && (
+                            {cat.label}
+                            {cat.id !== ALL_ID && (
                                 <span style={{ marginLeft: 6, opacity: 0.6, fontSize: 10 }}>
-                                    ({gallery.filter((i) => i.category === cat).length})
+                                    ({gallery.filter((i) => i.category === cat.id).length})
                                 </span>
                             )}
                         </button>
@@ -230,9 +277,10 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
             </section>
 
             {/* ── Bento Grid ──────────────────────────────────── */}
-            <section style={{ background: "#FDFBF7", padding: "48px 64px 100px" }}>
+            <section className="gallery-grid-section" style={{ background: "#FDFBF7", padding: "48px 64px 100px" }}>
                 <div style={{ maxWidth: 1280, margin: "0 auto" }}>
                     <div
+                        className="gallery-grid"
                         style={{
                             display: "grid",
                             gridTemplateColumns: "repeat(4, 1fr)",
@@ -253,30 +301,30 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
 
                     {filtered.length === 0 && (
                         <div style={{ textAlign: "center", padding: "80px 0", color: "#999", fontFamily: "Montserrat,sans-serif", fontSize: 15 }}>
-                            No images in this category yet.
+                            {isEn ? "No images in this category yet." : "Chưa có hình ảnh nào trong danh mục này."}
                         </div>
                     )}
                 </div>
             </section>
 
             {/* ── CTA Banner ──────────────────────────────────── */}
-            <section style={{ background: "#2E2E2E", padding: "80px 64px", textAlign: "center" }}>
+            <section className="gallery-cta" style={{ background: "#2E2E2E", padding: "80px 64px", textAlign: "center" }}>
                 <div className="reveal">
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        Love what you see?
+                        {isEn ? "Love what you see?" : "Bạn đã chọn được mẫu ưng ý?"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,48px)", fontWeight: 700, color: "#fff", margin: "0 0 28px", fontStyle: "italic" }}>
-                        Book Your Next Look
+                        {isEn ? "Book Your Next Look" : "Đặt lịch để sở hữu bộ móng tuyệt đẹp"}
                     </h2>
-                    <a href="/booking">
+                    <Link href={bookingHref}>
                         <button
                             style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px 44px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .35s", boxShadow: "0 6px 24px rgba(194,169,121,.35)" }}
                             onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 14px 36px rgba(194,169,121,.45)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; }}
                         >
-                            Book Appointment →
+                            {dictionary.common.bookNow} →
                         </button>
-                    </a>
+                    </Link>
                 </div>
             </section>
 

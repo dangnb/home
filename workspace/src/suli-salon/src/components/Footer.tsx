@@ -5,16 +5,42 @@ import type { SiteSettings } from "@/lib/db";
 import BrandLogo from "@/components/BrandLogo";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { MdPhone, MdLocationOn, MdEmail, MdAccessTime } from "react-icons/md";
+import { useLocale } from "@/components/LocaleProvider";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
 export default function Footer({ settings }: { settings: SiteSettings }) {
+    const { locale, dictionary } = useLocale();
+
     if (!settings) return null;
 
-    const hoursList = settings.workingHours
-        ? settings.workingHours.split(/[,|]/).map(h => h.trim()).filter(Boolean)
+    const defaultHours = locale === "en"
+        ? [
+            "Monday – Saturday: 09:00 – 20:00",
+            "Sunday: 09:00 – 18:00",
+        ]
         : [
             "Thứ Hai – Thứ Bảy: 09:00 – 20:00",
             "Chủ Nhật: 09:00 – 18:00",
         ];
+
+    const hoursList = settings.workingHours
+        ? settings.workingHours.split(/[,|]/).map(h => h.trim()).filter(Boolean)
+        : defaultHours;
+
+    const quickLinks = [
+        { label: dictionary.footer.services, href: getLocalizedPath(locale, "services") },
+        { label: dictionary.footer.gallery, href: getLocalizedPath(locale, "gallery") },
+        { label: dictionary.footer.journal, href: getLocalizedPath(locale, "posts") },
+        { label: dictionary.footer.about, href: getLocalizedPath(locale, "about") },
+        { label: dictionary.footer.booking, href: getLocalizedPath(locale, "booking") },
+        { label: dictionary.footer.contact, href: getLocalizedPath(locale, "contact") },
+    ];
+
+    const legalLinks = [
+        dictionary.footer.privacy,
+        dictionary.footer.terms,
+        dictionary.footer.safety,
+    ];
 
     return (
         <footer className="bg-[#161514] text-[#ECE7DE] pt-16 md:pt-20 pb-0 font-sans border-t border-[#2F2B24]">
@@ -23,7 +49,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 <div>
                     <BrandLogo light className="mb-4" />
                     <p className="font-sans text-[14px] leading-[1.75] text-[#D8D2C7] max-w-[290px] mt-3 font-normal">
-                        Nơi mỗi bộ móng được chăm chút tỉ mỉ, để bạn tự tin tỏa sáng theo cách riêng của mình. Không gian thư giãn, phong cách mộc tự nhiên.
+                        {dictionary.footer.description}
                     </p>
                     <div className="flex gap-3 mt-6">
                         {settings.facebook && (
@@ -66,17 +92,10 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 <div>
                     <h4 className="font-sans text-[13px] font-bold tracking-[0.16em] uppercase text-[#E5C989] mb-5 flex items-center gap-2">
                         <span className="w-2 h-0.5 bg-[#C2A979] inline-block rounded-full"></span>
-                        Liên kết nhanh
+                        {dictionary.footer.quickLinks}
                     </h4>
                     <ul className="list-none p-0 m-0 flex flex-col gap-2.5">
-                        {[
-                            { label: "Dịch vụ móng", href: "/services" },
-                            { label: "Bộ sưu tập Nail Art", href: "/gallery" },
-                            { label: "Cẩm nang làm đẹp", href: "/bai-viet" },
-                            { label: "Về Mộc Salon", href: "/about" },
-                            { label: "Đặt lịch hẹn", href: "/booking" },
-                            { label: "Liên hệ & Vị trí", href: "/contact" },
-                        ].map((l) => (
+                        {quickLinks.map((l) => (
                             <li key={l.href}>
                                 <Link
                                     href={l.href}
@@ -94,14 +113,16 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 <div>
                     <h4 className="font-sans text-[13px] font-bold tracking-[0.16em] uppercase text-[#E5C989] mb-5 flex items-center gap-2">
                         <span className="w-2 h-0.5 bg-[#C2A979] inline-block rounded-full"></span>
-                        Thông tin liên hệ
+                        {dictionary.footer.contactInfo}
                     </h4>
                     <div className="font-sans text-[14px] leading-[1.8] flex flex-col gap-3.5">
                         {settings.hotline && (
                             <div className="flex items-start gap-3">
                                 <MdPhone size={20} className="text-[#E5C989] mt-0.5 shrink-0" />
                                 <div>
-                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">Hotline đặt lịch</span>
+                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">
+                                        {dictionary.footer.hotline}
+                                    </span>
                                     <a
                                         href={`tel:${settings.hotline.replace(/\s+/g, "")}`}
                                         className="font-bold text-[16px] text-[#FFFFFF] hover:text-[#E5C989] transition-colors tracking-wide"
@@ -115,7 +136,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                             <div className="flex items-start gap-3">
                                 <MdLocationOn size={20} className="text-[#E5C989] mt-0.5 shrink-0" />
                                 <div>
-                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">Địa chỉ salon</span>
+                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">
+                                        {dictionary.footer.address}
+                                    </span>
                                     <span className="text-[#ECE7DE] text-[14px] leading-relaxed block font-medium">{settings.address}</span>
                                 </div>
                             </div>
@@ -124,7 +147,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                             <div className="flex items-start gap-3">
                                 <MdEmail size={20} className="text-[#E5C989] mt-0.5 shrink-0" />
                                 <div>
-                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">Email hỗ trợ</span>
+                                    <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">
+                                        {dictionary.footer.email}
+                                    </span>
                                     <a
                                         href={`mailto:${settings.email}`}
                                         className="text-[#ECE7DE] text-[14px] font-medium hover:text-[#E5C989] transition-colors"
@@ -141,7 +166,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                 <div>
                     <h4 className="font-sans text-[13px] font-bold tracking-[0.16em] uppercase text-[#E5C989] mb-5 flex items-center gap-2">
                         <span className="w-2 h-0.5 bg-[#C2A979] inline-block rounded-full"></span>
-                        Giờ mở cửa
+                        {dictionary.footer.hours}
                     </h4>
                     <div className="font-sans text-[14px] leading-[1.8] flex flex-col gap-2.5">
                         {hoursList.map((item, idx) => (
@@ -152,26 +177,26 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                         ))}
                         <div className="mt-3 p-3.5 rounded-lg bg-[#23211D] border border-[#3E372B] text-[13px] text-[#E0D8CB] leading-relaxed flex items-start gap-2">
                             <span className="text-[#E5C989] text-[15px] shrink-0 leading-none mt-0.5">💡</span>
-                            <span>Quý khách nên đặt lịch trước để được chuẩn bị chu đáo và không phải chờ đợi.</span>
+                            <span>{dictionary.footer.bookingTip}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Bottom Bar */}
-            <div className="border-t border-[#2F2B24] py-6 px-6 md:px-12 lg:px-16 max-w-[1280px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-                <p className="font-sans text-[13px] text-[#ACA395] m-0 font-normal">
-                    {settings.copyright || "© 2025 Mộc Salon – Bảo lưu mọi quyền"}
+            <div className="border-t border-[#2F2B24] py-6 px-6 md:px-12 lg:px-16 max-w-[1280px] mx-auto text-center">
+                <p className="font-sans text-[13px] text-[#ACA395] m-0 mb-4 font-normal">
+                    {settings.copyright || (locale === "en" ? "© 2025 Mộc Salon – All rights reserved" : "© 2025 Mộc Salon – Bảo lưu mọi quyền")}
                 </p>
-                <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+                <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-3">
                     {settings.footerTaglines && settings.footerTaglines.length > 0 ? (
                         settings.footerTaglines.map((l, i) => (
-                            <span key={i} className="font-sans text-[12px] text-[#CBC4B7] font-medium">
+                            <span key={i} className="font-sans text-[12px] leading-relaxed text-[#CBC4B7] font-medium">
                                 {l}
                             </span>
                         ))
                     ) : (
-                        ["Chính sách bảo mật", "Điều khoản sử dụng", "Quy chuẩn an toàn"].map((l) => (
+                        legalLinks.map((l) => (
                             <Link
                                 key={l}
                                 href="#"

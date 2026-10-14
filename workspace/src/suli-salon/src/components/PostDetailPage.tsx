@@ -1,28 +1,45 @@
+"use client";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import type { PostData } from "@/lib/db";
+import { useLocale } from "@/components/LocaleProvider";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
-const CATEGORY_LABELS: Record<string, string> = {
-    "tin-tuc": "Tin tức",
-    "kinh-nghiem": "Kinh nghiệm làm đẹp",
-    "gia-ve": "Bảng giá",
-    "phao-hoa": "Ưu đãi",
+const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
+    "tin-tuc": { vi: "Tin tức", en: "News" },
+    "kinh-nghiem": { vi: "Kinh nghiệm làm đẹp", en: "Beauty Tips" },
+    "gia-ve": { vi: "Bảng giá", en: "Pricing" },
+    "phao-hoa": { vi: "Ưu đãi", en: "Special Offers" },
 };
 
-function formatDate(date: string) {
-    return new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(date));
+function formatDate(date: string, locale: string) {
+    return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "vi-VN", {
+        day: "2-digit",
+        month: locale === "en" ? "short" : "long",
+        year: "numeric",
+    }).format(new Date(date));
 }
 
 export default function PostDetailPage({ post }: { post: PostData }) {
+    const { locale } = useLocale();
+    const isEn = locale === "en";
     const content = DOMPurify.sanitize(post.content);
+    const categoryLabel = CATEGORY_LABELS[post.categoryId]?.[locale] || (isEn ? "Article" : "Chia sẻ");
+    const postsHref = getLocalizedPath(locale, "posts");
 
     return (
         <main style={{ background: "#FDFBF7", minHeight: "100vh", padding: "120px 24px 100px" }}>
             <article style={{ maxWidth: 840, margin: "0 auto" }}>
-                <Link href="/bai-viet" style={{ color: "#A08040", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textDecoration: "none", textTransform: "uppercase" }}>← Quay lại bài viết</Link>
+                <Link href={postsHref} style={{ color: "#A08040", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textDecoration: "none", textTransform: "uppercase" }}>
+                    {isEn ? "← Back to journal" : "← Quay lại bài viết"}
+                </Link>
                 <div style={{ marginTop: 32, textAlign: "center" }}>
-                    <p style={{ color: "#C2A979", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", margin: "0 0 16px" }}>{CATEGORY_LABELS[post.categoryId] || "Chia sẻ"} · {formatDate(post.createdAt)}</p>
-                    <h1 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: "clamp(38px,6vw,62px)", fontStyle: "italic", lineHeight: 1.12, margin: "0 0 20px" }}>{post.title}</h1>
+                    <p style={{ color: "#C2A979", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", margin: "0 0 16px" }}>
+                        {categoryLabel} · {formatDate(post.createdAt, locale)}
+                    </p>
+                    <h1 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: "clamp(38px,6vw,62px)", fontStyle: "italic", lineHeight: 1.12, margin: "0 0 20px" }}>
+                        {post.title}
+                    </h1>
                     {post.excerpt && <p style={{ color: "#6B6B6B", fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.75, margin: "0 auto 36px", maxWidth: 660 }}>{post.excerpt}</p>}
                 </div>
 
@@ -34,7 +51,9 @@ export default function PostDetailPage({ post }: { post: PostData }) {
                 {content ? (
                     <div className="post-content" dangerouslySetInnerHTML={{ __html: content }} />
                 ) : (
-                    <p style={{ color: "#777", fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.8, textAlign: "center", padding: "36px 0" }}>Nội dung bài viết đang được cập nhật.</p>
+                    <p style={{ color: "#777", fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.8, textAlign: "center", padding: "36px 0" }}>
+                        {isEn ? "Article content is being updated." : "Nội dung bài viết đang được cập nhật."}
+                    </p>
                 )}
             </article>
             <style>{`

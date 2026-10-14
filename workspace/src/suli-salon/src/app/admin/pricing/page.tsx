@@ -124,7 +124,7 @@ export default function PriceListPage() {
 
           <div style={{ marginTop: '1rem' }}>
             {/* Header */}
-            <div style={{
+            <div className={styles.priceEditorHeader} style={{
               display: 'grid', gridTemplateColumns: '1fr 120px 120px 40px',
               gap: '0.5rem', marginBottom: '0.5rem',
               fontSize: 12, fontWeight: 750, color: '#66594e', textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.3,
@@ -133,7 +133,7 @@ export default function PriceListPage() {
             </div>
 
             {cat.items.map((item, itemIdx) => (
-              <div key={itemIdx} style={{
+              <div key={itemIdx} className={styles.priceEditorRow} style={{
                 display: 'grid', gridTemplateColumns: '1fr 120px 120px 40px',
                 gap: '0.5rem', alignItems: 'center', marginBottom: '0.4rem',
               }}>

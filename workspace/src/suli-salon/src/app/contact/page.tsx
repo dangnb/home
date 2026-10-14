@@ -1,12 +1,7 @@
-import ContactPage from "@/components/ContactPage";
-import { getSettings } from "@/lib/db";
+import { redirect } from "next/navigation";
+import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
-export const metadata = {
-    title: "Liên hệ | Mộc Salon",
-    description: "Liên hệ Mộc Salon để được tư vấn và đặt lịch.",
-};
-
-export default async function Contact() {
-    const settings = await getSettings();
-    return <ContactPage settings={settings} />;
+export default function RootContactPage() {
+  redirect(getLocalizedPath(DEFAULT_LOCALE, "contact"));
 }

@@ -1,4 +1,6 @@
 import type { PostData, SiteSettings } from "@/lib/db";
+import { LOCALE_METADATA, type Locale } from "@/lib/i18n/config";
+import { getLocalizedPostPath } from "@/lib/i18n/routes";
 
 const FALLBACK_SITE_URL = "https://mocsalon.vn";
 
@@ -38,7 +40,7 @@ function getGeoCoordinates(settings: SiteSettings) {
     return { "@type": "GeoCoordinates", latitude, longitude };
 }
 
-export function createBeautySalonJsonLd(settings: SiteSettings) {
+export function createBeautySalonJsonLd(settings: SiteSettings, locale: Locale = "vi") {
     const salon: Record<string, unknown> = {
         "@context": "https://schema.org",
         "@type": "BeautySalon",
@@ -46,6 +48,7 @@ export function createBeautySalonJsonLd(settings: SiteSettings) {
         name: settings.siteName,
         url: getSiteUrl(),
         description: settings.seoDescription || settings.tagline,
+        inLanguage: LOCALE_METADATA[locale].htmlLang,
         telephone: settings.hotline || undefined,
         email: settings.email || undefined,
         image: settings.bannerImage || undefined,
@@ -58,21 +61,22 @@ export function createBeautySalonJsonLd(settings: SiteSettings) {
     return Object.fromEntries(Object.entries(salon).filter(([, value]) => value !== undefined && value !== ""));
 }
 
-export function createBlogPostingJsonLd(post: PostData, settings: SiteSettings) {
+export function createBlogPostingJsonLd(post: PostData, settings: SiteSettings, locale: Locale = "vi", path?: string) {
+    const postUrl = path ? getAbsoluteUrl(path) : getAbsoluteUrl(getLocalizedPostPath(locale, post.slug));
     const article: Record<string, unknown> = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        "@id": getAbsoluteUrl(`/bai-viet/${post.slug}`),
+        "@id": postUrl,
         mainEntityOfPage: {
             "@type": "WebPage",
-            "@id": getAbsoluteUrl(`/bai-viet/${post.slug}`),
+            "@id": postUrl,
         },
         headline: post.title,
         description: post.excerpt || undefined,
         image: post.thumbnail || undefined,
         datePublished: post.createdAt,
         dateModified: post.updatedAt,
-        inLanguage: "vi-VN",
+        inLanguage: LOCALE_METADATA[locale].openGraph.replace("_", "-"),
         author: {
             "@type": "Organization",
             name: settings.siteName,

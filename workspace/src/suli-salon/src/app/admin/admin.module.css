@@ -152,4 +152,15 @@
   .formCard, .sectionCard { padding: 18px; }
   .pageActions { width: 100%; }
   .pageActions > * { flex: 1; }
+  .priceEditorHeader { display: none !important; }
+  .priceEditorRow { grid-template-columns: 1fr 1fr auto !important; gap: 8px !important; padding: 12px !important; border: 1px solid var(--admin-line); border-radius: 14px; background: #fffefa; }
+  .priceEditorRow input:first-child { grid-column: 1 / -1; }
+  .priceEditorRow button { min-width: 40px; min-height: 40px; }
+}
+
+@media (max-width: 380px) {
+  .priceEditorRow { grid-template-columns: 1fr auto !important; }
+  .priceEditorRow input:nth-child(2) { grid-column: 1; }
+  .priceEditorRow input:nth-child(3) { grid-column: 1; }
+  .priceEditorRow button { grid-column: 2; grid-row: 2 / span 2; align-self: stretch; }
 }

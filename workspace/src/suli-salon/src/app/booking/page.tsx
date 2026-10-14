@@ -1,17 +1,7 @@
-import BookingPage from "@/components/BookingPage";
-import { getServices, getSettings, getCategories } from "@/lib/db";
+import { redirect } from "next/navigation";
+import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
-export const metadata = {
-  title: "Đặt lịch | Mộc Salon",
-  description: "Đặt lịch chăm sóc móng tại Mộc Salon một cách nhanh chóng và thuận tiện.",
-};
-
-export default async function Booking() {
-  const [services, settings, categories] = await Promise.all([
-    getServices(),
-    getSettings(),
-    getCategories(),
-  ]);
-  
-  return <BookingPage services={services} settings={settings} categories={categories} />;
+export default function RootBookingPage() {
+  redirect(getLocalizedPath(DEFAULT_LOCALE, "booking"));
 }

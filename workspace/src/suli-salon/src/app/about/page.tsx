@@ -1,13 +1,7 @@
-import AboutPage from "@/components/AboutPage";
-import { getSettings, getTeamMembers } from "@/lib/db";
+import { redirect } from "next/navigation";
+import { DEFAULT_LOCALE } from "@/lib/i18n/config";
+import { getLocalizedPath } from "@/lib/i18n/routes";
 
-export const metadata = {
-    title: "Giới thiệu | Mộc Salon",
-    description: "Khám phá câu chuyện và giá trị của Mộc Salon.",
-};
-
-export default async function About() {
-    const settings = await getSettings();
-    const team = await getTeamMembers();
-    return <AboutPage settings={settings} team={team} />;
+export default function RootAboutPage() {
+  redirect(getLocalizedPath(DEFAULT_LOCALE, "about"));
 }
