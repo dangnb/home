@@ -3,6 +3,16 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import {
+  MdArticle,
+  MdPublic,
+  MdDrafts,
+  MdEdit,
+  MdVisibility,
+  MdDeleteOutline,
+  MdAdd,
+  MdSearch,
+} from "react-icons/md";
 
 interface Post {
   id: string;
@@ -42,13 +52,13 @@ export default function PostsListPage() {
         if (!r.ok) throw new Error("Fetch failed");
         return r.json();
       })
-      .then(data => setPosts(Array.isArray(data) ? data : []))
+      .then((data) => setPosts(Array.isArray(data) ? data : []))
       .catch(() => setPosts([]))
       .finally(() => setIsInitialLoading(false));
   }, []);
 
   async function handleDelete(id: string, title: string) {
-    if (!confirm(`Delete post "${title}"?`)) return;
+    if (!confirm(`Bạn có chắc muốn xóa bài viết "${title}" không? Thao tác này không thể hoàn tác.`)) return;
     const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
     if (res.ok) {
       setPosts((prev) => prev.filter((p) => p.id !== id));
@@ -68,34 +78,52 @@ export default function PostsListPage() {
     <div>
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Bài viết</h1>
-          <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản những chia sẻ từ Mộc Salon.</p>
+          <h1 className={styles.pageTitle}>Bài viết & Tin tức</h1>
+          <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản các bài viết chia sẻ từ Mộc Salon.</p>
         </div>
         <Link href="/admin/posts/new" className={styles.btnPrimary}>
-          + Thêm bài viết
+          <MdAdd size={16} />
+          <span>Thêm bài viết</span>
         </Link>
       </div>
 
       {/* Stats */}
-      <div className={styles.statsGrid} style={{ marginBottom: "1.5rem" }}>
-        <div className={styles.statCard} style={{ "--stat-color": "#C2A979", "--stat-bg": "#faf6ef" } as React.CSSProperties}>
-          <div className={styles.statIconWrap}><span className={styles.statIcon}>📝</span></div>
+      <div className={styles.statsGrid} style={{ marginBottom: "1.8rem" }}>
+        <div
+          className={styles.statCard}
+          style={{ "--stat-color": "#967840", "--stat-bg": "rgba(194, 169, 121, 0.12)" } as React.CSSProperties}
+        >
+          <div className={styles.statIconWrap}>
+            <MdArticle size={22} className={styles.statIcon} />
+          </div>
           <div>
-            <span className={styles.statLabel}>Tổng Posts</span>
+            <span className={styles.statLabel}>Tổng bài viết</span>
             <span className={styles.statValue}>{isInitialLoading ? "—" : posts.length}</span>
           </div>
         </div>
-        <div className={styles.statCard} style={{ "--stat-color": "#a08040", "--stat-bg": "#f8f3e8" } as React.CSSProperties}>
-          <div className={styles.statIconWrap}><span className={styles.statIcon}>🌐</span></div>
+
+        <div
+          className={styles.statCard}
+          style={{ "--stat-color": "#2D603A", "--stat-bg": "rgba(86, 133, 92, 0.12)" } as React.CSSProperties}
+        >
+          <div className={styles.statIconWrap}>
+            <MdPublic size={22} className={styles.statIcon} />
+          </div>
           <div>
-            <span className={styles.statLabel}>Đã Xuất Bản</span>
+            <span className={styles.statLabel}>Đã xuất bản</span>
             <span className={styles.statValue}>{isInitialLoading ? "—" : publishedCount}</span>
           </div>
         </div>
-        <div className={styles.statCard} style={{ "--stat-color": "#f59e0b", "--stat-bg": "#faf6ef" } as React.CSSProperties}>
-          <div className={styles.statIconWrap}><span className={styles.statIcon}>📋</span></div>
+
+        <div
+          className={styles.statCard}
+          style={{ "--stat-color": "#A87932", "--stat-bg": "rgba(168, 121, 50, 0.12)" } as React.CSSProperties}
+        >
+          <div className={styles.statIconWrap}>
+            <MdDrafts size={22} className={styles.statIcon} />
+          </div>
           <div>
-            <span className={styles.statLabel}>Bản Nháp</span>
+            <span className={styles.statLabel}>Bản nháp</span>
             <span className={styles.statValue}>{isInitialLoading ? "—" : draftCount}</span>
           </div>
         </div>
@@ -106,169 +134,154 @@ export default function PostsListPage() {
           <span className={styles.tableTitle}>
             {isInitialLoading ? "Danh sách bài viết" : `Danh sách bài viết (${filtered.length})`}
           </span>
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
             {/* Search */}
-            <input
-              type="text"
-              placeholder="Tìm theo tiêu đề..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              style={{
-                padding: "0.45rem 0.85rem",
-                border: "1.5px solid rgba(194,169,121,0.15)",
-                borderRadius: "12px",
-                fontSize: "0.875rem",
-                outline: "none",
-                minWidth: "200px",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type="text"
+                placeholder="Tìm theo tiêu đề..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className={styles.controlInput}
+                style={{ minWidth: "220px", paddingLeft: "34px", minHeight: "38px" }}
+              />
+              <MdSearch
+                size={16}
+                style={{
+                  position: "absolute",
+                  left: "11px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#A3968B",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
             {/* Status filter */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              style={{
-                padding: "0.45rem 0.85rem",
-                border: "1.5px solid rgba(194,169,121,0.15)",
-                borderRadius: "12px",
-                fontSize: "0.875rem",
-                outline: "none",
-                background: "#fff",
-                cursor: "pointer",
-              }}
+              className={styles.controlInput}
+              style={{ minHeight: "38px", cursor: "pointer", width: "auto" }}
             >
               <option value="all">Tất cả trạng thái</option>
-              <option value="published">Đã xuất bản</option>
-              <option value="draft">Bản nháp</option>
+              <option value="published">✦ Đã xuất bản</option>
+              <option value="draft">— Bản nháp</option>
             </select>
           </div>
         </div>
 
         {isInitialLoading ? (
-          <AdminLoading variant="table" label="Đang tải bài viết..." />
+          <AdminLoading variant="table" label="Đang tải danh sách bài viết..." />
         ) : (
           <div className={styles.tableWrap}>
             <table className={styles.dataTable}>
-          <thead>
-            <tr>
-              <th>Ảnh</th>
-              <th>Tiêu Đề</th>
-              <th>Danh mục</th>
-              <th>Trạng thái</th>
-              <th>Ngày tạo</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((p) => (
-              <tr key={p.id}>
-                <td>
-                  {p.thumbnail ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={p.thumbnail} alt={p.title} className={styles.thumb} />
-                  ) : (
-                    <div
-                      style={{
-                        width: 64,
-                        height: 48,
-                        background: "#f1f5f9",
-                        borderRadius: 8,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "1.25rem",
-                      }}
-                    >
-                      📝
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <strong style={{ display: "block", marginBottom: "0.2rem" }}>{p.title}</strong>
-                  <code style={{ fontSize: "0.8rem", color: "#75695e", fontWeight: 500 }}>/bai-viet/{p.slug}</code>
-                </td>
-                <td>
-                  <span className={styles.badge}>
-                    {CATEGORY_LABELS[p.categoryId] ?? p.categoryId}
-                  </span>
-                </td>
-                <td>
-                  {p.status === "published" ? (
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        padding: "0.2rem 0.65rem",
-                        borderRadius: "9999px",
-                        fontSize: "0.8rem",
-                        fontWeight: 700,
-                        background: "#dcfce7",
-                        color: "#166534",
-                        border: "1px solid #bbf7d0",
-                      }}
-                    >
-                      🌐 Xuất bản
-                    </span>
-                  ) : (
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.3rem",
-                        padding: "0.2rem 0.65rem",
-                        borderRadius: "9999px",
-                        fontSize: "0.8rem",
-                        fontWeight: 700,
-                        background: "#fef3c7",
-                        color: "#92400e",
-                        border: "1px solid #fde68a",
-                      }}
-                    >
-                      📋 Nháp
-                    </span>
-                  )}
-                </td>
-                <td style={{ color: "#888", fontSize: "0.82rem" }}>
-                  {formatDate(p.createdAt)}
-                </td>
-                <td>
-                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                    <Link href={`/admin/posts/${p.id}`} className={styles.btnEdit}>
-                      Chỉnh sửa
-                    </Link>
-                    {p.status === "published" && (
-                      <a
-                        href={`/bai-viet/${p.slug}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={styles.btnSecondary}
-                        style={{ fontSize: "0.78rem", padding: "0.4rem 0.7rem" }}
-                      >
-                        👁️
-                      </a>
-                    )}
-                    <button
-                      onClick={() => handleDelete(p.id, p.title)}
-                      className={styles.btnDanger}
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td
-                  colSpan={6}
-                  style={{ textAlign: "center", padding: "3rem", color: "#aaa" }}
-                >
-                  {search || statusFilter !== "all"
-                    ? "Không tìm thấy post phù hợp."
-                    : <>Chưa có bài viết. <Link href="/admin/posts/new" style={{ color: "#876938", fontWeight: 700 }}>Thêm bài viết →</Link></>}
-                </td>
-              </tr>
-            )}
+              <thead>
+                <tr>
+                  <th>Ảnh bìa</th>
+                  <th>Tiêu đề bài viết</th>
+                  <th>Chuyên mục</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày tạo</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((p) => (
+                  <tr key={p.id}>
+                    <td>
+                      {p.thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.thumbnail} alt={p.title} className={styles.thumb} />
+                      ) : (
+                        <div
+                          className={styles.thumb}
+                          style={{
+                            background: "rgba(194, 169, 121, 0.08)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "#C2A979",
+                          }}
+                        >
+                          <MdArticle size={20} />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <strong style={{ display: "block", marginBottom: 3, color: "#231B15" }}>{p.title}</strong>
+                      <code style={{ fontSize: "11.5px", color: "#857567", fontWeight: 500 }}>/bai-viet/{p.slug}</code>
+                    </td>
+                    <td>
+                      <span className={styles.badge}>{CATEGORY_LABELS[p.categoryId] ?? p.categoryId}</span>
+                    </td>
+                    <td>
+                      {p.status === "published" ? (
+                        <span
+                          className={styles.badge}
+                          style={{
+                            background: "rgba(86, 133, 92, 0.12)",
+                            color: "#2D603A",
+                            borderColor: "rgba(86, 133, 92, 0.3)",
+                          }}
+                        >
+                          ✦ Đã xuất bản
+                        </span>
+                      ) : (
+                        <span
+                          className={styles.badge}
+                          style={{
+                            background: "rgba(168, 121, 50, 0.12)",
+                            color: "#A87932",
+                            borderColor: "rgba(168, 121, 50, 0.3)",
+                          }}
+                        >
+                          — Bản nháp
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ color: "#78695C", fontSize: "12.5px" }}>{formatDate(p.createdAt)}</td>
+                    <td>
+                      <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                        <Link href={`/admin/posts/${p.id}`} className={styles.btnEdit} title="Chỉnh sửa bài viết">
+                          <MdEdit size={14} />
+                          <span>Sửa</span>
+                        </Link>
+                        {p.status === "published" && (
+                          <a
+                            href={`/bai-viet/${p.slug}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={styles.btnSecondary}
+                            style={{ minHeight: "33px", padding: "0 10px" }}
+                            title="Xem trên website"
+                          >
+                            <MdVisibility size={15} />
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(p.id, p.title)}
+                          className={styles.btnDanger}
+                          title="Xóa bài viết"
+                          style={{ minHeight: "33px", padding: "0 10px" }}
+                        >
+                          <MdDeleteOutline size={15} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr>
+                    <td colSpan={6}>
+                      <div className={styles.emptyState}>
+                        <span style={{ fontSize: 26, opacity: 0.6 }}>✦</span>
+                        <span>Không tìm thấy bài viết nào phù hợp.</span>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

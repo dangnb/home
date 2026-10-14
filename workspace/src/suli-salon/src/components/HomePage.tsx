@@ -1255,45 +1255,194 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
         };
     }, [onClose]);
 
+    const title = getLocalizedText(img.title, locale);
+    const category = getLocalizedText(img.category, locale);
+
     return (
         <div
             onClick={onClose}
             className="gallery-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label={isEn ? "View enlarged photo" : "Xem ảnh phóng to"}
             style={{
                 position: "fixed",
                 inset: 0,
-                zIndex: 350,
-                background: "rgba(0,0,0,.88)",
+                zIndex: 100000,
+                backgroundColor: "rgba(12, 10, 8, 0.92)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: 24,
-                backdropFilter: "blur(6px)",
+                padding: "24px 16px",
+                animation: "lightboxBackdropFade 0.25s ease-out forwards",
             }}
         >
-            <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 900, maxHeight: "85vh", width: "100%" }}>
-                <button
-                    onClick={onClose}
-                    aria-label={isEn ? "Close" : "Đóng"}
-                    style={{ position: "absolute", top: -40, right: 0, background: "none", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", opacity: 0.8, zIndex: 1 }}
+            {/* Minimalist Floating Close Button */}
+            <button
+                type="button"
+                onClick={onClose}
+                aria-label={isEn ? "Close" : "Đóng"}
+                style={{
+                    position: "fixed",
+                    top: 20,
+                    right: 20,
+                    zIndex: 100010,
+                    width: 44,
+                    height: 44,
+                    borderRadius: "50%",
+                    backgroundColor: "rgba(255, 255, 255, 0.12)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    transition: "all 0.2s ease",
+                }}
+                onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(194, 169, 121, 0.35)";
+                    e.currentTarget.style.borderColor = "#C2A979";
+                    e.currentTarget.style.transform = "scale(1.08)";
+                }}
+                onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.12)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.25)";
+                    e.currentTarget.style.transform = "scale(1)";
+                }}
+            >
+                ✕
+            </button>
+
+            {/* Photo Card Container - tightly wraps the photo */}
+            <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    maxWidth: "min(94vw, 880px)",
+                    maxHeight: "90vh",
+                    animation: "lightboxCardSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                }}
+            >
+                <div
+                    style={{
+                        position: "relative",
+                        display: "inline-block",
+                        maxWidth: "100%",
+                        maxHeight: "82vh",
+                        borderRadius: 18,
+                        overflow: "hidden",
+                        boxShadow: "0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(194, 169, 121, 0.25)",
+                        background: "#161311",
+                    }}
                 >
-                    ✕
-                </button>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={img.image}
-                    alt={img.title || "Mẫu móng tại Mộc Salon"}
-                    style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
-                />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top,rgba(0,0,0,.7),transparent)", padding: "40px 28px 20px" }}>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>
-                        {getLocalizedText(img.category, locale)}
-                    </div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", color: "#fff" }}>
-                        {getLocalizedText(img.title, locale)}
-                    </div>
+                    {/* Top hairline ribbon */}
+                    <div
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: 2,
+                            background: "linear-gradient(90deg, transparent, #C2A979 30%, #E7D7AF 50%, #C2A979 70%, transparent)",
+                            zIndex: 2,
+                        }}
+                    />
+
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={img.image}
+                        alt={title || "Mẫu nail art tại Mộc Salon"}
+                        style={{
+                            display: "block",
+                            maxWidth: "100%",
+                            maxHeight: "78vh",
+                            width: "auto",
+                            height: "auto",
+                            objectFit: "contain",
+                            margin: "0 auto",
+                        }}
+                    />
+
+                    {/* Perfectly Centered Overlay Caption pinned to photo frame */}
+                    {(title || category) && (
+                        <div
+                            style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                background: "linear-gradient(to top, rgba(16, 13, 11, 0.94) 0%, rgba(16, 13, 11, 0.65) 60%, transparent 100%)",
+                                padding: "44px 24px 22px",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                boxSizing: "border-box",
+                            }}
+                        >
+                            {category && (
+                                <span
+                                    style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        gap: 5,
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 10.5,
+                                        fontWeight: 700,
+                                        letterSpacing: "0.14em",
+                                        textTransform: "uppercase",
+                                        color: "#C2A979",
+                                        marginBottom: 6,
+                                        background: "rgba(194, 169, 121, 0.16)",
+                                        padding: "3px 12px",
+                                        borderRadius: 20,
+                                        border: "1px solid rgba(194, 169, 121, 0.32)",
+                                    }}
+                                >
+                                    <span>✦</span>
+                                    <span>{category}</span>
+                                </span>
+                            )}
+                            {title && (
+                                <div
+                                    style={{
+                                        fontFamily: "'Playfair Display', Georgia, serif",
+                                        fontSize: "clamp(18px, 2.4vw, 24px)",
+                                        fontStyle: "italic",
+                                        fontWeight: 700,
+                                        color: "#FFFFFF",
+                                        lineHeight: 1.35,
+                                        textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)",
+                                        maxWidth: 620,
+                                    }}
+                                >
+                                    {title}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
+
+            <style>{`
+                @keyframes lightboxBackdropFade {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes lightboxCardSlide {
+                    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+            `}</style>
         </div>
     );
 }
@@ -1363,19 +1512,21 @@ function GalleryItem({
     const ref = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);
+    const btnRef = useRef<HTMLDivElement>(null);
 
     const gridStyles: React.CSSProperties = {};
     if (span.includes("row-span-2")) gridStyles.gridRow = "span 2";
     if (span.includes("col-span-2")) gridStyles.gridColumn = "span 2";
 
     const title = getLocalizedText(item.title, locale);
+    const category = getLocalizedText(item.category, locale);
 
     return (
         <div
             ref={ref}
             role="button"
             tabIndex={0}
-            aria-label={isEn ? `View image ${title || item.category}` : `Xem ảnh ${title || item.category}`}
+            aria-label={isEn ? `View image ${title || category}` : `Xem ảnh ${title || category}`}
             onClick={onClick}
             onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -1387,10 +1538,12 @@ function GalleryItem({
             onMouseOver={() => {
                 if (imgRef.current) { imgRef.current.style.transform = "scale(1.06)"; }
                 if (overlayRef.current) overlayRef.current.style.opacity = "1";
+                if (btnRef.current) btnRef.current.style.transform = "translateY(0) scale(1)";
             }}
             onMouseOut={() => {
                 if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; }
                 if (overlayRef.current) overlayRef.current.style.opacity = "0";
+                if (btnRef.current) btnRef.current.style.transform = "translateY(8px) scale(0.95)";
             }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1398,36 +1551,101 @@ function GalleryItem({
                 ref={imgRef}
                 src={item.image}
                 alt={title || "Mộc Salon"}
-                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s cubic-bezier(0.16, 1, 0.3, 1)" }}
             />
             <div
                 ref={overlayRef}
                 style={{
                     position: "absolute",
                     inset: 0,
-                    background: "rgba(0,0,0,0.4)",
+                    background: "linear-gradient(to top, rgba(14, 11, 9, 0.82) 0%, rgba(14, 11, 9, 0.3) 45%, rgba(14, 11, 9, 0.12) 100%)",
                     opacity: 0,
-                    transition: "opacity .3s ease",
+                    transition: "opacity .35s ease",
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
+                    padding: "20px",
+                    boxSizing: "border-box",
                 }}
             >
+                {/* Center refined glassmorphism zoom button */}
                 <div
+                    ref={btnRef}
                     style={{
-                        padding: "8px 16px",
-                        backgroundColor: "rgba(253,251,247,0.92)",
-                        color: "#2E2E2E",
-                        fontFamily: "Montserrat,sans-serif",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        padding: "9px 18px",
+                        backgroundColor: "rgba(22, 17, 14, 0.78)",
+                        backdropFilter: "blur(12px)",
+                        WebkitBackdropFilter: "blur(12px)",
+                        color: "#FAF7F2",
+                        fontFamily: "Montserrat, sans-serif",
                         fontSize: 11,
                         fontWeight: 600,
                         letterSpacing: "0.1em",
-                        textTransform: "uppercase",
                         borderRadius: 30,
+                        border: "1px solid rgba(194, 169, 121, 0.42)",
+                        boxShadow: "0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06) inset",
+                        transform: "translateY(8px) scale(0.95)",
+                        transition: "transform .35s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                 >
-                    🔍 {isEn ? "ZOOM PHOTO" : "PHÓNG TO ẢNH"}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="7" />
+                        <line x1="21" y1="21" x2="16" y2="16" />
+                        <line x1="11" y1="8" x2="11" y2="14" />
+                        <line x1="8" y1="11" x2="14" y2="11" />
+                    </svg>
+                    <span>{isEn ? "Zoom photo" : "Phóng to ảnh"}</span>
                 </div>
+
+                {/* Subtle bottom info if title/category exists */}
+                {(title || category) && (
+                    <div
+                        style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            padding: "16px 20px",
+                            textAlign: "center",
+                            pointerEvents: "none",
+                        }}
+                    >
+                        {category && (
+                            <div
+                                style={{
+                                    fontFamily: "Montserrat, sans-serif",
+                                    fontSize: 9.5,
+                                    fontWeight: 700,
+                                    letterSpacing: "0.14em",
+                                    textTransform: "uppercase",
+                                    color: "#C2A979",
+                                    marginBottom: 3,
+                                }}
+                            >
+                                {category}
+                            </div>
+                        )}
+                        {title && (
+                            <div
+                                style={{
+                                    fontFamily: "'Playfair Display', Georgia, serif",
+                                    fontSize: 15,
+                                    fontStyle: "italic",
+                                    color: "#FFFFFF",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                }}
+                            >
+                                {title}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

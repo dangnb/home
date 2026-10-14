@@ -2,48 +2,55 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .searchInput {
-  width: min(440px, 100%);
+  width: min(460px, 100%);
   min-height: 44px;
-  padding: 0 15px;
-  border: 1px solid rgba(114, 86, 52, .14);
-  border-radius: 13px;
+  padding: 0 16px;
+  border: 1px solid rgba(194, 169, 121, 0.24);
+  border-radius: 12px;
   outline: none;
-  background: rgba(255, 253, 249, .9);
-  color: #302821;
+  background: #FFFFFF;
+  color: #231B15;
   font-family: var(--font-montserrat), Arial, sans-serif;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   line-height: 1.45;
-  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .searchInput:focus {
-  border-color: #b69663;
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(182, 150, 99, .12);
+  border-color: #C2A979;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3.5px rgba(194, 169, 121, 0.16);
 }
 
-.tableWrap { width: 100%; overflow-x: auto; }
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+}
 
 .statusSelect {
-  min-height: 34px;
-  padding: 0 10px;
+  min-height: 32px;
+  padding: 0 12px;
   border: 1px solid;
   border-radius: 999px;
   outline: none;
   font-family: var(--font-montserrat), Arial, sans-serif;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 750;
+  letter-spacing: 0.04em;
   line-height: 1.3;
   cursor: pointer;
-  transition: transform .2s ease, opacity .2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.statusSelect:hover { opacity: .86; transform: translateY(-1px); }
+.statusSelect:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
 
 @media (max-width: 540px) {
   .toolbar { margin-bottom: 14px; }

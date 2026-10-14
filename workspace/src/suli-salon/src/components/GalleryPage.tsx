@@ -33,37 +33,207 @@ function useReveal(activeCategory: string, gallery: GalleryItemData[]) {
 /* ─────────────────────────────────────────────────────── */
 function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
     const { locale } = useLocale();
+    const isEn = locale === "en";
 
     useEffect(() => {
         const fn = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-        window.addEventListener("keydown", fn);
+        const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
-        return () => { window.removeEventListener("keydown", fn); document.body.style.overflow = ""; };
+        window.addEventListener("keydown", fn);
+        return () => {
+            window.removeEventListener("keydown", fn);
+            document.body.style.overflow = prevOverflow;
+        };
     }, [onClose]);
+
+    const title = getLocalizedText(img.title, locale);
+    const category = getLocalizedText(img.category, locale);
 
     return (
         <div
             onClick={onClose}
             className="gallery-lightbox"
-            style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(0,0,0,.88)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, backdropFilter: "blur(6px)" }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={isEn ? "View enlarged photo" : "Xem ảnh phóng to"}
+            style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 100000,
+                backgroundColor: "rgba(12, 10, 8, 0.92)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "24px 16px",
+                animation: "lightboxBackdropFade 0.25s ease-out forwards",
+            }}
         >
-            <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 900, maxHeight: "85vh", width: "100%" }}>
-                <button
-                    onClick={onClose}
-                    aria-label="Close"
-                    style={{ position: "absolute", top: -40, right: 0, background: "none", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", opacity: 0.7, zIndex: 1 }}
-                >✕</button>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={img.image}
-                    alt={img.title || "Mẫu nail art tại Mộc Salon"}
-                    style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
-                />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top,rgba(0,0,0,.7),transparent)", padding: "40px 28px 20px" }}>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{getLocalizedText(img.category, locale)}</div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", color: "#fff" }}>{getLocalizedText(img.title, locale)}</div>
+            {/* Minimalist Floating Close Button */}
+            <button
+                type="button"
+                onClick={onClose}
+                aria-label={isEn ? "Close" : "Đóng"}
+                style={{
+                    position: "fixed",
+                    top: 20,
+                    right: 20,
+                    zIndex: 100010,
+                    width: 44,
+                    height: 44,
+                    borderRadius: "50%",
+                    backgroundColor: "rgba(255, 255, 255, 0.12)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    color: "#FFFFFF",
+                    fontSize: 16,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                    transition: "all 0.2s ease",
+                }}
+                onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(194, 169, 121, 0.35)";
+                    e.currentTarget.style.borderColor = "#C2A979";
+                    e.currentTarget.style.transform = "scale(1.08)";
+                }}
+                onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.12)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.25)";
+                    e.currentTarget.style.transform = "scale(1)";
+                }}
+            >
+                ✕
+            </button>
+
+            {/* Photo Card Container */}
+            <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    maxWidth: "min(94vw, 880px)",
+                    maxHeight: "90vh",
+                    animation: "lightboxCardSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                }}
+            >
+                <div
+                    style={{
+                        position: "relative",
+                        display: "inline-block",
+                        maxWidth: "100%",
+                        maxHeight: "82vh",
+                        borderRadius: 18,
+                        overflow: "hidden",
+                        boxShadow: "0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(194, 169, 121, 0.25)",
+                        background: "#161311",
+                    }}
+                >
+                    {/* Top hairline ribbon */}
+                    <div
+                        style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: 2,
+                            background: "linear-gradient(90deg, transparent, #C2A979 30%, #E7D7AF 50%, #C2A979 70%, transparent)",
+                            zIndex: 2,
+                        }}
+                    />
+
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={img.image}
+                        alt={title || "Mẫu nail art tại Mộc Salon"}
+                        style={{
+                            display: "block",
+                            maxWidth: "100%",
+                            maxHeight: "78vh",
+                            width: "auto",
+                            height: "auto",
+                            objectFit: "contain",
+                            margin: "0 auto",
+                        }}
+                    />
+
+                    {/* Perfectly Centered Overlay Caption pinned to photo frame */}
+                    {(title || category) && (
+                        <div
+                            style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                background: "linear-gradient(to top, rgba(16, 13, 11, 0.94) 0%, rgba(16, 13, 11, 0.65) 60%, transparent 100%)",
+                                padding: "44px 24px 22px",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                boxSizing: "border-box",
+                            }}
+                        >
+                            {category && (
+                                <span
+                                    style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        gap: 5,
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 10.5,
+                                        fontWeight: 700,
+                                        letterSpacing: "0.14em",
+                                        textTransform: "uppercase",
+                                        color: "#C2A979",
+                                        marginBottom: 6,
+                                        background: "rgba(194, 169, 121, 0.16)",
+                                        padding: "3px 12px",
+                                        borderRadius: 20,
+                                        border: "1px solid rgba(194, 169, 121, 0.32)",
+                                    }}
+                                >
+                                    <span>✦</span>
+                                    <span>{category}</span>
+                                </span>
+                            )}
+                            {title && (
+                                <div
+                                    style={{
+                                        fontFamily: "'Playfair Display', Georgia, serif",
+                                        fontSize: "clamp(18px, 2.4vw, 24px)",
+                                        fontStyle: "italic",
+                                        fontWeight: 700,
+                                        color: "#FFFFFF",
+                                        lineHeight: 1.35,
+                                        textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)",
+                                        maxWidth: 620,
+                                    }}
+                                >
+                                    {title}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
+
+            <style>{`
+                @keyframes lightboxBackdropFade {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes lightboxCardSlide {
+                    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+            `}</style>
         </div>
     );
 }
@@ -116,13 +286,46 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
             {/* Hover overlay */}
             <div
                 ref={overlayRef}
-                style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.1) 55%, transparent 100%)", opacity: 0, transition: "opacity .45s ease" }}
+                style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to top, rgba(14, 11, 9, 0.85) 0%, rgba(14, 11, 9, 0.32) 50%, rgba(14, 11, 9, 0.08) 100%)",
+                    opacity: 0,
+                    transition: "opacity .4s ease",
+                }}
             >
-                <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", padding: "28px 22px", boxSizing: "border-box" }}>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{getLocalizedText(item.category, locale)}</div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontStyle: "italic", color: "#fff", marginBottom: 8 }}>{getLocalizedText(item.title, locale)}</div>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", gap: 4 }}>
-                        <span style={{ fontSize: 14 }}>⊕</span> {isEn ? "View image" : "Xem ảnh"}
+                <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", padding: "24px 20px", boxSizing: "border-box" }}>
+                    <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 5 }}>
+                        ✦ {getLocalizedText(item.category, locale)}
+                    </div>
+                    <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, fontStyle: "italic", color: "#FFFFFF", marginBottom: 10, lineHeight: 1.3 }}>
+                        {getLocalizedText(item.title, locale)}
+                    </div>
+                    <div
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            padding: "6px 14px",
+                            borderRadius: 20,
+                            backgroundColor: "rgba(22, 17, 14, 0.72)",
+                            border: "1px solid rgba(194, 169, 121, 0.38)",
+                            fontFamily: "Montserrat, sans-serif",
+                            fontSize: 10.5,
+                            fontWeight: 600,
+                            letterSpacing: "0.1em",
+                            color: "#FAF7F2",
+                            backdropFilter: "blur(8px)",
+                            WebkitBackdropFilter: "blur(8px)",
+                        }}
+                    >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="7" />
+                            <line x1="21" y1="21" x2="16" y2="16" />
+                            <line x1="11" y1="8" x2="11" y2="14" />
+                            <line x1="8" y1="11" x2="14" y2="11" />
+                        </svg>
+                        <span>{isEn ? "Zoom photo" : "Phóng to ảnh"}</span>
                     </div>
                 </div>
             </div>

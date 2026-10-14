@@ -17,14 +17,13 @@ export default function AdminLogin() {
 
   useEffect(() => {
     try {
+      // Dọn dẹp key password trong localStorage nếu có từ trước để bảo vệ an toàn
+      localStorage.removeItem("moc_admin_password");
+
       const savedEmail = localStorage.getItem("moc_admin_email");
-      const savedPassword = localStorage.getItem("moc_admin_password");
       const savedRemember = localStorage.getItem("moc_admin_remember");
       if (savedRemember === "true" && savedEmail) {
         setEmail(savedEmail);
-        if (savedPassword) {
-          setPassword(savedPassword);
-        }
         setRememberMe(true);
       }
     } catch {
@@ -34,7 +33,8 @@ export default function AdminLogin() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true); setError("");
+    setLoading(true);
+    setError("");
     const res = await signIn("credentials", {
       email,
       password,
@@ -45,13 +45,13 @@ export default function AdminLogin() {
       try {
         if (rememberMe) {
           localStorage.setItem("moc_admin_email", email.trim());
-          localStorage.setItem("moc_admin_password", password);
           localStorage.setItem("moc_admin_remember", "true");
         } else {
           localStorage.removeItem("moc_admin_email");
-          localStorage.removeItem("moc_admin_password");
           localStorage.removeItem("moc_admin_remember");
         }
+        // Đảm bảo không bao giờ lưu password thô vào localStorage
+        localStorage.removeItem("moc_admin_password");
       } catch {
         // ignore storage errors
       }
@@ -102,19 +102,21 @@ export default function AdminLogin() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form} method="post" action="/api/auth/callback/credentials">
           <div className={`${styles.field} ${focused === "email" ? styles.fieldFocused : ""}`}>
-            <label>
+            <label htmlFor="admin-email">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
-              Email
+              Email quản trị
             </label>
             <input
+              id="admin-email"
+              name="email"
               type="email"
               value={email}
-              onChange={e => {
+              onChange={(e) => {
                 setEmail(e.target.value);
                 if (error) setError("");
               }}
@@ -129,7 +131,7 @@ export default function AdminLogin() {
           </div>
 
           <div className={`${styles.field} ${focused === "password" ? styles.fieldFocused : ""}`}>
-            <label>
+            <label htmlFor="admin-password">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -138,9 +140,11 @@ export default function AdminLogin() {
             </label>
             <div className={styles.passwordWrapper}>
               <input
+                id="admin-password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={e => {
+                onChange={(e) => {
                   setPassword(e.target.value);
                   if (error) setError("");
                 }}
@@ -154,7 +158,7 @@ export default function AdminLogin() {
               <button
                 type="button"
                 className={styles.togglePasswordBtn}
-                onClick={() => setShowPassword(p => !p)}
+                onClick={() => setShowPassword((p) => !p)}
                 aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                 title={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                 tabIndex={-1}
@@ -176,13 +180,13 @@ export default function AdminLogin() {
             </div>
           </div>
 
-          {/* Ghi nhớ tài khoản & mật khẩu */}
+          {/* Ghi nhớ tài khoản */}
           <div className={styles.rememberSection}>
             <label className={styles.rememberLabel}>
               <input
                 type="checkbox"
                 checked={rememberMe}
-                onChange={e => setRememberMe(e.target.checked)}
+                onChange={(e) => setRememberMe(e.target.checked)}
                 className={styles.rememberCheckbox}
               />
               <span className={`${styles.customCheckmark} ${rememberMe ? styles.customCheckmarkChecked : ""}`}>
@@ -192,7 +196,7 @@ export default function AdminLogin() {
                   </svg>
                 )}
               </span>
-              <span className={styles.rememberText}>Ghi nhớ tài khoản & mật khẩu</span>
+              <span className={styles.rememberText}>Ghi nhớ tài khoản trên thiết bị này</span>
             </label>
           </div>
 
