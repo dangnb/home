@@ -1,5 +1,4 @@
 // src/lib/db.ts - Database operations for Mộc Salon
-import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
 // Re-export prisma for direct access
@@ -188,15 +187,48 @@ function parseJSON<T>(str: string | null | undefined, fallback: T): T {
   try { return JSON.parse(str); } catch { return fallback; }
 }
 
+// ── In-Memory Read Cache for Static Build & DB Resilience ──
+const CACHE_TTL_MS = 20_000;
+
+let cachedSettings: { data: SiteSettings; time: number } | null = null;
+let cachedServices: { data: ServiceData[]; time: number } | null = null;
+let cachedCategories: { data: CategoryData[]; time: number } | null = null;
+let cachedGallery: { data: GalleryItemData[]; time: number } | null = null;
+let cachedPosts: { data: PostData[]; time: number } | null = null;
+let cachedTeam: { data: TeamMemberData[]; time: number } | null = null;
+let cachedPriceLists: { data: PriceListData[]; time: number } | null = null;
+
+export function invalidateDbCache(): void {
+  cachedSettings = null;
+  cachedServices = null;
+  cachedCategories = null;
+  cachedGallery = null;
+  cachedPosts = null;
+  cachedTeam = null;
+  cachedPriceLists = null;
+}
+
 // ── Categories ──────────────────────────────────────
 export async function getCategories(): Promise<CategoryData[]> {
-  const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
-  return cats.map(c => ({
-    id: c.id, label: c.label, slug: c.slug, description: c.description ?? "",
-  }));
+  const now = Date.now();
+  if (cachedCategories && now - cachedCategories.time < CACHE_TTL_MS) {
+    return cachedCategories.data;
+  }
+  try {
+    const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
+    const result = cats.map(c => ({
+      id: c.id, label: c.label, slug: c.slug, description: c.description ?? "",
+    }));
+    cachedCategories = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch categories from DB:", error);
+    return cachedCategories?.data ?? [];
+  }
 }
 
 export async function saveCategory(data: { label: string; slug: string; description?: string }) {
+  cachedCategories = null;
   return prisma.category.upsert({
     where: { slug: data.slug },
     create: data,
@@ -206,17 +238,28 @@ export async function saveCategory(data: { label: string; slug: string; descript
 
 // ── Services ────────────────────────────────────────
 export async function getServices(): Promise<ServiceData[]> {
-  const services = await prisma.service.findMany({
-    where: { isActive: true },
-    orderBy: { order: "asc" },
-  });
-  return services.map(s => ({
-    id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
-    description: s.description ?? "", duration: s.duration,
-    price: s.price, promoPrice: s.promoPrice ?? "",
-    image: s.image ?? "", gallery: parseJSON(s.gallery, []),
-    isActive: s.isActive, order: s.order,
-  }));
+  const now = Date.now();
+  if (cachedServices && now - cachedServices.time < CACHE_TTL_MS) {
+    return cachedServices.data;
+  }
+  try {
+    const services = await prisma.service.findMany({
+      where: { isActive: true },
+      orderBy: { order: "asc" },
+    });
+    const result = services.map(s => ({
+      id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+      description: s.description ?? "", duration: s.duration,
+      price: s.price, promoPrice: s.promoPrice ?? "",
+      image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+      isActive: s.isActive, order: s.order,
+    }));
+    cachedServices = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch services from DB:", error);
+    return cachedServices?.data ?? [];
+  }
 }
 
 export async function getAllServices(): Promise<ServiceData[]> {
@@ -243,6 +286,7 @@ export async function getServiceBySlug(slug: string): Promise<ServiceData | null
 }
 
 export async function createService(data: Omit<ServiceData, "id" | "isActive" | "order">): Promise<ServiceData> {
+  cachedServices = null;
   const s = await prisma.service.create({
     data: {
       slug: data.slug, name: data.name, categoryId: data.categoryId,
@@ -262,6 +306,7 @@ export async function createService(data: Omit<ServiceData, "id" | "isActive" | 
 
 export async function updateService(slug: string, data: Partial<ServiceData>): Promise<boolean> {
   try {
+    cachedServices = null;
     const updateData: Record<string, unknown> = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.categoryId !== undefined) updateData.categoryId = data.categoryId;
@@ -281,6 +326,7 @@ export async function updateService(slug: string, data: Partial<ServiceData>): P
 
 export async function deleteService(slug: string): Promise<boolean> {
   try {
+    cachedServices = null;
     await prisma.service.delete({ where: { slug } });
     return true;
   } catch { return false; }
@@ -359,14 +405,26 @@ export async function deleteAppointment(id: string): Promise<boolean> {
 
 // ── Gallery ─────────────────────────────────────────
 export async function getGalleryItems(): Promise<GalleryItemData[]> {
-  const items = await prisma.galleryItem.findMany({ orderBy: { order: "asc" } });
-  return items.map(g => ({
-    id: g.id, title: g.title ?? "", image: g.image,
-    category: g.category ?? "", order: g.order, isActive: g.isActive,
-  }));
+  const now = Date.now();
+  if (cachedGallery && now - cachedGallery.time < CACHE_TTL_MS) {
+    return cachedGallery.data;
+  }
+  try {
+    const items = await prisma.galleryItem.findMany({ orderBy: { order: "asc" } });
+    const result = items.map(g => ({
+      id: g.id, title: g.title ?? "", image: g.image,
+      category: g.category ?? "", order: g.order, isActive: g.isActive,
+    }));
+    cachedGallery = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch gallery items from DB:", error);
+    return cachedGallery?.data ?? [];
+  }
 }
 
 export async function createGalleryItem(data: { title?: string; image: string; category?: string }): Promise<GalleryItemData> {
+  cachedGallery = null;
   const g = await prisma.galleryItem.create({ data });
   return {
     id: g.id, title: g.title ?? "", image: g.image,
@@ -376,6 +434,7 @@ export async function createGalleryItem(data: { title?: string; image: string; c
 
 export async function deleteGalleryItem(id: string): Promise<boolean> {
   try {
+    cachedGallery = null;
     await prisma.galleryItem.delete({ where: { id } });
     return true;
   } catch { return false; }
@@ -383,15 +442,27 @@ export async function deleteGalleryItem(id: string): Promise<boolean> {
 
 // ── Price List ──────────────────────────────────────
 export async function getPriceLists(): Promise<PriceListData[]> {
-  const lists = await prisma.priceList.findMany({ orderBy: { order: "asc" } });
-  return lists.map(p => ({
-    id: p.id, category: p.category,
-    items: parseJSON<PriceListItem[]>(p.items, []),
-    order: p.order,
-  }));
+  const now = Date.now();
+  if (cachedPriceLists && now - cachedPriceLists.time < CACHE_TTL_MS) {
+    return cachedPriceLists.data;
+  }
+  try {
+    const lists = await prisma.priceList.findMany({ orderBy: { order: "asc" } });
+    const result = lists.map(p => ({
+      id: p.id, category: p.category,
+      items: parseJSON<PriceListItem[]>(p.items, []),
+      order: p.order,
+    }));
+    cachedPriceLists = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch price lists from DB:", error);
+    return cachedPriceLists?.data ?? [];
+  }
 }
 
 export async function savePriceList(category: string, items: PriceListItem[]): Promise<void> {
+  cachedPriceLists = null;
   await prisma.priceList.upsert({
     where: { category },
     create: { category, items: JSON.stringify(items) },
@@ -422,16 +493,27 @@ export async function getPostBySlug(slug: string): Promise<PostData | null> {
 }
 
 export async function getPublishedPosts(): Promise<PostData[]> {
-  const posts = await prisma.post.findMany({
-    where: { status: "published" },
-    orderBy: { createdAt: "desc" },
-  });
-  return posts.map(p => ({
-    id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
-    content: p.content ?? "", thumbnail: p.thumbnail ?? "",
-    categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
-    createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
-  }));
+  const now = Date.now();
+  if (cachedPosts && now - cachedPosts.time < CACHE_TTL_MS) {
+    return cachedPosts.data;
+  }
+  try {
+    const posts = await prisma.post.findMany({
+      where: { status: "published" },
+      orderBy: { createdAt: "desc" },
+    });
+    const result = posts.map(p => ({
+      id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
+      content: p.content ?? "", thumbnail: p.thumbnail ?? "",
+      categoryId: p.categoryId ?? "", status: p.status as "published" | "draft",
+      createdAt: p.createdAt.toISOString(), updatedAt: p.updatedAt.toISOString(),
+    }));
+    cachedPosts = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch published posts from DB:", error);
+    return cachedPosts?.data ?? [];
+  }
 }
 
 export async function getPublishedPostBySlug(slug: string): Promise<PostData | null> {
@@ -446,6 +528,7 @@ export async function getPublishedPostBySlug(slug: string): Promise<PostData | n
 }
 
 export async function createPost(data: Omit<PostData, "id" | "createdAt" | "updatedAt">): Promise<PostData> {
+  cachedPosts = null;
   const p = await prisma.post.create({ data });
   return {
     id: p.id, title: p.title, slug: p.slug, excerpt: p.excerpt ?? "",
@@ -457,6 +540,7 @@ export async function createPost(data: Omit<PostData, "id" | "createdAt" | "upda
 
 export async function updatePost(id: string, data: Partial<PostData>): Promise<boolean> {
   try {
+    cachedPosts = null;
     await prisma.post.update({ where: { id }, data });
     return true;
   } catch { return false; }
@@ -464,6 +548,7 @@ export async function updatePost(id: string, data: Partial<PostData>): Promise<b
 
 export async function deletePost(id: string): Promise<boolean> {
   try {
+    cachedPosts = null;
     await prisma.post.delete({ where: { id } });
     return true;
   } catch { return false; }
@@ -471,14 +556,19 @@ export async function deletePost(id: string): Promise<boolean> {
 
 // ── Settings ─────────────────────────────────────────
 export async function getSettings(): Promise<SiteSettings> {
+  const now = Date.now();
+  if (cachedSettings && now - cachedSettings.time < CACHE_TTL_MS) {
+    return cachedSettings.data;
+  }
+
   let rows: { key: string; value: string }[] = [];
 
   try {
     rows = await prisma.setting.findMany();
   } catch (error) {
-    if (!(error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2021")) {
-      throw error;
-    }
+    console.warn("Unable to fetch settings from DB, using fallback:", error);
+    if (cachedSettings) return cachedSettings.data;
+    return DEFAULT_SETTINGS;
   }
 
   const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
@@ -507,10 +597,13 @@ export async function getSettings(): Promise<SiteSettings> {
       }
     }
   }
+
+  cachedSettings = { data: settings, time: now };
   return settings;
 }
 
 export async function saveSettings(data: Partial<SiteSettings>): Promise<void> {
+  cachedSettings = null;
   for (const [key, value] of Object.entries(data)) {
     const strValue = typeof value === "string" ? value : JSON.stringify(value);
     await prisma.setting.upsert({
@@ -532,15 +625,27 @@ export async function createContact(data: { name: string; email?: string; phone?
 
 // ── Team Members ────────────────────────────────────
 export async function getTeamMembers(): Promise<TeamMemberData[]> {
-  const members = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
-  return members.map(m => ({
-    id: m.id, name: m.name, role: m.role,
-    image: m.image ?? "", bio: m.bio ?? "",
-    order: m.order, isActive: m.isActive,
-  }));
+  const now = Date.now();
+  if (cachedTeam && now - cachedTeam.time < CACHE_TTL_MS) {
+    return cachedTeam.data;
+  }
+  try {
+    const members = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
+    const result = members.map(m => ({
+      id: m.id, name: m.name, role: m.role,
+      image: m.image ?? "", bio: m.bio ?? "",
+      order: m.order, isActive: m.isActive,
+    }));
+    cachedTeam = { data: result, time: now };
+    return result;
+  } catch (error) {
+    console.warn("Unable to fetch team members from DB:", error);
+    return cachedTeam?.data ?? [];
+  }
 }
 
 export async function createTeamMember(data: Omit<TeamMemberData, "id">): Promise<TeamMemberData> {
+  cachedTeam = null;
   const m = await prisma.teamMember.create({ data });
   return {
     id: m.id, name: m.name, role: m.role,
@@ -551,6 +656,7 @@ export async function createTeamMember(data: Omit<TeamMemberData, "id">): Promis
 
 export async function updateTeamMember(id: string, data: Partial<TeamMemberData>): Promise<boolean> {
   try {
+    cachedTeam = null;
     await prisma.teamMember.update({ where: { id }, data });
     return true;
   } catch { return false; }
@@ -558,6 +664,7 @@ export async function updateTeamMember(id: string, data: Partial<TeamMemberData>
 
 export async function deleteTeamMember(id: string): Promise<boolean> {
   try {
+    cachedTeam = null;
     await prisma.teamMember.delete({ where: { id } });
     return true;
   } catch { return false; }
