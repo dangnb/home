@@ -473,7 +473,15 @@ function About({ settings }: { settings: SiteSettings }) {
 /* ─────────────────────────────────────────────────────── */
 /* Services                                                 */
 /* ─────────────────────────────────────────────────────── */
-function Services({ services, settings }: { services: ServiceData[]; settings: SiteSettings }) {
+function Services({
+    services,
+    settings,
+    onSelectService,
+}: {
+    services: ServiceData[];
+    settings: SiteSettings;
+    onSelectService: (service: ServiceData) => void;
+}) {
     const { locale } = useLocale();
     const isEn = locale === "en";
     const displayServices = services.slice(0, 4);
@@ -499,7 +507,10 @@ function Services({ services, settings }: { services: ServiceData[]; settings: S
                             data-delay={String((i + 1) * 100)}
                             style={{ position: "relative", height: 500, overflow: "hidden", cursor: "pointer" }}
                         >
-                            <ServiceCard title={getLocalizedText(s.name, locale)} img={s.image} slug={s.slug} />
+                            <ServiceCard
+                                service={s}
+                                onSelect={() => onSelectService(s)}
+                            />
                         </div>
                     ))}
                     {displayServices.length === 0 && (
@@ -513,30 +524,48 @@ function Services({ services, settings }: { services: ServiceData[]; settings: S
     );
 }
 
-function ServiceCard({ title, img, slug }: { title: string; img: string; slug: string }) {
+function ServiceCard({
+    service,
+    onSelect,
+}: {
+    service: ServiceData;
+    onSelect: () => void;
+}) {
     const { locale } = useLocale();
     const isEn = locale === "en";
-    const servicesHref = getLocalizedPath(locale, "services");
+    const title = getLocalizedText(service.name, locale);
+    const price = getLocalizedPrice(service.price, locale);
+    const promoPrice = service.promoPrice ? getLocalizedPrice(service.promoPrice, locale) : null;
     const imgRef = useRef<HTMLImageElement>(null);
-    const linkRef = useRef<HTMLAnchorElement>(null);
-    const fallbackImage = getServiceImageFallback(`${slug} ${title}`);
+    const linkRef = useRef<HTMLButtonElement>(null);
+    const fallbackImage = getServiceImageFallback(`${service.slug} ${title}`);
 
     return (
         <div
-            style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}
+            role="button"
+            tabIndex={0}
+            aria-label={isEn ? `View details for ${title}` : `Xem chi tiết dịch vụ ${title}`}
+            onClick={onSelect}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect();
+                }
+            }}
+            style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", outline: "none", cursor: "pointer" }}
             onMouseOver={() => {
-                if (imgRef.current) { imgRef.current.style.transform = "scale(1.1)"; }
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1.08)"; }
                 if (linkRef.current) linkRef.current.style.opacity = "1";
             }}
             onMouseOut={() => {
                 if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; }
-                if (linkRef.current) linkRef.current.style.opacity = "0";
+                if (linkRef.current) linkRef.current.style.opacity = "0.9";
             }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 ref={imgRef}
-                src={img || fallbackImage}
+                src={service.image || fallbackImage}
                 alt={title}
                 style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease" }}
                 onError={(e) => {
@@ -546,16 +575,636 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
                     }
                 }}
             />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.1) 60%, transparent 100%)" }} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, padding: "32px 28px", width: "100%", boxSizing: "border-box" }}>
-                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 600, color: "#fff", margin: "0 0 8px" }}>{title}</h3>
-                <Link
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.25) 50%, transparent 100%)" }} />
+
+            {promoPrice && (
+                <div style={{ position: "absolute", top: 18, left: 18, zIndex: 2 }}>
+                    <span style={{ background: "#be123c", color: "#fff", padding: "4px 10px", borderRadius: 30, fontSize: 10, fontWeight: 700, fontFamily: "Montserrat,sans-serif", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                        {isEn ? "Special" : "Ưu đãi"}
+                    </span>
+                </div>
+            )}
+
+            <div style={{ position: "absolute", bottom: 0, left: 0, padding: "28px 24px", width: "100%", boxSizing: "border-box" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, color: "#C2A979", fontWeight: 600 }}>
+                        ⏱ {service.duration || 60} {isEn ? "mins" : "phút"}
+                    </span>
+                    <span style={{ color: "rgba(255,255,255,0.4)" }}>•</span>
+                    <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#fff", fontWeight: 600 }}>
+                        {promoPrice || price}
+                    </span>
+                </div>
+                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 21, fontWeight: 600, color: "#fff", margin: "0 0 10px", lineHeight: 1.3 }}>{title}</h3>
+                <button
                     ref={linkRef}
-                    href={servicesHref}
-                    style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", opacity: 0, transition: "opacity .4s", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}
+                    type="button"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onSelect();
+                    }}
+                    style={{
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        fontFamily: "Montserrat,sans-serif",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "#C2A979",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        opacity: 0.9,
+                        transition: "all .3s ease",
+                    }}
                 >
                     {isEn ? "VIEW DETAILS →" : "XEM CHI TIẾT →"}
-                </Link>
+                </button>
+            </div>
+        </div>
+    );
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* Service Detail Modal (Quick View Popup)                  */
+/* ─────────────────────────────────────────────────────── */
+function ServiceDetailModal({
+    service,
+    settings,
+    onClose,
+}: {
+    service: ServiceData;
+    settings: SiteSettings;
+    onClose: () => void;
+}) {
+    const { locale } = useLocale();
+    const isEn = locale === "en";
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    const title = getLocalizedText(service.name, locale);
+    const description = getLocalizedText(service.description, locale);
+    const price = getLocalizedPrice(service.price, locale);
+    const promoPrice = service.promoPrice ? getLocalizedPrice(service.promoPrice, locale) : null;
+    const fallbackImage = getServiceImageFallback(`${service.slug} ${title}`);
+    const bookingUrl = `${getLocalizedPath(locale, "booking")}?service=${encodeURIComponent(title)}`;
+    const servicesUrl = getLocalizedPath(locale, "services");
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.body.style.overflow = prevOverflow;
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [onClose]);
+
+    return (
+        <div
+            className="service-detail-modal-overlay"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="service-modal-title"
+            style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 350,
+                backgroundColor: "rgba(20, 18, 15, 0.82)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "20px 16px",
+                overflowY: "auto",
+            }}
+        >
+            <div
+                ref={modalRef}
+                onClick={(e) => e.stopPropagation()}
+                className="service-detail-modal-content"
+                style={{
+                    position: "relative",
+                    width: "100%",
+                    maxWidth: 860,
+                    backgroundColor: "#FDFBF7",
+                    borderRadius: 12,
+                    border: "1px solid rgba(194, 169, 121, 0.4)",
+                    boxShadow: "0 28px 70px rgba(0,0,0,0.45)",
+                    overflow: "hidden",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1.15fr",
+                    maxHeight: "min(92vh, 760px)",
+                    margin: "auto",
+                }}
+            >
+                {/* Close Button */}
+                <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label={isEn ? "Close modal" : "Đóng cửa sổ"}
+                    style={{
+                        position: "absolute",
+                        top: 14,
+                        right: 14,
+                        zIndex: 10,
+                        width: 36,
+                        height: 36,
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(46, 46, 46, 0.8)",
+                        color: "#fff",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 18,
+                        cursor: "pointer",
+                        transition: "all 0.25s ease",
+                    }}
+                    onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = "#C2A979";
+                        e.currentTarget.style.color = "#2E2E2E";
+                    }}
+                    onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = "rgba(46, 46, 46, 0.8)";
+                        e.currentTarget.style.color = "#fff";
+                    }}
+                >
+                    ✕
+                </button>
+
+                {/* Left Column: Image & Badges */}
+                <div
+                    style={{
+                        position: "relative",
+                        minHeight: 280,
+                        backgroundColor: "#181715",
+                        overflow: "hidden",
+                    }}
+                >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={service.image || fallbackImage}
+                        alt={title}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            display: "block",
+                        }}
+                        onError={(e) => {
+                            const image = e.currentTarget;
+                            if (image.src !== new URL(fallbackImage, window.location.origin).href) {
+                                image.src = fallbackImage;
+                            }
+                        }}
+                    />
+                    <div
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.85) 100%)",
+                        }}
+                    />
+                    <div
+                        style={{
+                            position: "absolute",
+                            top: 16,
+                            left: 16,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 6,
+                            zIndex: 2,
+                        }}
+                    >
+                        <span
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
+                                padding: "4px 12px",
+                                borderRadius: 30,
+                                backgroundColor: "rgba(253, 251, 247, 0.92)",
+                                color: "#2E2E2E",
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 10,
+                                fontWeight: 700,
+                                letterSpacing: "0.1em",
+                                textTransform: "uppercase",
+                                backdropFilter: "blur(4px)",
+                                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                            }}
+                        >
+                            <span style={{ color: "#C2A979" }}>✦</span>
+                            {settings.siteName || "Mộc Salon"}
+                        </span>
+                        {promoPrice && (
+                            <span
+                                style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 4,
+                                    padding: "4px 10px",
+                                    borderRadius: 30,
+                                    background: "#be123c",
+                                    color: "#fff",
+                                    fontFamily: "Montserrat, sans-serif",
+                                    fontSize: 10,
+                                    fontWeight: 700,
+                                    letterSpacing: "0.08em",
+                                    textTransform: "uppercase",
+                                }}
+                            >
+                                🔥 {isEn ? "SPECIAL PROMO" : "ƯU ĐÃI NỔI BẬT"}
+                            </span>
+                        )}
+                    </div>
+
+                    <div
+                        style={{
+                            position: "absolute",
+                            bottom: 16,
+                            left: 16,
+                            right: 16,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 10,
+                            color: "#fff",
+                            fontFamily: "Montserrat, sans-serif",
+                            fontSize: 12,
+                        }}
+                    >
+                        <span
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
+                                background: "rgba(0,0,0,0.6)",
+                                padding: "6px 12px",
+                                borderRadius: 6,
+                                border: "1px solid rgba(194, 169, 121, 0.3)",
+                            }}
+                        >
+                            ⏱ {service.duration || 60} {isEn ? "mins" : "phút"}
+                        </span>
+                        <span
+                            style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 6,
+                                background: "rgba(0,0,0,0.6)",
+                                padding: "6px 12px",
+                                borderRadius: 6,
+                                border: "1px solid rgba(194, 169, 121, 0.3)",
+                            }}
+                        >
+                            ✦ {isEn ? "Autoclave Sterilized" : "Vô trùng y khoa"}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Right Column: Detailed Info & Actions */}
+                <div
+                    style={{
+                        padding: "36px 32px 32px",
+                        display: "flex",
+                        flexDirection: "column",
+                        overflowY: "auto",
+                        boxSizing: "border-box",
+                    }}
+                >
+                    <div style={{ marginBottom: 16 }}>
+                        <div
+                            style={{
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 11,
+                                fontWeight: 700,
+                                letterSpacing: "0.16em",
+                                textTransform: "uppercase",
+                                color: "#C2A979",
+                                marginBottom: 6,
+                            }}
+                        >
+                            {isEn ? "EXCLUSIVE TREATMENT" : "DỊCH VỤ ĐẶC TRƯNG"}
+                        </div>
+                        <h2
+                            id="service-modal-title"
+                            style={{
+                                fontFamily: "'Playfair Display', serif",
+                                fontSize: "clamp(22px, 2.5vw, 28px)",
+                                fontWeight: 700,
+                                color: "#2E2E2E",
+                                margin: 0,
+                                lineHeight: 1.25,
+                            }}
+                        >
+                            {title}
+                        </h2>
+                    </div>
+
+                    {/* Price banner */}
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "baseline",
+                            gap: 12,
+                            padding: "14px 18px",
+                            backgroundColor: "#F7F3EB",
+                            borderRadius: 8,
+                            border: "1px solid rgba(194, 169, 121, 0.3)",
+                            marginBottom: 20,
+                        }}
+                    >
+                        {promoPrice ? (
+                            <>
+                                <span
+                                    style={{
+                                        fontFamily: "'Playfair Display', serif",
+                                        fontSize: 26,
+                                        fontWeight: 700,
+                                        color: "#C2A979",
+                                    }}
+                                >
+                                    {promoPrice}
+                                </span>
+                                <span
+                                    style={{
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 14,
+                                        color: "#999",
+                                        textDecoration: "line-through",
+                                    }}
+                                >
+                                    {price}
+                                </span>
+                                <span
+                                    style={{
+                                        marginLeft: "auto",
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 11,
+                                        fontWeight: 700,
+                                        color: "#be123c",
+                                        textTransform: "uppercase",
+                                    }}
+                                >
+                                    {isEn ? "Special offer" : "Giá ưu đãi"}
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <span
+                                    style={{
+                                        fontFamily: "'Playfair Display', serif",
+                                        fontSize: 26,
+                                        fontWeight: 700,
+                                        color: "#C2A979",
+                                    }}
+                                >
+                                    {price}
+                                </span>
+                                <span
+                                    style={{
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 12,
+                                        color: "#777",
+                                    }}
+                                >
+                                    {isEn ? "/ session (full treatment)" : "/ liệu trình trọn gói"}
+                                </span>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Description */}
+                    <div style={{ marginBottom: 24 }}>
+                        <div
+                            style={{
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 11,
+                                fontWeight: 700,
+                                letterSpacing: "0.1em",
+                                textTransform: "uppercase",
+                                color: "#666",
+                                marginBottom: 8,
+                            }}
+                        >
+                            {isEn ? "Treatment Details" : "Mô tả chi tiết"}
+                        </div>
+                        <p
+                            style={{
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 13.5,
+                                lineHeight: 1.7,
+                                color: "#555",
+                                margin: 0,
+                                whiteSpace: "pre-line",
+                            }}
+                        >
+                            {description || (isEn ? "Specialized nail care treatment provided by Mộc Salon's master artists with premium organic products and medical-grade sanitation." : "Liệu trình chăm sóc móng chuyên sâu tại Mộc Salon với kỹ thuật viên lành nghề, dòng sơn dưỡng organic cao cấp và quy trình tiệt trùng chuẩn y khoa.")}
+                        </p>
+                    </div>
+
+                    {/* Features checklist */}
+                    <div style={{ marginBottom: 28 }}>
+                        <div
+                            style={{
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 11,
+                                fontWeight: 700,
+                                letterSpacing: "0.1em",
+                                textTransform: "uppercase",
+                                color: "#666",
+                                marginBottom: 10,
+                            }}
+                        >
+                            {isEn ? "Salon Standards & Care" : "Cam kết tại Mộc Salon"}
+                        </div>
+                        <ul
+                            style={{
+                                listStyle: "none",
+                                padding: 0,
+                                margin: 0,
+                                display: "grid",
+                                gridTemplateColumns: "1fr",
+                                gap: 8,
+                            }}
+                        >
+                            {[
+                                isEn ? "100% Autoclave-sterilized tools sealed in individual medical pouches" : "Dụng cụ tiệt trùng Autoclave niêm phong túi riêng cho từng khách",
+                                isEn ? "Premium non-toxic, vegan organic gel polish imported directly" : "Sơn gel cao cấp không chì, không hóa chất độc hại, dưỡng móng",
+                                isEn ? "Complimentary herbal tea, light refreshments & relaxing spa vibe" : "Thưởng thức trà thảo mộc & không gian thư giãn phong cách Mộc",
+                                isEn ? "7-day complimentary nail guarantee & aftercare consultation" : "Bảo hành móng 7 ngày & tư vấn chăm sóc móng tại nhà miễn phí",
+                            ].map((feat, idx) => (
+                                <li
+                                    key={idx}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 10,
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 12.5,
+                                        color: "#444",
+                                    }}
+                                >
+                                    <span style={{ color: "#C2A979", fontWeight: "bold" }}>✓</span>
+                                    <span>{feat}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Actions */}
+                    <div
+                        style={{
+                            marginTop: "auto",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 10,
+                        }}
+                    >
+                        <Link
+                            href={bookingUrl}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 8,
+                                padding: "14px 24px",
+                                background: "linear-gradient(135deg, #C2A979 0%, #a08040 100%)",
+                                color: "#fff",
+                                textDecoration: "none",
+                                fontFamily: "Montserrat, sans-serif",
+                                fontSize: 13,
+                                fontWeight: 700,
+                                letterSpacing: "0.08em",
+                                textTransform: "uppercase",
+                                borderRadius: 6,
+                                boxShadow: "0 6px 20px rgba(194, 169, 121, 0.4)",
+                                transition: "all 0.25s ease",
+                            }}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.transform = "translateY(-1px)";
+                                e.currentTarget.style.boxShadow = "0 8px 24px rgba(194, 169, 121, 0.5)";
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.transform = "none";
+                                e.currentTarget.style.boxShadow = "0 6px 20px rgba(194, 169, 121, 0.4)";
+                            }}
+                        >
+                            <span>📅 {isEn ? "Book This Treatment Now" : "Đặt lịch dịch vụ này ngay"}</span>
+                            <span>→</span>
+                        </Link>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 12,
+                                paddingTop: 4,
+                            }}
+                        >
+                            <Link
+                                href={servicesUrl}
+                                style={{
+                                    fontFamily: "Montserrat, sans-serif",
+                                    fontSize: 12,
+                                    fontWeight: 600,
+                                    color: "#888",
+                                    textDecoration: "none",
+                                    transition: "color 0.2s",
+                                }}
+                                onMouseOver={(e) => (e.currentTarget.style.color = "#C2A979")}
+                                onMouseOut={(e) => (e.currentTarget.style.color = "#888")}
+                            >
+                                📋 {isEn ? "View all services & prices" : "Xem tất cả dịch vụ & bảng giá"}
+                            </Link>
+
+                            {settings.hotline && (
+                                <a
+                                    href={`tel:${settings.hotline}`}
+                                    style={{
+                                        fontFamily: "Montserrat, sans-serif",
+                                        fontSize: 12,
+                                        fontWeight: 600,
+                                        color: "#C2A979",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    📞 {settings.hotline}
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/* ─────────────────────────────────────────────────────── */
+/* Gallery Lightbox                                         */
+/* ─────────────────────────────────────────────────────── */
+function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
+    const { locale } = useLocale();
+    const isEn = locale === "en";
+
+    useEffect(() => {
+        const fn = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", fn);
+        return () => {
+            window.removeEventListener("keydown", fn);
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [onClose]);
+
+    return (
+        <div
+            onClick={onClose}
+            className="gallery-lightbox"
+            style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 350,
+                background: "rgba(0,0,0,.88)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 24,
+                backdropFilter: "blur(6px)",
+            }}
+        >
+            <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", maxWidth: 900, maxHeight: "85vh", width: "100%" }}>
+                <button
+                    onClick={onClose}
+                    aria-label={isEn ? "Close" : "Đóng"}
+                    style={{ position: "absolute", top: -40, right: 0, background: "none", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", opacity: 0.8, zIndex: 1 }}
+                >
+                    ✕
+                </button>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src={img.image}
+                    alt={img.title || "Mẫu móng tại Mộc Salon"}
+                    style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
+                />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top,rgba(0,0,0,.7),transparent)", padding: "40px 28px 20px" }}>
+                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>
+                        {getLocalizedText(img.category, locale)}
+                    </div>
+                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", color: "#fff" }}>
+                        {getLocalizedText(img.title, locale)}
+                    </div>
+                </div>
             </div>
         </div>
     );
@@ -564,7 +1213,13 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
 /* ─────────────────────────────────────────────────────── */
 /* Gallery – Bento Grid                                     */
 /* ─────────────────────────────────────────────────────── */
-function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
+function Gallery({
+    gallery,
+    onSelectItem,
+}: {
+    gallery: GalleryItemData[];
+    onSelectItem: (item: GalleryItemData) => void;
+}) {
     const { locale } = useLocale();
     const isEn = locale === "en";
 
@@ -593,7 +1248,12 @@ function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
 
                 <div className="homepage-gallery__grid reveal" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gridAutoRows: 280, gap: 12 }}>
                     {items.map((g, i) => (
-                        <GalleryItem key={g.id} url={g.image} alt={g.title || "Gallery"} span={spans[i] || ""} />
+                        <GalleryItem
+                            key={g.id}
+                            item={g}
+                            span={spans[i] || ""}
+                            onClick={() => onSelectItem(g)}
+                        />
                     ))}
                 </div>
             </div>
@@ -601,28 +1261,86 @@ function Gallery({ gallery }: { gallery: GalleryItemData[] }) {
     );
 }
 
-function GalleryItem({ url, alt, span }: { url: string; alt: string; span: string }) {
+function GalleryItem({
+    item,
+    span,
+    onClick,
+}: {
+    item: GalleryItemData;
+    span: string;
+    onClick: () => void;
+}) {
+    const { locale } = useLocale();
+    const isEn = locale === "en";
     const ref = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
 
     const gridStyles: React.CSSProperties = {};
     if (span.includes("row-span-2")) gridStyles.gridRow = "span 2";
     if (span.includes("col-span-2")) gridStyles.gridColumn = "span 2";
 
+    const title = getLocalizedText(item.title, locale);
+
     return (
         <div
             ref={ref}
-            style={{ overflow: "hidden", cursor: "pointer", ...gridStyles }}
-            onMouseOver={() => { if (imgRef.current) { imgRef.current.style.transform = "scale(1.05)"; } }}
-            onMouseOut={() => { if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; } }}
+            role="button"
+            tabIndex={0}
+            aria-label={isEn ? `View image ${title || item.category}` : `Xem ảnh ${title || item.category}`}
+            onClick={onClick}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onClick();
+                }
+            }}
+            style={{ overflow: "hidden", cursor: "pointer", position: "relative", outline: "none", ...gridStyles }}
+            onMouseOver={() => {
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1.06)"; }
+                if (overlayRef.current) overlayRef.current.style.opacity = "1";
+            }}
+            onMouseOut={() => {
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; }
+                if (overlayRef.current) overlayRef.current.style.opacity = "0";
+            }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 ref={imgRef}
-                src={url}
-                alt={alt}
+                src={item.image}
+                alt={title || "Mộc Salon"}
                 style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease" }}
             />
+            <div
+                ref={overlayRef}
+                style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.4)",
+                    opacity: 0,
+                    transition: "opacity .3s ease",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div
+                    style={{
+                        padding: "8px 16px",
+                        backgroundColor: "rgba(253,251,247,0.92)",
+                        color: "#2E2E2E",
+                        fontFamily: "Montserrat,sans-serif",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        borderRadius: 30,
+                    }}
+                >
+                    🔍 {isEn ? "ZOOM PHOTO" : "PHÓNG TO ẢNH"}
+                </div>
+            </div>
         </div>
     );
 }
@@ -632,6 +1350,8 @@ function GalleryItem({ url, alt, span }: { url: string; alt: string; span: strin
 /* ─────────────────────────────────────────────────────── */
 export default function HomePage({ services, gallery, settings }: { services: ServiceData[]; gallery: GalleryItemData[]; settings: SiteSettings }) {
     useReveal();
+    const [selectedService, setSelectedService] = useState<ServiceData | null>(null);
+    const [selectedGalleryItem, setSelectedGalleryItem] = useState<GalleryItemData | null>(null);
 
     return (
         <>
@@ -665,6 +1385,14 @@ export default function HomePage({ services, gallery, settings }: { services: Se
           .homepage-gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; grid-auto-rows: minmax(160px, 31vw) !important; }
           .homepage-services__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 14px !important; }
           .homepage-services__grid > div { height: clamp(300px, 64vw, 460px) !important; }
+        }
+
+        @media (max-width: 767px) {
+          .service-detail-modal-content {
+            grid-template-columns: 1fr !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+          }
         }
 
         @media (max-width: 600px) {
@@ -701,11 +1429,26 @@ export default function HomePage({ services, gallery, settings }: { services: Se
             <main>
                 <Hero settings={settings} />
                 <About settings={settings} />
-                <Services services={services} settings={settings} />
-                <Gallery gallery={gallery} />
+                <Services services={services} settings={settings} onSelectService={setSelectedService} />
+                <Gallery gallery={gallery} onSelectItem={setSelectedGalleryItem} />
             </main>
 
             <SlideOutBooking services={services} settings={settings} />
+
+            {selectedService && (
+                <ServiceDetailModal
+                    service={selectedService}
+                    settings={settings}
+                    onClose={() => setSelectedService(null)}
+                />
+            )}
+
+            {selectedGalleryItem && (
+                <HomeGalleryLightbox
+                    img={selectedGalleryItem}
+                    onClose={() => setSelectedGalleryItem(null)}
+                />
+            )}
         </>
     );
 }

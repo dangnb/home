@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import AnnouncementModal from "./AnnouncementModal";
 import type { SiteSettings } from "@/lib/db";
 import Link from "next/link";
 import { MdCalendarMonth } from "react-icons/md";
@@ -27,6 +28,7 @@ export default function PublicShell({ children, settings }: Props) {
       <Navbar />
       {children}
       <Footer settings={settings} />
+      <AnnouncementModal settings={settings} />
       {/* One shared quick-book action for public pages on small screens. */}
       <Link
         href={bookingHref}

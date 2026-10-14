@@ -93,6 +93,7 @@ export interface SiteSettings {
   tagline: string;
   hotline: string;
   hotline2: string;
+  phone?: string;
   email: string;
   address: string;
   workingHours: string;
@@ -124,6 +125,14 @@ export interface SiteSettings {
   aboutImage1: string;
   aboutImage2: string;
   aboutValues: { title: string; description: string }[];
+  popupEnabled: boolean;
+  popupLevel: "info" | "promo" | "warning" | "urgent";
+  popupBadge: string;
+  popupTitle: string;
+  popupContent: string;
+  popupCtaText: string;
+  popupCtaLink: string;
+  popupDismissType: "daily" | "session" | "always";
 }
 
 // ── Default Settings ─────────────────────────────
@@ -132,6 +141,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   tagline: "Nghệ thuật móng tinh tế & Chăm sóc móng cao cấp | Refined Nail Artistry & Luxury Care",
   hotline: "0988 123 456",
   hotline2: "024 3988 8888",
+  phone: "0988 123 456",
   email: "contact@mocsalon.vn",
   address: "Số 123 Phố Huế, Phường Hàng Bài, Quận Hoàn Kiếm, Hà Nội | 123 Pho Hue St, Hang Bai Ward, Hoan Kiem Dist, Hanoi",
   workingHours: "Thứ Hai – Thứ Bảy: 09:00 – 20:00, Chủ Nhật: 09:00 – 18:00 | Mon – Sat: 09:00 – 20:00, Sun: 09:00 – 18:00",
@@ -179,6 +189,14 @@ const DEFAULT_SETTINGS: SiteSettings = {
     { title: "Vệ sinh y tế | Clinical Hygiene", description: "Dụng cụ được tiệt trùng autoclave chuẩn y khoa để bạn luôn an tâm. | All instruments undergo medical autoclave sterilization for total peace of mind." },
     { title: "Thư giãn | Serene Sanctuary", description: "Không gian nhẹ nhàng ấm cúng để bạn tận hưởng trọn vẹn thời gian làm đẹp. | A tranquil ambiance designed for you to unwind and savour your beauty ritual." },
   ],
+  popupEnabled: false,
+  popupLevel: "promo",
+  popupBadge: "Ưu Đãi Đặc Biệt | Special Offer",
+  popupTitle: "Chào mừng quý khách đến với Mộc Salon | Welcome to Mộc Salon",
+  popupContent: "Tặng ngay voucher giảm giá 20% cho khách hàng đặt lịch hẹn online lần đầu trong tuần này. Trải nghiệm dịch vụ chăm sóc móng chuẩn y khoa cùng nghệ nhân hàng đầu!\n\n✦ Hotline tư vấn: 0988 123 456\n✦ Địa chỉ: 123 Phố Huế, Hoàn Kiếm, Hà Nội",
+  popupCtaText: "Đặt lịch nhận ưu đãi | Book Now",
+  popupCtaLink: "/dat-lich",
+  popupDismissType: "daily",
 };
 
 // ── Helper ────────────────────────────────────────
@@ -590,12 +608,18 @@ export async function getSettings(): Promise<SiteSettings> {
         continue;
       }
       const defaultVal = (settings as Record<string, unknown>)[key];
-      if (Array.isArray(defaultVal)) {
+      if (typeof defaultVal === "boolean") {
+        (settings as Record<string, unknown>)[key] = value === "true" || value === "1";
+      } else if (Array.isArray(defaultVal)) {
         (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);
       } else {
         (settings as Record<string, unknown>)[key] = value;
       }
     }
+  }
+
+  if (!settings.phone) {
+    settings.phone = settings.hotline;
   }
 
   cachedSettings = { data: settings, time: now };

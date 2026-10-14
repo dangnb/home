@@ -5,12 +5,13 @@ import { requireAdmin } from "@/lib/auth";
 import { parseJsonBody } from "@/lib/validation";
 
 const SETTING_KEYS = new Set<keyof SiteSettings>([
-  "siteName", "tagline", "hotline", "hotline2", "email", "address", "workingHours",
+  "siteName", "tagline", "hotline", "hotline2", "phone", "email", "address", "workingHours",
   "facebook", "tiktok", "youtube", "zalo", "instagram", "mapEmbedUrl", "mapLat", "mapLng",
   "seoTitle", "seoDescription", "seoKeywords", "footerTaglines", "copyright", "departureSlots",
   "bannerImage", "bannerBadge", "bannerTitle", "bannerSubtitle", "bannerCta1Text", "bannerCta1Link",
   "bannerCta2Text", "bannerCta2Link", "bannerStats", "aboutHeadline", "aboutSubheadline", "aboutImage1",
   "aboutImage2", "aboutValues",
+  "popupEnabled", "popupLevel", "popupBadge", "popupTitle", "popupContent", "popupCtaText", "popupCtaLink", "popupDismissType",
 ]);
 
 export async function GET() {

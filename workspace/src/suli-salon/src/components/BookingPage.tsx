@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import type { ServiceData, SiteSettings, CategoryData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
@@ -85,6 +85,42 @@ export default function BookingPage({ services, settings, categories }: { servic
     const [form, setForm] = useState<FormData>({
         branch: "", serviceId: "", serviceName: "", date: "", time: "", name: "", phone: "", email: "", notes: "",
     });
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const searchParams = new URLSearchParams(window.location.search);
+        const serviceQuery = searchParams.get("service");
+        if (!serviceQuery) return;
+
+        const decoded = decodeURIComponent(serviceQuery).trim().toLowerCase();
+        const matched = services.find((s) => {
+            const viName = getLocalizedText(s.name, "vi").toLowerCase();
+            const enName = getLocalizedText(s.name, "en").toLowerCase();
+            const rawName = (s.name || "").toLowerCase();
+            const slug = (s.slug || "").toLowerCase();
+            return (
+                viName === decoded ||
+                enName === decoded ||
+                rawName === decoded ||
+                slug === decoded ||
+                viName.includes(decoded) ||
+                decoded.includes(viName)
+            );
+        });
+
+        if (matched) {
+            setForm((prev) => ({
+                ...prev,
+                branch: "main",
+                serviceId: matched.id,
+                serviceName: getLocalizedText(matched.name, locale),
+            }));
+            if (matched.categoryId) {
+                setActiveCatId(matched.categoryId);
+            }
+            setStep(3);
+        }
+    }, [services, locale]);
 
     const stepLabels = isEn
         ? ["Branch", "Service", "Date & Time", "Details"]

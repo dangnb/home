@@ -5,34 +5,13 @@ import styles from "../admin.module.css";
 import sStyles from "./settings.module.css";
 import { FormInput } from "@/components/Admin/FormComponents";
 import AdminLoading from "@/components/Admin/AdminLoading";
-
-interface SiteSettings {
-  siteName: string; tagline: string;
-  hotline: string; hotline2: string;
-  email: string; address: string; workingHours: string;
-  facebook: string; tiktok: string; youtube: string;
-  zalo: string; instagram: string;
-  mapEmbedUrl: string; mapLat: string; mapLng: string;
-  seoTitle: string; seoDescription: string; seoKeywords: string;
-  footerTaglines: string[];
-  copyright: string;
-  departureSlots: string[];
-  bannerImage: string;
-  bannerBadge: string;
-  bannerTitle: string;
-  bannerSubtitle: string;
-  bannerCta1Text: string;
-  bannerCta1Link: string;
-  bannerCta2Text: string;
-  bannerCta2Link: string;
-  bannerStats: { value: string; label: string }[];
-}
+import type { SiteSettings } from "@/lib/db";
 
 export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("contact");
+  const [activeTab, setActiveTab] = useState<"popup" | "contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("popup");
 
   useEffect(() => {
     fetch("/api/settings")
@@ -85,6 +64,7 @@ export default function SettingsPage() {
   }
 
   const tabs = [
+    { id: "popup", label: "📢 Popup thông báo", icon: "📢" },
     { id: "contact", label: "📞 Liên hệ", icon: "📞" },
     { id: "social", label: "🌐 Mạng xã hội", icon: "🌐" },
     { id: "map", label: "📍 Bản đồ", icon: "📍" },
@@ -100,7 +80,7 @@ export default function SettingsPage() {
         <div>
           <h1 className={styles.pageTitle}>Cấu Hình Hệ Thống</h1>
           <p style={{ fontSize: "0.875rem", color: "#888", marginTop: "0.25rem" }}>
-            Quản lý thông tin liên hệ, mạng xã hội, bản đồ và SEO
+            Quản lý thông tin liên hệ, mạng xã hội, bản đồ, SEO và popup thông báo
           </p>
         </div>
       </div>
@@ -120,6 +100,355 @@ export default function SettingsPage() {
             </button>
           ))}
         </div>
+
+        {/* ── Tab: Popup thông báo ── */}
+        {activeTab === "popup" && (
+          <div className={styles.formCard}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16, marginBottom: 24, paddingBottom: 18, borderBottom: "1px solid rgba(114, 86, 52, 0.12)" }}>
+              <div>
+                <h3 className={styles.cardSectionTitle} style={{ margin: "0 0 6px" }}>
+                  📢 Cấu Hình Popup Thông Báo Khách Truy Cập
+                </h3>
+                <p style={{ fontSize: "0.85rem", color: "#66594e", margin: 0, lineHeight: 1.5 }}>
+                  Tự động hiển thị cửa sổ thông báo/khuyến mãi ngay khi khách hàng tải trang web. Hỗ trợ 4 mức quan trọng với màu sắc trực quan tương ứng.
+                </p>
+              </div>
+
+              {/* Toggle switch */}
+              <div style={{ display: "flex", alignItems: "center", gap: 12, background: form.popupEnabled ? "rgba(34, 197, 94, 0.12)" : "rgba(120, 107, 94, 0.08)", padding: "8px 18px", borderRadius: 30, border: `1.5px solid ${form.popupEnabled ? "rgba(34, 197, 94, 0.35)" : "rgba(120, 107, 94, 0.2)"}` }}>
+                <span style={{ fontSize: "0.85rem", fontWeight: 700, color: form.popupEnabled ? "#15803d" : "#786b5e" }}>
+                  {form.popupEnabled ? "🟢 ĐANG BẬT" : "⚪ ĐANG TẮT"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => set("popupEnabled", !form.popupEnabled)}
+                  style={{
+                    position: "relative",
+                    width: 48,
+                    height: 26,
+                    borderRadius: 30,
+                    backgroundColor: form.popupEnabled ? "#16a34a" : "#ccc",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "background-color 0.25s ease",
+                    padding: 0,
+                  }}
+                  aria-label="Bật/Tắt Popup"
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: 3,
+                      left: form.popupEnabled ? 25 : 3,
+                      width: 20,
+                      height: 20,
+                      borderRadius: "50%",
+                      backgroundColor: "#fff",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                      transition: "left 0.25s ease",
+                    }}
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Importance Levels Selection */}
+            <div style={{ marginBottom: 28 }}>
+              <label style={{ display: "block", fontSize: "0.88rem", fontWeight: 700, color: "#302821", marginBottom: 10 }}>
+                Mức Độ Quan Trọng Của Thông Báo & Màu Sắc Đại Diện
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 12 }}>
+                {[
+                  {
+                    id: "info" as const,
+                    label: "Thông thường",
+                    sub: "Chào mừng / Tin tức chung",
+                    icon: "ℹ️",
+                    color: "#2563EB",
+                    bg: "#EFF6FF",
+                    border: "#3B82F6",
+                  },
+                  {
+                    id: "promo" as const,
+                    label: "Khuyến mãi",
+                    sub: "Ưu đãi / Giảm giá đặc biệt",
+                    icon: "🎁",
+                    color: "#BE123C",
+                    bg: "#FFF1F2",
+                    border: "#E11D48",
+                  },
+                  {
+                    id: "warning" as const,
+                    label: "Lưu ý quan trọng",
+                    sub: "Đổi lịch / Hướng dẫn đón tiếp",
+                    icon: "⚠️",
+                    color: "#D97706",
+                    bg: "#FFFBEB",
+                    border: "#F59E0B",
+                  },
+                  {
+                    id: "urgent" as const,
+                    label: "Khẩn cấp",
+                    sub: "Thông báo gấp / Tạm ngưng",
+                    icon: "🚨",
+                    color: "#DC2626",
+                    bg: "#FEF2F2",
+                    border: "#EF4444",
+                  },
+                ].map((lvl) => {
+                  const isSelected = (form.popupLevel || "promo") === lvl.id;
+                  return (
+                    <div
+                      key={lvl.id}
+                      onClick={() => set("popupLevel", lvl.id)}
+                      style={{
+                        padding: "14px 16px",
+                        borderRadius: 12,
+                        cursor: "pointer",
+                        border: `2px solid ${isSelected ? lvl.border : "rgba(120, 107, 94, 0.15)"}`,
+                        background: isSelected ? lvl.bg : "#fff",
+                        boxShadow: isSelected ? `0 4px 14px ${lvl.color}25` : "none",
+                        transition: "all 0.2s ease",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 38,
+                          height: 38,
+                          borderRadius: "50%",
+                          backgroundColor: `${lvl.color}18`,
+                          color: lvl.color,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: 18,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {lvl.icon}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isSelected ? lvl.color : "#333" }}>
+                          {lvl.label}
+                        </div>
+                        <div style={{ fontSize: "0.75rem", color: "#777", marginTop: 2 }}>
+                          {lvl.sub}
+                        </div>
+                      </div>
+                      {isSelected && (
+                        <div style={{ color: lvl.color, fontWeight: "bold", fontSize: 16 }}>✓</div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Inputs grid */}
+            <div className={styles.formGrid}>
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>
+                  Huy hiệu nhỏ trên đầu popup (Badge)
+                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
+                    (Hỗ trợ song ngữ dạng: Tiêu đề TV | English Badge)
+                  </span>
+                </label>
+                <input
+                  value={form.popupBadge || ""}
+                  onChange={(e) => set("popupBadge", e.target.value)}
+                  placeholder="🎁 ƯU ĐÃI ĐẶC BIỆT | SPECIAL PROMOTION"
+                />
+              </div>
+
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>
+                  Tiêu đề thông báo (Title) <span style={{ color: "#be123c" }}>*</span>
+                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
+                    (Hỗ trợ song ngữ dạng: Tiêu đề TV | English Title)
+                  </span>
+                </label>
+                <input
+                  value={form.popupTitle || ""}
+                  onChange={(e) => set("popupTitle", e.target.value)}
+                  placeholder="Chào mừng bạn đến với Mộc Salon | Welcome to Mộc Salon"
+                  required={form.popupEnabled}
+                />
+              </div>
+
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>
+                  Nội dung chi tiết thông báo (Content)
+                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
+                    (Hỗ trợ xuống dòng & mô tả chi tiết, thể lệ, lưu ý)
+                  </span>
+                </label>
+                <textarea
+                  value={form.popupContent || ""}
+                  onChange={(e) => set("popupContent", e.target.value)}
+                  rows={4}
+                  placeholder="Nhập thông tin chi tiết về chương trình ưu đãi, sự kiện hoặc lưu ý dành cho khách hàng..."
+                  style={{ width: "100%", padding: "10px 14px", border: "1.5px solid rgba(194,169,121,0.25)", borderRadius: 10, fontSize: "0.88rem", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }}
+                />
+              </div>
+
+              <div className={styles.formField}>
+                <label>
+                  Chữ trên nút hành động (CTA Text)
+                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
+                    (Để trống nếu không muốn hiện nút)
+                  </span>
+                </label>
+                <input
+                  value={form.popupCtaText || ""}
+                  onChange={(e) => set("popupCtaText", e.target.value)}
+                  placeholder="Đặt lịch ngay | Book Now"
+                />
+              </div>
+
+              <div className={styles.formField}>
+                <label>
+                  Đường dẫn khi bấm nút (CTA Link)
+                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
+                    (Ví dụ: /dat-lich, /services, tel:0988123456)
+                  </span>
+                </label>
+                <input
+                  value={form.popupCtaLink || ""}
+                  onChange={(e) => set("popupCtaLink", e.target.value)}
+                  placeholder="/dat-lich"
+                />
+              </div>
+
+              <div className={`${styles.formField} ${styles.fullWidth}`}>
+                <label>Tần suất hiển thị cho mỗi khách truy cập (Dismiss Mode)</label>
+                <select
+                  value={form.popupDismissType || "daily"}
+                  onChange={(e) => set("popupDismissType", e.target.value as "daily" | "session" | "always")}
+                  style={{
+                    width: "100%",
+                    padding: "10px 14px",
+                    border: "1.5px solid rgba(194,169,121,0.25)",
+                    borderRadius: 10,
+                    fontSize: "0.88rem",
+                    backgroundColor: "#fff",
+                    outline: "none",
+                  }}
+                >
+                  <option value="daily">🕒 Mỗi khách chỉ thấy 1 lần trong ngày (Khuyên dùng - chuyên nghiệp, không gây phiền)</option>
+                  <option value="session">🌐 Mỗi khách chỉ thấy 1 lần trong mỗi phiên duyệt web</option>
+                  <option value="always">⚡ Luôn hiển thị mỗi khi tải lại trang (Thích hợp khi test hoặc thông báo khẩn cấp)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Live Visual Preview Card */}
+            <div className={sStyles.preview} style={{ marginTop: 24 }}>
+              <div className={sStyles.previewTitle}>
+                👁️ Trình Xem Trước Popup (Live Preview theo mức quan trọng "{form.popupLevel || "promo"}")
+              </div>
+              <div style={{ padding: "28px 20px", background: "#EAE5DC", display: "flex", justifyContent: "center" }}>
+                <div
+                  style={{
+                    width: "100%",
+                    maxWidth: 500,
+                    background: "#FDFBF7",
+                    borderRadius: 14,
+                    overflow: "hidden",
+                    boxShadow: "0 16px 40px rgba(0,0,0,0.18)",
+                    border: form.popupLevel === "info"
+                      ? "1.5px solid #3B82F6"
+                      : form.popupLevel === "warning"
+                      ? "1.5px solid #F59E0B"
+                      : form.popupLevel === "urgent"
+                      ? "1.5px solid #EF4444"
+                      : "1.5px solid #E11D48",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "20px 22px 18px",
+                      background: form.popupLevel === "info"
+                        ? "linear-gradient(135deg, #0F172A, #1E3A8A 65%, #3B82F6)"
+                        : form.popupLevel === "warning"
+                        ? "linear-gradient(135deg, #451A03, #78350F 55%, #D97706)"
+                        : form.popupLevel === "urgent"
+                        ? "linear-gradient(135deg, #450A0A, #7F1D1D 55%, #DC2626)"
+                        : "linear-gradient(135deg, #4C0519, #881337 50%, #C2A979)",
+                      color: "#fff",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          padding: "3px 10px",
+                          borderRadius: 20,
+                          backgroundColor: "rgba(255,255,255,0.2)",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {form.popupBadge || "THÔNG BÁO TỪ MỘC SALON"}
+                      </span>
+                      <span style={{ fontSize: 13, opacity: 0.7 }}>✕</span>
+                    </div>
+                    <div style={{ fontFamily: "serif", fontSize: 18, fontWeight: 700, lineHeight: 1.3 }}>
+                      {form.popupTitle || "Tiêu đề thông báo mẫu..."}
+                    </div>
+                  </div>
+
+                  <div style={{ padding: "18px 22px 20px" }}>
+                    <div style={{ fontSize: 13, color: "#4A4036", lineHeight: 1.6, whiteSpace: "pre-line", marginBottom: 18 }}>
+                      {form.popupContent || "Nội dung chi tiết thông báo sẽ được hiển thị tại đây với giao diện rõ ràng, dễ đọc cho khách hàng..."}
+                    </div>
+
+                    <div style={{ display: "flex", gap: 10 }}>
+                      {form.popupCtaText && (
+                        <div
+                          style={{
+                            flex: 1,
+                            padding: "10px 16px",
+                            textAlign: "center",
+                            color: "#fff",
+                            fontSize: 12,
+                            fontWeight: 700,
+                            borderRadius: 6,
+                            textTransform: "uppercase",
+                            background: form.popupLevel === "info"
+                              ? "#2563EB"
+                              : form.popupLevel === "warning"
+                              ? "#D97706"
+                              : form.popupLevel === "urgent"
+                              ? "#DC2626"
+                              : "#BE123C",
+                          }}
+                        >
+                          {form.popupCtaText} →
+                        </div>
+                      )}
+                      <div
+                        style={{
+                          padding: "10px 16px",
+                          textAlign: "center",
+                          color: "#666",
+                          fontSize: 12,
+                          fontWeight: 600,
+                          borderRadius: 6,
+                          border: "1px solid #ccc",
+                        }}
+                      >
+                        Đã hiểu / Đóng
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── Tab: Liên hệ ── */}
         {activeTab === "contact" && (
