@@ -71,10 +71,10 @@ export default function AdminAboutContentPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/settings").then((r) => (r.ok ? r.json() : {})),
-      fetch("/api/team").then((r) => (r.ok ? r.json() : [])),
+      fetch("/api/settings").then((r) => (r.ok ? (r.json() as Promise<Partial<SiteSettings>>) : ({} as Partial<SiteSettings>))),
+      fetch("/api/team").then((r) => (r.ok ? (r.json() as Promise<unknown[]>) : ([] as unknown[]))),
     ])
-      .then(([settingsData, teamData]) => {
+      .then(([settingsData, teamData]: [Partial<SiteSettings>, unknown[]]) => {
         setSettings({
           aboutHeadline: settingsData.aboutHeadline || "Nghệ thuật chăm sóc móng tinh tế",
           aboutSubheadline:
@@ -204,7 +204,7 @@ export default function AdminAboutContentPage() {
 
         <div className={styles.pageActions}>
           <Link
-            href="/vi/ve-chung-toi"
+            href="/vi/gioi-thieu"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.btnSecondary}
@@ -555,10 +555,10 @@ export default function AdminAboutContentPage() {
               <div className={aStyles.mockupDot} />
             </div>
             <div className={aStyles.mockupUrl}>
-              https://mocsalon.vn/vi/ve-chung-toi (Mô phỏng giao diện khách hàng)
+              https://mocsalon.vn/vi/gioi-thieu (Mô phỏng giao diện khách hàng)
             </div>
             <Link
-              href="/vi/ve-chung-toi"
+              href="/vi/gioi-thieu"
               target="_blank"
               rel="noreferrer"
               style={{ color: "#C2A979", fontSize: 11.5, fontWeight: 700, textDecoration: "none" }}
