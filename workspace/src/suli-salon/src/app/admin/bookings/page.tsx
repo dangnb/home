@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styles from "../admin.module.css";
 import bStyles from "./bookings.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
@@ -229,7 +230,25 @@ export default function AppointmentsPage() {
                   return (
                     <tr key={a.id}>
                       <td>
-                        <strong style={{ color: "#231B15" }}>{a.customerName}</strong>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <strong style={{ color: "#231B15" }}>{a.customerName}</strong>
+                          <Link
+                            href={`/admin/customers?q=${encodeURIComponent(a.phone)}`}
+                            title="Xem hồ sơ & sở thích móng của khách này"
+                            style={{
+                              fontSize: "11px",
+                              padding: "2px 7px",
+                              borderRadius: "6px",
+                              background: "rgba(194, 169, 121, 0.16)",
+                              color: "#8C6514",
+                              textDecoration: "none",
+                              fontWeight: 650,
+                              border: "1px solid rgba(194, 169, 121, 0.3)",
+                            }}
+                          >
+                            Hồ sơ
+                          </Link>
+                        </div>
                         <div style={{ marginTop: 4 }}>
                           <a
                             href={`tel:${a.phone}`}

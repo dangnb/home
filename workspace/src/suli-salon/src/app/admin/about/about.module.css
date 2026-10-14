@@ -1,0 +1,471 @@
+/* About Page Studio Styles */
+
+.studioHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.badgeLive {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: rgba(86, 133, 92, 0.12);
+  color: #2D603A;
+  border: 1px solid rgba(86, 133, 92, 0.28);
+  margin-top: 6px;
+}
+
+.badgeLiveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2D603A;
+  box-shadow: 0 0 8px rgba(45, 96, 58, 0.6);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* Tabs */
+.tabsContainer {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1.5px solid rgba(194, 169, 121, 0.22);
+  margin-bottom: 26px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.tabItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  color: #706255;
+  background: transparent;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -3.5px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+  border-radius: 8px 8px 0 0;
+}
+
+.tabItem:hover {
+  color: #967840;
+  background: rgba(194, 169, 121, 0.06);
+}
+
+.tabActive {
+  color: #967840 !important;
+  border-bottom-color: #C2A979 !important;
+  background: rgba(194, 169, 121, 0.1) !important;
+  font-weight: 750;
+}
+
+/* Image Upload Cards Grid */
+.imagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.imageUploadCard {
+  background: #FFFFFF;
+  border: 1px solid rgba(194, 169, 121, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(35, 27, 21, 0.03);
+}
+
+.imageUploadCard:hover {
+  border-color: rgba(194, 169, 121, 0.45);
+  box-shadow: 0 8px 24px rgba(194, 169, 121, 0.1);
+}
+
+.cardHeaderTitle {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  color: #231B15;
+  margin: 0 0 4px;
+}
+
+.cardHeaderSubtitle {
+  font-size: 12px;
+  color: #857567;
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+/* Quick Suggestion Chips */
+.presetBox {
+  background: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 100%);
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 22px;
+}
+
+.presetHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 750;
+  color: #8C6514;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.presetChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presetChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(194, 169, 121, 0.35);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4A3E34;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.presetChip:hover {
+  background: #C2A979;
+  color: #FFFFFF;
+  border-color: #C2A979;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(194, 169, 121, 0.3);
+}
+
+/* Value Item Card */
+.valueCard {
+  background: #FFFFFF;
+  border: 1px solid rgba(194, 169, 121, 0.24);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(35, 27, 21, 0.03);
+}
+
+.valueCard:hover {
+  border-color: rgba(194, 169, 121, 0.4);
+}
+
+.valueIndexBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(194, 169, 121, 0.12);
+  color: #967840;
+  border: 1px solid rgba(194, 169, 121, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.valueCardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.valueCardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.iconBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(194, 169, 121, 0.22);
+  background: #FCFAF6;
+  color: #706255;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: #C2A979;
+  color: #FFFFFF;
+  border-color: #C2A979;
+  transform: translateY(-1px);
+}
+
+.iconBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.iconBtnDanger {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(184, 70, 59, 0.2);
+  background: rgba(184, 70, 59, 0.06);
+  color: #A3382D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.iconBtnDanger:hover {
+  background: #A3382D;
+  color: #FFFFFF;
+  border-color: #A3382D;
+}
+
+/* Live Mockup Frame */
+.mockupContainer {
+  background: #FFFFFF;
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(35, 27, 21, 0.08);
+}
+
+.mockupBrowserBar {
+  background: #231B15;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mockupDots {
+  display: flex;
+  gap: 6px;
+}
+
+.mockupDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.mockupUrl {
+  font-family: monospace;
+  font-size: 11.5px;
+  color: #C2A979;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 3px 14px;
+  border-radius: 20px;
+}
+
+.mockupBody {
+  background: #FDFBF7;
+  max-height: 640px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Mockup Hero */
+.mockupHero {
+  position: relative;
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 32px;
+}
+
+.mockupHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.68) 100%);
+}
+
+.mockupHeroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+.mockupHeroTag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #C2A979;
+  margin-bottom: 8px;
+}
+
+.mockupHeroTitle {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  font-style: italic;
+  color: #FFFFFF;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+.mockupHeroDesc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 14px;
+}
+
+.mockupHeroBtn {
+  display: inline-block;
+  background: linear-gradient(135deg, #C2A979, #a08040);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 20px;
+}
+
+/* Mockup Mission section */
+.mockupMission {
+  padding: 36px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+  background: #FDFBF7;
+}
+
+.mockupCollage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  position: relative;
+}
+
+.mockupCollageImg {
+  height: 130px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mockupBadge {
+  position: absolute;
+  bottom: -10px;
+  right: -8px;
+  background: linear-gradient(135deg, #C2A979, #a08040);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(194, 169, 121, 0.35);
+  text-align: center;
+}
+
+.mockupBadgeNum {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mockupBadgeText {
+  font-size: 7.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* Mockup Values */
+.mockupValuesSec {
+  background: #F4F1EA;
+  padding: 32px;
+}
+
+.mockupValueItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(194, 169, 121, 0.18);
+}
+
+.mockupValueItem:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.mockupValueIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(194, 169, 121, 0.18);
+  color: #967840;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Design advice box */
+.adviceBox {
+  background: rgba(194, 169, 121, 0.08);
+  border-left: 3px solid #C2A979;
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  color: #5C4F44;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+
+@media (max-width: 768px) {
+  .mockupMission {
+    grid-template-columns: 1fr;
+  }
+}

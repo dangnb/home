@@ -1,0 +1,226 @@
+/* Customer Management Specific Styles */
+
+.vipDiamond {
+  background: linear-gradient(135deg, rgba(162, 194, 230, 0.18) 0%, rgba(206, 227, 255, 0.3) 100%);
+  color: #1A5488;
+  border: 1px solid rgba(135, 180, 230, 0.45);
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+}
+
+.vipGold {
+  background: linear-gradient(135deg, rgba(230, 195, 120, 0.22) 0%, rgba(255, 235, 185, 0.4) 100%);
+  color: #8C6514;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+}
+
+.vipSilver {
+  background: linear-gradient(135deg, rgba(185, 195, 205, 0.2) 0%, rgba(225, 232, 240, 0.35) 100%);
+  color: #4A5568;
+  border: 1px solid rgba(160, 174, 192, 0.4);
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+}
+
+.vipStandard {
+  background: rgba(120, 105, 92, 0.1);
+  color: #78695C;
+  border: 1px solid rgba(120, 105, 92, 0.25);
+  font-weight: 650;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+}
+
+.customerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #EAD7BA 0%, #C2A979 100%);
+  color: #2E2319;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 750;
+  font-size: 15px;
+  box-shadow: 0 3px 8px rgba(194, 169, 121, 0.25);
+  flex-shrink: 0;
+  border: 1.5px solid #FFFFFF;
+}
+
+.tagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(194, 169, 121, 0.12);
+  color: #8C6514;
+  border: 1px solid rgba(194, 169, 121, 0.28);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.contactBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #F4EFE6;
+  color: #614D3C;
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.contactBtn:hover {
+  background: #C2A979;
+  color: #FFFFFF;
+  border-color: #C2A979;
+  transform: translateY(-1px);
+}
+
+.zaloBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(0, 104, 255, 0.08);
+  color: #0068FF;
+  border: 1px solid rgba(0, 104, 255, 0.25);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 11px;
+  transition: all 0.2s ease;
+}
+
+.zaloBtn:hover {
+  background: #0068FF;
+  color: #FFFFFF;
+  border-color: #0068FF;
+  transform: translateY(-1px);
+}
+
+/* Modal Overlay & Card */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 17, 14, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modalContent {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  width: min(720px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modalHeader {
+  padding: 22px 26px 18px;
+  border-bottom: 1px solid rgba(194, 169, 121, 0.18);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FCFAF6;
+}
+
+.modalBody {
+  padding: 24px 26px;
+  flex: 1;
+}
+
+.modalFooter {
+  padding: 16px 26px;
+  border-top: 1px solid rgba(194, 169, 121, 0.18);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #FCFAF6;
+}
+
+.privilegeBanner {
+  background: linear-gradient(135deg, #FAF6EE 0%, #F5ECDB 100%);
+  border: 1px solid rgba(194, 169, 121, 0.35);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.profileSection {
+  margin-bottom: 22px;
+}
+
+.profileSectionTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2E2319;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notesCard {
+  background: #FDFBF7;
+  border: 1px solid rgba(194, 169, 121, 0.25);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #382E25;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}

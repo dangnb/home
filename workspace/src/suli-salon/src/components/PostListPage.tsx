@@ -47,7 +47,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
 
             <section style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 24px 100px" }}>
                 {effectivePosts.length === 0 ? (
-                    <div style={{ background: "#F4F1EA", padding: "72px 24px", textAlign: "center" }}>
+                    <div style={{ background: "#F4F1EA", padding: "72px 24px", textAlign: "center", borderRadius: 16 }}>
                         <div style={{ fontSize: 34, marginBottom: 14 }}>✦</div>
                         <h2 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: 28, fontStyle: "italic", margin: "0 0 12px" }}>
                             {isEn ? "No articles yet" : "Chưa có bài viết"}
@@ -63,7 +63,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
                             const categoryLabel = CATEGORY_LABELS[post.categoryId]?.[locale] || (isEn ? "Article" : "Chia sẻ");
 
                             return (
-                                <article key={post.id} style={{ background: "#fff", boxShadow: "0 8px 28px rgba(0,0,0,.06)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                                <article key={post.id} style={{ background: "#fff", borderRadius: 16, border: "1px solid rgba(224, 216, 204, 0.5)", boxShadow: "0 8px 24px rgba(0,0,0,.04)", overflow: "hidden", display: "flex", flexDirection: "column", transition: "transform .3s ease, box-shadow .3s ease" }}>
                                     <Link href={postHref} style={{ display: "block", height: 230, background: "#EAE5DC", textDecoration: "none" }}>
                                         {post.thumbnail ? (
                                             // eslint-disable-next-line @next/next/no-img-element

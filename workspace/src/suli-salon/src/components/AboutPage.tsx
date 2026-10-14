@@ -168,14 +168,28 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                 ? `For over 10 years, ${settings.siteName || "Mộc Salon"} has been the sanctuary for those seeking precision, beauty, and the ultimate in beauty artistry.`
                                 : `Với đội ngũ tận tâm và kỹ thuật tỉ mỉ, ${settings.siteName || "Mộc Salon"} là điểm đến lý tưởng cho những ai yêu thích vẻ đẹp tự nhiên, trang nhã.`)}
                         </p>
-                        <Link href={bookingHref}>
-                            <button
-                                style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "14px 32px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .3s", boxShadow: "0 4px 20px rgba(194,169,121,.4)", borderRadius: 2 }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(194,169,121,.5)" }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(194,169,121,.4)" }}
-                            >
-                                {dictionary.nav.booking}
-                            </button>
+                        <Link
+                            href={bookingHref}
+                            style={{
+                                display: "inline-block",
+                                background: "linear-gradient(135deg,#C2A979,#a08040)",
+                                color: "#fff",
+                                padding: "16px 36px",
+                                fontFamily: "Montserrat,sans-serif",
+                                fontSize: 12,
+                                fontWeight: 600,
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                                transition: "all .3s ease",
+                                boxShadow: "0 6px 20px rgba(194,169,121,.4)",
+                                borderRadius: 40
+                            }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(194,169,121,.5)" }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 20px rgba(194,169,121,.4)" }}
+                        >
+                            {dictionary.nav.booking}
                         </Link>
                     </div>
                 </div>
@@ -250,7 +264,7 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                 <div className="about-split" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }}>
 
                     {/* Left: main salon interior image */}
-                    <div className="reveal reveal-left" style={{ position: "relative", height: 520, overflow: "hidden" }}>
+                    <div className="reveal reveal-left" style={{ position: "relative", height: 520, overflow: "hidden", borderRadius: 20, boxShadow: "0 24px 60px -15px rgba(0,0,0,.15)" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"}
@@ -320,13 +334,15 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                 data-delay={String(i * 120)}
                             >
                                 {/* Photo */}
-                                <div className="team-img-wrap" style={{ height: 380, overflow: "hidden", marginBottom: 24, background: "#EAE5DC" }}>
+                                <div className="team-img-wrap" style={{ height: 380, overflow: "hidden", marginBottom: 24, background: "#EAE5DC", borderRadius: "32px 8px 32px 8px", boxShadow: "0 16px 40px -10px rgba(0,0,0,.1)", transition: "transform .3s ease" }}>
                                     {member.image ? (
                                         // eslint-disable-next-line @next/next/no-img-element
                                         <img
                                             src={member.image}
                                             alt={member.name}
-                                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .6s ease" }}
+                                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
+                                            onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                                         />
                                     ) : (
                                         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, color: '#C2A979' }}>{member.name.charAt(0)}</div>

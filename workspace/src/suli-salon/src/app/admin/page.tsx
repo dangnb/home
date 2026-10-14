@@ -1,4 +1,4 @@
-import { getServices, getCategories, getAppointments, getGalleryItems } from "@/lib/db";
+import { getServices, getCategories, getAppointments, getGalleryItems, getCustomers } from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./admin.module.css";
@@ -8,6 +8,7 @@ import {
   MdPhotoLibrary,
   MdSpa,
   MdArrowForward,
+  MdPeople,
 } from "react-icons/md";
 
 const STATUS_BADGE_STYLE: Record<string, { label: string; color: string; bg: string; border: string }> = {
@@ -18,11 +19,12 @@ const STATUS_BADGE_STYLE: Record<string, { label: string; color: string; bg: str
 };
 
 export default async function AdminDashboard() {
-  const [services, cats, appointments, gallery] = await Promise.all([
+  const [services, cats, appointments, gallery, customers] = await Promise.all([
     getServices(),
     getCategories(),
     getAppointments(),
     getGalleryItems(),
+    getCustomers(),
   ]);
 
   const todayStr = new Date().toISOString().split("T")[0];
@@ -31,6 +33,7 @@ export default async function AdminDashboard() {
 
   const stats = [
     { icon: MdSpa, label: "Dịch vụ salon", value: services.length, color: "#967840", bg: "rgba(194, 169, 121, 0.12)" },
+    { icon: MdPeople, label: "Khách hàng", value: customers.length, color: "#2D603A", bg: "rgba(86, 133, 92, 0.12)" },
     { icon: MdCalendarMonth, label: "Lịch hẹn hôm nay", value: todayAppts.length, color: "#85603F", bg: "rgba(133, 96, 63, 0.1)" },
     { icon: MdPendingActions, label: "Đang chờ duyệt", value: pendingAppts.length, color: "#A87932", bg: "rgba(168, 121, 50, 0.12)" },
     { icon: MdPhotoLibrary, label: "Ảnh bộ sưu tập", value: gallery.length, color: "#6E5B4B", bg: "rgba(110, 91, 75, 0.1)" },

@@ -72,26 +72,27 @@ function ServiceRow({ item, index }: { item: ServiceItem; index: number }) {
             {/* Right */}
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: "#C2A979", minWidth: 90, textAlign: "right" }}>{item.price}</span>
-                <Link href={bookUrl}>
-                    <button
-                        style={{
-                            background: hov ? "linear-gradient(135deg,#C2A979,#a08040)" : "transparent",
-                            color: hov ? "#fff" : "#C2A979",
-                            border: "1.5px solid #C2A979",
-                            padding: "10px 22px",
-                            fontFamily: "Montserrat,sans-serif",
-                            fontSize: 11,
-                            fontWeight: 600,
-                            letterSpacing: "0.1em",
-                            textTransform: "uppercase",
-                            cursor: "pointer",
-                            transition: "all .3s",
-                            whiteSpace: "nowrap",
-                            boxShadow: hov ? "0 4px 16px rgba(194,169,121,.3)" : "none",
-                        }}
-                    >
-                        {dictionary.nav.booking} →
-                    </button>
+                <Link
+                    href={bookUrl}
+                    style={{
+                        display: "inline-block",
+                        background: hov ? "linear-gradient(135deg,#C2A979,#a08040)" : "transparent",
+                        color: hov ? "#fff" : "#C2A979",
+                        border: "1.5px solid #C2A979",
+                        padding: "10px 22px",
+                        borderRadius: 8,
+                        fontFamily: "Montserrat,sans-serif",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        textDecoration: "none",
+                        transition: "all .3s",
+                        whiteSpace: "nowrap",
+                        boxShadow: hov ? "0 4px 16px rgba(194,169,121,.3)" : "none",
+                    }}
+                >
+                    {dictionary.nav.booking} →
                 </Link>
             </div>
         </div>
@@ -285,7 +286,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
 
                         {/* Left: category image + desc */}
                         <div className="reveal">
-                            <div className="services-category-image" style={{ position: "relative", height: 480, overflow: "hidden", marginBottom: 24 }}>
+                            <div className="services-category-image" style={{ position: "relative", height: 480, overflow: "hidden", marginBottom: 24, borderRadius: 18, boxShadow: "0 16px 40px -10px rgba(0,0,0,.1)" }}>
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     ref={catImgRef}
@@ -314,10 +315,10 @@ export default function ServicesPage({ services, categories }: { services: Servi
 
                             {/* Stats pills */}
                             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                                <div style={{ background: "#F4F1EA", padding: "8px 16px", fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B" }}>
+                                <div style={{ background: "#F4F1EA", padding: "7px 18px", borderRadius: 20, fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B", border: "1px solid rgba(194, 169, 121, 0.2)" }}>
                                     {activeCat.items.length} {isEn ? "services" : "dịch vụ"}
                                 </div>
-                                <div style={{ background: "#F4F1EA", padding: "8px 16px", fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B" }}>
+                                <div style={{ background: "#F4F1EA", padding: "7px 18px", borderRadius: 20, fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#6B6B6B", border: "1px solid rgba(194, 169, 121, 0.2)" }}>
                                     {activeCat.items.filter((i) => i.popular).length} {isEn ? "featured" : "nổi bật"}
                                 </div>
                             </div>
@@ -341,7 +342,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
                             )}
 
                             {/* Bottom CTA */}
-                            <div className="services-consultation" style={{ marginTop: 36, padding: "28px", background: "#F4F1EA", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>
+                            <div className="services-consultation" style={{ marginTop: 36, padding: "28px", background: "#F4F1EA", borderRadius: 16, border: "1px solid rgba(194, 169, 121, 0.25)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>
                                 <div>
                                     <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", marginBottom: 4 }}>
                                         {isEn ? "Not sure what to choose?" : "Bạn chưa biết chọn gói nào?"}
@@ -350,13 +351,27 @@ export default function ServicesPage({ services, categories }: { services: Servi
                                         {isEn ? "Our team would love to help you decide." : "Đội ngũ chuyên viên Mộc Salon luôn sẵn sàng tư vấn chu đáo."}
                                     </div>
                                 </div>
-                                <Link href={contactHref}>
-                                    <button style={{ background: "#2E2E2E", color: "#fff", padding: "14px 28px", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all .3s" }}
-                                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; }}
-                                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#2E2E2E"; }}
-                                    >
-                                        {isEn ? "Ask Us →" : "Tư vấn ngay →"}
-                                    </button>
+                                <Link
+                                    href={contactHref}
+                                    style={{
+                                        display: "inline-block",
+                                        background: "#2E2E2E",
+                                        color: "#fff",
+                                        padding: "14px 28px",
+                                        borderRadius: 8,
+                                        fontFamily: "Montserrat,sans-serif",
+                                        fontSize: 11,
+                                        fontWeight: 600,
+                                        letterSpacing: "0.1em",
+                                        textTransform: "uppercase",
+                                        textDecoration: "none",
+                                        whiteSpace: "nowrap",
+                                        transition: "all .3s ease",
+                                    }}
+                                    onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; }}
+                                    onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#2E2E2E"; }}
+                                >
+                                    {isEn ? "Ask Us →" : "Tư vấn ngay →"}
                                 </Link>
                             </div>
                         </div>
@@ -406,14 +421,28 @@ export default function ServicesPage({ services, categories }: { services: Servi
                     </div>
 
                     <div className="reveal" style={{ textAlign: "center", marginTop: 48 }}>
-                        <Link href={bookingHref}>
-                            <button
-                                style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px 48px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .3s", boxShadow: "0 6px 24px rgba(194,169,121,.35)" }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 36px rgba(194,169,121,.45)"; }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; }}
-                            >
-                                {isEn ? "Book Your Appointment →" : "Đặt lịch hẹn ngay →"}
-                            </button>
+                        <Link
+                            href={bookingHref}
+                            style={{
+                                display: "inline-block",
+                                background: "linear-gradient(135deg,#C2A979,#a08040)",
+                                color: "#fff",
+                                padding: "18px 48px",
+                                fontFamily: "Montserrat,sans-serif",
+                                fontSize: 13,
+                                fontWeight: 600,
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                textDecoration: "none",
+                                borderRadius: 40,
+                                cursor: "pointer",
+                                transition: "all .3s ease",
+                                boxShadow: "0 6px 24px rgba(194,169,121,.35)"
+                            }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 36px rgba(194,169,121,.45)"; }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; }}
+                        >
+                            {isEn ? "Book Your Appointment →" : "Đặt lịch hẹn ngay →"}
                         </Link>
                     </div>
                 </div>

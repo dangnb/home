@@ -88,6 +88,23 @@ export interface TeamMemberData {
   isActive: boolean;
 }
 
+export interface CustomerData {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  birthday?: string;
+  gender?: "female" | "male" | "other";
+  tier: "standard" | "silver" | "gold" | "diamond";
+  notes?: string;
+  tags?: string[];
+  totalSpent: number;
+  visitCount: number;
+  lastVisit?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface SiteSettings {
   siteName: string;
   tagline: string;
@@ -224,6 +241,7 @@ export function invalidateDbCache(): void {
   cachedPosts = null;
   cachedTeam = null;
   cachedPriceLists = null;
+  cachedCustomers = null;
 }
 
 // ── Categories ──────────────────────────────────────
@@ -1101,4 +1119,256 @@ export async function deleteTeamMember(id: string): Promise<boolean> {
     await prisma.teamMember.delete({ where: { id } });
     return true;
   } catch { return false; }
+}
+
+// ── Customers CRM ─────────────────────────────────────
+let cachedCustomers: { data: CustomerData[]; time: number } | null = null;
+
+export const DEFAULT_CUSTOMERS: CustomerData[] = [
+  {
+    id: "cust-1",
+    name: "Elena Minh Anh",
+    phone: "0988 654 321",
+    email: "minhanh.elena@gmail.com",
+    birthday: "1996-10-18",
+    gender: "female",
+    tier: "diamond",
+    notes: "Thích form móng Hạnh nhân (Almond) thanh thoát. Ưa chuộng tone thạch nude phối vân đá cẩm thạch và ánh nhũ nhẹ. Da khóe mỏng dễ xước, lưu ý dùng kềm bén nhẹ tay. Thích uống trà hoa cúc nóng.",
+    tags: ["VIP Kim Cương", "Khách ruột", "Da nhạy cảm", "Thích Nail Art"],
+    totalSpent: 8450000,
+    visitCount: 18,
+    lastVisit: "2025-02-14",
+    createdAt: "2024-03-10T10:00:00.000Z",
+    updatedAt: "2025-02-14T15:30:00.000Z",
+  },
+  {
+    id: "cust-2",
+    name: "Trần Thu Hương",
+    phone: "0912 345 678",
+    email: "thuhuong.tran@yahoo.com",
+    birthday: "1994-04-12",
+    gender: "female",
+    tier: "gold",
+    notes: "Thường xuyên làm nail văn phòng. Thích sơn gel thạch, form vuông bo mềm mại (Squoval). Cực kỳ thích mùi tinh dầu oải hương khi ngâm chân.",
+    tags: ["Hội viên Vàng", "Khách văn phòng", "Sơn gel thạch"],
+    totalSpent: 4200000,
+    visitCount: 9,
+    lastVisit: "2025-02-02",
+    createdAt: "2024-06-15T09:00:00.000Z",
+    updatedAt: "2025-02-02T16:00:00.000Z",
+  },
+  {
+    id: "cust-3",
+    name: "Lê Phương Thảo",
+    phone: "0903 888 999",
+    email: "thaole.design@gmail.com",
+    birthday: "1992-12-05",
+    gender: "female",
+    tier: "diamond",
+    notes: "Designer thời trang, gu thẩm mỹ cao. Thích đắp bột dáng thang (Coffin), sơn mắt mèo kim cương velvet và đính đá Swarovski sắc sảo. Luôn yêu cầu đặt thợ Master Linh.",
+    tags: ["VIP Kim Cương", "Thợ ruột: Linh", "Form thang Coffin", "Đính đá cao cấp"],
+    totalSpent: 11500000,
+    visitCount: 22,
+    lastVisit: "2025-01-26",
+    createdAt: "2024-01-08T11:00:00.000Z",
+    updatedAt: "2025-01-26T14:45:00.000Z",
+  },
+  {
+    id: "cust-4",
+    name: "Phạm Ngọc Ánh",
+    phone: "0977 112 233",
+    email: "ngocanh.pham@outlook.com",
+    birthday: "1998-07-22",
+    gender: "female",
+    tier: "silver",
+    notes: "Móng tự nhiên mỏng yếu sau thời gian dài tháo mài sai cách ở nơi khác. Đang trong liệu trình phục hồi móng IBX và ủ sáp paraffin định kỳ 2 tuần/lần.",
+    tags: ["Hội viên Bạc", "Móng mỏng yếu", "Liệu trình IBX"],
+    totalSpent: 1850000,
+    visitCount: 4,
+    lastVisit: "2025-02-08",
+    createdAt: "2024-11-20T14:00:00.000Z",
+    updatedAt: "2025-02-08T11:20:00.000Z",
+  },
+  {
+    id: "cust-5",
+    name: "Hoàng Mai Linh",
+    phone: "0934 567 890",
+    email: "mailinh.hoang@gmail.com",
+    birthday: "1995-10-29",
+    gender: "female",
+    tier: "gold",
+    notes: "Thích đổi mẫu vẽ nghệ thuật phong cách Nhật Bản tối giản, tone pastel ấm. Móng dài nhanh, chu kỳ quay lại đúng 3 tuần.",
+    tags: ["Hội viên Vàng", "Vẽ cọ nét Nhật", "Sinh nhật tháng 10"],
+    totalSpent: 3900000,
+    visitCount: 8,
+    lastVisit: "2025-01-20",
+    createdAt: "2024-07-04T16:00:00.000Z",
+    updatedAt: "2025-01-20T17:15:00.000Z",
+  },
+  {
+    id: "cust-6",
+    name: "Vũ Thanh Hằng",
+    phone: "0888 223 344",
+    email: "hangvu.finance@gmail.com",
+    birthday: "1993-03-14",
+    gender: "female",
+    tier: "silver",
+    notes: "Thường tranh thủ đi làm móng chiều thứ Sáu sau giờ làm việc. Thích tông French đầu móng trắng sữa tinh tế.",
+    tags: ["Hội viên Bạc", "French đầu móng", "Hẹn chiều thứ 6"],
+    totalSpent: 1350000,
+    visitCount: 3,
+    lastVisit: "2025-02-12",
+    createdAt: "2024-12-10T18:00:00.000Z",
+    updatedAt: "2025-02-12T18:30:00.000Z",
+  },
+  {
+    id: "cust-7",
+    name: "Nguyễn Bảo Châu",
+    phone: "0945 667 788",
+    email: "chao.nguyen@gmail.com",
+    birthday: "2000-09-08",
+    gender: "female",
+    tier: "standard",
+    notes: "Khách mới được bạn bè giới thiệu. Rất hài lòng với liệu trình Spa Pedicure gót sen thảo mộc Đông Y.",
+    tags: ["Khách mới", "Spa Pedicure", "Tiềm năng VIP"],
+    totalSpent: 480000,
+    visitCount: 1,
+    lastVisit: "2025-02-10",
+    createdAt: "2025-02-10T13:00:00.000Z",
+    updatedAt: "2025-02-10T14:30:00.000Z",
+  },
+  {
+    id: "cust-8",
+    name: "Đỗ Thùy Trang",
+    phone: "0968 990 011",
+    email: "thuytrang.do@gmail.com",
+    birthday: "1997-05-30",
+    gender: "female",
+    tier: "gold",
+    notes: "Form móng Oval tự nhiên. Rất thích các mẫu sơn tráng gương ngọc trai và mắt mèo ánh bạc lấp lánh.",
+    tags: ["Hội viên Vàng", "Tráng gương Chrome", "Form Oval"],
+    totalSpent: 5600000,
+    visitCount: 11,
+    lastVisit: "2025-02-05",
+    createdAt: "2024-04-25T10:00:00.000Z",
+    updatedAt: "2025-02-05T15:00:00.000Z",
+  },
+];
+
+export async function getCustomers(): Promise<CustomerData[]> {
+  const now = Date.now();
+  if (cachedCustomers && now - cachedCustomers.time < CACHE_TTL_MS) {
+    return cachedCustomers.data;
+  }
+  try {
+    const row = await prisma.setting.findUnique({ where: { key: "customers_data" } });
+    if (row && row.value) {
+      const parsed = parseJSON<CustomerData[]>(row.value, []);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedCustomers = { data: parsed, time: now };
+        return parsed;
+      }
+    }
+
+    // Auto-seed default customers if not set
+    await prisma.setting.upsert({
+      where: { key: "customers_data" },
+      create: { key: "customers_data", value: JSON.stringify(DEFAULT_CUSTOMERS) },
+      update: { value: JSON.stringify(DEFAULT_CUSTOMERS) },
+    });
+    cachedCustomers = { data: DEFAULT_CUSTOMERS, time: now };
+    return DEFAULT_CUSTOMERS;
+  } catch (error) {
+    console.warn("Unable to fetch customers from DB, using fallback:", error);
+    return cachedCustomers?.data ?? DEFAULT_CUSTOMERS;
+  }
+}
+
+export async function getCustomerById(id: string): Promise<CustomerData | null> {
+  const list = await getCustomers();
+  return list.find((c) => c.id === id) ?? null;
+}
+
+export async function getCustomerByPhone(phone: string): Promise<CustomerData | null> {
+  const list = await getCustomers();
+  const clean = phone.replace(/\D/g, "");
+  return list.find((c) => c.phone.replace(/\D/g, "") === clean) ?? null;
+}
+
+export async function saveCustomer(data: Partial<CustomerData> & { name: string; phone: string }): Promise<CustomerData> {
+  cachedCustomers = null;
+  const list = await getCustomers();
+  const now = new Date().toISOString();
+  const cleanPhone = data.phone.trim();
+
+  let targetIndex = list.findIndex((c) => c.id === data.id);
+  if (targetIndex === -1 && !data.id) {
+    targetIndex = list.findIndex((c) => c.phone.replace(/\D/g, "") === cleanPhone.replace(/\D/g, ""));
+  }
+
+  let savedCustomer: CustomerData;
+
+  if (targetIndex >= 0) {
+    // Update existing
+    const existing = list[targetIndex];
+    savedCustomer = {
+      ...existing,
+      ...data,
+      phone: cleanPhone,
+      updatedAt: now,
+    };
+    list[targetIndex] = savedCustomer;
+  } else {
+    // Create new
+    savedCustomer = {
+      id: data.id || `cust-${Date.now()}`,
+      name: data.name.trim(),
+      phone: cleanPhone,
+      email: data.email?.trim() || "",
+      birthday: data.birthday?.trim() || "",
+      gender: data.gender || "female",
+      tier: data.tier || "standard",
+      notes: data.notes || "",
+      tags: Array.isArray(data.tags) ? data.tags : [],
+      totalSpent: data.totalSpent ?? 0,
+      visitCount: data.visitCount ?? 0,
+      lastVisit: data.lastVisit || now.split("T")[0],
+      createdAt: now,
+      updatedAt: now,
+    };
+    list.unshift(savedCustomer);
+  }
+
+  try {
+    await prisma.setting.upsert({
+      where: { key: "customers_data" },
+      create: { key: "customers_data", value: JSON.stringify(list) },
+      update: { value: JSON.stringify(list) },
+    });
+  } catch (error) {
+    console.warn("Failed to persist customers into DB:", error);
+  }
+
+  cachedCustomers = { data: list, time: Date.now() };
+  return savedCustomer;
+}
+
+export async function deleteCustomer(id: string): Promise<boolean> {
+  cachedCustomers = null;
+  const list = await getCustomers();
+  const nextList = list.filter((c) => c.id !== id);
+  if (nextList.length === list.length) return false;
+
+  try {
+    await prisma.setting.upsert({
+      where: { key: "customers_data" },
+      create: { key: "customers_data", value: JSON.stringify(nextList) },
+      update: { value: JSON.stringify(nextList) },
+    });
+    cachedCustomers = { data: nextList, time: Date.now() };
+    return true;
+  } catch (error) {
+    console.error("Failed to delete customer:", error);
+    return false;
+  }
 }

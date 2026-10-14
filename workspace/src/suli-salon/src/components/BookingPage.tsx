@@ -130,12 +130,13 @@ export default function BookingPage({ services, settings, categories }: { servic
     const homeHref = getLocalizedPath(locale, "home");
 
     const inputStyle = (focused?: boolean): React.CSSProperties => ({
-        width: "100%", padding: "14px 16px",
-        border: `1.5px solid ${focused ? "#C2A979" : "#E0D8CC"}`,
-        borderRadius: 4, fontSize: 14,
+        width: "100%", padding: "14px 18px",
+        border: `1.5px solid ${focused ? "#C2A979" : "#E2DCD0"}`,
+        borderRadius: 10, fontSize: 14,
         fontFamily: "Montserrat,sans-serif", color: "#2E2E2E",
-        outline: "none", background: "#fff", boxSizing: "border-box",
-        transition: "border-color .25s",
+        outline: "none", background: "#FAF8F5", boxSizing: "border-box",
+        transition: "all .25s ease",
+        boxShadow: focused ? "0 0 0 3px rgba(194, 169, 121, 0.16)" : "none",
     });
 
     const filteredServices = services.filter((s) => s.categoryId === activeCatId);
@@ -175,15 +176,15 @@ export default function BookingPage({ services, settings, categories }: { servic
         return (
             <>
                 <style>{styles_css}</style>
-                <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#F4F1EA", paddingTop: 80 }}>
-                    <div style={{ textAlign: "center", maxWidth: 520, padding: "64px 40px", background: "#fff", boxShadow: "0 24px 80px rgba(0,0,0,.08)" }}>
-                        <div style={{ width: 80, height: 80, borderRadius: "50%", background: "linear-gradient(135deg,#C2A979,#a08040)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 28px", fontSize: 36, boxShadow: "0 8px 32px rgba(194,169,121,.4)" }}>
+                <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#F4F1EA", paddingTop: 80, paddingInline: 20 }}>
+                    <div style={{ textAlign: "center", maxWidth: 520, width: "100%", padding: "56px 40px", background: "#fff", borderRadius: 20, border: "1px solid rgba(194, 169, 121, 0.25)", boxShadow: "0 24px 80px rgba(0,0,0,.08)" }}>
+                        <div style={{ width: 72, height: 72, borderRadius: "50%", background: "linear-gradient(135deg,#C2A979,#a08040)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: 32, color: "#fff", boxShadow: "0 8px 32px rgba(194,169,121,.4)" }}>
                             ✓
                         </div>
                         <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 12 }}>
                             {isEn ? "Booking Confirmed" : "Đặt lịch thành công"}
                         </div>
-                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 16px" }}>
+                        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 34, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 16px" }}>
                             {isEn ? `See You Soon, ${form.name.split(" ")[0]}!` : `Hẹn gặp bạn sớm, ${form.name.split(" ")[0]}!`}
                         </h2>
                         <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, lineHeight: 1.7, color: "#6B6B6B", marginBottom: 8 }}>
@@ -191,15 +192,18 @@ export default function BookingPage({ services, settings, categories }: { servic
                                 ? <>Your appointment is set for <strong>{form.date}</strong> at <strong>{form.time}</strong>.</>
                                 : <>Lịch hẹn của bạn được xếp vào ngày <strong>{form.date}</strong> lúc <strong>{form.time}</strong>.</>}
                         </p>
-                        <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#AAA", marginBottom: 36 }}>
+                        <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#888", marginBottom: 36, lineHeight: 1.6 }}>
                             {isEn
                                 ? <>A confirmation has been sent to <strong>{form.email}</strong>.</>
                                 : <>Thông tin xác nhận đã được gửi tới <strong>{form.email}</strong>.</>}
                         </p>
-                        <Link href={homeHref}>
-                            <button style={{ background: "#2E2E2E", color: "#fff", padding: "14px 32px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", cursor: "pointer" }}>
-                                {isEn ? "Back to Home" : "Quay lại trang chủ"}
-                            </button>
+                        <Link
+                            href={homeHref}
+                            style={{ display: "inline-block", background: "#2E2E2E", color: "#fff", padding: "14px 36px", borderRadius: 10, fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", transition: "all .25s ease" }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#2E2E2E"; }}
+                        >
+                            {isEn ? "Back to Home" : "Quay lại trang chủ"}
                         </Link>
                     </div>
                 </div>
@@ -258,13 +262,14 @@ export default function BookingPage({ services, settings, categories }: { servic
                                                 onClick={() => setForm({ ...form, branch: b.id })}
                                                 style={{
                                                     padding: "28px 24px", cursor: "pointer",
-                                                    border: `2px solid ${sel ? "#C2A979" : "#E0D8CC"}`,
-                                                    background: sel ? "#FFFAF4" : "#fff",
-                                                    transition: "all .25s", position: "relative",
-                                                    boxShadow: sel ? "0 8px 32px rgba(194,169,121,.15)" : "0 2px 12px rgba(0,0,0,.04)",
+                                                    border: `2px solid ${sel ? "#C2A979" : "#E8E2D8"}`,
+                                                    background: sel ? "#FFFDF9" : "#fff",
+                                                    borderRadius: 14,
+                                                    transition: "all .25s ease", position: "relative",
+                                                    boxShadow: sel ? "0 8px 28px rgba(194,169,121,.18)" : "0 2px 10px rgba(0,0,0,.03)",
                                                 }}
                                                 onMouseOver={(e) => { if (!sel) (e.currentTarget as HTMLElement).style.borderColor = "#D4C0A0"; }}
-                                                onMouseOut={(e) => { if (!sel) (e.currentTarget as HTMLElement).style.borderColor = "#E0D8CC"; }}
+                                                onMouseOut={(e) => { if (!sel) (e.currentTarget as HTMLElement).style.borderColor = "#E8E2D8"; }}
                                             >
                                                 {sel && <div style={{ position: "absolute", top: 12, right: 12, width: 20, height: 20, borderRadius: "50%", background: "linear-gradient(135deg,#C2A979,#a08040)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#fff" }}>✓</div>}
                                                 <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 17, fontWeight: 700, color: "#2E2E2E", marginBottom: 6 }}>{b.name}</div>
@@ -301,7 +306,7 @@ export default function BookingPage({ services, settings, categories }: { servic
                                         const localizedPrice = getLocalizedPrice(s.price, locale);
                                         return (
                                             <div key={s.id} onClick={() => setForm({ ...form, serviceId: s.id, serviceName: localizedName })}
-                                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px", cursor: "pointer", border: `1.5px solid ${sel ? "#C2A979" : "#E0D8CC"}`, background: sel ? "#FFFAF4" : "#fff", transition: "all .25s", gap: 16 }}>
+                                                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", cursor: "pointer", border: `1.5px solid ${sel ? "#C2A979" : "#E8E2D8"}`, background: sel ? "#FFFDF9" : "#fff", borderRadius: 12, transition: "all .25s ease", gap: 16, boxShadow: sel ? "0 4px 16px rgba(194,169,121,.12)" : "none" }}>
                                                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                                                     <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${sel ? "#C2A979" : "#DDD"}`, background: sel ? "#C2A979" : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", transition: "all .25s" }}>
                                                         {sel && <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#fff" }} />}
@@ -349,7 +354,7 @@ export default function BookingPage({ services, settings, categories }: { servic
                                             const sel = form.time === t;
                                             return (
                                                 <button key={t} onClick={() => setForm({ ...form, time: t })}
-                                                    style={{ padding: "12px 0", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", border: `1.5px solid ${sel ? "#C2A979" : "#E0D8CC"}`, background: sel ? "linear-gradient(135deg,#C2A979,#a08040)" : "#fff", color: sel ? "#fff" : "#2E2E2E", transition: "all .25s", boxShadow: sel ? "0 4px 16px rgba(194,169,121,.3)" : "none" }}>
+                                                    style={{ padding: "12px 0", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer", borderRadius: 10, border: `1.5px solid ${sel ? "#C2A979" : "#E8E2D8"}`, background: sel ? "linear-gradient(135deg,#C2A979,#a08040)" : "#fff", color: sel ? "#fff" : "#2E2E2E", transition: "all .25s ease", boxShadow: sel ? "0 4px 16px rgba(194,169,121,.3)" : "none" }}>
                                                     {t}
                                                 </button>
                                             );
@@ -398,7 +403,7 @@ export default function BookingPage({ services, settings, categories }: { servic
                                 <div style={{ display: "flex", gap: 12 }}>
                                     <BackBtn label={isEn ? "← Back" : "← Quay lại"} onClick={() => setStep(3)} />
                                     <button onClick={submitBooking} disabled={!form.name || !form.phone || !form.email || isSubmitting}
-                                        style={{ flex: 1, background: (!form.name || !form.phone || !form.email || isSubmitting) ? "#DDD" : "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: (!form.name || !form.phone || !form.email || isSubmitting) ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: (!form.name || !form.phone || !form.email || isSubmitting) ? "none" : "0 6px 24px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}>
+                                        style={{ flex: 1, background: (!form.name || !form.phone || !form.email || isSubmitting) ? "#DDD" : "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", borderRadius: 12, cursor: (!form.name || !form.phone || !form.email || isSubmitting) ? "not-allowed" : "pointer", transition: "all .3s ease", boxShadow: (!form.name || !form.phone || !form.email || isSubmitting) ? "none" : "0 6px 24px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}>
                                         {isSubmitting ? dictionary.common.sending : (isEn ? "Confirm Booking ✓" : "Xác nhận đặt lịch ✓")}
                                     </button>
                                 </div>
@@ -407,27 +412,30 @@ export default function BookingPage({ services, settings, categories }: { servic
                     </div>
 
                     {/* RIGHT: Sidebar */}
-                    <div className="booking-summary" style={{ background: "#1A1A1A", padding: "40px 36px", position: "sticky", top: 100, minHeight: 400, display: "flex", flexDirection: "column" }}>
+                    <div className="booking-summary" style={{ background: "linear-gradient(180deg, #1F1B18 0%, #151210 100%)", padding: "40px 36px", position: "sticky", top: 100, minHeight: 400, display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid rgba(194, 169, 121, 0.2)", boxShadow: "0 16px 40px rgba(0,0,0,0.2)" }}>
                         {/* Logo */}
                         <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", fontWeight: 700, color: "#C2A979", marginBottom: 32 }}>
                             {settings.siteName || "Mộc Salon"}
                         </div>
 
-                        <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#555", marginBottom: 24 }}>
+                        <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#777", marginBottom: 24 }}>
                             {isEn ? "Your Booking Summary" : "Tóm tắt đặt lịch"}
                         </div>
 
                         {!(form.branch || form.serviceId || form.date) ? (
                             <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#444", textAlign: "center", lineHeight: 1.6 }}>
+                                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#666", textAlign: "center", lineHeight: 1.6 }}>
                                     {isEn ? "Your selections will appear here as you complete each step." : "Các lựa chọn của bạn sẽ hiển thị tại đây khi thực hiện từng bước."}
                                 </p>
                             </div>
                         ) : (
                             <div style={{ display: "flex", flexDirection: "column", gap: 0, flex: 1 }}>
-                                {form.branch && (
-                                    <SummaryRow icon={<MdLocationOn size={14} />} label={isEn ? "Branch" : "Chi nhánh"} value={BRANCHES[0]?.name || ""} sub={BRANCHES[0]?.address || ""} />
-                                )}
+                                {form.branch && (() => {
+                                    const selectedBranch = BRANCHES.find(b => b.id === form.branch) || BRANCHES[0];
+                                    return (
+                                        <SummaryRow icon={<MdLocationOn size={14} />} label={isEn ? "Branch" : "Chi nhánh"} value={selectedBranch?.name || ""} sub={selectedBranch?.address || ""} />
+                                    );
+                                })()}
                                 {form.serviceId && (
                                     <SummaryRow icon={<MdSpa size={14} />} label={isEn ? "Service" : "Dịch vụ"} value={form.serviceName} sub={`${services.find(s => s.id === form.serviceId)?.duration} ${isEn ? "min" : "phút"} · ${getLocalizedPrice(services.find(s => s.id === form.serviceId)?.price, locale)}`} />
                                 )}
@@ -446,7 +454,7 @@ export default function BookingPage({ services, settings, categories }: { servic
                         {form.serviceId && (
                             <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid #2a2a2a" }}>
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                    <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#555" }}>
+                                    <span style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#777" }}>
                                         {isEn ? "Total" : "Tổng chi phí"}
                                     </span>
                                     <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, fontWeight: 700, color: "#C2A979" }}>{getLocalizedPrice(services.find(s => s.id === form.serviceId)?.price, locale)}</span>
@@ -479,7 +487,7 @@ function SummaryRow({ icon, label, value, sub }: { icon: ReactNode; label: strin
 function NextBtn({ disabled, onClick, label = "Continue →" }: { disabled: boolean; onClick: () => void; label?: string }) {
     return (
         <button onClick={onClick} disabled={disabled}
-            style={{ flex: 1, background: disabled ? "#EAE5DC" : "linear-gradient(135deg,#C2A979,#a08040)", color: disabled ? "#CCC" : "#fff", padding: "16px 32px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: disabled ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: disabled ? "none" : "0 4px 20px rgba(194,169,121,.35)" }}>
+            style={{ flex: 1, background: disabled ? "#EAE5DC" : "linear-gradient(135deg,#C2A979,#a08040)", color: disabled ? "#AAA" : "#fff", padding: "16px 32px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", borderRadius: 12, cursor: disabled ? "not-allowed" : "pointer", transition: "all .3s ease", boxShadow: disabled ? "none" : "0 4px 20px rgba(194,169,121,.35)" }}>
             {label}
         </button>
     );
@@ -488,9 +496,9 @@ function NextBtn({ disabled, onClick, label = "Continue →" }: { disabled: bool
 function BackBtn({ onClick, label = "← Back" }: { onClick: () => void; label?: string }) {
     return (
         <button onClick={onClick}
-            style={{ background: "transparent", color: "#888", padding: "16px 20px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "1.5px solid #E0D8CC", cursor: "pointer", transition: "all .3s" }}
+            style={{ background: "#fff", color: "#666", padding: "16px 22px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "1.5px solid #E0D8CC", borderRadius: 12, cursor: "pointer", transition: "all .3s ease" }}
             onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#C2A979"; (e.currentTarget as HTMLElement).style.color = "#C2A979"; }}
-            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#E0D8CC"; (e.currentTarget as HTMLElement).style.color = "#888"; }}>
+            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#E0D8CC"; (e.currentTarget as HTMLElement).style.color = "#666"; }}>
             {label}
         </button>
     );

@@ -41,44 +41,50 @@ function ContactForm() {
 
     const inputStyle = (name: string): React.CSSProperties => ({
         width: "100%",
-        padding: "14px 16px",
-        border: `1.5px solid ${focused === name ? "#C2A979" : "#E0D8CC"}`,
-        borderRadius: 4,
+        padding: "14px 18px",
+        border: `1.5px solid ${focused === name ? "#C2A979" : "#E8E2D8"}`,
+        borderRadius: 12,
         fontSize: 14,
         fontFamily: "Montserrat,sans-serif",
         color: "#2E2E2E",
         outline: "none",
-        background: "#fff",
+        background: focused === name ? "#FFFFFF" : "#FDFCF9",
         boxSizing: "border-box",
-        transition: "border-color .25s",
+        transition: "all .25s ease",
+        boxShadow: focused === name ? "0 0 0 3.5px rgba(194, 169, 121, 0.16)" : "none",
     });
 
     return (
-        <div className="contact-form-card" style={{ background: "#fff", padding: "48px 44px", boxShadow: "0 16px 64px rgba(0,0,0,.08)" }}>
+        <div className="contact-form-card" style={{ background: "#FFFFFF", padding: "48px 44px", borderRadius: 20, border: "1px solid rgba(194, 169, 121, 0.22)", boxShadow: "0 24px 64px -16px rgba(40, 30, 20, 0.08)" }}>
             {sent ? (
                 <div style={{ textAlign: "center", padding: "48px 0" }}>
-                    <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
+                    <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(194, 169, 121, 0.14)", border: "1.5px solid #C2A979", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", color: "#967840", fontSize: 26 }}>
+                        ✓
+                    </div>
                     <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 12px" }}>
                         {isEn ? "Message Sent!" : "Đã gửi tin nhắn!"}
                     </h3>
-                    <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#6B6B6B", margin: "0 0 24px" }}>
-                        {isEn ? "Thank you for reaching out. We'll get back to you within 24 hours." : "Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi trong vòng 24 giờ."}
+                    <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, color: "#6B6B6B", margin: "0 0 24px", lineHeight: 1.6 }}>
+                        {isEn ? "Thank you for reaching out. We will get back to you shortly." : "Cảm ơn bạn đã liên hệ. Đội ngũ Mộc Salon sẽ phản hồi bạn trong thời gian sớm nhất."}
                     </p>
                     <button onClick={() => { setSent(false); setForm({ name: "", email: "", phone: "", service: "", message: "" }); }}
-                        style={{ background: "transparent", border: "1.5px solid #C2A979", color: "#C2A979", padding: "10px 24px", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer" }}>
-                        {isEn ? "Send Another" : "Gửi tin nhắn khác"}
+                        style={{ background: "transparent", border: "1.5px solid #C2A979", color: "#C2A979", padding: "12px 28px", borderRadius: 10, fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer", transition: "all .2s" }}
+                        onMouseOver={(e) => { e.currentTarget.style.background = "#C2A979"; e.currentTarget.style.color = "#FFFFFF"; }}
+                        onMouseOut={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#C2A979"; }}
+                    >
+                        {isEn ? "Send Another Message" : "Gửi tin nhắn khác"}
                     </button>
                 </div>
             ) : (
                 <>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 12 }}>
+                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
                         {isEn ? "Drop us a line" : "Liên hệ với chúng tôi"}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 32, fontWeight: 700, fontStyle: "italic", color: "#2E2E2E", margin: "0 0 32px", lineHeight: 1.2 }}>
                         {isEn ? "Send a Message" : "Gửi tin nhắn"}
                     </h2>
 
-                    {errorMsg && <div style={{ background: "#fef2f2", color: "#991b1b", padding: "10px 14px", borderRadius: 6, fontSize: 13, marginBottom: 16, fontFamily: "Montserrat,sans-serif" }}>{errorMsg}</div>}
+                    {errorMsg && <div style={{ background: "#fef2f2", color: "#991b1b", padding: "12px 16px", borderRadius: 10, fontSize: 13, marginBottom: 20, fontFamily: "Montserrat,sans-serif" }}>{errorMsg}</div>}
 
                     <form onSubmit={async (e) => {
                         e.preventDefault();
@@ -105,9 +111,9 @@ function ContactForm() {
                             setIsSubmitting(false);
                         }
                     }}>
-                        <div className="contact-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                        <div className="contact-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
                             <div>
-                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#786E65", marginBottom: 8 }}>
                                     {isEn ? "Full Name *" : "Họ và tên *"}
                                 </label>
                                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -115,7 +121,7 @@ function ContactForm() {
                                     placeholder={isEn ? "Your full name" : "Họ và tên của bạn"} style={inputStyle("name")} />
                             </div>
                             <div>
-                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#786E65", marginBottom: 8 }}>
                                     {isEn ? "Email Address *" : "Địa chỉ Email *"}
                                 </label>
                                 <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -124,9 +130,9 @@ function ContactForm() {
                             </div>
                         </div>
 
-                        <div className="contact-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                        <div className="contact-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 18 }}>
                             <div>
-                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#786E65", marginBottom: 8 }}>
                                     {isEn ? "Phone Number" : "Số điện thoại"}
                                 </label>
                                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -134,36 +140,37 @@ function ContactForm() {
                                     placeholder={isEn ? "+84 xxx xxx xxx" : "09xx xxx xxx"} style={inputStyle("phone")} />
                             </div>
                             <div>
-                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>
+                                <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#786E65", marginBottom: 8 }}>
                                     {isEn ? "Service Interest" : "Dịch vụ quan tâm"}
                                 </label>
                                 <select value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })}
                                     onFocus={() => setFocused("service")} onBlur={() => setFocused(null)}
-                                    style={{ ...inputStyle("service"), appearance: "none" }}>
+                                    style={{ ...inputStyle("service"), appearance: "auto" }}>
                                     <option value="">{isEn ? "Select a service..." : "Chọn dịch vụ..."}</option>
-                                    <option>{isEn ? "Nails – Manicure" : "Chăm sóc móng tay"}</option>
-                                    <option>{isEn ? "Nails – Gel Extensions" : "Đắp móng gel nghệ thuật"}</option>
-                                    <option>{isEn ? "Pedicure" : "Chăm sóc móng chân"}</option>
-                                    <option>{isEn ? "Facial Care" : "Chăm sóc da mặt"}</option>
-                                    <option>{isEn ? "Other / General Inquiry" : "Khác / Tư vấn chung"}</option>
+                                    <option value="gel-manicure">{isEn ? "Gel Manicure / Premium Polish" : "Sơn gel cao cấp & chăm sóc móng tay"}</option>
+                                    <option value="nail-art">{isEn ? "Custom Nail Art & Design" : "Vẽ móng nghệ thuật & đính đá thiết kế"}</option>
+                                    <option value="extensions">{isEn ? "Gel / Acrylic Nail Extensions" : "Đắp móng gel / Acrylic form chuẩn"}</option>
+                                    <option value="spa-pedicure">{isEn ? "Luxury Spa Pedicure" : "Chăm sóc & Spa gót chân chuyên sâu"}</option>
+                                    <option value="ibx-recovery">{isEn ? "IBX Treatment & Nail Recovery" : "Phục hồi móng mỏng yếu IBX"}</option>
+                                    <option value="general-consultation">{isEn ? "General Consultation / Other" : "Tư vấn kiểu móng & dịch vụ khác"}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div style={{ marginBottom: 28 }}>
-                            <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#999", marginBottom: 6 }}>
+                            <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#786E65", marginBottom: 8 }}>
                                 {isEn ? "Your Message *" : "Nội dung tin nhắn *"}
                             </label>
                             <textarea required rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                                 onFocus={() => setFocused("message")} onBlur={() => setFocused(null)}
-                                placeholder={isEn ? "Tell us about what you're looking for, preferred date & time, any questions..." : "Chia sẻ với chúng tôi về nhu cầu làm móng, thời gian mong muốn hoặc thắc mắc của bạn..."}
+                                placeholder={isEn ? "Tell us about what you're looking for, preferred date & time, any questions..." : "Chia sẻ với chúng tôi về nhu cầu làm móng, phong cách bạn yêu thích hoặc thắc mắc cần tư vấn..."}
                                 style={{ ...inputStyle("message"), resize: "vertical" }} />
                         </div>
 
                         <button type="submit" disabled={isSubmitting}
-                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "18px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: isSubmitting ? "not-allowed" : "pointer", transition: "all .3s", boxShadow: "0 4px 20px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}
+                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px", borderRadius: 12, fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", border: "none", cursor: isSubmitting ? "not-allowed" : "pointer", transition: "all .3s ease", boxShadow: "0 6px 24px rgba(194,169,121,.35)", opacity: isSubmitting ? 0.7 : 1 }}
                             onMouseOver={(e) => { if (!isSubmitting) { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(194,169,121,.45)"; } }}
-                            onMouseOut={(e) => { if (!isSubmitting) { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(194,169,121,.35)"; } }}
+                            onMouseOut={(e) => { if (!isSubmitting) { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; } }}
                         >
                             {isSubmitting ? dictionary.common.sending : (isEn ? "Send Message →" : "Gửi tin nhắn →")}
                         </button>
@@ -301,59 +308,120 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
             <section className="contact-info" style={{ background: "#FDFBF7", padding: "80px 0 0" }}>
                 <div className="contact-container" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
                     <div className="contact-info__grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20 }}>
-                        {[
-                            {
-                                icon: (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                                    </svg>
-                                ),
-                                label: isEn ? "Our Location" : "Địa chỉ của chúng tôi",
-                                lines: [settings.siteName, getLocalizedText(settings.address, locale)],
-                            },
-                            {
-                                icon: (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.41-1.42a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.29v1.63z" />
-                                    </svg>
-                                ),
-                                label: isEn ? "Phone & Email" : "Điện thoại & Email",
-                                lines: [settings.hotline, settings.hotline2, settings.email].filter(Boolean),
-                            },
-                            {
-                                icon: (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                ),
-                                label: isEn ? "Opening Hours" : "Giờ mở cửa",
-                                lines: workingHoursLines,
-                            },
-                            {
-                                icon: (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><path d="M8 21l4-4 4 4M12 17v4" />
-                                    </svg>
-                                ),
-                                label: isEn ? "Follow Us" : "Mạng xã hội",
-                                lines: [settings.instagram, settings.facebook].filter(Boolean),
-                            },
-                        ].map((card, i) => (
-                            <div key={i} className="reveal info-card" data-delay={String(i * 80)}
-                                style={{ background: "#fff", padding: "32px 26px", boxShadow: "0 4px 20px rgba(0,0,0,.05)" }}>
-                                <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.1)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.2)" }}>
-                                    {card.icon}
-                                </div>
-                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
-                                    {card.label}
-                                </div>
-                                {card.lines.map((line, j) => (
-                                    <div key={j} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.8, color: j === 0 ? "#2E2E2E" : "#888", fontWeight: j === 0 ? 600 : 400 }}>
-                                        {line}
-                                    </div>
-                                ))}
+                        {/* 1. Location */}
+                        <div className="reveal info-card" data-delay="0"
+                            style={{ background: "#fff", padding: "32px 26px", borderRadius: 18, border: "1px solid rgba(194,169,121,.22)", boxShadow: "0 10px 30px -10px rgba(0,0,0,.05)" }}>
+                            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.25)" }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                                </svg>
                             </div>
-                        ))}
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
+                                {isEn ? "Our Location" : "Địa chỉ của chúng tôi"}
+                            </div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 15, fontWeight: 700, color: "#2E2E2E", marginBottom: 6 }}>
+                                {settings.siteName || "Mộc Salon"}
+                            </div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13.5, lineHeight: 1.6, color: "#6E6E6E" }}>
+                                {getLocalizedText(settings.address, locale)}
+                            </div>
+                        </div>
+
+                        {/* 2. Phone & Email */}
+                        <div className="reveal info-card" data-delay="80"
+                            style={{ background: "#fff", padding: "32px 26px", borderRadius: 18, border: "1px solid rgba(194,169,121,.22)", boxShadow: "0 10px 30px -10px rgba(0,0,0,.05)" }}>
+                            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.25)" }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.29 6.29l1.41-1.42a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.29v1.63z" />
+                                </svg>
+                            </div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
+                                {isEn ? "Hotline & Email" : "Hotline & Email"}
+                            </div>
+                            {settings.hotline && (
+                                <a href={`tel:${settings.hotline.replace(/\s+/g, "")}`}
+                                    style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 15, fontWeight: 700, color: "#2E2E2E", textDecoration: "none", marginBottom: 6, transition: "color .2s" }}
+                                    onMouseOver={(e) => { e.currentTarget.style.color = "#C2A979"; }}
+                                    onMouseOut={(e) => { e.currentTarget.style.color = "#2E2E2E"; }}
+                                >
+                                    📞 {settings.hotline}
+                                </a>
+                            )}
+                            {settings.hotline2 && (
+                                <a href={`tel:${settings.hotline2.replace(/\s+/g, "")}`}
+                                    style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 13.5, color: "#6E6E6E", textDecoration: "none", marginBottom: 6, transition: "color .2s" }}
+                                    onMouseOver={(e) => { e.currentTarget.style.color = "#C2A979"; }}
+                                    onMouseOut={(e) => { e.currentTarget.style.color = "#6E6E6E"; }}
+                                >
+                                    {settings.hotline2}
+                                </a>
+                            )}
+                            {settings.email && (
+                                <a href={`mailto:${settings.email}`}
+                                    style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#8C7B6D", textDecoration: "none", marginTop: 4, transition: "color .2s" }}
+                                    onMouseOver={(e) => { e.currentTarget.style.color = "#C2A979"; }}
+                                    onMouseOut={(e) => { e.currentTarget.style.color = "#8C7B6D"; }}
+                                >
+                                    ✉ {settings.email}
+                                </a>
+                            )}
+                        </div>
+
+                        {/* 3. Opening Hours */}
+                        <div className="reveal info-card" data-delay="160"
+                            style={{ background: "#fff", padding: "32px 26px", borderRadius: 18, border: "1px solid rgba(194,169,121,.22)", boxShadow: "0 10px 30px -10px rgba(0,0,0,.05)" }}>
+                            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.25)" }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                                </svg>
+                            </div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
+                                {isEn ? "Opening Hours" : "Giờ mở cửa"}
+                            </div>
+                            {workingHoursLines.map((line, j) => (
+                                <div key={j} style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13.5, lineHeight: 1.65, color: j === 0 ? "#2E2E2E" : "#6E6E6E", fontWeight: j === 0 ? 600 : 400, marginBottom: 4 }}>
+                                    {line}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* 4. Social Links */}
+                        <div className="reveal info-card" data-delay="240"
+                            style={{ background: "#fff", padding: "32px 26px", borderRadius: 18, border: "1px solid rgba(194,169,121,.22)", boxShadow: "0 10px 30px -10px rgba(0,0,0,.05)" }}>
+                            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "rgba(194,169,121,.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20, border: "1px solid rgba(194,169,121,.25)" }}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C2A979" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><path d="M8 21l4-4 4 4M12 17v4" />
+                                </svg>
+                            </div>
+                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 10 }}>
+                                {isEn ? "Connect With Us" : "Kết nối với chúng tôi"}
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
+                                {settings.facebook && (
+                                    <a href={settings.facebook} target="_blank" rel="noreferrer"
+                                        style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#2E2E2E", textDecoration: "none", fontWeight: 600, transition: "color .2s" }}
+                                        onMouseOver={(e) => { e.currentTarget.style.color = "#C2A979"; }}
+                                        onMouseOut={(e) => { e.currentTarget.style.color = "#2E2E2E"; }}
+                                    >
+                                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(0,104,255,0.1)", color: "#0068ff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>f</span>
+                                        <span>Facebook Mộc Salon</span>
+                                    </a>
+                                )}
+                                {settings.instagram && (
+                                    <a href={settings.instagram} target="_blank" rel="noreferrer"
+                                        style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#2E2E2E", textDecoration: "none", fontWeight: 600, transition: "color .2s" }}
+                                        onMouseOver={(e) => { e.currentTarget.style.color = "#C2A979"; }}
+                                        onMouseOut={(e) => { e.currentTarget.style.color = "#2E2E2E"; }}
+                                    >
+                                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(225,48,108,0.1)", color: "#E1306C", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700 }}>📸</span>
+                                        <span>Instagram Gallery</span>
+                                    </a>
+                                )}
+                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#9E9489", marginTop: 4 }}>
+                                    {isEn ? "Follow us for daily nail inspirations." : "Theo dõi để cập nhật các mẫu móng mới nhất."}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -370,10 +438,10 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                     </div>
 
                     {/* Map + extra info */}
-                    <div className="reveal" data-delay="150" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                    <div className="reveal" data-delay="150" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                         {/* Map embed */}
                         {settings.mapEmbedUrl && (
-                            <div style={{ overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,.1)", height: 340 }}>
+                            <div style={{ overflow: "hidden", borderRadius: 20, border: "1px solid rgba(194, 169, 121, 0.25)", boxShadow: "0 16px 48px -12px rgba(40, 30, 20, 0.1)", height: 350 }}>
                                 <iframe
                                     title="Mộc Salon location"
                                     src={settings.mapEmbedUrl}
@@ -387,23 +455,43 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                         )}
 
                         {/* Book CTA card */}
-                        <div className="contact-booking-cta" style={{ background: "#2E2E2E", padding: "32px 28px", display: "flex", alignItems: "center", gap: 24 }}>
+                        <div className="contact-booking-cta" style={{ background: "linear-gradient(135deg, #26201B 0%, #171412 100%)", borderRadius: 20, border: "1px solid rgba(194, 169, 121, 0.28)", padding: "34px 30px", display: "flex", alignItems: "center", gap: 24, boxShadow: "0 18px 48px -10px rgba(0,0,0,0.18)" }}>
                             <div style={{ flex: 1 }}>
-                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 8 }}>
-                                    {isEn ? "Skip the line" : "Không cần chờ đợi"}
+                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 8 }}>
+                                    {isEn ? "Fast Booking" : "Tiết kiệm thời gian"}
                                 </div>
-                                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#fff", margin: 0, fontStyle: "italic" }}>
+                                <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 23, fontWeight: 700, color: "#fff", margin: "0 0 6px", fontStyle: "italic" }}>
                                     {isEn ? "Book Online Instantly" : "Đặt lịch hẹn trực tuyến ngay"}
                                 </h3>
+                                <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 13, color: "#A89F95", margin: 0, lineHeight: 1.5 }}>
+                                    {isEn ? "Select your favorite artist, date & time with instant confirmation." : "Chủ động chọn kỹ thuật viên, khung giờ mong muốn & nhận xác nhận nhanh chóng."}
+                                </p>
                             </div>
-                            <Link href={bookingHref}>
-                                <button
-                                    style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "14px 24px", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", cursor: "pointer", whiteSpace: "nowrap", transition: "all .3s", boxShadow: "0 4px 16px rgba(194,169,121,.3)" }}
-                                    onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
-                                    onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
-                                >
-                                    {dictionary.nav.booking} →
-                                </button>
+                            <Link
+                                href={bookingHref}
+                                style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 8,
+                                    background: "linear-gradient(135deg,#C2A979,#a08040)",
+                                    color: "#fff",
+                                    padding: "14px 26px",
+                                    borderRadius: 10,
+                                    fontFamily: "Montserrat,sans-serif",
+                                    fontSize: 11.5,
+                                    fontWeight: 700,
+                                    letterSpacing: "0.1em",
+                                    textTransform: "uppercase",
+                                    textDecoration: "none",
+                                    whiteSpace: "nowrap",
+                                    transition: "all .3s ease",
+                                    boxShadow: "0 4px 18px rgba(194,169,121,.35)",
+                                }}
+                                onMouseOver={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(194,169,121,.5)"; }}
+                                onMouseOut={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 18px rgba(194,169,121,.35)"; }}
+                            >
+                                <span>{dictionary.nav.booking}</span>
+                                <span>→</span>
                             </Link>
                         </div>
                     </div>

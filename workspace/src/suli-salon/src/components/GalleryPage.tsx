@@ -256,7 +256,7 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
         <div
             className="gallery-item reveal"
             data-delay={String(delay)}
-            style={{ overflow: "hidden", cursor: "pointer", position: "relative", ...gridStyles }}
+            style={{ overflow: "hidden", cursor: "pointer", position: "relative", borderRadius: 14, ...gridStyles }}
             onClick={onClick}
             onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
@@ -523,14 +523,30 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,48px)", fontWeight: 700, color: "#fff", margin: "0 0 28px", fontStyle: "italic" }}>
                         {isEn ? "Book Your Next Look" : "Đặt lịch để sở hữu bộ móng tuyệt đẹp"}
                     </h2>
-                    <Link href={bookingHref}>
-                        <button
-                            style={{ background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px 44px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .35s", boxShadow: "0 6px 24px rgba(194,169,121,.35)" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 14px 36px rgba(194,169,121,.45)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; }}
-                        >
-                            {dictionary.common.bookNow} →
-                        </button>
+                    <Link
+                        href={bookingHref}
+                        style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            background: "linear-gradient(135deg,#C2A979,#a08040)",
+                            color: "#fff",
+                            padding: "16px 44px",
+                            fontFamily: "Montserrat,sans-serif",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            letterSpacing: "0.14em",
+                            textTransform: "uppercase",
+                            textDecoration: "none",
+                            borderRadius: 40,
+                            cursor: "pointer",
+                            transition: "all .35s ease",
+                            boxShadow: "0 6px 24px rgba(194,169,121,.35)"
+                        }}
+                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 14px 36px rgba(194,169,121,.45)"; }}
+                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(194,169,121,.35)"; }}
+                    >
+                        {dictionary.common.bookNow} →
                     </Link>
                 </div>
             </section>

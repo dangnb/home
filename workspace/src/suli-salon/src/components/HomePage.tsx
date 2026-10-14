@@ -198,26 +198,26 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                                 <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                     {isEn ? "Full Name *" : "Họ và tên *"}
                                 </label>
-                                <input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} placeholder={isEn ? "Your name..." : "Họ và tên của bạn..."} />
+                                <input value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box", background: "#FAF8F5" }} placeholder={isEn ? "Your name..." : "Họ và tên của bạn..."} />
                             </div>
                             <div style={{ marginBottom: 18 }}>
                                 <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                     {isEn ? "Phone Number *" : "Số điện thoại *"}
                                 </label>
-                                <input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} placeholder={isEn ? "+84 xxx xxx xxx" : "09xx xxx xxx"} />
+                                <input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} type="text" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box", background: "#FAF8F5" }} placeholder={isEn ? "+84 xxx xxx xxx" : "09xx xxx xxx"} />
                             </div>
                             <div className="homepage-booking-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 }}>
                                 <div>
                                     <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                         {isEn ? "Date *" : "Ngày hẹn *"}
                                     </label>
-                                    <input value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} type="date" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box" }} />
+                                    <input value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} type="date" style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", boxSizing: "border-box", background: "#FAF8F5" }} />
                                 </div>
                                 <div>
                                     <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                         {isEn ? "Time *" : "Giờ hẹn *"}
                                     </label>
-                                    <select value={formData.time} onChange={e => setFormData({ ...formData, time: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
+                                    <select value={formData.time} onChange={e => setFormData({ ...formData, time: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#FAF8F5", color: "#2E2E2E", outline: "none" }}>
                                         <option value="">{isEn ? "Select time..." : "Chọn giờ..."}</option>
                                         {(settings.departureSlots || []).map((slot, i) => (
                                             <option key={i} value={slot}>{slot}</option>
@@ -229,7 +229,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                                 <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                     {isEn ? "Preferred Service *" : "Dịch vụ quan tâm *"}
                                 </label>
-                                <select value={formData.serviceName} onChange={e => setFormData({ ...formData, serviceName: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
+                                <select value={formData.serviceName} onChange={e => setFormData({ ...formData, serviceName: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#FAF8F5", color: "#2E2E2E", outline: "none" }}>
                                     <option value="">{isEn ? "Select a service..." : "Chọn dịch vụ..."}</option>
                                     {services.map(s => (
                                         <option key={s.id} value={s.name}>
@@ -242,7 +242,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                                 <label style={{ display: "block", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888", marginBottom: 6 }}>
                                     {isEn ? "Notes (optional)" : "Ghi chú (tùy chọn)"}
                                 </label>
-                                <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} rows={3} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", resize: "none", boxSizing: "border-box" }} placeholder={isEn ? "Any additional notes..." : "Yêu cầu thêm hoặc ghi chú..."} />
+                                <textarea value={formData.notes} onChange={e => setFormData({ ...formData, notes: e.target.value })} rows={3} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 10, fontSize: 14, fontFamily: "Montserrat,sans-serif", color: "#2E2E2E", outline: "none", resize: "none", boxSizing: "border-box", background: "#FAF8F5" }} placeholder={isEn ? "Any additional notes..." : "Yêu cầu thêm hoặc ghi chú..."} />
                             </div>
                         </>
                     )}
@@ -253,7 +253,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                         <button
                             onClick={handleSubmit}
                             disabled={status === "loading"}
-                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", borderRadius: 6, cursor: status === "loading" ? "not-allowed" : "pointer", transition: "opacity .2s", opacity: status === "loading" ? 0.7 : 1 }}
+                            style={{ width: "100%", background: "linear-gradient(135deg,#C2A979,#a08040)", color: "#fff", padding: "16px", fontFamily: "Montserrat,sans-serif", fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", border: "none", borderRadius: 10, cursor: status === "loading" ? "not-allowed" : "pointer", transition: "opacity .2s", opacity: status === "loading" ? 0.7 : 1, boxShadow: "0 4px 16px rgba(194, 169, 121, 0.3)" }}
                             onMouseOver={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "0.88"; }}
                             onMouseOut={(e) => { if (status !== "loading") e.currentTarget.style.opacity = "1"; }}
                         >
@@ -319,14 +319,13 @@ function Hero({ settings }: { settings: SiteSettings }) {
                     >
                         {bannerSubtitle}
                     </p>
-                    <Link href={servicesHref}>
-                        <button
-                            style={{ background: "#1A1A1A", color: "#fff", padding: "18px 44px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", border: "none", cursor: "pointer", transition: "all .35s cubic-bezier(.16,1,.3,1)", boxShadow: "0 6px 24px rgba(0,0,0,.18)" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(194,169,121,.4)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#1A1A1A"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(0,0,0,.18)"; }}
-                        >
-                            {isEn ? "Our Services →" : "Xem dịch vụ →"}
-                        </button>
+                    <Link
+                        href={servicesHref}
+                        style={{ display: "inline-block", background: "#1A1A1A", color: "#fff", padding: "18px 44px", borderRadius: 10, fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", transition: "all .35s cubic-bezier(.16,1,.3,1)", boxShadow: "0 6px 24px rgba(0,0,0,.18)" }}
+                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(194,169,121,.4)"; }}
+                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "#1A1A1A"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(0,0,0,.18)"; }}
+                    >
+                        {isEn ? "Our Services →" : "Xem dịch vụ →"}
                     </Link>
                 </div>
 
@@ -472,14 +471,13 @@ function About({ settings }: { settings: SiteSettings }) {
                             </li>
                         ))}
                     </ul>
-                    <Link href={aboutHref}>
-                        <button
-                            style={{ background: "transparent", color: "#C2A979", padding: "15px 32px", fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", border: "2px solid #C2A979", cursor: "pointer", transition: "all .3s" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
-                        >
-                            {isEn ? "Discover Our Story →" : "Khám phá câu chuyện của chúng tôi →"}
-                        </button>
+                    <Link
+                        href={aboutHref}
+                        style={{ display: "inline-block", background: "transparent", color: "#C2A979", padding: "15px 32px", borderRadius: 10, fontFamily: "Montserrat,sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", border: "2px solid #C2A979", transition: "all .3s" }}
+                        onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.background = "#C2A979"; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; }}
+                        onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#C2A979"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+                    >
+                        {isEn ? "Discover Our Story →" : "Khám phá câu chuyện của chúng tôi →"}
                     </Link>
                 </div>
             </div>
@@ -1170,7 +1168,7 @@ function ServiceDetailModal({
                                 fontWeight: 700,
                                 letterSpacing: "0.08em",
                                 textTransform: "uppercase",
-                                borderRadius: 8,
+                                borderRadius: 12,
                                 boxShadow: "0 4px 18px rgba(194, 169, 121, 0.35)",
                                 transition: "all 0.25s ease",
                             }}

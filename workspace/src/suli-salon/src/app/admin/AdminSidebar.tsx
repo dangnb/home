@@ -17,6 +17,7 @@ import {
   MdLogout,
   MdMenu,
   MdPayments,
+  MdPeople,
   MdPhotoLibrary,
   MdSettings,
   MdSpa,
@@ -25,6 +26,7 @@ import {
 const navItems = [
   { href: "/admin", label: "Tổng quan", icon: MdDashboard },
   { href: "/admin/bookings", label: "Lịch hẹn", icon: MdCalendarMonth },
+  { href: "/admin/customers", label: "Khách hàng", icon: MdPeople },
   { href: "/admin/services", label: "Dịch vụ", icon: MdSpa },
   { href: "/admin/gallery", label: "Bộ sưu tập", icon: MdPhotoLibrary },
   { href: "/admin/posts", label: "Bài viết", icon: MdArticle },

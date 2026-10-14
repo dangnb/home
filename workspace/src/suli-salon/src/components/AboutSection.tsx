@@ -47,10 +47,11 @@ export default function AboutSection() {
               </li>
             ))}
           </ul>
-          <Link href="/about">
-            <button className="border-2 border-primary text-primary px-8 py-4 font-button-text text-button-text uppercase tracking-widest hover:bg-primary hover:text-white hover:scale-105 transition-all">
-              Explore Our Story
-            </button>
+          <Link
+            href="/about"
+            className="inline-block border-2 border-primary text-primary px-8 py-4 font-button-text text-button-text uppercase tracking-widest hover:bg-primary hover:text-white hover:scale-105 transition-all rounded-full"
+          >
+            Explore Our Story
           </Link>
         </div>
       </div>

@@ -1,79 +1,206 @@
 .container {
   position: fixed;
-  left: 20px;
-  bottom: 20px;
+  left: 24px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+}
+
+.buttonStack {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 1000;
+  align-items: center;
 }
 
 .button {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  color: #ffffff;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  box-shadow: 0 8px 24px -4px rgba(35, 27, 21, 0.22);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .button:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 14px 30px -4px rgba(35, 27, 21, 0.35);
 }
 
+.icon {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.button:hover .icon {
+  transform: scale(1.1);
+}
+
+/* 1. Phone Button (Champagne Gold with gentle ambient pulse) */
+.phone {
+  background: linear-gradient(135deg, #D4AF37 0%, #A28448 100%);
+  border-color: rgba(255, 240, 205, 0.6);
+}
+
+.pulseRing {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(194, 169, 121, 0.6);
+  animation: gentlePulse 2.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes gentlePulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  65% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* 2. Zalo Button */
+.zalo {
+  background: linear-gradient(135deg, #0080FF 0%, #0055D4 100%);
+  border-color: rgba(200, 225, 255, 0.5);
+}
+
+.zaloText {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+/* 3. Messenger Button */
+.messenger {
+  background: linear-gradient(135deg, #00B2FE 0%, #006AFF 100%);
+  border-color: rgba(200, 235, 255, 0.5);
+}
+
+/* Refined Tooltip */
 .tooltip {
   position: absolute;
   left: 60px;
-  background-color: rgba(0,0,0,0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  background: rgba(26, 21, 18, 0.92);
+  color: #FAF7F2;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: var(--font-montserrat), sans-serif;
   font-size: 12px;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.tooltip strong {
+  font-weight: 700;
+  color: #E6D5B8;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+}
+
+.tooltip .subtext {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .button:hover .tooltip {
   opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
-.phone {
-  background-color: #ff3b30;
-  animation: pulse 2s infinite;
+/* Toggle Pill Button */
+.toggleBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(35, 28, 23, 0.88);
+  color: #C2A979;
+  border: 1px solid rgba(194, 169, 121, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.zalo {
-  background-color: #0068ff;
+.toggleBtn:hover {
+  background: #C2A979;
+  color: #1A1613;
+  border-color: #C2A979;
+  transform: scale(1.08);
 }
 
-.messenger {
-  background-color: #0084ff;
+.closedPill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 42px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #2E251E 0%, #1A1512 100%);
+  color: #C2A979;
+  border: 1.5px solid rgba(194, 169, 121, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
-.whatsapp {
-  background-color: #25d366;
+.closedLabel {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.telegram {
-  background-color: #0088cc;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+@media (max-width: 640px) {
+  .container {
+    left: 16px;
+    bottom: 16px;
+    gap: 8px;
   }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 59, 48, 0);
+
+  .button {
+    width: 44px;
+    height: 44px;
   }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+
+  .tooltip {
+    display: none; /* Avoid blocking screen on touch devices */
   }
 }

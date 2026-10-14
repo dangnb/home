@@ -33,10 +33,11 @@ export default function Hero() {
             Sản phẩm cao cấp, kỹ thuật viên chuyên nghiệp và sự tỉ mỉ trong từng chi tiết. Trải nghiệm nghệ thuật làm móng tinh tế tại Mộc Salon.
           </p>
           <div className="flex gap-4">
-            <Link href="/services">
-              <button className="bg-on-background text-background px-10 py-5 font-button-text text-button-text uppercase tracking-widest hover:bg-primary hover:scale-105 transition-all duration-300">
-                Our Services <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
-              </button>
+            <Link
+              href="/services"
+              className="inline-block bg-on-background text-background px-10 py-5 font-button-text text-button-text uppercase tracking-widest hover:bg-primary hover:text-white hover:scale-105 transition-all duration-300 rounded-full"
+            >
+              Our Services <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>
