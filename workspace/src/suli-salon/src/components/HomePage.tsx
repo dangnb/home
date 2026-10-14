@@ -341,11 +341,32 @@ function Hero({ settings }: { settings: SiteSettings }) {
                             onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                         />
-                        {/* Badge overlay */}
-                        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 80px 0" }}>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>
-                                {isEn ? "NAIL ARTISTRY" : "NGHỆ THUẬT MÓNG"}
-                            </div>
+                        {/* Subtle bottom gradient & gentle editorial caption */}
+                        <div style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            padding: "36px 22px 18px",
+                            background: "linear-gradient(to top, rgba(14, 11, 9, 0.42) 0%, transparent 100%)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                            pointerEvents: "none",
+                            zIndex: 2
+                        }}>
+                            <span style={{ display: "inline-block", width: 14, height: 1, background: "rgba(194, 169, 121, 0.85)" }} />
+                            <span style={{
+                                fontFamily: "Montserrat,sans-serif",
+                                fontSize: 10,
+                                fontWeight: 500,
+                                letterSpacing: "0.16em",
+                                textTransform: "uppercase",
+                                color: "rgba(255, 255, 255, 0.88)",
+                                textShadow: "0 1px 3px rgba(0,0,0,0.4)"
+                            }}>
+                                {isEn ? "Nail Artistry" : "Nghệ thuật móng"}
+                            </span>
                         </div>
                     </div>
 
@@ -360,9 +381,32 @@ function Hero({ settings }: { settings: SiteSettings }) {
                                 onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
                                 onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                             />
-                            {/* Badge overlay */}
-                            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 0 80px" }}>
-                                <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,.85)" }}>DETAIL</div>
+                            {/* Subtle bottom gradient & gentle editorial caption */}
+                            <div style={{
+                                position: "absolute",
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                padding: "36px 22px 18px",
+                                background: "linear-gradient(to top, rgba(14, 11, 9, 0.42) 0%, transparent 100%)",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                pointerEvents: "none",
+                                zIndex: 2
+                            }}>
+                                <span style={{ display: "inline-block", width: 14, height: 1, background: "rgba(194, 169, 121, 0.85)" }} />
+                                <span style={{
+                                    fontFamily: "Montserrat,sans-serif",
+                                    fontSize: 10,
+                                    fontWeight: 500,
+                                    letterSpacing: "0.16em",
+                                    textTransform: "uppercase",
+                                    color: "rgba(255, 255, 255, 0.88)",
+                                    textShadow: "0 1px 3px rgba(0,0,0,0.4)"
+                                }}>
+                                    {isEn ? "Relaxing Spa Care" : "Trị liệu & Spa thư giãn"}
+                                </span>
                             </div>
                         </div>
                         {/* Experience badge */}
