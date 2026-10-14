@@ -332,10 +332,10 @@ function Hero({ settings }: { settings: SiteSettings }) {
                     <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 42, paddingTop: 28, borderTop: "1px solid rgba(194, 169, 121, 0.25)", flexWrap: "wrap" }}>
                         <div>
                             <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 32, fontWeight: 700, color: "#2E2E2E", lineHeight: 1 }}>
-                                {settings.bannerStats?.[0]?.value || settings.experienceYears || "8+"}
+                                {settings.bannerStats?.[0]?.value || "8+"}
                             </div>
                             <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
-                                {settings.bannerStats?.[0]?.label || (isEn ? "Years Experience" : "Năm kinh nghiệm")}
+                                {getLocalizedText(settings.bannerStats?.[0]?.label, locale) || (isEn ? "Years Experience" : "Năm kinh nghiệm")}
                             </div>
                         </div>
                         <div style={{ width: 1, height: 32, background: "rgba(194, 169, 121, 0.3)" }} />
@@ -344,7 +344,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                                 {settings.bannerStats?.[1]?.value || "100%"}
                             </div>
                             <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
-                                {settings.bannerStats?.[1]?.label || (isEn ? "Organic Products" : "Sản phẩm chọn lọc")}
+                                {getLocalizedText(settings.bannerStats?.[1]?.label, locale) || (isEn ? "Organic Products" : "Sản phẩm chọn lọc")}
                             </div>
                         </div>
                         <div style={{ width: 1, height: 32, background: "rgba(194, 169, 121, 0.3)" }} />
@@ -353,7 +353,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                                 {settings.bannerStats?.[2]?.value || "5.0 ★"}
                             </div>
                             <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
-                                {settings.bannerStats?.[2]?.label || (isEn ? "Top Rated" : "Khách hài lòng")}
+                                {getLocalizedText(settings.bannerStats?.[2]?.label, locale) || (isEn ? "Top Rated" : "Khách hài lòng")}
                             </div>
                         </div>
                     </div>
