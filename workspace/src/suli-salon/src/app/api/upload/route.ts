@@ -1,42 +1,57 @@
-// src/app/api/upload/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import sharp from "sharp";
 import { uploadImage } from "@/lib/cloudinary";
+import { requireAdmin } from "@/lib/auth";
+
+const MAX_UPLOAD_SIZE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export async function POST(req: NextRequest) {
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
+
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const formData = await req.formData();
-    const file = formData.get("file") as File;
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    const file = formData.get("file");
+
+    if (!file || typeof file === "string" || file.size === 0) {
+      return NextResponse.json({ error: "Không tìm thấy tệp ảnh hợp lệ" }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+      return NextResponse.json({ error: "Ảnh không được vượt quá 5 MB" }, { status: 413 });
+    }
 
-    // Check if Cloudinary is configured
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      return NextResponse.json({ error: "Chỉ hỗ trợ ảnh JPEG, PNG hoặc WebP" }, { status: 415 });
+    }
+
+    const source = Buffer.from(await file.arrayBuffer());
+    let imageBuffer: Buffer;
+    try {
+      imageBuffer = await sharp(source, { limitInputPixels: 40_000_000 })
+        .rotate()
+        .resize({ width: 1920, height: 1920, fit: "inside", withoutEnlargement: true })
+        .webp({ quality: 85 })
+        .toBuffer();
+    } catch {
+      return NextResponse.json({ error: "Tệp tải lên không phải ảnh hợp lệ" }, { status: 400 });
+    }
+
     if (!process.env.CLOUDINARY_CLOUD_NAME || process.env.CLOUDINARY_CLOUD_NAME === "your_cloud_name") {
-      // Fallback: save to local /public/images/uploads/
-      const fs = await import("fs");
+      const fs = await import("fs/promises");
       const path = await import("path");
-      const ext = "webp"; // Since we converted to webp
-      const filename = `upload_${Date.now()}.${ext}`;
+      const filename = `upload_${Date.now()}_${crypto.randomUUID()}.webp`;
       const uploadDir = path.join(process.cwd(), "public", "images", "uploads");
-      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-      fs.writeFileSync(path.join(uploadDir, filename), buffer);
+      await fs.mkdir(uploadDir, { recursive: true });
+      await fs.writeFile(path.join(uploadDir, filename), imageBuffer);
       return NextResponse.json({ url: `/images/uploads/${filename}` });
     }
 
-    // Upload to Cloudinary
-    const url = await uploadImage(buffer);
+    const url = await uploadImage(imageBuffer);
     return NextResponse.json({ url });
   } catch (error) {
-    console.error("Upload error:", error);
+    console.error("Upload error", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }

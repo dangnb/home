@@ -329,7 +329,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                                     src={settings.mapEmbedUrl}
                                     width="100%"
                                     height="100%"
-                                    style={{ border: 0, display: "block", filter: "grayscale(30%)" }}
+                                    style={{ border: 0, display: "block" }}
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
                                 />
@@ -393,10 +393,10 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src="https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"
-                    alt="Salon interior"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "filter .6s" }}
-                    onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}
-                    onMouseOut={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(30%)")}
+                    alt="Không gian đón khách tại Mộc Salon"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .6s ease" }}
+                    onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)")}
+                    onMouseOut={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
                 />
                 <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div className="reveal" style={{ textAlign: "center" }}>

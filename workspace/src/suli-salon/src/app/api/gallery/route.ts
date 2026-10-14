@@ -1,46 +1,53 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET() {
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
+
   const items = await prisma.galleryItem.findMany({ orderBy: { order: "asc" } });
   return NextResponse.json(items);
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
-  const body = await req.json();
   try {
+    const body = await req.json();
+    if (typeof body.image !== "string" || !body.image) {
+      return NextResponse.json({ error: "Cần có ảnh cho bộ sưu tập" }, { status: 400 });
+    }
+
     const item = await prisma.galleryItem.create({
       data: {
-        title: body.title ?? "",
+        title: typeof body.title === "string" ? body.title.slice(0, 160) : "",
         image: body.image,
-        category: body.category ?? "",
-        order: body.order ?? 0,
-        isActive: body.isActive ?? true,
+        category: typeof body.category === "string" ? body.category.slice(0, 80) : "",
+        order: Number.isInteger(body.order) ? body.order : 0,
+        isActive: typeof body.isActive === "boolean" ? body.isActive : true,
       },
     });
     return NextResponse.json({ success: true, item });
-  } catch {
-    return NextResponse.json({ error: "Failed to create gallery item" }, { status: 500 });
+  } catch (error) {
+    console.error("Gallery creation failed", error);
+    return NextResponse.json({ error: "Không thể thêm ảnh" }, { status: 500 });
   }
 }
 
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
+  const id = new URL(req.url).searchParams.get("id");
   if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
 
   try {
     await prisma.galleryItem.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Gallery deletion failed", error);
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 }

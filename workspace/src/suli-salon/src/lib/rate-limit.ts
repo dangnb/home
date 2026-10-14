@@ -1,3 +1,5 @@
+// This process-local limiter is a development safety net. Use a shared store in
+// multi-instance or serverless production deployments so limits apply globally.
 export class RateLimiter {
     private ipRequests = new Map<string, { count: number; expiresAt: number }>();
 

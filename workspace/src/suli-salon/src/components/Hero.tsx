@@ -44,7 +44,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-warm-sand -z-10 translate-x-12 translate-y-12"></div>
           <div className="w-full h-full overflow-hidden shadow-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt="Precision Nail Care Hero" className="w-full h-full object-cover grayscale-luxury hover:grayscale-0 hover:scale-105 transition-all duration-700" src="https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg" />
+            <img alt="Precision Nail Care Hero" className="w-full h-full object-cover hover:scale-105 transition-all duration-700" src="https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg" />
           </div>
         </div>
       </div>

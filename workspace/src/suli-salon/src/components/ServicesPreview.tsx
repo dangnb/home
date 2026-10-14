@@ -38,7 +38,7 @@ export default function ServicesPreview() {
           ].map((service, idx) => (
             <div key={idx} className="group relative overflow-hidden h-[500px] whisper-shadow reveal" data-delay={(idx + 1) * 100}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt={service.title} className="w-full h-full object-cover grayscale-luxury group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" src={service.img} />
+              <img alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" src={service.img} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-8 w-full">
                 <h3 className="font-headline-sm text-headline-sm text-white mb-2">{service.title}</h3>

@@ -16,7 +16,7 @@ const images = [
   "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg",
   "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg",
 ];
-const imageClassName = "object-cover grayscale-luxury group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700";
+const imageClassName = "object-cover group-hover:scale-105 transition-all duration-700";
 const smallTileSizes = "(max-width: 768px) calc((100vw - 48px) / 2), (max-width: 1280px) calc((100vw - 176px) / 4), 288px";
 const wideTileSizes = "(max-width: 768px) 100vw, (max-width: 1280px) calc((100vw - 112px) / 2), 592px";
 

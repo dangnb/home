@@ -11,7 +11,7 @@ export default cloudinary;
 
 export async function uploadImage(
     fileBuffer: Buffer,
-    folder: string = "duthuyensonghan"
+    folder: string = "moc-salon"
 ): Promise<string> {
     return new Promise((resolve, reject) => {
         cloudinary.uploader

@@ -1,29 +1,35 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET() {
-  const cats = await prisma.category.findMany();
-  return NextResponse.json(cats);
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
+
+  const categories = await prisma.category.findMany({ orderBy: { order: "asc" } });
+  return NextResponse.json(categories);
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
-  const body = await req.json();
   try {
-    const cat = await prisma.category.create({
+    const body = await req.json();
+    if (typeof body.label !== "string" || !body.label.trim() || typeof body.slug !== "string" || !body.slug.trim()) {
+      return NextResponse.json({ error: "Tên và đường dẫn danh mục là bắt buộc" }, { status: 400 });
+    }
+
+    const category = await prisma.category.create({
       data: {
-        id: body.id,
-        label: body.label,
-        slug: body.slug,
-        description: body.description ?? "",
+        label: body.label.trim().slice(0, 100),
+        slug: body.slug.trim().slice(0, 120),
+        description: typeof body.description === "string" ? body.description.trim().slice(0, 500) : "",
       },
     });
-    return NextResponse.json({ success: true, category: cat });
-  } catch {
-    return NextResponse.json({ error: "Error creating category" }, { status: 500 });
+    return NextResponse.json({ success: true, category });
+  } catch (error) {
+    console.error("Category creation failed", error);
+    return NextResponse.json({ error: "Không thể tạo danh mục" }, { status: 500 });
   }
 }

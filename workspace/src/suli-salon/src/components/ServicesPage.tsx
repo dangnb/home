@@ -256,9 +256,9 @@ export default function ServicesPage({ services, categories }: { services: Servi
                                     ref={catImgRef}
                                     src={activeCat.img}
                                     alt={activeCat.label}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "opacity .25s ease, filter .6s ease, transform .6s ease" }}
-                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
-                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(30%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity .25s ease, transform .6s ease" }}
+                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
+                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                                     onError={(e) => {
                                         const image = e.currentTarget;
                                         if (image.src !== new URL(activeCat.fallbackImage, window.location.origin).href) {

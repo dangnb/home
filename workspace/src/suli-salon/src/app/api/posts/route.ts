@@ -1,47 +1,45 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status");
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
-  let where = {};
-  if (status) {
-    where = { status };
-  }
-
-  const posts = await prisma.post.findMany({
-    where,
-    orderBy: { createdAt: "desc" },
-  });
+  const status = new URL(req.url).searchParams.get("status");
+  const where = status === "published" || status === "draft" ? { status } : {};
+  const posts = await prisma.post.findMany({ where, orderBy: { createdAt: "desc" } });
   return NextResponse.json(posts);
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
-  const body = await req.json();
   try {
-    const p = await prisma.post.create({
+    const body = await req.json();
+    if (typeof body.title !== "string" || !body.title.trim() || typeof body.slug !== "string" || !body.slug.trim()) {
+      return NextResponse.json({ error: "Tiêu đề và đường dẫn bài viết là bắt buộc" }, { status: 400 });
+    }
+
+    const post = await prisma.post.create({
       data: {
-        title: body.title,
-        slug: body.slug,
-        excerpt: body.excerpt ?? "",
-        content: body.content ?? "",
-        thumbnail: body.thumbnail ?? "",
-        categoryId: body.categoryId ?? "",
-        status: body.status ?? "draft",
+        title: body.title.trim().slice(0, 200),
+        slug: body.slug.trim().slice(0, 200),
+        excerpt: typeof body.excerpt === "string" ? body.excerpt.slice(0, 500) : "",
+        content: typeof body.content === "string" ? body.content.slice(0, 100_000) : "",
+        thumbnail: typeof body.thumbnail === "string" ? body.thumbnail.slice(0, 2_000) : "",
+        categoryId: typeof body.categoryId === "string" ? body.categoryId : "",
+        status: body.status === "published" ? "published" : "draft",
       },
     });
-    return NextResponse.json({ success: true, post: p });
-  } catch (error: unknown) {
+    return NextResponse.json({ success: true, post });
+  } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
       return NextResponse.json({ error: "Slug already exists" }, { status: 400 });
     }
-    return NextResponse.json({ error: "Create failed" }, { status: 500 });
+    console.error("Post creation failed", error);
+    return NextResponse.json({ error: "Không thể tạo bài viết" }, { status: 500 });
   }
 }

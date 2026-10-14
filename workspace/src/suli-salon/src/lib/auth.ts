@@ -1,5 +1,7 @@
 // src/lib/auth.ts - NextAuth.js Configuration
 import type { NextAuthOptions } from "next-auth";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import prisma from "./prisma";
@@ -57,3 +59,22 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+export type AdminAuthorization = {
+  session?: Awaited<ReturnType<typeof getServerSession>>;
+  response?: NextResponse;
+};
+
+export async function requireAdmin(): Promise<AdminAuthorization> {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return { response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+  }
+
+  if (session.user.role !== "admin") {
+    return { response: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
+  }
+
+  return { session };
+}

@@ -273,10 +273,10 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={bgImage}
-                            alt="Nail artistry showcase"
-                            style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                            alt="Thiết kế nail art nghệ thuật tại Mộc Salon"
+                            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .7s ease" }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                         />
                         {/* Badge overlay */}
                         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 80px 0" }}>
@@ -290,10 +290,10 @@ function Hero({ settings }: { settings: SiteSettings }) {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
-                                alt="Precision nail care detail"
-                                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .7s ease, transform .7s ease" }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
-                                onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                                alt="Chi tiết chăm sóc móng tỉ mỉ tại Mộc Salon"
+                                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .7s ease" }}
+                                onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
+                                onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                             />
                             {/* Badge overlay */}
                             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%)", padding: "40px 20px 20px", display: "flex", alignItems: "flex-end", justifyContent: "space-between", borderRadius: "0 0 0 80px" }}>
@@ -341,10 +341,10 @@ function About({ settings }: { settings: SiteSettings }) {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={settings.aboutImage2 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg"}
-                            alt="Salon"
-                            style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease" }}
-                            onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)")}
-                            onMouseOut={(e) => ((e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)")}
+                            alt="Không gian thư giãn tại Mộc Salon"
+                            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .6s ease" }}
+                            onMouseOver={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)")}
+                            onMouseOut={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
                         />
                         {/* Badge */}
                         <div style={{ position: "absolute", top: -24, left: -24, background: "linear-gradient(135deg,#C2A979,#a08040)", padding: "24px 20px", color: "#fff", boxShadow: "0 8px 32px rgba(194,169,121,.4)", transition: "transform .3s" }}
@@ -362,7 +362,7 @@ function About({ settings }: { settings: SiteSettings }) {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
-                                alt="Detail"
+                                alt="Chi tiết không gian và dịch vụ tại Mộc Salon"
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             />
                         </div>
@@ -456,11 +456,11 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
         <div
             style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}
             onMouseOver={() => {
-                if (imgRef.current) { imgRef.current.style.filter = "grayscale(0%)"; imgRef.current.style.transform = "scale(1.1)"; }
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1.1)"; }
                 if (linkRef.current) linkRef.current.style.opacity = "1";
             }}
             onMouseOut={() => {
-                if (imgRef.current) { imgRef.current.style.filter = "grayscale(100%)"; imgRef.current.style.transform = "scale(1)"; }
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; }
                 if (linkRef.current) linkRef.current.style.opacity = "0";
             }}
         >
@@ -469,7 +469,7 @@ function ServiceCard({ title, img, slug }: { title: string; img: string; slug: s
                 ref={imgRef}
                 src={img || fallbackImage}
                 alt={title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease" }}
                 onError={(e) => {
                     const image = e.currentTarget;
                     if (image.src !== new URL(fallbackImage, window.location.origin).href) {
@@ -543,15 +543,15 @@ function GalleryItem({ url, alt, span }: { url: string; alt: string; span: strin
         <div
             ref={ref}
             style={{ overflow: "hidden", cursor: "pointer", ...gridStyles }}
-            onMouseOver={() => { if (imgRef.current) { imgRef.current.style.filter = "grayscale(0%)"; imgRef.current.style.transform = "scale(1.05)"; } }}
-            onMouseOut={() => { if (imgRef.current) { imgRef.current.style.filter = "grayscale(100%)"; imgRef.current.style.transform = "scale(1)"; } }}
+            onMouseOver={() => { if (imgRef.current) { imgRef.current.style.transform = "scale(1.05)"; } }}
+            onMouseOut={() => { if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; } }}
         >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 ref={imgRef}
                 src={url}
                 alt={alt}
-                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease" }}
             />
         </div>
     );

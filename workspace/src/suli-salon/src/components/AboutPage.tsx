@@ -87,11 +87,9 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
         .reveal-right.is-visible { opacity: 1; transform: translateX(0); }
 
         .team-img-wrap img {
-          filter: grayscale(100%);
-          transition: filter .65s ease, transform .7s ease;
+          transition: transform .7s ease;
         }
         .team-img-wrap:hover img {
-          filter: grayscale(0%);
           transform: scale(1.05);
         }
       `}</style>
@@ -176,9 +174,9 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                 <img
                                     src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
                                     alt="Salon tools"
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
-                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
-                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .6s ease" }}
+                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
+                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                                 />
                             </div>
                             <div style={{ height: 280, overflow: "hidden" }}>
@@ -186,9 +184,9 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                 <img
                                     src={settings.aboutImage2 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg"}
                                     alt="Eyelash care"
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .6s ease, transform .6s ease" }}
-                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
-                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(100%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .6s ease" }}
+                                    onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
+                                    onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                                 />
                             </div>
                         </div>
@@ -213,10 +211,10 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg"}
-                            alt="Salon interior"
-                            style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(20%)", transition: "filter .7s, transform .7s" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
-                            onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(20%)"; (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                            alt="Không gian thư giãn tại Mộc Salon"
+                            style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .7s" }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                         />
                     </div>
 

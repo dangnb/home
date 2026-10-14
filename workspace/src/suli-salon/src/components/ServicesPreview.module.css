@@ -55,13 +55,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s ease, filter 0.7s ease;
-  filter: grayscale(100%);
+  transition: transform 0.7s ease;
 }
 
 .card:hover .cardImage {
   transform: scale(1.05);
-  filter: grayscale(0%);
 }
 
 .cardOverlay {

@@ -1,44 +1,49 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
   const { id } = await params;
-  const body = await req.json();
   try {
+    const body = await req.json();
+    if (typeof body.label !== "string" || !body.label.trim() || typeof body.slug !== "string" || !body.slug.trim()) {
+      return NextResponse.json({ error: "Tên và đường dẫn danh mục là bắt buộc" }, { status: 400 });
+    }
+
     await prisma.category.update({
       where: { id },
       data: {
-        label: body.label,
-        slug: body.slug,
-        description: body.description,
+        label: body.label.trim().slice(0, 100),
+        slug: body.slug.trim().slice(0, 120),
+        description: typeof body.description === "string" ? body.description.trim().slice(0, 500) : "",
       },
     });
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  } catch (error) {
+    console.error("Category update failed", error);
+    return NextResponse.json({ error: "Không thể cập nhật danh mục" }, { status: 500 });
   }
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
   const { id } = await params;
   try {
     await prisma.category.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Category deletion failed", error);
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 }

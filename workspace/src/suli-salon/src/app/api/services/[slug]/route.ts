@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { deleteImages, extractCloudinaryUrls } from "@/lib/cloudinary";
+import { requireAdmin } from "@/lib/auth";
+import { parseJsonBody } from "@/lib/validation";
+import { servicePayload } from "../route";
 
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
+
   const { slug } = await params;
   try {
     const service = await prisma.service.findUnique({ where: { slug } });
@@ -17,9 +21,9 @@ export async function GET(
       ...service,
       gallery: service.gallery ? JSON.parse(service.gallery) : [],
     });
-  } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Fetch failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+  } catch (error) {
+    console.error("Service fetch failed", error);
+    return NextResponse.json({ error: "Không thể tải dịch vụ" }, { status: 500 });
   }
 }
 
@@ -27,51 +31,38 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
   const { slug } = await params;
-  const body = await req.json();
   try {
-    // Cleanup old images from Cloudinary
-    const existing = await prisma.service.findUnique({ where: { slug } });
-    if (existing) {
-      const oldGallery = existing.gallery ? JSON.parse(existing.gallery) : [];
-      const oldUrls = [existing.image, ...oldGallery, ...extractCloudinaryUrls(existing.description)].filter(Boolean) as string[];
-      const newGallery = typeof body.gallery === "string" ? JSON.parse(body.gallery) : (body.gallery || []);
-      const newUrls = [body.image, ...newGallery, ...extractCloudinaryUrls(body.description)].filter(Boolean) as string[];
-      const urlsToDelete = oldUrls.filter(url => !newUrls.includes(url));
-      if (urlsToDelete.length > 0) await deleteImages(urlsToDelete);
-    }
+    const data = servicePayload(await parseJsonBody(req));
+    if (!data) return NextResponse.json({ error: "Dữ liệu dịch vụ không hợp lệ" }, { status: 400 });
 
-    await prisma.service.update({
-      where: { slug },
-      data: {
-        slug: body.slug,
-        name: body.name,
-        categoryId: body.categoryId,
-        description: body.description,
-        duration: body.duration,
-        price: body.price,
-        promoPrice: body.promoPrice || null,
-        image: body.image,
-        gallery: typeof body.gallery === "string" ? body.gallery : JSON.stringify(body.gallery ?? []),
-        isActive: body.isActive,
-      },
-    });
+    const existing = await prisma.service.findUnique({ where: { slug } });
+    if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    const oldGallery = existing.gallery ? JSON.parse(existing.gallery) : [];
+    const oldUrls = [existing.image, ...oldGallery, ...extractCloudinaryUrls(existing.description)].filter(Boolean) as string[];
+    const newGallery = JSON.parse(data.gallery) as string[];
+    const newUrls = [data.image, ...newGallery, ...extractCloudinaryUrls(data.description)].filter(Boolean) as string[];
+    const urlsToDelete = oldUrls.filter((url) => !newUrls.includes(url));
+    if (urlsToDelete.length > 0) await deleteImages(urlsToDelete);
+
+    await prisma.service.update({ where: { slug }, data });
     return NextResponse.json({ success: true });
-  } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Update failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+  } catch (error) {
+    console.error("Service update failed", error);
+    return NextResponse.json({ error: "Không thể cập nhật dịch vụ" }, { status: 500 });
   }
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin();
+  if (auth.response) return auth.response;
 
   const { slug } = await params;
   try {
@@ -84,7 +75,8 @@ export async function DELETE(
 
     await prisma.service.delete({ where: { slug } });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Service deletion failed", error);
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 }

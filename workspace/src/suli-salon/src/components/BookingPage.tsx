@@ -92,7 +92,7 @@ export default function BookingPage({ services, settings, categories }: { servic
     const departureSlots = settings.departureSlots || ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"];
 
     async function submitBooking() {
-        if (!form.name || !form.phone || !form.email) return;
+        if (!form.name || !form.phone || !form.email || !form.date || !form.time || !form.serviceName) return;
         setIsSubmitting(true);
         setErrorMsg("");
         try {

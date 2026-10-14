@@ -27,7 +27,7 @@ export default function CategoriesPage() {
   function flash(type: string, text: string) { setMsg({ type, text }); setTimeout(() => setMsg({ type: "", text: "" }), 3000); }
 
   async function handleSave() {
-    if (!form.id || !form.label) return flash("error", "ID and Name are required");
+    if (!form.label || !form.slug) return flash("error", "Tên và slug là bắt buộc");
     const method = editing ? "PUT" : "POST";
     const url = editing ? `/api/categories/${editing}` : "/api/categories";
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
@@ -63,10 +63,12 @@ export default function CategoriesPage() {
       <div className={styles.formCard} style={{marginBottom:'1.5rem'}}>
         <h3 className={styles.cardSectionTitle}>{editing ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}</h3>
         <div className={styles.formGrid}>
-          <div className={styles.formField}>
-            <label>ID (không dấu, không khoảng trắng)</label>
-            <input value={form.id} onChange={e => setForm(p => ({...p, id: e.target.value}))} placeholder="regular" disabled={!!editing} />
-          </div>
+          {editing && (
+            <div className={styles.formField}>
+              <label>ID</label>
+              <input value={form.id} disabled />
+            </div>
+          )}
           <div className={styles.formField}>
             <label>Tên Categories</label>
             <input value={form.label} onChange={e => setForm(p => ({...p, label: e.target.value}))} placeholder="e.g. Nail Art" />

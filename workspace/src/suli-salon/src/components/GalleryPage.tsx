@@ -53,7 +53,7 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src={img.image}
-                    alt={img.title}
+                    alt={img.title || "Mẫu nail art tại Mộc Salon"}
                     style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
                 />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top,rgba(0,0,0,.7),transparent)", padding: "40px 28px 20px" }}>
@@ -84,11 +84,11 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
             style={{ overflow: "hidden", cursor: "pointer", position: "relative", ...gridStyles }}
             onClick={onClick}
             onMouseOver={() => {
-                if (imgRef.current) { imgRef.current.style.filter = "grayscale(0%)"; imgRef.current.style.transform = "scale(1.07)"; }
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1.07)"; }
                 if (overlayRef.current) overlayRef.current.style.opacity = "1";
             }}
             onMouseOut={() => {
-                if (imgRef.current) { imgRef.current.style.filter = "grayscale(100%)"; imgRef.current.style.transform = "scale(1)"; }
+                if (imgRef.current) { imgRef.current.style.transform = "scale(1)"; }
                 if (overlayRef.current) overlayRef.current.style.opacity = "0";
             }}
         >
@@ -96,8 +96,8 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
             <img
                 ref={imgRef}
                 src={item.image}
-                alt={item.title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(100%)", transition: "filter .65s ease, transform .65s ease", display: "block" }}
+                alt={item.title || "Mẫu nail art tại Mộc Salon"}
+                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .65s ease", display: "block" }}
             />
             {/* Hover overlay */}
             <div

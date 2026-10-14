@@ -160,7 +160,7 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
                             </motion.div>
 
                             {/* Logo with staggered letters */}
-                            <h1 className={styles.logo}>
+                            <div className={styles.logo} role="img" aria-label="Mộc Salon">
                                 {letters.map((letter, i) => (
                                     <motion.span
                                         key={i}
@@ -177,7 +177,7 @@ export default function Preloader({ children }: { children: React.ReactNode }) {
                                     </motion.span>
                                 ))}
                                 <div className={styles.shimmerOverlay} />
-                            </h1>
+                            </div>
 
                             {/* Subtitle */}
                             <motion.div

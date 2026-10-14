@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PostDetailPage from "@/components/PostDetailPage";
-import { getPublishedPostBySlug } from "@/lib/db";
+import { getPublishedPostBySlug, getSettings } from "@/lib/db";
+import { createBlogPostingJsonLd, getAbsoluteUrl, serializeJsonLd } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
@@ -9,13 +10,30 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!post) return { title: "Không tìm thấy bài viết | Mộc Salon" };
 
+    const canonicalUrl = getAbsoluteUrl(`/bai-viet/${post.slug}`);
+    const description = post.excerpt || "Chia sẻ từ Mộc Salon.";
+    const images = post.thumbnail ? [{ url: post.thumbnail, alt: post.title }] : undefined;
+
     return {
-        title: `${post.title} | Mộc Salon`,
-        description: post.excerpt || "Chia sẻ từ Mộc Salon.",
+        title: post.title,
+        description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
         openGraph: {
             title: post.title,
-            description: post.excerpt || "Chia sẻ từ Mộc Salon.",
-            images: post.thumbnail ? [{ url: post.thumbnail }] : [],
+            description,
+            url: canonicalUrl,
+            type: "article",
+            publishedTime: post.createdAt,
+            modifiedTime: post.updatedAt,
+            images,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: post.title,
+            description,
+            images,
         },
     };
 }
@@ -26,5 +44,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
     if (!post) notFound();
 
-    return <PostDetailPage post={post} />;
+    const settings = await getSettings();
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: serializeJsonLd(createBlogPostingJsonLd(post, settings)) }}
+            />
+            <PostDetailPage post={post} />
+        </>
+    );
 }

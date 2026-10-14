@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
 import AdminSidebar from "./AdminSidebar";
 import styles from "./admin.module.css";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Admin – Mộc Salon" };
+export const metadata: Metadata = {
+  title: "Quản trị | Mộc Salon",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 export const dynamic = "force-dynamic"; // Tắt cache ở Admin, luôn render ngay lập tức
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const auth = await requireAdmin();
+  if (auth.response) {
     redirect("/admin-login");
   }
   return (

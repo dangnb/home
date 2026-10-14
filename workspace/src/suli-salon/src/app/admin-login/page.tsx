@@ -7,12 +7,8 @@ import BrandLogo from "@/components/BrandLogo";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState(
-    process.env.NODE_ENV === "development" ? "admin@duthuyensonghan.vn" : ""
-  );
-  const [password, setPassword] = useState(
-    process.env.NODE_ENV === "development" ? "admin123456" : ""
-  );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
@@ -79,7 +75,7 @@ export default function AdminLogin() {
               onChange={e => setEmail(e.target.value)}
               onFocus={() => setFocused("email")}
               onBlur={() => setFocused(null)}
-              placeholder="admin@duthuyensonghan.vn"
+              placeholder="admin@example.com"
               required
               autoFocus
             />
@@ -132,11 +128,6 @@ export default function AdminLogin() {
             )}
           </button>
         </form>
-
-        {/* Hint */}
-        <p className={styles.hint}>
-Tài khoản mẫu chỉ dùng trong môi trường phát triển
-        </p>
       </div>
     </div>
   );
