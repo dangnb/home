@@ -141,7 +141,7 @@ export default function Navbar() {
                 padding: scrolled ? "10px 0" : "18px 0",
             }}
         >
-            <nav className="public-navbar__inner" aria-label={dictionary.nav.home}>
+            <nav className="public-navbar__inner" aria-label={dictionary.nav.desktop}>
                 <Link href={homeHref} className="public-navbar__brand" aria-label={dictionary.nav.home}>
                     <BrandLogo />
                 </Link>
@@ -173,7 +173,7 @@ export default function Navbar() {
                         ref={menuButtonRef}
                         type="button"
                         className="public-navbar__menu-button"
-                        aria-label={menuOpen ? (isEn ? "Close navigation menu" : "Đóng menu điều hướng") : (isEn ? "Open navigation menu" : "Mở menu điều hướng")}
+                        aria-label={menuOpen ? dictionary.nav.closeMenu : dictionary.nav.openMenu}
                         aria-expanded={menuOpen}
                         aria-controls="public-mobile-menu"
                         onClick={() => setMenuOpen((open) => !open)}
@@ -188,19 +188,19 @@ export default function Navbar() {
                     <button
                         type="button"
                         className="public-navbar__backdrop"
-                        aria-label={isEn ? "Close navigation menu" : "Đóng menu điều hướng"}
+                        aria-label={dictionary.nav.closeMenu}
                         onClick={closeMenu}
                     />
-                    <div ref={drawerRef} id="public-mobile-menu" className="public-navbar__drawer" role="dialog" aria-modal="true" aria-label={isEn ? "Navigation menu" : "Menu điều hướng"}>
+                    <div ref={drawerRef} id="public-mobile-menu" className="public-navbar__drawer" role="dialog" aria-modal="true" aria-label={dictionary.nav.mobile}>
                         <button
                             type="button"
                             className="public-navbar__drawer-close"
-                            aria-label={isEn ? "Close navigation menu" : "Đóng menu điều hướng"}
+                            aria-label={dictionary.nav.closeMenu}
                             onClick={closeMenu}
                         >
                             <span aria-hidden="true">×</span>
                         </button>
-                        <nav aria-label={isEn ? "Mobile navigation" : "Điều hướng trên thiết bị di động"}>
+                        <nav aria-label={dictionary.nav.mobile}>
                             <div className="public-navbar__drawer-lang-wrap">
                                 <div className="public-navbar__drawer-lang-title">✦ {isEn ? "Select Language" : "Chọn ngôn ngữ"}</div>
                                 <LanguageSwitcher onSelect={closeMenu} />
