@@ -26,8 +26,11 @@ interface Post {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  "tin-tuc": "Tin tức",
-  "kinh-nghiem": "Kinh nghiệm làm đẹp",
+  "xu-huong": "Xu hướng Nail Art",
+  "kinh-nghiem": "Bí quyết & Kinh nghiệm",
+  "cham-soc": "Chăm sóc & Dưỡng móng",
+  "tin-tuc": "Tin tức & Salon",
+  "uu-dai": "Ưu đãi đặc quyền",
   "gia-ve": "Bảng giá",
   "phao-hoa": "Ưu đãi",
 };

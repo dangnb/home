@@ -1,12 +1,15 @@
 "use client";
 import Link from "next/link";
-import type { PostData } from "@/lib/db";
+import { DEFAULT_POSTS, type PostData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
 import { getLocalizedPostPath, getLocalizedText } from "@/lib/i18n/routes";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
-    "tin-tuc": { vi: "Tin tức", en: "News" },
-    "kinh-nghiem": { vi: "Kinh nghiệm làm đẹp", en: "Beauty Tips" },
+    "xu-huong": { vi: "Xu hướng Nail Art", en: "Nail Trends" },
+    "kinh-nghiem": { vi: "Bí quyết làm đẹp", en: "Beauty Tips" },
+    "cham-soc": { vi: "Chăm sóc & Dưỡng móng", en: "Nail Care" },
+    "tin-tuc": { vi: "Tin tức & Salon", en: "News & Events" },
+    "uu-dai": { vi: "Ưu đãi đặc quyền", en: "Special Offers" },
     "gia-ve": { vi: "Bảng giá", en: "Pricing" },
     "phao-hoa": { vi: "Ưu đãi", en: "Special Offers" },
 };
@@ -22,6 +25,7 @@ function formatDate(date: string, locale: string) {
 export default function PostListPage({ posts }: { posts: PostData[] }) {
     const { locale } = useLocale();
     const isEn = locale === "en";
+    const effectivePosts = posts && posts.length > 0 ? posts : DEFAULT_POSTS;
 
     return (
         <main style={{ background: "#FDFBF7", minHeight: "100vh", paddingTop: 92 }}>
@@ -42,7 +46,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
             </section>
 
             <section style={{ maxWidth: 1180, margin: "0 auto", padding: "72px 24px 100px" }}>
-                {posts.length === 0 ? (
+                {effectivePosts.length === 0 ? (
                     <div style={{ background: "#F4F1EA", padding: "72px 24px", textAlign: "center" }}>
                         <div style={{ fontSize: 34, marginBottom: 14 }}>✦</div>
                         <h2 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: 28, fontStyle: "italic", margin: "0 0 12px" }}>
@@ -54,7 +58,7 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
                     </div>
                 ) : (
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28 }}>
-                        {posts.map((post) => {
+                        {effectivePosts.map((post) => {
                             const postHref = getLocalizedPostPath(locale, post.slug);
                             const categoryLabel = CATEGORY_LABELS[post.categoryId]?.[locale] || (isEn ? "Article" : "Chia sẻ");
 

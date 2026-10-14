@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import type { GalleryItemData } from "@/lib/db";
+import { DEFAULT_GALLERY_ITEMS, type GalleryItemData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
 import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
@@ -341,15 +341,17 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
     const isEn = locale === "en";
     const bookingHref = getLocalizedPath(locale, "booking");
 
+    const effectiveGallery = gallery && gallery.length > 0 ? gallery : DEFAULT_GALLERY_ITEMS;
+
     const ALL_ID = "ALL";
     const allLabel = isEn ? "All" : "Tất cả";
-    const rawCategories = Array.from(new Set(gallery.map((g) => g.category)));
+    const rawCategories = Array.from(new Set(effectiveGallery.map((g) => g.category)));
     const categoriesList = [{ id: ALL_ID, label: allLabel }, ...rawCategories.map((c) => ({ id: c, label: getLocalizedText(c, locale) }))];
 
     const [activeCategoryId, setActiveCategoryId] = useState(ALL_ID);
     const [lightboxImg, setLightboxImg] = useState<GalleryItemData | null>(null);
 
-    useReveal(activeCategoryId, gallery);
+    useReveal(activeCategoryId, effectiveGallery);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const subRef = useRef<HTMLParagraphElement>(null);
 
@@ -365,7 +367,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
         return () => window.removeEventListener("mousemove", fn);
     }, []);
 
-    const filtered = activeCategoryId === ALL_ID ? gallery : gallery.filter((i) => i.category === activeCategoryId);
+    const filtered = activeCategoryId === ALL_ID ? effectiveGallery : effectiveGallery.filter((i) => i.category === activeCategoryId);
 
     return (
         <>
@@ -473,7 +475,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
                             {cat.label}
                             {cat.id !== ALL_ID && (
                                 <span style={{ marginLeft: 6, opacity: 0.6, fontSize: 10 }}>
-                                    ({gallery.filter((i) => i.category === cat.id).length})
+                                    ({effectiveGallery.filter((i) => i.category === cat.id).length})
                                 </span>
                             )}
                         </button>

@@ -64,10 +64,10 @@ export default function BookingForm({
         setStatus("success");
         Swal.fire({
           title: "Đặt lịch thành công!",
-          text: `Cảm ơn ${form.customerName}! Chúng tôi đã nhận được yêu cầu đặt lịch của bạn. Nhân viên 2Da Tickets sẽ liên hệ xác nhận qua số ${form.phone} trong vòng 30 phút.`,
+          text: `Cảm ơn ${form.customerName}! Chúng tôi đã nhận được yêu cầu đặt lịch của bạn. Nhân viên Mộc Salon sẽ liên hệ xác nhận qua số ${form.phone} trong vòng 30 phút.`,
           icon: "success",
           confirmButtonText: "Đóng",
-          confirmButtonColor: "#01bf93",
+          confirmButtonColor: "#C2A979",
         });
         setForm({ customerName: "", phone: "", email: "", date: "", time: TIME_SLOTS[0], guests: 2, note: "" });
         setTimeout(() => setStatus("idle"), 2000);

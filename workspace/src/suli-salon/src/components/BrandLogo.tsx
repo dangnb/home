@@ -3,17 +3,19 @@ import { useId, type CSSProperties } from "react";
 type BrandLogoProps = {
     compact?: boolean;
     light?: boolean;
+    size?: number;
     className?: string;
     style?: CSSProperties;
 };
 
-export default function BrandLogo({ compact = false, light = false, className, style }: BrandLogoProps) {
+export default function BrandLogo({ compact = false, light = false, size, className, style }: BrandLogoProps) {
     const textColor = light ? "#FDFBF7" : "#2E2E2E";
     const gradientId = useId();
+    const iconSize = size ?? (compact ? 34 : 42);
 
     return (
         <div className={className} style={{ display: "inline-flex", alignItems: "center", gap: compact ? 0 : 10, ...style }} aria-label="Mộc Salon">
-            <svg width={compact ? 34 : 42} height={compact ? 34 : 42} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <svg width={iconSize} height={iconSize} viewBox="0 0 48 48" fill="none" aria-hidden="true">
                 <defs>
                     <linearGradient id={gradientId} x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
                         <stop stopColor="#E4CEA0" />

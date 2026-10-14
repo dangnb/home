@@ -472,10 +472,6 @@ function SummaryRow({ icon, label, value, sub }: { icon: ReactNode; label: strin
         </div>
     );
 }
-            {sub && <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", marginTop: 2 }}>{sub}</div>}
-        </div>
-    );
-}
 
 /* ─────────────────────────────────────────────────────── */
 /* Shared Buttons                                           */

@@ -6,8 +6,11 @@ import { useLocale } from "@/components/LocaleProvider";
 import { getLocalizedPath, getLocalizedText, getLocalizedContent } from "@/lib/i18n/routes";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
-    "tin-tuc": { vi: "Tin tức", en: "News" },
-    "kinh-nghiem": { vi: "Kinh nghiệm làm đẹp", en: "Beauty Tips" },
+    "xu-huong": { vi: "Xu hướng Nail Art", en: "Nail Trends" },
+    "kinh-nghiem": { vi: "Bí quyết làm đẹp", en: "Beauty Tips" },
+    "cham-soc": { vi: "Chăm sóc & Dưỡng móng", en: "Nail Care" },
+    "tin-tuc": { vi: "Tin tức & Salon", en: "News & Events" },
+    "uu-dai": { vi: "Ưu đãi đặc quyền", en: "Special Offers" },
     "gia-ve": { vi: "Bảng giá", en: "Pricing" },
     "phao-hoa": { vi: "Ưu đãi", en: "Special Offers" },
 };

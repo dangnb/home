@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { deleteImages, extractCloudinaryUrls } from "@/lib/cloudinary";
 import { requireAdmin } from "@/lib/auth";
+import { invalidateDbCache } from "@/lib/db";
 
 export async function PUT(
   req: Request,
@@ -37,6 +38,7 @@ export async function PUT(
         status: body.status === "published" ? "published" : "draft",
       },
     });
+    invalidateDbCache();
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Post update failed", error);
@@ -77,6 +79,7 @@ export async function DELETE(
     const urlsToDelete = [existingPost.thumbnail, ...extractCloudinaryUrls(existingPost.content)].filter(Boolean) as string[];
     if (urlsToDelete.length > 0) await deleteImages(urlsToDelete);
     await prisma.post.delete({ where: { id } });
+    invalidateDbCache();
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Post deletion failed", error);

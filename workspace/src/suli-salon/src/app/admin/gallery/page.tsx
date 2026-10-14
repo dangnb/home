@@ -90,7 +90,20 @@ export default function GalleryPage() {
     }
   }
 
-  const filtered = filter === "Tất cả" ? items : items.filter((i) => i.category === filter);
+  function matchesCategory(itemCat: string, filterCat: string) {
+    if (filterCat === "Tất cả") return true;
+    if (!itemCat) return filterCat === "Khác";
+    const lowerItem = itemCat.toLowerCase();
+    const lowerFilter = filterCat.toLowerCase();
+    if (lowerFilter === "gel nails") return lowerItem.includes("gel");
+    if (lowerFilter === "nail art") return lowerItem.includes("art") || lowerItem.includes("vẽ");
+    if (lowerFilter === "manicure") return lowerItem.includes("manicure") || lowerItem.includes("tay");
+    if (lowerFilter === "pedicure") return lowerItem.includes("pedicure") || lowerItem.includes("chân");
+    if (lowerFilter === "extensions") return lowerItem.includes("extension") || lowerItem.includes("nối") || lowerItem.includes("đắp");
+    return lowerItem.includes(lowerFilter);
+  }
+
+  const filtered = items.filter((i) => matchesCategory(i.category, filter));
 
   return (
     <div>
@@ -222,7 +235,7 @@ export default function GalleryPage() {
       <div className={styles.segmentedControls}>
         {CATEGORIES.map((c) => {
           const isSelected = filter === c;
-          const count = c === "Tất cả" ? items.length : items.filter((i) => i.category === c).length;
+          const count = c === "Tất cả" ? items.length : items.filter((i) => matchesCategory(i.category, c)).length;
           return (
             <button
               key={c}
@@ -247,39 +260,44 @@ export default function GalleryPage() {
         </div>
       ) : (
         <div className={styles.galleryGrid}>
-          {filtered.map((item) => (
-            <div key={item.id} className={styles.galleryCard}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.image}
-                alt={item.title || "Tác phẩm nail Mộc Salon"}
-                className={styles.galleryImage}
-              />
-              <div className={styles.galleryCardBody}>
-                {item.title ? (
-                  <div style={{ fontWeight: 700, fontSize: 13.5, color: "#231B15", marginBottom: 8, lineHeight: 1.35 }}>
-                    {item.title}
+          {filtered.map((item) => {
+            const viTitle = item.title?.split(" | ")[0] || item.title || "Tác phẩm Nail";
+            const enTitle = item.title?.includes(" | ") ? item.title.split(" | ")[1] : null;
+            const viCategory = item.category?.split(" | ")[0] || item.category || "Chung";
+
+            return (
+              <div key={item.id} className={styles.galleryCard}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.image}
+                  alt={viTitle}
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryCardBody}>
+                  <div style={{ fontWeight: 700, fontSize: 13.5, color: "#231B15", marginBottom: enTitle ? 3 : 8, lineHeight: 1.35 }}>
+                    {viTitle}
                   </div>
-                ) : (
-                  <div style={{ fontSize: 12.5, color: "#857567", fontStyle: "italic", marginBottom: 8 }}>
-                    Chưa đặt tên
+                  {enTitle && (
+                    <div style={{ fontSize: 11.5, color: "#857567", fontStyle: "italic", marginBottom: 8, lineHeight: 1.3 }}>
+                      {enTitle}
+                    </div>
+                  )}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span className={styles.badge}>{viCategory}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(item.id)}
+                      className={styles.btnDanger}
+                      style={{ padding: "0 8px", minHeight: "30px" }}
+                      title="Xóa ảnh này"
+                    >
+                      <MdDeleteOutline size={15} />
+                    </button>
                   </div>
-                )}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className={styles.badge}>{item.category || "Chung"}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(item.id)}
-                    className={styles.btnDanger}
-                    style={{ padding: "0 8px", minHeight: "30px" }}
-                    title="Xóa ảnh này"
-                  >
-                    <MdDeleteOutline size={15} />
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
