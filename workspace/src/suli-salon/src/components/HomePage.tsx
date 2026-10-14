@@ -298,7 +298,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
 
     return (
         <section className="homepage-hero" style={{ minHeight: "100vh", display: "flex", alignItems: "center", overflow: "visible", background: "#FDFBF7", paddingTop: 120, paddingBottom: 60 }}>
-            <div className="homepage-hero__inner" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center", width: "100%" }}>
+            <div className="homepage-hero__inner" style={{ maxWidth: 1360, margin: "0 auto", padding: "0 48px", display: "grid", gridTemplateColumns: "1fr 1.18fr", gap: 52, alignItems: "center", width: "100%" }}>
 
                 {/* Left */}
                 <div className="reveal is-visible" style={{ zIndex: 2 }}>
@@ -330,7 +330,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                 </div>
 
                 {/* Right – two images side by side */}
-                <div className="homepage-hero__images reveal is-visible" data-delay="200" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
+                <div className="homepage-hero__images reveal is-visible" data-delay="200" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
                     {/* Image 1 – taller, left */}
                     <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.18)", aspectRatio: "3/4", borderRadius: "80px 12px 80px 12px" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -371,7 +371,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                     </div>
 
                     {/* Image 2 – shorter, right, offset down */}
-                    <div className="homepage-hero__secondary-image" style={{ marginTop: 60, position: "relative" }}>
+                    <div className="homepage-hero__secondary-image" style={{ marginTop: 52, position: "relative" }}>
                         <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
@@ -1741,7 +1741,7 @@ export default function HomePage({ services, gallery, settings }: { services: Se
           .homepage-hero { min-height: auto !important; padding: 128px 0 72px !important; }
           .homepage-hero__inner, .homepage-about__inner, .homepage-services__inner { padding-inline: var(--public-gutter) !important; }
           .homepage-hero__inner { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .homepage-hero__images { max-width: 620px; margin-inline: auto; }
+          .homepage-hero__images { max-width: 680px; margin-inline: auto; }
           .homepage-about { padding-block: var(--public-section-space) !important; }
           .homepage-about__inner { grid-template-columns: 1fr !important; gap: 64px !important; }
           .homepage-services { padding-block: var(--public-section-space) !important; }
