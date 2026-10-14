@@ -327,18 +327,48 @@ function Hero({ settings }: { settings: SiteSettings }) {
                     >
                         {isEn ? "Our Services →" : "Xem dịch vụ →"}
                     </Link>
+
+                    {/* Stats Counter Row in Left Column */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 28, marginTop: 42, paddingTop: 28, borderTop: "1px solid rgba(194, 169, 121, 0.25)", flexWrap: "wrap" }}>
+                        <div>
+                            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 32, fontWeight: 700, color: "#2E2E2E", lineHeight: 1 }}>
+                                {settings.bannerStats?.[0]?.value || settings.experienceYears || "8+"}
+                            </div>
+                            <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
+                                {settings.bannerStats?.[0]?.label || (isEn ? "Years Experience" : "Năm kinh nghiệm")}
+                            </div>
+                        </div>
+                        <div style={{ width: 1, height: 32, background: "rgba(194, 169, 121, 0.3)" }} />
+                        <div>
+                            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 32, fontWeight: 700, color: "#2E2E2E", lineHeight: 1 }}>
+                                {settings.bannerStats?.[1]?.value || "100%"}
+                            </div>
+                            <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
+                                {settings.bannerStats?.[1]?.label || (isEn ? "Organic Products" : "Sản phẩm chọn lọc")}
+                            </div>
+                        </div>
+                        <div style={{ width: 1, height: 32, background: "rgba(194, 169, 121, 0.3)" }} />
+                        <div>
+                            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 32, fontWeight: 700, color: "#2E2E2E", lineHeight: 1 }}>
+                                {settings.bannerStats?.[2]?.value || "5.0 ★"}
+                            </div>
+                            <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8C7B6D", marginTop: 6 }}>
+                                {settings.bannerStats?.[2]?.label || (isEn ? "Top Rated" : "Khách hài lòng")}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Right – two images side by side */}
-                <div className="homepage-hero__images reveal is-visible" data-delay="200" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
+                {/* Right – two clean museum-quality images */}
+                <div className="homepage-hero__images reveal is-visible" data-delay="200" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, alignItems: "start", position: "relative" }}>
                     {/* Image 1 – taller, left */}
-                    <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.18)", aspectRatio: "3/4", borderRadius: "80px 12px 80px 12px" }}>
+                    <div style={{ position: "relative", zIndex: 1, overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.16)", aspectRatio: "3/4", borderRadius: "80px 16px 80px 16px" }}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={bgImage}
                             alt="Thiết kế nail art nghệ thuật tại Mộc Salon"
                             style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .7s ease" }}
-                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
                             onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                         />
                         {/* Subtle bottom gradient & gentle editorial caption */}
@@ -370,15 +400,26 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         </div>
                     </div>
 
-                    {/* Image 2 – shorter, right, offset down */}
-                    <div className="homepage-hero__secondary-image" style={{ marginTop: 52, position: "relative" }}>
-                        <div style={{ position: "relative", overflow: "hidden", boxShadow: "0 20px 56px rgba(0,0,0,.15)", aspectRatio: "3/4", borderRadius: "12px 80px 12px 80px" }}>
+                    {/* Image 2 – shorter, right, overlapping edge of Image 1 */}
+                    <div className="homepage-hero__secondary-image" style={{ marginTop: 64, marginLeft: -36, position: "relative", zIndex: 2 }}>
+                        <div style={{
+                            position: "relative",
+                            overflow: "hidden",
+                            boxShadow: "0 28px 64px rgba(0,0,0,.18)",
+                            aspectRatio: "3/4",
+                            borderRadius: "16px 80px 16px 80px",
+                            border: "3.5px solid #FAF7F2",
+                            transition: "all .5s cubic-bezier(0.16, 1, 0.3, 1)",
+                        }}
+                            onMouseOver={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-6px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 34px 72px rgba(0,0,0,.24)"; }}
+                            onMouseOut={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 28px 64px rgba(0,0,0,.18)"; }}
+                        >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={settings.aboutImage1 || "https://res.cloudinary.com/jawkxked/image/upload/v1791910444/moc-salon/xeq1btt5gvpkzdsdjqir.jpg"}
                                 alt="Chi tiết chăm sóc móng tỉ mỉ tại Mộc Salon"
                                 style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform .7s ease" }}
-                                onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
+                                onMouseOver={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.05)"; }}
                                 onMouseOut={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
                             />
                             {/* Subtle bottom gradient & gentle editorial caption */}
@@ -407,28 +448,6 @@ function Hero({ settings }: { settings: SiteSettings }) {
                                 }}>
                                     {isEn ? "Relaxing Spa Care" : "Trị liệu & Spa thư giãn"}
                                 </span>
-                            </div>
-                        </div>
-                        {/* Experience badge */}
-                        <div style={{
-                            marginTop: 20,
-                            background: "linear-gradient(135deg,#C2A979,#a08040)",
-                            padding: "20px 24px",
-                            color: "#fff",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 16,
-                            boxShadow: "0 8px 32px rgba(194,169,121,.4)",
-                            transition: "transform .3s",
-                            cursor: "default",
-                            borderRadius: "12px 80px 12px 80px",
-                        }}
-                            onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(-4px)")}
-                            onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(0)")}
-                        >
-                            <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{settings.bannerStats?.[0]?.value || "10+"}</div>
-                            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.4 }}>
-                                {(settings.bannerStats?.[0]?.label || (isEn ? "Years of\\nExperience" : "Năm kinh\\nnghiệm")).split("\\n").map((t, i) => <span key={i}>{t}<br /></span>)}
                             </div>
                         </div>
                     </div>
@@ -1734,6 +1753,11 @@ export default function HomePage({ services, gallery, settings }: { services: Se
           transform: translateY(0);
         }
 
+        @keyframes rotateSeal {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
         .homepage-booking-panel { width: min(400px, 100vw); }
 
         @media (max-width: 1023px) {
@@ -1774,8 +1798,8 @@ export default function HomePage({ services, gallery, settings }: { services: Se
           .homepage-booking-panel > div:last-child { padding: 16px 20px max(16px, env(safe-area-inset-bottom)) !important; }
           .homepage-booking-form-grid { grid-template-columns: 1fr !important; }
           .homepage-hero__inner { gap: 36px !important; }
-          .homepage-hero__images { gap: 12px !important; }
-          .homepage-hero__secondary-image { margin-top: 32px !important; }
+          .homepage-hero__images { gap: 0 !important; }
+          .homepage-hero__secondary-image { margin-top: 28px !important; margin-left: -24px !important; }
           .homepage-hero h1 { font-size: clamp(38px, 12vw, 54px) !important; }
           .homepage-hero p { font-size: 15px !important; }
           .homepage-about__inner { gap: 48px !important; }
