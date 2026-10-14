@@ -166,7 +166,24 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                 <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
                     {status === "success" ? (
                         <div style={{ textAlign: "center", padding: "40px 0", color: "#166534" }}>
-                            <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
+                            <div
+                                style={{
+                                    width: 56,
+                                    height: 56,
+                                    borderRadius: "50%",
+                                    background: "rgba(194, 169, 121, 0.15)",
+                                    border: "1.5px solid #C2A979",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    margin: "0 auto 16px",
+                                    color: "#967840",
+                                }}
+                            >
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </div>
                             <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, margin: "0 0 8px" }}>
                                 {isEn ? "Request Sent!" : "Đã gửi yêu cầu!"}
                             </h3>
@@ -433,12 +450,12 @@ function About({ settings }: { settings: SiteSettings }) {
                         {isEn ? `About ${settings.siteName || "Mộc Salon"}` : `Về ${settings.siteName || "Mộc Salon"}`}
                     </div>
                     <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,3.5vw,48px)", fontWeight: 700, color: "#2E2E2E", lineHeight: 1.2, fontStyle: "italic", margin: "0 0 24px" }}>
-                        {isEn ? "Beauty with Your Unique Signature" : "Vẻ đẹp mang dấu ấn riêng của bạn"}
+                        {getLocalizedText(settings.aboutHeadline, locale) || (isEn ? "Beauty with Your Unique Signature" : "Vẻ đẹp mang dấu ấn riêng của bạn")}
                     </h2>
                     <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 16, lineHeight: 1.75, color: "#6B6B6B", marginBottom: 36 }}>
-                        {isEn
+                        {getLocalizedText(settings.aboutSubheadline, locale) || (isEn
                             ? "Sophisticated nail design crafted exclusively for your personal style. We blend meticulous technique with modern aesthetics to reveal beauty that truly belongs to you."
-                            : "Thiết kế móng tinh tế dành riêng cho phong cách của bạn. Chúng tôi kết hợp kỹ thuật chỉn chu cùng thẩm mỹ hiện đại để tạo nên vẻ đẹp thật sự thuộc về bạn."}
+                            : "Thiết kế móng tinh tế dành riêng cho phong cách của bạn. Chúng tôi kết hợp kỹ thuật chỉn chu cùng thẩm mỹ hiện đại để tạo nên vẻ đẹp thật sự thuộc về bạn.")}
                     </p>
                     <ul className="homepage-feature-list" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 32px", marginBottom: 40, padding: 0, listStyle: "none" }}>
                         {features.map((f, i) => (

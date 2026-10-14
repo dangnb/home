@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { SiteSettings } from "@/lib/db";
 import BrandLogo from "@/components/BrandLogo";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
-import { MdPhone, MdLocationOn, MdEmail, MdAccessTime } from "react-icons/md";
+import { MdPhone, MdLocationOn, MdEmail, MdAccessTime, MdLightbulbOutline } from "react-icons/md";
 import { useLocale } from "@/components/LocaleProvider";
 import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
@@ -177,7 +177,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                             </div>
                         ))}
                         <div className="mt-3 p-3.5 rounded-lg bg-[#23211D] border border-[#3E372B] text-[13px] text-[#E0D8CB] leading-relaxed flex items-start gap-2">
-                            <span className="text-[#E5C989] text-[15px] shrink-0 leading-none mt-0.5">💡</span>
+                            <MdLightbulbOutline size={16} className="text-[#E5C989] shrink-0 mt-0.5" />
                             <span>{dictionary.footer.bookingTip}</span>
                         </div>
                     </div>

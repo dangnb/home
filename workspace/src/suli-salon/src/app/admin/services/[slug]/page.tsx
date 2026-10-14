@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "../../admin.module.css";
 import { FormInput, FormTextarea, FormSelect } from "@/components/Admin/FormComponents";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { MdAccessTime, MdPayments, MdLocalOffer } from "react-icons/md";
 
 interface Category { id: string; label: string; slug: string; }
 
@@ -151,17 +152,17 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
             onChange={e => set("categoryId", e.target.value)}
             options={[{ label: "— Select —", value: "" }, ...categories.map(c => ({ label: c.label, value: c.id }))]} />
 
-          <FormInput label="Duration (minutes)" required type="number" value={form.duration}
+          <FormInput label="Thời lượng (phút)" required type="number" value={form.duration}
             onChange={e => set("duration", parseInt(e.target.value) || 0)}
-            icon="⏱️" />
+            icon={<MdAccessTime size={17} />} />
 
-          <FormInput label="Price" required value={form.price}
+          <FormInput label="Giá dịch vụ" required value={form.price}
             onChange={e => set("price", e.target.value)}
-            placeholder="890 CZK" icon="💰" />
+            placeholder="890 CZK" icon={<MdPayments size={17} />} />
 
-          <FormInput label="Promo Price (optional)" value={form.promoPrice}
+          <FormInput label="Giá ưu đãi (tùy chọn)" value={form.promoPrice}
             onChange={e => set("promoPrice", e.target.value)}
-            placeholder="690 CZK" icon="🏷️" />
+            placeholder="690 CZK" icon={<MdLocalOffer size={17} />} />
         </div>
 
         <div className={styles.cardSectionTitle} style={{ marginTop: '2rem' }}>Mô tả dịch vụ</div>

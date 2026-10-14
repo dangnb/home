@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./BookingForm.module.css";
 import Swal from "sweetalert2";
+import { MdErrorOutline } from "react-icons/md";
 
 interface BookingFormProps {
   cruiseSlug?: string;
@@ -93,8 +94,10 @@ export default function BookingForm({
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
           >
-            ⚠️ {errorMsg}
+            <MdErrorOutline size={16} />
+            <span>{errorMsg}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -213,12 +216,12 @@ export default function BookingForm({
         {status === "loading" ? (
           <span className={styles.spinner} />
         ) : (
-          "🎟️ Xác Nhận Đặt Lịch"
+          "Xác Nhận Đặt Lịch"
         )}
       </button>
 
       <p className={styles.disclaimer}>
-        Bằng cách đặt lịch, bạn đồng ý để 2Da Tickets liên hệ xác nhận qua số điện thoại đã cung cấp.
+        Bằng cách đặt lịch, bạn đồng ý để Mộc Salon liên hệ xác nhận qua số điện thoại đã cung cấp.
       </p>
     </form>
   );

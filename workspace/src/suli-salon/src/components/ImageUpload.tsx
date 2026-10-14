@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useCallback } from "react";
 import styles from "./ImageUpload.module.css";
+import { MdRefresh, MdErrorOutline } from "react-icons/md";
 
 interface ImageUploadProps {
   value: string;
@@ -66,7 +67,10 @@ export default function ImageUpload({ value, onChange, label = "Ảnh đại di�
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={value} alt="preview" className={styles.preview} />
             <div className={styles.previewOverlay}>
-              <span>🔄 Thay ảnh</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <MdRefresh size={16} />
+                <span>Thay ảnh</span>
+              </span>
             </div>
           </>
         ) : (
@@ -106,7 +110,12 @@ export default function ImageUpload({ value, onChange, label = "Ảnh đại di�
         )}
       </div>
 
-      {error && <p className={styles.error}>⚠️ {error}</p>}
+      {error && (
+        <p className={styles.error} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <MdErrorOutline size={15} />
+          <span>{error}</span>
+        </p>
+      )}
 
       <input
         ref={inputRef}

@@ -14,6 +14,15 @@ export function isLocale(value: string): value is Locale {
 }
 
 export function getPreferredLocale(acceptLanguage: string | null): Locale {
-  const languages = (acceptLanguage ?? "").toLowerCase().split(",");
-  return languages.some((language) => language.trim().startsWith("en")) ? "en" : DEFAULT_LOCALE;
+  if (!acceptLanguage) return DEFAULT_LOCALE;
+  const languages = acceptLanguage.toLowerCase().split(",").map((l) => l.trim().split(";")[0]);
+  // Nếu có tiếng Việt trong danh sách ưu tiên ngôn ngữ, luôn mặc định là tiếng Việt
+  if (languages.some((lang) => lang.startsWith("vi"))) {
+    return DEFAULT_LOCALE;
+  }
+  // Nếu trình duyệt chỉ yêu cầu tiếng Anh và không có tiếng Việt
+  if (languages[0] && languages[0].startsWith("en")) {
+    return "en";
+  }
+  return DEFAULT_LOCALE;
 }

@@ -6,7 +6,7 @@ interface BaseFieldProps {
     label: string;
     required?: boolean;
     helpText?: React.ReactNode;
-    icon?: string;
+    icon?: React.ReactNode;
     className?: string;
 }
 
@@ -20,7 +20,7 @@ export function FormInput({ label, required, helpText, icon, className = "", ...
             </label>
             {icon ? (
                 <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                    <span style={{ position: "absolute", left: "0.85rem", fontSize: "1rem" }}>{icon}</span>
+                    <span style={{ position: "absolute", left: "0.85rem", display: "flex", alignItems: "center", color: "#967840", pointerEvents: "none" }}>{icon}</span>
                     <input {...props} value={props.value ?? ""} style={{ ...props.style, paddingLeft: "2.4rem" }} />
                 </div>
             ) : (

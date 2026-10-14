@@ -7,6 +7,7 @@ import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
 import { FormInput, FormSelect, FormTextarea } from "@/components/Admin/FormComponents";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { MdEdit, MdAdd, MdVisibility, MdPublic, MdDrafts, MdCheck, MdArrowBack } from "react-icons/md";
 
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
@@ -175,11 +176,11 @@ export default function PostFormPage({
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>
-            {isNew ? "✍️ Thêm Posts" : "✏️ Edit Posts"}
+            {isNew ? "Thêm bài viết mới" : "Chỉnh sửa bài viết"}
           </h1>
           <p style={{ fontSize: "0.875rem", color: "#888", marginTop: "0.25rem" }}>
             {isNew
-              ? "Điền thông tin để tạo post mới"
+              ? "Soạn thảo bài viết mới cho trang tin tức của salon"
               : `Đang chỉnh sửa: ${form.title}`}
           </p>
         </div>
@@ -190,12 +191,15 @@ export default function PostFormPage({
               target="_blank"
               rel="noreferrer"
               className={styles.btnSecondary}
+              style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
             >
-              👁️ View page
+              <MdVisibility size={15} />
+              <span>Xem bài viết</span>
             </a>
           )}
-          <Link href="/admin/posts" className={styles.btnSecondary}>
-            ← Quay lại
+          <Link href="/admin/posts" className={styles.btnSecondary} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <MdArrowBack size={15} />
+            <span>Quay lại</span>
           </Link>
         </div>
       </div>
@@ -205,7 +209,6 @@ export default function PostFormPage({
           className={msg.type === "error" ? styles.alertError : styles.alertSuccess}
           style={{ marginBottom: "1.5rem" }}
         >
-          {msg.type === "error" ? "⚠️ " : "✅ "}
           {msg.text}
         </p>
       )}

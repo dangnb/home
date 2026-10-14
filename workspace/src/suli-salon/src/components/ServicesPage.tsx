@@ -111,12 +111,7 @@ export default function ServicesPage({ services, categories }: { services: Servi
     const uiCategories = categories.map((c) => {
         const catServices = services.filter((s) => s.categoryId === c.id);
         const localizedLabel = getLocalizedText(c.label, locale);
-        let icon = "✦";
-        const lowerLabel = (c.label + " " + c.slug).toLowerCase();
-        if (lowerLabel.includes("nail") || lowerLabel.includes("móng") || lowerLabel.includes("manicure")) icon = "💅";
-        if (lowerLabel.includes("pedicure") || lowerLabel.includes("chân")) icon = "🦶";
-        if (lowerLabel.includes("art") || lowerLabel.includes("nghệ thuật")) icon = "✨";
-        if (lowerLabel.includes("care") || lowerLabel.includes("dưỡng") || lowerLabel.includes("phục hồi")) icon = "🌿";
+        const icon = "✦";
 
         const fallbackImage = getServiceImageFallback(`${c.slug} ${c.label}`);
         const serviceImage = catServices.find((service) => service.image.trim())?.image;

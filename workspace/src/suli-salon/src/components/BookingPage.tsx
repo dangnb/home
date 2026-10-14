@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Link from "next/link";
+import { MdLocationOn, MdSpa, MdCalendarMonth, MdAccessTime, MdPerson } from "react-icons/md";
 import type { ServiceData, SiteSettings, CategoryData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
 import { getLocalizedPath, getLocalizedText, getLocalizedPrice } from "@/lib/i18n/routes";
@@ -425,19 +426,19 @@ export default function BookingPage({ services, settings, categories }: { servic
                         ) : (
                             <div style={{ display: "flex", flexDirection: "column", gap: 0, flex: 1 }}>
                                 {form.branch && (
-                                    <SummaryRow icon="📍" label={isEn ? "Branch" : "Chi nhánh"} value={BRANCHES[0]?.name || ""} sub={BRANCHES[0]?.address || ""} />
+                                    <SummaryRow icon={<MdLocationOn size={14} />} label={isEn ? "Branch" : "Chi nhánh"} value={BRANCHES[0]?.name || ""} sub={BRANCHES[0]?.address || ""} />
                                 )}
                                 {form.serviceId && (
-                                    <SummaryRow icon="✦" label={isEn ? "Service" : "Dịch vụ"} value={form.serviceName} sub={`${services.find(s => s.id === form.serviceId)?.duration} ${isEn ? "min" : "phút"} · ${getLocalizedPrice(services.find(s => s.id === form.serviceId)?.price, locale)}`} />
+                                    <SummaryRow icon={<MdSpa size={14} />} label={isEn ? "Service" : "Dịch vụ"} value={form.serviceName} sub={`${services.find(s => s.id === form.serviceId)?.duration} ${isEn ? "min" : "phút"} · ${getLocalizedPrice(services.find(s => s.id === form.serviceId)?.price, locale)}`} />
                                 )}
                                 {form.date && (
-                                    <SummaryRow icon="📅" label={isEn ? "Date" : "Ngày"} value={new Date(form.date).toLocaleDateString(isEn ? "en-US" : "vi-VN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />
+                                    <SummaryRow icon={<MdCalendarMonth size={14} />} label={isEn ? "Date" : "Ngày"} value={new Date(form.date).toLocaleDateString(isEn ? "en-US" : "vi-VN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })} />
                                 )}
                                 {form.time && (
-                                    <SummaryRow icon="🕐" label={isEn ? "Time" : "Giờ"} value={form.time} />
+                                    <SummaryRow icon={<MdAccessTime size={14} />} label={isEn ? "Time" : "Giờ"} value={form.time} />
                                 )}
                                 {form.name && (
-                                    <SummaryRow icon="👤" label={isEn ? "Name" : "Họ tên"} value={form.name} />
+                                    <SummaryRow icon={<MdPerson size={14} />} label={isEn ? "Name" : "Họ tên"} value={form.name} />
                                 )}
                             </div>
                         )}
@@ -459,13 +460,18 @@ export default function BookingPage({ services, settings, categories }: { servic
     );
 }
 
-function SummaryRow({ icon, label, value, sub }: { icon: string; label: string; value: string; sub?: string }) {
+function SummaryRow({ icon, label, value, sub }: { icon: ReactNode; label: string; value: string; sub?: string }) {
     return (
         <div style={{ padding: "16px 0", borderBottom: "1px solid #222" }}>
-            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", color: "#444", marginBottom: 4 }}>
-                {icon} {label}
+            <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "#C2A979", marginBottom: 5, display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ display: "inline-flex", color: "#C2A979" }}>{icon}</span>
+                <span style={{ color: "#777" }}>{label}</span>
             </div>
             <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, fontWeight: 600, color: "#ccc" }}>{value}</div>
+            {sub && <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", marginTop: 2 }}>{sub}</div>}
+        </div>
+    );
+}
             {sub && <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 12, color: "#555", marginTop: 2 }}>{sub}</div>}
         </div>
     );

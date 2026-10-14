@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useCallback } from "react";
 import styles from "./GalleryUpload.module.css";
+import { MdErrorOutline } from "react-icons/md";
 
 interface GalleryUploadProps {
   value: string[];          // array of URLs
@@ -188,7 +189,12 @@ export default function GalleryUpload({
         <span className={styles.urlHint}>↵ Enter</span>
       </div>
 
-      {error && <p className={styles.error}>⚠️ {error}</p>}
+      {error && (
+        <p className={styles.error} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <MdErrorOutline size={15} />
+          <span>{error}</span>
+        </p>
+      )}
 
       <input
         ref={inputRef}
