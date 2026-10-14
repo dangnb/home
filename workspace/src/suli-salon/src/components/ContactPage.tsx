@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -201,8 +201,9 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
         ? ["Monday – Saturday: 09:00 – 20:00", "Sunday: 09:00 – 18:00"]
         : ["Thứ Hai – Thứ Bảy: 09:00 – 20:00", "Chủ Nhật: 09:00 – 18:00"];
 
-    const workingHoursLines = settings.workingHours
-        ? settings.workingHours.split(/[,|]/).map(s => s.trim()).filter(Boolean)
+    const localizedHours = getLocalizedText(settings.workingHours, locale);
+    const workingHoursLines = localizedHours
+        ? localizedHours.split(/[,]/).map(s => s.trim()).filter(Boolean)
         : defaultHours;
 
     return (
@@ -308,7 +309,7 @@ export default function ContactPage({ settings }: { settings: SiteSettings }) {
                                     </svg>
                                 ),
                                 label: isEn ? "Our Location" : "Địa chỉ của chúng tôi",
-                                lines: [settings.siteName, settings.address],
+                                lines: [settings.siteName, getLocalizedText(settings.address, locale)],
                             },
                             {
                                 icon: (

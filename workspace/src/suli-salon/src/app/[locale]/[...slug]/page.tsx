@@ -21,6 +21,7 @@ import { getDictionary } from "@/lib/i18n/dictionary";
 import {
   getLocalizedPath,
   getLocalizedPostPath,
+  getLocalizedText,
   getRouteFromSegments,
   type PublicRoute,
 } from "@/lib/i18n/routes";
@@ -90,21 +91,23 @@ export async function generateMetadata({
       };
     }
 
+    const localizedPostTitle = getLocalizedText(post.title, locale);
+    const localizedPostExcerpt = getLocalizedText(post.excerpt, locale);
     const canonical = getAbsoluteUrl(getLocalizedPostPath(locale, post.slug));
     const vietnamese = getAbsoluteUrl(getLocalizedPostPath("vi", post.slug));
     const english = getAbsoluteUrl(getLocalizedPostPath("en", post.slug));
-    const description = post.excerpt || dictionary.meta.postFallbackDescription;
-    const postImage = post.thumbnail ? [{ url: post.thumbnail, alt: post.title }] : socialImage;
+    const description = localizedPostExcerpt || dictionary.meta.postFallbackDescription;
+    const postImage = post.thumbnail ? [{ url: post.thumbnail, alt: localizedPostTitle }] : socialImage;
 
     return {
-      title: `${post.title} | ${settings.siteName}`,
+      title: `${localizedPostTitle} | ${settings.siteName}`,
       description,
       alternates: {
         canonical,
         languages: { vi: vietnamese, en: english, "x-default": vietnamese },
       },
       openGraph: {
-        title: post.title,
+        title: localizedPostTitle,
         description,
         url: canonical,
         type: "article",
@@ -115,7 +118,7 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        title: post.title,
+        title: localizedPostTitle,
         description,
         images: postImage,
       },

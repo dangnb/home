@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { SiteSettings, TeamMemberData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -284,8 +284,8 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                         {ICONS[i % ICONS.length]}
                                     </div>
                                     <div>
-                                        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 600, color: "#2E2E2E", margin: "0 0 8px", fontStyle: "italic" }}>{v.title}</h3>
-                                        <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, color: "#6B6B6B", margin: 0 }}>{v.description}</p>
+                                        <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 600, color: "#2E2E2E", margin: "0 0 8px", fontStyle: "italic" }}>{getLocalizedText(v.title, locale)}</h3>
+                                        <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, color: "#6B6B6B", margin: 0 }}>{getLocalizedText(v.description, locale)}</p>
                                     </div>
                                 </div>
                             ))}
@@ -334,13 +334,13 @@ export default function AboutPage({ settings, team }: { settings: SiteSettings; 
                                 </div>
                                 {/* Info */}
                                 <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 6 }}>
-                                    {member.role}
+                                    {getLocalizedText(member.role, locale)}
                                 </div>
                                 <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: "#2E2E2E", margin: "0 0 12px", fontStyle: "italic" }}>
                                     {member.name}
                                 </h3>
                                 <p style={{ fontFamily: "'Playfair Display',serif", fontSize: 15, fontStyle: "italic", color: "#888", margin: 0, lineHeight: 1.6 }}>
-                                    {`"${member.bio}"`}
+                                    {`"${getLocalizedText(member.bio, locale)}"`}
                                 </p>
                             </div>
                         ))}

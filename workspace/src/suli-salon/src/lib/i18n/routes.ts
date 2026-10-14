@@ -92,3 +92,12 @@ export function getLocalizedPrice(price: string | null | undefined, locale: Loca
   return price;
 }
 
+export function getLocalizedContent(content: string | null | undefined, locale: Locale): string {
+  if (!content) return "";
+  if (content.includes("<!-- bilingual-split -->")) {
+    const [vi, en] = content.split("<!-- bilingual-split -->");
+    return (locale === "en" ? en : vi)?.trim() || content;
+  }
+  return content;
+}
+

@@ -6,7 +6,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 import { MdPhone, MdLocationOn, MdEmail, MdAccessTime } from "react-icons/md";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
 export default function Footer({ settings }: { settings: SiteSettings }) {
     const { locale, dictionary } = useLocale();
@@ -23,8 +23,9 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             "Chủ Nhật: 09:00 – 18:00",
         ];
 
-    const hoursList = settings.workingHours
-        ? settings.workingHours.split(/[,|]/).map(h => h.trim()).filter(Boolean)
+    const localizedHours = getLocalizedText(settings.workingHours, locale);
+    const hoursList = localizedHours
+        ? localizedHours.split(/[,]/).map(h => h.trim()).filter(Boolean)
         : defaultHours;
 
     const quickLinks = [
@@ -139,7 +140,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
                                     <span className="text-[11px] uppercase tracking-wider text-[#A89F91] font-semibold block mb-0.5">
                                         {dictionary.footer.address}
                                     </span>
-                                    <span className="text-[#ECE7DE] text-[14px] leading-relaxed block font-medium">{settings.address}</span>
+                                    <span className="text-[#ECE7DE] text-[14px] leading-relaxed block font-medium">{getLocalizedText(settings.address, locale)}</span>
                                 </div>
                             </div>
                         )}
@@ -186,13 +187,13 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             {/* Bottom Bar */}
             <div className="border-t border-[#2F2B24] py-6 px-6 md:px-12 lg:px-16 max-w-[1280px] mx-auto text-center">
                 <p className="font-sans text-[13px] text-[#ACA395] m-0 mb-4 font-normal">
-                    {settings.copyright || (locale === "en" ? "© 2025 Mộc Salon – All rights reserved" : "© 2025 Mộc Salon – Bảo lưu mọi quyền")}
+                    {getLocalizedText(settings.copyright, locale) || (locale === "en" ? "© 2025 Mộc Salon – All rights reserved" : "© 2025 Mộc Salon – Bảo lưu mọi quyền")}
                 </p>
                 <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-3">
                     {settings.footerTaglines && settings.footerTaglines.length > 0 ? (
                         settings.footerTaglines.map((l, i) => (
                             <span key={i} className="font-sans text-[12px] leading-relaxed text-[#CBC4B7] font-medium">
-                                {l}
+                                {getLocalizedText(l, locale)}
                             </span>
                         ))
                     ) : (

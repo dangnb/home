@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
 import { getServiceImageFallback } from "@/lib/service-images";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText, getLocalizedPrice } from "@/lib/i18n/routes";
 
 const FEATURES = {
     vi: [
@@ -215,7 +215,9 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                                 <select value={formData.serviceName} onChange={e => setFormData({ ...formData, serviceName: e.target.value })} style={{ width: "100%", padding: "12px 14px", border: "1.5px solid #E0D8CC", borderRadius: 6, fontSize: 14, fontFamily: "Montserrat,sans-serif", background: "#fff", color: "#2E2E2E", outline: "none" }}>
                                     <option value="">{isEn ? "Select a service..." : "Chọn dịch vụ..."}</option>
                                     {services.map(s => (
-                                        <option key={s.id} value={s.name}>{s.name}</option>
+                                        <option key={s.id} value={s.name}>
+                                            {getLocalizedText(s.name, locale)}{s.price ? ` (${getLocalizedPrice(s.price, locale)})` : ""}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
@@ -269,7 +271,12 @@ function Hero({ settings }: { settings: SiteSettings }) {
         return () => window.removeEventListener("mousemove", fn);
     }, []);
 
-    const bannerTitles = (settings.bannerTitle || (isEn ? "Precision\nNail Care" : "Chăm Sóc Móng\nChuyên Nghiệp")).split("\\n");
+    const rawBannerBadge = getLocalizedText(settings.bannerBadge, locale) || (isEn ? "PREMIUM EXPERIENCE" : "TRẢI NGHIỆM CAO CẤP");
+    const rawBannerTitle = getLocalizedText(settings.bannerTitle, locale) || (isEn ? "Precision\nNail Care" : "Chăm Sóc Móng\nChuyên Nghiệp");
+    const bannerTitles = rawBannerTitle.split(/\\n|\n/);
+    const bannerSubtitle = getLocalizedText(settings.bannerSubtitle, locale) || (isEn
+        ? "Premium products, skilled artists, and meticulous attention to detail. Experience refined nail artistry at Mộc Salon."
+        : "Sản phẩm cao cấp, kỹ thuật viên chuyên nghiệp và sự tỉ mỉ trong từng chi tiết. Trải nghiệm nghệ thuật làm móng tinh tế tại Mộc Salon.");
     const bgImage = settings.bannerImage || "https://res.cloudinary.com/jawkxked/image/upload/v1791910439/moc-salon/pczutt3rlztnazddlwey.jpg";
 
     return (
@@ -279,7 +286,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                 {/* Left */}
                 <div className="reveal is-visible" style={{ zIndex: 2 }}>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#C2A979", marginBottom: 20 }}>
-                        {settings.bannerBadge || (isEn ? "PREMIUM EXPERIENCE" : "TRẢI NGHIỆM CAO CẤP")}
+                        {rawBannerBadge}
                     </div>
                     <h1
                         ref={titleRef}
@@ -293,9 +300,7 @@ function Hero({ settings }: { settings: SiteSettings }) {
                         ref={descRef}
                         style={{ fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.7, color: "#6B6B6B", maxWidth: 440, marginBottom: 40, transition: "transform .12s ease-out" }}
                     >
-                        {settings.bannerSubtitle || (isEn
-                            ? "Premium products, skilled artists, and meticulous attention to detail. Experience refined nail artistry at Mộc Salon."
-                            : "Sản phẩm cao cấp, kỹ thuật viên chuyên nghiệp và sự tỉ mỉ trong từng chi tiết. Trải nghiệm nghệ thuật làm móng tinh tế tại Mộc Salon.")}
+                        {bannerSubtitle}
                     </p>
                     <Link href={servicesHref}>
                         <button
@@ -404,7 +409,7 @@ function About({ settings }: { settings: SiteSettings }) {
                         >
                             <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 32, fontWeight: 700, lineHeight: 1 }}>{settings.bannerStats?.[0]?.value || "10+"}</div>
                             <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 4 }}>
-                                {(settings.bannerStats?.[0]?.label || (isEn ? "YEARS OF\\nEXPERIENCE" : "NĂM KINH\\nNGHIỆM")).toUpperCase().split("\\n").map((t, i) => <span key={i}>{t}<br /></span>)}
+                                {(getLocalizedText(settings.bannerStats?.[0]?.label, locale) || (isEn ? "YEARS OF\nEXPERIENCE" : "NĂM KINH\nNGHIỆM")).toUpperCase().split(/\\n|\n/).map((t, i) => <span key={i}>{t}<br /></span>)}
                             </div>
                         </div>
                         {/* Small circle img */}
@@ -494,7 +499,7 @@ function Services({ services, settings }: { services: ServiceData[]; settings: S
                             data-delay={String((i + 1) * 100)}
                             style={{ position: "relative", height: 500, overflow: "hidden", cursor: "pointer" }}
                         >
-                            <ServiceCard title={s.name} img={s.image} slug={s.slug} />
+                            <ServiceCard title={getLocalizedText(s.name, locale)} img={s.image} slug={s.slug} />
                         </div>
                     ))}
                     {displayServices.length === 0 && (

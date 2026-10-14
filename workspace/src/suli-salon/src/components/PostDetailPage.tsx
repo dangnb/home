@@ -3,7 +3,7 @@ import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import type { PostData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText, getLocalizedContent } from "@/lib/i18n/routes";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
     "tin-tuc": { vi: "Tin tức", en: "News" },
@@ -23,7 +23,9 @@ function formatDate(date: string, locale: string) {
 export default function PostDetailPage({ post }: { post: PostData }) {
     const { locale } = useLocale();
     const isEn = locale === "en";
-    const content = DOMPurify.sanitize(post.content);
+    const localizedTitle = getLocalizedText(post.title, locale);
+    const localizedExcerpt = getLocalizedText(post.excerpt, locale);
+    const content = DOMPurify.sanitize(getLocalizedContent(post.content, locale));
     const categoryLabel = CATEGORY_LABELS[post.categoryId]?.[locale] || (isEn ? "Article" : "Chia sẻ");
     const postsHref = getLocalizedPath(locale, "posts");
 
@@ -38,14 +40,14 @@ export default function PostDetailPage({ post }: { post: PostData }) {
                         {categoryLabel} · {formatDate(post.createdAt, locale)}
                     </p>
                     <h1 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: "clamp(38px,6vw,62px)", fontStyle: "italic", lineHeight: 1.12, margin: "0 0 20px" }}>
-                        {post.title}
+                        {localizedTitle}
                     </h1>
-                    {post.excerpt && <p style={{ color: "#6B6B6B", fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.75, margin: "0 auto 36px", maxWidth: 660 }}>{post.excerpt}</p>}
+                    {localizedExcerpt && <p style={{ color: "#6B6B6B", fontFamily: "Montserrat,sans-serif", fontSize: 17, lineHeight: 1.75, margin: "0 auto 36px", maxWidth: 660 }}>{localizedExcerpt}</p>}
                 </div>
 
                 {post.thumbnail && (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={post.thumbnail} alt={post.title} style={{ display: "block", width: "100%", maxHeight: 500, objectFit: "cover", marginBottom: 44 }} />
+                    <img src={post.thumbnail} alt={localizedTitle} style={{ display: "block", width: "100%", maxHeight: 500, objectFit: "cover", marginBottom: 44 }} />
                 )}
 
                 {content ? (

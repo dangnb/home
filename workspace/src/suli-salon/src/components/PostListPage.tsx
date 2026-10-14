@@ -2,7 +2,7 @@
 import Link from "next/link";
 import type { PostData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPostPath } from "@/lib/i18n/routes";
+import { getLocalizedPostPath, getLocalizedText } from "@/lib/i18n/routes";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string }> = {
     "tin-tuc": { vi: "Tin tức", en: "News" },
@@ -72,9 +72,11 @@ export default function PostListPage({ posts }: { posts: PostData[] }) {
                                         <div style={{ color: "#C2A979", fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", marginBottom: 12 }}>
                                             {categoryLabel} · {formatDate(post.createdAt, locale)}
                                         </div>
-                                        <h2 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: 25, lineHeight: 1.25, margin: "0 0 14px" }}>{post.title}</h2>
+                                        <h2 style={{ color: "#2E2E2E", fontFamily: "'Playfair Display',serif", fontSize: 25, lineHeight: 1.25, margin: "0 0 14px" }}>
+                                            {getLocalizedText(post.title, locale)}
+                                        </h2>
                                         <p style={{ color: "#777", fontFamily: "Montserrat,sans-serif", fontSize: 14, lineHeight: 1.7, margin: "0 0 22px", flex: 1 }}>
-                                            {post.excerpt || (isEn ? "Explore beauty tips and artistry from Mộc Salon." : "Khám phá những chia sẻ và cảm hứng làm đẹp từ Mộc Salon.")}
+                                            {getLocalizedText(post.excerpt, locale) || (isEn ? "Explore beauty tips and artistry from Mộc Salon." : "Khám phá những chia sẻ và cảm hứng làm đẹp từ Mộc Salon.")}
                                         </p>
                                         <Link href={postHref} style={{ color: "#A08040", fontFamily: "Montserrat,sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textDecoration: "none", textTransform: "uppercase" }}>
                                             {isEn ? "Read more →" : "Đọc thêm →"}

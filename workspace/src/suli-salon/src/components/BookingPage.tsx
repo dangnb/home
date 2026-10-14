@@ -67,7 +67,12 @@ export default function BookingPage({ services, settings, categories }: { servic
 
     const defaultHours = isEn ? "Mon-Sun: 9:00 - 20:00" : "Thứ 2 - CN: 9:00 - 20:00";
     const BRANCHES = [
-        { id: "main", name: settings.siteName || "Mộc Salon", address: settings.address, hours: settings.workingHours || defaultHours },
+        {
+            id: "main",
+            name: settings.siteName || "Mộc Salon",
+            address: getLocalizedText(settings.address, locale),
+            hours: getLocalizedText(settings.workingHours, locale) || defaultHours,
+        },
     ];
 
     const [step, setStep] = useState(1);

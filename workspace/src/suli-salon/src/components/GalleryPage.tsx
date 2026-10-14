@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { GalleryItemData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
-import { getLocalizedPath } from "@/lib/i18n/routes";
+import { getLocalizedPath, getLocalizedText } from "@/lib/i18n/routes";
 
 /* ─────────────────────────────────────────────────────── */
 /* Reveal Hook                                              */
@@ -58,8 +58,8 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                     style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
                 />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top,rgba(0,0,0,.7),transparent)", padding: "40px 28px 20px" }}>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{img.category}</div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", color: "#fff" }}>{img.title}</div>
+                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{getLocalizedText(img.category, locale)}</div>
+                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontStyle: "italic", color: "#fff" }}>{getLocalizedText(img.title, locale)}</div>
                 </div>
             </div>
         </div>
@@ -117,8 +117,8 @@ function GalleryItem({ item, onClick, delay, index }: { item: GalleryItemData; o
                 style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.1) 55%, transparent 100%)", opacity: 0, transition: "opacity .45s ease" }}
             >
                 <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", padding: "28px 22px", boxSizing: "border-box" }}>
-                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{item.category}</div>
-                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontStyle: "italic", color: "#fff", marginBottom: 8 }}>{item.title}</div>
+                    <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#C2A979", marginBottom: 4 }}>{getLocalizedText(item.category, locale)}</div>
+                    <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontStyle: "italic", color: "#fff", marginBottom: 8 }}>{getLocalizedText(item.title, locale)}</div>
                     <div style={{ fontFamily: "Montserrat,sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,.6)", display: "flex", alignItems: "center", gap: 4 }}>
                         <span style={{ fontSize: 14 }}>⊕</span> {isEn ? "View image" : "Xem ảnh"}
                     </div>
@@ -139,7 +139,7 @@ export default function GalleryPage({ gallery }: { gallery: GalleryItemData[] })
     const ALL_ID = "ALL";
     const allLabel = isEn ? "All" : "Tất cả";
     const rawCategories = Array.from(new Set(gallery.map((g) => g.category)));
-    const categoriesList = [{ id: ALL_ID, label: allLabel }, ...rawCategories.map((c) => ({ id: c, label: c }))];
+    const categoriesList = [{ id: ALL_ID, label: allLabel }, ...rawCategories.map((c) => ({ id: c, label: getLocalizedText(c, locale) }))];
 
     const [activeCategoryId, setActiveCategoryId] = useState(ALL_ID);
     const [lightboxImg, setLightboxImg] = useState<GalleryItemData | null>(null);
