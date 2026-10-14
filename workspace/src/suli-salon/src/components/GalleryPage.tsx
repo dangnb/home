@@ -32,6 +32,8 @@ function useReveal(activeCategory: string, gallery: GalleryItemData[]) {
 /* Lightbox Component                                       */
 /* ─────────────────────────────────────────────────────── */
 function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
+    const { locale } = useLocale();
+
     useEffect(() => {
         const fn = (e: KeyboardEvent) => e.key === "Escape" && onClose();
         window.addEventListener("keydown", fn);
