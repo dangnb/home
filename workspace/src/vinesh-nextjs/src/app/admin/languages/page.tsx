@@ -3,7 +3,7 @@ import { saveLanguage, toggleLanguage, deleteLanguage } from "../actions";
 import DeleteButton from "../services/DeleteButton";
 
 export default async function LanguagesPage() {
-    const languages = await prisma.language.findMany({ orderBy: { code: "asc" } });
+    const languages = await prisma.language.findMany({ orderBy: { code: "asc" } }).catch(() => []);
 
     return (
         <div className="admin-container-large">

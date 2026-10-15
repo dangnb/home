@@ -6,7 +6,7 @@ import DeleteButton from "./DeleteButton";
 import { Service } from "@prisma/client";
 
 export default async function ServicesPage() {
-    const services = await prisma.service.findMany({ orderBy: { order: "asc" } });
+    const services = await prisma.service.findMany({ orderBy: { order: "asc" } }).catch(() => []);
 
     return (
         <div className="admin-container-large">
@@ -32,6 +32,10 @@ export default async function ServicesPage() {
                         <tbody>
                             {services.map((svc: Service) => {
                                 const delAction = deleteService.bind(null, svc.id);
+                                const safeImg = (svc.imageUrl && !svc.imageUrl.includes("photo-1504917599217"))
+                                    ? svc.imageUrl
+                                    : "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop";
+
                                 return (
                                     <tr key={svc.id}>
                                         <td>
@@ -40,7 +44,7 @@ export default async function ServicesPage() {
                                             </span>
                                         </td>
                                         <td>
-                                            <Image src={svc.imageUrl} alt={svc.title} width={48} height={48} unoptimized style={{ width: "48px", height: "48px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e2e8f0" }} />
+                                            <Image src={safeImg} alt={svc.title} width={48} height={48} unoptimized style={{ width: "48px", height: "48px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e2e8f0" }} />
                                         </td>
                                         <td>
                                             <strong style={{ display: "block", fontSize: "1rem" }}>{svc.title}</strong>

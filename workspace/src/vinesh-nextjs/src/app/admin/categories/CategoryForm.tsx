@@ -99,7 +99,7 @@ export default function CategoryForm({ languages, category, allCategories = [] }
                         }}
                     >
                         <i className="ph ph-translate" style={{ fontSize: "1.2rem" }}></i>
-                        {lang.name} {lang.isDefault && <span style={{ fontSize: "0.8rem", color: "#8cc63f" }}>(Gốc)</span>}
+                        {lang.name} {lang.isDefault && <span style={{ fontSize: "0.8rem", color: "#16a34a" }}>(Gốc)</span>}
                     </button>
                 ))}
             </div>

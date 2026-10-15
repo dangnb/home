@@ -1,0 +1,157 @@
+{
+  "posts": [
+    {
+      "id": "16933339-448b-41c6-ac6c-ce89d096072d",
+      "topic": "chạy bộ mùa đông",
+      "title": "Cảnh báo sai lầm khi chạy bộ mùa đông",
+      "formula": "PAS",
+      "hookType": "Fear-based / Warning",
+      "body": "🥶 80% người chạy bộ vào sáng sớm mùa đông đang vô tình làm hại khớp gối chỉ vì bỏ qua 3 phút này!\n\nNhiều anh em có thói quen xỏ giày là lao ra đường ngay cho ấm người. Nhưng khi nhiệt độ dưới 18 độ, dịch khớp chưa kịp tiết ra làm trơn sụn, gân cơ co cứng rất dễ dẫn đến chấn thương âm thầm.\n\n👉 Xem ngay hướng dẫn 3 động tác khởi động khớp gối và cách bảo vệ gối dưới phần bình luận nhé! 👇",
+      "hashtags": [
+        "#ChayBo",
+        "#chạybộmùađông",
+        "#SucKhoe",
+        "#TheThaoThucChien"
+      ],
+      "firstComment": "🔥 Chi tiết bài tập làm nóng khớp gối và ưu đãi bó gối trợ lực thể thao giảm 30% duy nhất hôm nay tại đây nhé anh em: https://example.com/bo-goi-chay-bo",
+      "artDirectionPrompt": "A cinematic close-up photo of an Asian runner tying running shoes on a foggy winter morning in Hanoi, cold breath visible, dramatic lighting, photorealistic, 8k, no text on image",
+      "mediaGeneration": {
+        "recommended_format": "SingleImage",
+        "ai_image_prompt_en": "A cinematic close-up photo of an Asian runner tying running shoes on a foggy winter morning in Hanoi, cold breath visible, dramatic lighting, photorealistic, 8k, no text on image",
+        "overlay_text_vi": "ĐỪNG CHẠY NGAY KHI TRỜI LẠNH!",
+        "badge_label": "KINH NGHIỆM THỰC CHIẾN",
+        "image_data_url": ""
+      },
+      "compliance": {
+        "is_safe_for_facebook": true,
+        "detected_risks": [],
+        "predicted_engagement_score": 9.5
+      },
+      "status": "draft",
+      "scheduledAt": null,
+      "pageId": null,
+      "facebookPostId": null,
+      "metrics": null,
+      "spintaxVariations": [
+        {
+          "id": "spintax-var-1",
+          "targetChannelOrPage": "Group Cộng Đồng Kinh Doanh & Khởi Nghiệp",
+          "targetAudienceSegment": "Chủ shop & người kinh doanh thực chiến",
+          "mainContent": "🔥 Góc chia sẻ thực chiến cho anh em trong Group Cộng Đồng Kinh Doanh & Khởi Nghiệp!\n\n🥶 80% người chạy bộ vào sáng sớm mùa đông đang vô tình làm hại khớp gối chỉ vì bỏ qua 3 phút này!\n\nNhiều anh em có thói quen xỏ giày là lao ra đường ngay cho ấm người. Nhưng khi nhiệt độ dưới 18 độ, dịch khớp chưa kịp tiết ra làm trơn sụn, gân cơ co cứng rất dễ dẫn đến chấn thương âm thầm.\n\n👉 Xem ngay hướng dẫn 3 động tác khởi động khớp gối và cách bảo vệ gối dưới phần bình luận nhé! 👇\n\n📌 Anh em nào đang vướng ca này, cmt thảo luận cùng tìm hướng tối ưu nhé!",
+          "firstComment": "👉 Tổng hợp tài liệu hướng dẫn cụ thể mình ghim tại đây: 🔥 Chi tiết bài tập làm nóng khớp gối và ưu đãi bó gối trợ lực thể thao giảm 30% duy nhất hôm nay tại đây nhé anh em: https://example.com/bo-goi-chay-bo",
+          "cosineSimilarityWithOriginal": 0.89
+        },
+        {
+          "id": "spintax-var-2",
+          "targetChannelOrPage": "Fanpage Vệ Tinh Chia Sẻ Mẹo Hàng Ngày",
+          "targetAudienceSegment": "Khách hàng đại chúng, lướt nhanh",
+          "mainContent": "Có bạn nào trong nhóm từng rơi vào tình huống này chưa?\n\n🥶 80% người chạy bộ vào sáng sớm mùa đông đang vô tình làm hại khớp gối chỉ vì bỏ qua 3 phút này!\n\nNhiều anh em có thói quen xỏ giày là lao ra đường ngay cho ấm người. Nhưng khi nhiệt độ dưới 18 độ, dịch khớp chưa kịp tiết ra làm trơn sụn, gân cơ co cứng rất dễ dẫn đến chấn thương âm thầm.\n\n👉 Xem ngay hướng dẫn 3 động tác khởi động khớp gối và cách bảo vệ gối dưới phần bình luận nhé! 👇\n\nThử áp dụng tuần này xem kết quả thay đổi thế nào nha cả nhà!",
+          "firstComment": "Link chi tiết và lưu ý thêm mình để dưới này cho ai cần nhé: 🔥 Chi tiết bài tập làm nóng khớp gối và ưu đãi bó gối trợ lực thể thao giảm 30% duy nhất hôm nay tại đây nhé anh em: https://example.com/bo-goi-chay-bo",
+          "cosineSimilarityWithOriginal": 0.89
+        },
+        {
+          "id": "spintax-var-3",
+          "targetChannelOrPage": "Group Chuyên Môn & Trao Đổi B2B",
+          "targetAudienceSegment": "Quản lý, chủ doanh nghiệp vừa và nhỏ",
+          "mainContent": "[Góc nhìn chuyên sâu - Group Chuyên Môn & Trao Đổi B2B]\n\nVấn đề tối ưu hóa quy trình thường gặp trở ngại ở khâu bắt đầu. Thay vì dàn trải nguồn lực, việc đo lường dữ liệu theo chu kỳ 14 ngày mang lại hiệu suất bền vững.\n\nChi tiết đúc kết:\n🥶 80% người chạy bộ vào sáng sớm mùa đông đang vô tình làm hại khớp gối chỉ vì bỏ qua 3 phút này!\n\nNhiều anh em có thói quen xỏ giày là lao ra đường ngay cho ấm người. Nhưng khi nhiệt độ dưới 18 độ, dịch khớp chưa kịp tiết ra làm trơn sụn, gân cơ co cứng rất dễ dẫn đến chấn thương âm thầm.\n\n👉 Xem \n\nQuý anh chị có chiến lược nào tương tự trong tổ chức của mình?",
+          "firstComment": "Tài liệu benchmark và checklist triển khai tham khảo: 🔥 Chi tiết bài tập làm nóng khớp gối và ưu đãi bó gối trợ lực thể thao giảm 30% duy nhất hôm nay tại đây nhé anh em: https://example.com/bo-goi-chay-bo",
+          "cosineSimilarityWithOriginal": 0.63
+        }
+      ],
+      "bestTimeRecommendation": {
+        "contentType": "b2b_sales_knowledge",
+        "suggestedTimeSlot": "Đầu giờ sáng (07:30 - 08:30)",
+        "optimalHourRange": "07:30 - 08:30 hoặc 19:30 - 20:30",
+        "recommendedDateTime": "2026-10-16T00:45:00.000Z",
+        "rationale": "Nội dung kiến thức, B2B và bán hàng giá trị cao cần tâm lý tập trung, tiếp nhận tốt nhất khi bắt đầu ngày làm việc hoặc vừa ăn tối xong."
+      },
+      "createdAt": "2026-10-15T16:14:14.966Z",
+      "updatedAt": "2026-10-15T16:14:14.966Z"
+    }
+  ],
+  "trends": [
+    {
+      "id": "trend-demo-1",
+      "title": "Chạy bộ sáng sớm mùa đông: Cách giữ ấm và bảo vệ khớp gối",
+      "keyword": "chạy bộ mùa đông",
+      "source": "Facebook Running Community",
+      "summary": "Bài viết đối thủ đạt 3.8K like và 420 share nhờ đánh vào nỗi sợ đau khớp gối khi trời dưới 15 độ. Bình luận chủ yếu hỏi về động tác khởi động và loại bó gối trợ lực.",
+      "relevanceScore": 94,
+      "clusterTopic": "Thể thao & Sức khỏe mùa lạnh",
+      "discoveredAt": "2026-10-15T16:13:12.907Z"
+    },
+    {
+      "id": "trend-demo-2",
+      "title": "Sai lầm khi xỏ giày chạy ngay không qua 5 phút khởi động",
+      "keyword": "khởi động chạy bộ",
+      "source": "Tiktok Fitness Viral",
+      "summary": "Video ngắn 45s chỉ ra 3 động tác giãn cơ động giúp làm nóng dịch khớp. Tỷ lệ giữ chân người xem cao nhờ hook cảnh báo chấn thương ngay giây thứ 2.",
+      "relevanceScore": 88,
+      "clusterTopic": "Kỹ thuật chạy an toàn",
+      "discoveredAt": "2026-10-15T16:13:12.907Z"
+    },
+    {
+      "id": "trend-demo-3",
+      "title": "Review so sánh đồ bảo hộ khớp: Bó gối silicon vs Băng quấn co giãn",
+      "keyword": "so sánh phụ kiện chạy bộ",
+      "source": "Group Yêu Chạy Bộ 150k members",
+      "summary": "Thảo luận sôi nổi về ưu nhược điểm của bó gối có đệm bảo vệ bánh chè so với băng quấn thun thông thường.",
+      "relevanceScore": 82,
+      "clusterTopic": "Đồ tập & Trang bị",
+      "discoveredAt": "2026-10-15T16:13:12.907Z"
+    }
+  ],
+  "usage": [],
+  "productKnowledge": [
+    {
+      "id": "kb-prod-1",
+      "workspaceId": "default-workspace",
+      "title": "Bó gối thể thao trợ lực khớp Pro-Run 360",
+      "category": "usp",
+      "contentText": "USP: Đệm silicon tổ ong bảo vệ bánh chè giảm 40% lực phản chấn, vải dệt 3D thoáng khí không bí mồ hôi. Giá niêm yết: 390.000đ/đôi, ưu đãi mùa đông giảm 30% còn 279.000đ. Bảo hành 1 đổi 1 trong 30 ngày nếu lỗi chỉ.",
+      "tags": [
+        "bó gối",
+        "chạy bộ",
+        "thể thao",
+        "khớp gối",
+        "ưu đãi 30%"
+      ],
+      "createdAt": "2026-10-15T16:13:12.907Z",
+      "updatedAt": "2026-10-15T16:13:12.907Z"
+    },
+    {
+      "id": "kb-prod-2",
+      "workspaceId": "default-workspace",
+      "title": "Chính sách đổi trả & cam kết chất lượng",
+      "category": "guarantee",
+      "contentText": "Cam kết đổi size miễn phí tận nhà trong 7 ngày nếu không vừa. Kiểm tra hàng trước khi thanh toán. Không bán hàng nhái, sản phẩm đạt chứng nhận an toàn cho da nhạy cảm.",
+      "tags": [
+        "chính sách",
+        "đổi trả",
+        "kiểm tra hàng"
+      ],
+      "createdAt": "2026-10-15T16:13:12.907Z",
+      "updatedAt": "2026-10-15T16:13:12.907Z"
+    }
+  ],
+  "brandVoices": [
+    {
+      "id": "bv-default",
+      "workspaceId": "default-workspace",
+      "name": "Chuyên gia Thể thao Thực chiến",
+      "systemPrompt": "Bạn là một vận động viên phong trào có 6 năm kinh nghiệm chạy marathon và tư vấn phụ kiện chạy bộ. Giọng văn chân thành, xưng 'mình' hoặc 'anh em', nói thẳng vào vấn đề đau khớp gối của người mới, dùng ví dụ cụ thể, không bao giờ dùng từ sáo rỗng hoặc câu like rẻ tiền.",
+      "tone": "Thực tế, gần gũi, chuyên môn cao nhưng giải thích dễ hiểu",
+      "targetAudience": "Người chạy bộ sáng sớm, dân văn phòng tập cardio, độ tuổi 25-45",
+      "preferredFormulas": [
+        "PAS",
+        "Before-After-Bridge",
+        "Storytelling"
+      ],
+      "autoTuningHistory": [],
+      "createdAt": "2026-10-15T16:13:12.907Z",
+      "updatedAt": "2026-10-15T16:13:12.907Z"
+    }
+  ],
+  "winningEmbeddings": [],
+  "growthReports": []
+}

@@ -6,14 +6,14 @@ import { redirect } from "next/navigation";
 export default async function EditCategoryPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
 
-    const category = await prisma.category.findUnique({ where: { id } });
+    const category = await prisma.category.findUnique({ where: { id } }).catch(() => null);
     if (!category) {
         redirect("/admin/categories");
     }
 
-    const languages = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });
+    const languages = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } }).catch(() => []);
 
-    const allCategories = await prisma.category.findMany({ where: { id: { not: category.id } }, orderBy: { order: 'asc' } });
+    const allCategories = await prisma.category.findMany({ where: { id: { not: category.id } }, orderBy: { order: 'asc' } }).catch(() => []);
 
     return (
         <div className="admin-container-large">

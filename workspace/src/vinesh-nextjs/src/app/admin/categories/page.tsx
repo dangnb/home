@@ -4,8 +4,8 @@ import { deleteCategory } from "../actions";
 import DeleteButton from "../services/DeleteButton";
 
 export default async function CategoriesPage() {
-    const categories = await prisma.category.findMany({ orderBy: { order: "asc" } });
-    const languages = await prisma.language.findMany();
+    const categories = await prisma.category.findMany({ orderBy: { order: "asc" } }).catch(() => []);
+    const languages = await prisma.language.findMany().catch(() => []);
     const vi = languages.find(l => l.isDefault)?.code || "vi";
 
     return (

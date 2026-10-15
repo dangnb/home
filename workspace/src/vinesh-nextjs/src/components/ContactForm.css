@@ -20,8 +20,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(140, 198, 63, 0.15);
-  border: 1px solid rgba(140, 198, 63, 0.3);
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.35);
   padding: 6px 18px;
   border-radius: 9999px;
   font-size: 13px;
@@ -31,13 +31,13 @@
 }
 
 .contact-breadcrumb a {
-  color: #a3e635;
+  color: #4ade80;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .contact-breadcrumb a:hover {
-  color: #bef264;
+  color: #86efac;
 }
 
 .contact-breadcrumb span {
@@ -94,15 +94,15 @@
 
 .info-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(140, 198, 63, 0.4);
+  border-color: rgba(34, 197, 94, 0.4);
   background: rgba(30, 41, 59, 0.9);
-  box-shadow: 0 16px 30px -10px rgba(140, 198, 63, 0.2);
+  box-shadow: 0 16px 30px -10px rgba(22, 163, 74, 0.25);
 }
 
 .info-icon {
-  background: linear-gradient(135deg, rgba(140, 198, 63, 0.2) 0%, rgba(140, 198, 63, 0.05) 100%);
-  border: 1px solid rgba(140, 198, 63, 0.3);
-  color: #8cc63f;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.05) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
   width: 48px;
   height: 48px;
   border-radius: 12px;
@@ -135,7 +135,7 @@
 }
 
 .info-text a:hover {
-  color: #8cc63f;
+  color: #4ade80;
 }
 
 .contact-form-wrapper {
@@ -193,9 +193,9 @@
 
 .form-input:focus, .form-textarea:focus {
   outline: none;
-  border-color: #8cc63f;
+  border-color: #22c55e;
   background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(140, 198, 63, 0.15);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
 }
 
 .form-textarea {
@@ -204,7 +204,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #8cc63f 0%, #7ab32f 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   color: #fff;
   border: none;
   border-radius: 9999px;
@@ -217,14 +217,14 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 4px 14px rgba(140, 198, 63, 0.4);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #97d445 0%, #83c034 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #15803d 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(140, 198, 63, 0.5);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
 }
 
 .submit-btn:disabled {

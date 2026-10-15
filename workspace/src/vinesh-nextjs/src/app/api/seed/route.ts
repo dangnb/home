@@ -1,109 +1,20 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import { seedDemoData } from '@/lib/seedDemoData';
 
-/**
- * API Seed — BỊ VÔ HIỆU HÓA
- * 
- * API này chỉ dùng trong quá trình phát triển (development).
- * Trên production, middleware.ts sẽ chặn truy cập tới endpoint này.
- * Ngoài ra, bản thân route cũng tự chặn nếu không phải dev mode.
- */
-export async function GET() {
-    // Double-check: chặn trên production ngay ở đây
-    if (process.env.NODE_ENV === "production") {
-        return NextResponse.json(
-            { error: "API này bị vô hiệu hóa trên production." },
-            { status: 403 }
-        );
-    }
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const force = searchParams.get('force') === 'true';
 
-    // Development only
     try {
-
-        const c1 = await prisma.category.create({
-            data: {
-                slug: 've-webcare',
-                order: 1,
-                isActive: true,
-                isMenu: true,
-                translations: JSON.stringify({
-                    'vi': { title: 'Về WebCare' },
-                    'en': { title: 'About WebCare' }
-                })
-            }
+        const result = await seedDemoData(force);
+        return NextResponse.json({
+            success: true,
+            message: "Đã khởi tạo và đồng bộ đầy đủ dữ liệu demo song ngữ (VI & EN) thành công!",
+            result
         });
-
-        await prisma.category.create({
-            data: {
-                slug: 'thong-diep-lanh-dao',
-                order: 1,
-                isActive: true,
-                isMenu: true,
-                parentId: c1.id,
-                translations: JSON.stringify({
-                    'vi': { title: 'Thông điệp Lãnh đạo' },
-                    'en': { title: 'CEO Statement' }
-                })
-            }
-        });
-
-        await prisma.category.create({
-            data: {
-                slug: 'doi-ngu',
-                order: 2,
-                isActive: true,
-                isMenu: true,
-                parentId: c1.id,
-                translations: JSON.stringify({
-                    'vi': { title: 'Đội ngũ' },
-                    'en': { title: 'Our Team' }
-                })
-            }
-        });
-
-        const c2 = await prisma.category.create({
-            data: {
-                slug: 'san-pham-dich-vu',
-                order: 2,
-                isActive: true,
-                isMenu: true,
-                translations: JSON.stringify({
-                    'vi': { title: 'Sản phẩm & Dịch vụ' },
-                    'en': { title: 'Products & Services' }
-                })
-            }
-        });
-
-        await prisma.category.create({
-            data: {
-                slug: 'giai-phap-doanh-nghiep',
-                order: 1,
-                isActive: true,
-                isMenu: true,
-                parentId: c2.id,
-                translations: JSON.stringify({
-                    'vi': { title: 'Giải pháp Doanh nghiệp' },
-                    'en': { title: 'Enterprise Solutions' }
-                })
-            }
-        });
-
-        await prisma.category.create({
-            data: {
-                slug: 'tin-tuc',
-                order: 3,
-                isActive: true,
-                isMenu: true,
-                translations: JSON.stringify({
-                    'vi': { title: 'Tin tức & Sự kiện' },
-                    'en': { title: 'News & Events' }
-                })
-            }
-        });
-
-        return NextResponse.json({ success: true, message: "Đã tạo dữ liệu mẫu thành công!" });
     } catch (e) {
-        const errorMsg = e instanceof Error ? e.message : "Đã xảy ra lỗi";
+        const errorMsg = e instanceof Error ? e.message : "Đã xảy ra lỗi khi tạo dữ liệu mẫu";
+        console.error("❌ Seed API error:", e);
         return NextResponse.json({ success: false, error: errorMsg }, { status: 500 });
     }
 }

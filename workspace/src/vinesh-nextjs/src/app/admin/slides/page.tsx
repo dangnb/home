@@ -7,7 +7,7 @@ import { getTranslation } from "@/lib/utils";
 export default async function SlidesList() {
     const slides = await prisma.slide.findMany({
         orderBy: { order: 'asc' }
-    });
+    }).catch(() => []);
 
     return (
         <div className="admin-container">

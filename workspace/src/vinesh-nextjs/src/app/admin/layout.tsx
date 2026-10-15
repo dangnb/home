@@ -24,7 +24,7 @@ export default async function AdminLayout({
             {/* Sidebar */}
             <aside className="admin-sidebar">
                 <div className="admin-sidebar-header">
-                    <i className="ph ph-shield-check" style={{ fontSize: "28px", color: "var(--brand-green, #8cc63f)" }}></i>
+                    <i className="ph ph-shield-check" style={{ fontSize: "28px", color: "var(--brand-green, #16a34a)" }}></i>
                     <h2>WEBCARE {role}</h2>
                 </div>
 

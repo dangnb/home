@@ -40,34 +40,37 @@ export default function ScrollToTop() {
         <button
             onClick={scrollToTop}
             aria-label="Cuộn lên đầu trang"
+            title="Lên đầu trang"
             style={{
                 position: "fixed",
-                bottom: "100px",
-                right: "26px",
-                width: "44px",
-                height: "44px",
-                backgroundColor: "var(--brand-green, #8cc63f)",
+                bottom: "235px",
+                right: "28px",
+                width: "48px",
+                height: "48px",
+                backgroundColor: "#0f172a",
                 color: "#ffffff",
-                border: "none",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
                 borderRadius: "50%",
-                boxShadow: "0 8px 20px rgba(140, 198, 63, 0.4)",
+                boxShadow: "0 6px 18px rgba(0, 0, 0, 0.25)",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                transition: "all 0.3s ease",
-                zIndex: 999,
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                zIndex: 998,
             }}
             onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--brand-green-hover, #7ab32f)";
-                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.backgroundColor = "var(--brand-green, #16a34a)";
+                e.currentTarget.style.transform = "translateY(-3px) scale(1.08)";
             }}
             onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--brand-green, #8cc63f)";
-                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.backgroundColor = "#0f172a";
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
             }}
         >
-            <i className="ph-bold ph-caret-up" style={{ fontSize: "20px" }}></i>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
         </button>
     );
 }

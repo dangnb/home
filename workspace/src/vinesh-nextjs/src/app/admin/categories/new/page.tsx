@@ -3,8 +3,8 @@ import CategoryForm from "../CategoryForm";
 import Link from "next/link";
 
 export default async function NewCategoryPage() {
-    const languages = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });
-    const allCategories = await prisma.category.findMany({ orderBy: { order: 'asc' } });
+    const languages = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } }).catch(() => []);
+    const allCategories = await prisma.category.findMany({ orderBy: { order: 'asc' } }).catch(() => []);
 
     return (
         <div className="admin-container-large">

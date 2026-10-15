@@ -1,11 +1,7 @@
 export const revalidate = 60;
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
-import FloatingContact from "@/components/ui/FloatingContact";
 import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -19,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 }
 
 export async function generateStaticParams() {
-  const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
+  const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } }).catch(() => []);
 
   const langs = activeLangs.length > 0 ? activeLangs.map(l => ({ lang: l.code })) : [{ lang: 'vi' }, { lang: 'en' }];
   return langs;
@@ -28,21 +24,7 @@ export async function generateStaticParams() {
 export default async function ContactPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
 
-  const [activeLangs, menuCategories, settingsArray] = await Promise.all([
-    prisma.language.findMany({ where: { isActive: true }, select: { code: true, name: true } }),
-    prisma.category.findMany({
-      where: { isActive: true, isMenu: true, parentId: null },
-      orderBy: { order: 'asc' },
-      include: {
-        children: { where: { isActive: true }, orderBy: { order: 'asc' } },
-        services: { orderBy: { order: 'asc' } }
-      }
-    }),
-    prisma.setting.findMany()
-  ]);
-
-  const isSupported = activeLangs.some(l => l.code === lang);
-  if (!isSupported) return notFound();
+  const settingsArray = await prisma.setting.findMany({ select: { key: true, value: true } }).catch(() => []);
 
   const settings = settingsArray.reduce((acc: Record<string, string>, current: { key: string; value: string }) => {
     acc[current.key] = current.value;
@@ -63,8 +45,6 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
 
   return (
     <main className="contact-page-wrapper">
-      <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
-
       <section className="contact-hero">
         <div className="contact-hero-inner">
           <div className="contact-breadcrumb">
@@ -131,9 +111,6 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
           ></iframe>
         </div>
       </section>
-
-      <Footer settings={settings} lang={lang} />
-      <FloatingContact phone={phone} lang={lang} />
     </main>
   );
 }

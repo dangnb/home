@@ -4,12 +4,12 @@ import SlideForm from "../SlideForm";
 
 export default async function EditSlidePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const slide = await prisma.slide.findUnique({ where: { id } });
+    const slide = await prisma.slide.findUnique({ where: { id } }).catch(() => null);
 
     if (!slide) notFound();
 
-    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });
-    const languages = langRecords.map(l => l.code);
+    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } }).catch(() => []);
+    const languages = langRecords.length > 0 ? langRecords.map(l => l.code) : ['vi', 'en'];
     languages.sort((a, b) => a === 'vi' ? -1 : b === 'vi' ? 1 : 0);
 
     return (

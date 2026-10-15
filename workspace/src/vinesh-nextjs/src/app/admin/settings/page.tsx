@@ -3,15 +3,15 @@ import { updateSettings } from "../actions";
 import SettingsForm from "./SettingsForm";
 
 export default async function SettingsPage() {
-    const settingsArray = await prisma.setting.findMany();
+    const settingsArray = await prisma.setting.findMany({ select: { key: true, value: true } }).catch(() => []);
     const settings = settingsArray.reduce((acc: Record<string, string>, current: { key: string; value: string }) => {
         acc[current.key] = current.value;
         return acc;
     }, {});
 
     // Fetch languages from DB
-    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });
-    const languages = langRecords.map(l => l.code);
+    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } }).catch(() => []);
+    const languages = langRecords.length > 0 ? langRecords.map(l => l.code) : ['vi', 'en'];
     // Ensure "vi" is always at top if present
     languages.sort((a, b) => a === 'vi' ? -1 : b === 'vi' ? 1 : 0);
 

@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import "@phosphor-icons/web/regular";
-import "@phosphor-icons/web/fill";
-import "@phosphor-icons/web/bold";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import NextTopLoader from 'nextjs-toploader';
 import AosInitializer from "@/components/ui/AosInitializer";
@@ -64,19 +61,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
+        <link rel="preconnect" href="https://unpkg.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
       </head>
       <body suppressHydrationWarning className={inter.className}>
         <NextTopLoader
-          color="#8cc63f"
-          height={2}
+          color="#22c55e"
+          height={3}
           showSpinner={false}
-          shadow="0 0 10px #8cc63f, 0 0 5px #8cc63f"
+          shadow="0 0 12px #22c55e, 0 0 5px #22c55e"
           speed={300}
           crawlSpeed={250}
         />

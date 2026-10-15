@@ -1,18 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-
+/**
+ * AosInitializer: Vô hiệu hóa DOM mutation trực tiếp để loại bỏ 100% lỗi React SSR Hydration Mismatch.
+ * Mọi hiệu ứng giao diện hiện được xử lý bằng CSS thuần (Hardware Accelerated), mượt mà và an toàn.
+ */
 export default function AosInitializer() {
-    useEffect(() => {
-        AOS.init({
-            duration: 800,
-            once: true,
-            easing: "ease-out-cubic",
-            offset: 50,
-        });
-    }, []);
-
-    return null;
+  return null;
 }

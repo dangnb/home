@@ -13,9 +13,7 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@phosphor-icons/web": "^2.1.2",
     "@prisma/client": "^5.22.0",
-    "aos": "^2.3.4",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.0",
     "next": "16.2.9",
@@ -29,7 +27,6 @@
     "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
-    "@types/aos": "^3.0.8",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
     "@types/react": "^19",

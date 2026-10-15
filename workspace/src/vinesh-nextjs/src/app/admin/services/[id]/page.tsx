@@ -6,22 +6,22 @@ import EditServiceForm from "./EditServiceForm";
 
 export default async function EditServicePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const service = await prisma.service.findUnique({ where: { id } });
+    const service = await prisma.service.findUnique({ where: { id } }).catch(() => null);
 
     if (!service) {
         redirect("/admin/services");
     }
 
     // Fetch languages from DB
-    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });
-    const languages = langRecords.map(l => l.code);
+    const langRecords = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } }).catch(() => []);
+    const languages = langRecords.length > 0 ? langRecords.map(l => l.code) : ['vi', 'en'];
     languages.sort((a, b) => a === 'vi' ? -1 : b === 'vi' ? 1 : 0);
 
     // Parse translations
     const translations = service.translations ? JSON.parse(service.translations) : {};
     const updateAction = saveService.bind(null, service.id);
 
-    const categories = await prisma.category.findMany({ where: { isActive: true }, orderBy: { order: 'asc' } });
+    const categories = await prisma.category.findMany({ where: { isActive: true }, orderBy: { order: 'asc' } }).catch(() => []);
 
     return (
         <div className="admin-container">

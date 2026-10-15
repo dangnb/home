@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import "./Header.css";
@@ -42,26 +42,59 @@ export default function Header({ settings, lang, languages = [], menuCategories 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const langBoxRef = useRef<HTMLDivElement>(null);
+
+  // Close language dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langBoxRef.current && !langBoxRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    if (langOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [langOpen]);
+
   const phone = settings?.phone || "0984 929 693";
   const fallback = (viText: string, enText: string) => lang === "vi" ? viText : enText;
+
+  // Luôn đảm bảo tối thiểu có cả 2 ngôn ngữ chuẩn vi và en
+  const availableLangs = languages && languages.length > 0 ? languages : [
+    { code: "vi", name: "Tiếng Việt" },
+    { code: "en", name: "English" }
+  ];
 
   const getLanguageName = (code: string) => {
     if (code === "vi") return "VIETNAMESE";
     if (code === "en") return "ENGLISH";
-    const found = languages.find(l => l.code === code);
+    const found = availableLangs.find(l => l.code === code);
     return found ? found.name.toUpperCase() : code.toUpperCase();
   };
 
   const changeLanguage = (nextLang: string) => {
-    let newPath = pathname;
-    if (pathname.startsWith(`/${lang}`)) {
-      newPath = pathname.replace(`/${lang}`, `/${nextLang}`);
-    } else {
-      newPath = `/${nextLang}${pathname}`;
+    if (nextLang === lang) {
+      setLangOpen(false);
+      return;
     }
+
+    let newPath = pathname || `/${nextLang}`;
+    const currentPrefix = `/${lang}`;
+    if (newPath === currentPrefix || newPath === `${currentPrefix}/`) {
+      newPath = `/${nextLang}`;
+    } else if (newPath.startsWith(`${currentPrefix}/`)) {
+      newPath = `/${nextLang}/${newPath.slice(currentPrefix.length + 1)}`;
+    } else if (newPath === "/") {
+      newPath = `/${nextLang}`;
+    } else {
+      newPath = `/${nextLang}${newPath.startsWith('/') ? newPath : '/' + newPath}`;
+    }
+
     setLangOpen(false);
-    setMobileMenuOpen(false); // close mobile menu on switch
-    router.push(newPath);
+    setMobileMenuOpen(false);
+    // Chuyển trang ngôn ngữ sạch sẽ để cập nhật toàn bộ RSC & trạng thái trang
+    window.location.href = newPath;
   };
 
   return (
@@ -78,18 +111,67 @@ export default function Header({ settings, lang, languages = [], menuCategories 
               <i className="ph-fill ph-phone" style={{ fontSize: "16px" }}></i> {phone}
             </a>
 
-            {languages.length > 0 && (
-              <div className="lang-selector-box" onClick={() => setLangOpen(!langOpen)}>
+            <div className="top-social-group">
+              <a
+                href={settings?.facebook || "https://facebook.com/webcare.vn"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="top-social-icon top-fb"
+                title="Facebook"
+                aria-label="Facebook"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+
+              <a
+                href={settings?.zalo ? (settings.zalo.startsWith("http") ? settings.zalo : `https://zalo.me/${settings.zalo.replace(/\s+/g, '')}`) : `https://zalo.me/${phone.replace(/\s+/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="top-social-icon top-zalo"
+                title="Zalo"
+                aria-label="Zalo"
+              >
+                <span>Zalo</span>
+              </a>
+            </div>
+
+            {availableLangs.length > 0 && (
+              <div
+                ref={langBoxRef}
+                className="lang-selector-box"
+                onClick={() => setLangOpen(!langOpen)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={langOpen}
+                aria-haspopup="true"
+              >
                 <div className={lang === "vi" ? "flag-icon" : "flag-icon-en"}></div>
-                {getLanguageName(lang)}
-                <i className="ph ph-caret-down" style={{ fontSize: "12px", marginLeft: "4px" }}></i>
+                <span>{getLanguageName(lang)}</span>
+                <i className={`ph ph-caret-${langOpen ? "up" : "down"}`} style={{ fontSize: "12px", marginLeft: "4px" }}></i>
 
                 {langOpen && (
-                  <ul className="lang-dropdown-menu">
-                    {languages.map((l) => (
+                  <ul className="lang-dropdown-menu" onClick={(e) => e.stopPropagation()}>
+                    {availableLangs.map((l) => (
                       <li key={l.code}>
-                        <button onClick={(e) => { e.stopPropagation(); changeLanguage(l.code); }}>
-                          <div className={l.code === "vi" ? "flag-icon" : "flag-icon-en"}></div> {l.name.toUpperCase()}
+                        <button
+                          type="button"
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            changeLanguage(l.code);
+                          }}
+                          style={{
+                            fontWeight: l.code === lang ? 700 : 500,
+                            color: l.code === lang ? "var(--brand-green, #16a34a)" : undefined,
+                            background: l.code === lang ? "rgba(22, 163, 74, 0.08)" : undefined
+                          }}
+                        >
+                          <div className={l.code === "vi" ? "flag-icon" : "flag-icon-en"}></div>
+                          {l.name.toUpperCase()}
+                          {l.code === lang && <i className="ph-bold ph-check" style={{ marginLeft: "auto", fontSize: "13px" }}></i>}
                         </button>
                       </li>
                     ))}
@@ -108,9 +190,9 @@ export default function Header({ settings, lang, languages = [], menuCategories 
           <div className="main-nav-bar">
             <Link href={`/${lang}`} className="site-logo">
               <div className="site-logo-icon">
-                <span className="site-logo-icon-inner"><span style={{ color: "#8cc63f" }}>W</span></span>
+                <span className="site-logo-icon-inner">W</span>
               </div>
-              <span className="site-logo-text">Web<span style={{ color: "#8cc63f" }}>Care</span></span>
+              <span className="site-logo-text">Web<span style={{ color: "#22c55e" }}>Care</span></span>
             </Link>
 
             {/* Desktop Nav */}
@@ -121,7 +203,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 </Link>
               </li>
 
-              {menuCategories.map(cat => {
+              {menuCategories.slice(0, 5).map(cat => {
                 let displayTitle = cat.slug;
                 if (cat.translations) {
                   try {
@@ -175,6 +257,32 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 );
               })}
 
+              {/* Nếu có hơn 5 danh mục, gom gọn danh mục phụ vào menu dropdown 'Thêm' */}
+              {menuCategories.length > 5 && (
+                <li>
+                  <span className="overflow-menu-trigger">
+                    {fallback("Thêm", "More")} <i className="ph ph-caret-down"></i>
+                  </span>
+                  <ul className="sub-menu sub-menu-right">
+                    {menuCategories.slice(5).map(cat => {
+                      let displayTitle = cat.slug;
+                      if (cat.translations) {
+                        try {
+                          const t = JSON.parse(cat.translations);
+                          if (t[lang]?.title) displayTitle = t[lang].title;
+                          else if (t['vi']?.title) displayTitle = t['vi'].title;
+                        } catch (_e) { }
+                      }
+                      return (
+                        <li key={cat.id}>
+                          <Link href={`/${lang}/category/${cat.slug}`}>{displayTitle}</Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              )}
+
               {/* Dynamic menu ends here */}
               <li>
                 <Link href={`/${lang}/lien-he`} className={pathname.includes("/lien-he") ? "active" : ""}>
@@ -196,9 +304,9 @@ export default function Header({ settings, lang, languages = [], menuCategories 
         <div className="mobile-nav-header">
           <Link href={`/${lang}`} className="site-logo" onClick={() => setMobileMenuOpen(false)}>
             <div className="site-logo-icon">
-              <span className="site-logo-icon-inner"><span style={{ color: "#8cc63f" }}>W</span></span>
+              <span className="site-logo-icon-inner">W</span>
             </div>
-            <span className="site-logo-text">Web<span style={{ color: "#8cc63f" }}>Care</span></span>
+            <span className="site-logo-text">Web<span style={{ color: "#22c55e" }}>Care</span></span>
           </Link>
           <button className="mobile-nav-close" onClick={() => setMobileMenuOpen(false)} aria-label="Close Menu">
             <i className="ph ph-x"></i>
@@ -276,10 +384,10 @@ export default function Header({ settings, lang, languages = [], menuCategories 
               <i className="ph-fill ph-user" style={{ fontSize: "20px" }}></i> {fallback("Đăng nhập", "Login")}
             </Link>
 
-            {languages.length > 0 && (
+            {availableLangs.length > 0 && (
               <div style={{ display: 'flex', gap: '8px' }}>
-                {languages.map(l => (
-                  <button key={l.code} onClick={() => changeLanguage(l.code)} style={{ padding: '8px 12px', background: lang === l.code ? '#8cc63f' : '#fff', color: lang === l.code ? '#fff' : '#000', border: 'none', borderRadius: '4px', fontWeight: 'bold' }}>
+                {availableLangs.map(l => (
+                  <button key={l.code} onClick={() => changeLanguage(l.code)} style={{ padding: '8px 14px', background: lang === l.code ? '#16a34a' : 'rgba(255, 255, 255, 0.1)', color: '#fff', border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: '8px', fontWeight: '600', fontSize: '13px', cursor: 'pointer' }}>
                     {l.code.toUpperCase()}
                   </button>
                 ))}

@@ -27,32 +27,36 @@ interface HeroProps {
 export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Settings for main slide
-  const title = settings?.[`heroTitle_${lang}`] || settings?.heroTitle || "AN TOÀN - SỨC KHỎE - MÔI TRƯỜNG";
-  const subtitle = settings?.[`heroSubtitle_${lang}`] || settings?.heroSubtitle || "Giải pháp tổng thể";
-  const desc = settings?.[`heroDesc_${lang}`] || settings?.heroDesc || "Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện an toàn hàng đầu.";
-  const bgImage1 = settings?.heroImage1 || settings?.heroImage || "/assets/hero.png";
-
-  const fallback = (viText: string, enText: string) => lang === "vi" ? viText : enText;
+  const isVi = lang === "vi";
+  const fallback = (viText: string, enText: string) => isVi ? viText : enText;
   const exploreText = fallback("Khám phá dịch vụ", "Explore Services");
   const contactText = fallback("Liên hệ tư vấn", "Contact Us");
 
-  // Read Slides smoothly
-  const t = (key: string, _default: string) => settings?.[lang === "vi" ? key : `${key}_${lang}`] || settings?.[key] || _default;
+  // Settings for main slide
+  const title = isVi
+    ? (settings?.heroTitle || "An Toàn - Sức Khỏe - Môi Trường")
+    : (settings?.[`heroTitle_${lang}`] || "Safety - Health - Environment");
 
-  // Transform dynamic DB Slides or fallback to settings-based slides
-  const slides = dbSlides && dbSlides.length > 0 ? dbSlides.map(slide => {
-    let trans: Record<string, SlideTranslation> = {};
-    try { trans = JSON.parse(slide.translations || "{}"); } catch (_e) { }
+  const subtitle = isVi
+    ? (settings?.heroSubtitle || "Giải pháp tổng thể & toàn diện")
+    : (settings?.[`heroSubtitle_${lang}`] || "Comprehensive Enterprise Solutions");
 
-    return {
-      bgImage: slide.imageUrl,
-      title: trans[lang]?.title || trans['vi']?.title || "",
-      subtitle: trans[lang]?.subtitle || trans['vi']?.subtitle || "",
-      desc: trans[lang]?.desc || trans['vi']?.desc || "",
-      linkUrl: slide.linkUrl && slide.linkUrl !== "#" ? slide.linkUrl : `/${lang}#services`
-    };
-  }) : [
+  const desc = isVi
+    ? (settings?.heroDesc || "Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện an toàn hàng đầu.")
+    : (settings?.[`heroDesc_${lang}`] || "Partnering with enterprises for sustainable growth through leading inspection, certification, and safety training services.");
+
+  const bgImage1 = settings?.heroImage1 || settings?.heroImage || "/assets/hero.png";
+
+  // Read Slides smoothly with proper locale fallback
+  const t = (key: string, viDefault: string, enDefault: string) => {
+    if (isVi) {
+      return settings?.[key] || viDefault;
+    }
+    return settings?.[`${key}_${lang}`] || enDefault;
+  };
+
+  // Default fallback slides with rich content
+  const defaultSlides = [
     {
       bgImage: bgImage1,
       subtitle: subtitle,
@@ -62,19 +66,40 @@ export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
     },
     {
       bgImage: settings?.heroImage2 || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop",
-      subtitle: t("heroSubtitle2", fallback("Chất lượng hàng đầu", "Top Quality Solutions")),
-      title: t("heroTitle2", fallback("KIỂM ĐỊNH MÁY MÓC TỰ ĐỘNG", "STANDARD MACHINE INSPECTION")),
-      desc: t("heroDesc2", fallback("Hệ thống máy móc hiện đại, đảm bảo kết quả an toàn chính xác và tin cậy tuyệt đối.", "Modern machinery system, ensuring the most accurate and reliable results.")),
+      subtitle: t("heroSubtitle2", "Tiêu chuẩn kiểm định cao cấp", "Certified Top Standards"),
+      title: t("heroTitle2", "Kiểm Định Máy Móc & Thiết Bị Tự Động", "Automated Machinery Inspection"),
+      desc: t("heroDesc2", "Hệ thống trang thiết bị hiện đại, đảm bảo quy trình kiểm định chính xác, khách quan và tin cậy tuyệt đối.", "Modern machinery and equipment, ensuring the most accurate, objective, and reliable results."),
       linkUrl: `/${lang}#services`
     },
     {
       bgImage: settings?.heroImage3 || "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2000&auto=format&fit=crop",
-      subtitle: t("heroSubtitle3", fallback("Kinh nghiệm & Uy tín", "Experience & Prestige")),
-      title: t("heroTitle3", fallback("ĐỘI NGŨ CHUYÊN GIA TẬN TÂM", "DEDICATED EXPERT TEAM")),
-      desc: t("heroDesc3", fallback("Hàng ngàn giờ nỗ lực mang lại sự an tâm tuyệt đối cho khách hàng và đối tác.", "Thousands of effort hours bringing absolute peace of mind to customers.")),
+      subtitle: t("heroSubtitle3", "Kinh nghiệm & Uy tín 10+ năm", "10+ Years of Excellence"),
+      title: t("heroTitle3", "Đội Ngũ Chuyên Gia Tận Tâm & Giàu Kinh Nghiệm", "Dedicated & Experienced Experts"),
+      desc: t("heroDesc3", "Đồng hành mang lại sự an tâm, an toàn và giải pháp tối ưu cho hàng trăm đối tác doanh nghiệp.", "Bringing absolute peace of mind, high safety standards, and optimal solutions to hundreds of corporate partners."),
       linkUrl: `/${lang}#services`
     }
   ];
+
+  // Transform dynamic DB Slides or fallback to settings-based slides
+  const parsedDbSlides = dbSlides && dbSlides.length > 0 ? dbSlides.map(slide => {
+    let trans: Record<string, SlideTranslation> = {};
+    try { trans = JSON.parse(slide.translations || "{}"); } catch (_e) { }
+
+    const sTitle = trans[lang]?.title || (isVi ? trans['vi']?.title : (trans['en']?.title || trans['vi']?.title)) || title;
+    const sSubtitle = trans[lang]?.subtitle || (isVi ? trans['vi']?.subtitle : (trans['en']?.subtitle || trans['vi']?.subtitle)) || subtitle;
+    const sDesc = trans[lang]?.desc || (isVi ? trans['vi']?.desc : (trans['en']?.desc || trans['vi']?.desc)) || desc;
+    const sImage = (slide.imageUrl && slide.imageUrl.trim() !== '') ? slide.imageUrl : bgImage1;
+
+    return {
+      bgImage: sImage,
+      title: sTitle,
+      subtitle: sSubtitle,
+      desc: sDesc,
+      linkUrl: slide.linkUrl && slide.linkUrl !== "#" ? slide.linkUrl : `/${lang}#services`
+    };
+  }) : [];
+
+  const slides = parsedDbSlides.length > 0 ? parsedDbSlides : defaultSlides;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -99,7 +124,12 @@ export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
             />
           </div>
           <div className="container hero-slider-content">
-            {slide.subtitle && <div className="hero-slider-badge">{slide.subtitle}</div>}
+            {slide.subtitle && (
+              <div className="hero-slider-badge">
+                <i className="ph-fill ph-sparkle"></i>
+                <span>{slide.subtitle}</span>
+              </div>
+            )}
             <h1 className="hero-slider-title">{slide.title}</h1>
             <p className="hero-slider-desc">{slide.desc}</p>
             <div className="hero-slider-buttons">

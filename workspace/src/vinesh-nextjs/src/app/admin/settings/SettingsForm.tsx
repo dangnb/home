@@ -109,6 +109,14 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                     />
 
                     <FormInput
+                        label="Zalo (Số điện thoại hoặc Link Zalo.me)"
+                        type="text"
+                        name="zalo"
+                        defaultValue={settings.zalo}
+                        placeholder="0984929693 hoặc https://zalo.me/..."
+                    />
+
+                    <FormInput
                         label="YouTube URL"
                         type="url"
                         name="youtube"

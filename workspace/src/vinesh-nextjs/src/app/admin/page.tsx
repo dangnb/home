@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
 
 export default async function AdminDashboard() {
-    const serviceCount = await prisma.service.count();
-    const settingsCount = await prisma.setting.count();
+    const serviceCount = await prisma.service.count().catch(() => 0);
+    const settingsCount = await prisma.setting.count().catch(() => 0);
 
     return (
         <div className="admin-container-large">
