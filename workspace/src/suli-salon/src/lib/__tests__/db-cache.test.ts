@@ -108,6 +108,28 @@ describe("db.ts - In-Memory Cache and DB Operations", () => {
   });
 
   describe("getSettings behavior", () => {
+    it("should deduplicate in-flight concurrent requests to prevent DB connection stampedes", async () => {
+      let resolveQuery!: (val: unknown) => void;
+      const slowQuery = new Promise((resolve) => {
+        resolveQuery = resolve;
+      });
+      vi.mocked(prisma.setting.findMany).mockImplementation(() => slowQuery as never);
+
+      // Fire 3 concurrent requests while the query is in flight
+      const p1 = getSettings();
+      const p2 = getSettings();
+      const p3 = getSettings();
+
+      resolveQuery([{ key: "hotline", value: "0796 768 636" }]);
+
+      const [r1, r2, r3] = await Promise.all([p1, p2, p3]);
+      expect(r1.hotline).toBe("0796 768 636");
+      expect(r2.hotline).toBe("0796 768 636");
+      expect(r3.hotline).toBe("0796 768 636");
+      // Only 1 DB query was made despite 3 concurrent calls
+      expect(prisma.setting.findMany).toHaveBeenCalledTimes(1);
+    });
+
     it("should filter out legacy cruise keywords and apply salon defaults", async () => {
       vi.mocked(prisma.setting.findMany).mockResolvedValue([
         { key: "siteName", value: "Mộc Salon Luxury" },
