@@ -5,6 +5,7 @@ import { TeamMemberData } from "@/lib/db";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdAdd, MdCloudUpload, MdDeleteOutline, MdClose, MdGroups, MdLanguage } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 export default function AdminTeamPage() {
   const { locale, t, tOther, joinBilingual } = useAdminLocale();
@@ -103,11 +104,23 @@ export default function AdminTeamPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Bạn có chắc muốn xóa thành viên này khỏi đội ngũ?")) return;
-    const res = await fetch(`/api/team?id=${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setItems((prev) => prev.filter((i) => i.id !== id));
-      flash("success", "Đã xóa thành viên thành công!");
+    const ok = await confirmAction({
+      title: "Xóa thành viên?",
+      text: "Bạn có chắc muốn xóa thành viên này khỏi đội ngũ?",
+      confirmButtonText: "Xóa thành viên",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/team?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setItems((prev) => prev.filter((i) => i.id !== id));
+        flash("success", "Đã xóa thành viên khỏi đội ngũ thành công!");
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể xóa thành viên. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa thành viên.");
     }
   }
 
@@ -313,7 +326,7 @@ export default function AdminTeamPage() {
       )}
 
       {isInitialLoading ? (
-        <AdminLoading variant="grid" label="Đang tải danh sách thành viên..." />
+        <AdminLoading variant="cards" label="Đang tải danh sách thành viên..." />
       ) : items.length === 0 ? (
         <div className={styles.emptyState}>
           <span style={{ fontSize: 32, opacity: 0.5 }}>✦</span>

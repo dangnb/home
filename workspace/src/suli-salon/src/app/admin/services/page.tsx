@@ -6,6 +6,7 @@ import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdSpa, MdDeleteOutline, MdEdit, MdAdd } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface Service {
   slug: string;
@@ -21,6 +22,7 @@ interface Service {
 export default function ServicesListPage() {
   const { locale, t, tPrice, tOther } = useAdminLocale();
   const [services, setServices] = useState<Service[]>([]);
+  const [msg, setMsg] = useState({ type: "", text: "" });
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
@@ -34,10 +36,31 @@ export default function ServicesListPage() {
       .finally(() => setIsInitialLoading(false));
   }, []);
 
+  function flash(type: string, text: string) {
+    setMsg({ type, text });
+    setTimeout(() => setMsg({ type: "", text: "" }), 3500);
+  }
+
   async function handleDelete(slug: string, name: string) {
-    if (!confirm(`Bạn có chắc muốn xóa dịch vụ "${name}" không? Thao tác này không thể hoàn tác.`)) return;
-    await fetch(`/api/services/${slug}`, { method: "DELETE" });
-    setServices((prev) => prev.filter((s) => s.slug !== slug));
+    const displayTitle = t(name) || name;
+    const ok = await confirmAction({
+      title: "Xóa dịch vụ?",
+      text: `Bạn có chắc muốn xóa dịch vụ "${displayTitle}" không? Thao tác này không thể hoàn tác.`,
+      confirmButtonText: "Xóa dịch vụ",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/services/${slug}`, { method: "DELETE" });
+      if (res.ok) {
+        setServices((prev) => prev.filter((s) => s.slug !== slug));
+        flash("success", `Đã xóa dịch vụ "${displayTitle}" thành công.`);
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể xóa dịch vụ này. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa dịch vụ.");
+    }
   }
 
   return (
@@ -52,6 +75,12 @@ export default function ServicesListPage() {
           <span>Thêm dịch vụ</span>
         </Link>
       </div>
+
+      {msg.text && (
+        <p className={msg.type === "error" ? styles.alertError : styles.alertSuccess} style={{ marginBottom: "1.2rem" }}>
+          {msg.text}
+        </p>
+      )}
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>

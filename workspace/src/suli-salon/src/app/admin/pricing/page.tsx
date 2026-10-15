@@ -4,6 +4,8 @@ import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdSpa, MdAdd, MdClose, MdCheck, MdDeleteOutline, MdLanguage } from "react-icons/md";
+import Swal from "sweetalert2";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface PriceItem {
   name: string;
@@ -103,18 +105,52 @@ export default function PriceListPage() {
     setCategories(next);
   }
 
-  function addCategory() {
-    const promptText = editLang === "vi" ? "Nhập tên nhóm bảng giá mới (Tiếng Việt):" : "Enter new price category name (English):";
-    const name = prompt(promptText);
-    if (!name) return;
-    const catName = editLang === "vi" ? joinBilingual(name, "") : joinBilingual("", name);
+  async function addCategory() {
+    const isVi = editLang === "vi";
+    const { value: name } = await Swal.fire({
+      title: isVi ? "Thêm nhóm bảng giá" : "Add Price Category",
+      input: "text",
+      inputLabel: isVi ? "Nhập tên nhóm dịch vụ mới:" : "Enter new category name:",
+      inputPlaceholder: isVi ? "VD: Chăm Sóc Móng Chân" : "e.g. Pedicure Spa",
+      showCancelButton: true,
+      confirmButtonText: isVi ? "Thêm nhóm" : "Add Category",
+      cancelButtonText: isVi ? "Hủy bỏ" : "Cancel",
+      confirmButtonColor: "#967840",
+      cancelButtonColor: "#857567",
+      reverseButtons: true,
+      background: "#FDFBF7",
+      color: "#2C2219",
+      backdrop: "rgba(20, 16, 12, 0.65)",
+      customClass: {
+        popup: "luxury-swal-popup",
+        title: "luxury-swal-title",
+        htmlContainer: "luxury-swal-text",
+        confirmButton: "luxury-swal-confirm-btn",
+        cancelButton: "luxury-swal-cancel-btn",
+        input: "luxury-swal-input",
+      },
+      inputValidator: (value) => {
+        if (!value || !value.trim()) {
+          return isVi ? "Vui lòng nhập tên nhóm dịch vụ!" : "Please enter a category name!";
+        }
+      },
+    });
+    if (!name || !name.trim()) return;
+    const catName = isVi ? joinBilingual(name.trim(), "") : joinBilingual("", name.trim());
     setCategories((prev) => [...prev, { category: catName, items: [], order: prev.length }]);
+    flash("success", "Đã thêm nhóm giá mới. Hãy lưu lại thay đổi sau khi hoàn tất.");
   }
 
-  function removeCategory(idx: number) {
+  async function removeCategory(idx: number) {
     const catTitle = t(categories[idx].category) || categories[idx].category;
-    if (!confirm(`Bạn có chắc muốn xóa nhóm giá "${catTitle}" và toàn bộ dịch vụ bên trong?`)) return;
+    const ok = await confirmAction({
+      title: "Xóa nhóm giá?",
+      text: `Bạn có chắc muốn xóa nhóm giá "${catTitle}" và toàn bộ dịch vụ bên trong?`,
+      confirmButtonText: "Xóa nhóm giá",
+    });
+    if (!ok) return;
     setCategories((prev) => prev.filter((_, i) => i !== idx));
+    flash("success", `Đã xóa nhóm giá "${catTitle}".`);
   }
 
   async function handleSave() {
@@ -125,10 +161,13 @@ export default function PriceListPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ categories: categories.map((c, i) => ({ ...c, order: i })) }),
       });
-      if (res.ok) flash("success", "Đã lưu bảng giá thành công!");
-      else flash("error", "Lỗi khi lưu bảng giá. Vui lòng thử lại!");
+      if (res.ok) {
+        flash("success", "Đã lưu bảng giá dịch vụ thành công!");
+      } else {
+        flash("error", "Không thể lưu bảng giá dịch vụ. Vui lòng kiểm tra lại thông tin.");
+      }
     } catch {
-      flash("error", "Lỗi kết nối mạng.");
+      flash("error", "Lỗi kết nối máy chủ hoặc mạng không ổn định. Vui lòng thử lại sau.");
     }
     setSaving(false);
   }

@@ -64,6 +64,7 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
   const { locale } = useLocale();
   const isEn = locale === "en";
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const [forcePreview, setForcePreview] = useState(false);
 
@@ -165,7 +166,9 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
   }, [isOpen, dontShowAgain]);
 
   function handleClose() {
-    setIsOpen(false);
+    if (isClosing) return;
+    setIsClosing(true);
+
     const signature = `${settings.popupLevel}_${settings.popupTitle?.trim()}_${(settings.popupContent || "").trim()}`;
     const dismissType = settings.popupDismissType || "daily";
 
@@ -176,10 +179,7 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
           "moc_announcement_dismissed",
           JSON.stringify({ signature, dismissedUntilNew: true, date: today })
         );
-        return;
-      }
-
-      if (dismissType === "until_change") {
+      } else if (dismissType === "until_change") {
         localStorage.setItem(
           "moc_announcement_dismissed",
           JSON.stringify({ signature, dismissedUntilNew: true, date: today })
@@ -196,6 +196,11 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
     } catch {
       // Fallback
     }
+
+    setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 280);
   }
 
   if (!isOpen || (!isEnabled && !forcePreview) || !title) return null;
@@ -212,14 +217,16 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
         inset: 0,
         zIndex: 100000,
         backgroundColor: "rgba(20, 16, 12, 0.65)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         padding: "20px 16px",
         overflowY: "auto",
-        animation: "modalBackdropFade 0.25s ease-out forwards",
+        animation: isClosing
+          ? "modalBackdropFadeOut 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+          : "modalBackdropFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       }}
     >
       <div
@@ -235,7 +242,9 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
           boxShadow: "0 20px 50px -10px rgba(26, 20, 14, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.9) inset",
           overflow: "hidden",
           margin: "auto",
-          animation: "modalCardSlide 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+          animation: isClosing
+            ? "modalCardClose 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+            : "modalCardSlideIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards",
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
           textRendering: "optimizeLegibility",
@@ -511,13 +520,21 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
       </div>
 
       <style>{`
-        @keyframes modalBackdropFade {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes modalBackdropFadeIn {
+          from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+          to { opacity: 1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
         }
-        @keyframes modalCardSlide {
-          from { opacity: 0; transform: translateY(16px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes modalBackdropFadeOut {
+          from { opacity: 1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+          to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+        }
+        @keyframes modalCardSlideIn {
+          from { opacity: 0; transform: scale(0.94) translateY(18px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes modalCardClose {
+          from { opacity: 1; transform: scale(1) translateY(0); }
+          to { opacity: 0; transform: scale(0.95) translateY(14px); }
         }
       `}</style>
     </div>

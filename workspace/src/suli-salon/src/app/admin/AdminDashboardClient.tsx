@@ -12,7 +12,7 @@ import {
   MdPeople,
 } from "react-icons/md";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
-import { Service, Category, Appointment, GalleryItem, CustomerData } from "@/lib/db";
+import { ServiceData, CategoryData, AppointmentData, GalleryItemData, CustomerData } from "@/lib/db";
 
 const STATUS_BADGE_STYLE: Record<string, { label: string; color: string; bg: string; border: string }> = {
   new: { label: "Mới", color: "#967840", bg: "rgba(194, 169, 121, 0.14)", border: "rgba(194, 169, 121, 0.35)" },
@@ -22,10 +22,10 @@ const STATUS_BADGE_STYLE: Record<string, { label: string; color: string; bg: str
 };
 
 interface AdminDashboardClientProps {
-  services: Service[];
-  cats: Category[];
-  appointments: Appointment[];
-  gallery: GalleryItem[];
+  services: ServiceData[];
+  cats: CategoryData[];
+  appointments: AppointmentData[];
+  gallery: GalleryItemData[];
   customers: CustomerData[];
 }
 

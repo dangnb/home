@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Swal from "sweetalert2";
+import { notifySuccess, notifyError } from "@/lib/confirmDialog";
 import styles from "../admin.module.css";
 import sStyles from "./settings.module.css";
 import { FormInput } from "@/components/Admin/FormComponents";
@@ -60,19 +60,9 @@ export default function SettingsPage() {
         localStorage.removeItem("moc_announcement_dismissed");
         sessionStorage.removeItem("moc_announcement_dismissed");
       } catch {}
-      Swal.fire({
-        title: "Thành công!",
-        text: "Đã lưu cấu hình hệ thống & làm mới hiển thị popup",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false
-      });
+      notifySuccess("Lưu cấu hình thành công!", "Đã cập nhật cấu hình hệ thống & làm mới hiển thị thông báo.");
     } else {
-      Swal.fire({
-        title: "Lỗi!",
-        text: "Đã xảy ra lỗi khi lưu cấu hình",
-        icon: "error"
-      });
+      notifyError("Không thể lưu cấu hình", "Đã xảy ra sự cố khi lưu cấu hình. Vui lòng thử lại sau.");
     }
   }
 
@@ -91,7 +81,7 @@ export default function SettingsPage() {
     { id: "map", label: "📍 Bản đồ", icon: "📍" },
     { id: "seo", label: "🔍 SEO", icon: "🔍" },
     { id: "footer", label: "📄 Footer", icon: "📄" },
-    { id: "slots", label: "🕐 Giờ xuất bến", icon: "🕐" },
+    { id: "slots", label: "🕐 Khung giờ hẹn", icon: "🕐" },
     { id: "banner", label: "🖼️ Banner", icon: "🖼️" },
   ] as const;
 
@@ -163,13 +153,10 @@ export default function SettingsPage() {
                         localStorage.removeItem("moc_announcement_dismissed");
                         sessionStorage.removeItem("moc_announcement_dismissed");
                       } catch {}
-                      Swal.fire({
-                        title: "Đã làm mới!",
-                        text: "Đã xóa trạng thái đã đóng popup trên trình duyệt này. Bạn có thể mở trang chủ để kiểm tra ngay.",
-                        icon: "success",
-                        timer: 2000,
-                        showConfirmButton: false,
-                      });
+                      notifySuccess(
+                        "Đã làm mới!",
+                        "Đã xóa trạng thái đã đóng popup trên trình duyệt này. Bạn có thể mở trang chủ để kiểm tra ngay."
+                      );
                     }}
                     style={{
                       display: "inline-flex",

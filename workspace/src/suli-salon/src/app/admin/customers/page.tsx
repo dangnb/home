@@ -22,6 +22,7 @@ import {
   MdStar,
   MdVisibility,
 } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface Customer {
   id: string;
@@ -215,7 +216,7 @@ export default function CustomersPage() {
   async function handleSaveCustomer(e: React.FormEvent) {
     e.preventDefault();
     if (!editingCustomer?.name?.trim() || !editingCustomer?.phone?.trim()) {
-      flash("error", "Vui lòng nhập họ tên và số điện thoại.");
+      flash("error", "Vui lòng nhập đầy đủ họ tên và số điện thoại khách hàng.");
       return;
     }
 
@@ -233,37 +234,40 @@ export default function CustomersPage() {
 
       const data = await res.json();
       if (res.ok) {
-        flash("success", isUpdating ? "Đã cập nhật thông tin khách hàng!" : "Đã thêm khách hàng mới thành công!");
+        flash("success", isUpdating ? "Đã cập nhật thông tin khách hàng thành công!" : "Đã thêm khách hàng mới thành công!");
         setEditModalOpen(false);
         fetchCustomers();
         if (detailCustomer && detailCustomer.id === editingCustomer.id) {
           setDetailCustomer(data.customer);
         }
       } else {
-        flash("error", data.error || "Không thể lưu thông tin.");
+        flash("error", data.error || "Không thể lưu hồ sơ khách hàng. Vui lòng kiểm tra lại thông tin.");
       }
     } catch {
-      flash("error", "Đã xảy ra lỗi khi lưu thông tin.");
+      flash("error", "Lỗi kết nối máy chủ hoặc mạng không ổn định khi lưu hồ sơ.");
     } finally {
       setIsSaving(false);
     }
   }
 
   async function handleDeleteCustomer(id: string, name: string) {
-    if (!confirm(`Bạn có chắc muốn xóa khách hàng "${name}" khỏi danh sách? Thao tác này không thể hoàn tác.`)) {
-      return;
-    }
+    const ok = await confirmAction({
+      title: "Xóa khách hàng?",
+      text: `Bạn có chắc muốn xóa khách hàng "${name}" khỏi danh sách? Thao tác này không thể hoàn tác.`,
+      confirmButtonText: "Xóa khách hàng",
+    });
+    if (!ok) return;
     try {
       const res = await fetch(`/api/customers/${id}`, { method: "DELETE" });
       if (res.ok) {
-        flash("success", `Đã xóa khách hàng "${name}".`);
+        flash("success", `Đã xóa hồ sơ khách hàng "${name}" thành công.`);
         setCustomers((prev) => prev.filter((c) => c.id !== id));
         if (detailCustomer?.id === id) setDetailCustomer(null);
       } else {
-        flash("error", "Không thể xóa khách hàng này.");
+        flash("error", "Không thể xóa hồ sơ khách hàng này. Khách hàng có thể đang có lịch hẹn liên kết.");
       }
     } catch {
-      flash("error", "Lỗi xảy ra khi xóa.");
+      flash("error", "Đã xảy ra sự cố khi xóa hồ sơ khách hàng. Vui lòng thử lại sau.");
     }
   }
 

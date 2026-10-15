@@ -15,6 +15,7 @@ import {
   MdDeleteOutline,
   MdSearch,
 } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 type AppointmentStatus = "new" | "confirmed" | "cancelled" | "completed";
 
@@ -63,27 +64,40 @@ export default function AppointmentsPage() {
   }
 
   async function updateStatus(id: string, status: AppointmentStatus) {
-    const res = await fetch(`/api/bookings/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    if (res.ok) {
-      setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
-      flash("success", "Đã cập nhật trạng thái lịch hẹn.");
-    } else {
-      flash("error", "Cập nhật thất bại. Vui lòng thử lại.");
+    try {
+      const res = await fetch(`/api/bookings/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (res.ok) {
+        setAppointments((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
+        flash("success", "Đã cập nhật trạng thái lịch hẹn thành công.");
+      } else {
+        flash("error", "Không thể cập nhật trạng thái lịch hẹn. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi cập nhật lịch hẹn.");
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Bạn có chắc chắn muốn xóa lịch hẹn này không? Thao tác này không thể hoàn tác.")) return;
-    const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setAppointments((prev) => prev.filter((a) => a.id !== id));
-      flash("success", "Đã xóa lịch hẹn thành công.");
-    } else {
-      flash("error", "Không thể xóa lịch hẹn.");
+    const ok = await confirmAction({
+      title: "Xóa lịch hẹn?",
+      text: "Bạn có chắc chắn muốn xóa lịch hẹn này không? Thao tác này không thể hoàn tác.",
+      confirmButtonText: "Xóa lịch hẹn",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/bookings/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setAppointments((prev) => prev.filter((a) => a.id !== id));
+        flash("success", "Đã xóa lịch hẹn thành công.");
+      } else {
+        flash("error", "Không thể xóa lịch hẹn. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa lịch hẹn.");
     }
   }
 

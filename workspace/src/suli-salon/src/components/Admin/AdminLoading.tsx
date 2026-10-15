@@ -1,6 +1,6 @@
 import styles from "./AdminLoading.module.css";
 
-type AdminLoadingVariant = "page" | "table" | "cards" | "form";
+type AdminLoadingVariant = "page" | "table" | "cards" | "grid" | "form";
 
 interface AdminLoadingProps {
   variant?: AdminLoadingVariant;
@@ -15,6 +15,8 @@ export default function AdminLoading({
   variant = "page",
   label = "Đang tải dữ liệu...",
 }: AdminLoadingProps) {
+  const normalizedVariant = variant === "grid" ? "cards" : variant;
+
   const content = {
     page: (
       <div className={styles.pageSkeleton} aria-hidden="true">
@@ -45,6 +47,11 @@ export default function AdminLoading({
         {[0, 1, 2, 3, 4, 5].map((item) => <Skeleton key={item} className={styles.card} />)}
       </div>
     ),
+    grid: (
+      <div className={styles.cardSkeleton} aria-hidden="true">
+        {[0, 1, 2, 3, 4, 5].map((item) => <Skeleton key={item} className={styles.card} />)}
+      </div>
+    ),
     form: (
       <div className={styles.formSkeleton} aria-hidden="true">
         <Skeleton className={styles.formTitle} />
@@ -62,7 +69,7 @@ export default function AdminLoading({
   }[variant];
 
   return (
-    <section className={`${styles.loading} ${styles[variant]}`} role="status" aria-live="polite" aria-label={label}>
+    <section className={`${styles.loading} ${styles[normalizedVariant] || ""}`} role="status" aria-live="polite" aria-label={label}>
       <div className={styles.loadingMessage}>
         <span className={styles.spinner} aria-hidden="true" />
         <span>{label}</span>

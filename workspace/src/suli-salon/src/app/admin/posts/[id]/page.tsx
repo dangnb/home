@@ -52,10 +52,10 @@ const CATEGORIES = [
 ];
 
 interface PostForm {
-  title: string;
+  title?: string;
   slug: string;
-  excerpt: string;
-  content: string;
+  excerpt?: string;
+  content?: string;
   thumbnail: string;
   categoryId: string;
   status: "published" | "draft";
@@ -117,7 +117,10 @@ export default function PostFormPage({
       })
       .then((data: Post) => {
         setForm({
+          title: data.title,
           slug: data.slug,
+          excerpt: data.excerpt,
+          content: data.content,
           thumbnail: data.thumbnail,
           categoryId: data.categoryId,
           status: data.status,
@@ -185,8 +188,8 @@ export default function PostFormPage({
         setTimeout(() => router.push("/admin/posts"), 1200);
       }
     } else {
-      const d = await res.json();
-      setMsg({ type: "error", text: d.error ?? "Có lỗi xảy ra!" });
+      const d = await res.json().catch(() => ({}));
+      setMsg({ type: "error", text: d.error ?? "Không thể lưu bài viết. Vui lòng kiểm tra lại thông tin và thử lại." });
     }
   }
 

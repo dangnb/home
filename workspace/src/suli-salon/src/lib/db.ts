@@ -105,6 +105,14 @@ export interface CustomerData {
   updatedAt: string;
 }
 
+// Backward-compatibility type aliases
+export type Service = ServiceData;
+export type Category = CategoryData;
+export type Appointment = AppointmentData;
+export type GalleryItem = GalleryItemData;
+export type TeamMember = TeamMemberData;
+export type Customer = CustomerData;
+
 export interface SiteSettings {
   siteName: string;
   tagline: string;

@@ -5,6 +5,7 @@ import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdAdd, MdCategory, MdEdit, MdDeleteOutline, MdArrowBack, MdLanguage } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface Category {
   id: string;
@@ -93,16 +94,30 @@ export default function CategoriesPage() {
       resetForm();
       fetch("/api/categories").then((r) => r.json()).then(setCats);
     } else {
-      const d = await res.json();
-      flash("error", d.error || "Có lỗi xảy ra khi lưu.");
+      const d = await res.json().catch(() => ({}));
+      flash("error", d.error || "Không thể lưu danh mục dịch vụ. Vui lòng kiểm tra lại thông tin.");
     }
   }
 
   async function handleDelete(idToDelete: string) {
-    if (!confirm("Bạn có chắc chắn muốn xóa danh mục này? Các dịch vụ thuộc danh mục có thể bị ảnh hưởng.")) return;
-    await fetch(`/api/categories/${idToDelete}`, { method: "DELETE" });
-    flash("success", "Đã xóa danh mục thành công!");
-    setCats((prev) => prev.filter((c) => c.id !== idToDelete));
+    const ok = await confirmAction({
+      title: "Xóa danh mục?",
+      text: "Bạn có chắc chắn muốn xóa danh mục này? Các dịch vụ thuộc danh mục có thể bị ảnh hưởng.",
+      confirmButtonText: "Xóa danh mục",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/categories/${idToDelete}`, { method: "DELETE" });
+      if (res.ok) {
+        flash("success", "Đã xóa danh mục dịch vụ thành công!");
+        setCats((prev) => prev.filter((c) => c.id !== idToDelete));
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể xóa danh mục này. Có thể danh mục đang chứa các dịch vụ liên kết.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa danh mục.");
+    }
   }
 
   function startEdit(cat: Category) {

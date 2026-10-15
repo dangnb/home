@@ -4,6 +4,7 @@ import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdAdd, MdCloudUpload, MdDeleteOutline, MdPhotoLibrary, MdClose } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface GalleryItem {
   id: string;
@@ -62,45 +63,64 @@ export default function GalleryPage() {
         setImage(data.url);
         flash("success", "Tải ảnh lên thành công!");
       } else {
-        flash("error", data.error || "Tải ảnh thất bại");
+        flash("error", data.error || "Không thể tải ảnh lên. Vui lòng thử lại với tệp ảnh hợp lệ.");
       }
     } catch {
-      flash("error", "Đã xảy ra lỗi trong quá trình tải ảnh");
+      flash("error", "Đã xảy ra sự cố trong quá trình tải ảnh. Vui lòng kiểm tra lại kết nối mạng.");
     } finally {
       setIsUploading(false);
     }
   }
 
   async function handleAdd() {
-    if (!image) return flash("error", "Vui lòng nhập URL ảnh hoặc tải tệp ảnh lên");
+    if (!image) return flash("error", "Vui lòng tải ảnh lên hoặc nhập đường dẫn hình ảnh.");
     const fullTitle = joinBilingual(titleVi, titleEn);
-    const res = await fetch("/api/gallery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: fullTitle || "Mẫu Móng Nghệ Thuật | Nail Art Design",
-        image,
-        category,
-      }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setItems((prev) => [...prev, data.item]);
-      setTitleVi("");
-      setTitleEn("");
-      setImage("");
-      setCategory("Gel Nails");
-      setShowAdd(false);
-      flash("success", "Đã thêm tác phẩm vào bộ sưu tập!");
+    try {
+      const res = await fetch("/api/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: fullTitle || "Mẫu Móng Nghệ Thuật | Nail Art Design",
+          image,
+          category,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setItems((prev) => [...prev, data.item]);
+        setTitleVi("");
+        setTitleEn("");
+        setImage("");
+        setCategory("Gel Nails");
+        setShowAdd(false);
+        flash("success", "Đã thêm tác phẩm vào bộ sưu tập!");
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể thêm tác phẩm vào bộ sưu tập. Vui lòng thử lại.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi thêm tác phẩm.");
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Bạn có chắc muốn xóa ảnh này khỏi bộ sưu tập?")) return;
-    const res = await fetch(`/api/gallery?id=${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setItems((prev) => prev.filter((i) => i.id !== id));
-      flash("success", "Đã xóa ảnh thành công!");
+    const ok = await confirmAction({
+      title: "Xóa tác phẩm?",
+      text: "Bạn có chắc muốn xóa ảnh này khỏi bộ sưu tập?",
+      confirmButtonText: "Xóa ảnh",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/gallery?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setItems((prev) => prev.filter((i) => i.id !== id));
+        flash("success", "Đã xóa ảnh khỏi bộ sưu tập thành công!");
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể xóa ảnh. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa ảnh.");
     }
   }
 

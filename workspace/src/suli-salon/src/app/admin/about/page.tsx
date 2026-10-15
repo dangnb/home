@@ -164,10 +164,10 @@ export default function AdminAboutContentPage() {
         setSettings((s) => ({ ...s, aboutHeadline: fullHeadline, aboutSubheadline: fullSubheadline }));
         flash("success", "Đã lưu nội dung và bộ ảnh trang giới thiệu thành công!");
       } else {
-        flash("error", "Lỗi khi lưu thiết lập trang giới thiệu.");
+        flash("error", "Không thể lưu thiết lập trang giới thiệu. Vui lòng thử lại sau.");
       }
     } catch {
-      flash("error", "Lỗi kết nối máy chủ khi lưu.");
+      flash("error", "Lỗi kết nối máy chủ hoặc mạng không ổn định. Vui lòng thử lại sau.");
     } finally {
       setIsSaving(false);
     }
@@ -729,7 +729,8 @@ export default function AdminAboutContentPage() {
                   </button>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       )}

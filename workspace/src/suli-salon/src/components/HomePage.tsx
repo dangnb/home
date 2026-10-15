@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { ServiceData, GalleryItemData, SiteSettings } from "@/lib/db";
 import { getServiceImageFallback } from "@/lib/service-images";
@@ -67,7 +67,7 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
 
     async function handleSubmit() {
         if (!formData.name || !formData.phone || !formData.date || !formData.time || !formData.serviceName) {
-            setErrorMsg(isEn ? "Please fill in all required fields." : "Vui lòng điền đầy đủ các trường bắt buộc.");
+            setErrorMsg(isEn ? "Please fill in all required fields." : "Vui lòng điền đầy đủ các thông tin bắt buộc.");
             return;
         }
         setStatus("loading");
@@ -88,10 +88,10 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
             if (!res.ok) throw new Error("Failed to book");
             setStatus("success");
             setFormData({ name: "", phone: "", date: "", time: "", serviceName: "", notes: "" });
-            setTimeout(() => { setOpen(false); setStatus("idle"); }, 3000);
+            setTimeout(() => { setOpen(false); setStatus("idle"); }, 3500);
         } catch {
             setStatus("error");
-            setErrorMsg(dictionary.common.error);
+            setErrorMsg(isEn ? "An error occurred while sending your request. Please try again or contact us directly." : "Đã xảy ra sự cố khi gửi yêu cầu. Quý khách vui lòng thử lại hoặc gọi hotline trực tiếp.");
         }
     }
 
@@ -123,12 +123,20 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
             </button>
 
             {/* Overlay */}
-            {open && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
-                    onClick={() => setOpen(false)}
-                />
-            )}
+            <div
+                style={{
+                    position: "fixed",
+                    inset: 0,
+                    zIndex: 45,
+                    backgroundColor: "rgba(16, 12, 9, 0.45)",
+                    backdropFilter: "blur(6px)",
+                    WebkitBackdropFilter: "blur(6px)",
+                    opacity: open ? 1 : 0,
+                    pointerEvents: open ? "auto" : "none",
+                    transition: "opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.42s cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+                onClick={() => setOpen(false)}
+            />
 
             {/* Panel */}
             <div
@@ -144,9 +152,9 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                     width: "min(400px, 100vw)",
                     zIndex: 50,
                     transform: open ? "translateX(0)" : "translateX(100%)",
-                    transition: "transform .45s cubic-bezier(.16,1,.3,1)",
+                    transition: "transform 0.42s cubic-bezier(0.16, 1, 0.3, 1)",
                     background: "#FDFBF7",
-                    boxShadow: "-8px 0 40px rgba(0,0,0,.15)",
+                    boxShadow: open ? "-12px 0 45px rgba(20, 15, 10, 0.22)" : "none",
                     display: "flex",
                     flexDirection: "column",
                 }}
@@ -185,10 +193,10 @@ function SlideOutBooking({ services, settings }: { services: ServiceData[]; sett
                                 </svg>
                             </div>
                             <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, margin: "0 0 8px" }}>
-                                {isEn ? "Request Sent!" : "Đã gửi yêu cầu!"}
+                                {isEn ? "Appointment Request Received!" : "Đã gửi yêu cầu đặt lịch!"}
                             </h3>
                             <p style={{ fontFamily: "Montserrat,sans-serif", fontSize: 14 }}>
-                                {isEn ? "We will contact you shortly to confirm your appointment." : "Chúng tôi sẽ sớm liên hệ để xác nhận lịch hẹn của bạn."}
+                                {isEn ? "Thank you! Mộc Salon will contact you shortly to confirm your appointment." : "Cảm ơn quý khách! Đội ngũ Mộc Salon sẽ liên hệ sớm nhất để xác nhận lịch hẹn."}
                             </p>
                         </div>
                     ) : (
@@ -721,6 +729,15 @@ function ServiceDetailModal({
     const { locale } = useLocale();
     const isEn = locale === "en";
     const modalRef = useRef<HTMLDivElement>(null);
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = useCallback(() => {
+        if (isClosing) return;
+        setIsClosing(true);
+        setTimeout(() => {
+            onClose();
+        }, 280);
+    }, [isClosing, onClose]);
 
     const title = getLocalizedText(service.name, locale);
     const description = getLocalizedText(service.description, locale);
@@ -732,7 +749,7 @@ function ServiceDetailModal({
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
+            if (e.key === "Escape") handleClose();
         };
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
@@ -741,12 +758,12 @@ function ServiceDetailModal({
             document.body.style.overflow = prevOverflow;
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [onClose]);
+    }, [handleClose]);
 
     return (
         <div
             className="service-detail-modal-overlay"
-            onClick={onClose}
+            onClick={handleClose}
             role="dialog"
             aria-modal="true"
             aria-labelledby="service-modal-title"
@@ -762,7 +779,9 @@ function ServiceDetailModal({
                 justifyContent: "center",
                 padding: "20px 16px",
                 overflowY: "auto",
-                animation: "serviceModalBackdropFade 0.3s ease-out forwards",
+                animation: isClosing
+                    ? "serviceModalBackdropFadeOut 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                    : "serviceModalBackdropFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             <div
@@ -782,7 +801,9 @@ function ServiceDetailModal({
                     gridTemplateColumns: "1fr 1.18fr",
                     maxHeight: "min(90vh, 760px)",
                     margin: "auto",
-                    animation: "serviceModalCardSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    animation: isClosing
+                        ? "serviceModalCardClose 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "serviceModalCardSlideIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 {/* Top Subtle Accent Line */}
@@ -801,7 +822,7 @@ function ServiceDetailModal({
                 {/* Minimalist Close Button */}
                 <button
                     type="button"
-                    onClick={onClose}
+                    onClick={handleClose}
                     aria-label={isEn ? "Close modal" : "Đóng cửa sổ"}
                     style={{
                         position: "absolute",
@@ -1302,13 +1323,21 @@ function ServiceDetailModal({
             </div>
 
             <style>{`
-                @keyframes serviceModalBackdropFade {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                @keyframes serviceModalBackdropFadeIn {
+                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                    to { opacity: 1; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
                 }
-                @keyframes serviceModalCardSlide {
-                    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+                @keyframes serviceModalBackdropFadeOut {
+                    from { opacity: 1; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                }
+                @keyframes serviceModalCardSlideIn {
+                    from { opacity: 0; transform: translateY(22px) scale(0.95); }
                     to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                @keyframes serviceModalCardClose {
+                    from { opacity: 1; transform: translateY(0) scale(1); }
+                    to { opacity: 0; transform: translateY(16px) scale(0.96); }
                 }
             `}</style>
         </div>
@@ -1321,9 +1350,18 @@ function ServiceDetailModal({
 function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
     const { locale } = useLocale();
     const isEn = locale === "en";
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = useCallback(() => {
+        if (isClosing) return;
+        setIsClosing(true);
+        setTimeout(() => {
+            onClose();
+        }, 260);
+    }, [isClosing, onClose]);
 
     useEffect(() => {
-        const fn = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+        const fn = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         window.addEventListener("keydown", fn);
@@ -1331,14 +1369,14 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
             window.removeEventListener("keydown", fn);
             document.body.style.overflow = prevOverflow;
         };
-    }, [onClose]);
+    }, [handleClose]);
 
     const title = getLocalizedText(img.title, locale);
     const category = getLocalizedText(img.category, locale);
 
     return (
         <div
-            onClick={onClose}
+            onClick={handleClose}
             className="gallery-lightbox"
             role="dialog"
             aria-modal="true"
@@ -1354,13 +1392,15 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "24px 16px",
-                animation: "lightboxBackdropFade 0.25s ease-out forwards",
+                animation: isClosing
+                    ? "lightboxBackdropFadeOut 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                    : "lightboxBackdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             {/* Minimalist Floating Close Button */}
             <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 aria-label={isEn ? "Close" : "Đóng"}
                 style={{
                     position: "fixed",
@@ -1406,7 +1446,9 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
                     alignItems: "center",
                     maxWidth: "min(94vw, 880px)",
                     maxHeight: "90vh",
-                    animation: "lightboxCardSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    animation: isClosing
+                        ? "lightboxCardClose 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "lightboxCardOpen 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 <div
@@ -1512,13 +1554,21 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
             </div>
 
             <style>{`
-                @keyframes lightboxBackdropFade {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                @keyframes lightboxBackdropFadeIn {
+                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                    to { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
                 }
-                @keyframes lightboxCardSlide {
-                    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+                @keyframes lightboxBackdropFadeOut {
+                    from { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                }
+                @keyframes lightboxCardOpen {
+                    from { opacity: 0; transform: scale(0.93) translateY(14px); }
                     to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                @keyframes lightboxCardClose {
+                    from { opacity: 1; transform: scale(1) translateY(0); }
+                    to { opacity: 0; transform: scale(0.94) translateY(12px); }
                 }
             `}</style>
         </div>

@@ -160,14 +160,14 @@ export default function ServiceFormPage({ params }: { params: Promise<{ slug: st
       });
 
       if (res.ok) {
-        setMsg({ type: "success", text: "Đã lưu dịch vụ thành công!" });
+        setMsg({ type: "success", text: isNew ? "Đã thêm dịch vụ mới thành công!" : "Đã cập nhật dịch vụ thành công!" });
         if (isNew) setTimeout(() => router.push("/admin/services"), 1200);
       } else {
-        const data = await res.json();
-        setMsg({ type: "error", text: data.error || "Có lỗi xảy ra khi lưu." });
+        const data = await res.json().catch(() => ({}));
+        setMsg({ type: "error", text: data.error || "Không thể lưu thông tin dịch vụ. Vui lòng kiểm tra lại các trường dữ liệu." });
       }
     } catch {
-      setMsg({ type: "error", text: "Lỗi kết nối mạng khi lưu." });
+      setMsg({ type: "error", text: "Lỗi kết nối máy chủ hoặc mạng không ổn định. Vui lòng thử lại sau." });
     }
     setSaving(false);
   }

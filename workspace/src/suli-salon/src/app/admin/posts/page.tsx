@@ -14,6 +14,7 @@ import {
   MdAdd,
   MdSearch,
 } from "react-icons/md";
+import { confirmAction } from "@/lib/confirmDialog";
 
 interface Post {
   id: string;
@@ -49,6 +50,7 @@ export default function PostsListPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [msg, setMsg] = useState({ type: "", text: "" });
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
@@ -62,12 +64,30 @@ export default function PostsListPage() {
       .finally(() => setIsInitialLoading(false));
   }, []);
 
+  function flash(type: string, text: string) {
+    setMsg({ type, text });
+    setTimeout(() => setMsg({ type: "", text: "" }), 3500);
+  }
+
   async function handleDelete(id: string, title: string) {
     const displayTitle = t(title) || title;
-    if (!confirm(`Bạn có chắc muốn xóa bài viết "${displayTitle}" không? Thao tác này không thể hoàn tác.`)) return;
-    const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setPosts((prev) => prev.filter((p) => p.id !== id));
+    const ok = await confirmAction({
+      title: "Xóa bài viết?",
+      text: `Bạn có chắc muốn xóa bài viết "${displayTitle}" không? Thao tác này không thể hoàn tác.`,
+      confirmButtonText: "Xóa bài viết",
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        setPosts((prev) => prev.filter((p) => p.id !== id));
+        flash("success", `Đã xóa bài viết "${displayTitle}" thành công.`);
+      } else {
+        const d = await res.json().catch(() => ({}));
+        flash("error", d.error || "Không thể xóa bài viết này. Vui lòng thử lại sau.");
+      }
+    } catch {
+      flash("error", "Lỗi kết nối máy chủ khi xóa bài viết.");
     }
   }
 
@@ -96,6 +116,12 @@ export default function PostsListPage() {
           </Link>
         </div>
       </div>
+
+      {msg.text && (
+        <p className={msg.type === "error" ? styles.alertError : styles.alertSuccess} style={{ marginBottom: "1.2rem" }}>
+          {msg.text}
+        </p>
+      )}
 
       {/* Stats */}
       <div className={styles.statsGrid} style={{ marginBottom: "1.8rem" }}>

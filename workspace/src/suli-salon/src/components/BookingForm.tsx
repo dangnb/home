@@ -13,10 +13,12 @@ interface BookingFormProps {
 }
 
 const DEFAULT_SLOTS = [
-  "17:00 – Chuyến chiều",
-  "17:30 – Chuyến chiều tối",
-  "19:00 – Chuyến tối",
-  "19:30 – Chuyến tối muộn",
+  "09:00 – Buổi sáng",
+  "10:30 – Buổi sáng",
+  "13:30 – Buổi chiều",
+  "15:00 – Buổi chiều",
+  "16:30 – Chiều muộn",
+  "18:00 – Buổi tối",
 ];
 
 export default function BookingForm({
@@ -58,22 +60,39 @@ export default function BookingForm({
       });
       const data = await res.json();
       if (!res.ok) {
-        setErrorMsg(data.error ?? "Có lỗi xảy ra, vui lòng thử lại.");
+        setErrorMsg(data.error ?? "Có lỗi xảy ra khi gửi yêu cầu. Quý khách vui lòng thử lại.");
         setStatus("error");
       } else {
         setStatus("success");
         Swal.fire({
           title: "Đặt lịch thành công!",
-          text: `Cảm ơn ${form.customerName}! Chúng tôi đã nhận được yêu cầu đặt lịch của bạn. Nhân viên Mộc Salon sẽ liên hệ xác nhận qua số ${form.phone} trong vòng 30 phút.`,
+          text: `Cảm ơn quý khách ${form.customerName}! Mộc Salon đã tiếp nhận yêu cầu đặt hẹn. Chuyên viên sẽ liên hệ xác nhận qua số ${form.phone} trong vòng 30 phút.`,
           icon: "success",
-          confirmButtonText: "Đóng",
-          confirmButtonColor: "#C2A979",
+          confirmButtonText: "Đã hiểu",
+          confirmButtonColor: "#967840",
+          background: "#FDFBF7",
+          color: "#2C2219",
+          backdrop: "rgba(20, 16, 12, 0.65)",
+          customClass: {
+            popup: "luxury-swal-popup",
+            title: "luxury-swal-title",
+            htmlContainer: "luxury-swal-text",
+            confirmButton: "luxury-swal-confirm-btn",
+          },
+          showClass: {
+            popup: "swal2-show luxury-swal-animate-in",
+            backdrop: "swal2-backdrop-show",
+          },
+          hideClass: {
+            popup: "swal2-hide luxury-swal-animate-out",
+            backdrop: "swal2-backdrop-hide",
+          },
         });
         setForm({ customerName: "", phone: "", email: "", date: "", time: TIME_SLOTS[0], guests: 2, note: "" });
         setTimeout(() => setStatus("idle"), 2000);
       }
     } catch {
-      setErrorMsg("Không thể kết nối máy chủ. Vui lòng thử lại.");
+      setErrorMsg("Không thể kết nối đến máy chủ. Quý khách vui lòng kiểm tra kết nối mạng và thử lại.");
       setStatus("error");
     }
   }
@@ -82,8 +101,8 @@ export default function BookingForm({
     <form onSubmit={handleSubmit} className={`${styles.form} ${standalone ? styles.standalone : ""}`}>
       {standalone && (
         <div className={styles.formHeader}>
-          <h2 className={styles.formTitle}>Đặt Lịch Du Thuyền</h2>
-          <p className={styles.formSubtitle}>Điền thông tin bên dưới — nhân viên sẽ xác nhận trong 30 phút</p>
+          <h2 className={styles.formTitle}>Đặt Lịch Hẹn Làm Móng</h2>
+          <p className={styles.formSubtitle}>Điền thông tin bên dưới — chuyên viên Mộc Salon sẽ liên hệ xác nhận trong 30 phút</p>
         </div>
       )}
 
@@ -161,7 +180,7 @@ export default function BookingForm({
         </div>
         <div className={styles.field}>
           <label className={styles.label}>
-            Chuyến / Giờ khởi hành <span className={styles.required}>*</span>
+            Khung giờ hẹn <span className={styles.required}>*</span>
           </label>
           <select
             className={styles.input}
@@ -179,7 +198,7 @@ export default function BookingForm({
       {/* Row 4: Số người */}
       <div className={styles.field}>
         <label className={styles.label}>
-          Số người <span className={styles.required}>*</span>
+          Số lượng khách <span className={styles.required}>*</span>
         </label>
         <div className={styles.guestCounter}>
           <button

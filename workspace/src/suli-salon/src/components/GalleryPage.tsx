@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DEFAULT_GALLERY_ITEMS, type GalleryItemData } from "@/lib/db";
 import { useLocale } from "@/components/LocaleProvider";
@@ -34,9 +34,18 @@ function useReveal(activeCategory: string, gallery: GalleryItemData[]) {
 function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void }) {
     const { locale } = useLocale();
     const isEn = locale === "en";
+    const [isClosing, setIsClosing] = useState(false);
+
+    const handleClose = useCallback(() => {
+        if (isClosing) return;
+        setIsClosing(true);
+        setTimeout(() => {
+            onClose();
+        }, 260);
+    }, [isClosing, onClose]);
 
     useEffect(() => {
-        const fn = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+        const fn = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         window.addEventListener("keydown", fn);
@@ -44,14 +53,14 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
             window.removeEventListener("keydown", fn);
             document.body.style.overflow = prevOverflow;
         };
-    }, [onClose]);
+    }, [handleClose]);
 
     const title = getLocalizedText(img.title, locale);
     const category = getLocalizedText(img.category, locale);
 
     return (
         <div
-            onClick={onClose}
+            onClick={handleClose}
             className="gallery-lightbox"
             role="dialog"
             aria-modal="true"
@@ -67,13 +76,15 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                 alignItems: "center",
                 justifyContent: "center",
                 padding: "24px 16px",
-                animation: "lightboxBackdropFade 0.25s ease-out forwards",
+                animation: isClosing
+                    ? "lightboxBackdropFadeOut 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                    : "lightboxBackdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             {/* Minimalist Floating Close Button */}
             <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 aria-label={isEn ? "Close" : "Đóng"}
                 style={{
                     position: "fixed",
@@ -119,7 +130,9 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                     alignItems: "center",
                     maxWidth: "min(94vw, 880px)",
                     maxHeight: "90vh",
-                    animation: "lightboxCardSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    animation: isClosing
+                        ? "lightboxCardClose 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "lightboxCardOpen 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 <div
@@ -225,13 +238,21 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
             </div>
 
             <style>{`
-                @keyframes lightboxBackdropFade {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
+                @keyframes lightboxBackdropFadeIn {
+                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                    to { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
                 }
-                @keyframes lightboxCardSlide {
-                    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+                @keyframes lightboxBackdropFadeOut {
+                    from { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+                }
+                @keyframes lightboxCardOpen {
+                    from { opacity: 0; transform: scale(0.93) translateY(14px); }
                     to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                @keyframes lightboxCardClose {
+                    from { opacity: 1; transform: scale(1) translateY(0); }
+                    to { opacity: 0; transform: scale(0.94) translateY(12px); }
                 }
             `}</style>
         </div>
