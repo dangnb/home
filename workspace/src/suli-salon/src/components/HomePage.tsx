@@ -736,7 +736,7 @@ function ServiceDetailModal({
         setIsClosing(true);
         setTimeout(() => {
             onClose();
-        }, 280);
+        }, 220);
     }, [isClosing, onClose]);
 
     const title = getLocalizedText(service.name, locale);
@@ -780,8 +780,8 @@ function ServiceDetailModal({
                 padding: "20px 16px",
                 overflowY: "auto",
                 animation: isClosing
-                    ? "serviceModalBackdropFadeOut 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                    : "serviceModalBackdropFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    ? "luxuryModalFadeOut 0.22s ease-out forwards"
+                    : "luxuryModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             <div
@@ -801,9 +801,10 @@ function ServiceDetailModal({
                     gridTemplateColumns: "1fr 1.18fr",
                     maxHeight: "min(90vh, 760px)",
                     margin: "auto",
+                    willChange: "transform, opacity",
                     animation: isClosing
-                        ? "serviceModalCardClose 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                        : "serviceModalCardSlideIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        ? "luxuryModalCardSlideOut 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "luxuryModalCardSlideIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 {/* Top Subtle Accent Line */}
@@ -1321,25 +1322,6 @@ function ServiceDetailModal({
                     </div>
                 </div>
             </div>
-
-            <style>{`
-                @keyframes serviceModalBackdropFadeIn {
-                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                    to { opacity: 1; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-                }
-                @keyframes serviceModalBackdropFadeOut {
-                    from { opacity: 1; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                }
-                @keyframes serviceModalCardSlideIn {
-                    from { opacity: 0; transform: translateY(22px) scale(0.95); }
-                    to { opacity: 1; transform: translateY(0) scale(1); }
-                }
-                @keyframes serviceModalCardClose {
-                    from { opacity: 1; transform: translateY(0) scale(1); }
-                    to { opacity: 0; transform: translateY(16px) scale(0.96); }
-                }
-            `}</style>
         </div>
     );
 }
@@ -1357,7 +1339,7 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
         setIsClosing(true);
         setTimeout(() => {
             onClose();
-        }, 260);
+        }, 220);
     }, [isClosing, onClose]);
 
     useEffect(() => {
@@ -1393,8 +1375,8 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
                 justifyContent: "center",
                 padding: "24px 16px",
                 animation: isClosing
-                    ? "lightboxBackdropFadeOut 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                    : "lightboxBackdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    ? "luxuryModalFadeOut 0.22s ease-out forwards"
+                    : "luxuryModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             {/* Minimalist Floating Close Button */}
@@ -1446,9 +1428,10 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
                     alignItems: "center",
                     maxWidth: "min(94vw, 880px)",
                     maxHeight: "90vh",
+                    willChange: "transform, opacity",
                     animation: isClosing
-                        ? "lightboxCardClose 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                        : "lightboxCardOpen 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        ? "luxuryLightboxScaleOut 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "luxuryLightboxScaleIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 <div
@@ -1552,25 +1535,6 @@ function HomeGalleryLightbox({ img, onClose }: { img: GalleryItemData; onClose: 
                     )}
                 </div>
             </div>
-
-            <style>{`
-                @keyframes lightboxBackdropFadeIn {
-                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                    to { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-                }
-                @keyframes lightboxBackdropFadeOut {
-                    from { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                }
-                @keyframes lightboxCardOpen {
-                    from { opacity: 0; transform: scale(0.93) translateY(14px); }
-                    to { opacity: 1; transform: scale(1) translateY(0); }
-                }
-                @keyframes lightboxCardClose {
-                    from { opacity: 1; transform: scale(1) translateY(0); }
-                    to { opacity: 0; transform: scale(0.94) translateY(12px); }
-                }
-            `}</style>
         </div>
     );
 }

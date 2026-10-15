@@ -41,7 +41,7 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
         setIsClosing(true);
         setTimeout(() => {
             onClose();
-        }, 260);
+        }, 220);
     }, [isClosing, onClose]);
 
     useEffect(() => {
@@ -77,8 +77,8 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                 justifyContent: "center",
                 padding: "24px 16px",
                 animation: isClosing
-                    ? "lightboxBackdropFadeOut 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                    : "lightboxBackdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                    ? "luxuryModalFadeOut 0.22s ease-out forwards"
+                    : "luxuryModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
         >
             {/* Minimalist Floating Close Button */}
@@ -130,9 +130,10 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                     alignItems: "center",
                     maxWidth: "min(94vw, 880px)",
                     maxHeight: "90vh",
+                    willChange: "transform, opacity",
                     animation: isClosing
-                        ? "lightboxCardClose 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-                        : "lightboxCardOpen 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        ? "luxuryLightboxScaleOut 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+                        : "luxuryLightboxScaleIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
             >
                 <div
@@ -236,25 +237,6 @@ function Lightbox({ img, onClose }: { img: GalleryItemData; onClose: () => void 
                     )}
                 </div>
             </div>
-
-            <style>{`
-                @keyframes lightboxBackdropFadeIn {
-                    from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                    to { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-                }
-                @keyframes lightboxBackdropFadeOut {
-                    from { opacity: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-                    to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-                }
-                @keyframes lightboxCardOpen {
-                    from { opacity: 0; transform: scale(0.93) translateY(14px); }
-                    to { opacity: 1; transform: scale(1) translateY(0); }
-                }
-                @keyframes lightboxCardClose {
-                    from { opacity: 1; transform: scale(1) translateY(0); }
-                    to { opacity: 0; transform: scale(0.94) translateY(12px); }
-                }
-            `}</style>
         </div>
     );
 }

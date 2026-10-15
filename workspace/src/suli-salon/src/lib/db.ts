@@ -241,6 +241,10 @@ let cachedPosts: { data: PostData[]; time: number } | null = null;
 let cachedTeam: { data: TeamMemberData[]; time: number } | null = null;
 let cachedPriceLists: { data: PriceListData[]; time: number } | null = null;
 
+let inFlightSettings: Promise<SiteSettings> | null = null;
+let inFlightCategories: Promise<CategoryData[]> | null = null;
+let inFlightServices: Promise<ServiceData[]> | null = null;
+
 export function invalidateDbCache(): void {
   cachedSettings = null;
   cachedServices = null;
@@ -250,6 +254,9 @@ export function invalidateDbCache(): void {
   cachedTeam = null;
   cachedPriceLists = null;
   cachedCustomers = null;
+  inFlightSettings = null;
+  inFlightCategories = null;
+  inFlightServices = null;
 }
 
 // ── Categories ──────────────────────────────────────
@@ -258,21 +265,30 @@ export async function getCategories(): Promise<CategoryData[]> {
   if (cachedCategories && now - cachedCategories.time < CACHE_TTL_MS) {
     return cachedCategories.data;
   }
-  try {
-    const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
-    const result = cats.map(c => ({
-      id: c.id, label: c.label, slug: c.slug, description: c.description ?? "",
-    }));
-    cachedCategories = { data: result, time: now };
-    return result;
-  } catch (error) {
-    console.warn("Unable to fetch categories from DB:", error);
-    return cachedCategories?.data ?? [];
+  if (inFlightCategories) {
+    return inFlightCategories;
   }
+  inFlightCategories = (async () => {
+    try {
+      const cats = await prisma.category.findMany({ orderBy: { order: "asc" } });
+      const result = cats.map(c => ({
+        id: c.id, label: c.label, slug: c.slug, description: c.description ?? "",
+      }));
+      cachedCategories = { data: result, time: Date.now() };
+      return result;
+    } catch (error) {
+      console.warn("Unable to fetch categories from DB:", error);
+      return cachedCategories?.data ?? [];
+    }
+  })().finally(() => {
+    inFlightCategories = null;
+  });
+  return inFlightCategories;
 }
 
 export async function saveCategory(data: { label: string; slug: string; description?: string }) {
   cachedCategories = null;
+  inFlightCategories = null;
   return prisma.category.upsert({
     where: { slug: data.slug },
     create: data,
@@ -286,24 +302,32 @@ export async function getServices(): Promise<ServiceData[]> {
   if (cachedServices && now - cachedServices.time < CACHE_TTL_MS) {
     return cachedServices.data;
   }
-  try {
-    const services = await prisma.service.findMany({
-      where: { isActive: true },
-      orderBy: { order: "asc" },
-    });
-    const result = services.map(s => ({
-      id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
-      description: s.description ?? "", duration: s.duration,
-      price: s.price, promoPrice: s.promoPrice ?? "",
-      image: s.image ?? "", gallery: parseJSON(s.gallery, []),
-      isActive: s.isActive, order: s.order,
-    }));
-    cachedServices = { data: result, time: now };
-    return result;
-  } catch (error) {
-    console.warn("Unable to fetch services from DB:", error);
-    return cachedServices?.data ?? [];
+  if (inFlightServices) {
+    return inFlightServices;
   }
+  inFlightServices = (async () => {
+    try {
+      const services = await prisma.service.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      });
+      const result = services.map(s => ({
+        id: s.id, slug: s.slug, name: s.name, categoryId: s.categoryId,
+        description: s.description ?? "", duration: s.duration,
+        price: s.price, promoPrice: s.promoPrice ?? "",
+        image: s.image ?? "", gallery: parseJSON(s.gallery, []),
+        isActive: s.isActive, order: s.order,
+      }));
+      cachedServices = { data: result, time: Date.now() };
+      return result;
+    } catch (error) {
+      console.warn("Unable to fetch services from DB:", error);
+      return cachedServices?.data ?? [];
+    }
+  })().finally(() => {
+    inFlightServices = null;
+  });
+  return inFlightServices;
 }
 
 export async function getAllServices(): Promise<ServiceData[]> {
@@ -331,6 +355,7 @@ export async function getServiceBySlug(slug: string): Promise<ServiceData | null
 
 export async function createService(data: Omit<ServiceData, "id" | "isActive" | "order">): Promise<ServiceData> {
   cachedServices = null;
+  inFlightServices = null;
   const s = await prisma.service.create({
     data: {
       slug: data.slug, name: data.name, categoryId: data.categoryId,
@@ -351,6 +376,7 @@ export async function createService(data: Omit<ServiceData, "id" | "isActive" | 
 export async function updateService(slug: string, data: Partial<ServiceData>): Promise<boolean> {
   try {
     cachedServices = null;
+    inFlightServices = null;
     const updateData: Record<string, unknown> = {};
     if (data.name !== undefined) updateData.name = data.name;
     if (data.categoryId !== undefined) updateData.categoryId = data.categoryId;
@@ -371,6 +397,7 @@ export async function updateService(slug: string, data: Partial<ServiceData>): P
 export async function deleteService(slug: string): Promise<boolean> {
   try {
     cachedServices = null;
+    inFlightServices = null;
     await prisma.service.delete({ where: { slug } });
     return true;
   } catch { return false; }
@@ -1013,56 +1040,66 @@ export async function getSettings(): Promise<SiteSettings> {
   if (cachedSettings && now - cachedSettings.time < CACHE_TTL_MS) {
     return cachedSettings.data;
   }
-
-  let rows: { key: string; value: string }[] = [];
-
-  try {
-    rows = await prisma.setting.findMany();
-  } catch (error) {
-    console.warn("Unable to fetch settings from DB, using fallback:", error);
-    if (cachedSettings) return cachedSettings.data;
-    return DEFAULT_SETTINGS;
+  if (inFlightSettings) {
+    return inFlightSettings;
   }
 
-  const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
+  inFlightSettings = (async () => {
+    let rows: { key: string; value: string }[] = [];
 
-  const settings = { ...DEFAULT_SETTINGS };
-  for (const [key, value] of Object.entries(map)) {
-    if (key in settings) {
-      const lowerVal = typeof value === "string" ? value.toLowerCase() : "";
-      if (
-        lowerVal.includes("suli") ||
-        lowerVal.includes("duthuyen") ||
-        lowerVal.includes("songhan") ||
-        lowerVal.includes("2da tickets") ||
-        lowerVal.includes("sông thu") ||
-        lowerVal.includes("prague") ||
-        lowerVal.includes("náměstí") ||
-        lowerVal.includes("czech")
-      ) {
-        continue;
-      }
-      const defaultVal = (settings as Record<string, unknown>)[key];
-      if (typeof defaultVal === "boolean") {
-        (settings as Record<string, unknown>)[key] = value === "true" || value === "1" || (value as unknown) === true;
-      } else if (Array.isArray(defaultVal)) {
-        (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);
-      } else {
-        (settings as Record<string, unknown>)[key] = value;
+    try {
+      rows = await prisma.setting.findMany();
+    } catch (error) {
+      console.warn("Unable to fetch settings from DB, using fallback:", error);
+      if (cachedSettings) return cachedSettings.data;
+      return DEFAULT_SETTINGS;
+    }
+
+    const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
+
+    const settings = { ...DEFAULT_SETTINGS };
+    for (const [key, value] of Object.entries(map)) {
+      if (key in settings) {
+        const lowerVal = typeof value === "string" ? value.toLowerCase() : "";
+        if (
+          lowerVal.includes("suli") ||
+          lowerVal.includes("duthuyen") ||
+          lowerVal.includes("songhan") ||
+          lowerVal.includes("2da tickets") ||
+          lowerVal.includes("sông thu") ||
+          lowerVal.includes("prague") ||
+          lowerVal.includes("náměstí") ||
+          lowerVal.includes("czech")
+        ) {
+          continue;
+        }
+        const defaultVal = (settings as Record<string, unknown>)[key];
+        if (typeof defaultVal === "boolean") {
+          (settings as Record<string, unknown>)[key] = value === "true" || value === "1" || (value as unknown) === true;
+        } else if (Array.isArray(defaultVal)) {
+          (settings as Record<string, unknown>)[key] = parseJSON(value, defaultVal);
+        } else {
+          (settings as Record<string, unknown>)[key] = value;
+        }
       }
     }
-  }
 
-  if (!settings.phone) {
-    settings.phone = settings.hotline;
-  }
+    if (!settings.phone) {
+      settings.phone = settings.hotline;
+    }
 
-  cachedSettings = { data: settings, time: now };
-  return settings;
+    cachedSettings = { data: settings, time: Date.now() };
+    return settings;
+  })().finally(() => {
+    inFlightSettings = null;
+  });
+
+  return inFlightSettings;
 }
 
 export async function saveSettings(data: Partial<SiteSettings>): Promise<void> {
   cachedSettings = null;
+  inFlightSettings = null;
   for (const [key, value] of Object.entries(data)) {
     const strValue = typeof value === "string" ? value : JSON.stringify(value);
     await prisma.setting.upsert({

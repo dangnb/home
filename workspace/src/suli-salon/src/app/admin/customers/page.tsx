@@ -155,6 +155,27 @@ export default function CustomersPage() {
   const [editingCustomer, setEditingCustomer] = useState<Partial<Customer> | null>(null);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
+  const [isClosingDetail, setIsClosingDetail] = useState(false);
+  const [isClosingEdit, setIsClosingEdit] = useState(false);
+
+  function handleCloseDetail() {
+    if (isClosingDetail) return;
+    setIsClosingDetail(true);
+    setTimeout(() => {
+      setDetailCustomer(null);
+      setIsClosingDetail(false);
+    }, 220);
+  }
+
+  function handleCloseEdit() {
+    if (isClosingEdit) return;
+    setIsClosingEdit(true);
+    setTimeout(() => {
+      setEditModalOpen(false);
+      setIsClosingEdit(false);
+    }, 220);
+  }
+
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -235,7 +256,7 @@ export default function CustomersPage() {
       const data = await res.json();
       if (res.ok) {
         flash("success", isUpdating ? "Đã cập nhật thông tin khách hàng thành công!" : "Đã thêm khách hàng mới thành công!");
-        setEditModalOpen(false);
+        handleCloseEdit();
         fetchCustomers();
         if (detailCustomer && detailCustomer.id === editingCustomer.id) {
           setDetailCustomer(data.customer);
@@ -648,8 +669,14 @@ export default function CustomersPage() {
 
       {/* DETAIL MODAL (Customer Profile & Care History) */}
       {detailCustomer && (
-        <div className={cStyles.modalBackdrop} onClick={() => setDetailCustomer(null)}>
-          <div className={cStyles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`${cStyles.modalBackdrop} ${isClosingDetail ? cStyles.modalBackdropClosing : ""}`}
+          onClick={handleCloseDetail}
+        >
+          <div
+            className={`${cStyles.modalContent} ${isClosingDetail ? cStyles.modalContentClosing : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={cStyles.modalHeader}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div className={cStyles.customerAvatar} style={{ width: 46, height: 46, fontSize: 18 }}>
@@ -664,7 +691,7 @@ export default function CustomersPage() {
               </div>
               <button
                 type="button"
-                onClick={() => setDetailCustomer(null)}
+                onClick={handleCloseDetail}
                 style={{ background: "none", border: "none", cursor: "pointer", color: "#857567" }}
               >
                 <MdClose size={22} />
@@ -892,7 +919,7 @@ export default function CustomersPage() {
                 <MdEdit size={15} />
                 <span>Chỉnh sửa hồ sơ này</span>
               </button>
-              <button type="button" onClick={() => setDetailCustomer(null)} className={styles.btnSecondary}>
+              <button type="button" onClick={handleCloseDetail} className={styles.btnSecondary}>
                 Đóng
               </button>
             </div>
@@ -902,8 +929,14 @@ export default function CustomersPage() {
 
       {/* ADD / EDIT CUSTOMER MODAL */}
       {editModalOpen && editingCustomer && (
-        <div className={cStyles.modalBackdrop} onClick={() => setEditModalOpen(false)}>
-          <div className={cStyles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`${cStyles.modalBackdrop} ${isClosingEdit ? cStyles.modalBackdropClosing : ""}`}
+          onClick={handleCloseEdit}
+        >
+          <div
+            className={`${cStyles.modalContent} ${isClosingEdit ? cStyles.modalContentClosing : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <form onSubmit={handleSaveCustomer}>
               <div className={cStyles.modalHeader}>
                 <h3 style={{ margin: 0, fontSize: 17, color: "#231B15" }}>
@@ -911,7 +944,7 @@ export default function CustomersPage() {
                 </h3>
                 <button
                   type="button"
-                  onClick={() => setEditModalOpen(false)}
+                  onClick={handleCloseEdit}
                   style={{ background: "none", border: "none", cursor: "pointer", color: "#857567" }}
                 >
                   <MdClose size={22} />
@@ -1082,7 +1115,7 @@ export default function CustomersPage() {
               </div>
 
               <div className={cStyles.modalFooter}>
-                <button type="button" onClick={() => setEditModalOpen(false)} className={styles.btnSecondary}>
+                <button type="button" onClick={handleCloseEdit} className={styles.btnSecondary}>
                   Hủy bỏ
                 </button>
                 <button type="submit" disabled={isSaving} className={styles.btnPrimary}>

@@ -268,3 +268,72 @@ textarea:focus-visible {
   from { opacity: 1; transform: scale(1) translateY(0); }
   to { opacity: 0; transform: scale(0.95) translateY(10px); }
 }
+
+/* ─────────────────────────────────────────────────────────── */
+/* Global Luxury Modal Animations (60fps Hardware Accelerated) */
+/* ─────────────────────────────────────────────────────────── */
+@keyframes luxuryModalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes luxuryModalFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes luxuryModalCardSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(16px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.006) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes luxuryModalCardSlideOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+}
+
+@keyframes luxuryLightboxScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.91) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes luxuryLightboxScaleOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.93) translateY(8px);
+  }
+}

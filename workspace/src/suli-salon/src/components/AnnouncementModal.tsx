@@ -200,7 +200,7 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
-    }, 280);
+    }, 220);
   }
 
   if (!isOpen || (!isEnabled && !forcePreview) || !title) return null;
@@ -225,8 +225,8 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
         padding: "20px 16px",
         overflowY: "auto",
         animation: isClosing
-          ? "modalBackdropFadeOut 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-          : "modalBackdropFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+          ? "luxuryModalFadeOut 0.22s ease-out forwards"
+          : "luxuryModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       }}
     >
       <div
@@ -242,9 +242,10 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
           boxShadow: "0 20px 50px -10px rgba(26, 20, 14, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.9) inset",
           overflow: "hidden",
           margin: "auto",
+          willChange: "transform, opacity",
           animation: isClosing
-            ? "modalCardClose 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-            : "modalCardSlideIn 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+            ? "luxuryModalCardSlideOut 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+            : "luxuryModalCardSlideIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards",
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
           textRendering: "optimizeLegibility",
@@ -518,25 +519,6 @@ export default function AnnouncementModal({ settings }: { settings: SiteSettings
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes modalBackdropFadeIn {
-          from { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-          to { opacity: 1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        }
-        @keyframes modalBackdropFadeOut {
-          from { opacity: 1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-          to { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-        }
-        @keyframes modalCardSlideIn {
-          from { opacity: 0; transform: scale(0.94) translateY(18px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        @keyframes modalCardClose {
-          from { opacity: 1; transform: scale(1) translateY(0); }
-          to { opacity: 0; transform: scale(0.95) translateY(14px); }
-        }
-      `}</style>
     </div>
   );
 }
