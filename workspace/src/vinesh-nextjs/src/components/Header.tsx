@@ -5,11 +5,26 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import "./Header.css";
 
+interface CategoryService {
+  id: string;
+  title: string;
+  translations?: string | null;
+  linkUrl?: string | null;
+}
+
+interface CategoryItem {
+  id: string;
+  slug: string;
+  translations?: string | null;
+  children?: CategoryItem[];
+  services?: CategoryService[];
+}
+
 interface HeaderProps {
   settings?: Record<string, string>;
   lang: string;
   languages?: { code: string; name: string }[];
-  menuCategories?: any[];
+  menuCategories?: CategoryItem[];
 }
 
 export default function Header({ settings, lang, languages = [], menuCategories = [] }: HeaderProps) {
@@ -92,17 +107,19 @@ export default function Header({ settings, lang, languages = [], menuCategories 
           {/* Main Navbar Row */}
           <div className="main-nav-bar">
             <Link href={`/${lang}`} className="site-logo">
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div className="site-logo-icon">
-                  <span className="site-logo-icon-inner"><span style={{ color: "#8cc63f" }}>V</span></span>
-                </div>
-                <span className="site-logo-text">VINESH</span>
+              <div className="site-logo-icon">
+                <span className="site-logo-icon-inner"><span style={{ color: "#8cc63f" }}>W</span></span>
               </div>
+              <span className="site-logo-text">Web<span style={{ color: "#8cc63f" }}>Care</span></span>
             </Link>
 
             {/* Desktop Nav */}
             <ul className="main-menu">
-              <li><Link href={`/${lang}`} className="active">{fallback("Trang chủ", "Home")}</Link></li>
+              <li>
+                <Link href={`/${lang}`} className={pathname === `/${lang}` ? "active" : ""}>
+                  {fallback("Trang chủ", "Home")}
+                </Link>
+              </li>
 
               {menuCategories.map(cat => {
                 let displayTitle = cat.slug;
@@ -111,45 +128,46 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                     const t = JSON.parse(cat.translations);
                     if (t[lang]?.title) displayTitle = t[lang].title;
                     else if (t['vi']?.title) displayTitle = t['vi'].title;
-                  } catch (e) { }
+                  } catch (_e) { }
                 }
                 const hasChildren = (cat.children && cat.children.length > 0) || (cat.services && cat.services.length > 0);
+                const isActive = pathname.startsWith(`/${lang}/category/${cat.slug}`);
 
                 return (
                   <li key={cat.id}>
-                    <Link href={`/${lang}/category/${cat.slug}`}>
+                    <Link href={`/${lang}/category/${cat.slug}`} className={isActive ? "active" : ""}>
                       {displayTitle} {hasChildren && <i className="ph ph-caret-down"></i>}
                     </Link>
                     {hasChildren && (
-                      <ul className="sub-menu" style={{ position: "absolute", top: "100%", left: 0, backgroundColor: "#fff", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", listStyle: "none", padding: "10px", margin: 0, minWidth: "200px" }}>
-                        {cat.children && cat.children.map((child: any) => {
+                      <ul className="sub-menu">
+                        {cat.children && cat.children.map((child: CategoryItem) => {
                           let childTitle = child.slug;
                           if (child.translations) {
                             try {
                               const t2 = JSON.parse(child.translations);
                               if (t2[lang]?.title) childTitle = t2[lang].title;
                               else if (t2['vi']?.title) childTitle = t2['vi'].title;
-                            } catch (e) { }
+                            } catch (_e) { }
                           }
                           return (
-                            <li key={child.id} style={{ padding: "8px 12px" }}>
-                              <Link href={`/${lang}/category/${child.slug}`} style={{ color: "#333", textDecoration: "none", display: "block" }}>{childTitle}</Link>
+                            <li key={child.id}>
+                              <Link href={`/${lang}/category/${child.slug}`}>{childTitle}</Link>
                             </li>
-                          )
+                          );
                         })}
-                        {cat.services && cat.services.map((svc: any) => {
+                        {cat.services && cat.services.map((svc: CategoryService) => {
                           let svcTitle = svc.title;
                           if (svc.translations) {
                             try {
                               const t2 = JSON.parse(svc.translations);
                               if (t2[lang]?.title) svcTitle = t2[lang].title;
-                            } catch (e) { }
+                            } catch (_e) { }
                           }
                           return (
-                            <li key={`svc-${svc.id}`} style={{ padding: "8px 12px" }}>
-                              <Link href={svc.linkUrl || "#"} style={{ color: "#333", textDecoration: "none", display: "block" }}>{svcTitle}</Link>
+                            <li key={`svc-${svc.id}`}>
+                              <Link href={svc.linkUrl || "#"}>{svcTitle}</Link>
                             </li>
-                          )
+                          );
                         })}
                       </ul>
                     )}
@@ -158,10 +176,15 @@ export default function Header({ settings, lang, languages = [], menuCategories 
               })}
 
               {/* Dynamic menu ends here */}
+              <li>
+                <Link href={`/${lang}/lien-he`} className={pathname.includes("/lien-he") ? "active" : ""}>
+                  {fallback("Liên hệ", "Contact")}
+                </Link>
+              </li>
             </ul>
 
             {/* Mobile Nav Button */}
-            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(true)}>
+            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(true)} aria-label="Open Menu">
               <i className="ph ph-list"></i>
             </button>
           </div>
@@ -171,7 +194,13 @@ export default function Header({ settings, lang, languages = [], menuCategories 
       {/* MOBILE NAV OVERLAY */}
       <div className={`mobile-nav-overlay ${mobileMenuOpen ? "open" : ""}`}>
         <div className="mobile-nav-header">
-          <button className="mobile-nav-close" onClick={() => setMobileMenuOpen(false)}>
+          <Link href={`/${lang}`} className="site-logo" onClick={() => setMobileMenuOpen(false)}>
+            <div className="site-logo-icon">
+              <span className="site-logo-icon-inner"><span style={{ color: "#8cc63f" }}>W</span></span>
+            </div>
+            <span className="site-logo-text">Web<span style={{ color: "#8cc63f" }}>Care</span></span>
+          </Link>
+          <button className="mobile-nav-close" onClick={() => setMobileMenuOpen(false)} aria-label="Close Menu">
             <i className="ph ph-x"></i>
           </button>
         </div>
@@ -185,7 +214,7 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 const t = JSON.parse(cat.translations);
                 if (t[lang]?.title) displayTitle = t[lang].title;
                 else if (t['vi']?.title) displayTitle = t['vi'].title;
-              } catch (e) { }
+              } catch (_e) { }
             }
             const hasChildren = (cat.children && cat.children.length > 0) || (cat.services && cat.services.length > 0);
 
@@ -196,40 +225,45 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                 </Link>
                 {hasChildren && (
                   <ul style={{ listStyle: "none", paddingLeft: "15px", marginTop: "15px", display: "flex", flexDirection: "column", gap: "15px" }}>
-                    {cat.children && cat.children.map((child: any) => {
+                    {cat.children && cat.children.map((child: CategoryItem) => {
                       let childTitle = child.slug;
                       if (child.translations) {
                         try {
                           const t2 = JSON.parse(child.translations);
                           if (t2[lang]?.title) childTitle = t2[lang].title;
                           else if (t2['vi']?.title) childTitle = t2['vi'].title;
-                        } catch (e) { }
+                        } catch (_e) { }
                       }
                       return (
                         <li key={child.id}>
-                          <Link href={`/${lang}/category/${child.slug}`} style={{ color: "#eee", fontSize: "15px" }} onClick={() => setMobileMenuOpen(false)}>- {childTitle}</Link>
+                          <Link href={`/${lang}/category/${child.slug}`} style={{ color: "#cbd5e1", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "6px" }} onClick={() => setMobileMenuOpen(false)}>
+                            <span style={{ color: "var(--brand-green)" }}>•</span> {childTitle}
+                          </Link>
                         </li>
-                      )
+                      );
                     })}
-                    {cat.services && cat.services.map((svc: any) => {
+                    {cat.services && cat.services.map((svc: CategoryService) => {
                       let svcTitle = svc.title;
                       if (svc.translations) {
                         try {
                           const t2 = JSON.parse(svc.translations);
                           if (t2[lang]?.title) svcTitle = t2[lang].title;
-                        } catch (e) { }
+                        } catch (_e) { }
                       }
                       return (
                         <li key={`svc-${svc.id}`}>
-                          <Link href={svc.linkUrl || "#"} style={{ color: "#eee", fontSize: "15px" }} onClick={() => setMobileMenuOpen(false)}>- {svcTitle}</Link>
+                          <Link href={svc.linkUrl || "#"} style={{ color: "#cbd5e1", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "6px" }} onClick={() => setMobileMenuOpen(false)}>
+                            <span style={{ color: "var(--brand-green)" }}>•</span> {svcTitle}
+                          </Link>
                         </li>
-                      )
+                      );
                     })}
                   </ul>
                 )}
               </li>
             );
           })}
+          <li><Link href={`/${lang}/lien-he`} onClick={() => setMobileMenuOpen(false)}>{fallback("Liên hệ", "Contact")}</Link></li>
         </ul>
 
         <div className="mobile-tools">

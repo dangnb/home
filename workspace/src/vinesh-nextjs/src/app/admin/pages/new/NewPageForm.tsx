@@ -25,8 +25,8 @@ export default function NewPageForm() {
                 router.push("/admin/pages");
                 router.refresh();
             }
-        } catch (error: any) {
-            toastError(error.message || "Đã xảy ra lỗi");
+        } catch (error) {
+            toastError(error instanceof Error ? error.message : "Đã xảy ra lỗi");
             setLoading(false);
         }
     }

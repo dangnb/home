@@ -2,7 +2,7 @@
 
 import { confirmDelete, toastSuccess } from "@/lib/swalTheme";
 
-export default function DeleteButton({ action }: { action: () => Promise<any> | void }) {
+export default function DeleteButton({ action }: { action: () => Promise<unknown> | void }) {
     return (
         <button
             type="button"

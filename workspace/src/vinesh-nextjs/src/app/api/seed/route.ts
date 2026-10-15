@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 /**
  * API Seed — BỊ VÔ HIỆU HÓA
@@ -18,18 +19,16 @@ export async function GET() {
 
     // Development only
     try {
-        const { PrismaClient } = await import('@prisma/client');
-        const prisma = new PrismaClient();
 
         const c1 = await prisma.category.create({
             data: {
-                slug: 've-vinesh',
+                slug: 've-webcare',
                 order: 1,
                 isActive: true,
                 isMenu: true,
                 translations: JSON.stringify({
-                    'vi': { title: 'Về Vinesh' },
-                    'en': { title: 'About Vinesh' }
+                    'vi': { title: 'Về WebCare' },
+                    'en': { title: 'About WebCare' }
                 })
             }
         });
@@ -102,10 +101,9 @@ export async function GET() {
             }
         });
 
-        await prisma.$disconnect();
-
         return NextResponse.json({ success: true, message: "Đã tạo dữ liệu mẫu thành công!" });
-    } catch (e: any) {
-        return NextResponse.json({ success: false, error: e.message }, { status: 500 });
+    } catch (e) {
+        const errorMsg = e instanceof Error ? e.message : "Đã xảy ra lỗi";
+        return NextResponse.json({ success: false, error: errorMsg }, { status: 500 });
     }
 }

@@ -36,7 +36,7 @@ export default async function CategoriesPage() {
                                 try {
                                     const trans = JSON.parse(cat.translations || "{}");
                                     if (trans[vi]?.title) title = trans[vi].title;
-                                } catch (e) { }
+                                } catch (_e) { }
 
                                 return (
                                     <tr key={cat.id}>

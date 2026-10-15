@@ -17,15 +17,15 @@ export default async function AdminLayout({
         redirect("/login");
     }
 
-    const role = (session.user as any)?.role || "USER";
+    const role = (session.user as { role?: string })?.role || "USER";
 
     return (
         <div className="admin-wrapper">
             {/* Sidebar */}
             <aside className="admin-sidebar">
                 <div className="admin-sidebar-header">
-                    <i className="ph ph-shield-check" style={{ fontSize: "28px", color: "#38bdf8" }}></i>
-                    <h2>VINESH {role}</h2>
+                    <i className="ph ph-shield-check" style={{ fontSize: "28px", color: "var(--brand-green, #8cc63f)" }}></i>
+                    <h2>WEBCARE {role}</h2>
                 </div>
 
                 <nav className="admin-nav">

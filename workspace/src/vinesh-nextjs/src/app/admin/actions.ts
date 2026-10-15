@@ -2,19 +2,23 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import cloudinary from "@/lib/cloudinary";
 
-const uploadImageToCloudinary = (buffer: Buffer, folderName: string = "nextjs_uploads"): Promise<any> => {
+interface CloudinaryUploadResult {
+    secure_url: string;
+    [key: string]: unknown;
+}
+
+const uploadImageToCloudinary = (buffer: Buffer, folderName: string = "nextjs_uploads"): Promise<CloudinaryUploadResult> => {
     return new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
             { folder: folderName },
             (error, result) => {
                 if (error) return reject(error);
-                resolve(result);
+                resolve(result as CloudinaryUploadResult);
             }
         );
         uploadStream.end(buffer);
@@ -26,9 +30,21 @@ async function requireAdmin() {
     if (!session || !session.user) {
         throw new Error("Unauthorized: Bạn chưa đăng nhập");
     }
-    const role = (session.user as any).role;
+    const role = (session.user as { role?: string }).role;
     if (role !== "ADMIN" && role !== "EDITOR") {
         throw new Error("Forbidden: Bạn không có quyền thực hiện hành động này");
+    }
+    return session;
+}
+
+async function requireSuperAdmin() {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+        throw new Error("Unauthorized: Bạn chưa đăng nhập");
+    }
+    const role = (session.user as { role?: string }).role;
+    if (role !== "ADMIN") {
+        throw new Error("Forbidden: Chỉ Quản trị viên (ADMIN) mới có quyền thực hiện thao tác này");
     }
     return session;
 }
@@ -38,12 +54,12 @@ export async function updateSettings(formData: FormData) {
     const entries = Array.from(formData.entries());
 
     for (const [key, value] of entries) {
-        if (typeof value === "object" && value !== null && "size" in value && value.size > 0) {
+        if (typeof value === "object" && value !== null && "size" in value && (value as File).size > 0) {
             // Validate File Size (Max 5MB)
-            if (value.size > 5 * 1024 * 1024) throw new Error("File quá lớn, yêu cầu < 5MB");
+            const file = value as File;
+            if (file.size > 5 * 1024 * 1024) throw new Error("File quá lớn, yêu cầu < 5MB");
 
             // It's a file
-            const file = value as any;
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
 
@@ -85,7 +101,7 @@ export async function saveService(id: string | undefined, formData: FormData) {
     const order = orderStr ? parseInt(orderStr, 10) : 0;
 
     let imageUrl = formData.get("existingImageUrl") as string;
-    const imageFile = formData.get("imageFile") as any;
+    const imageFile = formData.get("imageFile") as File | null;
 
     if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
         if (imageFile.size > 5 * 1024 * 1024) {
@@ -101,8 +117,8 @@ export async function saveService(id: string | undefined, formData: FormData) {
         imageUrl = (formData.get("imageUrl") as string) || "/assets/service1.png";
     }
 
-    let categoryId = formData.get("categoryId") as string;
-    if (categoryId === "") categoryId = null as any;
+    const rawCategoryId = formData.get("categoryId") as string;
+    const categoryId = rawCategoryId && rawCategoryId.trim() !== "" ? rawCategoryId : null;
 
     const translations: Record<string, { title: string; description: string }> = {};
 
@@ -163,7 +179,11 @@ export async function deleteLanguage(code: string) {
 }
 
 export async function updateUserRole(userId: string, role: string) {
-    await requireAdmin();
+    const session = await requireSuperAdmin();
+    const currentUserId = (session.user as { id?: string }).id;
+    if (currentUserId === userId && role !== "ADMIN") {
+        throw new Error("Không thể tự hạ quyền của chính bạn");
+    }
     await prisma.user.update({
         where: { id: userId },
         data: { role },
@@ -172,7 +192,11 @@ export async function updateUserRole(userId: string, role: string) {
 }
 
 export async function deleteUser(userId: string) {
-    await requireAdmin();
+    const session = await requireSuperAdmin();
+    const currentUserId = (session.user as { id?: string }).id;
+    if (currentUserId === userId) {
+        throw new Error("Không thể tự xóa tài khoản của chính bạn");
+    }
     await prisma.user.delete({
         where: { id: userId },
     });
@@ -181,10 +205,7 @@ export async function deleteUser(userId: string) {
 
 export async function createUser(formData: FormData) {
     // Only full admin can create users
-    const session = await getServerSession(authOptions);
-    if (!session || (session.user as any).role !== "ADMIN") {
-        return { success: false, error: "Bạn phải là Quản trị viên (ADMIN) mới có quyền tạo User" };
-    }
+    await requireSuperAdmin();
 
     const email = (formData.get("email") as string)?.trim();
     const name = (formData.get("name") as string)?.trim();
@@ -205,18 +226,23 @@ export async function createUser(formData: FormData) {
 
         revalidatePath("/admin/users");
         return { success: true };
-    } catch (e: any) {
-        return { success: false, error: e.message };
+    } catch (e) {
+        const errorMsg = e instanceof Error ? e.message : "Lỗi tạo tài khoản";
+        return { success: false, error: errorMsg };
     }
 }
 
 export async function saveCategory(id: string | undefined, formData: FormData) {
     await requireAdmin();
-    const slug = formData.get("slug") as string;
+    const slug = (formData.get("slug") as string)?.trim();
     const orderStr = formData.get("order") as string;
     const order = orderStr ? parseInt(orderStr, 10) : 0;
     const isActiveStr = formData.get("isActive") as string;
     const isActive = isActiveStr === "true";
+    const isMenuStr = formData.get("isMenu") as string;
+    const isMenu = isMenuStr === "true";
+    const parentIdRaw = formData.get("parentId") as string;
+    const parentId = parentIdRaw && parentIdRaw.trim() !== "" ? parentIdRaw.trim() : null;
 
     const translations: Record<string, { title: string }> = {};
     const entries = Array.from(formData.entries());
@@ -232,14 +258,15 @@ export async function saveCategory(id: string | undefined, formData: FormData) {
     if (id && id !== "new") {
         await prisma.category.update({
             where: { id },
-            data: { slug, order, isActive, translations: parsedTranslations }
+            data: { slug, order, isActive, isMenu, parentId, translations: parsedTranslations }
         });
     } else {
         await prisma.category.create({
-            data: { slug, order, isActive, translations: parsedTranslations }
+            data: { slug, order, isActive, isMenu, parentId, translations: parsedTranslations }
         });
     }
     revalidatePath("/", "layout");
+    revalidatePath("/admin/categories");
     return { success: true };
 }
 
@@ -261,12 +288,13 @@ export async function saveSlide(id: string | undefined, formData: FormData) {
     await requireAdmin();
     const orderStr = formData.get("order") as string;
     const order = orderStr ? parseInt(orderStr, 10) : 0;
-    const isActive = formData.get("isActive") === "on";
+    const isActiveVal = formData.get("isActive");
+    const isActive = isActiveVal === "on" || isActiveVal === "true";
     const linkUrl = formData.get("linkUrl") as string;
 
     // Handle Secure File Upload
     let imageUrl = formData.get("existingImageUrl") as string;
-    const imageFile = formData.get("imageFile") as any;
+    const imageFile = formData.get("imageFile") as File | null;
 
     if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
         if (imageFile.size > 5 * 1024 * 1024) {
@@ -350,7 +378,7 @@ export async function savePage(id: string | undefined, formData: FormData) {
 
 export async function uploadEditorImage(formData: FormData) {
     await requireAdmin();
-    const imageFile = formData.get("file") as any;
+    const imageFile = formData.get("file") as File | null;
 
     if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
         if (imageFile.size > 5 * 1024 * 1024) {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateUserRole, deleteUser } from "../actions";
 import { useRouter } from "next/navigation";
-import { confirmDelete, toastSuccess } from "@/lib/swalTheme";
+import { confirmDelete, toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface User {
     id: string;
@@ -17,11 +17,16 @@ export default function UserTableAction({ users }: { users: User[] }) {
     const router = useRouter();
 
     const handleRoleChange = async (userId: string, newRole: string) => {
-        setLoadingId(userId);
-        await updateUserRole(userId, newRole);
-        setLoadingId(null);
-        toastSuccess("Cập nhật phân quyền thành công!");
-        router.refresh();
+        try {
+            setLoadingId(userId);
+            await updateUserRole(userId, newRole);
+            toastSuccess("Cập nhật phân quyền thành công!");
+            router.refresh();
+        } catch (e) {
+            toastError(e instanceof Error ? e.message : "Lỗi cập nhật phân quyền!");
+        } finally {
+            setLoadingId(null);
+        }
     };
 
     const handleDelete = async (userId: string) => {
@@ -31,11 +36,16 @@ export default function UserTableAction({ users }: { users: User[] }) {
         );
 
         if (result.isConfirmed) {
-            setLoadingId(userId);
-            await deleteUser(userId);
-            setLoadingId(null);
-            toastSuccess("Thành viên này đã bị trục xuất khỏi máy chủ.");
-            router.refresh();
+            try {
+                setLoadingId(userId);
+                await deleteUser(userId);
+                toastSuccess("Thành viên này đã bị trục xuất khỏi máy chủ.");
+                router.refresh();
+            } catch (e) {
+                toastError(e instanceof Error ? e.message : "Lỗi xóa người dùng!");
+            } finally {
+                setLoadingId(null);
+            }
         }
     };
 

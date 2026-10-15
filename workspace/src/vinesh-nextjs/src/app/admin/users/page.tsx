@@ -7,7 +7,7 @@ import CreateUserForm from "./CreateUserForm";
 
 export default async function UsersPage() {
     const session = await getServerSession(authOptions);
-    const role = (session?.user as any)?.role;
+    const role = (session?.user as { role?: string } | undefined)?.role;
 
     if (role !== "ADMIN") {
         redirect("/admin");

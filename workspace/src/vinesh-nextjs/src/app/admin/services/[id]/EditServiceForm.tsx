@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Service } from "@prisma/client";
+import Image from "next/image";
+import { Category, Service } from "@prisma/client";
 import FormInput from "@/components/ui/FormInput";
-import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
 import SubmitButton from "@/components/ui/SubmitButton";
 import RichTextEditor from "@/components/ui/RichTextEditor";
@@ -15,9 +15,9 @@ import { toastSuccess, toastError } from "@/lib/swalTheme";
 interface EditServiceFormProps {
     service: Service;
     languages: string[];
-    categories: any[];
-    translations: Record<string, any>;
-    action: (payload: FormData) => Promise<any>;
+    categories: Category[];
+    translations: Record<string, Record<string, string>>;
+    action: (payload: FormData) => Promise<{ success?: boolean; error?: string } | void>;
 }
 
 export default function EditServiceForm({ service, languages, categories, translations, action }: EditServiceFormProps) {
@@ -44,8 +44,8 @@ export default function EditServiceForm({ service, languages, categories, transl
                 router.push("/admin/services");
                 router.refresh();
             }
-        } catch (e: any) {
-            toastError(e.message || "Lưu thất bại!");
+        } catch (e) {
+            toastError(e instanceof Error ? e.message : "Lưu thất bại!");
         }
     };
 
@@ -55,7 +55,7 @@ export default function EditServiceForm({ service, languages, categories, transl
 
                 <div className="admin-form-group">
                     <label className="admin-label">Chuyên mục (Danh mục bài viết)</label>
-                    <select name="categoryId" className="admin-input" defaultValue={(service as any).categoryId || ""} required>
+                    <select name="categoryId" className="admin-input" defaultValue={service.categoryId || ""} required>
                         <option value="">-- Chọn danh mục --</option>
                         {categories.map(cat => (
                             <option key={cat.id} value={cat.id}>
@@ -69,7 +69,7 @@ export default function EditServiceForm({ service, languages, categories, transl
                     <label className="admin-label">Ảnh Dịch vụ / Bài viết</label>
                     {previewImage && (
                         <div style={{ marginBottom: "15px" }}>
-                            <img src={previewImage} alt="Current" style={{ width: "200px", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
+                            <Image src={previewImage} alt="Current" width={200} height={130} unoptimized style={{ width: "200px", height: "auto", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
                         </div>
                     )}
                     {service.imageUrl && <input type="hidden" name="existingImageUrl" value={service.imageUrl} />}

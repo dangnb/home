@@ -3,6 +3,7 @@ export const revalidate = 60;
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import FloatingContact from "@/components/ui/FloatingContact";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -12,16 +13,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   const title = lang === "vi" ? "Liên hệ" : "Contact";
   return {
-    title: `${title} | Vinesh`,
-    description: `Liên hệ với Vinesh ${lang.toUpperCase()}`,
+    title: `${title} | WebCare`,
+    description: `Liên hệ với WebCare ${lang.toUpperCase()}`,
   };
 }
 
 export async function generateStaticParams() {
-  const { PrismaClient } = await import('@prisma/client');
-  const prisma = new PrismaClient();
   const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
-  await prisma.$disconnect();
 
   const langs = activeLangs.length > 0 ? activeLangs.map(l => ({ lang: l.code })) : [{ lang: 'vi' }, { lang: 'en' }];
   return langs;
@@ -58,7 +56,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
 
   const address = settings.address || "Khu Công nghiệp VSIP, Thuận An, Bình Dương";
   const phone = settings.phone || "0984 929 693";
-  const email = settings.email || "info@vinesh.com.vn";
+  const email = settings.email || "info@webcare.vn";
 
   // Default map to a central location if not provided
   const mapIframe = settings.mapIframe || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.427618995574!2d106.70295191533423!3d10.855047292268482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528e1d5a7d5b1%3A0x6e9f9024f0e5b7b0!2sVSIP%20I!5e0!3m2!1sen!2svn!4v1622616854992!5m2!1sen!2svn";
@@ -135,6 +133,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
       </section>
 
       <Footer settings={settings} lang={lang} />
+      <FloatingContact phone={phone} lang={lang} />
     </main>
   );
 }

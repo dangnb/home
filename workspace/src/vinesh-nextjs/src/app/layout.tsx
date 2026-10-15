@@ -17,23 +17,23 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://home-theta-blue.vercel.app'),
   title: {
-    default: "Vinesh | Giải pháp An Toàn, Sức Khỏe & Môi Trường",
-    template: "%s | Vinesh"
+    default: "WebCare | Giải pháp Doanh nghiệp Toàn diện & Bền vững",
+    template: "%s | WebCare"
   },
-  description: "Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện hàng đầu.",
-  keywords: ["Vinesh", "Kiểm định", "Chứng nhận", "Huấn luyện an toàn", "Quan trắc môi trường", "HSE", "An toàn lao động"],
-  authors: [{ name: "Vinesh Team" }],
+  description: "Đồng hành cùng doanh nghiệp phát triển bền vững với các giải pháp tư vấn, dịch vụ kỹ thuật và hỗ trợ chuyên nghiệp hàng đầu.",
+  keywords: ["WebCare", "Giải pháp doanh nghiệp", "Dịch vụ kỹ thuật", "Tư vấn chuyên nghiệp", "Hỗ trợ 24/7"],
+  authors: [{ name: "WebCare Team" }],
   openGraph: {
-    title: "Vinesh | Giải pháp An Toàn, Sức Khỏe & Môi Trường",
-    description: "Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện an toàn hàng đầu.",
+    title: "WebCare | Giải pháp Doanh nghiệp Toàn diện & Bền vững",
+    description: "Đồng hành cùng doanh nghiệp phát triển bền vững với các giải pháp tư vấn, dịch vụ kỹ thuật và hỗ trợ chuyên nghiệp hàng đầu.",
     url: 'https://home-theta-blue.vercel.app',
-    siteName: 'Vinesh',
+    siteName: 'WebCare',
     images: [
       {
         url: '/assets/hero.png', // Sử dụng ảnh hero làm ảnh share mặc định
         width: 1200,
         height: 630,
-        alt: 'Vinesh Dashboard',
+        alt: 'WebCare Dashboard',
       },
     ],
     locale: 'vi_VN',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vinesh | Giải pháp An Toàn, Sức Khỏe & Môi Trường',
-    description: 'Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện an toàn hàng đầu.',
+    title: 'WebCare | Giải pháp Doanh nghiệp Toàn diện & Bền vững',
+    description: "Đồng hành cùng doanh nghiệp phát triển bền vững với các giải pháp tư vấn, dịch vụ kỹ thuật và hỗ trợ chuyên nghiệp hàng đầu.",
     images: ['/assets/hero.png'],
   },
   robots: {
@@ -73,10 +73,10 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className={inter.className}>
         <NextTopLoader
-          color="#3b82f6"
+          color="#8cc63f"
           height={2}
           showSpinner={false}
-          shadow="0 0 10px #3b82f6, 0 0 5px #3b82f6"
+          shadow="0 0 10px #8cc63f, 0 0 5px #8cc63f"
           speed={300}
           crawlSpeed={250}
         />

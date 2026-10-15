@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import Image from "next/image";
 import { deleteService } from "../actions";
 import DeleteButton from "./DeleteButton";
 import { Service } from "@prisma/client";
@@ -39,7 +40,7 @@ export default async function ServicesPage() {
                                             </span>
                                         </td>
                                         <td>
-                                            <img src={svc.imageUrl} alt={svc.title} style={{ width: "48px", height: "48px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e2e8f0" }} />
+                                            <Image src={svc.imageUrl} alt={svc.title} width={48} height={48} unoptimized style={{ width: "48px", height: "48px", objectFit: "cover", borderRadius: "8px", border: "1px solid #e2e8f0" }} />
                                         </td>
                                         <td>
                                             <strong style={{ display: "block", fontSize: "1rem" }}>{svc.title}</strong>

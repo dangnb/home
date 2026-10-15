@@ -24,7 +24,7 @@ export default async function EditCategoryPage({ params }: { params: Promise<{ i
                 <h1 className="admin-page-title" style={{ marginLeft: "15px" }}>Cập nhật Danh mục</h1>
             </div>
 
-            <CategoryForm languages={languages} category={category} />
+            <CategoryForm languages={languages} category={category} allCategories={allCategories} />
         </div>
     )
 }

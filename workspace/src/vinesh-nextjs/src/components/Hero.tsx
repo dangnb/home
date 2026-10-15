@@ -5,9 +5,22 @@ import Link from "next/link";
 import Image from "next/image";
 import "./Hero.css";
 
+interface SlideTranslation {
+  title?: string;
+  subtitle?: string;
+  desc?: string;
+}
+
+interface DbSlide {
+  id?: string;
+  imageUrl: string;
+  translations?: string | null;
+  linkUrl?: string | null;
+}
+
 interface HeroProps {
   settings?: Record<string, string>;
-  slides?: any[];
+  slides?: DbSlide[];
   lang: string;
 }
 
@@ -29,14 +42,14 @@ export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
 
   // Transform dynamic DB Slides or fallback to settings-based slides
   const slides = dbSlides && dbSlides.length > 0 ? dbSlides.map(slide => {
-    let t: Record<string, any> = {};
-    try { t = JSON.parse(slide.translations || "{}"); } catch (e) { }
+    let trans: Record<string, SlideTranslation> = {};
+    try { trans = JSON.parse(slide.translations || "{}"); } catch (_e) { }
 
     return {
       bgImage: slide.imageUrl,
-      title: t[lang]?.title || t['vi']?.title || "",
-      subtitle: t[lang]?.subtitle || t['vi']?.subtitle || "",
-      desc: t[lang]?.desc || t['vi']?.desc || "",
+      title: trans[lang]?.title || trans['vi']?.title || "",
+      subtitle: trans[lang]?.subtitle || trans['vi']?.subtitle || "",
+      desc: trans[lang]?.desc || trans['vi']?.desc || "",
       linkUrl: slide.linkUrl && slide.linkUrl !== "#" ? slide.linkUrl : `/${lang}#services`
     };
   }) : [
@@ -86,12 +99,16 @@ export default function Hero({ settings, slides: dbSlides, lang }: HeroProps) {
             />
           </div>
           <div className="container hero-slider-content">
-            <h2 className="hero-slider-subtitle">{slide.subtitle}</h2>
+            {slide.subtitle && <div className="hero-slider-badge">{slide.subtitle}</div>}
             <h1 className="hero-slider-title">{slide.title}</h1>
             <p className="hero-slider-desc">{slide.desc}</p>
             <div className="hero-slider-buttons">
-              <Link href={slide.linkUrl || `/${lang}#services`} className="btn btn-primary">{exploreText}</Link>
-              <Link href={`/${lang}/lien-he`} className="btn btn-outline">{contactText}</Link>
+              <Link href={slide.linkUrl || `/${lang}#services`} className="btn btn-primary">
+                {exploreText} <i className="ph ph-arrow-right"></i>
+              </Link>
+              <Link href={`/${lang}/lien-he`} className="btn btn-outline">
+                <i className="ph ph-chat-teardrop-dots"></i> {contactText}
+              </Link>
             </div>
           </div>
         </div>

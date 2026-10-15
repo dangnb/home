@@ -1,5 +1,5 @@
 {
-  "name": "vinesh-nextjs",
+  "name": "webcare-nextjs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,12 @@
     "lint": "eslint",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@phosphor-icons/web": "^2.1.2",
+    "@prisma/client": "^5.22.0",
     "aos": "^2.3.4",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.0",
@@ -25,7 +29,6 @@
     "sweetalert2": "^11.26.25"
   },
   "devDependencies": {
-    "@prisma/client": "^5.22.0",
     "@types/aos": "^3.0.8",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",

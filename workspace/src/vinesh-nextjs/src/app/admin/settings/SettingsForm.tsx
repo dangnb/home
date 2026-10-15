@@ -18,13 +18,13 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
     const [activeLang, setActiveLang] = useState(languages[0] || "vi");
     const [partnerLogosText, setPartnerLogosText] = useState(settings.partnerLogos || "");
 
-    let initialTestimonials = [];
+    let initialTestimonials: Record<string, string>[] = [];
     try {
         initialTestimonials = settings.testimonialsData ? JSON.parse(settings.testimonialsData) : [];
     } catch {
         initialTestimonials = [];
     }
-    const [testimonials, setTestimonials] = useState<any[]>(initialTestimonials);
+    const [testimonials, setTestimonials] = useState<Record<string, string>[]>(initialTestimonials);
 
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -54,7 +54,7 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                 const newText = currentText ? `${currentText}\n${urls.join('\n')}` : urls.join('\n');
                 setPartnerLogosText(newText);
             }
-        } catch (error) {
+        } catch (_error) {
             alert("Lỗi khi tải ảnh lên!");
         } finally {
             setIsUploading(false);
@@ -66,8 +66,8 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
         try {
             await action(formData);
             toastSuccess("Lưu cấu hình thành công!");
-        } catch (error: any) {
-            toastError(error.message || "Lỗi khi lưu cấu hình!");
+        } catch (error) {
+            toastError(error instanceof Error ? error.message : "Lỗi khi lưu cấu hình!");
         }
     };
 
@@ -256,7 +256,7 @@ export default function SettingsForm({ settings, languages, action }: SettingsFo
                             ))}
                         </div>
                     ))}
-                    {testimonials.length === 0 && <p style={{ color: "#64748b", fontStyle: "italic", textAlign: "center" }}>Chưa có đánh giá nào. Bấm "Thêm đánh giá" để bắt đầu.</p>}
+                    {testimonials.length === 0 && <p style={{ color: "#64748b", fontStyle: "italic", textAlign: "center" }}>Chưa có đánh giá nào. Bấm &quot;Thêm đánh giá&quot; để bắt đầu.</p>}
                 </div>
 
                 <div style={{ marginTop: "30px", display: "flex", justifyContent: "flex-end" }}>

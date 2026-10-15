@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { Slide } from "@prisma/client";
 import { saveSlide } from "../actions";
 import FormInput from "@/components/ui/FormInput";
 import FormTextarea from "@/components/ui/FormTextarea";
@@ -12,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface SlideFormProps {
-    slide?: any;
+    slide?: Slide | null;
     languages: string[];
 }
 
@@ -30,8 +32,8 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
                 router.push("/admin/slides");
                 router.refresh();
             }
-        } catch (e: any) {
-            toastError(e.message || "Lỗi lưu Slide!");
+        } catch (e) {
+            toastError(e instanceof Error ? e.message : "Lỗi lưu Slide!");
         }
     };
 
@@ -67,7 +69,7 @@ export default function SlideForm({ slide, languages }: SlideFormProps) {
                     <label className="admin-label">Ảnh Banner (Sẽ áp dụng chung cho tất cả ngôn ngữ)</label>
                     {previewImage && (
                         <div style={{ marginBottom: "15px" }}>
-                            <img src={previewImage} alt="Current" style={{ width: "200px", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
+                            <Image src={previewImage} alt="Current" width={200} height={100} unoptimized style={{ width: "200px", height: "auto", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
                         </div>
                     )}
                     {slide?.imageUrl && <input type="hidden" name="existingImageUrl" value={slide.imageUrl} />}

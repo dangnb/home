@@ -49,7 +49,7 @@ export default function ContactForm({ lang }: ContactFormProps) {
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch (_error) {
       setStatus("error");
     } finally {
       setIsSubmitting(false);

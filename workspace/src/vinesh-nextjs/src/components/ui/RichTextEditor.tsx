@@ -13,20 +13,22 @@ const ReactQuill = dynamic(
         const { default: ImageDropAndPaste } = await import("quill-image-drop-and-paste");
 
         // Register custom image blot to preserve inline styles (like float, display, margin, width, height)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const BaseImageFormat = Quill.import("formats/image") as any;
         class ImageFormat extends BaseImageFormat {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             static formats(domNode: any) {
-                return ["height", "width", "style"].reduce(function (formats: any, attribute: string) {
+                return ["height", "width", "style"].reduce(function (formats: Record<string, string | null>, attribute: string) {
                     if (domNode.hasAttribute(attribute)) {
                         formats[attribute] = domNode.getAttribute(attribute);
                     }
                     return formats;
                 }, {});
             }
-            format(name: string, value: any) {
+            format(name: string, value: unknown) {
                 if (["height", "width", "style"].indexOf(name) > -1) {
                     if (value) {
-                        this.domNode.setAttribute(name, value);
+                        this.domNode.setAttribute(name, String(value));
                     } else {
                         this.domNode.removeAttribute(name);
                     }
@@ -39,12 +41,13 @@ const ReactQuill = dynamic(
         Quill.register("modules/blotFormatter", BlotFormatter);
         Quill.register("modules/imageDropAndPaste", ImageDropAndPaste);
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ForwardedQuill = React.forwardRef((props, ref) => <RQ ref={ref as any} {...(props as any)} />);
         ForwardedQuill.displayName = "ForwardedQuill";
-        return ForwardedQuill as any;
+        return ForwardedQuill;
     },
     { ssr: false }
-) as any;
+);
 
 interface RichTextEditorProps {
     value: string;
@@ -54,8 +57,13 @@ interface RichTextEditorProps {
     name?: string;
 }
 
+interface QuillEditorInstance {
+    getSelection: (focus?: boolean) => { index: number } | null;
+    insertEmbed: (index: number, format: string, value: string) => void;
+}
+
 export default function RichTextEditor({ value, onChange, placeholder, label, name }: RichTextEditorProps) {
-    const quillRef = useRef<any>(null);
+    const quillRef = useRef<{ getEditor: () => QuillEditorInstance } | null>(null);
 
     const imageHandler = useCallback(() => {
         const input = document.createElement("input");
@@ -91,7 +99,7 @@ export default function RichTextEditor({ value, onChange, placeholder, label, na
         };
     }, []);
 
-    const imageDropHandler = useCallback((imageDataUrl: string, type: string, imageData: any) => {
+    const imageDropHandler = useCallback((_imageDataUrl: string, _type: string, imageData: { toFile: () => File | null }) => {
         const file = imageData.toFile();
         if (!file) return;
 

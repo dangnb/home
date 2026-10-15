@@ -63,7 +63,7 @@ Dự án sẽ khởi chạy tại [http://localhost:3000](http://localhost:3000)
 ## Project Structure (Cấu trúc thư mục)
 
 ```
-vinesh-nextjs/
+webcare-nextjs/
 ├── prisma/                 # Prisma schema & seed data
 │   ├── schema.prisma       # Database models
 │   └── seed.ts             # Dữ liệu mẫu (admin, settings, services)
@@ -130,7 +130,7 @@ Cách đơn giản nhất để deploy dự án là sử dụng [Vercel](https:/
 1. Đăng nhập vào [Vercel Dashboard](https://vercel.com/dashboard).
 2. Chọn project của bạn -> Chuyển sang tab **Settings** -> **Environment Variables**.
 3. Thêm TẤT CẢ các biến từ file `.env` local của bạn lên đây. Các biến quan trọng nhất cần chú ý:
-   - `NEXTAUTH_SECRET`: Nhập `super-secret-vinesh-nextjs-key` (hoặc tạo một chuỗi ngẫu nhiên bảo mật).
+   - `NEXTAUTH_SECRET`: Nhập `super-secret-webcare-key` (hoặc tạo một chuỗi ngẫu nhiên bảo mật).
    - `NEXTAUTH_URL`: Phải là domain production của bạn trên Vercel (ví dụ: `https://home-theta-blue.vercel.app`), tuyệt đối **KHÔNG** dùng `http://localhost:3000`.
    - `DATABASE_URL`: Trỏ đến PostgreSQL server thực tế của bạn.
    - `CLOUDINARY_...`: Các biến kết nối thư viện ảnh.

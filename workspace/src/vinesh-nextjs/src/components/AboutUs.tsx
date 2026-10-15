@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Service } from "@prisma/client";
 
 interface AboutUsProps {
     settings?: Record<string, string>;
@@ -30,7 +29,7 @@ export default function AboutUs({ settings, lang }: AboutUsProps) {
                             src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470&auto=format&fit=crop"
                             alt="About us"
                             fill
-                            style={{ objectFit: "cover", borderRadius: "10px" }}
+                            style={{ objectFit: "cover", borderRadius: "20px" }}
                             loading="lazy"
                         />
                         <div className="about-experience">
@@ -39,22 +38,24 @@ export default function AboutUs({ settings, lang }: AboutUsProps) {
                         </div>
                     </div>
                     <div className="about-content" data-aos="fade-left">
-                        <h4 className="about-subtitle-top">{fallback("Giới thiệu", "Introduction")}</h4>
-                        <h2 className="section-title" style={{ marginBottom: "20px", textAlign: "left" }}>{aboutTitle}</h2>
-                        <div className="divider" style={{ margin: "0 0 20px 0" }}></div>
+                        <span className="about-subtitle-top">
+                            <i className="ph-fill ph-sparkle"></i> {fallback("Giới thiệu WebCare", "About WebCare")}
+                        </span>
+                        <h2 className="section-title" style={{ marginBottom: "16px", textAlign: "left" }}>{aboutTitle}</h2>
+                        <div className="divider" style={{ margin: "0 0 22px 0" }}></div>
                         <h3 className="about-subtitle">{aboutSubtitle}</h3>
                         <p className="about-text">{aboutDesc1}</p>
                         <p className="about-text">{aboutDesc2}</p>
 
                         <ul className="about-features">
-                            <li><i className="ph ph-check-circle"></i> {fallback("Chất lượng hàng đầu", "Top Quality")}</li>
-                            <li><i className="ph ph-check-circle"></i> {fallback("Đội ngũ chuyên nghiệp", "Professional Team")}</li>
-                            <li><i className="ph ph-check-circle"></i> {fallback("Hỗ trợ 24/7", "24/7 Support")}</li>
-                            <li><i className="ph ph-check-circle"></i> {fallback("Giá cả cạnh tranh", "Competitive Pricing")}</li>
+                            <li><i className="ph-fill ph-check-circle"></i> {fallback("Chất lượng hàng đầu", "Top Quality")}</li>
+                            <li><i className="ph-fill ph-check-circle"></i> {fallback("Đội ngũ chuyên nghiệp", "Professional Team")}</li>
+                            <li><i className="ph-fill ph-check-circle"></i> {fallback("Hỗ trợ 24/7", "24/7 Support")}</li>
+                            <li><i className="ph-fill ph-check-circle"></i> {fallback("Giá cả cạnh tranh", "Competitive Pricing")}</li>
                         </ul>
 
-                        <Link href="/about" className="btn btn-primary" style={{ marginTop: "30px" }}>
-                            {fallback("Tìm hiểu thêm", "Learn More")}
+                        <Link href={`/${lang}/category/ve-webcare`} className="btn btn-primary" style={{ marginTop: "32px" }}>
+                            {fallback("Tìm hiểu thêm", "Learn More")} <i className="ph ph-arrow-right"></i>
                         </Link>
                     </div>
                 </div>

@@ -44,7 +44,7 @@ export default function CreateUserForm() {
                     type="email"
                     name="email"
                     required
-                    placeholder="vidu@vinesh.com"
+                    placeholder="vidu@webcare.vn"
                 />
 
                 <FormInput

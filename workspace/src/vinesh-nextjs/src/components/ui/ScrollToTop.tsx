@@ -7,7 +7,7 @@ export default function ScrollToTop() {
 
     // Xử lý sự kiện scroll để hiện/ẩn nút
     useEffect(() => {
-        let timeoutId: any = null;
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
         const toggleVisibility = () => {
             if (timeoutId) return;
             timeoutId = setTimeout(() => {
@@ -42,32 +42,32 @@ export default function ScrollToTop() {
             aria-label="Cuộn lên đầu trang"
             style={{
                 position: "fixed",
-                bottom: "40px",
-                right: "40px",
-                width: "45px",
-                height: "45px",
-                backgroundColor: "#3b82f6",
+                bottom: "100px",
+                right: "26px",
+                width: "44px",
+                height: "44px",
+                backgroundColor: "var(--brand-green, #8cc63f)",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: "50%",
-                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                boxShadow: "0 8px 20px rgba(140, 198, 63, 0.4)",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 transition: "all 0.3s ease",
-                zIndex: 9999,
+                zIndex: 999,
             }}
             onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = "#2563eb";
+                e.currentTarget.style.backgroundColor = "var(--brand-green-hover, #7ab32f)";
                 e.currentTarget.style.transform = "translateY(-3px)";
             }}
             onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = "#3b82f6";
+                e.currentTarget.style.backgroundColor = "var(--brand-green, #8cc63f)";
                 e.currentTarget.style.transform = "translateY(0)";
             }}
         >
-            <i className="ph ph-caret-up" style={{ fontSize: "24px", fontWeight: "bold" }}></i>
+            <i className="ph-bold ph-caret-up" style={{ fontSize: "20px" }}></i>
         </button>
     );
 }

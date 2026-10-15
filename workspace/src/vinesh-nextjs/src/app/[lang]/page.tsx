@@ -1,11 +1,21 @@
 export const revalidate = 60;
 import { Metadata } from 'next';
+import prisma from "@/lib/prisma";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Services from "@/components/Services";
+import dynamic from 'next/dynamic';
+import { notFound } from "next/navigation";
+
+const AboutUs = dynamic(() => import("@/components/AboutUs"));
+const WhyChooseUs = dynamic(() => import("@/components/WhyChooseUs"));
+const Partners = dynamic(() => import("@/components/Partners"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const Footer = dynamic(() => import("@/components/Footer"));
+const FloatingContact = dynamic(() => import("@/components/ui/FloatingContact"));
 
 export async function generateStaticParams() {
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
     const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
-    await prisma.$disconnect();
 
     // Always include vi and en as fallbacks in case DB is empty
     const langs = activeLangs.length > 0 ? activeLangs.map(l => ({ lang: l.code })) : [{ lang: 'vi' }, { lang: 'en' }];
@@ -14,16 +24,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
     const { lang } = await params;
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
     const settings = await prisma.setting.findMany();
-    await prisma.$disconnect();
 
     // Transform setting array to flat object
     const siteSettings = settings.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.value }), {} as Record<string, string>);
 
-    const title = siteSettings[`heroTitle_${lang}`] || siteSettings.heroTitle || "Tư vấn & Kiểm định An toàn Vinesh";
-    const description = siteSettings[`heroDesc_${lang}`] || siteSettings.heroDesc || "Các giải pháp đo lường, kiểm định và huấn luyện an toàn, sức khỏe.";
+    const title = siteSettings[`heroTitle_${lang}`] || siteSettings.heroTitle || "Giải Pháp Chăm Sóc & Vận Hành Doanh Nghiệp | WebCare";
+    const description = siteSettings[`heroDesc_${lang}`] || siteSettings.heroDesc || "Các giải pháp tư vấn toàn diện, dịch vụ kỹ thuật và hỗ trợ chuyên nghiệp cho doanh nghiệp.";
 
     return {
         title,
@@ -31,18 +38,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
         openGraph: { title, description },
     };
 }
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import dynamic from 'next/dynamic';
-
-const AboutUs = dynamic(() => import("@/components/AboutUs"));
-const WhyChooseUs = dynamic(() => import("@/components/WhyChooseUs"));
-const Partners = dynamic(() => import("@/components/Partners"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"));
-const Footer = dynamic(() => import("@/components/Footer"));
-import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
     const { lang } = await params;
@@ -73,10 +68,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "Vinesh",
+        "name": settings.siteName || "WebCare",
         "image": "https://home-theta-blue.vercel.app/assets/hero.png",
         "telephone": settings.phone || "0984 929 693",
-        "email": settings.email || "info@vinesh.com.vn",
+        "email": settings.email || "info@webcare.vn",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": settings.address || "Khu Công nghiệp VSIP",
@@ -100,6 +95,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <Partners lang={lang} settings={settings} />
             <Testimonials lang={lang} settings={settings} />
             <Footer settings={settings} lang={lang} />
+            <FloatingContact phone={settings.phone} lang={lang} />
         </main>
     );
 }

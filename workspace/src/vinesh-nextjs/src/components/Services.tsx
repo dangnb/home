@@ -1,9 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Service } from "@prisma/client";
+import { Service, Category } from "@prisma/client";
+
+export type ServiceWithCategory = Service & {
+  category?: Category | null;
+};
 
 interface ServicesProps {
-  services: Service[];
+  services: ServiceWithCategory[];
   settings?: Record<string, string>;
   lang: string;
 }
@@ -24,6 +28,9 @@ export default function Services({ services, settings, lang }: ServicesProps) {
       <section id="services" className="services section-padding">
         <div className="container">
           <div className="section-header text-center" data-aos="fade-up">
+            <span className="section-badge">
+              <i className="ph-fill ph-shield-check"></i> {fallback("Lĩnh Vực Hoạt Động", "Core Capabilities")}
+            </span>
             <h2 className="section-title">{sectionTitle}</h2>
             <div className="divider"></div>
             <p className="section-subtitle">{sectionSubtitle}</p>
@@ -31,53 +38,66 @@ export default function Services({ services, settings, lang }: ServicesProps) {
 
           {Object.entries(
             services.reduce((acc, service) => {
-              let catTitle = (service as any).category?.slug || fallback("Bài viết khác", "Other Posts");
-              if ((service as any).category && (service as any).category.translations) {
+              let catTitle = service.category?.slug || fallback("Bài viết khác", "Other Posts");
+              if (service.category && service.category.translations) {
                 try {
-                  const t = JSON.parse((service as any).category.translations);
+                  const t = JSON.parse(service.category.translations);
                   if (t[lang] && t[lang].title) catTitle = t[lang].title;
                   else if (t['vi'] && t['vi'].title) catTitle = t['vi'].title;
-                } catch (e) { }
+                } catch (_e) { }
               }
-              const key = (service as any).categoryId || 'default';
+              const key = service.categoryId || 'default';
               if (!acc[key]) acc[key] = { title: catTitle, items: [] };
               acc[key].items.push(service);
               return acc;
-            }, {} as Record<string, { title: string; items: Service[] }>)
-          ).map(([catId, group]: [string, { title: string; items: Service[] }]) => (
+            }, {} as Record<string, { title: string; items: ServiceWithCategory[] }>)
+          ).map(([catId, group]: [string, { title: string; items: ServiceWithCategory[] }]) => (
             <div key={catId} style={{ marginBottom: "60px" }}>
-              <h3 style={{ fontSize: "1.8rem", color: "#1e293b", marginBottom: "30px", borderLeft: "4px solid #8cc63f", paddingLeft: "15px" }}>
-                {group.title}
-              </h3>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "26px" }}>
+                <span style={{ width: "6px", height: "24px", background: "var(--brand-green)", borderRadius: "99px" }}></span>
+                <h3 style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--primary-color)", margin: 0 }}>
+                  {group.title}
+                </h3>
+              </div>
               <div className="services-grid">
                 {group.items.map((service) => {
                   let displayTitle = service.title;
+                  let displayDesc = service.description || "";
                   if (lang !== "vi" && service.translations) {
                     try {
                       const t = JSON.parse(service.translations);
-                      if (t[lang] && t[lang].title) {
-                        displayTitle = t[lang].title;
-                      }
-                    } catch (e) { }
+                      if (t[lang]?.title) displayTitle = t[lang].title;
+                      if (t[lang]?.description) displayDesc = t[lang].description;
+                    } catch (_e) { }
                   }
 
                   return (
                     <div className="service-card" key={service.id} data-aos="fade-up">
-                      <div className="service-image" style={{ position: "relative", overflow: "hidden" }}>
+                      <div className="service-image">
                         <Image
                           src={service.imageUrl}
                           alt={displayTitle}
                           fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           style={{ objectFit: "cover" }}
                         />
                         <div className="service-overlay"></div>
                       </div>
                       <div className="service-content">
-                        <h4 className="service-title" style={{ margin: 0, fontSize: "1.25rem" }}>
-                          <Link href={service.linkUrl || "#"}>{displayTitle}</Link>
-                        </h4>
-                        <div className="service-divider"></div>
+                        <div>
+                          <h4 className="service-title">
+                            <Link href={service.linkUrl || "#"}>{displayTitle}</Link>
+                          </h4>
+                          {displayDesc && (
+                            <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: "1.6", margin: "0 0 10px 0" }}>
+                              {displayDesc.length > 90 ? `${displayDesc.slice(0, 90)}...` : displayDesc}
+                            </p>
+                          )}
+                        </div>
+                        <Link href={service.linkUrl || "#"} className="service-link">
+                          <span>{fallback("Xem chi tiết", "Learn More")}</span>
+                          <i className="ph-bold ph-arrow-right"></i>
+                        </Link>
                       </div>
                     </div>
                   );

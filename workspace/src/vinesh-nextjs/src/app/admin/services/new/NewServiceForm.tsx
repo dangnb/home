@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { Category } from "@prisma/client";
 import FormInput from "@/components/ui/FormInput";
-import FormTextarea from "@/components/ui/FormTextarea";
 import LanguageTabs from "@/components/ui/LanguageTabs";
 import SubmitButton from "@/components/ui/SubmitButton";
 import RichTextEditor from "@/components/ui/RichTextEditor";
@@ -13,8 +14,8 @@ import { toastSuccess, toastError } from "@/lib/swalTheme";
 
 interface NewServiceFormProps {
     languages: string[];
-    categories: any[];
-    action: (payload: FormData) => Promise<any>;
+    categories: Category[];
+    action: (payload: FormData) => Promise<{ success?: boolean; error?: string } | void>;
 }
 
 export default function NewServiceForm({ languages, categories, action }: NewServiceFormProps) {
@@ -31,8 +32,8 @@ export default function NewServiceForm({ languages, categories, action }: NewSer
                 router.push("/admin/services");
                 router.refresh();
             }
-        } catch (e: any) {
-            toastError(e.message || "Tạo mới thất bại!");
+        } catch (e) {
+            toastError(e instanceof Error ? e.message : "Tạo mới thất bại!");
         }
     };
 
@@ -56,7 +57,7 @@ export default function NewServiceForm({ languages, categories, action }: NewSer
                     <label className="admin-label">Ảnh Dịch vụ / Bài viết</label>
                     {previewImage && (
                         <div style={{ marginBottom: "15px" }}>
-                            <img src={previewImage} alt="Current" style={{ width: "200px", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
+                            <Image src={previewImage} alt="Current" width={200} height={130} unoptimized style={{ width: "200px", height: "auto", borderRadius: "8px", border: "2px solid #e2e8f0", objectFit: "cover" }} />
                         </div>
                     )}
                     <input

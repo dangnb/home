@@ -50,7 +50,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
             "default-src 'self'",
             "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-            "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com",
+            "img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://randomuser.me",
             "font-src 'self' https://fonts.gstatic.com",
             "connect-src 'self' https://api.cloudinary.com https://res.cloudinary.com",
             "frame-src 'self' https://www.google.com https://maps.google.com",

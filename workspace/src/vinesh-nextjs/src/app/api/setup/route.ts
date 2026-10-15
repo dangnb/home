@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 /**
  * API Setup — BỊ VÔ HIỆU HÓA TRÊN PRODUCTION
@@ -16,14 +17,13 @@ export async function GET() {
     }
 
     try {
-        const { PrismaClient } = await import('@prisma/client');
         const bcrypt = await import('bcrypt');
-        const prisma = new PrismaClient();
 
-        const adminEmail = 'admin@example.com';
+        const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+        const adminPassword = process.env.ADMIN_PASSWORD || 'password123';
         const existingUser = await prisma.user.findUnique({ where: { email: adminEmail } });
         if (!existingUser) {
-            const password = await bcrypt.hash('password123', 10);
+            const password = await bcrypt.hash(adminPassword, 10);
             await prisma.user.create({
                 data: {
                     name: 'Admin',
@@ -35,10 +35,10 @@ export async function GET() {
         }
 
         const settings = [
-            { key: 'heroTitle', value: 'AN TOÀN - SỨC KHỎE - MÔI TRƯỜNG' },
-            { key: 'heroSubtitle', value: 'Giải pháp tổng thể' },
-            { key: 'heroDesc', value: 'Đồng hành cùng doanh nghiệp phát triển bền vững với các dịch vụ kiểm định, chứng nhận và huấn luyện an toàn hàng đầu.' },
-            { key: 'siteName', value: 'Vinesh' },
+            { key: 'heroTitle', value: 'GIẢI PHÁP CHĂM SÓC & VẬN HÀNH DOANH NGHIỆP' },
+            { key: 'heroSubtitle', value: 'Giải pháp tổng thể WebCare' },
+            { key: 'heroDesc', value: 'Đồng hành cùng doanh nghiệp phát triển bền vững với các giải pháp tư vấn, dịch vụ kỹ thuật và hỗ trợ chuyên nghiệp hàng đầu.' },
+            { key: 'siteName', value: 'WebCare' },
             { key: 'phone', value: '0984 929 693' },
         ];
 
@@ -64,10 +64,9 @@ export async function GET() {
             }
         }
 
-        await prisma.$disconnect();
-
         return NextResponse.json({ message: 'Seeding completed!' });
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Internal Server Error";
+        return NextResponse.json({ error: errorMsg }, { status: 500 });
     }
 }

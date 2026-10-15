@@ -6,8 +6,15 @@ import { getTranslation } from "@/lib/utils";
 import FormInput from "@/components/ui/FormInput";
 import { useRouter } from "next/navigation";
 import { toastSuccess, toastError } from "@/lib/swalTheme";
+import { Category, Language } from "@prisma/client";
 
-export default function CategoryForm({ languages, category, allCategories = [] }: { languages: any[], category?: any, allCategories?: any[] }) {
+interface CategoryFormProps {
+    languages: Language[];
+    category?: Category | null;
+    allCategories?: Category[];
+}
+
+export default function CategoryForm({ languages, category, allCategories = [] }: CategoryFormProps) {
     const [activeLang, setActiveLang] = useState(languages.find(l => l.isDefault)?.code || "vi");
     const router = useRouter();
 
@@ -20,8 +27,8 @@ export default function CategoryForm({ languages, category, allCategories = [] }
                 router.push("/admin/categories");
                 router.refresh();
             }
-        } catch (e: any) {
-            toastError(e.message || "Lỗi lưu danh mục!");
+        } catch (e) {
+            toastError(e instanceof Error ? e.message : "Lỗi lưu danh mục!");
         }
     };
 

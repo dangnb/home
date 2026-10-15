@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import CategoryForm from "../CategoryForm";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function NewCategoryPage() {
     const languages = await prisma.language.findMany({ where: { isActive: true }, orderBy: { code: 'asc' } });

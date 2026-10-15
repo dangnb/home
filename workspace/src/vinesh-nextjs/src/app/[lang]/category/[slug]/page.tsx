@@ -1,11 +1,17 @@
 export const revalidate = 60;
 
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Services from "@/components/Services";
+import FloatingContact from "@/components/ui/FloatingContact";
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { Metadata } from 'next';
+
 export async function generateStaticParams() {
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
     const activeLangs = await prisma.language.findMany({ where: { isActive: true }, select: { code: true } });
     const categories = await prisma.category.findMany({ where: { isActive: true }, select: { slug: true } });
-    await prisma.$disconnect();
 
     const langs = activeLangs.length > 0 ? activeLangs.map(l => l.code) : ['vi', 'en'];
     const slugs = categories.length > 0 ? categories.map(c => c.slug) : [];
@@ -18,14 +24,6 @@ export async function generateStaticParams() {
     }
     return params;
 }
-
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Services from "@/components/Services";
-import prisma from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Metadata } from 'next';
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string, slug: string }> }): Promise<Metadata> {
     const { lang, slug } = await params;
@@ -40,14 +38,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
             const t = JSON.parse(category.translations);
             if (t[lang]?.title) title = t[lang].title;
             else if (t['vi']?.title) title = t['vi'].title;
-        } catch (e) { }
+        } catch (_e) { }
     }
 
     return {
-        title: `${title} | Vinesh`,
-        description: `Danh mục ${title} - Cập nhật tất cả các thông tin và bài viết mới nhất tại Vinesh ${lang.toUpperCase()}.`,
+        title: `${title} | WebCare`,
+        description: `Danh mục ${title} - Cập nhật tất cả các thông tin và dịch vụ mới nhất tại WebCare ${lang.toUpperCase()}.`,
         openGraph: {
-            title: `${title} - Vinesh`,
+            title: `${title} - WebCare`,
             url: `/${lang}/category/${slug}`,
             type: 'website',
         }
@@ -76,7 +74,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ lang:
             const t = JSON.parse(category.translations);
             if (t[lang]?.title) categoryTitle = t[lang].title;
             else if (t['vi']?.title) categoryTitle = t['vi'].title;
-        } catch (e) { }
+        } catch (_e) { }
     }
 
     // Fetch services falling into this category or its children
@@ -114,22 +112,22 @@ export default async function CategoryPage({ params }: { params: Promise<{ lang:
             <Header settings={settings} lang={lang} languages={activeLangs} menuCategories={menuCategories} />
 
             {/* Minimal Inner Hero */}
-            <div style={{ 
-                paddingTop: "180px", 
-                paddingBottom: "80px", 
-                paddingLeft: "20px", 
-                paddingRight: "20px", 
-                background: "linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.75)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat", 
-                color: "#fff", 
-                textAlign: "center" 
+            <div style={{
+                paddingTop: "170px",
+                paddingBottom: "85px",
+                paddingLeft: "20px",
+                paddingRight: "20px",
+                background: "linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat",
+                color: "#fff",
+                textAlign: "center"
             }}>
                 <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-                    <div style={{ marginBottom: "20px", color: "#8cc63f", fontWeight: "bold", fontSize: "14px", textTransform: "uppercase", letterSpacing: "2px" }}>
-                        <Link href={`/${lang}`} style={{ color: "#8cc63f", textDecoration: "none" }}>{fallback("Trang chủ", "Home")}</Link>
-                        <span style={{ margin: "0 10px", color: "#475569" }}>/</span>
-                        <span style={{ color: "#cbd5e1" }}>{categoryTitle}</span>
+                    <div style={{ marginBottom: "16px", display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(140, 198, 63, 0.15)", border: "1px solid rgba(140, 198, 63, 0.3)", padding: "6px 18px", borderRadius: "9999px", fontSize: "13px", fontWeight: "700", textTransform: "uppercase", letterSpacing: "1px" }}>
+                        <Link href={`/${lang}`} style={{ color: "#a3e635", textDecoration: "none" }}>{fallback("Trang chủ", "Home")}</Link>
+                        <span style={{ color: "rgba(255, 255, 255, 0.4)" }}>/</span>
+                        <span style={{ color: "#ffffff" }}>{categoryTitle}</span>
                     </div>
-                    <h1 style={{ fontSize: "3rem", fontWeight: "800", margin: "0", letterSpacing: "-0.5px", textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>{categoryTitle}</h1>
+                    <h1 style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)", fontWeight: "900", margin: "0", letterSpacing: "-0.02em", textShadow: "0 4px 16px rgba(0,0,0,0.4)" }}>{categoryTitle}</h1>
                 </div>
             </div>
 
@@ -149,6 +147,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ lang:
             )}
 
             <Footer settings={settings} lang={lang} />
+            <FloatingContact phone={settings.phone} lang={lang} />
         </main>
     );
 }

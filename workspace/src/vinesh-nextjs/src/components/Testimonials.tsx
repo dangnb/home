@@ -1,3 +1,15 @@
+import Image from "next/image";
+
+interface TestimonialItem {
+    name: string;
+    role_vi?: string;
+    role_en?: string;
+    content_vi?: string;
+    content_en?: string;
+    avatar: string;
+    [key: string]: string | undefined;
+}
+
 interface TestimonialsProps {
     lang: string;
     settings?: Record<string, string>;
@@ -6,12 +18,12 @@ interface TestimonialsProps {
 export default function Testimonials({ lang, settings }: TestimonialsProps) {
     const fallback = (vi: string, en: string) => lang === "vi" ? vi : en;
 
-    let testimonials: any[] = [];
+    let testimonials: TestimonialItem[] = [];
     try {
         if (settings?.testimonialsData) {
             testimonials = JSON.parse(settings.testimonialsData);
         }
-    } catch (e) { }
+    } catch (_e) { }
 
     if (testimonials.length === 0) {
         testimonials = [
@@ -38,6 +50,9 @@ export default function Testimonials({ lang, settings }: TestimonialsProps) {
         <section className="testimonials-section section-padding">
             <div className="container">
                 <div className="section-header text-center" data-aos="fade-up">
+                    <span className="section-badge">
+                        <i className="ph-fill ph-chat-centered-text"></i> {fallback("Đánh giá thực tế", "Testimonials")}
+                    </span>
                     <h2 className="section-title">{fallback("Khách Hàng Nói Gì Về Chúng Tôi", "Client Testimonials")}</h2>
                     <div className="divider"></div>
                     <p className="section-subtitle">
@@ -48,16 +63,21 @@ export default function Testimonials({ lang, settings }: TestimonialsProps) {
                 <div className="testimonials-grid">
                     {testimonials.map((item, idx) => (
                         <div className="testimonial-card" key={idx} data-aos="fade-up" data-aos-delay={idx * 150}>
-                            <div className="testi-stars">
-                                <i className="ph-fill ph-star"></i>
-                                <i className="ph-fill ph-star"></i>
-                                <i className="ph-fill ph-star"></i>
-                                <i className="ph-fill ph-star"></i>
-                                <i className="ph-fill ph-star"></i>
+                            <div>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+                                    <div className="testi-stars">
+                                        <i className="ph-fill ph-star"></i>
+                                        <i className="ph-fill ph-star"></i>
+                                        <i className="ph-fill ph-star"></i>
+                                        <i className="ph-fill ph-star"></i>
+                                        <i className="ph-fill ph-star"></i>
+                                    </div>
+                                    <i className="ph-fill ph-quotes" style={{ fontSize: "28px", color: "var(--brand-green)", opacity: 0.5 }}></i>
+                                </div>
+                                <p className="testi-content">&ldquo;{lang === 'vi' ? item.content_vi : (item[`content_${lang}`] || item.content_en)}&rdquo;</p>
                             </div>
-                            <p className="testi-content">"{lang === 'vi' ? item.content_vi : (item[`content_${lang}`] || item.content_en)}"</p>
                             <div className="testi-author">
-                                <img src={item.avatar} alt={item.name} className="testi-avatar" width={60} height={60} loading="lazy" decoding="async" />
+                                <Image src={item.avatar} alt={item.name} className="testi-avatar" width={60} height={60} unoptimized />
                                 <div className="testi-info">
                                     <h4>{item.name}</h4>
                                     <span>{lang === 'vi' ? item.role_vi : (item[`role_${lang}`] || item.role_en)}</span>
