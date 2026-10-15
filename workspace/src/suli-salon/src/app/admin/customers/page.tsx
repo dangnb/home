@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import cStyles from "./customers.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import {
   MdAdd,
   MdCake,
@@ -136,6 +137,7 @@ function daysSinceLastVisit(dateStr?: string) {
 }
 
 export default function CustomersPage() {
+  const { locale, t, tOther } = useAdminLocale();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [tierFilter, setTierFilter] = useState<string>("all");
   const [tagFilter, setTagFilter] = useState<string>("all");
@@ -308,10 +310,13 @@ export default function CustomersPage() {
               : `Theo dõi hồ sơ, sở thích làm móng, lịch sử dịch vụ và chăm sóc khách hàng (${customers.length} khách hàng).`}
           </p>
         </div>
-        <button type="button" onClick={openAddModal} className={styles.btnPrimary}>
-          <MdAdd size={18} />
-          <span>Thêm khách hàng mới</span>
-        </button>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <AdminLanguageSelector compact light />
+          <button type="button" onClick={openAddModal} className={styles.btnPrimary}>
+            <MdAdd size={18} />
+            <span>Thêm khách hàng mới</span>
+          </button>
+        </div>
       </div>
 
       {msg.text && (
@@ -818,7 +823,14 @@ export default function CustomersPage() {
                             <td style={{ padding: "9px 12px", whiteSpace: "nowrap", fontWeight: 600 }}>
                               {appt.date} · {appt.time}
                             </td>
-                            <td style={{ padding: "9px 12px" }}>{appt.serviceName}</td>
+                            <td style={{ padding: "9px 12px" }}>
+                              <span style={{ fontWeight: 600, color: "#2E2319" }}>{t(appt.serviceName) || "—"}</span>
+                              {tOther(appt.serviceName) && (
+                                <div style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic", marginTop: 2 }}>
+                                  ({tOther(appt.serviceName)})
+                                </div>
+                              )}
+                            </td>
                             <td style={{ padding: "9px 12px" }}>
                               <span
                                 style={{

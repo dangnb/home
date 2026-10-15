@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdSpa, MdDeleteOutline, MdEdit, MdAdd } from "react-icons/md";
 
 interface Service {
@@ -18,6 +19,7 @@ interface Service {
 }
 
 export default function ServicesListPage() {
+  const { locale, t, tPrice, tOther } = useAdminLocale();
   const [services, setServices] = useState<Service[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
@@ -52,10 +54,14 @@ export default function ServicesListPage() {
       </div>
 
       <div className={styles.tableCard}>
-        <div className={styles.tableHeader}>
+        <div className={styles.tableHeader} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <span className={styles.tableTitle}>
             {isInitialLoading ? "Tất cả dịch vụ" : `Tất cả dịch vụ (${services.length})`}
           </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: "12px", color: "#857567", fontWeight: 600 }}>Ngôn ngữ hiển thị:</span>
+            <AdminLanguageSelector compact light />
+          </div>
         </div>
 
         {isInitialLoading ? (
@@ -81,7 +87,7 @@ export default function ServicesListPage() {
                       {s.image ? (
                         <Image
                           src={s.image}
-                          alt={s.name}
+                          alt={t(s.name)}
                           width={68}
                           height={50}
                           sizes="68px"
@@ -103,21 +109,25 @@ export default function ServicesListPage() {
                       )}
                     </td>
                     <td>
-                      <strong style={{ color: "#231B15" }}>{s.name}</strong>
-                      <br />
-                      <code style={{ fontSize: "11.5px", color: "#857567", fontWeight: 500 }}>{s.slug}</code>
+                      <strong style={{ color: "#231B15" }}>{t(s.name)}</strong>
+                      {tOther(s.name) && (
+                        <div style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic", marginTop: 2 }}>
+                          {locale === "vi" ? "EN: " : "VI: "}{tOther(s.name)}
+                        </div>
+                      )}
+                      <code style={{ fontSize: "11.5px", color: "#857567", fontWeight: 500, display: "block", marginTop: 2 }}>{s.slug}</code>
                     </td>
                     <td>
-                      <span className={styles.badge}>{s.categoryId}</span>
+                      <span className={styles.badge}>{t(s.categoryId)}</span>
                     </td>
                     <td style={{ color: "#78695C", fontWeight: 500 }}>{s.duration} phút</td>
                     <td>
-                      <span style={{ color: "#967840", fontWeight: 700 }}>{s.price}</span>
+                      <span style={{ color: "#967840", fontWeight: 700 }}>{tPrice(s.price)}</span>
                       {s.promoPrice && (
                         <>
                           <br />
                           <span style={{ textDecoration: "line-through", color: "#A3968B", fontSize: 12 }}>
-                            {s.promoPrice}
+                            {tPrice(s.promoPrice)}
                           </span>
                         </>
                       )}
@@ -142,7 +152,7 @@ export default function ServicesListPage() {
                         </Link>
                         <button
                           type="button"
-                          onClick={() => handleDelete(s.slug, s.name)}
+                          onClick={() => handleDelete(s.slug, t(s.name) || s.name)}
                           className={styles.btnDanger}
                           title="Xóa dịch vụ"
                           style={{ padding: "0 10px", minHeight: "33px" }}

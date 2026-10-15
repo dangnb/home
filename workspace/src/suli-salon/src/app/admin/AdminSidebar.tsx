@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./admin.module.css";
 import BrandLogo from "@/components/BrandLogo";
+import { AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import {
   MdArticle,
   MdCalendarMonth,
@@ -65,16 +66,19 @@ export default function AdminSidebar() {
           <BrandLogo compact />
           <span>Mộc Salon</span>
         </Link>
-        <button
-          type="button"
-          className={styles.mobileMenuButton}
-          aria-label={isOpen ? "Đóng menu quản trị" : "Mở menu quản trị"}
-          aria-expanded={isOpen}
-          aria-controls="admin-navigation"
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          {isOpen ? <MdClose aria-hidden="true" /> : <MdMenu aria-hidden="true" />}
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <AdminLanguageSelector compact />
+          <button
+            type="button"
+            className={styles.mobileMenuButton}
+            aria-label={isOpen ? "Đóng menu quản trị" : "Mở menu quản trị"}
+            aria-expanded={isOpen}
+            aria-controls="admin-navigation"
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            {isOpen ? <MdClose aria-hidden="true" /> : <MdMenu aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       {isOpen && <button type="button" className={styles.mobileBackdrop} aria-label="Đóng menu" onClick={() => setIsOpen(false)} />}
@@ -86,6 +90,14 @@ export default function AdminSidebar() {
             <div className={styles.logoText}>Mộc Salon</div>
             <div className={styles.logoSub}>Không gian quản trị</div>
           </div>
+        </div>
+
+        {/* Admin Language Switcher */}
+        <div style={{ padding: "12px 18px", borderBottom: "1px solid rgba(194, 169, 121, 0.12)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "11px", fontWeight: 700, color: "#C2A979", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            Ngôn ngữ:
+          </span>
+          <AdminLanguageSelector compact />
         </div>
 
         <nav className={styles.sidebarNav}>

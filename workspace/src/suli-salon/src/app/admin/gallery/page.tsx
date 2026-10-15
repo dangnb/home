@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import { MdAdd, MdCloudUpload, MdDeleteOutline, MdPhotoLibrary, MdClose } from "react-icons/md";
 
 interface GalleryItem {
@@ -16,11 +17,16 @@ interface GalleryItem {
 const CATEGORIES = ["Tất cả", "Gel Nails", "Nail Art", "Manicure", "Pedicure", "Extensions", "Khác"];
 
 export default function GalleryPage() {
+  const { locale, t, tOther, joinBilingual } = useAdminLocale();
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [filter, setFilter] = useState("Tất cả");
   const [showAdd, setShowAdd] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [newItem, setNewItem] = useState({ title: "", image: "", category: "Gel Nails" });
+  const [activeLang, setActiveLang] = useState<"vi" | "en">(locale);
+  const [titleVi, setTitleVi] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [category, setCategory] = useState("Gel Nails");
+  const [image, setImage] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
@@ -53,7 +59,7 @@ export default function GalleryPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setNewItem((p) => ({ ...p, image: data.url }));
+        setImage(data.url);
         flash("success", "Tải ảnh lên thành công!");
       } else {
         flash("error", data.error || "Tải ảnh thất bại");
@@ -66,16 +72,24 @@ export default function GalleryPage() {
   }
 
   async function handleAdd() {
-    if (!newItem.image) return flash("error", "Vui lòng nhập URL ảnh hoặc tải tệp ảnh lên");
+    if (!image) return flash("error", "Vui lòng nhập URL ảnh hoặc tải tệp ảnh lên");
+    const fullTitle = joinBilingual(titleVi, titleEn);
     const res = await fetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newItem),
+      body: JSON.stringify({
+        title: fullTitle || "Mẫu Móng Nghệ Thuật | Nail Art Design",
+        image,
+        category,
+      }),
     });
     if (res.ok) {
       const data = await res.json();
       setItems((prev) => [...prev, data.item]);
-      setNewItem({ title: "", image: "", category: "Gel Nails" });
+      setTitleVi("");
+      setTitleEn("");
+      setImage("");
+      setCategory("Gel Nails");
       setShowAdd(false);
       flash("success", "Đã thêm tác phẩm vào bộ sưu tập!");
     }
@@ -116,14 +130,17 @@ export default function GalleryPage() {
               : `Lưu giữ và trưng bày các mẫu nail thiết kế nghệ thuật (${items.length} tác phẩm).`}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowAdd(!showAdd)}
-          className={styles.btnPrimary}
-        >
-          {showAdd ? <MdClose size={16} /> : <MdAdd size={16} />}
-          <span>{showAdd ? "Đóng form" : "Thêm ảnh mới"}</span>
-        </button>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <AdminLanguageSelector compact light />
+          <button
+            type="button"
+            onClick={() => setShowAdd(!showAdd)}
+            className={styles.btnPrimary}
+          >
+            {showAdd ? <MdClose size={16} /> : <MdAdd size={16} />}
+            <span>{showAdd ? "Đóng form" : "Thêm ảnh mới"}</span>
+          </button>
+        </div>
       </div>
 
       {msg.text && (
@@ -135,14 +152,70 @@ export default function GalleryPage() {
       {/* Add Form */}
       {showAdd && (
         <div className={styles.formCard} style={{ marginBottom: "1.8rem" }}>
-          <div className={styles.cardSectionTitle}>Thêm tác phẩm vào bộ sưu tập</div>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: "1.2rem",
+            paddingBottom: "0.8rem",
+            borderBottom: "1px solid rgba(194, 169, 121, 0.22)"
+          }}>
+            <div className={styles.cardSectionTitle} style={{ margin: 0, border: "none", padding: 0 }}>
+              Thêm tác phẩm vào bộ sưu tập
+            </div>
+
+            <div style={{
+              display: "inline-flex",
+              padding: "3px",
+              background: "rgba(194, 169, 121, 0.12)",
+              borderRadius: "20px",
+              border: "1px solid rgba(194, 169, 121, 0.35)",
+              gap: "3px"
+            }}>
+              <button
+                type="button"
+                onClick={() => setActiveLang("vi")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "vi" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇻🇳 Tiếng Việt
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveLang("en")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "en" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇬🇧 English
+              </button>
+            </div>
+          </div>
+
           <div className={styles.formGrid}>
             <div className={styles.formField}>
-              <label>Đường dẫn ảnh hoặc tải tệp lên</label>
+              <label>Đường dẫn ảnh hoặc tải tệp lên <span style={{ color: "#C0392B" }}>*</span></label>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 <input
-                  value={newItem.image}
-                  onChange={(e) => setNewItem((p) => ({ ...p, image: e.target.value }))}
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
                   placeholder="https://..."
                   style={{ flex: 1 }}
                 />
@@ -174,20 +247,31 @@ export default function GalleryPage() {
               </div>
             </div>
 
-            <div className={styles.formField}>
-              <label>Tên tác phẩm (tùy chọn)</label>
-              <input
-                value={newItem.title}
-                onChange={(e) => setNewItem((p) => ({ ...p, title: e.target.value }))}
-                placeholder="VD: Rose Gold Gel Nails Art"
-              />
-            </div>
+            {activeLang === "vi" ? (
+              <div className={styles.formField}>
+                <label>Tên tác phẩm (Tiếng Việt)</label>
+                <input
+                  value={titleVi}
+                  onChange={(e) => setTitleVi(e.target.value)}
+                  placeholder="VD: Móng Mắt Mèo Ánh Kim Sa"
+                />
+              </div>
+            ) : (
+              <div className={styles.formField}>
+                <label>Artwork Title (English)</label>
+                <input
+                  value={titleEn}
+                  onChange={(e) => setTitleEn(e.target.value)}
+                  placeholder="e.g. Cat Eye Shimmer Nails"
+                />
+              </div>
+            )}
 
             <div className={styles.formField}>
               <label>Nhóm phong cách / Danh mục</label>
               <select
-                value={newItem.category}
-                onChange={(e) => setNewItem((p) => ({ ...p, category: e.target.value }))}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 {CATEGORIES.filter((c) => c !== "Tất cả").map((c) => (
                   <option key={c} value={c}>
@@ -210,12 +294,12 @@ export default function GalleryPage() {
             </div>
           </div>
 
-          {newItem.image && (
+          {image && (
             <div style={{ marginTop: 16 }}>
               <span className={styles.formHelpText} style={{ marginBottom: 6 }}>Xem trước ảnh:</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={newItem.image}
+                src={image}
                 alt="Xem trước ảnh"
                 style={{
                   width: 220,
@@ -261,29 +345,29 @@ export default function GalleryPage() {
       ) : (
         <div className={styles.galleryGrid}>
           {filtered.map((item) => {
-            const viTitle = item.title?.split(" | ")[0] || item.title || "Tác phẩm Nail";
-            const enTitle = item.title?.includes(" | ") ? item.title.split(" | ")[1] : null;
-            const viCategory = item.category?.split(" | ")[0] || item.category || "Chung";
+            const displayTitle = t(item.title) || "Tác phẩm Nail";
+            const otherTitle = tOther(item.title);
+            const displayCategory = t(item.category) || "Chung";
 
             return (
               <div key={item.id} className={styles.galleryCard}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.image}
-                  alt={viTitle}
+                  alt={displayTitle}
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryCardBody}>
-                  <div style={{ fontWeight: 700, fontSize: 13.5, color: "#231B15", marginBottom: enTitle ? 3 : 8, lineHeight: 1.35 }}>
-                    {viTitle}
+                  <div style={{ fontWeight: 700, fontSize: 13.5, color: "#231B15", marginBottom: otherTitle ? 3 : 8, lineHeight: 1.35 }}>
+                    {displayTitle}
                   </div>
-                  {enTitle && (
+                  {otherTitle && (
                     <div style={{ fontSize: 11.5, color: "#857567", fontStyle: "italic", marginBottom: 8, lineHeight: 1.3 }}>
-                      {enTitle}
+                      ({otherTitle})
                     </div>
                   )}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span className={styles.badge}>{viCategory}</span>
+                    <span className={styles.badge}>{displayCategory}</span>
                     <button
                       type="button"
                       onClick={() => handleDelete(item.id)}

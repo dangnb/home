@@ -3,6 +3,7 @@ import AdminSidebar from "./AdminSidebar";
 import styles from "./admin.module.css";
 import { requireAdmin } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { AdminLocaleProvider } from "@/components/Admin/AdminLocaleContext";
 
 export const metadata: Metadata = {
   title: "Quản trị | Mộc Salon",
@@ -19,9 +20,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/admin-login");
   }
   return (
-    <div className={styles.adminBody}>
-      <AdminSidebar />
-      <main className={styles.adminMain}>{children}</main>
-    </div>
+    <AdminLocaleProvider>
+      <div className={styles.adminBody}>
+        <AdminSidebar />
+        <main className={styles.adminMain}>{children}</main>
+      </div>
+    </AdminLocaleProvider>
   );
 }

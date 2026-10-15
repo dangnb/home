@@ -12,6 +12,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"popup" | "contact" | "social" | "map" | "seo" | "footer" | "slots" | "banner">("popup");
+  const [popupLang, setPopupLang] = useState<"vi" | "en">("vi");
 
   useEffect(() => {
     fetch("/api/settings")
@@ -26,6 +27,22 @@ export default function SettingsPage() {
 
   function set<K extends keyof SiteSettings>(key: K, val: SiteSettings[K]) {
     setForm(p => p ? { ...p, [key]: val } : p);
+  }
+
+  function getPart(val?: string, lang: "vi" | "en" = popupLang) {
+    if (!val) return "";
+    const parts = val.split(" | ");
+    if (lang === "vi") return parts[0] || "";
+    return parts[1] || parts[0] || "";
+  }
+
+  function setPart(original: string | undefined, newVal: string, lang: "vi" | "en" = popupLang) {
+    const parts = (original || "").split(" | ");
+    const vi = lang === "vi" ? newVal : (parts[0] || "");
+    const en = lang === "en" ? newVal : (parts[1] || "");
+    if (!en) return vi;
+    if (!vi) return en;
+    return `${vi} | ${en}`;
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -307,64 +324,111 @@ export default function SettingsPage() {
               </div>
             </div>
 
+            {/* Language Switcher Tabs for Announcement */}
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 12,
+              marginBottom: 16,
+              padding: "10px 16px",
+              background: "#FAF7F2",
+              borderRadius: 12,
+              border: "1px solid rgba(194, 169, 121, 0.25)"
+            }}>
+              <span style={{ fontSize: "13px", fontWeight: 700, color: "#2E241E" }}>
+                Soạn thảo nội dung thông báo theo ngôn ngữ:
+              </span>
+              <div style={{
+                display: "inline-flex",
+                padding: "3px",
+                background: "rgba(194, 169, 121, 0.15)",
+                borderRadius: "20px",
+                border: "1px solid rgba(194, 169, 121, 0.35)",
+                gap: "3px"
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setPopupLang("vi")}
+                  style={{
+                    padding: "5px 14px",
+                    borderRadius: "16px",
+                    border: "none",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    background: popupLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                    color: popupLang === "vi" ? "#FFFFFF" : "#78695C",
+                  }}
+                >
+                  🇻🇳 Tiếng Việt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPopupLang("en")}
+                  style={{
+                    padding: "5px 14px",
+                    borderRadius: "16px",
+                    border: "none",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    background: popupLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                    color: popupLang === "en" ? "#FFFFFF" : "#78695C",
+                  }}
+                >
+                  🇬🇧 English
+                </button>
+              </div>
+            </div>
+
             {/* Inputs grid */}
             <div className={styles.formGrid}>
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>
-                  Huy hiệu nhỏ trên đầu popup (Badge)
-                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
-                    (Hỗ trợ song ngữ dạng: Tiêu đề TV | English Badge)
-                  </span>
+                  {popupLang === "vi" ? "Huy hiệu nhỏ trên đầu popup (Badge - Tiếng Việt)" : "Small Top Badge (English)"}
                 </label>
                 <input
-                  value={form.popupBadge || ""}
-                  onChange={(e) => set("popupBadge", e.target.value)}
-                  placeholder="🎁 ƯU ĐÃI ĐẶC BIỆT | SPECIAL PROMOTION"
+                  value={getPart(form.popupBadge, popupLang)}
+                  onChange={(e) => set("popupBadge", setPart(form.popupBadge, e.target.value, popupLang))}
+                  placeholder={popupLang === "vi" ? "🎁 ƯU ĐÃI ĐẶC BIỆT" : "SPECIAL PROMOTION"}
                 />
               </div>
 
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>
-                  Tiêu đề thông báo (Title) <span style={{ color: "#be123c" }}>*</span>
-                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
-                    (Hỗ trợ song ngữ dạng: Tiêu đề TV | English Title)
-                  </span>
+                  {popupLang === "vi" ? "Tiêu đề thông báo (Title - Tiếng Việt)" : "Announcement Title (English)"} <span style={{ color: "#be123c" }}>*</span>
                 </label>
                 <input
-                  value={form.popupTitle || ""}
-                  onChange={(e) => set("popupTitle", e.target.value)}
-                  placeholder="Chào mừng bạn đến với Mộc Salon | Welcome to Mộc Salon"
+                  value={getPart(form.popupTitle, popupLang)}
+                  onChange={(e) => set("popupTitle", setPart(form.popupTitle, e.target.value, popupLang))}
+                  placeholder={popupLang === "vi" ? "Chào mừng bạn đến với Mộc Salon" : "Welcome to Mộc Salon"}
                   required={form.popupEnabled}
                 />
               </div>
 
               <div className={`${styles.formField} ${styles.fullWidth}`}>
                 <label>
-                  Nội dung chi tiết thông báo (Content)
-                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
-                    (Hỗ trợ xuống dòng & mô tả chi tiết, thể lệ, lưu ý)
-                  </span>
+                  {popupLang === "vi" ? "Nội dung chi tiết thông báo (Content - Tiếng Việt)" : "Detailed Content (English)"}
                 </label>
                 <textarea
-                  value={form.popupContent || ""}
-                  onChange={(e) => set("popupContent", e.target.value)}
+                  value={getPart(form.popupContent, popupLang)}
+                  onChange={(e) => set("popupContent", setPart(form.popupContent, e.target.value, popupLang))}
                   rows={4}
-                  placeholder="Nhập thông tin chi tiết về chương trình ưu đãi, sự kiện hoặc lưu ý dành cho khách hàng..."
+                  placeholder={popupLang === "vi" ? "Nhập thông tin chi tiết về chương trình ưu đãi, sự kiện..." : "Enter announcement details, promotions, and notes in English..."}
                   style={{ width: "100%", padding: "10px 14px", border: "1.5px solid rgba(194,169,121,0.25)", borderRadius: 10, fontSize: "0.88rem", outline: "none", fontFamily: "inherit", boxSizing: "border-box" }}
                 />
               </div>
 
               <div className={styles.formField}>
                 <label>
-                  Chữ trên nút hành động (CTA Text)
-                  <span style={{ fontWeight: 400, color: "#888", marginLeft: 6, fontSize: "0.78rem" }}>
-                    (Để trống nếu không muốn hiện nút)
-                  </span>
+                  {popupLang === "vi" ? "Chữ trên nút hành động (CTA Text - Tiếng Việt)" : "Action Button Text (CTA Text - English)"}
                 </label>
                 <input
-                  value={form.popupCtaText || ""}
-                  onChange={(e) => set("popupCtaText", e.target.value)}
-                  placeholder="Đặt lịch ngay | Book Now"
+                  value={getPart(form.popupCtaText, popupLang)}
+                  onChange={(e) => set("popupCtaText", setPart(form.popupCtaText, e.target.value, popupLang))}
+                  placeholder={popupLang === "vi" ? "Đặt lịch ngay" : "Book Now"}
                 />
               </div>
 
@@ -471,7 +535,7 @@ export default function SettingsPage() {
                           letterSpacing: "0.12em",
                         }}
                       >
-                        {form.popupBadge || "✦ THÔNG BÁO TỪ MỘC SALON"}
+                        {getPart(form.popupBadge, popupLang) || (popupLang === "en" ? "✦ ANNOUNCEMENT FROM MỘC SALON" : "✦ THÔNG BÁO TỪ MỘC SALON")}
                       </span>
                       <span style={{ fontSize: 11, color: "#A39282", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase" }}>
                         Mộc Salon
@@ -489,7 +553,7 @@ export default function SettingsPage() {
                         marginTop: 14,
                       }}
                     >
-                      {form.popupTitle || "Tiêu đề thông báo mẫu..."}
+                      {getPart(form.popupTitle, popupLang) || (popupLang === "en" ? "Sample Announcement Title..." : "Tiêu đề thông báo mẫu...")}
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "14px 0 0" }}>
@@ -502,11 +566,11 @@ export default function SettingsPage() {
                   {/* Body Area */}
                   <div style={{ padding: "16px 28px 24px" }}>
                     <div style={{ fontSize: 13.5, color: "#54493F", lineHeight: 1.8, whiteSpace: "pre-line", marginBottom: 20 }}>
-                      {form.popupContent || "Nội dung chi tiết thông báo sẽ được hiển thị tại đây với giao diện chuẩn salon cao cấp, tinh tế, trang nhã và tự nhiên..."}
+                      {getPart(form.popupContent, popupLang) || (popupLang === "en" ? "Detailed announcement content will be displayed here in luxury salon style..." : "Nội dung chi tiết thông báo sẽ được hiển thị tại đây với giao diện chuẩn salon cao cấp, tinh tế, trang nhã và tự nhiên...")}
                     </div>
 
                     <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                      {form.popupCtaText && (
+                      {getPart(form.popupCtaText, popupLang) && (
                         <div
                           style={{
                             flex: 1,
@@ -529,7 +593,7 @@ export default function SettingsPage() {
                             boxShadow: "0 4px 16px rgba(194, 169, 121, 0.35)",
                           }}
                         >
-                          {form.popupCtaText} →
+                          {getPart(form.popupCtaText, popupLang)} →
                         </div>
                       )}
                       <div

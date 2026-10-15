@@ -4,6 +4,7 @@ import Link from "next/link";
 import styles from "../admin.module.css";
 import bStyles from "./bookings.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import {
   MdPendingActions,
   MdCheckCircleOutline,
@@ -38,6 +39,7 @@ const STATUS_CFG: Record<AppointmentStatus, { label: string; color: string; bg: 
 };
 
 export default function AppointmentsPage() {
+  const { locale, t, tOther } = useAdminLocale();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [filter, setFilter] = useState<AppointmentStatus | "all">("all");
   const [search, setSearch] = useState("");
@@ -88,10 +90,12 @@ export default function AppointmentsPage() {
   const filtered = appointments.filter((a) => {
     const matchStatus = filter === "all" || a.status === filter;
     const q = search.toLowerCase();
+    const locService = t(a.serviceName).toLowerCase();
     const matchSearch =
       !q ||
       a.customerName.toLowerCase().includes(q) ||
       a.phone.includes(q) ||
+      locService.includes(q) ||
       a.serviceName.toLowerCase().includes(q);
     return matchStatus && matchSearch;
   });
@@ -112,6 +116,9 @@ export default function AppointmentsPage() {
           <p className={styles.pageSubtitle}>
             {loading ? "Đang đồng bộ dữ liệu lịch hẹn..." : `${appointments.length} lịch hẹn tổng cộng · ${counts.new} lượt đang chờ xác nhận`}
           </p>
+        </div>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <AdminLanguageSelector compact light />
         </div>
       </div>
 
@@ -271,7 +278,12 @@ export default function AppointmentsPage() {
                         )}
                       </td>
                       <td>
-                        <strong style={{ color: "#3B322A" }}>{a.serviceName || "—"}</strong>
+                        <strong style={{ color: "#3B322A" }}>{t(a.serviceName) || "—"}</strong>
+                        {tOther(a.serviceName) && (
+                          <div style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic", marginTop: 2 }}>
+                            ({tOther(a.serviceName)})
+                          </div>
+                        )}
                       </td>
                       <td>
                         <div style={{ fontWeight: 700, color: "#231B15" }}>{a.date}</div>

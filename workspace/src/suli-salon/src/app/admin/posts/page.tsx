@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import {
   MdArticle,
   MdPublic,
@@ -44,6 +45,7 @@ function formatDate(iso: string) {
 }
 
 export default function PostsListPage() {
+  const { locale, t, tOther } = useAdminLocale();
   const [posts, setPosts] = useState<Post[]>([]);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -61,7 +63,8 @@ export default function PostsListPage() {
   }, []);
 
   async function handleDelete(id: string, title: string) {
-    if (!confirm(`Bạn có chắc muốn xóa bài viết "${title}" không? Thao tác này không thể hoàn tác.`)) return;
+    const displayTitle = t(title) || title;
+    if (!confirm(`Bạn có chắc muốn xóa bài viết "${displayTitle}" không? Thao tác này không thể hoàn tác.`)) return;
     const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
     if (res.ok) {
       setPosts((prev) => prev.filter((p) => p.id !== id));
@@ -70,7 +73,8 @@ export default function PostsListPage() {
 
   const filtered = posts.filter((p) => {
     const matchStatus = statusFilter === "all" || p.status === statusFilter;
-    const matchSearch = p.title.toLowerCase().includes(search.toLowerCase());
+    const localizedTitle = t(p.title);
+    const matchSearch = localizedTitle.toLowerCase().includes(search.toLowerCase()) || p.title.toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });
 
@@ -84,10 +88,13 @@ export default function PostsListPage() {
           <h1 className={styles.pageTitle}>Bài viết & Tin tức</h1>
           <p className={styles.pageSubtitle}>Soạn thảo, lưu nháp và xuất bản các bài viết chia sẻ từ Mộc Salon.</p>
         </div>
-        <Link href="/admin/posts/new" className={styles.btnPrimary}>
-          <MdAdd size={16} />
-          <span>Thêm bài viết</span>
-        </Link>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <AdminLanguageSelector compact light />
+          <Link href="/admin/posts/new" className={styles.btnPrimary}>
+            <MdAdd size={16} />
+            <span>Thêm bài viết</span>
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
@@ -212,7 +219,12 @@ export default function PostsListPage() {
                       )}
                     </td>
                     <td>
-                      <strong style={{ display: "block", marginBottom: 3, color: "#231B15" }}>{p.title}</strong>
+                      <strong style={{ display: "block", marginBottom: 3, color: "#231B15" }}>{t(p.title)}</strong>
+                      {tOther(p.title) && (
+                        <div style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic", marginBottom: 3 }}>
+                          ({tOther(p.title)})
+                        </div>
+                      )}
                       <code style={{ fontSize: "11.5px", color: "#857567", fontWeight: 500 }}>/bai-viet/{p.slug}</code>
                     </td>
                     <td>

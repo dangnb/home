@@ -7,6 +7,7 @@ import aStyles from "./about.module.css";
 import { SiteSettings } from "@/lib/db";
 import AdminLoading from "@/components/Admin/AdminLoading";
 import ImageUpload from "@/components/ImageUpload";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
 import {
   MdAdd,
   MdArrowDownward,
@@ -21,6 +22,7 @@ import {
   MdOpenInNew,
   MdStorefront,
   MdVisibility,
+  MdLanguage,
 } from "react-icons/md";
 
 const VALUE_PRESETS = [
@@ -55,6 +57,14 @@ const DEFAULT_IMAGE1 = "https://res.cloudinary.com/jawkxked/image/upload/v179191
 const DEFAULT_IMAGE2 = "https://res.cloudinary.com/jawkxked/image/upload/v1791910442/moc-salon/intphywxofrojkd1eix7.jpg";
 
 export default function AdminAboutContentPage() {
+  const { locale, t, splitBilingual, joinBilingual } = useAdminLocale();
+  const [aboutLang, setAboutLang] = useState<"vi" | "en">(locale);
+
+  const [headlineVi, setHeadlineVi] = useState("");
+  const [headlineEn, setHeadlineEn] = useState("");
+  const [subheadlineVi, setSubheadlineVi] = useState("");
+  const [subheadlineEn, setSubheadlineEn] = useState("");
+
   const [settings, setSettings] = useState<Partial<SiteSettings>>({
     aboutHeadline: "",
     aboutSubheadline: "",
@@ -75,11 +85,22 @@ export default function AdminAboutContentPage() {
       fetch("/api/team").then((r) => (r.ok ? (r.json() as Promise<unknown[]>) : ([] as unknown[]))),
     ])
       .then(([settingsData, teamData]: [Partial<SiteSettings>, unknown[]]) => {
+        const rawHeadline = settingsData.aboutHeadline || "Nghệ thuật chăm sóc móng tinh tế | Mindful Nail Artistry";
+        const rawSubheadline =
+          settingsData.aboutSubheadline ||
+          "Với đội ngũ tận tâm và kỹ thuật tỉ mỉ, Mộc Salon là điểm đến lý tưởng cho những ai yêu thích vẻ đẹp tự nhiên, trang nhã. | With our dedicated team and meticulous technique, Mộc Salon is the sanctuary for those who cherish mindful, natural elegance.";
+
+        const hParts = splitBilingual(rawHeadline);
+        setHeadlineVi(hParts.vi);
+        setHeadlineEn(hParts.en);
+
+        const sParts = splitBilingual(rawSubheadline);
+        setSubheadlineVi(sParts.vi);
+        setSubheadlineEn(sParts.en);
+
         setSettings({
-          aboutHeadline: settingsData.aboutHeadline || "Nghệ thuật chăm sóc móng tinh tế",
-          aboutSubheadline:
-            settingsData.aboutSubheadline ||
-            "Với đội ngũ tận tâm và kỹ thuật tỉ mỉ, Mộc Salon là điểm đến lý tưởng cho những ai yêu thích vẻ đẹp tự nhiên, trang nhã.",
+          aboutHeadline: rawHeadline,
+          aboutSubheadline: rawSubheadline,
           bannerImage: settingsData.bannerImage || DEFAULT_BANNER,
           aboutImage1: settingsData.aboutImage1 || DEFAULT_IMAGE1,
           aboutImage2: settingsData.aboutImage2 || DEFAULT_IMAGE2,
@@ -87,16 +108,16 @@ export default function AdminAboutContentPage() {
             ? settingsData.aboutValues
             : [
                 {
-                  title: "Chăm chút tỉ mỉ từng chi tiết",
-                  description: "Mỗi bộ móng đều được kỹ thuật viên chăm sóc tỉ mỉ từ phom dáng đến màu sắc.",
+                  title: "Chăm chút tỉ mỉ từng chi tiết | Meticulous Care in Every Detail",
+                  description: "Mỗi bộ móng đều được kỹ thuật viên chăm sóc tỉ mỉ từ phom dáng đến màu sắc. | Every set is carefully curated by our master artists from shape to palette.",
                 },
                 {
-                  title: "Dòng sơn cao cấp & An toàn",
-                  description: "Chỉ sử dụng sản phẩm sơn gel chính hãng, không chứa hóa chất độc hại, bảo vệ móng tự nhiên.",
+                  title: "Dòng sơn cao cấp & An toàn | Premium & Safe Organic Polishes",
+                  description: "Chỉ sử dụng sản phẩm sơn gel chính hãng, không chứa hóa chất độc hại, bảo vệ móng tự nhiên. | Exclusively using imported non-toxic, cruelty-free formulas to preserve natural nail health.",
                 },
                 {
-                  title: "Vệ sinh vô trùng tuyệt đối",
-                  description: "Toàn bộ kềm, dũa và phụ kiện đều được khử trùng bằng máy tiệt trùng chuyên dụng trước khi dùng.",
+                  title: "Vệ sinh vô trùng tuyệt đối | Medical-grade Sterilization",
+                  description: "Toàn bộ kềm, dũa và phụ kiện đều được khử trùng bằng máy tiệt trùng chuyên dụng trước khi dùng. | All instruments undergo medical-grade autoclave sterilization for your complete peace of mind.",
                 },
               ],
         });
@@ -104,22 +125,35 @@ export default function AdminAboutContentPage() {
       })
       .catch(() => setMsg({ type: "error", text: "Không thể tải cấu hình trang giới thiệu." }))
       .finally(() => setIsInitialLoading(false));
-  }, []);
+  }, [splitBilingual]);
 
   function flash(type: string, text: string) {
     setMsg({ type, text });
     setTimeout(() => setMsg({ type: "", text: "" }), 3500);
   }
 
+  function getValPart(text: string, lang: "vi" | "en") {
+    return splitBilingual(text)[lang] || "";
+  }
+
+  function setValPart(original: string, newVal: string, lang: "vi" | "en") {
+    const parts = splitBilingual(original);
+    parts[lang] = newVal;
+    return joinBilingual(parts.vi, parts.en);
+  }
+
   async function handleSave() {
     setIsSaving(true);
+    const fullHeadline = joinBilingual(headlineVi, headlineEn);
+    const fullSubheadline = joinBilingual(subheadlineVi, subheadlineEn);
+
     try {
       const res = await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          aboutHeadline: settings.aboutHeadline,
-          aboutSubheadline: settings.aboutSubheadline,
+          aboutHeadline: fullHeadline,
+          aboutSubheadline: fullSubheadline,
           bannerImage: settings.bannerImage,
           aboutImage1: settings.aboutImage1,
           aboutImage2: settings.aboutImage2,
@@ -127,6 +161,7 @@ export default function AdminAboutContentPage() {
         }),
       });
       if (res.ok) {
+        setSettings((s) => ({ ...s, aboutHeadline: fullHeadline, aboutSubheadline: fullSubheadline }));
         flash("success", "Đã lưu nội dung và bộ ảnh trang giới thiệu thành công!");
       } else {
         flash("error", "Lỗi khi lưu thiết lập trang giới thiệu.");
@@ -152,7 +187,9 @@ export default function AdminAboutContentPage() {
   function updateValue(index: number, field: "title" | "description", val: string) {
     setSettings((prev) => {
       const arr = [...(prev.aboutValues || [])];
-      arr[index] = { ...arr[index], [field]: val };
+      const current = arr[index][field] || "";
+      const updated = setValPart(current, val, aboutLang);
+      arr[index] = { ...arr[index], [field]: updated };
       return { ...prev, aboutValues: arr };
     });
   }
@@ -202,7 +239,9 @@ export default function AdminAboutContentPage() {
           </p>
         </div>
 
-        <div className={styles.pageActions}>
+        <div className={styles.pageActions} style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+          <AdminLanguageSelector compact light />
+
           <Link
             href="/vi/gioi-thieu"
             target="_blank"
@@ -338,40 +377,132 @@ export default function AdminAboutContentPage() {
       {/* ══════════════════════════════════════════════════════ */}
       {activeTab === "story" && (
         <div className={styles.formCard}>
-          <div className={styles.cardSectionTitle}>Khối giới thiệu mở đầu (Hero Section)</div>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: "1.2rem",
+            paddingBottom: "0.8rem",
+            borderBottom: "1px solid rgba(194, 169, 121, 0.22)"
+          }}>
+            <div className={styles.cardSectionTitle} style={{ margin: 0, border: "none", padding: 0 }}>
+              Khối giới thiệu mở đầu (Hero Section)
+            </div>
 
-          <div className={styles.formField}>
-            <label>
-              Tiêu đề nghệ thuật (Headline) <span style={{ color: "#C0392B" }}>*</span>
-            </label>
-            <input
-              value={settings.aboutHeadline || ""}
-              onChange={(e) => setSettings((s) => ({ ...s, aboutHeadline: e.target.value }))}
-              placeholder="VD: Nghệ thuật chăm sóc móng tinh tế"
-              style={{ fontSize: "15px", fontWeight: 600 }}
-            />
-            <span className={styles.formHelpText}>
-              Xuất hiện nổi bật với font chữ Playfair Display in nghiêng trên nền ảnh không gian tiệm.
-            </span>
+            <div style={{
+              display: "inline-flex",
+              padding: "3px",
+              background: "rgba(194, 169, 121, 0.12)",
+              borderRadius: "20px",
+              border: "1px solid rgba(194, 169, 121, 0.35)",
+              gap: "3px"
+            }}>
+              <button
+                type="button"
+                onClick={() => setAboutLang("vi")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: aboutLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: aboutLang === "vi" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇻🇳 Tiếng Việt {headlineVi ? "✓" : ""}
+              </button>
+              <button
+                type="button"
+                onClick={() => setAboutLang("en")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: aboutLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: aboutLang === "en" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇬🇧 English {headlineEn ? "✓" : ""}
+              </button>
+            </div>
           </div>
 
-          <div className={styles.formField} style={{ marginTop: "20px" }}>
-            <label>
-              Mô tả triết lý & Lời dẫn thương hiệu (Subheadline) <span style={{ color: "#C0392B" }}>*</span>
-            </label>
-            <textarea
-              value={settings.aboutSubheadline || ""}
-              onChange={(e) => setSettings((s) => ({ ...s, aboutSubheadline: e.target.value }))}
-              placeholder="VD: Với đội ngũ tận tâm và kỹ thuật tỉ mỉ, Mộc Salon là điểm đến lý tưởng cho những ai yêu thích vẻ đẹp tự nhiên, trang nhã và sự thư thái trọn vẹn..."
-              rows={4}
-              style={{ lineHeight: 1.6 }}
-            />
-            <span className={styles.formHelpText}>
-              Đoạn văn ngắn (khoảng 30 - 60 từ) truyền tải cảm hứng, phong cách móng và cam kết chất lượng phục vụ của salon.
-            </span>
-          </div>
+          {aboutLang === "vi" ? (
+            <>
+              <div className={styles.formField}>
+                <label>
+                  Tiêu đề nghệ thuật (Headline - Tiếng Việt) <span style={{ color: "#C0392B" }}>*</span>
+                </label>
+                <input
+                  value={headlineVi}
+                  onChange={(e) => setHeadlineVi(e.target.value)}
+                  placeholder="VD: Nghệ thuật chăm sóc móng tinh tế"
+                  style={{ fontSize: "15px", fontWeight: 600 }}
+                />
+                <span className={styles.formHelpText}>
+                  Xuất hiện nổi bật với font chữ Playfair Display in nghiêng trên nền ảnh không gian tiệm.
+                </span>
+              </div>
 
-          <div className={aStyles.adviceBox}>
+              <div className={styles.formField} style={{ marginTop: "20px" }}>
+                <label>
+                  Mô tả triết lý & Lời dẫn thương hiệu (Subheadline - Tiếng Việt) <span style={{ color: "#C0392B" }}>*</span>
+                </label>
+                <textarea
+                  value={subheadlineVi}
+                  onChange={(e) => setSubheadlineVi(e.target.value)}
+                  placeholder="VD: Với đội ngũ tận tâm và kỹ thuật tỉ mỉ, Mộc Salon là điểm đến lý tưởng cho những ai yêu thích vẻ đẹp tự nhiên, trang nhã và sự thư thái trọn vẹn..."
+                  rows={4}
+                  style={{ lineHeight: 1.6 }}
+                />
+                <span className={styles.formHelpText}>
+                  Đoạn văn ngắn truyền tải cảm hứng, phong cách móng và cam kết chất lượng phục vụ của salon.
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.formField}>
+                <label>
+                  Artistic Headline (English) <span style={{ color: "#C0392B" }}>*</span>
+                </label>
+                <input
+                  value={headlineEn}
+                  onChange={(e) => setHeadlineEn(e.target.value)}
+                  placeholder="e.g. Mindful Nail Artistry & Organic Beauty"
+                  style={{ fontSize: "15px", fontWeight: 600 }}
+                />
+                <span className={styles.formHelpText}>
+                  Displayed prominently with Playfair Display italic on the hero background.
+                </span>
+              </div>
+
+              <div className={styles.formField} style={{ marginTop: "20px" }}>
+                <label>
+                  Philosophy & Brand Story (Subheadline - English) <span style={{ color: "#C0392B" }}>*</span>
+                </label>
+                <textarea
+                  value={subheadlineEn}
+                  onChange={(e) => setSubheadlineEn(e.target.value)}
+                  placeholder="e.g. With dedicated artisans and meticulous attention to detail, Mộc Salon is your sanctuary for mindful, natural elegance and tranquil indulgence..."
+                  rows={4}
+                  style={{ lineHeight: 1.6 }}
+                />
+                <span className={styles.formHelpText}>
+                  Concise paragraph communicating salon inspiration, technique, and dedication to wellness.
+                </span>
+              </div>
+            </>
+          )}
+
+          <div className={aStyles.adviceBox} style={{ marginTop: "20px" }}>
             <strong style={{ color: "#8C6514", display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
               <MdInfoOutline size={16} />
               <span>Gợi ý phong cách nghệ thuật Mộc Salon</span>
@@ -456,7 +587,7 @@ export default function AdminAboutContentPage() {
             </div>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
             <div>
               <div className={styles.cardSectionTitle} style={{ margin: 0, padding: 0, border: "none" }}>
                 Danh sách giá trị cốt lõi ({valuesCount})
@@ -466,10 +597,54 @@ export default function AdminAboutContentPage() {
               </span>
             </div>
 
-            <button type="button" onClick={() => addValue()} className={styles.btnSecondary} style={{ fontSize: 12.5 }}>
-              <MdAdd size={16} />
-              <span>Thêm giá trị tùy chỉnh</span>
-            </button>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+              <div style={{
+                display: "inline-flex",
+                padding: "3px",
+                background: "rgba(194, 169, 121, 0.12)",
+                borderRadius: "20px",
+                border: "1px solid rgba(194, 169, 121, 0.35)",
+                gap: "3px"
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setAboutLang("vi")}
+                  style={{
+                    padding: "4px 10px",
+                    borderRadius: "16px",
+                    border: "none",
+                    fontSize: "11.5px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    background: aboutLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                    color: aboutLang === "vi" ? "#FFFFFF" : "#78695C",
+                  }}
+                >
+                  🇻🇳 Tiếng Việt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAboutLang("en")}
+                  style={{
+                    padding: "4px 10px",
+                    borderRadius: "16px",
+                    border: "none",
+                    fontSize: "11.5px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    background: aboutLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                    color: aboutLang === "en" ? "#FFFFFF" : "#78695C",
+                  }}
+                >
+                  🇬🇧 English
+                </button>
+              </div>
+
+              <button type="button" onClick={() => addValue()} className={styles.btnSecondary} style={{ fontSize: 12.5 }}>
+                <MdAdd size={16} />
+                <span>Thêm giá trị tùy chỉnh</span>
+              </button>
+            </div>
           </div>
 
           {valuesCount === 0 && (
@@ -480,34 +655,50 @@ export default function AdminAboutContentPage() {
           )}
 
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {(settings.aboutValues || []).map((val, i) => (
-              <div key={i} className={aStyles.valueCard}>
-                <div className={aStyles.valueIndexBadge}>
-                  {String(i + 1).padStart(2, "0")}
-                </div>
+            {(settings.aboutValues || []).map((val, i) => {
+              const currentTitle = getValPart(val.title, aboutLang);
+              const otherTitle = getValPart(val.title, aboutLang === "vi" ? "en" : "vi");
+              const currentDesc = getValPart(val.description, aboutLang);
 
-                <div className={aStyles.valueCardContent}>
-                  <div className={styles.formField}>
-                    <label>Tiêu đề giá trị</label>
-                    <input
-                      value={val.title}
-                      onChange={(e) => updateValue(i, "title", e.target.value)}
-                      placeholder="VD: Vô trùng y tế 100%"
-                      style={{ fontWeight: 650 }}
-                    />
+              return (
+                <div key={i} className={aStyles.valueCard}>
+                  <div className={aStyles.valueIndexBadge}>
+                    {String(i + 1).padStart(2, "0")}
                   </div>
 
-                  <div className={styles.formField} style={{ marginBottom: 0 }}>
-                    <label>Mô tả chi tiết cam kết</label>
-                    <textarea
-                      value={val.description}
-                      onChange={(e) => updateValue(i, "description", e.target.value)}
-                      placeholder="VD: Toàn bộ kềm, dũa và phụ kiện đều trải qua quy trình khử khuẩn bằng nhiệt cao cấp..."
-                      rows={2}
-                      style={{ lineHeight: 1.55 }}
-                    />
+                  <div className={aStyles.valueCardContent}>
+                    <div className={styles.formField}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <label>
+                          {aboutLang === "vi" ? "Tiêu đề giá trị (Tiếng Việt)" : "Core Value Title (English)"}
+                        </label>
+                        {otherTitle && (
+                          <span style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic" }}>
+                            ({aboutLang === "vi" ? "EN: " : "VI: "}{otherTitle})
+                          </span>
+                        )}
+                      </div>
+                      <input
+                        value={currentTitle}
+                        onChange={(e) => updateValue(i, "title", e.target.value)}
+                        placeholder={aboutLang === "vi" ? "VD: Vô trùng y tế 100%" : "e.g. Medical-grade Sterilization"}
+                        style={{ fontWeight: 650 }}
+                      />
+                    </div>
+
+                    <div className={styles.formField} style={{ marginBottom: 0 }}>
+                      <label>
+                        {aboutLang === "vi" ? "Mô tả cam kết (Tiếng Việt)" : "Commitment Description (English)"}
+                      </label>
+                      <textarea
+                        value={currentDesc}
+                        onChange={(e) => updateValue(i, "description", e.target.value)}
+                        placeholder={aboutLang === "vi" ? "VD: Toàn bộ kềm, dũa và phụ kiện đều trải qua quy trình khử khuẩn..." : "e.g. All instruments undergo hospital-grade sterilization..."}
+                        rows={2}
+                        style={{ lineHeight: 1.55 }}
+                      />
+                    </div>
                   </div>
-                </div>
 
                 <div className={aStyles.valueCardActions}>
                   <button

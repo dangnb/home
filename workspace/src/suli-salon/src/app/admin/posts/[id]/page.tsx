@@ -7,7 +7,8 @@ import styles from "../../admin.module.css";
 import ImageUpload from "@/components/ImageUpload";
 import { FormInput, FormSelect, FormTextarea } from "@/components/Admin/FormComponents";
 import AdminLoading from "@/components/Admin/AdminLoading";
-import { MdEdit, MdAdd, MdVisibility, MdPublic, MdDrafts, MdCheck, MdArrowBack } from "react-icons/md";
+import { useAdminLocale } from "@/components/Admin/AdminLocaleContext";
+import { MdEdit, MdAdd, MdVisibility, MdPublic, MdDrafts, MdCheck, MdArrowBack, MdLanguage } from "react-icons/md";
 
 const RichEditor = dynamic(() => import("@/components/RichEditor"), {
   ssr: false,
@@ -91,7 +92,15 @@ export default function PostFormPage({
   const router = useRouter();
   const isNew = id === "new";
 
+  const { locale, t, splitBilingual, joinBilingual } = useAdminLocale();
+  const [activeLang, setActiveLang] = useState<"vi" | "en">(locale);
+
   const [form, setForm] = useState<PostForm>(emptyForm);
+  const [titleVi, setTitleVi] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [excerptVi, setExcerptVi] = useState("");
+  const [excerptEn, setExcerptEn] = useState("");
+
   const [content, setContent] = useState("");
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [loading, setLoading] = useState(false);
@@ -108,30 +117,29 @@ export default function PostFormPage({
       })
       .then((data: Post) => {
         setForm({
-          title: data.title,
           slug: data.slug,
-          excerpt: data.excerpt,
-          content: data.content,
           thumbnail: data.thumbnail,
           categoryId: data.categoryId,
           status: data.status,
         });
+
+        const titleParts = splitBilingual(data.title);
+        setTitleVi(titleParts.vi);
+        setTitleEn(titleParts.en);
+
+        const excerptParts = splitBilingual(data.excerpt);
+        setExcerptVi(excerptParts.vi);
+        setExcerptEn(excerptParts.en);
+
         setContent(data.content);
         setSlugManuallyEdited(true); // don't auto-generate slug for existing posts
       })
       .catch(() => setMsg({ type: "error", text: "Không thể tải bài viết. Vui lòng thử lại." }))
       .finally(() => setIsInitialLoading(false));
-  }, [id, isNew]);
+  }, [id, isNew, splitBilingual]);
 
   function set<K extends keyof PostForm>(key: K, val: PostForm[K]) {
     setForm((prev) => ({ ...prev, [key]: val }));
-  }
-
-  function handleTitleChange(title: string) {
-    set("title", title);
-    if (!slugManuallyEdited) {
-      set("slug", slugify(title));
-    }
   }
 
   function handleSlugChange(slug: string) {
@@ -144,7 +152,22 @@ export default function PostFormPage({
     setLoading(true);
     setMsg({ type: "", text: "" });
 
-    const payload = { ...form, content };
+    const fullTitle = joinBilingual(titleVi, titleEn);
+    const fullExcerpt = joinBilingual(excerptVi, excerptEn);
+
+    if (!fullTitle) {
+      setMsg({ type: "error", text: "Vui lòng nhập tiêu đề bài viết (ít nhất một ngôn ngữ)." });
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      ...form,
+      title: fullTitle,
+      excerpt: fullExcerpt,
+      slug: form.slug || slugify(titleVi || titleEn),
+      content,
+    };
 
     const method = isNew ? "POST" : "PUT";
     const url = isNew ? "/api/posts" : `/api/posts/${id}`;
@@ -157,7 +180,7 @@ export default function PostFormPage({
     setLoading(false);
 
     if (res.ok) {
-      setMsg({ type: "success", text: isNew ? "Đã tạo post mới!" : "Đã cập nhật post!" });
+      setMsg({ type: "success", text: isNew ? "Đã tạo bài viết mới thành công!" : "Đã cập nhật bài viết thành công!" });
       if (isNew) {
         setTimeout(() => router.push("/admin/posts"), 1200);
       }
@@ -181,7 +204,7 @@ export default function PostFormPage({
           <p style={{ fontSize: "0.875rem", color: "#888", marginTop: "0.25rem" }}>
             {isNew
               ? "Soạn thảo bài viết mới cho trang tin tức của salon"
-              : `Đang chỉnh sửa: ${form.title}`}
+              : `Đang chỉnh sửa: ${titleVi || titleEn || form.slug}`}
           </p>
         </div>
         <div className={styles.pageActions}>
@@ -219,16 +242,94 @@ export default function PostFormPage({
       >
         {/* ── Thông tin cơ bản ── */}
         <div className={styles.formCard}>
-          <h3 className={styles.cardSectionTitle}>📋 Thông tin cơ bản</h3>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: "1.2rem",
+            paddingBottom: "0.8rem",
+            borderBottom: "1px solid rgba(194, 169, 121, 0.22)"
+          }}>
+            <h3 className={styles.cardSectionTitle} style={{ margin: 0, border: "none", padding: 0 }}>
+              📋 Thông tin cơ bản & Tiêu đề
+            </h3>
+
+            <div style={{
+              display: "inline-flex",
+              padding: "3px",
+              background: "rgba(194, 169, 121, 0.12)",
+              borderRadius: "20px",
+              border: "1px solid rgba(194, 169, 121, 0.35)",
+              gap: "3px"
+            }}>
+              <button
+                type="button"
+                onClick={() => setActiveLang("vi")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "vi" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇻🇳 Tiếng Việt {titleVi ? "✓" : ""}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveLang("en")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "en" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇬🇧 English {titleEn ? "✓" : ""}
+              </button>
+            </div>
+          </div>
+
           <div className={styles.formGrid}>
-            <FormInput
-              label="Tiêu Đề"
-              value={form.title}
-              onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="Nhập tiêu đề post..."
-              required
-              className={styles.fullWidth}
-            />
+            {activeLang === "vi" ? (
+              <FormInput
+                label="Tiêu Đề (Tiếng Việt)"
+                value={titleVi}
+                onChange={(e) => {
+                  setTitleVi(e.target.value);
+                  if (!slugManuallyEdited && !titleEn) {
+                    set("slug", slugify(e.target.value));
+                  }
+                }}
+                placeholder="VD: 5 Xu Hướng Móng Mắt Mèo Sang Trọng Nhất 2025"
+                required
+                className={styles.fullWidth}
+              />
+            ) : (
+              <FormInput
+                label="Post Title (English)"
+                value={titleEn}
+                onChange={(e) => {
+                  setTitleEn(e.target.value);
+                  if (!slugManuallyEdited && !titleVi) {
+                    set("slug", slugify(e.target.value));
+                  }
+                }}
+                placeholder="e.g. Top 5 Cat Eye Nail Trends for 2025"
+                required
+                className={styles.fullWidth}
+              />
+            )}
+
             <FormInput
               label="Slug (URL)"
               value={form.slug}
@@ -238,19 +339,31 @@ export default function PostFormPage({
               helpText={`URL: /bai-viet/${form.slug || "slug-bai-viet"}`}
             />
             <FormSelect
-              label="Categories"
+              label="Chuyên mục"
               value={form.categoryId}
               onChange={(e) => set("categoryId", e.target.value)}
               options={CATEGORIES.map((c) => ({ label: c.label, value: c.id }))}
             />
-            <FormTextarea
-              label="Mô Tả Ngắn (Excerpt)"
-              value={form.excerpt}
-              onChange={(e) => set("excerpt", e.target.value)}
-              placeholder="Mô tả ngắn về post, hiển thị ở trang danh sách..."
-              rows={3}
-              className={styles.fullWidth}
-            />
+
+            {activeLang === "vi" ? (
+              <FormTextarea
+                label="Mô Tả Tóm Tắt (Excerpt - Tiếng Việt)"
+                value={excerptVi}
+                onChange={(e) => setExcerptVi(e.target.value)}
+                placeholder="Tóm tắt ngắn về bài viết để hiển thị trên danh sách và thẻ chia sẻ..."
+                rows={3}
+                className={styles.fullWidth}
+              />
+            ) : (
+              <FormTextarea
+                label="Short Excerpt (English)"
+                value={excerptEn}
+                onChange={(e) => setExcerptEn(e.target.value)}
+                placeholder="Short summary of this article in English..."
+                rows={3}
+                className={styles.fullWidth}
+              />
+            )}
           </div>
         </div>
 

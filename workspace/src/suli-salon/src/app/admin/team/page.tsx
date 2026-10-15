@@ -3,13 +3,25 @@ import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import { TeamMemberData } from "@/lib/db";
 import AdminLoading from "@/components/Admin/AdminLoading";
-import { MdAdd, MdCloudUpload, MdDeleteOutline, MdClose, MdGroups } from "react-icons/md";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
+import { MdAdd, MdCloudUpload, MdDeleteOutline, MdClose, MdGroups, MdLanguage } from "react-icons/md";
 
 export default function AdminTeamPage() {
+  const { locale, t, tOther, joinBilingual } = useAdminLocale();
+  const [activeLang, setActiveLang] = useState<"vi" | "en">(locale);
+
   const [items, setItems] = useState<TeamMemberData[]>([]);
   const [showAdd, setShowAdd] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [newItem, setNewItem] = useState({ name: "", role: "Nail Artist", image: "", bio: "", order: 0 });
+
+  const [name, setName] = useState("");
+  const [roleVi, setRoleVi] = useState("Nghệ Nhân Móng");
+  const [roleEn, setRoleEn] = useState("Nail Artist");
+  const [bioVi, setBioVi] = useState("");
+  const [bioEn, setBioEn] = useState("");
+  const [image, setImage] = useState("");
+  const [order, setOrder] = useState(0);
+
   const [msg, setMsg] = useState({ type: "", text: "" });
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
@@ -42,7 +54,7 @@ export default function AdminTeamPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setNewItem((p) => ({ ...p, image: data.url }));
+        setImage(data.url);
         flash("success", "Tải ảnh đại diện thành công!");
       } else {
         flash("error", data.error || "Tải ảnh thất bại");
@@ -55,18 +67,38 @@ export default function AdminTeamPage() {
   }
 
   async function handleAdd() {
-    if (!newItem.name) return flash("error", "Tên thành viên là bắt buộc");
+    if (!name.trim()) return flash("error", "Tên thành viên là bắt buộc");
+
+    const fullRole = joinBilingual(roleVi, roleEn);
+    const fullBio = joinBilingual(bioVi, bioEn);
+
+    const payload = {
+      name: name.trim(),
+      role: fullRole || "Nail Artist",
+      bio: fullBio,
+      image,
+      order,
+    };
+
     const res = await fetch("/api/team", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newItem),
+      body: JSON.stringify(payload),
     });
     if (res.ok) {
       const data = await res.json();
       setItems((prev) => [...prev, data.item]);
-      setNewItem({ name: "", role: "Nail Artist", image: "", bio: "", order: 0 });
+      setName("");
+      setRoleVi("Nghệ Nhân Móng");
+      setRoleEn("Nail Artist");
+      setBioVi("");
+      setBioEn("");
+      setImage("");
+      setOrder(0);
       setShowAdd(false);
       flash("success", "Đã thêm thành viên vào đội ngũ!");
+    } else {
+      flash("error", "Không thể thêm thành viên. Vui lòng thử lại.");
     }
   }
 
@@ -90,14 +122,17 @@ export default function AdminTeamPage() {
               : `Quản lý các nghệ sĩ nail và chuyên viên chăm sóc sắc đẹp tại salon (${items.length} thành viên).`}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowAdd(!showAdd)}
-          className={styles.btnPrimary}
-        >
-          {showAdd ? <MdClose size={16} /> : <MdAdd size={16} />}
-          <span>{showAdd ? "Đóng form" : "Thêm thành viên"}</span>
-        </button>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          <AdminLanguageSelector compact light />
+          <button
+            type="button"
+            onClick={() => setShowAdd(!showAdd)}
+            className={styles.btnPrimary}
+          >
+            {showAdd ? <MdClose size={16} /> : <MdAdd size={16} />}
+            <span>{showAdd ? "Đóng form" : "Thêm thành viên"}</span>
+          </button>
+        </div>
       </div>
 
       {msg.text && (
@@ -108,45 +143,112 @@ export default function AdminTeamPage() {
 
       {showAdd && (
         <div className={styles.formCard} style={{ marginBottom: "1.8rem" }}>
-          <div className={styles.cardSectionTitle}>Thêm thành viên mới</div>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+            marginBottom: "1.2rem",
+            paddingBottom: "0.8rem",
+            borderBottom: "1px solid rgba(194, 169, 121, 0.22)"
+          }}>
+            <div className={styles.cardSectionTitle} style={{ margin: 0, border: "none", padding: 0 }}>
+              Thêm thành viên mới
+            </div>
+
+            <div style={{
+              display: "inline-flex",
+              padding: "3px",
+              background: "rgba(194, 169, 121, 0.12)",
+              borderRadius: "20px",
+              border: "1px solid rgba(194, 169, 121, 0.35)",
+              gap: "3px"
+            }}>
+              <button
+                type="button"
+                onClick={() => setActiveLang("vi")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "vi" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇻🇳 Tiếng Việt
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveLang("en")}
+                style={{
+                  padding: "5px 12px",
+                  borderRadius: "16px",
+                  border: "none",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  background: activeLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+                  color: activeLang === "en" ? "#FFFFFF" : "#78695C",
+                }}
+              >
+                🇬🇧 English
+              </button>
+            </div>
+          </div>
+
           <div className={styles.formGrid}>
             <div className={styles.formField}>
-              <label>Họ và tên nghệ nhân</label>
+              <label>Họ và tên nghệ nhân <span style={{ color: "#C0392B" }}>*</span></label>
               <input
-                value={newItem.name}
-                onChange={(e) => setNewItem((p) => ({ ...p, name: e.target.value }))}
-                placeholder="VD: Elena Nguyễn"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="VD: Linh Trần (Master Linh)"
               />
             </div>
-            <div className={styles.formField}>
-              <label>Chức danh / Vị trí</label>
-              <input
-                value={newItem.role}
-                onChange={(e) => setNewItem((p) => ({ ...p, role: e.target.value }))}
-                placeholder="VD: Master Nail Artist & Educator"
-              />
-            </div>
+
+            {activeLang === "vi" ? (
+              <div className={styles.formField}>
+                <label>Chức danh / Vị trí (Tiếng Việt)</label>
+                <input
+                  value={roleVi}
+                  onChange={(e) => setRoleVi(e.target.value)}
+                  placeholder="VD: Nghệ Nhân Móng Trưởng & Đồng Sáng Lập"
+                />
+              </div>
+            ) : (
+              <div className={styles.formField}>
+                <label>Role / Position (English)</label>
+                <input
+                  value={roleEn}
+                  onChange={(e) => setRoleEn(e.target.value)}
+                  placeholder="e.g. Head Nail Artist & Co-Founder"
+                />
+              </div>
+            )}
+
             <div className={styles.formField}>
               <label>Ảnh đại diện hoặc tải tệp lên</label>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 <input
-                  value={newItem.image}
-                  onChange={(e) => setNewItem((p) => ({ ...p, image: e.target.value }))}
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
                   placeholder="https://..."
                   style={{ flex: 1 }}
                 />
                 <label
                   style={{
-                    background: "rgba(194, 169, 121, 0.12)",
-                    padding: "9px 14px",
-                    borderRadius: 11,
-                    cursor: "pointer",
-                    border: "1px solid rgba(194, 169, 121, 0.3)",
                     display: "inline-flex",
                     alignItems: "center",
-                    gap: 6,
-                    color: "#967840",
-                    fontWeight: 700,
+                    gap: "6px",
+                    background: "#231B15",
+                    color: "#fff",
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    cursor: isUploading ? "not-allowed" : "pointer",
                     fontSize: 12.5,
                   }}
                 >
@@ -162,60 +264,73 @@ export default function AdminTeamPage() {
                 </label>
               </div>
             </div>
+
             <div className={styles.formField}>
               <label>Thứ tự hiển thị</label>
               <input
                 type="number"
-                value={newItem.order}
-                onChange={(e) => setNewItem((p) => ({ ...p, order: parseInt(e.target.value) || 0 }))}
+                value={order}
+                onChange={(e) => setOrder(parseInt(e.target.value) || 0)}
               />
             </div>
+
             <div className={`${styles.formField} ${styles.fullWidth}`}>
-              <label>Tiểu sử / Giới thiệu tay nghề</label>
-              <input
-                value={newItem.bio}
-                onChange={(e) => setNewItem((p) => ({ ...p, bio: e.target.value }))}
-                placeholder="VD: Hơn 6 năm kinh nghiệm trong kỹ thuật vẽ cọ nét và đính đá haute-couture..."
-              />
+              <label>
+                {activeLang === "vi" ? "Tiểu sử / Giới thiệu tay nghề (Tiếng Việt)" : "Biography / Expertise (English)"}
+              </label>
+              {activeLang === "vi" ? (
+                <textarea
+                  value={bioVi}
+                  onChange={(e) => setBioVi(e.target.value)}
+                  placeholder="VD: Hơn 8 năm tâm huyết với nghệ thuật móng, theo đuổi trường phái tối giản tinh tế..."
+                  rows={3}
+                />
+              ) : (
+                <textarea
+                  value={bioEn}
+                  onChange={(e) => setBioEn(e.target.value)}
+                  placeholder="e.g. Over 8 years mastering nail artistry, embracing mindful minimalism..."
+                  rows={3}
+                />
+              )}
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "1.2rem" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "1rem" }}>
             <button type="button" onClick={handleAdd} className={styles.btnPrimary}>
               <MdAdd size={16} />
               <span>Lưu thành viên</span>
             </button>
-            {newItem.image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={newItem.image}
-                alt="Xem trước ảnh chân dung"
-                style={{
-                  width: 52,
-                  height: 52,
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                  border: "2px solid #C2A979",
-                }}
-              />
-            )}
+            <button
+              type="button"
+              onClick={() => setShowAdd(false)}
+              className={styles.btnSecondary}
+            >
+              Hủy
+            </button>
           </div>
         </div>
       )}
 
       {isInitialLoading ? (
-        <AdminLoading variant="cards" label="Đang tải danh sách đội ngũ..." />
+        <AdminLoading variant="grid" label="Đang tải danh sách thành viên..." />
       ) : items.length === 0 ? (
         <div className={styles.emptyState}>
-          <span style={{ fontSize: 26, opacity: 0.6 }}>✦</span>
-          <span>Chưa có thành viên nào trong đội ngũ. Hãy thêm thành viên đầu tiên!</span>
+          <span style={{ fontSize: 32, opacity: 0.5 }}>✦</span>
+          <span>Chưa có thành viên nào trong đội ngũ. Bấm nút Thêm thành viên ở trên.</span>
         </div>
       ) : (
-        <div className={styles.entityGrid}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gap: "20px",
+          }}
+        >
           {items.map((item) => (
             <div
               key={item.id}
-              className={styles.entityCard}
+              className={styles.formCard}
               style={{
                 padding: "20px",
                 position: "relative",
@@ -280,9 +395,16 @@ export default function AdminTeamPage() {
                 )}
               </div>
 
-              <div style={{ paddingRight: 28 }}>
+              <div style={{ paddingRight: 28, flex: 1 }}>
                 <div style={{ fontWeight: 700, fontSize: 15, color: "#231B15" }}>{item.name}</div>
-                <div style={{ fontSize: 12.5, color: "#967840", fontWeight: 600, marginBottom: 4 }}>{item.role}</div>
+                <div style={{ fontSize: 12.5, color: "#967840", fontWeight: 600, marginTop: 2 }}>
+                  {t(item.role)}
+                </div>
+                {tOther(item.role) && (
+                  <div style={{ fontSize: 11, color: "#8C7B6D", fontStyle: "italic", marginBottom: 4 }}>
+                    ({tOther(item.role)})
+                  </div>
+                )}
                 {item.bio && (
                   <div
                     style={{
@@ -293,9 +415,10 @@ export default function AdminTeamPage() {
                       WebkitBoxOrient: "vertical",
                       overflow: "hidden",
                       lineHeight: 1.45,
+                      marginTop: 4,
                     }}
                   >
-                    {item.bio}
+                    {t(item.bio)}
                   </div>
                 )}
               </div>

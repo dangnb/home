@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import styles from "../admin.module.css";
 import AdminLoading from "@/components/Admin/AdminLoading";
-import { MdSpa, MdAdd, MdClose, MdCheck, MdDeleteOutline } from "react-icons/md";
+import { useAdminLocale, AdminLanguageSelector } from "@/components/Admin/AdminLocaleContext";
+import { MdSpa, MdAdd, MdClose, MdCheck, MdDeleteOutline, MdLanguage } from "react-icons/md";
 
 interface PriceItem {
   name: string;
@@ -15,9 +16,17 @@ interface PriceCategory {
   order: number;
 }
 
-const DEFAULT_CATEGORIES = ["Manicure", "Pedicure", "Gel Nails", "Nail Art", "Extensions"];
+const DEFAULT_CATEGORIES = [
+  "Chăm Sóc Móng Tay | Manicure",
+  "Chăm Sóc Móng Chân | Pedicure",
+  "Nghệ Thuật Vẽ Móng | Nail Art",
+  "Nối Móng & Đắp Bột | Extensions",
+];
 
 export default function PriceListPage() {
+  const { locale, t, tOther, splitBilingual, joinBilingual } = useAdminLocale();
+  const [editLang, setEditLang] = useState<"vi" | "en">(locale);
+
   const [categories, setCategories] = useState<PriceCategory[]>([]);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState({ type: "", text: "" });
@@ -45,12 +54,34 @@ export default function PriceListPage() {
     setTimeout(() => setMsg({ type: "", text: "" }), 3000);
   }
 
+  function getPart(val: string, lang: "vi" | "en") {
+    return splitBilingual(val)[lang] || "";
+  }
+
+  function setPart(original: string, newVal: string, lang: "vi" | "en") {
+    const parts = splitBilingual(original);
+    parts[lang] = newVal;
+    return joinBilingual(parts.vi, parts.en);
+  }
+
   function updateItem(catIdx: number, itemIdx: number, key: keyof PriceItem, val: string) {
     const next = [...categories];
     next[catIdx] = {
       ...next[catIdx],
-      items: next[catIdx].items.map((item, i) => (i === itemIdx ? { ...item, [key]: val } : item)),
+      items: next[catIdx].items.map((item, i) => {
+        if (i !== itemIdx) return item;
+        const currentVal = item[key];
+        const updatedVal = setPart(currentVal, val, editLang);
+        return { ...item, [key]: updatedVal };
+      }),
     };
+    setCategories(next);
+  }
+
+  function updateCategoryName(catIdx: number, val: string) {
+    const next = [...categories];
+    const updated = setPart(next[catIdx].category, val, editLang);
+    next[catIdx] = { ...next[catIdx], category: updated };
     setCategories(next);
   }
 
@@ -73,13 +104,16 @@ export default function PriceListPage() {
   }
 
   function addCategory() {
-    const name = prompt("Nhập tên danh mục giá mới:");
+    const promptText = editLang === "vi" ? "Nhập tên nhóm bảng giá mới (Tiếng Việt):" : "Enter new price category name (English):";
+    const name = prompt(promptText);
     if (!name) return;
-    setCategories((prev) => [...prev, { category: name, items: [], order: prev.length }]);
+    const catName = editLang === "vi" ? joinBilingual(name, "") : joinBilingual("", name);
+    setCategories((prev) => [...prev, { category: catName, items: [], order: prev.length }]);
   }
 
   function removeCategory(idx: number) {
-    if (!confirm(`Bạn có chắc muốn xóa nhóm giá "${categories[idx].category}" và toàn bộ dịch vụ bên trong?`)) return;
+    const catTitle = t(categories[idx].category) || categories[idx].category;
+    if (!confirm(`Bạn có chắc muốn xóa nhóm giá "${catTitle}" và toàn bộ dịch vụ bên trong?`)) return;
     setCategories((prev) => prev.filter((_, i) => i !== idx));
   }
 
@@ -104,7 +138,7 @@ export default function PriceListPage() {
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Bảng giá dịch vụ</h1>
-          <p className={styles.pageSubtitle}>Thiết lập chi tiết giá và thời lượng cho từng liệu trình tại salon.</p>
+          <p className={styles.pageSubtitle}>Thiết lập chi tiết giá và thời lượng cho từng liệu trình tại salon theo ngôn ngữ.</p>
         </div>
         <div className={styles.pageActions}>
           <button type="button" onClick={addCategory} className={styles.btnSecondary}>
@@ -124,12 +158,81 @@ export default function PriceListPage() {
         </p>
       )}
 
+      {/* Language Switcher Toolbar for Pricing */}
+      <div style={{
+        background: "#FFFFFF",
+        border: "1px solid rgba(194, 169, 121, 0.28)",
+        borderRadius: "14px",
+        padding: "14px 20px",
+        marginBottom: "20px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: 12,
+        boxShadow: "0 2px 10px rgba(35, 27, 21, 0.03)"
+      }}>
+        <div>
+          <strong style={{ fontSize: "13.5px", color: "#231B15", display: "flex", alignItems: "center", gap: 6 }}>
+            <MdLanguage size={18} color="#967840" />
+            <span>Chế độ ngôn ngữ soạn bảng giá:</span>
+          </strong>
+          <span style={{ fontSize: "12px", color: "#857567", marginTop: 2, display: "block" }}>
+            Đang chỉnh sửa và hiển thị nội dung theo: <b>{editLang === "vi" ? "Tiếng Việt (VNĐ)" : "English (Currency)"}</b>
+          </span>
+        </div>
+
+        <div style={{
+          display: "inline-flex",
+          padding: "3px",
+          background: "rgba(194, 169, 121, 0.12)",
+          borderRadius: "20px",
+          border: "1px solid rgba(194, 169, 121, 0.35)",
+          gap: "3px"
+        }}>
+          <button
+            type="button"
+            onClick={() => setEditLang("vi")}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "16px",
+              border: "none",
+              fontSize: "12px",
+              fontWeight: 750,
+              cursor: "pointer",
+              background: editLang === "vi" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+              color: editLang === "vi" ? "#FFFFFF" : "#78695C",
+              boxShadow: editLang === "vi" ? "0 2px 8px rgba(194, 169, 121, 0.35)" : "none",
+            }}
+          >
+            🇻🇳 Tiếng Việt
+          </button>
+          <button
+            type="button"
+            onClick={() => setEditLang("en")}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "16px",
+              border: "none",
+              fontSize: "12px",
+              fontWeight: 750,
+              cursor: "pointer",
+              background: editLang === "en" ? "linear-gradient(135deg, #C2A979, #967840)" : "transparent",
+              color: editLang === "en" ? "#FFFFFF" : "#78695C",
+              boxShadow: editLang === "en" ? "0 2px 8px rgba(194, 169, 121, 0.35)" : "none",
+            }}
+          >
+            🇬🇧 English
+          </button>
+        </div>
+      </div>
+
       {isInitialLoading ? (
         <AdminLoading variant="form" label="Đang tải dữ liệu bảng giá..." />
       ) : (
         categories.map((cat, catIdx) => (
-          <div key={cat.category} className={styles.formCard} style={{ marginBottom: "1.6rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div key={catIdx} className={styles.formCard} style={{ marginBottom: "1.6rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
               <div
                 className={styles.cardSectionTitle}
                 style={{
@@ -139,10 +242,31 @@ export default function PriceListPage() {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
+                  flex: 1
                 }}
               >
                 <MdSpa size={18} style={{ color: "#967840" }} />
-                <span>{cat.category}</span>
+                <input
+                  value={getPart(cat.category, editLang)}
+                  onChange={(e) => updateCategoryName(catIdx, e.target.value)}
+                  placeholder={editLang === "vi" ? "Tên nhóm (Tiếng Việt)..." : "Category name (English)..."}
+                  style={{
+                    fontFamily: "inherit",
+                    fontSize: "15px",
+                    fontWeight: 700,
+                    color: "#231B15",
+                    border: "1px solid rgba(194, 169, 121, 0.3)",
+                    borderRadius: "8px",
+                    padding: "6px 12px",
+                    maxWidth: "320px",
+                    background: "#FDFBF7",
+                  }}
+                />
+                {getPart(cat.category, editLang === "vi" ? "en" : "vi") && (
+                  <span style={{ fontSize: "12px", color: "#8C7B6D", fontStyle: "italic" }}>
+                    ({editLang === "vi" ? "EN: " : "VI: "}{getPart(cat.category, editLang === "vi" ? "en" : "vi")})
+                  </span>
+                )}
               </div>
               <button
                 type="button"
@@ -161,7 +285,7 @@ export default function PriceListPage() {
                 className={styles.priceEditorHeader}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 130px 130px 42px",
+                  gridTemplateColumns: "1fr 140px 140px 42px",
                   gap: "0.6rem",
                   marginBottom: "0.6rem",
                   fontSize: 11,
@@ -172,53 +296,68 @@ export default function PriceListPage() {
                   lineHeight: 1.3,
                 }}
               >
-                <span>Tên dịch vụ</span>
-                <span>Thời lượng</span>
-                <span>Giá dịch vụ</span>
+                <span>{editLang === "vi" ? "Tên dịch vụ (Tiếng Việt)" : "Service Name (English)"}</span>
+                <span>{editLang === "vi" ? "Thời lượng" : "Duration"}</span>
+                <span>{editLang === "vi" ? "Bảng giá" : "Price"}</span>
                 <span></span>
               </div>
 
-              {cat.items.map((item, itemIdx) => (
-                <div
-                  key={itemIdx}
-                  className={styles.priceEditorRow}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 130px 130px 42px",
-                    gap: "0.6rem",
-                    alignItems: "center",
-                    marginBottom: "0.5rem",
-                  }}
-                >
-                  <input
-                    value={item.name}
-                    onChange={(e) => updateItem(catIdx, itemIdx, "name", e.target.value)}
-                    placeholder="VD: Classic Manicure"
-                    className={styles.controlInput}
-                  />
-                  <input
-                    value={item.duration}
-                    onChange={(e) => updateItem(catIdx, itemIdx, "duration", e.target.value)}
-                    placeholder="VD: 45 phút"
-                    className={styles.controlInput}
-                  />
-                  <input
-                    value={item.price}
-                    onChange={(e) => updateItem(catIdx, itemIdx, "price", e.target.value)}
-                    placeholder="VD: 590 CZK"
-                    className={styles.controlInput}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeItem(catIdx, itemIdx)}
-                    className={styles.btnDanger}
-                    style={{ padding: 0, minHeight: 40, width: 42, display: "grid", placeItems: "center" }}
-                    title="Xóa dịch vụ này"
+              {cat.items.map((item, itemIdx) => {
+                const currentName = getPart(item.name, editLang);
+                const otherName = getPart(item.name, editLang === "vi" ? "en" : "vi");
+
+                const currentDuration = getPart(item.duration, editLang);
+                const currentPrice = getPart(item.price, editLang);
+
+                return (
+                  <div
+                    key={itemIdx}
+                    className={styles.priceEditorRow}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 140px 140px 42px",
+                      gap: "0.6rem",
+                      alignItems: "center",
+                      marginBottom: "0.5rem",
+                    }}
                   >
-                    <MdClose size={15} />
-                  </button>
-                </div>
-              ))}
+                    <div>
+                      <input
+                        value={currentName}
+                        onChange={(e) => updateItem(catIdx, itemIdx, "name", e.target.value)}
+                        placeholder={editLang === "vi" ? "VD: Cắt Da & Sơn Móng" : "e.g. Classic Manicure"}
+                        className={styles.controlInput}
+                      />
+                      {otherName && (
+                        <div style={{ fontSize: "11px", color: "#8C7B6D", fontStyle: "italic", marginTop: 2, paddingLeft: 4 }}>
+                          {editLang === "vi" ? "EN: " : "VI: "}{otherName}
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      value={currentDuration}
+                      onChange={(e) => updateItem(catIdx, itemIdx, "duration", e.target.value)}
+                      placeholder={editLang === "vi" ? "VD: 45 phút" : "e.g. 45 mins"}
+                      className={styles.controlInput}
+                    />
+                    <input
+                      value={currentPrice}
+                      onChange={(e) => updateItem(catIdx, itemIdx, "price", e.target.value)}
+                      placeholder={editLang === "vi" ? "VD: 250.000 VNĐ" : "e.g. $10"}
+                      className={styles.controlInput}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeItem(catIdx, itemIdx)}
+                      className={styles.btnDanger}
+                      style={{ padding: 0, minHeight: 40, width: 42, display: "grid", placeItems: "center" }}
+                      title="Xóa dịch vụ này"
+                    >
+                      <MdClose size={15} />
+                    </button>
+                  </div>
+                );
+              })}
 
               <button
                 type="button"
@@ -237,7 +376,7 @@ export default function PriceListPage() {
       {!isInitialLoading && categories.length === 0 && (
         <div className={styles.emptyState}>
           <span style={{ fontSize: 26, opacity: 0.6 }}>✦</span>
-          <span>Chưa có danh mục giá nào. Hãy nhấn &quot;Thêm nhóm giá&quot; để bắt đầu.</span>
+          <span>Chưa có nhóm giá nào. Bấm "Thêm nhóm giá" để bắt đầu.</span>
         </div>
       )}
     </div>
