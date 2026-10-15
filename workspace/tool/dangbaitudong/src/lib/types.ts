@@ -197,3 +197,34 @@ export type MarketingTrend = {
   clusterTopic?: string;
   discoveredAt: string;
 };
+
+export type SystemConfig = {
+  aiProvider: "openai" | "anthropic" | "gemini" | "azure_openai" | "demo";
+  openaiApiKey: string;
+  openaiModel: string;
+  anthropicApiKey: string;
+  anthropicModel: string;
+  geminiApiKey: string;
+  geminiModel: string;
+  azureOpenAiEndpoint: string;
+  azureOpenAiKey: string;
+  azureOpenAiDeployment: string;
+  replicateApiKey: string;
+
+  tier1Model: string;
+  tier2Model: string;
+  tier3ImageModel: string;
+
+  facebookPageId: string;
+  facebookPageAccessToken: string;
+  facebookAppId: string;
+  facebookAppSecret: string;
+
+  qdrantUrl: string;
+  qdrantApiKey: string;
+  qdrantCollection: string;
+
+  trendFeedUrls: string;
+  trendKeywords: string;
+};
+

@@ -227,9 +227,13 @@ export default function Services({ services, settings, lang }: ServicesProps) {
                     safeImageUrl = "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=800&auto=format&fit=crop";
                   }
 
+                  const detailUrl = (service.linkUrl && service.linkUrl !== "#" && service.linkUrl.trim() !== "")
+                    ? service.linkUrl
+                    : `/${lang}/services/${service.id}`;
+
                   return (
                     <div className="service-card" key={service.id} data-aos="fade-up">
-                      <div className="service-image">
+                      <Link href={detailUrl} className="service-image" style={{ display: "block" }}>
                         <span className="service-card-tag">{group.title}</span>
                         <Image
                           src={safeImageUrl}
@@ -239,11 +243,11 @@ export default function Services({ services, settings, lang }: ServicesProps) {
                           style={{ objectFit: "cover" }}
                         />
                         <div className="service-overlay"></div>
-                      </div>
+                      </Link>
                       <div className="service-content">
                         <div>
                           <h4 className="service-title">
-                            <Link href={service.linkUrl || "#"}>{displayTitle}</Link>
+                            <Link href={detailUrl}>{displayTitle}</Link>
                           </h4>
                           {displayDesc && (
                             <p style={{ color: "var(--text-muted)", fontSize: "0.92rem", lineHeight: "1.6", margin: "0 0 10px 0" }}>
@@ -259,7 +263,7 @@ export default function Services({ services, settings, lang }: ServicesProps) {
                             </span>
                           </div>
                         </div>
-                        <Link href={service.linkUrl || "#"} className="service-link">
+                        <Link href={detailUrl} className="service-link">
                           <span>{fallback("Xem chi tiết", "Learn More")}</span>
                           <span className="service-link-circle">
                             <i className="ph-bold ph-arrow-right"></i>

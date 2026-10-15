@@ -61,7 +61,10 @@ export default async function ServicesPage() {
                                         </td>
                                         <td>
                                             <div className="td-actions">
-                                                <Link href={`/admin/services/${svc.id}`} className="admin-btn btn-outline" style={{ padding: "6px 12px" }}>
+                                                <Link href={`/vi/services/${svc.id}`} target="_blank" className="admin-btn btn-secondary" style={{ padding: "6px 12px" }} title="Xem bài viết trên web">
+                                                    <i className="ph ph-arrow-square-out"></i>
+                                                </Link>
+                                                <Link href={`/admin/services/${svc.id}`} className="admin-btn btn-outline" style={{ padding: "6px 12px" }} title="Chỉnh sửa">
                                                     <i className="ph ph-pencil-simple"></i>
                                                 </Link>
                                                 <DeleteButton action={delAction} />

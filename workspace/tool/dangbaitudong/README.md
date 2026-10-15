@@ -138,6 +138,7 @@ Thay vì các hàm xử lý cứng nhắc, hệ thống kết nối 5 Agents gia
 
 | Endpoint | Method | Chức năng |
 |---|---|---|
+| `/api/settings` | GET/POST | Cấu hình AI API Keys, Model Routing, Facebook Graph API & Ping Test |
 | `/api/ai/generate` | POST | Sinh bài viết đa tác tử (RAG + Copywriter + Art Director + Compliance) |
 | `/api/ai/trend-deconstruct` | POST | Agent 1: Giải mã Viral DNA & Root-Cause Sentiment bình luận |
 | `/api/ai/spintax` | POST | Module 3: Sinh Contextual Spintax & Tính độ tương đồng Cosine < 30% |

@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { scanCompliance } from "@/lib/compliance";
+import { getSystemConfig } from "@/lib/config-store";
 import { generateProgrammaticImage } from "@/lib/image-processor";
 import {
   listBrandVoices,
@@ -173,15 +174,17 @@ async function callOpenAiStructured(
   modelName: string,
   moduleType: ModuleType,
 ): Promise<{ output: StructuredPostOutput; usage: TokenUsage } | null> {
-  const openAiKey = process.env.OPENAI_API_KEY;
-  const azureKey = process.env.AZURE_OPENAI_API_KEY;
-  const azureDeployment = process.env.AZURE_OPENAI_DEPLOYMENT;
-  const isAzure = Boolean(!openAiKey && azureKey && azureDeployment && process.env.AZURE_OPENAI_ENDPOINT);
+  const config = await getSystemConfig();
+  const openAiKey = config.openaiApiKey || process.env.OPENAI_API_KEY;
+  const azureKey = config.azureOpenAiKey || process.env.AZURE_OPENAI_API_KEY;
+  const azureDeployment = config.azureOpenAiDeployment || process.env.AZURE_OPENAI_DEPLOYMENT;
+  const azureEndpoint = config.azureOpenAiEndpoint || process.env.AZURE_OPENAI_ENDPOINT;
+  const isAzure = Boolean(!openAiKey && azureKey && azureDeployment && azureEndpoint);
 
   if (!openAiKey && !isAzure) return null;
 
   const endpoint = isAzure
-    ? `${process.env.AZURE_OPENAI_ENDPOINT!.replace(/\/$/, "")}/openai/deployments/${azureDeployment}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION ?? "2024-10-21"}`
+    ? `${azureEndpoint!.replace(/\/$/, "")}/openai/deployments/${azureDeployment}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION ?? "2024-10-21"}`
     : "https://api.openai.com/v1/chat/completions";
 
   const headers: Record<string, string> = isAzure
@@ -281,7 +284,8 @@ ${winningContext}
     call_to_action: input.callToAction || "Mời thảo luận trải nghiệm cá nhân ở phần bình luận",
   });
 
-  const modelToUse = process.env.OPENAI_MODEL || "gpt-4o-mini";
+  const config = await getSystemConfig();
+  const modelToUse = config.tier2Model || config.openaiModel || process.env.OPENAI_MODEL || "gpt-4o-mini";
   const aiResult = await callOpenAiStructured(systemPrompt, userPrompt, modelToUse, "ContentGen");
 
   let content: StructuredPostOutput;

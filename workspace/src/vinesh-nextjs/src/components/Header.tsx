@@ -245,9 +245,12 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                               if (t2[lang]?.title) svcTitle = t2[lang].title;
                             } catch (_e) { }
                           }
+                          const svcLink = (svc.linkUrl && svc.linkUrl !== "#" && svc.linkUrl.trim() !== "")
+                            ? svc.linkUrl
+                            : `/${lang}/services/${svc.id}`;
                           return (
                             <li key={`svc-${svc.id}`}>
-                              <Link href={svc.linkUrl || "#"}>{svcTitle}</Link>
+                              <Link href={svcLink}>{svcTitle}</Link>
                             </li>
                           );
                         })}
@@ -358,9 +361,12 @@ export default function Header({ settings, lang, languages = [], menuCategories 
                           if (t2[lang]?.title) svcTitle = t2[lang].title;
                         } catch (_e) { }
                       }
+                      const svcLink = (svc.linkUrl && svc.linkUrl !== "#" && svc.linkUrl.trim() !== "")
+                        ? svc.linkUrl
+                        : `/${lang}/services/${svc.id}`;
                       return (
                         <li key={`svc-${svc.id}`}>
-                          <Link href={svc.linkUrl || "#"} style={{ color: "#cbd5e1", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "6px" }} onClick={() => setMobileMenuOpen(false)}>
+                          <Link href={svcLink} style={{ color: "#cbd5e1", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "6px" }} onClick={() => setMobileMenuOpen(false)}>
                             <span style={{ color: "var(--brand-green)" }}>•</span> {svcTitle}
                           </Link>
                         </li>

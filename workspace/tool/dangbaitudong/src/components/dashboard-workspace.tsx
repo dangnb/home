@@ -8,6 +8,7 @@ import type {
   MarketingTrend,
   ProductKnowledgeItem,
   SpintaxVariation,
+  SystemConfig,
   TrendDeconstructionResult,
 } from "@/lib/types";
 
@@ -41,6 +42,7 @@ type WorkspaceData = {
 };
 
 type Settings = {
+  config?: SystemConfig;
   providers: {
     ai: boolean;
     facebook: boolean;
@@ -61,7 +63,7 @@ const tabs: Array<{ id: Tab; label: string; agentTag?: string }> = [
   { id: "queue", label: "Lịch & Xuất bản" },
   { id: "analytics", label: "Growth Analyst", agentTag: "Agent 5" },
   { id: "knowledge", label: "RAG & Brand Voice" },
-  { id: "settings", label: "Tích hợp & Chi phí" },
+  { id: "settings", label: "Cấu hình AI & API", agentTag: "Hệ thống" },
 ];
 
 const number = (value: number) => new Intl.NumberFormat("vi-VN").format(value);
@@ -107,6 +109,39 @@ export default function DashboardWorkspace() {
   // Spintax test state
   const [activeSpintaxVariations, setActiveSpintaxVariations] = useState<SpintaxVariation[]>([]);
 
+  // System Config & Testing states
+  const [configForm, setConfigForm] = useState<Partial<SystemConfig>>({
+    aiProvider: "openai",
+    openaiApiKey: "",
+    openaiModel: "gpt-4o-mini",
+    anthropicApiKey: "",
+    anthropicModel: "claude-3-5-sonnet",
+    geminiApiKey: "",
+    geminiModel: "gemini-1.5-flash",
+    azureOpenAiEndpoint: "",
+    azureOpenAiKey: "",
+    azureOpenAiDeployment: "",
+    replicateApiKey: "",
+    tier1Model: "gpt-4o-mini",
+    tier2Model: "gpt-4o",
+    tier3ImageModel: "sharp-programmatic",
+    facebookPageId: "",
+    facebookPageAccessToken: "",
+    facebookAppId: "",
+    facebookAppSecret: "",
+    qdrantUrl: "http://localhost:6333",
+    qdrantApiKey: "",
+    qdrantCollection: "winning-posts",
+    trendFeedUrls: "",
+    trendKeywords: "",
+  });
+  const [savingConfig, setSavingConfig] = useState(false);
+  const [testingAi, setTestingAi] = useState(false);
+  const [aiTestResult, setAiTestResult] = useState<{ success: boolean; message: string; latencyMs?: number } | null>(null);
+  const [testingFb, setTestingFb] = useState(false);
+  const [fbTestResult, setFbTestResult] = useState<{ success: boolean; message: string } | null>(null);
+  const [showSecrets, setShowSecrets] = useState(false);
+
   useEffect(() => {
     async function load() {
       setLoading(true);
@@ -128,6 +163,14 @@ export default function DashboardWorkspace() {
         setTrends(trendData.trends ?? []);
         setAnalytics(analyticsData);
         setSettings(settingsData);
+        if (settingsData?.config) {
+          setConfigForm((prev) => ({
+            ...settingsData.config,
+            ...Object.fromEntries(
+              Object.entries(prev).filter(([_, v]) => v !== "" && v !== undefined && !String(v).includes("****")),
+            ),
+          }));
+        }
         setKnowledgeList(kbData.items ?? []);
         setBrandVoices(bvData.voices ?? []);
         if (growthData.report) setGrowthReport(growthData.report);
@@ -294,6 +337,88 @@ export default function DashboardWorkspace() {
       setNotice(err instanceof Error ? err.message : "Lỗi lưu tri thức.");
     } finally {
       setBusy(false);
+    }
+  }
+
+  // System Configuration & Connection Testing Actions
+  async function handleTestAi() {
+    setTestingAi(true);
+    setAiTestResult(null);
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "test_ai",
+          apiKey: configForm.openaiApiKey,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAiTestResult({ success: true, message: data.message, latencyMs: data.latencyMs });
+      } else {
+        setAiTestResult({ success: false, message: data.error || "Kiểm tra kết nối AI thất bại." });
+      }
+    } catch (err) {
+      setAiTestResult({ success: false, message: err instanceof Error ? err.message : "Lỗi mạng khi kiểm tra AI." });
+    } finally {
+      setTestingAi(false);
+    }
+  }
+
+  async function handleTestFacebook() {
+    setTestingFb(true);
+    setFbTestResult(null);
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "test_facebook",
+          pageId: configForm.facebookPageId,
+          token: configForm.facebookPageAccessToken,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setFbTestResult({ success: true, message: data.message });
+      } else {
+        setFbTestResult({ success: false, message: data.error || "Kiểm tra Facebook Graph API thất bại." });
+      }
+    } catch (err) {
+      setFbTestResult({ success: false, message: err instanceof Error ? err.message : "Lỗi mạng khi kiểm tra Facebook." });
+    } finally {
+      setTestingFb(false);
+    }
+  }
+
+  async function handleSaveConfig(e?: FormEvent) {
+    if (e) e.preventDefault();
+    setSavingConfig(true);
+    setNotice("");
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "save",
+          config: configForm,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setNotice("✅ " + data.message);
+        if (data.config) {
+          setConfigForm((prev) => ({ ...prev, ...data.config }));
+        }
+        refresh();
+      } else {
+        setNotice("❌ " + (data.error || "Không thể lưu cấu hình hệ thống."));
+      }
+    } catch (err) {
+      setNotice("❌ Lỗi khi lưu cấu hình: " + (err instanceof Error ? err.message : "Lỗi không xác định"));
+    } finally {
+      setSavingConfig(false);
     }
   }
 
@@ -1310,37 +1435,477 @@ export default function DashboardWorkspace() {
         {/* ======================================================== */}
         {tab === "settings" && (
           <section className="pt-7 space-y-8">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Hệ thống & Tích hợp</p>
-              <h2 className="mt-1 text-2xl font-bold">Model Routing & Quản lý Chi phí AI Token</h2>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400">Hệ thống & Tích hợp</p>
+                <h2 className="mt-1 text-2xl font-bold text-white">Cấu hình AI & API Toàn Hệ Thống</h2>
+                <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+                  Quản lý API Keys (OpenAI, Anthropic, Gemini, Azure), phân tầng Model Routing, kết nối Facebook Page và Vector DB trực tiếp trên giao diện không cần sửa file .env.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowSecrets(!showSecrets)}
+                  className="rounded-xl border border-white/10 bg-slate-900/60 px-3.5 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition"
+                >
+                  {showSecrets ? "🔒 Ẩn API Keys" : "👁️ Hiện API Keys"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSaveConfig()}
+                  disabled={savingConfig}
+                  className="rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 px-5 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:opacity-95 transition disabled:opacity-50"
+                >
+                  {savingConfig ? "Đang lưu..." : "💾 Lưu cấu hình hệ thống"}
+                </button>
+              </div>
             </div>
 
-            {/* Provider status */}
-            <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-5 divide-y divide-white/10">
+            {/* Provider Connectivity Status Cards */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {[
-                ["OpenAI / Azure OpenAI (Tầng 1 & 2)", settings?.providers.ai],
-                ["Facebook Graph API (Xuất bản)", settings?.providers.facebook],
-                ["Qdrant / pgvector (Vector DB)", settings?.providers.qdrant],
-                ["PostgreSQL Database", settings?.providers.postgresConfigured],
-                ["RSS Trend Feeds", settings?.providers.trendFeeds],
-              ].map(([name, enabled]) => (
-                <div key={String(name)} className="flex items-center justify-between py-3">
-                  <span className="text-sm font-medium text-slate-300">{String(name)}</span>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-                      enabled ? "bg-emerald-500/20 text-emerald-300" : "bg-slate-800 text-slate-500"
-                    }`}
-                  >
-                    {enabled ? "Đã kết nối" : "Demo mode"}
-                  </span>
+                { name: "AI Brain", sub: "OpenAI / Azure", ok: settings?.providers.ai },
+                { name: "Facebook API", sub: "Graph API v23.0", ok: settings?.providers.facebook },
+                { name: "Vector DB", sub: "Qdrant Store", ok: settings?.providers.qdrant },
+                { name: "Database", sub: settings?.providers.postgresConfigured ? "PostgreSQL" : "Local File", ok: true },
+                { name: "Trend Feeds", sub: "RSS Crawlers", ok: settings?.providers.trendFeeds },
+              ].map((item, idx) => (
+                <div key={idx} className="rounded-2xl border border-white/10 bg-slate-900/40 p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-white">{item.name}</span>
+                    <span
+                      className={`h-2.5 w-2.5 rounded-full ${
+                        item.ok ? "bg-emerald-400 shadow-lg shadow-emerald-500/50" : "bg-amber-400"
+                      }`}
+                    />
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-1">{item.sub}</p>
+                  <p className={`text-xs font-semibold mt-2 ${item.ok ? "text-emerald-300" : "text-amber-300"}`}>
+                    {item.ok ? "Đã sẵn sàng" : "Chưa cấu hình"}
+                  </p>
                 </div>
               ))}
             </div>
 
-            {/* Token Usage History */}
+            {/* SECTION 1: AI PROVIDER & API KEYS */}
+            <div className="rounded-3xl border border-white/10 bg-slate-900/50 p-6 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-4 gap-3">
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span>🤖</span> 1. Nhà cung cấp AI & Khóa API
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Cấu hình API Key để kích hoạt các Agent phân tích xu hướng, sáng tạo nội dung và tối ưu tăng trưởng.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleTestAi}
+                    disabled={testingAi}
+                    className="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-xs font-bold text-cyan-300 hover:bg-cyan-500/20 transition disabled:opacity-50"
+                  >
+                    {testingAi ? "⏳ Đang kiểm tra..." : "⚡ Kiểm tra kết nối AI"}
+                  </button>
+                </div>
+              </div>
+
+              {/* AI Test Result Alert */}
+              {aiTestResult && (
+                <div
+                  className={`rounded-2xl border p-4 text-xs ${
+                    aiTestResult.success
+                      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                      : "border-rose-500/30 bg-rose-500/10 text-rose-300"
+                  }`}
+                >
+                  <p className="font-bold">{aiTestResult.success ? "✅ Kết nối AI thành công!" : "❌ Lỗi kết nối AI:"}</p>
+                  <p className="mt-1">{aiTestResult.message}</p>
+                </div>
+              )}
+
+              <div className="grid gap-6 md:grid-cols-2">
+                {/* AI Provider Select */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    AI Provider chính
+                  </label>
+                  <select
+                    value={configForm.aiProvider || "openai"}
+                    onChange={(e) =>
+                      setConfigForm({
+                        ...configForm,
+                        aiProvider: e.target.value as SystemConfig["aiProvider"],
+                      })
+                    }
+                    className="w-full rounded-xl border border-white/10 bg-black/60 px-3.5 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                  >
+                    <option value="openai">OpenAI (GPT-4o, GPT-4o-mini) — Khuyên dùng</option>
+                    <option value="azure_openai">Microsoft Azure OpenAI Service</option>
+                    <option value="anthropic">Anthropic (Claude 3.5 Sonnet)</option>
+                    <option value="gemini">Google Gemini (Gemini 1.5 Flash/Pro)</option>
+                    <option value="demo">Demo / Mock nội bộ (Không cần API Key)</option>
+                  </select>
+                </div>
+
+                {/* OpenAI API Key */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    OpenAI API Key
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.openaiApiKey || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, openaiApiKey: e.target.value })}
+                    placeholder="sk-proj-..."
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">Dùng cho Agent 1, 2, 4 và sinh Structured Outputs.</p>
+                </div>
+
+                {/* Anthropic API Key */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Anthropic API Key (Claude)
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.anthropicApiKey || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, anthropicApiKey: e.target.value })}
+                    placeholder="sk-ant-..."
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">Dùng cho Copywriter Agent viết tiếng Việt sâu sắc.</p>
+                </div>
+
+                {/* Gemini API Key */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Google Gemini API Key
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.geminiApiKey || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, geminiApiKey: e.target.value })}
+                    placeholder="AIzaSy..."
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">Dùng cho xử lý multimodal ảnh/video đối thủ và Spintax nhanh.</p>
+                </div>
+              </div>
+
+              {/* Azure OpenAI Details (if selected) */}
+              {configForm.aiProvider === "azure_openai" && (
+                <div className="rounded-2xl border border-white/10 bg-black/40 p-4 space-y-4">
+                  <p className="text-xs font-bold text-cyan-300 uppercase tracking-wider">Thông số Azure OpenAI</p>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Azure Endpoint URL</label>
+                      <input
+                        value={configForm.azureOpenAiEndpoint || ""}
+                        onChange={(e) => setConfigForm({ ...configForm, azureOpenAiEndpoint: e.target.value })}
+                        placeholder="https://your-resource.openai.azure.com"
+                        className="w-full rounded-xl border border-white/10 bg-black/50 p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Azure API Key</label>
+                      <input
+                        type={showSecrets ? "text" : "password"}
+                        value={configForm.azureOpenAiKey || ""}
+                        onChange={(e) => setConfigForm({ ...configForm, azureOpenAiKey: e.target.value })}
+                        placeholder="Azure API key"
+                        className="w-full rounded-xl border border-white/10 bg-black/50 p-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] text-slate-400 mb-1">Deployment Name</label>
+                      <input
+                        value={configForm.azureOpenAiDeployment || ""}
+                        onChange={(e) => setConfigForm({ ...configForm, azureOpenAiDeployment: e.target.value })}
+                        placeholder="gpt-4o"
+                        className="w-full rounded-xl border border-white/10 bg-black/50 p-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* SECTION 2: MODEL ROUTING STRATEGY */}
+            <div className="rounded-3xl border border-white/10 bg-slate-900/50 p-6 space-y-6">
+              <div className="border-b border-white/10 pb-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <span>🎯</span> 2. Chiến Lược Phân Tầng Model (Model Routing Strategy)
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Định tuyến thông minh theo 3 tầng để tối ưu 20-30 lần chi phí token mà vẫn đảm bảo chất lượng bài viết và đồ họa đỉnh cao.
+                </p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-3">
+                {/* Tier 1 */}
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5 space-y-3">
+                  <span className="rounded bg-cyan-500/20 px-2 py-0.5 text-xs font-bold text-cyan-300">
+                    Tầng 1 (Rẻ & Siêu nhanh &lt; 1s)
+                  </span>
+                  <p className="text-xs text-slate-400 leading-5">
+                    Dùng cho: Lọc thô trend, Spintax ngữ cảnh &lt; 30% trùng lặp, quét Meta Compliance.
+                  </p>
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Model Chỉ Định</label>
+                    <input
+                      value={configForm.tier1Model || "gpt-4o-mini"}
+                      onChange={(e) => setConfigForm({ ...configForm, tier1Model: e.target.value })}
+                      placeholder="gpt-4o-mini"
+                      className="w-full rounded-xl border border-white/10 bg-black/60 p-2.5 text-xs text-cyan-300 font-mono outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Tier 2 */}
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5 space-y-3">
+                  <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-300">
+                    Tầng 2 (Sâu sắc & Giàu cảm xúc)
+                  </span>
+                  <p className="text-xs text-slate-400 leading-5">
+                    Dùng cho: Copywriter Agent viết bài PAS/AIDA, bóc tách Angle đối thủ, RAG chống ảo giác.
+                  </p>
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Model Chỉ Định</label>
+                    <input
+                      value={configForm.tier2Model || "gpt-4o"}
+                      onChange={(e) => setConfigForm({ ...configForm, tier2Model: e.target.value })}
+                      placeholder="gpt-4o"
+                      className="w-full rounded-xl border border-white/10 bg-black/60 p-2.5 text-xs text-emerald-300 font-mono outline-none focus:border-emerald-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Tier 3 */}
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-5 space-y-3">
+                  <span className="rounded bg-purple-500/20 px-2 py-0.5 text-xs font-bold text-purple-300">
+                    Tầng 3 (Visual & Compositing)
+                  </span>
+                  <p className="text-xs text-slate-400 leading-5">
+                    Dùng cho: Art Director tạo ảnh concept + Sharp ghép Typography tiếng Việt và Logo Fanpage.
+                  </p>
+                  <div>
+                    <label className="block text-[11px] text-slate-400 mb-1">Engine Đồ Họa</label>
+                    <select
+                      value={configForm.tier3ImageModel || "sharp-programmatic"}
+                      onChange={(e) => setConfigForm({ ...configForm, tier3ImageModel: e.target.value })}
+                      className="w-full rounded-xl border border-white/10 bg-black/60 p-2.5 text-xs text-purple-300 font-semibold outline-none focus:border-purple-400"
+                    >
+                      <option value="sharp-programmatic">Sharp Programmatic (100% không lỗi font TV) ⭐</option>
+                      <option value="flux.1-schnell">Flux.1 Schnell ($0.003/ảnh)</option>
+                      <option value="dall-e-3">OpenAI DALL-E 3</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 3: FACEBOOK GRAPH API CONFIGURATION */}
+            <div className="rounded-3xl border border-white/10 bg-slate-900/50 p-6 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-white/10 pb-4 gap-3">
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span>🌐</span> 3. Kết Nối Facebook Graph API (v23.0)
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Cấu hình Fanpage ID và Page Access Token để xuất bản bài viết tự động theo lịch hẹn và thu thập insights tương tác.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleTestFacebook}
+                    disabled={testingFb}
+                    className="rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition disabled:opacity-50"
+                  >
+                    {testingFb ? "⏳ Đang kiểm tra..." : "⚡ Kiểm tra Fanpage"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Facebook Test Result Alert */}
+              {fbTestResult && (
+                <div
+                  className={`rounded-2xl border p-4 text-xs ${
+                    fbTestResult.success
+                      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                      : "border-rose-500/30 bg-rose-500/10 text-rose-300"
+                  }`}
+                >
+                  <p className="font-bold">{fbTestResult.success ? "✅ Fanpage hợp lệ!" : "❌ Lỗi kết nối Facebook:"}</p>
+                  <p className="mt-1">{fbTestResult.message}</p>
+                </div>
+              )}
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Facebook Page ID
+                  </label>
+                  <input
+                    value={configForm.facebookPageId || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, facebookPageId: e.target.value })}
+                    placeholder="VD: 109283746582910"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">Lấy tại mục Giới thiệu Fanpage (Page Transparency ID).</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Facebook Page Access Token (Long-lived Token)
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.facebookPageAccessToken || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, facebookPageAccessToken: e.target.value })}
+                    placeholder="EAAB..."
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">Token quyền pages_manage_posts, pages_read_engagement.</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Facebook App ID (Tùy chọn)
+                  </label>
+                  <input
+                    value={configForm.facebookAppId || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, facebookAppId: e.target.value })}
+                    placeholder="App ID trên Meta for Developers"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Facebook App Secret (Tùy chọn)
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.facebookAppSecret || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, facebookAppSecret: e.target.value })}
+                    placeholder="App Secret"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 4: VECTOR DATABASE & TREND FEEDS */}
+            <div className="rounded-3xl border border-white/10 bg-slate-900/50 p-6 space-y-6">
+              <div className="border-b border-white/10 pb-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <span>🧠</span> 4. Vector Database (Qdrant) & Cảm biến Trend Feeds
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  Kho tri thức sản phẩm (Kho 1) và kho bài viết thắng điểm cao (Kho 2) dùng cho RAG chống ảo giác và gom cụm ngữ nghĩa xu hướng.
+                </p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Qdrant Endpoint URL
+                  </label>
+                  <input
+                    value={configForm.qdrantUrl || "http://localhost:6333"}
+                    onChange={(e) => setConfigForm({ ...configForm, qdrantUrl: e.target.value })}
+                    placeholder="http://localhost:6333"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Qdrant API Key (Tùy chọn)
+                  </label>
+                  <input
+                    type={showSecrets ? "text" : "password"}
+                    value={configForm.qdrantApiKey || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, qdrantApiKey: e.target.value })}
+                    placeholder="Để trống nếu chạy Docker local"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 font-mono outline-none focus:border-cyan-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Collection Name
+                  </label>
+                  <input
+                    value={configForm.qdrantCollection || "winning-posts"}
+                    onChange={(e) => setConfigForm({ ...configForm, qdrantCollection: e.target.value })}
+                    placeholder="winning-posts"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 px-3.5 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2 pt-2">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    RSS Trend Feeds (Phân tách bằng dấu phẩy)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={configForm.trendFeedUrls || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, trendFeedUrls: e.target.value })}
+                    placeholder="https://vnexpress.net/rss/kinh-doanh.rss,https://cafebiz.vn/trang-chu.rss"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 p-3 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Từ khóa lọc Trend (Phân tách bằng dấu phẩy)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={configForm.trendKeywords || ""}
+                    onChange={(e) => setConfigForm({ ...configForm, trendKeywords: e.target.value })}
+                    placeholder="kinh doanh,chạy bộ,sức khỏe,marketing,xu hướng,thời trang"
+                    className="w-full rounded-xl border border-white/10 bg-black/50 p-3 text-xs text-slate-200 outline-none focus:border-cyan-400"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Save Action */}
+            <div className="flex items-center justify-between rounded-2xl border border-cyan-400/20 bg-cyan-950/20 p-5">
+              <div>
+                <p className="text-sm font-bold text-white">Đồng bộ cấu hình tức thời</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Mọi thay đổi sẽ được lưu an toàn vào tệp lưu trữ và cập nhật trực tiếp vào tiến trình AI mà không cần khởi động lại ứng dụng.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleSaveConfig()}
+                disabled={savingConfig}
+                className="shrink-0 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 px-6 py-3 text-xs font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:opacity-95 transition disabled:opacity-50"
+              >
+                {savingConfig ? "Đang lưu cấu hình..." : "Lưu tất cả cấu hình"}
+              </button>
+            </div>
+
+            {/* SECTION 5: TOKEN USAGE & EXPENSES */}
             {analytics?.usage?.length ? (
-              <div className="space-y-4">
-                <h3 className="text-base font-bold text-white">Lịch sử tiêu thụ Token gần nhất</h3>
+              <div className="space-y-4 pt-4">
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <span>📊</span> Lịch sử tiêu thụ Token gần nhất
+                </h3>
                 <div className="divide-y divide-white/5 rounded-2xl border border-white/10 bg-slate-900/30 p-4">
                   {analytics.usage.map((u) => (
                     <div key={u.id} className="py-2.5 flex items-center justify-between text-xs">
