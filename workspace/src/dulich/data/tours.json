@@ -1,0 +1,367 @@
+[
+  {
+    "id": "ninh-binh",
+    "slug": "qua-mien-di-san-ninh-binh",
+    "region": "bac",
+    "regionLabel": "01 / BẮC",
+    "regionLabelEn": "01 / NORTH",
+    "location": "NINH BÌNH",
+    "duration": "3 NGÀY · 2 ĐÊM",
+    "durationEn": "3 DAYS · 2 NIGHTS",
+    "title": "Qua miền di sản",
+    "titleEn": "Through Ninh Binh's Heritage",
+    "subtitle": "Tràng An · Hoa Lư · làng thêu Văn Lâm",
+    "subtitleEn": "Trang An · Hoa Lu · Van Lam Embroidery Village",
+    "badge": "Nếp gợi ý",
+    "badgeEn": "Nếp's pick",
+    "isFeatured": true,
+    "isSale": false,
+    "price": "4.850.000 ₫",
+    "originalPrice": "5.600.000 ₫",
+    "priceNumeric": 4850000,
+    "groupSize": "Nhóm riêng 2 - 8 khách",
+    "groupSizeEn": "Private group, 2–8 guests",
+    "transport": "Xe riêng & thuyền ở Tràng An",
+    "transportEn": "Private car & Trang An boat ride",
+    "image": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Đi thuyền ở Tràng An vào buổi sớm, khi mặt nước còn yên và các lối hang chưa đông người",
+      "Ghé làng thêu Văn Lâm, uống trà và nghe chuyện nghề từ những người thợ địa phương",
+      "Hai đêm nghỉ giữa vùng núi đá vôi Ninh Bình"
+    ],
+    "highlightsEn": [
+      "A morning boat ride in Trang An, before the waterways become busy",
+      "Tea and a conversation about embroidery at Van Lam village",
+      "Two nights among Ninh Binh's limestone landscape"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Hà Nội — Hoa Lư — nhận phòng và nghỉ ngơi",
+        "titleEn": "Hanoi — Hoa Lu — check in and settle in"
+      },
+      {
+        "day": 2,
+        "title": "Tràng An buổi sớm — làng thêu Văn Lâm",
+        "titleEn": "Morning in Trang An — Van Lam embroidery village"
+      },
+      {
+        "day": 3,
+        "title": "Bích Động — bữa trưa đồng quê — về Hà Nội",
+        "titleEn": "Bich Dong — a countryside lunch — return to Hanoi"
+      }
+    ]
+  },
+  {
+    "id": "da-nang-hoi-an",
+    "slug": "mot-dai-mien-trung-da-nang-hoi-an",
+    "region": "trung",
+    "regionLabel": "02 / TRUNG",
+    "regionLabelEn": "02 / CENTRAL",
+    "location": "ĐÀ NẴNG · QUẢNG NAM",
+    "duration": "4 NGÀY · 3 ĐÊM",
+    "durationEn": "4 DAYS · 3 NIGHTS",
+    "title": "Một dải miền Trung",
+    "titleEn": "A Stretch of Central Vietnam",
+    "subtitle": "Sơn Trà · Trà Quế · phố Hội",
+    "subtitleEn": "Son Tra · Tra Que · Hoi An",
+    "badge": "Được chọn nhiều",
+    "badgeEn": "Often chosen",
+    "isFeatured": true,
+    "isSale": true,
+    "price": "6.200.000 ₫",
+    "originalPrice": "7.500.000 ₫",
+    "priceNumeric": 6200000,
+    "groupSize": "Nhóm riêng 2 - 10 khách",
+    "groupSizeEn": "Private group, 2–10 guests",
+    "transport": "Xe riêng & thuyền trên sông Hoài",
+    "transportEn": "Private car & a Thu Bon River boat ride",
+    "image": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Buổi sớm ở bán đảo Sơn Trà, trước khi thành phố thức hẳn",
+      "Một buổi ở làng rau Trà Quế: làm vườn, nấu ăn và dùng bữa tại chỗ",
+      "Đi bộ quanh phố Hội khi trời dịu, rồi ngồi lại bên sông Hoài"
+    ],
+    "highlightsEn": [
+      "An early morning on Son Tra peninsula, before the city fully wakes",
+      "A hands-on morning in Tra Que: gardening, cooking, and lunch",
+      "A gentle walk through Hoi An, followed by time beside the Hoai River"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Đà Nẵng — nhận phòng — chiều ở Sơn Trà",
+        "titleEn": "Da Nang — check in — an afternoon on Son Tra"
+      },
+      {
+        "day": 2,
+        "title": "Đà Nẵng — về Hội An — dạo phố lúc chiều xuống",
+        "titleEn": "Da Nang — Hoi An — an evening walk through the old town"
+      },
+      {
+        "day": 3,
+        "title": "Làng rau Trà Quế — thời gian tự do ở Hội An",
+        "titleEn": "Tra Que herb village — free time in Hoi An"
+      },
+      {
+        "day": 4,
+        "title": "Cà phê sáng — tiễn sân bay",
+        "titleEn": "Morning coffee — airport transfer"
+      }
+    ]
+  },
+  {
+    "id": "con-dao",
+    "slug": "dao-xa-ngay-that-cham-con-dao",
+    "region": "nam",
+    "regionLabel": "03 / NAM",
+    "regionLabelEn": "03 / SOUTH",
+    "location": "CÔN ĐẢO",
+    "duration": "4 NGÀY · 3 ĐÊM",
+    "durationEn": "4 DAYS · 3 NIGHTS",
+    "title": "Đảo xa, ngày thật chậm",
+    "titleEn": "An Island for Slow Days",
+    "subtitle": "Côn Sơn · Đầm Trầu · Bến Đầm",
+    "subtitleEn": "Con Son · Dam Trau · Ben Dam",
+    "badge": "Nghỉ bên biển",
+    "badgeEn": "By the sea",
+    "isFeatured": true,
+    "isSale": false,
+    "price": "8.900.000 ₫",
+    "originalPrice": "9.800.000 ₫",
+    "priceNumeric": 8900000,
+    "groupSize": "Nhóm riêng 2 - 6 khách",
+    "groupSizeEn": "Private group, 2–6 guests",
+    "transport": "Vé bay khứ hồi & xe riêng trên đảo",
+    "transportEn": "Return flights & private island transport",
+    "image": "https://images.unsplash.com/photo-1513415277900-a62401e19be4?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1513415277900-a62401e19be4?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Một ngày ở bãi Đầm Trầu và những khoảng biển rộng không cần lịch trình dày",
+      "Đi qua các cung đường ven đảo, rừng quốc gia và những điểm nhìn ra vịnh",
+      "Ghé Bến Đầm vào cuối ngày để ăn hải sản theo mùa"
+    ],
+    "highlightsEn": [
+      "A day at Dam Trau Beach with time left deliberately unscheduled",
+      "Coastal roads, national park forest, and viewpoints across the bay",
+      "Seasonal seafood at Ben Dam towards the end of the day"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Đến Côn Đảo — nhận phòng — đi dạo Côn Sơn",
+        "titleEn": "Arrival in Con Dao — check in — a walk around Con Son"
+      },
+      {
+        "day": 2,
+        "title": "Bãi Đầm Trầu — rừng quốc gia",
+        "titleEn": "Dam Trau Beach — Con Dao National Park"
+      },
+      {
+        "day": 3,
+        "title": "Bến Đầm — đường ven đảo — hoàng hôn Bãi Nhát",
+        "titleEn": "Ben Dam — island coast road — sunset at Nhat Beach"
+      },
+      {
+        "day": 4,
+        "title": "Buổi sáng ở Côn Sơn — ra sân bay",
+        "titleEn": "A morning in Con Son — airport transfer"
+      }
+    ]
+  },
+  {
+    "id": "ha-giang",
+    "slug": "qua-mien-da-no-hoa-ha-giang",
+    "region": "bac",
+    "regionLabel": "04 / BẮC",
+    "regionLabelEn": "04 / NORTH",
+    "location": "HÀ GIANG",
+    "duration": "5 NGÀY · 4 ĐÊM",
+    "durationEn": "5 DAYS · 4 NIGHTS",
+    "title": "Qua miền đá nở hoa",
+    "titleEn": "Where Stone Meets Sky",
+    "subtitle": "Đồng Văn · Lũng Cú · Lô Lô Chải",
+    "subtitleEn": "Dong Van · Lung Cu · Lo Lo Chai",
+    "badge": "Đường núi",
+    "badgeEn": "Mountain roads",
+    "isFeatured": false,
+    "isSale": true,
+    "price": "7.350.000 ₫",
+    "originalPrice": "8.500.000 ₫",
+    "priceNumeric": 7350000,
+    "groupSize": "Nhóm riêng 2 - 8 khách",
+    "groupSizeEn": "Private group, 2–8 guests",
+    "transport": "Xe SUV & tài xế địa phương",
+    "transportEn": "SUV & local driver",
+    "image": "https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Đi theo những cung đèo quanh Quản Bạ, Đồng Văn và Mã Pí Lèng với nhịp dừng vừa đủ",
+      "Ở một ngôi nhà trình tường tại Lô Lô Chải, nghe câu chuyện của chủ nhà",
+      "Xuống sông Nho Quế và dành thời gian ở chợ hoặc quán nhỏ của vùng cao"
+    ],
+    "highlightsEn": [
+      "Mountain roads through Quan Ba, Dong Van, and Ma Pi Leng, with time to stop along the way",
+      "A stay in a rammed-earth home in Lo Lo Chai and a conversation with the hosts",
+      "The Nho Que River, plus time for a market or a small highland café"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Hà Nội — Quản Bạ — Yên Minh",
+        "titleEn": "Hanoi — Quan Ba — Yen Minh"
+      },
+      {
+        "day": 2,
+        "title": "Yên Minh — Đồng Văn — Lũng Cú",
+        "titleEn": "Yen Minh — Dong Van — Lung Cu"
+      },
+      {
+        "day": 3,
+        "title": "Lô Lô Chải — Mã Pí Lèng — sông Nho Quế",
+        "titleEn": "Lo Lo Chai — Ma Pi Leng — Nho Que River"
+      },
+      {
+        "day": 4,
+        "title": "Mèo Vạc — bản làng — Quản Bạ",
+        "titleEn": "Meo Vac — local villages — Quan Ba"
+      },
+      {
+        "day": 5,
+        "title": "Quản Bạ — Hà Nội",
+        "titleEn": "Quan Ba — Hanoi"
+      }
+    ]
+  },
+  {
+    "id": "hue",
+    "slug": "hue-mot-thoang-kinh-ky",
+    "region": "trung",
+    "regionLabel": "05 / TRUNG",
+    "regionLabelEn": "05 / CENTRAL",
+    "location": "HUẾ",
+    "duration": "3 NGÀY · 2 ĐÊM",
+    "durationEn": "3 DAYS · 2 NIGHTS",
+    "title": "Huế, một thoáng kinh kỳ",
+    "titleEn": "Hue, at an Unhurried Pace",
+    "subtitle": "Đại Nội · Kim Long · phá Tam Giang",
+    "subtitleEn": "Imperial City · Kim Long · Tam Giang Lagoon",
+    "badge": "Văn hoá",
+    "badgeEn": "Culture",
+    "isFeatured": false,
+    "isSale": false,
+    "price": "4.500.000 ₫",
+    "originalPrice": "5.200.000 ₫",
+    "priceNumeric": 4500000,
+    "groupSize": "Nhóm riêng 2 - 8 khách",
+    "groupSizeEn": "Private group, 2–8 guests",
+    "transport": "Xe riêng & thuyền trên sông Hương",
+    "transportEn": "Private car & a Perfume River boat ride",
+    "image": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Dành thời gian ở Đại Nội vào buổi sáng, khi không gian còn dịu và dễ quan sát hơn",
+      "Uống trà, dùng bữa tại một nhà vườn ở Kim Long",
+      "Ra phá Tam Giang cuối ngày, tùy mùa và điều kiện thời tiết"
+    ],
+    "highlightsEn": [
+      "Time at the Imperial City in the morning, when the grounds are cooler and quieter",
+      "Tea and a meal at a garden house in Kim Long",
+      "An afternoon at Tam Giang Lagoon, shaped by the season and weather"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Đến Huế — nhận phòng — đi dạo bên sông Hương",
+        "titleEn": "Arrive in Hue — check in — a walk by the Perfume River"
+      },
+      {
+        "day": 2,
+        "title": "Đại Nội — nhà vườn Kim Long — thuyền sông Hương",
+        "titleEn": "Imperial City — Kim Long garden house — Perfume River boat"
+      },
+      {
+        "day": 3,
+        "title": "Phá Tam Giang — chợ Đông Ba — tiễn sân bay",
+        "titleEn": "Tam Giang Lagoon — Dong Ba Market — airport transfer"
+      }
+    ]
+  },
+  {
+    "id": "phu-quoc",
+    "slug": "mot-dao-ngoc-that-cham-phu-quoc",
+    "region": "nam",
+    "regionLabel": "06 / NAM",
+    "regionLabelEn": "06 / SOUTH",
+    "location": "PHÚ QUỐC",
+    "duration": "4 NGÀY · 3 ĐÊM",
+    "durationEn": "4 DAYS · 3 NIGHTS",
+    "title": "Một đảo ngọc thật chậm",
+    "titleEn": "Phu Quoc, Unhurried",
+    "subtitle": "Bãi Sao · rừng phía bắc · Hàm Ninh",
+    "subtitleEn": "Sao Beach · northern forest · Ham Ninh",
+    "badge": "Được chọn nhiều",
+    "badgeEn": "Often chosen",
+    "isFeatured": true,
+    "isSale": true,
+    "price": "6.800.000 ₫",
+    "originalPrice": "7.900.000 ₫",
+    "priceNumeric": 6800000,
+    "groupSize": "Nhóm riêng 2 - 10 khách",
+    "groupSizeEn": "Private group, 2–10 guests",
+    "transport": "Xe riêng & canô riêng",
+    "transportEn": "Private car & private speedboat",
+    "image": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85"
+    ],
+    "highlights": [
+      "Một buổi ở Bãi Sao với đủ thời gian để bơi, nghỉ và dùng bữa nhẹ",
+      "Đi thuyền ra các đảo nhỏ phía An Thới khi thời tiết biển phù hợp",
+      "Ăn hải sản ở Hàm Ninh và đi qua những vườn tiêu trên đảo"
+    ],
+    "highlightsEn": [
+      "A relaxed morning at Sao Beach, with time to swim and stay awhile",
+      "A private boat trip around An Thoi's smaller islands when sea conditions allow",
+      "Seafood in Ham Ninh and a drive through the island's pepper gardens"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Đến Phú Quốc — nhận phòng — nghỉ bên biển",
+        "titleEn": "Arrive in Phu Quoc — check in — time by the sea"
+      },
+      {
+        "day": 2,
+        "title": "Các đảo An Thới — lặn ngắm san hô nếu điều kiện cho phép",
+        "titleEn": "An Thoi islands — snorkelling if conditions allow"
+      },
+      {
+        "day": 3,
+        "title": "Vườn tiêu — Hàm Ninh — thời gian tự do",
+        "titleEn": "Pepper gardens — Ham Ninh — time at your own pace"
+      },
+      {
+        "day": 4,
+        "title": "Buổi sáng tự do — tiễn sân bay",
+        "titleEn": "A free morning — airport transfer"
+      }
+    ]
+  }
+]

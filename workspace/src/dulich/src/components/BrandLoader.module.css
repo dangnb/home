@@ -1,0 +1,197 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(91, 131, 105, 0.34) 0%, rgba(35, 76, 60, 0.2) 28%, transparent 58%),
+    radial-gradient(circle at 50% 50%, rgba(194, 169, 121, 0.12) 0%, transparent 32%),
+    linear-gradient(145deg, #0d241c 0%, #17372d 52%, #10291f 100%);
+  color: #ffffff;
+  opacity: 1;
+  isolation: isolate;
+  transition: opacity 0.34s ease, visibility 0.34s ease;
+}
+
+.loader::before,
+.loader::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.loader::before {
+  width: min(76vw, 760px);
+  height: min(76vw, 760px);
+  border: 1px solid rgba(230, 213, 184, 0.16);
+  transform: translate(-26%, -24%);
+  box-shadow: 0 0 0 22px rgba(230, 213, 184, 0.025);
+}
+
+.loader::after {
+  width: min(54vw, 560px);
+  height: min(54vw, 560px);
+  border: 1px solid rgba(194, 169, 121, 0.2);
+  transform: translate(42%, 42%);
+  box-shadow: 0 0 0 14px rgba(194, 169, 121, 0.03);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: min(86vw, 430px);
+  padding: 34px 32px 30px;
+  text-align: center;
+  border: 1px solid rgba(230, 213, 184, 0.16);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 20px 70px rgba(4, 18, 13, 0.2);
+  animation: enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mark {
+  display: grid;
+  width: 66px;
+  height: 66px;
+  margin-bottom: 20px;
+  place-items: center;
+  border: 1px solid rgba(246, 232, 201, 0.82);
+  border-radius: 50%;
+  color: #f1dbaf;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 32px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.05;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.22), rgba(194, 169, 121, 0.08) 48%, transparent 70%);
+  box-shadow:
+    0 0 0 6px rgba(194, 169, 121, 0.08),
+    0 10px 28px rgba(5, 24, 16, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.wordmark {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: clamp(12px, 1.5vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.2);
+}
+
+.tagline {
+  margin: 12px 0 0;
+  color: rgba(241, 219, 175, 0.92);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.progress {
+  width: 96px;
+  height: 2px;
+  margin-top: 28px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.16);
+}
+
+.progress::after {
+  content: "";
+  display: block;
+  width: 48%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a08040 0%, #f1dbaf 52%, #c2a979 100%);
+  box-shadow: 0 0 12px rgba(241, 219, 175, 0.55);
+  animation: progress 1.32s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.leaving .content {
+  animation: exit 0.3s ease both;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exit {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(215%);
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    min-width: min(88vw, 360px);
+    padding: 30px 22px 26px;
+    border-radius: 20px;
+  }
+
+  .mark {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+    font-size: 29px;
+  }
+
+  .wordmark {
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    padding-left: 0.24em;
+  }
+
+  .tagline {
+    margin-top: 10px;
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content,
+  .leaving .content,
+  .progress::after {
+    animation: none;
+  }
+
+  .loader {
+    transition-duration: 0.08s;
+  }
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "buoi-sang-vung-cao",
+    "slug": "nhung-buoi-sang-khong-can-dat-bao-thuc-o-vung-cao",
+    "title": "Buổi sáng ở vùng cao bắt đầu trước tiếng chuông",
+    "titleEn": "In the Highlands, Morning Starts Before the Alarm",
+    "readTime": "6 PHÚT ĐỌC",
+    "readTimeEn": "6 MIN READ",
+    "tag": "TỪ SỔ TAY CỦA NẾP",
+    "tagEn": "FROM NẾP'S NOTEBOOK",
+    "date": "15 Tháng 10, 2025",
+    "dateEn": "Oct 15, 2025",
+    "excerpt": "Mây qua hiên nhà, ấm nước sôi trên bếp và chén trà Shan Tuyết đầu ngày. Có những buổi sáng chỉ cần ngồi yên để nhớ lại.",
+    "excerptEn": "Mist at the porch, water on the stove, and the first cup of Shan Tuyet tea. Some mornings ask only that you sit still long enough to notice them.",
+    "image": "https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1500&q=85",
+    "author": "Đội ngũ Nếp",
+    "authorEn": "Nếp Editorial Team"
+  },
+  {
+    "id": "lang-theu-van-lam",
+    "slug": "chuyen-ve-nhung-mui-chi-tram-nam-ben-dong-ngo-dong",
+    "title": "Ở Văn Lâm, một mũi thêu cũng cần thời gian",
+    "titleEn": "In Van Lam, Even One Stitch Takes Time",
+    "readTime": "8 PHÚT ĐỌC",
+    "readTimeEn": "8 MIN READ",
+    "tag": "CHUYỆN NGƯỜI LÀM NGHỀ",
+    "tagEn": "NOTES FROM A CRAFT VILLAGE",
+    "date": "28 Tháng 09, 2025",
+    "dateEn": "Sep 28, 2025",
+    "excerpt": "Bên dòng Ngô Đồng, những người thợ ở Văn Lâm vẫn làm ren theo nhịp chậm của đôi tay. Chúng tôi ghé qua để nghe họ kể về nghề, không chỉ để xem một sản phẩm.",
+    "excerptEn": "By the Ngo Dong River, Van Lam's makers still work lace at the pace of their hands. We stopped to hear about the craft, not simply to look at what it produces.",
+    "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1500&q=85",
+    "author": "Minh An",
+    "authorEn": "Minh An"
+  }
+]

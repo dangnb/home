@@ -1,0 +1,30 @@
+[
+  {
+    "id": "all",
+    "name": "Tất cả",
+    "nameEn": "All Journeys",
+    "slug": "tat-ca",
+    "count": 6
+  },
+  {
+    "id": "bac",
+    "name": "Miền Bắc",
+    "nameEn": "Northern Vietnam",
+    "slug": "mien-bac",
+    "count": 2
+  },
+  {
+    "id": "trung",
+    "name": "Miền Trung",
+    "nameEn": "Central Vietnam",
+    "slug": "mien-trung",
+    "count": 2
+  },
+  {
+    "id": "nam",
+    "name": "Miền Nam & Đảo",
+    "nameEn": "Southern & Islands",
+    "slug": "mien-nam",
+    "count": 2
+  }
+]

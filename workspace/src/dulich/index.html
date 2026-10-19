@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f1e9" />
+    <meta name="description" content="Nếp tạo nên những hành trình riêng tư, chậm rãi và giàu bản sắc tại Việt Nam." />
+    <title>Nếp Journeys — Chạm vào nếp sống Việt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="theme.css" />
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <!-- Site Header & Glassmorphism Navigation -->
+    <header class="site-header" id="siteHeader">
+        <a class="wordmark" href="#top" aria-label="Nếp, về đầu trang">
+            <span class="wordmark-symbol" aria-hidden="true">n.</span>
+            <span>NẾP <small>JOURNEYS</small></span>
+        </a>
+
+        <nav class="main-nav" aria-label="Điều hướng chính">
+            <a href="#hanh-trinh" data-i18n="navTours">Hành trình</a>
+            <a href="#ban-sac" data-i18n="navPhilosophy">Bản sắc Nếp</a>
+            <a href="#cach-di" data-i18n="navManifesto">Cách Nếp đi</a>
+            <a href="#nhat-ky" data-i18n="navJournal">Nhật ký</a>
+            <a href="#lien-he" data-i18n="navContact">Liên hệ</a>
+        </nav>
+
+        <div class="header-right">
+            <!-- Language Switcher Pill from suli-salon -->
+            <div class="lang-switch" role="group" aria-label="Ngôn ngữ">
+                <button class="lang-btn is-active" id="langVi" type="button" aria-pressed="true">
+                    <span class="lang-sparkle">✦</span> VN
+                </button>
+                <button class="lang-btn" id="langEn" type="button" aria-pressed="false">
+                    EN
+                </button>
+            </div>
+
+            <a class="header-cta" href="#lien-he">
+                <span data-i18n="navCta">Lên lịch riêng</span>
+                <span aria-hidden="true">↗</span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <img class="hero-image"
+                src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=2400&q=90"
+                alt="Thuyền nhỏ xuôi theo dòng sông giữa núi đá vôi Việt Nam" fetchpriority="high" />
+            <div class="hero-shade"></div>
+            <div class="hero-copy">
+                <p class="eyebrow light"><span class="pulse-dot"></span> <span data-i18n="heroEyebrow">VIỆT NAM, THEO CÁCH CỦA BẠN</span></p>
+                <h1 id="hero-title" data-i18n-html="heroTitle">Đi để thấy<br />một Việt Nam <i>khác.</i></h1>
+                <div class="hero-bottom">
+                    <p data-i18n="heroSubtitle">Những hành trình riêng tư đưa bạn đến gần hơn với con người, nếp sống và vẻ đẹp nguyên bản của Việt Nam.</p>
+                    <a class="circle-link" href="#hanh-trinh" aria-label="Khám phá hành trình"><span>↓</span></a>
+                </div>
+            </div>
+            <div class="hero-caption">
+                <span data-i18n="heroLocation">VỊNH HẠ LONG, QUẢNG NINH</span>
+                <span>20°54' BẮC · 107°02' ĐÔNG</span>
+            </div>
+            <div class="hero-index"><span>01</span><span class="index-line"></span><span>06</span></div>
+        </section>
+
+        <!-- Intro Section -->
+        <section class="intro section-wrap reveal" id="ban-sac">
+            <div class="intro-label">
+                <span class="small-mark">✦</span>
+                <span data-i18n-html="introLabel">ĐI CHẬM<br />SỐNG SÂU</span>
+            </div>
+            <div class="intro-content">
+                <p class="eyebrow" data-i18n="introEyebrow">KHÔNG CHỈ LÀ MỘT CHUYẾN ĐI</p>
+                <h2 data-i18n-html="introTitle">Mỗi vùng đất đều có<br />một <i>nếp sống</i> đáng nhớ.</h2>
+                <div class="intro-foot">
+                    <p data-i18n="introDesc">Nếp kết nối bạn với những người địa phương, những căn nhà có câu chuyện và những khoảnh khắc không nằm trong lịch trình thông thường.</p>
+                    <a class="text-link" href="#cach-di">
+                        <span data-i18n="introLink">Tìm hiểu cách Nếp đi</span>
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                </div>
+            </div>
+            <div class="intro-stamp" aria-hidden="true">
+                <span data-i18n="stampTop">ĐI BẰNG SỰ TÒ MÒ</span>
+                <b>n.</b>
+                <span data-i18n="stampBottom">Ở LẠI BẰNG CẢM XÚC</span>
+            </div>
+        </section>
+
+        <!-- Curated Journeys Section -->
+        <section class="journeys section-wrap reveal" id="hanh-trinh">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="tourEyebrow">CHỌN MỘT NHỊP ĐI</p>
+                    <h2 data-i18n-html="tourTitle">Hành trình <i>được tuyển chọn</i></h2>
+                </div>
+                <a class="text-link desktop-link" href="#lien-he">
+                    <span data-i18n="allTours">Tất cả hành trình</span>
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+            <!-- Region Category Filters -->
+            <div class="journey-filters" role="group" aria-label="Lọc theo vùng miền">
+                <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">
+                    <span data-i18n="filterAll">Tất cả</span> <span>06</span>
+                </button>
+                <button class="filter-button" type="button" data-filter="bac" aria-pressed="false">
+                    <span data-i18n="filterBac">Miền Bắc</span> <span>02</span>
+                </button>
+                <button class="filter-button" type="button" data-filter="trung" aria-pressed="false">
+                    <span data-i18n="filterTrung">Miền Trung</span> <span>02</span>
+                </button>
+                <button class="filter-button" type="button" data-filter="nam" aria-pressed="false">
+                    <span data-i18n="filterNam">Miền Nam & Đảo</span> <span>02</span>
+                </button>
+            </div>
+
+            <!-- Tour Card Grid -->
+            <div class="journey-grid" id="tourGrid">
+                <!-- Tour 1 -->
+                <article class="journey-card reveal reveal-delay-1" data-region="bac" data-tour-id="tour-01">
+                    <div class="journey-image" onclick="openTourModal('tour-01')">
+                        <img src="https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1000&q=85"
+                            alt="Tràng An, Ninh Bình" loading="lazy" />
+                        <span class="card-badge">TUYỂN CHỌN</span>
+                        <span class="image-number">01 / BẮC</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>NINH BÌNH</span>
+                            <span>3 NGÀY · 2 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-01')">Qua miền di sản</h3>
+                        <p class="journey-subtitle">Tràng An · Hoa Lư · làng thêu Văn Lâm</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Nhóm riêng tư 2 - 8 khách</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Xe limousine riêng cao cấp</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">6.800.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-01')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tour 2 -->
+                <article class="journey-card reveal reveal-delay-2" data-region="trung" data-tour-id="tour-02">
+                    <div class="journey-image" onclick="openTourModal('tour-02')">
+                        <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1000&q=85"
+                            alt="Đà Nẵng & Hội An" loading="lazy" />
+                        <span class="card-badge">BÁN CHẠY</span>
+                        <span class="image-number">02 / TRUNG</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>ĐÀ NẴNG · QUẢNG NAM</span>
+                            <span>4 NGÀY · 3 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-02')">Một dải miền Trung</h3>
+                        <p class="journey-subtitle">Bà Nà · bán đảo Sơn Trà · phố cổ Hội An</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Resort 5 sao ven biển</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Thưởng thức ẩm thực chuẩn vị</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">8.900.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-02')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tour 3 -->
+                <article class="journey-card reveal reveal-delay-3" data-region="nam" data-tour-id="tour-03">
+                    <div class="journey-image" onclick="openTourModal('tour-03')">
+                        <img src="https://images.unsplash.com/photo-1513415277900-a62401e19be4?auto=format&fit=crop&w=1000&q=85"
+                            alt="Côn Đảo" loading="lazy" />
+                        <span class="card-badge">NGHỈ DƯỠNG</span>
+                        <span class="image-number">03 / NAM</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>CÔN ĐẢO</span>
+                            <span>4 NGÀY · 3 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-03')">Đảo xa, ngày thật chậm</h3>
+                        <p class="journey-subtitle">Côn Sơn · bãi Đầm Trầu · làng chài Bến Đầm</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Tour cano xem rùa biển đẻ trứng</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Boutique hotel sát biển</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">12.500.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-03')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tour 4 -->
+                <article class="journey-card reveal reveal-delay-1" data-region="bac" data-tour-id="tour-04">
+                    <div class="journey-image" onclick="openTourModal('tour-04')">
+                        <img src="https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1000&q=85"
+                            alt="Hà Giang" loading="lazy" />
+                        <span class="card-badge">HÙNG VĨ</span>
+                        <span class="image-number">04 / BẮC</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>HÀ GIANG</span>
+                            <span>5 NGÀY · 4 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-04')">Qua miền đá nở hoa</h3>
+                        <p class="journey-subtitle">Đồng Văn · Lũng Cú · làng Lô Lô Chải</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Trải nghiệm văn hoá bản địa</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Du thuyền trên sông Nho Quế</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">9.600.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-04')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tour 5 -->
+                <article class="journey-card reveal reveal-delay-2" data-region="trung" data-tour-id="tour-05">
+                    <div class="journey-image" onclick="openTourModal('tour-05')">
+                        <img src="https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=1000&q=85"
+                            alt="Cố đô Huế" loading="lazy" />
+                        <span class="card-badge">VĂN HÓA</span>
+                        <span class="image-number">05 / TRUNG</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>CỐ ĐÔ HUẾ</span>
+                            <span>3 NGÀY · 2 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-05')">Huế, một thoáng kinh kỳ</h3>
+                        <p class="journey-subtitle">Đại Nội · nhà vườn Kim Long · phá Tam Giang</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Dùng cơm ngự thiện với nghệ nhân</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Nghe ca Huế trên thuyền rồng</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">7.200.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-05')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Tour 6 -->
+                <article class="journey-card reveal reveal-delay-3" data-region="nam" data-tour-id="tour-06">
+                    <div class="journey-image" onclick="openTourModal('tour-06')">
+                        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1000&q=85"
+                            alt="Phú Quốc" loading="lazy" />
+                        <span class="card-badge sale">ƯU ĐÃI</span>
+                        <span class="image-number">06 / NAM</span>
+                        <span class="image-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-meta">
+                            <span>PHÚ QUỐC</span>
+                            <span>4 NGÀY · 3 ĐÊM</span>
+                        </div>
+                        <h3 onclick="openTourModal('tour-06')">Một đảo ngọc thật chậm</h3>
+                        <p class="journey-subtitle">Bãi Sao · rừng nguyên sinh · làng chài Hàm Ninh</p>
+                        <div class="card-features">
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Thưởng thức hoàng hôn bãi cát vắng</span></div>
+                            <div class="feature-item"><span class="feature-bullet">✦</span> <span>Tiệc hải sản nướng cao cấp</span></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="price-col">
+                                <span class="price-label">Giá từ</span>
+                                <span class="price-value">11.800.000 ₫</span>
+                            </div>
+                            <button class="btn-book" type="button" onclick="openTourModal('tour-06')">
+                                <span>Đặt ngay</span> <span>↗</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <a class="text-link mobile-link" href="#lien-he">
+                <span data-i18n="allTours">Tất cả hành trình</span>
+                <span aria-hidden="true">↗</span>
+            </a>
+        </section>
+
+        <!-- Manifesto Section -->
+        <section class="manifesto reveal" id="cach-di">
+            <div class="manifesto-image">
+                <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=85"
+                    alt="Ánh nắng đầu ngày trải trên miền quê yên tĩnh" loading="lazy" />
+            </div>
+            <div class="manifesto-content">
+                <p class="eyebrow" data-i18n="manifestoEyebrow">NẾP TIN RẰNG</p>
+                <h2 data-i18n-html="manifestoTitle">Đi xa không quan trọng bằng <i>đi đủ gần.</i></h2>
+                <p class="manifesto-description" data-i18n="manifestoDesc">
+                    Gần hơn với bữa cơm nhà, với đôi tay làm nên món đồ thủ công, với câu chuyện chỉ được kể khi ta chịu ngồi lại.
+                </p>
+                <a class="outline-link" href="#hanh-trinh">
+                    <span data-i18n="manifestoCta">Tìm hành trình của bạn</span>
+                    <span aria-hidden="true">↗</span>
+                </a>
+                <div class="manifesto-note">
+                    <span>01 — 03</span>
+                    <span data-i18n="manifestoBadge">ĐỦ CHẬM ĐỂ CẢM NHẬN</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Editorial Journal Section -->
+        <section class="journal section-wrap reveal" id="nhat-ky">
+            <div class="section-heading journal-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="journalEyebrow">GHI CHÉP TRÊN ĐƯỜNG</p>
+                    <h2 data-i18n-html="journalTitle">Nhật ký <i>của những miền nhớ</i></h2>
+                </div>
+                <a class="text-link desktop-link" href="#lien-he">
+                    <span data-i18n="journalRead">Đọc nhật ký Nếp</span>
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+            <a class="journal-feature reveal reveal-delay-1" href="#lien-he">
+                <div class="journal-photo">
+                    <img src="https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1500&q=85"
+                        alt="Ruộng bậc thang và những nếp nhà vùng cao" loading="lazy" />
+                </div>
+                <div class="journal-copy">
+                    <p class="journal-tag">
+                        <span data-i18n="journalTag">TỪ CUỐN SỔ TAY CỦA NẾP</span>
+                        <span>· 6 PHÚT ĐỌC</span>
+                    </p>
+                    <h3 data-i18n="journalHeading">Những buổi sáng không cần đặt báo thức ở vùng cao</h3>
+                    <p data-i18n="journalExcerpt">Ở một nơi mây ghé qua hiên nhà trước cả tiếng chuông, ngày mới bắt đầu bằng một chén trà ấm.</p>
+                    <span class="text-link">
+                        <span data-i18n="journalLink">Đọc câu chuyện</span>
+                        <span aria-hidden="true">↗</span>
+                    </span>
+                </div>
+                <span class="journal-mark" aria-hidden="true">n.</span>
+            </a>
+        </section>
+
+        <!-- Luxury Contact & Consultation Section -->
+        <section class="contact reveal" id="lien-he">
+            <div class="contact-top">
+                <p class="eyebrow light" data-i18n="contactEyebrow">CHUYẾN ĐI TIẾP THEO BẮT ĐẦU TỪ ĐÂY</p>
+                <span class="contact-mark" aria-hidden="true">✦</span>
+            </div>
+            <div class="contact-main">
+                <h2 data-i18n-html="contactTitle">Mình cùng<br />lên <i>đường nhé?</i></h2>
+                <form class="contact-form" id="contactForm">
+                    <label for="email" data-i18n="contactDesc">Để lại email, Nếp sẽ gửi vài gợi ý thật hợp với bạn.</label>
+                    <div class="email-field">
+                        <input id="email" name="email" type="email" placeholder="Địa chỉ email của bạn" required />
+                        <button type="submit" aria-label="Gửi email đăng ký">↗</button>
+                    </div>
+                    <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+            <div class="contact-bottom">
+                <span data-i18n="contactTagline">HÀNH TRÌNH RIÊNG · KỂ CHUYỆN THẬT</span>
+                <a href="mailto:xin-chao@nepjourneys.vn">XIN-CHAO@NEPJOURNEYS.VN ↗</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <a class="wordmark footer-wordmark" href="#top">
+            <span class="wordmark-symbol" aria-hidden="true">n.</span>
+            <span>NẾP <small>JOURNEYS</small></span>
+        </a>
+        <span>© 2026 NẾP JOURNEYS. ĐI CHẬM, NHỚ LÂU.</span>
+        <a href="#top" data-i18n="footerBackTop">TRỞ VỀ ĐẦU TRANG ↑</a>
+    </footer>
+
+    <!-- ── SLIDE-OUT BOOKING DRAWER (FROM SULI-SALON) ──────────── -->
+    <div class="slideout-tab" id="slideoutTab" title="Đặt tour nhanh">
+        <span>✦</span>
+        <span data-i18n="quickBooking">ĐẶT TOUR NHANH</span>
+    </div>
+
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="booking-drawer" id="bookingDrawer" aria-label="Đăng ký tư vấn tour nhanh">
+        <div class="drawer-head">
+            <div>
+                <h3 data-i18n="drawerTitle">Đặt lịch tư vấn</h3>
+                <p data-i18n="drawerSubtitle">Chuyên viên Nếp sẽ liên hệ hỗ trợ bạn trong vòng 15 phút</p>
+            </div>
+            <button class="drawer-close" id="drawerClose" type="button" aria-label="Đóng">✕</button>
+        </div>
+        <form class="drawer-body" id="drawerForm">
+            <div class="form-group">
+                <label for="drawerTour" data-i18n="selectTour">Chọn hành trình</label>
+                <select id="drawerTour" class="form-control" required>
+                    <option value="tour-01">Ninh Bình — Qua miền di sản (3N2Đ)</option>
+                    <option value="tour-02">Đà Nẵng · Hội An — Một dải miền Trung (4N3Đ)</option>
+                    <option value="tour-03">Côn Đảo — Đảo xa, ngày thật chậm (4N3Đ)</option>
+                    <option value="tour-04">Hà Giang — Qua miền đá nở hoa (5N4Đ)</option>
+                    <option value="tour-05">Huế — Một thoáng kinh kỳ (3N2Đ)</option>
+                    <option value="tour-06">Phú Quốc — Một đảo ngọc thật chậm (4N3Đ)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="drawerName" data-i18n="fullName">Họ và tên của bạn</label>
+                <input type="text" id="drawerName" class="form-control" placeholder="Nguyễn Văn A" required />
+            </div>
+
+            <div class="form-group">
+                <label for="drawerPhone" data-i18n="phone">Số điện thoại / Zalo</label>
+                <input type="tel" id="drawerPhone" class="form-control" placeholder="0988 123 456" required />
+            </div>
+
+            <div class="form-group">
+                <label for="drawerDate" data-i18n="departDate">Ngày dự kiến khởi hành</label>
+                <input type="date" id="drawerDate" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="drawerGuests" data-i18n="guestCount">Số lượng khách</label>
+                <select id="drawerGuests" class="form-control">
+                    <option value="2">2 khách (Riêng tư)</option>
+                    <option value="4">4 khách (Gia đình)</option>
+                    <option value="6">6 khách (Nhóm bạn)</option>
+                    <option value="8">8+ khách (Đoàn riêng)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="drawerNote" data-i18n="specialRequest">Yêu cầu đặc biệt</label>
+                <textarea id="drawerNote" class="form-control" rows="3" placeholder="Sở thích ăn uống, chụp ảnh, kỷ niệm đặc biệt..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-drawer" data-i18n="btnSubmitDrawer">
+                GỬI YÊU CẦU TƯ VẤN ↗
+            </button>
+        </form>
+    </aside>
+
+    <!-- ── POP-UP TOUR BOOKING MODAL ────────────────────────────── -->
+    <div class="modal-overlay" id="tourModalOverlay">
+        <div class="tour-modal" id="tourModal">
+            <button class="modal-close-btn" id="modalCloseBtn" type="button" aria-label="Đóng popup">✕</button>
+            <div class="modal-banner">
+                <img id="modalImg" src="" alt="Tour Banner" />
+                <div class="modal-banner-overlay">
+                    <div class="modal-banner-meta">
+                        <span id="modalMetaLocation">NINH BÌNH</span>
+                        <span>·</span>
+                        <span id="modalMetaDuration">3 NGÀY · 2 ĐÊM</span>
+                    </div>
+                    <h2 class="modal-banner-title" id="modalTitle">Qua miền di sản</h2>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h4 class="modal-sec-title" data-i18n="tripHighlights">ĐIỂM NHẤN HÀNH TRÌNH</h4>
+                    <ul class="modal-highlights" id="modalHighlights">
+                        <!-- Populated dynamically via JavaScript -->
+                    </ul>
+
+                    <div class="price-summary-box">
+                        <div class="price-summary-row">
+                            <span data-i18n="unitPrice">Đơn giá / khách:</span>
+                            <strong id="modalUnitPrice">6.800.000 ₫</strong>
+                        </div>
+                        <div class="price-summary-row" style="margin-top: 8px;">
+                            <span data-i18n="estTotal">Tạm tính:</span>
+                            <span class="price-summary-total" id="modalTotalPrice">6.800.000 ₫</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="modalBookingForm" style="display: flex; flex-direction: column; gap: 14px;">
+                    <div class="form-group">
+                        <label for="modalFullName" data-i18n="fullName">Họ và tên</label>
+                        <input type="text" id="modalFullName" class="form-control" placeholder="Nguyễn Văn A" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="modalPhone" data-i18n="phone">Số điện thoại</label>
+                        <input type="tel" id="modalPhone" class="form-control" placeholder="0988 123 456" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="modalDate" data-i18n="departDate">Ngày khởi hành</label>
+                        <input type="date" id="modalDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="modalGuestsCount" data-i18n="guestCount">Số lượng khách</label>
+                        <select id="modalGuestsCount" class="form-control" onchange="updateModalTotal()">
+                            <option value="1">1 khách</option>
+                            <option value="2" selected>2 khách</option>
+                            <option value="3">3 khách</option>
+                            <option value="4">4 khách</option>
+                            <option value="6">6 khách</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit-drawer" data-i18n="confirmBooking">
+                        XÁC NHẬN ĐẶT TOUR ↗
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FLOATING CONTACT BUTTONS (HOTLINE PULSE, ZALO, MESSENGER) ── -->
+    <div class="floating-stack" aria-label="Kênh liên hệ nhanh">
+        <!-- Hotline with gentle pulse wave ring -->
+        <a class="floating-btn phone" href="tel:0988123456" aria-label="Gọi hotline">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring-delayed"></div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <div class="floating-tooltip">
+                <strong>Hotline 24/7</strong>
+                <span class="subtext">0988 123 456</span>
+            </div>
+        </a>
+
+        <!-- Zalo Chat -->
+        <a class="floating-btn zalo" href="https://zalo.me/0988123456" target="_blank" rel="noopener noreferrer" aria-label="Chat Zalo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.5 5.43 3.84 7.08l-.94 3.42 3.81-1.63c1.03.34 2.13.53 3.29.53 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.2 12.5h-3.4v-1.2l2.1-2.4H9.8V9.5h3.4v1.2l-2.1 2.4h2.1v1.4z"/>
+            </svg>
+            <div class="floating-tooltip">
+                <strong>Chat Zalo</strong>
+                <span class="subtext">Tư vấn viên Nếp</span>
+            </div>
+        </a>
+
+        <!-- Messenger -->
+        <a class="floating-btn messenger" href="https://m.me/nepjourneys" target="_blank" rel="noopener noreferrer" aria-label="Nhắn tin Facebook Messenger">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.17.16.14.26.35.26.57l-.07 1.78c-.03.74.75 1.25 1.41.92l1.98-.99c.18-.09.39-.1.58-.04.85.24 1.76.37 2.7.37 5.64 0 10-4.13 10-9.7S17.64 2 12 2zm1.06 13.06l-2.54-2.71-4.96 2.71 5.45-5.79 2.6 2.71 4.9-2.71-5.45 5.79z"/>
+            </svg>
+            <div class="floating-tooltip">
+                <strong>Messenger</strong>
+                <span class="subtext">Facebook cá nhân</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- Luxury Floating Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+</body>
+
+</html>

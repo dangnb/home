@@ -1,0 +1,185 @@
+.contact {
+  padding: 110px max(24px, 8%) 80px;
+  background-color: #0f1f19;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.contactTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.contactMark {
+  color: #C2A979;
+  font-size: 18px;
+}
+
+.contactMain {
+  padding: 80px 0 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 50px;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(40px, 5.2vw, 72px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-rendering: geometricPrecision;
+}
+
+.heading em {
+  font-style: italic;
+  color: #E6D5B8;
+}
+
+.contactForm {
+  width: 100%;
+  max-width: 420px;
+}
+
+.formLabel {
+  display: block;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 18px;
+  line-height: 1.65;
+}
+
+.emailField {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  transition: border-color 0.3s ease;
+}
+
+.emailField:focus-within {
+  border-color: #C2A979;
+}
+
+.input {
+  flex: 1;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.submitBtn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  color: #C2A979;
+  transform: translate(2px, -2px);
+}
+
+.submitBtn:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.loadingDot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #E6D5B8;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.formMessage {
+  margin: 14px 0 0;
+  color: #cfdf82;
+  font-size: 13px;
+  font-family: var(--font-dm-sans), sans-serif;
+  line-height: 1.5;
+}
+
+.formError {
+  color: #ffb8a8;
+}
+
+.contactBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 28px;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+.mailLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.mailLink:hover {
+  color: #C2A979;
+}
+
+@media (max-width: 860px) {
+  .contactMain {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 60px 0 70px;
+  }
+  .contactBottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

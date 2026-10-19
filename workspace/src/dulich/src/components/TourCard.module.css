@@ -1,0 +1,310 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 16px rgba(23, 55, 45, 0.04);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+  border: 1px solid rgba(226, 221, 213, 0.6);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(23, 55, 45, 0.04),
+    0 16px 40px rgba(23, 55, 45, 0.08),
+    0 0 0 1px rgba(194, 169, 121, 0.2);
+  border-color: rgba(194, 169, 121, 0.4);
+}
+
+.visualLink {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: #e5e2d8;
+  cursor: pointer;
+  text-align: left;
+  display: block;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+
+.card:hover .image,
+.visualLink:focus-visible .image {
+  transform: scale(1.04);
+  filter: brightness(1.03);
+}
+
+.badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: linear-gradient(135deg, #C2A979 0%, #A08040 100%);
+  color: #ffffff;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.badge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-150%) skewX(-20deg);
+  animation: shimmerSweep 6s ease-in-out infinite 2s;
+}
+
+.saleBadge {
+  background: linear-gradient(135deg, #e65c00 0%, #F9D423 100%);
+}
+
+.regionLabel {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  z-index: 2;
+  color: #ffffff;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(15, 28, 22, 0.55) 0%, transparent 55%);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.arrowBtn {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .arrowBtn,
+.visualLink:focus-visible .arrowBtn {
+  background: #C2A979;
+  border-color: #C2A979;
+  color: #17372d;
+  transform: translate(2px, -2px);
+  box-shadow: 0 4px 12px rgba(194, 169, 121, 0.35);
+}
+
+.content {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted, #6b7066);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.titleButton {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.title {
+  margin: 0 0 6px;
+  font-family: var(--font-serif), serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.28;
+  color: var(--ink, #111413);
+  letter-spacing: -0.01em;
+  transition: color 0.25s ease;
+  text-rendering: geometricPrecision;
+}
+
+.card:hover .title,
+.titleButton:focus-visible .title {
+  color: #254d3e;
+}
+
+.subtitle {
+  margin: 0 0 16px;
+  color: var(--muted, #6b7066);
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 0;
+  border-top: 1px solid #f0ede6;
+  border-bottom: 1px solid #f0ede6;
+  margin-bottom: 18px;
+  font-size: 12px;
+  color: #555952;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.featureBullet {
+  color: #C2A979;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.priceCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.priceLabel {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #8c9085;
+  letter-spacing: 0.8px;
+}
+
+.priceValue {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #17372d;
+  letter-spacing: -0.02em;
+}
+
+.originalPrice {
+  font-size: 11px;
+  color: #a5a89e;
+  text-decoration: line-through;
+  margin-left: 4px;
+}
+
+.bookBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #C2A979 0%, #A08040 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(194, 169, 121, 0.2), 0 6px 16px rgba(194, 169, 121, 0.12);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.bookBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-150%) skewX(-20deg);
+}
+
+.bookBtn:hover::before {
+  animation: shimmerSweep 0.75s ease-in-out;
+}
+
+.bookBtn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(194, 169, 121, 0.3), 0 8px 24px rgba(194, 169, 121, 0.18);
+}
+
+.visualLink:active,
+.titleButton:active,
+.bookBtn:active {
+  transform: scale(0.98);
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge::before,
+  .bookBtn:hover::before {
+    animation: none;
+  }
+}
