@@ -1,13 +1,12 @@
 .hero {
-  min-height: 720px;
-  height: min(880px, 100svh);
   position: relative;
-  overflow: hidden;
-  color: #ffffff;
-  /* Matches BrandLoader so its exit flows naturally into the first visual. */
-  background-color: #17372d;
   display: flex;
   align-items: center;
+  min-height: 760px;
+  height: min(940px, 100svh);
+  overflow: hidden;
+  color: #fff;
+  background: var(--deep-green);
 }
 
 .heroImage {
@@ -17,225 +16,148 @@
   height: 100%;
   object-fit: cover;
   object-position: center 52%;
-  animation: kenBurns 38s ease-in-out infinite alternate, heroReveal 1.2s ease-out both;
+  animation: kenBurns 40s ease-in-out infinite alternate;
   will-change: transform;
-}
-
-@keyframes kenBurns {
-  0% { transform: scale(1.01) translate(0, 0); }
-  100% { transform: scale(1.045) translate(-0.5%, -0.35%); }
 }
 
 .heroShade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(
-      100deg,
-      rgba(10, 22, 18, 0.82) 0%,
-      rgba(10, 22, 18, 0.45) 55%,
-      rgba(10, 22, 18, 0.15) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(8, 20, 16, 0.7) 0%,
-      transparent 40%,
-      rgba(8, 20, 16, 0.2) 100%
-    );
+    linear-gradient(90deg, rgba(10, 26, 21, 0.78) 0%, rgba(10, 26, 21, 0.44) 50%, rgba(10, 26, 21, 0.14) 100%),
+    linear-gradient(0deg, rgba(10, 26, 21, 0.68) 0%, transparent 38%, rgba(10, 26, 21, 0.24) 100%);
 }
 
 .heroCopy {
   position: relative;
-  z-index: 10;
-  padding-left: max(40px, 8%);
-  padding-right: 8%;
-  max-width: 860px;
-  margin-top: 20px;
-  animation: riseIn 0.8s 0.15s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  z-index: 1;
+  width: min(880px, 100%);
+  margin-top: 24px;
+  padding: 0 max(28px, 8%);
 }
 
 .eyebrow {
-  margin: 0;
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  color: rgba(255, 255, 255, 0.85);
+  gap: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-.pulsingDot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 12px;
-  border-radius: 50%;
-  background: #c2a979;
-  box-shadow: 0 0 6px rgba(194, 169, 121, 0.7);
-  animation: gentleGlow 4s ease-in-out infinite;
-}
-
-@keyframes gentleGlow {
-  0%, 100% { opacity: 0.7; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1); }
+.eyebrowRule {
+  width: 32px;
+  height: 1px;
+  background: var(--gold-soft);
 }
 
 .title {
-  margin: 24px 0 28px;
-  font-family: var(--font-serif), serif;
-  font-weight: 600;
-  font-size: clamp(44px, 6.2vw, 84px);
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  text-rendering: geometricPrecision;
+  margin: 28px 0 38px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 6.6vw, 94px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
 }
 
 .title em {
+  color: var(--gold-soft);
   font-style: italic;
   font-weight: 400;
-  color: #E6D5B8;
 }
 
 .heroBottom {
-  width: 100%;
-  max-width: 660px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 28px;
-  margin-top: 4px;
+  gap: 36px;
+  max-width: 760px;
 }
 
 .description {
-  max-width: 420px;
+  max-width: 490px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.82);
-  font-family: var(--font-dm-sans), sans-serif;
-  font-size: 15px;
-  line-height: 1.75;
-  font-weight: 400;
-  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-body);
+  font-size: 17.5px;
+  line-height: 1.82;
 }
 
 .exploreLink {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-height: 48px;
-  padding: 5px 5px 5px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 999px;
-  color: #ffffff;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  padding: 0 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-decoration: none;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  flex-shrink: 0;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.circleIcon {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
+  transition: color 300ms ease-in-out, border-color 300ms ease-in-out;
+  white-space: nowrap;
 }
 
 .exploreLink:hover {
-  background: #c2a979;
-  border-color: #c2a979;
-  color: #17372d;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(194, 169, 121, 0.3);
+  border-color: var(--gold-soft);
+  color: var(--gold-soft);
 }
 
-.exploreLink:hover .circleIcon {
-  background: rgba(23, 55, 45, 0.15);
+.captionRail {
+  position: absolute;
+  right: max(28px, 8%);
+  bottom: 32px;
+  left: max(28px, 8%);
+  z-index: 1;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .heroCaption {
-  position: absolute;
-  left: max(40px, 8%);
-  right: 8%;
-  bottom: 32px;
   display: flex;
-  justify-content: space-between;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 9px;
+  gap: 24px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-ui);
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 1.8px;
-  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.heroIndex {
-  position: absolute;
-  right: 8%;
-  bottom: 88px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-montserrat), sans-serif;
-  font-size: 10px;
+.routeNote {
+  color: var(--gold-soft);
+  font-family: var(--font-ui);
+  font-size: 12px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.14em;
 }
 
-.indexLine {
-  width: 48px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.35);
-}
-
-@keyframes heroReveal {
-  from { transform: scale(1.04); opacity: 0.9; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes kenBurns {
+  from { transform: scale(1.01); }
+  to { transform: scale(1.035) translate(-0.3%, -0.2%); }
 }
 
 @media (max-width: 768px) {
-  .hero {
-    min-height: 600px;
-  }
-  .heroCopy {
-    padding-left: 6%;
-    padding-right: 6%;
-  }
-  .heroBottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .exploreLink {
-    padding-left: 14px;
-  }
-  .heroIndex {
-    display: none;
-  }
-  .heroCaption {
-    left: 6%;
-    right: 6%;
-  }
+  .hero { min-height: 660px; }
+  .heroCopy { padding: 0 6%; }
+  .description { font-size: 16px; }
+  .heroBottom { flex-direction: column; align-items: flex-start; gap: 26px; }
+  .captionRail { right: 6%; left: 6%; bottom: 24px; }
+  .heroCaption { flex-direction: column; gap: 4px; font-size: 11px; }
+  .routeNote { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .heroImage,
-  .heroCopy,
-  .pulsingDot {
-    animation: none;
-  }
+  .heroImage { animation: none; }
 }

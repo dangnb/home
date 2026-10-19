@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./TourBookingModal.module.css";
 import type { Tour } from "@/types";
 import { useLocale } from "./LocaleProvider";
@@ -17,7 +18,10 @@ function getToday() {
   return new Date().toISOString().split("T")[0];
 }
 
-export default function TourBookingModal({ tour, onClose }: TourBookingModalProps) {
+export default function TourBookingModal({
+  tour,
+  onClose,
+}: TourBookingModalProps) {
   const { locale, dictionary } = useLocale();
   const isEn = locale === "en";
   const [guests, setGuests] = useState(2);
@@ -26,11 +30,16 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
   useOverlayAccessibility(Boolean(tour), onClose, "#modal-close-button");
 
-  const totalEstimated = useMemo(() => (tour ? tour.priceNumeric * guests : 0), [guests, tour]);
+  const totalEstimated = useMemo(
+    () => (tour ? tour.priceNumeric * guests : 0),
+    [guests, tour],
+  );
 
   if (!tour) return null;
 
@@ -43,7 +52,11 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
 
     if (!fullName || !phone || !departureDate) {
       setStatus("error");
-      setErrorMsg(isEn ? "Please complete the required details." : "Vui lòng điền đủ các thông tin bắt buộc.");
+      setErrorMsg(
+        isEn
+          ? "Please complete the required details."
+          : "Vui lòng điền đủ các thông tin bắt buộc.",
+      );
       return;
     }
 
@@ -84,8 +97,20 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
   };
 
   return (
-    <div className={styles.overlay} onClick={onClose} role="presentation">
-      <section
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={styles.overlay}
+      onClick={onClose}
+      role="presentation"
+    >
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 8 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
         className={styles.modal}
         onClick={(event) => event.stopPropagation()}
         role="dialog"
@@ -120,11 +145,18 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
         <div className={styles.body}>
           <div className={styles.infoCol}>
             <div>
-              <h3 className={styles.sectionTitle}>{dictionary.modal.highlights}</h3>
+              <h3 className={styles.sectionTitle}>
+                {dictionary.modal.highlights}
+              </h3>
               <ul className={styles.highlightsList}>
                 {highlights.map((item, index) => (
                   <li key={index} className={styles.highlightItem}>
-                    <span className={styles.highlightBullet} aria-hidden="true">✦</span>
+                    <span
+                      className={styles.highlightBullet}
+                      aria-hidden="true"
+                    >
+                      ✦
+                    </span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -133,7 +165,9 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
 
             {tour.itinerary?.length ? (
               <div>
-                <h3 className={styles.sectionTitle}>{dictionary.modal.itinerary}</h3>
+                <h3 className={styles.sectionTitle}>
+                  {dictionary.modal.itinerary}
+                </h3>
                 <div className={styles.itineraryList}>
                   {tour.itinerary.map((item) => (
                     <div key={item.day} className={styles.itineraryItem}>
@@ -149,131 +183,180 @@ export default function TourBookingModal({ tour, onClose }: TourBookingModalProp
           </div>
 
           <div className={styles.formCol}>
-            {status === "success" ? (
-              <div className={styles.successAlert} role="status" aria-live="polite">
-                <FiCheckCircle size={38} aria-hidden="true" />
-                <h4>{dictionary.drawer.successTitle}</h4>
-                <p>{dictionary.drawer.successDesc}</p>
-                <button type="button" className={styles.submitBtn} onClick={onClose}>
-                  {dictionary.modal.close}
-                </button>
-              </div>
-            ) : (
-              <form className={styles.bookingForm} onSubmit={handleSubmit} noValidate>
-                <div className={styles.priceBox}>
-                  <div className={styles.priceRow}>
-                    <span>{dictionary.modal.pricePerGuest}:</span>
-                    <span className={styles.unitPrice}>{tour.price}</span>
+            <AnimatePresence mode="wait">
+              {status === "success" ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className={styles.successAlert}
+                  role="status"
+                  aria-live="polite"
+                >
+                  <FiCheckCircle size={36} aria-hidden="true" />
+                  <h4>{dictionary.drawer.successTitle}</h4>
+                  <p>{dictionary.drawer.successDesc}</p>
+                  <button
+                    type="button"
+                    className={styles.submitBtn}
+                    onClick={onClose}
+                  >
+                    {dictionary.modal.close}
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={styles.bookingForm}
+                  onSubmit={handleSubmit}
+                  noValidate
+                >
+                  <div className={styles.priceBox}>
+                    <div className={styles.priceRow}>
+                      <span>{dictionary.modal.pricePerGuest}:</span>
+                      <span className={styles.unitPrice}>{tour.price}</span>
+                    </div>
+                    <div className={styles.priceRow}>
+                      <span>{dictionary.modal.estTotal}:</span>
+                      <span className={styles.totalPrice}>
+                        {formatVND(totalEstimated)}
+                      </span>
+                    </div>
                   </div>
-                  <div className={styles.priceRow}>
-                    <span>{dictionary.modal.estTotal}:</span>
-                    <span className={styles.totalPrice}>{formatVND(totalEstimated)}</span>
+
+                  <p className={styles.formHint}>
+                    {isEn
+                      ? "Fields marked with * are required."
+                      : "Các trường có dấu * là bắt buộc."}
+                  </p>
+                  {errorMsg ? (
+                    <div className={styles.formError} role="alert">
+                      {errorMsg}
+                    </div>
+                  ) : null}
+
+                  <div className={styles.field}>
+                    <label htmlFor="modal-guests">
+                      {dictionary.modal.adultsCount}
+                    </label>
+                    <div className={styles.guestCounter}>
+                      <button
+                        type="button"
+                        className={styles.counterBtn}
+                        aria-label={isEn ? "Decrease guests" : "Giảm số khách"}
+                        onClick={() => updateGuests(guests - 1)}
+                      >
+                        −
+                      </button>
+                      <output className={styles.guestCount} aria-live="polite">
+                        {guests}
+                      </output>
+                      <button
+                        type="button"
+                        className={styles.counterBtn}
+                        aria-label={isEn ? "Increase guests" : "Tăng số khách"}
+                        onClick={() => updateGuests(guests + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <p className={styles.formHint}>
-                  {isEn ? "Fields marked with * are required." : "Các trường có dấu * là bắt buộc."}
-                </p>
-                {errorMsg ? <div className={styles.formError} role="alert">{errorMsg}</div> : null}
-
-                <div className={styles.field}>
-                  <label htmlFor="modal-guests">{dictionary.modal.adultsCount}</label>
-                  <div className={styles.guestCounter}>
-                    <button
-                      type="button"
-                      className={styles.counterBtn}
-                      aria-label={isEn ? "Decrease guests" : "Giảm số khách"}
-                      onClick={() => updateGuests(guests - 1)}
-                    >
-                      −
-                    </button>
-                    <output className={styles.guestCount} aria-live="polite">{guests}</output>
-                    <button
-                      type="button"
-                      className={styles.counterBtn}
-                      aria-label={isEn ? "Increase guests" : "Tăng số khách"}
-                      onClick={() => updateGuests(guests + 1)}
-                    >
-                      +
-                    </button>
+                  <div className={styles.field}>
+                    <label htmlFor="modal-date">
+                      {dictionary.modal.departureDate} *
+                    </label>
+                    <input
+                      id="modal-date"
+                      type="date"
+                      min={getToday()}
+                      required
+                      className={styles.input}
+                      value={departureDate}
+                      onChange={(event) => setDepartureDate(event.target.value)}
+                    />
                   </div>
-                </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="modal-date">{dictionary.modal.departureDate} *</label>
-                  <input
-                    id="modal-date"
-                    type="date"
-                    min={getToday()}
-                    required
-                    className={styles.input}
-                    value={departureDate}
-                    onChange={(event) => setDepartureDate(event.target.value)}
-                  />
-                </div>
+                  <div className={styles.field}>
+                    <label htmlFor="modal-name">
+                      {dictionary.modal.fullName} *
+                    </label>
+                    <input
+                      id="modal-name"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      placeholder="Nguyễn Văn A"
+                      className={styles.input}
+                      value={fullName}
+                      onChange={(event) => setFullName(event.target.value)}
+                    />
+                  </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="modal-name">{dictionary.modal.fullName} *</label>
-                  <input
-                    id="modal-name"
-                    type="text"
-                    required
-                    autoComplete="name"
-                    placeholder="Nguyễn Văn A"
-                    className={styles.input}
-                    value={fullName}
-                    onChange={(event) => setFullName(event.target.value)}
-                  />
-                </div>
+                  <div className={styles.field}>
+                    <label htmlFor="modal-phone">
+                      {dictionary.modal.phone} *
+                    </label>
+                    <input
+                      id="modal-phone"
+                      type="tel"
+                      required
+                      autoComplete="tel"
+                      inputMode="tel"
+                      placeholder="090 123 4567"
+                      className={styles.input}
+                      value={phone}
+                      onChange={(event) => setPhone(event.target.value)}
+                    />
+                  </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="modal-phone">{dictionary.modal.phone} *</label>
-                  <input
-                    id="modal-phone"
-                    type="tel"
-                    required
-                    autoComplete="tel"
-                    inputMode="tel"
-                    placeholder="090 123 4567"
-                    className={styles.input}
-                    value={phone}
-                    onChange={(event) => setPhone(event.target.value)}
-                  />
-                </div>
+                  <div className={styles.field}>
+                    <label htmlFor="modal-email">
+                      {dictionary.modal.email}
+                    </label>
+                    <input
+                      id="modal-email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="email@example.com"
+                      className={styles.input}
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                    />
+                  </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="modal-email">{dictionary.modal.email}</label>
-                  <input
-                    id="modal-email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="email@example.com"
-                    className={styles.input}
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                </div>
+                  <div className={styles.field}>
+                    <label htmlFor="modal-notes">{dictionary.modal.note}</label>
+                    <textarea
+                      id="modal-notes"
+                      rows={2}
+                      placeholder={dictionary.modal.notePlaceholder}
+                      className={styles.textarea}
+                      value={note}
+                      onChange={(event) => setNote(event.target.value)}
+                    />
+                  </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="modal-notes">{dictionary.modal.note}</label>
-                  <textarea
-                    id="modal-notes"
-                    rows={2}
-                    placeholder={dictionary.modal.notePlaceholder}
-                    className={styles.textarea}
-                    value={note}
-                    onChange={(event) => setNote(event.target.value)}
-                  />
-                </div>
-
-                <button type="submit" disabled={status === "submitting"} className={styles.submitBtn}>
-                  {status === "submitting" ? dictionary.modal.submitting : dictionary.modal.confirmBooking}
-                </button>
-              </form>
-            )}
+                  <button
+                    type="submit"
+                    disabled={status === "submitting"}
+                    className={styles.submitBtn}
+                  >
+                    {status === "submitting"
+                      ? dictionary.modal.submitting
+                      : dictionary.modal.confirmBooking}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
         </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 }

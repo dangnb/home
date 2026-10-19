@@ -1,9 +1,33 @@
 "use client";
 
 import React from "react";
+import { motion, type Variants } from "framer-motion";
 import styles from "./Hero.module.css";
 import { useLocale } from "./LocaleProvider";
 import { FiArrowDown } from "react-icons/fi";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.85,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 export default function Hero() {
   const { dictionary } = useLocale();
@@ -18,43 +42,48 @@ export default function Hero() {
       />
       <div className={styles.heroShade} />
 
-      <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>
-          <span className={styles.pulsingDot} />
-          {dictionary.hero.eyebrow}
-        </p>
+      <motion.div
+        className={styles.heroCopy}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.p variants={itemVariants} className={styles.eyebrow}>
+          <span className={styles.eyebrowRule} aria-hidden="true" />
+          <span>{dictionary.hero.eyebrow}</span>
+        </motion.p>
 
-        <h1 className={styles.title}>
+        <motion.h1 variants={itemVariants} className={styles.title}>
           {dictionary.hero.titleMain}
           <br />
           {dictionary.hero.titleSub} <em>{dictionary.hero.titleItalic}</em>
-        </h1>
+        </motion.h1>
 
-        <div className={styles.heroBottom}>
+        <motion.div variants={itemVariants} className={styles.heroBottom}>
           <p className={styles.description}>{dictionary.hero.description}</p>
-          <a
-            href="#hanh-trinh"
-            className={styles.exploreLink}
-            aria-label={dictionary.hero.explore}
-          >
+          <a href="#hanh-trinh" className={`${styles.exploreLink} group`}>
             <span>{dictionary.hero.explore}</span>
-            <span className={styles.circleIcon} aria-hidden="true">
-              <FiArrowDown size={19} />
-            </span>
+            <FiArrowDown
+              size={15}
+              aria-hidden="true"
+              className="transition-transform duration-300 ease-in-out group-hover:translate-y-[2px]"
+            />
           </a>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.9, delay: 0.55, ease: "easeInOut" }}
+        className={styles.captionRail}
+      >
+        <div className={styles.heroCaption}>
+          <span>{dictionary.hero.captionLocation}</span>
+          <span>{dictionary.hero.captionCoords}</span>
         </div>
-      </div>
-
-      <div className={styles.heroCaption}>
-        <span>{dictionary.hero.captionLocation}</span>
-        <span>{dictionary.hero.captionCoords}</span>
-      </div>
-
-      <div className={styles.heroIndex}>
-        <span>01</span>
-        <span className={styles.indexLine} />
-        <span>06</span>
-      </div>
+        <span className={styles.routeNote}>NẾP / VIỆT NAM / 01</span>
+      </motion.div>
     </section>
   );
 }

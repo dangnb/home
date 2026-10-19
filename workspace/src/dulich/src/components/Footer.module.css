@@ -1,72 +1,74 @@
 .footer {
-  height: 80px;
-  padding: 0 max(24px, 8%);
   display: flex;
+  min-height: 88px;
   align-items: center;
   justify-content: space-between;
-  background-color: #0a1410;
-  color: rgba(255, 255, 255, 0.55);
-  font-family: var(--font-montserrat), sans-serif;
+  gap: 24px;
+  padding: 0 max(28px, 8%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0b211a;
+  color: rgba(255, 255, 255, 0.56);
+  font-family: var(--font-ui);
   font-size: 9.5px;
   font-weight: 600;
-  letter-spacing: 1.2px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  color: #ffffff;
+  gap: 12px;
+  color: #fff;
   text-decoration: none;
-  transition: opacity 0.25s ease;
+  transition: color 300ms ease-in-out;
 }
 
 .brand:hover {
-  opacity: 0.8;
+  color: var(--gold-soft);
 }
 
 .brandSymbol {
+  display: grid;
   width: 28px;
   height: 28px;
-  border: 1px solid #C2A979;
-  border-radius: 50%;
-  display: grid;
   place-items: center;
-  font-family: var(--font-serif), serif;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  font-family: var(--font-display);
   font-size: 15px;
-  color: #C2A979;
+  font-style: italic;
 }
 
 .brandSub {
-  font-size: 7px;
   margin-left: 3px;
-  color: #E6D5B8;
-  letter-spacing: 2.2px;
+  color: var(--gold-soft);
+  font-size: 7px;
+  letter-spacing: 0.22em;
 }
 
 .copyright {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.42);
 }
 
 .backTop {
-  color: rgba(255, 255, 255, 0.7);
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.78);
   text-decoration: none;
-  transition: all 0.25s ease;
-  padding: 8px 0;
+  transition: color 300ms ease-in-out, border-color 300ms ease-in-out;
 }
 
 .backTop:hover {
-  color: #C2A979;
+  border-color: var(--gold-soft);
+  color: var(--gold-soft);
 }
 
 @media (max-width: 768px) {
   .footer {
-    height: auto;
-    padding: 28px 8%;
+    min-height: 0;
     flex-direction: column;
-    gap: 14px;
+    padding: 32px 8%;
     text-align: center;
   }
 }

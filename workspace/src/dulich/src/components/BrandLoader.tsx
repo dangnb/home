@@ -15,8 +15,8 @@ export default function BrandLoader() {
   const [phase, setPhase] = useState<LoaderPhase>("visible");
 
   useEffect(() => {
-    let exitTimer: ReturnType<typeof window.setTimeout> | undefined;
-    let removeTimer: ReturnType<typeof window.setTimeout> | undefined;
+    let exitTimer: number | undefined;
+    let removeTimer: number | undefined;
     let firstFrame = 0;
     let secondFrame = 0;
 

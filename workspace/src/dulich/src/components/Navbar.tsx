@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./Navbar.module.css";
 import { useLocale } from "./LocaleProvider";
 import { SUPPORTED_LOCALES, LOCALE_METADATA } from "@/lib/i18n/config";
@@ -66,7 +67,11 @@ export default function Navbar() {
         </nav>
 
         <div className={styles.rightActions}>
-          <div className={styles.langSwitch} role="group" aria-label="Ngôn ngữ / Language">
+          <div
+            className={styles.langSwitch}
+            role="group"
+            aria-label="Ngôn ngữ / Language"
+          >
             {SUPPORTED_LOCALES.map((supportedLocale) => {
               const active = supportedLocale === locale;
               return (
@@ -79,16 +84,18 @@ export default function Navbar() {
                   onClick={() => setLocale(supportedLocale)}
                   title={LOCALE_METADATA[supportedLocale].label}
                 >
-                  {active && <span className={styles.sparkle}>✦</span>}
                   <span>{LOCALE_METADATA[supportedLocale].flag}</span>
                 </button>
               );
             })}
           </div>
 
-          <a href="#lien-he" className={styles.headerCta}>
+          <a href="#lien-he" className={`${styles.headerCta} group`}>
             <span>{dictionary.nav.planTrip}</span>
-            <FiArrowUpRight size={15} />
+            <FiArrowUpRight
+              size={14}
+              className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+            />
           </a>
 
           <button
@@ -96,49 +103,86 @@ export default function Navbar() {
             type="button"
             className={styles.menuToggle}
             onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={
+              mobileMenuOpen
+                ? "Close navigation menu"
+                : "Open navigation menu"
+            }
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
           >
-            {mobileMenuOpen ? <FiX size={25} /> : <FiMenu size={25} />}
+            {mobileMenuOpen ? <FiX size={21} /> : <FiMenu size={21} />}
           </button>
         </div>
       </header>
 
-      {mobileMenuOpen && (
-        <div className={styles.mobileOverlay} onClick={closeMobileMenu} role="presentation">
-          <aside
-            id="mobile-navigation"
-            className={styles.mobileDrawer}
-            onClick={(event) => event.stopPropagation()}
-            aria-label="Mobile navigation"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={styles.mobileOverlay}
+            onClick={closeMobileMenu}
+            role="presentation"
           >
-            <div className={styles.mobileDrawerHead}>
-              <span className={styles.mobileBrand}>
-                <span className={styles.mobileBrandSymbol}>n.</span>
-                <span>NẾP JOURNEYS</span>
-              </span>
-              <button type="button" className={styles.mobileClose} onClick={closeMobileMenu} aria-label="Close navigation menu">
-                <FiX size={25} />
-              </button>
-            </div>
+            <motion.aside
+              id="mobile-navigation"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+              className={styles.mobileDrawer}
+              onClick={(event) => event.stopPropagation()}
+              aria-label="Mobile navigation"
+            >
+              <div className={styles.mobileDrawerHead}>
+                <span className={styles.mobileBrand}>
+                  <span className={styles.mobileBrandSymbol}>n.</span>
+                  <span>NẾP JOURNEYS</span>
+                </span>
+                <button
+                  type="button"
+                  className={styles.mobileClose}
+                  onClick={closeMobileMenu}
+                  aria-label="Close navigation menu"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
 
-            <nav className={styles.mobileDrawerNav}>
-              {navItems.map((item, index) => (
-                <a key={item.href} href={item.href} className={styles.mobileNavLink} onClick={closeMobileMenu}>
-                  <span className={styles.mobileNavIndex}>0{index + 1}</span>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+              <nav className={styles.mobileDrawerNav}>
+                {navItems.map((item, index) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={`${styles.mobileNavLink} group`}
+                    onClick={closeMobileMenu}
+                  >
+                    <span className={styles.mobileNavIndex}>0{index + 1}</span>
+                    <span className="transition-transform duration-300 ease-in-out group-hover:translate-x-1">
+                      {item.label}
+                    </span>
+                  </a>
+                ))}
+              </nav>
 
-            <a href="#lien-he" className={styles.mobileCta} onClick={closeMobileMenu}>
-              <span>{dictionary.nav.planTrip}</span>
-              <FiArrowUpRight size={16} />
-            </a>
-          </aside>
-        </div>
-      )}
+              <a
+                href="#lien-he"
+                className={`${styles.mobileCta} group`}
+                onClick={closeMobileMenu}
+              >
+                <span>{dictionary.nav.planTrip}</span>
+                <FiArrowUpRight
+                  size={15}
+                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+                />
+              </a>
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

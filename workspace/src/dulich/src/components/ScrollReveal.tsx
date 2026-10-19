@@ -4,10 +4,8 @@ import {
   type CSSProperties,
   type HTMLAttributes,
   type ReactNode,
-  useEffect,
-  useRef,
-  useState,
 } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import styles from "./ScrollReveal.module.css";
 
 type ScrollRevealProps = HTMLAttributes<HTMLDivElement> & {
@@ -15,7 +13,7 @@ type ScrollRevealProps = HTMLAttributes<HTMLDivElement> & {
   delay?: number;
 };
 
-/** Reveals a content group once as it enters the viewport. */
+/** Reveals a content group with a calm, understated editorial fade-in. */
 export default function ScrollReveal({
   children,
   className,
@@ -23,51 +21,35 @@ export default function ScrollReveal({
   style,
   ...props
 }: ScrollRevealProps) {
-  const elementRef = useRef<HTMLDivElement>(null);
-  const [state, setState] = useState<"visible" | "pending">("visible");
+  const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    const element = elementRef.current;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (!element || reducedMotion || !("IntersectionObserver" in window)) {
-      return;
-    }
-
-    const viewportBottom = window.innerHeight - 60;
-    const { bottom, top } = element.getBoundingClientRect();
-
-    if (top < viewportBottom && bottom > 0) {
-      return;
-    }
-
-    setState("pending");
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        setState("visible");
-        observer.unobserve(entry.target);
-      },
-      {
-        rootMargin: "0px 0px -60px 0px",
-        threshold: 0.12,
-      },
+  if (prefersReducedMotion) {
+    return (
+      <div
+        {...props}
+        className={`${styles.reveal} ${className ?? ""}`}
+        style={style}
+      >
+        {children}
+      </div>
     );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+  }
 
   return (
-    <div
-      {...props}
-      ref={elementRef}
-      className={`${styles.reveal} ${state === "pending" ? styles.pending : styles.visible} ${className ?? ""}`}
+    <motion.div
+      {...(props as Record<string, unknown>)}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
+      transition={{
+        duration: 0.7,
+        delay: delay / 1000,
+        ease: [0.22, 1, 0.36, 1] as const,
+      }}
+      className={`${styles.reveal} ${className ?? ""}`}
       style={{ "--reveal-delay": `${delay}ms`, ...style } as CSSProperties}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

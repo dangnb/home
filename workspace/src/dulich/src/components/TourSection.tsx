@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./TourSection.module.css";
 import ScrollReveal from "./ScrollReveal";
 import type { Tour, Category } from "@/types";
@@ -28,7 +29,12 @@ export default function TourSection({
   const filteredTours =
     activeCategory === "all"
       ? tours
-      : tours.filter((t) => t.region === activeCategory);
+      : tours.filter((tour) => tour.region === activeCategory);
+  const featuredTour =
+    filteredTours.find((tour) => tour.isFeatured) ?? filteredTours[0];
+  const remainingTours = filteredTours.filter(
+    (tour) => tour.id !== featuredTour?.id,
+  );
 
   return (
     <section className={styles.section} id="hanh-trinh">
@@ -40,26 +46,31 @@ export default function TourSection({
             <em>{dictionary.journeys.headingItalic}</em>
           </h2>
         </div>
-
-        <a href="#lien-he" className={styles.allLink}>
+        <a href="#lien-he" className={`${styles.allLink} group`}>
           <span>{dictionary.journeys.allLink}</span>
-          <FiArrowUpRight size={15} />
+          <FiArrowUpRight
+            size={14}
+            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+          />
         </a>
       </ScrollReveal>
 
-      {/* Filter Tabs */}
       <ScrollReveal
         className={styles.filterBar}
-        delay={80}
+        delay={60}
         role="group"
-        aria-label={isEn ? "Filter journeys by region" : "Lọc hành trình theo vùng miền"}
+        aria-label={
+          isEn
+            ? "Filter journeys by region"
+            : "Lọc hành trình theo vùng miền"
+        }
       >
         {categories.map((cat) => {
           const isActive = activeCategory === cat.id;
           const count =
             cat.id === "all"
               ? tours.length
-              : tours.filter((t) => t.region === cat.id).length;
+              : tours.filter((tour) => tour.region === cat.id).length;
 
           return (
             <button
@@ -79,21 +90,46 @@ export default function TourSection({
         })}
       </ScrollReveal>
 
-      {/* Tour Grid */}
-      <ScrollReveal className={styles.grid} delay={120} aria-live="polite">
-        {filteredTours.map((tour, index) => (
-          <div
-            key={tour.id}
-            className={styles.cardItem}
-            style={{ "--reveal-order": String(index) } as React.CSSProperties}
+      <ScrollReveal delay={100} aria-live="polite">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+            className={styles.journeyCollection}
           >
-            <TourCard
-              tour={tour}
-              onOpenBooking={onOpenBooking}
-              onViewDetails={onViewDetails}
-            />
-          </div>
-        ))}
+            {featuredTour ? (
+              <div className={styles.featuredItem}>
+                <TourCard
+                  tour={featuredTour}
+                  featured
+                  onOpenBooking={onOpenBooking}
+                  onViewDetails={onViewDetails}
+                />
+              </div>
+            ) : null}
+
+            {remainingTours.length ? (
+              <div className={styles.grid}>
+                {remainingTours.map((tour, index) => (
+                  <div
+                    key={tour.id}
+                    className={styles.cardItem}
+                    style={{ "--reveal-order": String(index) } as React.CSSProperties}
+                  >
+                    <TourCard
+                      tour={tour}
+                      onOpenBooking={onOpenBooking}
+                      onViewDetails={onViewDetails}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </motion.div>
+        </AnimatePresence>
       </ScrollReveal>
     </section>
   );

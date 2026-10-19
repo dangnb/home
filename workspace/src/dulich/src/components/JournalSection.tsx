@@ -14,14 +14,20 @@ interface JournalSectionProps {
 export default function JournalSection({ articles }: JournalSectionProps) {
   const { locale, dictionary } = useLocale();
   const isEn = locale === "en";
+  const [featured, secondary] = articles;
 
-  const featured = articles[0];
   if (!featured) return null;
 
-  const title = isEn ? featured.titleEn : featured.title;
-  const excerpt = isEn ? featured.excerptEn : featured.excerpt;
-  const readTime = isEn ? featured.readTimeEn : featured.readTime;
-  const tag = isEn ? featured.tagEn : featured.tag;
+  const getArticleCopy = (article: JournalArticle) => ({
+    title: isEn ? article.titleEn : article.title,
+    excerpt: isEn ? article.excerptEn : article.excerpt,
+    readTime: isEn ? article.readTimeEn : article.readTime,
+    tag: isEn ? article.tagEn : article.tag,
+    author: isEn ? article.authorEn : article.author,
+    date: isEn ? article.dateEn : article.date,
+  });
+
+  const featuredCopy = getArticleCopy(featured);
 
   return (
     <section className={styles.journal} id="nhat-ky">
@@ -33,39 +39,79 @@ export default function JournalSection({ articles }: JournalSectionProps) {
             <em>{dictionary.journal.headingItalic}</em>
           </h2>
         </div>
-
-        <a href="#lien-he" className={styles.allLink}>
+        <a href="#lien-he" className={`${styles.allLink} group`}>
           <span>{dictionary.journal.allLink}</span>
-          <FiArrowUpRight size={15} />
+          <FiArrowUpRight
+            size={14}
+            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+          />
         </a>
       </ScrollReveal>
 
-      <ScrollReveal delay={100}>
-        <a href="#lien-he" className={styles.journalFeature}>
+      <ScrollReveal className={styles.journalGrid} delay={80}>
+        <a href="#lien-he" className={`${styles.journalFeature} group`}>
           <div className={styles.journalPhoto}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={featured.image} alt={title} loading="lazy" />
+            <img
+              src={featured.image}
+              alt={featuredCopy.title}
+              loading="lazy"
+            />
           </div>
-
           <div className={styles.journalCopy}>
-            <div className={styles.articleTag}>
-              <span>{tag}</span>
-              <span> · {readTime}</span>
+            <p className={styles.articleTag}>{featuredCopy.tag}</p>
+            <p className={styles.articleMeta}>
+              {featuredCopy.date} · {featuredCopy.readTime}
+            </p>
+            <h3 className={styles.articleTitle}>{featuredCopy.title}</h3>
+            <p className={styles.articleExcerpt}>{featuredCopy.excerpt}</p>
+            <div className={styles.articleFooter}>
+              <span>{featuredCopy.author}</span>
+              <span className={styles.readLink}>
+                <span>{dictionary.journal.readStory}</span>
+                <FiArrowUpRight
+                  size={13}
+                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+                />
+              </span>
             </div>
-
-            <h3 className={styles.articleTitle}>{title}</h3>
-            <p className={styles.articleExcerpt}>{excerpt}</p>
-
-            <span className={styles.readLink}>
-              <span>{dictionary.journal.readStory}</span>
-              <FiArrowUpRight size={14} />
-            </span>
           </div>
-
-          <span className={styles.journalMark} aria-hidden="true">
-            n.
-          </span>
         </a>
+
+        {secondary
+          ? (() => {
+              const secondaryCopy = getArticleCopy(secondary);
+              return (
+                <a
+                  href="#lien-he"
+                  className={`${styles.secondaryStory} group`}
+                >
+                  <div className={styles.secondaryPhoto}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={secondary.image}
+                      alt={secondaryCopy.title}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className={styles.secondaryBody}>
+                    <p className={styles.articleTag}>{secondaryCopy.tag}</p>
+                    <h3>{secondaryCopy.title}</h3>
+                    <p className={styles.secondaryMeta}>
+                      {secondaryCopy.date} · {secondaryCopy.readTime}
+                    </p>
+                    <span className={styles.readLink}>
+                      <span>{dictionary.journal.readStory}</span>
+                      <FiArrowUpRight
+                        size={13}
+                        className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+                      />
+                    </span>
+                  </div>
+                </a>
+              );
+            })()
+          : null}
       </ScrollReveal>
     </section>
   );

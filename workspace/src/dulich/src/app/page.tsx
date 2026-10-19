@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IntroSection from "@/components/IntroSection";
@@ -63,9 +64,15 @@ export default function HomePage() {
       />
 
       {/* Tour Booking & Detail Pop-up Modal */}
-      {selectedTour && (
-        <TourBookingModal tour={selectedTour} onClose={handleCloseModal} />
-      )}
+      <AnimatePresence>
+        {selectedTour && (
+          <TourBookingModal
+            key={selectedTour.id}
+            tour={selectedTour}
+            onClose={handleCloseModal}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

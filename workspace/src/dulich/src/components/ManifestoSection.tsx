@@ -29,9 +29,12 @@ export default function ManifestoSection() {
         </h2>
         <p className={styles.description}>{dictionary.manifesto.body}</p>
 
-        <a href="#hanh-trinh" className={styles.ctaLink}>
+        <a href="#hanh-trinh" className={`${styles.ctaLink} group`}>
           <span>{dictionary.manifesto.cta}</span>
-          <FiArrowUpRight size={16} />
+          <FiArrowUpRight
+            size={15}
+            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+          />
         </a>
 
         <div className={styles.manifestoNote}>

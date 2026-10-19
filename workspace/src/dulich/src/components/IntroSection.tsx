@@ -12,7 +12,7 @@ export default function IntroSection() {
   return (
     <section className={styles.intro} id="ban-sac">
       <ScrollReveal className={styles.introLabel}>
-        <span className={styles.smallMark}>✳</span>
+        <span className={styles.smallMark} aria-hidden="true">✳</span>
         <span>{dictionary.intro.tag}</span>
       </ScrollReveal>
 
@@ -26,9 +26,12 @@ export default function IntroSection() {
 
         <div className={styles.introFoot}>
           <p>{dictionary.intro.body}</p>
-          <a href="#cach-di" className={styles.textLink}>
+          <a href="#cach-di" className={`${styles.textLink} group`}>
             <span>{dictionary.intro.moreLink}</span>
-            <FiArrowUpRight size={15} />
+            <FiArrowUpRight
+              size={14}
+              className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
+            />
           </a>
         </div>
       </ScrollReveal>

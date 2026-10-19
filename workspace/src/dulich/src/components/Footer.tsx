@@ -9,7 +9,11 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <a href="#top" className={styles.brand} aria-label="Nếp Journeys, về đầu trang">
+      <a
+        href="#top"
+        className={styles.brand}
+        aria-label="Nếp Journeys, về đầu trang"
+      >
         <span className={styles.brandSymbol} aria-hidden="true">
           n.
         </span>
