@@ -35,7 +35,7 @@
 
 .manifestoContent {
   display: flex;
-  max-width: 600px;
+  max-width: 640px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -46,16 +46,16 @@
   margin: 0;
   color: var(--gold-soft);
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .heading {
   margin: 26px 0 24px;
   font-family: var(--font-display);
-  font-size: clamp(38px, 4.2vw, 60px);
+  font-size: clamp(40px, 4.6vw, 64px);
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.08;
@@ -67,26 +67,26 @@
 }
 
 .description {
-  max-width: 440px;
+  max-width: 480px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.88;
+  font-size: 17px;
+  line-height: 1.85;
 }
 
 .ctaLink {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 34px;
+  margin-top: 36px;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.55);
   color: #fff;
   font-family: var(--font-ui);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-decoration: none;
   text-transform: uppercase;
   transition: color 300ms ease-in-out, border-color 300ms ease-in-out;
@@ -105,11 +105,11 @@
   margin-top: 64px;
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.56);
+  color: rgba(255, 255, 255, 0.62);
   font-family: var(--font-ui);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -121,4 +121,5 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
   .manifestoContent { max-width: none; padding: 64px 7%; }
+  .description { font-size: 16px; }
 }

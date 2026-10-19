@@ -59,6 +59,12 @@ export interface JournalArticle {
   image: string;
   author: string;
   authorEn: string;
+  location?: string;
+  locationEn?: string;
+  pullQuote?: string;
+  pullQuoteEn?: string;
+  content?: string[];
+  contentEn?: string[];
 }
 
 export interface SiteSettings {

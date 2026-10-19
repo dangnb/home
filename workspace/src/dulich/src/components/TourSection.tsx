@@ -46,7 +46,11 @@ export default function TourSection({
             <em>{dictionary.journeys.headingItalic}</em>
           </h2>
         </div>
-        <a href="#lien-he" className={`${styles.allLink} group`}>
+        <a
+          href="#hanh-trinh"
+          className={`${styles.allLink} group`}
+          onClick={() => setActiveCategory("all")}
+        >
           <span>{dictionary.journeys.allLink}</span>
           <FiArrowUpRight
             size={14}
