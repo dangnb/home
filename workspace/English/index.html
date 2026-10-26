@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Reflex Coach AI - Lộ Trình Giao Tiếp 3 Tháng</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --background: #f8fafc;
+      --sidebar: #f1f5f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --foreground: #0f172a;
+      --muted-foreground: #64748b;
+      --placeholder: #94a3b8;
+      --primary: #2563eb;
+      --primary-foreground: #ffffff;
+      --secondary: #e2e8f0;
+      --secondary-foreground: #1e293b;
+    }
+    html.dark {
+      --background: #0b0f19;
+      --sidebar: #111827;
+      --card: #1e293b;
+      --border: #334155;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+      --placeholder: #64748b;
+      --primary: #3b82f6;
+      --primary-foreground: #ffffff;
+      --secondary: #334155;
+      --secondary-foreground: #f1f5f9;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6 max-w-7xl mx-auto">
+
+  <!-- HEADER -->
+  <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 mb-5 shadow-sm">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="flex flex-wrap items-center gap-2 mb-1.5">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+            🤖 Tích Hợp Giáo Viên AI Trực Tiếp
+          </span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+            A1-A2 ➔ B1 Giao Tiếp (3 Tháng)
+          </span>
+          <button onclick="toggleTheme()" class="px-2.5 py-0.5 rounded-full text-xs font-medium border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+            🌗 Sáng/Tối
+          </button>
+          <button onclick="toggleApiConfigModal()" class="px-2.5 py-0.5 rounded-full text-xs font-medium border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+            ⚙️ Cấu hình Gemini API (Tùy chọn)
+          </button>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold text-[var(--foreground)]">
+          🎯 English Reflex Coach & AI Personal Teacher
+        </h1>
+        <p class="text-sm text-[var(--muted-foreground)] mt-0.5">
+          Học cụm từ (Chunking), nhại giọng (Shadowing), thu âm nói chuyện trực tiếp và nhận chấm chữa bài tức thì từ Giáo viên AI ngay trên trang web.
+        </p>
+      </div>
+
+      <!-- Progress Card -->
+      <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-3.5 min-w-[260px]">
+        <div class="flex justify-between text-xs font-semibold mb-1.5">
+          <span class="text-[var(--muted-foreground)]">Tiến độ 3 tháng</span>
+          <span id="progressText" class="text-[var(--foreground)] font-bold">0 / 84 ngày (0%)</span>
+        </div>
+        <div class="w-full h-2.5 bg-[var(--border)] rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full bg-[var(--primary)] transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <div class="flex justify-between items-center mt-2 text-xs text-[var(--muted-foreground)]">
+          <span id="streakDisplay">🔥 Đã hoàn thành: 0 bài</span>
+          <button onclick="resetAllProgress()" class="underline hover:text-[var(--foreground)]">Đặt lại</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Gemini API Key Modal Box -->
+    <div id="apiConfigBox" class="hidden mt-4 p-4 rounded-xl bg-[var(--sidebar)] border border-[var(--border)] text-xs space-y-2">
+      <div class="font-bold text-[var(--foreground)]">🔑 Kết nối Gemini API trực tiếp (Không bắt buộc — Hệ thống đã có sẵn AI Nội Bộ miễn phí 100%):</div>
+      <div class="text-[var(--muted-foreground)]">Nếu mở file này trên trình duyệt Chrome/Edge và muốn kết nối thêm mô hình Gemini Flash trực tuyến, bạn có thể nhập API Key của Google AI Studio tại đây:</div>
+      <div class="flex gap-2">
+        <input id="geminiApiKeyInput" type="password" placeholder="AIzaSy... (Để trống nếu dùng Giáo viên AI tích hợp sẵn)" class="flex-1 rounded-lg bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--foreground)]" />
+        <button onclick="saveApiKey()" class="px-3.5 py-1.5 rounded-lg font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">Lưu</button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-[var(--border)]">
+      <button onclick="switchTab('daily')" id="tab-daily" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--primary)] text-[var(--primary-foreground)]">
+        🏠 Bài Học & Chấm Bài AI
+      </button>
+      <button onclick="switchTab('aicoach')" id="tab-aicoach" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90">
+        🤖 Phòng Hội Thoại & Hỏi Đáp AI
+      </button>
+      <button onclick="switchTab('roadmap')" id="tab-roadmap" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90">
+        🗺️ Lộ Trình 12 Tuần
+      </button>
+      <button onclick="switchTab('flashcards')" id="tab-flashcards" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90">
+        🎴 Flashcard Phản Xạ 3s
+      </button>
+      <button onclick="switchTab('test')" id="tab-test" class="px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90">
+        🏆 Kiểm Tra Tuần
+      </button>
+    </nav>
+  </header>
+
+  <!-- STUDY TIMER BAR -->
+  <section class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3.5 mb-5 shadow-sm flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-11 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold text-sm" id="timerDisplay">
+        10:00
+      </div>
+      <div>
+        <div class="text-xs md:text-sm font-bold text-[var(--foreground)]" id="timerLabel">Đồng hồ học: Phần 1 - Từ vựng (10p)</div>
+        <div class="text-xs text-[var(--muted-foreground)]">Chia nhỏ 45–60 phút mỗi ngày theo 4 bước chuẩn hóa</div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-1.5">
+      <button onclick="startPresetTimer(600, 'Phần 1: Từ vựng & Cụm câu (10p)')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+        1. Từ vựng (10p)
+      </button>
+      <button onclick="startPresetTimer(900, 'Phần 2: Nghe & Đọc to (15p)')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+        2. Nghe-Đọc (15p)
+      </button>
+      <button onclick="startPresetTimer(1200, 'Phần 3: Nói & Phản xạ (20p)')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+        3. Nói (20p)
+      </button>
+      <button onclick="startPresetTimer(90, '🎙️ Thử thách Free Talk (90 giây)')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-[var(--border)] bg-[var(--sidebar)] text-[var(--foreground)]">
+        🎙️ Nói 90s
+      </button>
+      <button onclick="startPresetTimer(600, 'Phần 4: Viết & Chấm AI (10p)')" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+        4. Viết (10p)
+      </button>
+      <button onclick="toggleTimer()" id="timerToggleBtn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+        ▶️ Bắt đầu
+      </button>
+      <button onclick="resetTimer()" class="px-2 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] text-[var(--muted-foreground)]">
+        ↺
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 1: DAILY LESSON + INSTANT AI FEEDBACK ==================== -->
+  <main id="view-daily" class="space-y-5">
+    <!-- Week & Day Selector -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <label class="text-xs font-bold uppercase text-[var(--muted-foreground)]">Chọn Tuần Học:</label>
+          <select id="weekSelect" onchange="onWeekChange()" class="bg-[var(--sidebar)] text-[var(--foreground)] border border-[var(--border)] rounded-xl px-3 py-1.5 text-xs md:text-sm font-semibold focus:outline-none">
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="dayStatusBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+            ⏳ Đang học
+          </span>
+          <button onclick="toggleDayComplete()" id="markDoneBtn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+            ✓ Đánh dấu Hoàn thành
+          </button>
+        </div>
+      </div>
+
+      <!-- 7 Day Pills -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 mt-3" id="dayButtonsContainer"></div>
+    </div>
+
+    <!-- Current Lesson Banner -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]" id="lessonBreadcrumb">
+          THÁNG 1 • TUẦN 1 • NGÀY 1
+        </span>
+        <h2 class="text-lg md:text-xl font-bold text-[var(--foreground)] mt-0.5" id="lessonTitle"></h2>
+        <p class="text-xs md:text-sm text-[var(--muted-foreground)] mt-0.5" id="lessonGoal"></p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <button onclick="speakText(currentLessonData.dialogueText, 0.95)" class="px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+          🔊 Nghe mẫu cả bài
+        </button>
+        <button onclick="startRolePlayForToday()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+          💬 Luyện Nói Bài Này Với AI ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- 4-Step Learning Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+      <!-- STEP 1: VOCABULARY & CHUNKS -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm md:text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs flex items-center justify-center font-bold">1</span>
+              Từ Vựng & Cụm Câu Phản Xạ (10–12 phút)
+            </h3>
+            <span class="text-xs text-[var(--muted-foreground)]">Bấm 🔊 nghe & đọc to 5 lần</span>
+          </div>
+          <div id="vocabListContainer" class="space-y-2 mb-4"></div>
+        </div>
+
+        <div class="pt-3 border-t border-[var(--border)]">
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-semibold text-[var(--foreground)]">
+              ✍️ Đặt 2–3 câu về bản thân với cụm từ hôm nay:
+            </label>
+            <button onclick="startDictation('inputVocabSentences')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              🎙️ Đọc bằng giọng nói
+            </button>
+          </div>
+          <textarea id="inputVocabSentences" oninput="saveCurrentDraft()" rows="2" placeholder="Ví dụ: I was born and raised in... Currently, I'm working as..." class="w-full rounded-xl bg-[var(--sidebar)] border border-[var(--border)] p-3 text-xs md:text-sm text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none"></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 2: LISTENING & SHADOWING -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h3 class="text-sm md:text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs flex items-center justify-center font-bold">2</span>
+              Nghe & Đọc Nhại Giọng - Shadowing (15 phút)
+            </h3>
+            <div class="flex items-center gap-1.5">
+              <button onclick="speakText(currentLessonData.dialogueText, 1.0)" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">
+                ▶️ 1.0x
+              </button>
+              <button onclick="speakText(currentLessonData.dialogueText, 0.8)" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+                🐢 0.8x
+              </button>
+              <button onclick="stopSpeech()" class="px-2 py-1 rounded-lg text-xs font-medium border border-[var(--border)] text-[var(--muted-foreground)]">
+                ⏹
+              </button>
+              <button onclick="toggleBlindMode()" id="blindModeBtn" class="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] text-[var(--foreground)]">
+                👁️ Ẩn chữ
+              </button>
+            </div>
+          </div>
+
+          <p class="text-xs text-[var(--muted-foreground)] mb-3">
+            💡 Bấm vào từng câu để nghe riêng. Dấu <code class="px-1 py-0.5 rounded bg-[var(--sidebar)] font-bold">‿</code> là vị trí nối âm tự nhiên của người bản xứ.
+          </p>
+
+          <div id="dialogueBox" class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-3.5 space-y-2.5 text-xs md:text-sm leading-relaxed"></div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span class="text-[var(--muted-foreground)]">🎙️ Thử đọc to 1 câu trong bài để kiểm tra phát âm:</span>
+          <button onclick="practiceShadowingCheck()" id="shadowCheckBtn" class="px-3 py-1.5 rounded-lg font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+            🎙️ Thu âm kiểm tra độ chính xác
+          </button>
+        </div>
+        <div id="shadowCheckResult" class="hidden mt-2 p-2.5 rounded-xl bg-[var(--sidebar)] border border-[var(--border)] text-xs"></div>
+      </div>
+
+      <!-- STEP 3: 3-SECOND SPEAKING REFLEX -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm md:text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs flex items-center justify-center font-bold">3</span>
+              Phản Xạ Nói 3 Giây Theo A-R-E (20 phút)
+            </h3>
+            <button onclick="trigger3SecChallenge()" id="reflexTimerBtn" class="px-3 py-1 rounded-lg text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+              ⚡ Đếm ngược 3s
+            </button>
+          </div>
+
+          <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-3 mb-3 text-xs text-[var(--muted-foreground)]">
+            <strong class="text-[var(--foreground)]">Công thức A-R-E:</strong> Trả lời trực tiếp (dùng <em>Well, actually / To be honest...</em>) ➔ Nêu lý do (<em>because...</em>) ➔ Thêm 1 ví dụ/chi tiết thực tế. Bấm 🎙️ ở từng câu để trả lời bằng giọng nói!
+          </div>
+
+          <div id="questionsContainer" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- STEP 4: WRITING & ONE-CLICK AI TEACHER GRADING -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm md:text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs flex items-center justify-center font-bold">4</span>
+              Viết Ứng Dụng & Nộp Giáo Viên AI Chấm (10 phút)
+            </h3>
+            <span id="wordCountBadge" class="text-xs font-bold text-[var(--muted-foreground)]">0 từ</span>
+          </div>
+
+          <p class="text-xs text-[var(--muted-foreground)] mb-2.5" id="writingPromptText"></p>
+
+          <!-- Target Chunk Pills Checker -->
+          <div class="mb-3">
+            <div class="text-xs font-semibold text-[var(--muted-foreground)] mb-1">Cụm từ mục tiêu tự động nhận diện khi bạn viết:</div>
+            <div id="chunkCheckerList" class="flex flex-wrap gap-1.5"></div>
+          </div>
+
+          <div class="flex justify-end mb-1">
+            <button onclick="startDictation('inputWritingParagraph')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              🎙️ Nói để chuyển thành văn bản
+            </button>
+          </div>
+          <textarea id="inputWritingParagraph" oninput="onWritingChange()" rows="4" placeholder="Viết hoặc bấm 🎙️ đọc đoạn văn 5–8 câu của bạn tại đây..." class="w-full rounded-xl bg-[var(--sidebar)] border border-[var(--border)] p-3 text-xs md:text-sm text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none mb-3"></textarea>
+
+          <label class="block text-xs font-semibold text-[var(--foreground)] mb-1">
+            🤔 Câu tiếng Việt hoặc ý bạn muốn diễn đạt mà chưa chắc chắn (Giáo viên AI sẽ dịch & giải thích):
+          </label>
+          <input id="inputStudentQuestion" oninput="saveCurrentDraft()" type="text" placeholder="Ví dụ: Làm sao nói 'Mình đang cố gắng cân bằng công việc và cuộc sống'?" class="w-full rounded-xl bg-[var(--sidebar)] border border-[var(--border)] px-3 py-2 text-xs md:text-sm text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none" />
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-2">
+          <button onclick="gradeDailyReportWithAI()" id="gradeBtnMain" class="w-full py-2.5 px-4 rounded-xl text-xs md:text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-95 shadow-sm">
+            🤖 Nộp Bài Cho Giáo Viên AI Chấm, Sửa Lỗi & Phản Hồi Ngay Trên Web!
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== INSTANT AI TEACHER FEEDBACK PANEL ==================== -->
+    <section id="aiFeedbackPanel" class="hidden bg-[var(--card)] border-2 border-[var(--primary)] rounded-2xl p-5 shadow-md space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center text-lg font-bold">
+            👩‍🏫
+          </div>
+          <div>
+            <h3 class="text-base md:text-lg font-bold text-[var(--foreground)]">
+              Phản Hồi Chi Tiết Từ Giáo Viên AI Cá Nhân
+            </h3>
+            <p class="text-xs text-[var(--muted-foreground)]" id="aiFeedbackSubtitle">
+              Đánh giá dựa trên bài làm của bạn hôm nay
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="aiTotalScoreBadge" class="px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+            Điểm: 90/100
+          </span>
+          <button onclick="switchTab('aicoach')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+            💬 Hỏi đáp tiếp với Giáo viên AI ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Feedback Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4">
+          <h4 class="text-xs md:text-sm font-bold text-[var(--foreground)] mb-2">1. 🔍 Nhận Xét & Sửa Lỗi Chi Tiết (Error Correction)</h4>
+          <div id="aiCorrectionContent" class="text-xs md:text-sm text-[var(--foreground)] space-y-2 leading-relaxed"></div>
+        </div>
+
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="text-xs md:text-sm font-bold text-[var(--foreground)]">2. ✨ Bản Nâng Cấp Chuẩn Bản Xứ (Native Upgrade)</h4>
+            <button onclick="speakUpgradedVersion()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">
+              🔊 Nghe AI đọc mẫu
+            </button>
+          </div>
+          <div id="aiUpgradeContent" class="text-xs md:text-sm text-[var(--foreground)] space-y-2 leading-relaxed"></div>
+        </div>
+
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4">
+          <h4 class="text-xs md:text-sm font-bold text-[var(--foreground)] mb-2">3. 🗣️ Hướng Dẫn Phát Âm, Nối Âm & Ngữ Điệu</h4>
+          <div id="aiPronunciationContent" class="text-xs md:text-sm text-[var(--foreground)] space-y-2 leading-relaxed"></div>
+        </div>
+
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between">
+          <div>
+            <h4 class="text-xs md:text-sm font-bold text-[var(--foreground)] mb-2">4. ⚡ Câu Hỏi Phản Xạ Mở Rộng Từ Giáo Viên AI</h4>
+            <div id="aiFollowupQuestion" class="text-xs md:text-sm font-semibold text-[var(--foreground)] mb-3"></div>
+          </div>
+          <div class="flex gap-2">
+            <input id="quickFollowupReply" type="text" placeholder="Trả lời nhanh câu hỏi của giáo viên tại đây..." class="flex-1 rounded-xl bg-[var(--card)] border border-[var(--border)] px-3 py-2 text-xs text-[var(--foreground)] focus:outline-none" />
+            <button onclick="startDictation('quickFollowupReply')" class="px-2.5 py-2 rounded-xl text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">🎙️</button>
+            <button onclick="sendFollowupToChat()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">Gửi</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== TAB 2: INTERACTIVE AI COACH CHAT & VOICE ROOM ==================== -->
+  <section id="view-aicoach" class="hidden space-y-5">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+      <!-- Left Sidebar: Modes & Quick Prompts -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-4">
+        <div>
+          <h2 class="text-base md:text-lg font-bold text-[var(--foreground)]">🤖 Giáo Viên AI Cá Nhân 24/7</h2>
+          <p class="text-xs text-[var(--muted-foreground)] mt-1">
+            Bạn có thể <strong>nhập văn bản</strong> hoặc bấm nút <strong>🎙️ Nói trực tiếp</strong> bằng tiếng Anh hoặc tiếng Việt. Giáo viên AI sẽ sửa lỗi ngay trong lúc trò chuyện!
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <div class="text-xs font-bold uppercase text-[var(--muted-foreground)]">Chọn chế độ luyện tập:</div>
+          <button onclick="setCoachMode('roleplay')" id="modeBtn-roleplay" class="w-full text-left p-3 rounded-xl border-2 border-[var(--primary)] bg-[var(--sidebar)] text-xs font-semibold text-[var(--foreground)]">
+            🗣️ <strong>1. Đóng vai hội thoại (Role-Play):</strong> Giáo viên AI hỏi - bạn đáp theo chủ đề bài học hôm nay và sửa lỗi từng câu.
+          </button>
+          <button onclick="setCoachMode('qna')" id="modeBtn-qna" class="w-full text-left p-3 rounded-xl border border-[var(--border)] bg-[var(--sidebar)] text-xs font-semibold text-[var(--foreground)]">
+            ❓ <strong>2. Hỏi đáp & Dịch tự nhiên:</strong> Hỏi cách diễn đạt câu tiếng Việt sang tiếng Anh chuẩn giao tiếp hoặc giải thích từ vựng.
+          </button>
+          <button onclick="setCoachMode('reflex')" id="modeBtn-reflex" class="w-full text-left p-3 rounded-xl border border-[var(--border)] bg-[var(--sidebar)] text-xs font-semibold text-[var(--foreground)]">
+            ⚡ <strong>3. Phản xạ 5 câu hỏi nhanh:</strong> Giáo viên AI hỏi dồn 5 câu bất ngờ để rèn phản xạ 3 giây.
+          </button>
+        </div>
+
+        <div class="pt-3 border-t border-[var(--border)] space-y-2">
+          <div class="text-xs font-bold uppercase text-[var(--muted-foreground)]">Gợi ý câu hỏi nhanh:</div>
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="sendQuickPrompt('Hãy bắt đầu đóng vai hội thoại bài học hôm nay với mình nhé!')" class="px-2.5 py-1.5 rounded-lg text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              ▶️ Bắt đầu Role-play hôm nay
+            </button>
+            <button onclick="sendQuickPrompt('Kiểm tra phản xạ nhanh 3 giây cho mình với 1 câu hỏi bất kỳ!')" class="px-2.5 py-1.5 rounded-lg text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              ⚡ Hỏi phản xạ 3 giây
+            </button>
+            <button onclick="sendQuickPrompt('Sửa lỗi và nâng cấp câu này giúp mình: I very like study English because it help me in my job.')" class="px-2.5 py-1.5 rounded-lg text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              ✍️ Thử nhờ AI sửa câu
+            </button>
+            <button onclick="sendQuickPrompt('Làm sao để không bị dịch từng từ tiếng Việt sang tiếng Anh trong đầu?')" class="px-2.5 py-1.5 rounded-lg text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+              💡 Mẹo hết dịch từng từ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 2 Columns: Live Chat Box -->
+      <div class="lg:col-span-2 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col h-[560px]">
+        <div class="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold">
+              👩‍🏫
+            </div>
+            <div>
+              <div class="text-sm font-bold text-[var(--foreground)]" id="chatHeaderTitle">Ms. Clara — Giáo Viên Tiếng Anh AI</div>
+              <div class="text-xs text-[var(--muted-foreground)]">Tự động sửa lỗi ngữ pháp, gợi ý cụm từ bản xứ & phát âm chuẩn Mỹ</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] cursor-pointer">
+              <input type="checkbox" id="autoSpeakToggle" checked />
+              <span>🔊 Tự động đọc</span>
+            </label>
+            <button onclick="clearChatHistory()" class="px-2.5 py-1 rounded-lg text-xs border border-[var(--border)] text-[var(--muted-foreground)]">
+              Xóa chat
+            </button>
+          </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="chatMessagesBox" class="flex-1 overflow-y-auto py-4 space-y-3 pr-1"></div>
+
+        <!-- Input Bar -->
+        <div class="pt-3 border-t border-[var(--border)] flex items-center gap-2">
+          <button onclick="startChatVoiceInput()" id="chatVoiceBtn" title="Nói bằng giọng nói" class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-[var(--secondary)] text-[var(--secondary-foreground)] shrink-0">
+            🎙️ Nói
+          </button>
+          <input id="chatUserInput" onkeydown="if(event.key==='Enter') sendChatMessage()" type="text" placeholder="Nhập tiếng Anh (để luyện hội thoại/sửa lỗi) hoặc tiếng Việt (để hỏi cách diễn đạt)..." class="flex-1 rounded-xl bg-[var(--sidebar)] border border-[var(--border)] px-3.5 py-2.5 text-xs md:text-sm text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none" />
+          <button onclick="sendChatMessage()" class="px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)] shrink-0">
+            Gửi ➔
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: 12-WEEK ROADMAP ==================== -->
+  <section id="view-roadmap" class="hidden space-y-5">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
+      <h2 class="text-lg font-bold text-[var(--foreground)] mb-1">🗺️ Lộ Trình Chi Tiết 3 Tháng (12 Tuần - 84 Ngày)</h2>
+      <p class="text-xs md:text-sm text-[var(--muted-foreground)] mb-4">
+        Bấm vào bất kỳ tuần nào để mở bài học, từ vựng, hội thoại và phòng luyện AI của tuần đó.
+      </p>
+      <div id="roadmapGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: FLASHCARDS ==================== -->
+  <section id="view-flashcards" class="hidden space-y-5">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm max-w-2xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-[var(--foreground)]">🎴 Flashcard Phản Xạ 3 Giây (Active Recall)</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">Nhìn nghĩa tiếng Việt ➔ Nói to cụm tiếng Anh trong 3 giây trước khi bấm lật thẻ!</p>
+        </div>
+        <span id="flashcardCounter" class="px-3 py-1 rounded-full text-xs font-bold bg-[var(--secondary)] text-[var(--secondary-foreground)]">1 / 6</span>
+      </div>
+
+      <div onclick="flipFlashcard()" class="cursor-pointer bg-[var(--sidebar)] border-2 border-[var(--border)] rounded-2xl p-8 min-h-[210px] flex flex-col items-center justify-center text-center transition-all hover:border-[var(--primary)] select-none">
+        <span id="fcSideBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] mb-3"></span>
+        <div id="fcMainText" class="text-xl md:text-2xl font-bold text-[var(--foreground)] mb-3"></div>
+        <div id="fcSubText" class="text-xs md:text-sm text-[var(--muted-foreground)]"></div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-5">
+        <button onclick="prevFlashcard()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">⬅ Thẻ trước</button>
+        <div class="flex items-center gap-2">
+          <button onclick="speakCurrentFlashcard()" class="px-4 py-2 rounded-xl text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">🔊 Nghe phát âm</button>
+          <button onclick="shuffleFlashcards()" class="px-3 py-2 rounded-xl text-xs font-semibold border border-[var(--border)] text-[var(--foreground)]">🔀 Trộn thẻ</button>
+        </div>
+        <button onclick="nextFlashcard()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">Thẻ tiếp ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: WEEKLY MINI-TEST ==================== -->
+  <section id="view-test" class="hidden space-y-5">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-[var(--border)]">
+        <div>
+          <span class="text-xs font-bold uppercase text-[var(--muted-foreground)]" id="testWeekLabel"></span>
+          <h2 class="text-lg md:text-xl font-bold text-[var(--foreground)] mt-0.5" id="testTitle"></h2>
+          <p class="text-xs md:text-sm text-[var(--muted-foreground)]">Làm bài kiểm tra trắc nghiệm & tự luận, Giáo viên AI sẽ chấm điểm ngay lập tức!</p>
+        </div>
+        <div id="testScoreBadge" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+          Chưa chấm điểm
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="text-sm md:text-base font-bold text-[var(--foreground)] mb-3">Phần 1: Trắc nghiệm Phản xạ Cụm từ & Tình huống</h3>
+        <div id="testQuizContainer" class="space-y-3"></div>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-[var(--border)]">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm md:text-base font-bold text-[var(--foreground)]">Phần 2: Bài Nói & Viết Tổng Kết Tuần (Chấm bằng AI)</h3>
+          <button onclick="startDictation('testFinalSubmission')" class="px-3 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)]">
+            🎙️ Thu âm bài nói
+          </button>
+        </div>
+        <p class="text-xs md:text-sm text-[var(--muted-foreground)] mb-3" id="testWritingPrompt"></p>
+        <textarea id="testFinalSubmission" oninput="saveCurrentDraft()" rows="4" placeholder="Nhập hoặc bấm 🎙️ nói bài tổng kết tuần của bạn tại đây..." class="w-full rounded-xl bg-[var(--sidebar)] border border-[var(--border)] p-3.5 text-xs md:text-sm text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none"></textarea>
+
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <button onclick="gradeWeeklyTestWithAI()" class="px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)]">
+            🤖 Chấm Điểm Toàn Bộ Bài Kiểm Tra Tuần Bằng AI
+          </button>
+        </div>
+
+        <div id="weeklyTestAIFeedback" class="hidden mt-4 p-4 rounded-xl bg-[var(--sidebar)] border border-[var(--primary)] text-xs md:text-sm space-y-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle("dark");
+    }
+
+    function toggleApiConfigModal() {
+      document.getElementById("apiConfigBox").classList.toggle("hidden");
+    }
+
+    function saveApiKey() {
+      const k = document.getElementById("geminiApiKeyInput").value.trim();
+      state.geminiApiKey = k;
+      saveState();
+      document.getElementById("apiConfigBox").classList.add("hidden");
+      alert(k ? "Đã lưu Gemini API Key! Giáo viên AI sẽ kết hợp mô hình đám mây và bộ chấm nội bộ." : "Đã chuyển về chế độ Giáo viên AI tích hợp sẵn (Offline/Zero-Key).");
+    }
+
+    // ==================== COMPLETE 12-WEEK CURRICULUM DATABASE ====================
+    const WEEKS_DATA = [
+      {
+        week: 1, month: 1, title: "Phá băng & Giao tiếp làm quen", subtitle: "Ice-breaking & Small Talk",
+        testPrompt: "Hãy giới thiệu bản thân, công việc, sở thích và lý do bạn học tiếng Anh trong 8–10 câu (sử dụng ít nhất 4 cụm từ Tuần 1 và 2 từ đệm Fillers).",
+        vocabPool: [
+          { chunk: "born and raised in", meaning: "sinh ra và lớn lên ở...", example: "I was born and raised in Hanoi, but now I live here." },
+          { chunk: "currently working as", meaning: "hiện đang làm công việc...", example: "I'm currently working as a project coordinator." },
+          { chunk: "in charge of", meaning: "phụ trách / chịu trách nhiệm về...", example: "I'm mainly in charge of managing daily reports." },
+          { chunk: "have a lot on my plate", meaning: "có rất nhiều việc phải làm (rất bận)", example: "To be honest, I have a lot on my plate this week." },
+          { chunk: "unwind after work", meaning: "thư giãn / xả hơi sau giờ làm", example: "I usually go for a walk to unwind after work." },
+          { chunk: "not my cup of tea", meaning: "không phải gu / sở thích của tôi", example: "Crowded places are really not my cup of tea." }
+        ]
+      },
+      {
+        week: 2, month: 1, title: "Thói quen, Quản lý thời gian & Kế hoạch", subtitle: "Daily Routines & Making Plans",
+        testPrompt: "Kể về lịch trình một ngày làm việc điển hình của bạn và viết lời nhắn rủ một người bạn đi cà phê vào cuối tuần này.",
+        vocabPool: [
+          { chunk: "early bird / night owl", meaning: "người hay dậy sớm / người hay thức khuya", example: "I'm definitely an early bird because I work best in the morning." },
+          { chunk: "catch up on", meaning: "làm bù / cập nhật (công việc, giấc ngủ)", example: "On Sundays, I usually catch up on sleep and housework." },
+          { chunk: "wrap up", meaning: "hoàn tất / khép lại công việc", example: "Let's wrap up this task before 5 PM." },
+          { chunk: "take a rain check", meaning: "hẹn dịp khác nhé (từ chối lịch sự)", example: "I'm super busy tonight, can I take a rain check?" },
+          { chunk: "penciled in", meaning: "ghi lịch tạm thời", example: "I've penciled in our meeting for Friday morning." },
+          { chunk: "head out", meaning: "ra ngoài / xuất phát", example: "I usually head out for work at around 7:30 AM." }
+        ]
+      },
+      {
+        week: 3, month: 1, title: "Kể chuyện quá khứ & Trải nghiệm", subtitle: "Past Experiences & Weekend Stories",
+        testPrompt: "Kể lại một chuyến đi hoặc một ngày cuối tuần đáng nhớ gần đây của bạn (8–10 câu) theo cấu trúc 5W1H.",
+        vocabPool: [
+          { chunk: "at first", meaning: "lúc đầu thì...", example: "At first, I thought the trip would be boring." },
+          { chunk: "it turned out that", meaning: "hóa ra là...", example: "It turned out that the local food was amazing!" },
+          { chunk: "a breath of fresh air", meaning: "một làn gió mới / sự thay đổi dễ chịu", example: "Visiting Da Lat was a breath of fresh air for me." },
+          { chunk: "made my day", meaning: "làm tôi vui cả ngày", example: "Meeting my old friend really made my day." },
+          { chunk: "out of the blue", meaning: "bất ngờ, không báo trước", example: "He called me out of the blue yesterday." },
+          { chunk: "all in all", meaning: "nhìn chung lại thì...", example: "All in all, we had a wonderful weekend together." }
+        ]
+      },
+      {
+        week: 4, month: 1, title: "Giao tiếp tình huống đời sống & Dịch vụ", subtitle: "Real-life Survival English",
+        testPrompt: "Đóng vai tại nhà hàng hoặc cửa hàng: Bạn gọi món/mua đồ nhưng bị nhầm lẫn. Hãy viết cách bạn yêu cầu hỗ trợ lịch sự.",
+        vocabPool: [
+          { chunk: "could you please", meaning: "bạn có thể vui lòng... được không?", example: "Could you please check my bill again?" },
+          { chunk: "would it be possible to", meaning: "liệu có thể... được không?", example: "Would it be possible to get a table by the window?" },
+          { chunk: "there seems to be a mistake", meaning: "hình như có sự nhầm lẫn ở đây", example: "Excuse me, there seems to be a mistake with my order." },
+          { chunk: "on the house", meaning: "miễn phí (do quán mời)", example: "The manager gave us dessert on the house." },
+          { chunk: "grab a bite", meaning: "ăn nhẹ cái gì đó", example: "Let's grab a bite before the movie starts." },
+          { chunk: "good value for money", meaning: "đáng đồng tiền bát gạo", example: "This local restaurant is really good value for money." }
+        ]
+      },
+      {
+        week: 5, month: 2, title: "Bày tỏ quan điểm, Cảm xúc & Lời khuyên", subtitle: "Opinions, Feelings & Advice",
+        testPrompt: "Chia sẻ quan điểm của bạn về việc làm thế nào để giảm căng thẳng (stress) trong cuộc sống và đưa lời khuyên cho bạn bè.",
+        vocabPool: [
+          { chunk: "from my perspective", meaning: "theo góc nhìn của tôi thì...", example: "From my perspective, health comes first." },
+          { chunk: "I see your point, but", meaning: "tôi hiểu ý bạn, nhưng mà...", example: "I see your point, but we also need to save money." },
+          { chunk: "if I were in your shoes", meaning: "nếu tôi ở trong hoàn cảnh của bạn", example: "If I were in your shoes, I would take a short break." },
+          { chunk: "you might want to", meaning: "bạn có thể cân nhắc việc...", example: "You might want to talk to your manager about this." },
+          { chunk: "over the moon", meaning: "vô cùng hạnh phúc / vui sướng", example: "I was over the moon when I passed the test." },
+          { chunk: "stressed out", meaning: "căng thẳng mệt mỏi", example: "Whenever I feel stressed out, I listen to acoustic music." }
+        ]
+      },
+      {
+        week: 6, month: 2, title: "Tiếng Anh nơi làm việc & Phối hợp", subtitle: "Workplace Communication",
+        testPrompt: "Viết một bài cập nhật tiến độ công việc ngắn và một lời nhắn nhờ đồng nghiệp hỗ trợ xử lý công việc.",
+        vocabPool: [
+          { chunk: "keep me in the loop", meaning: "cập nhật thông tin cho tôi nhé", example: "Please keep me in the loop about the project." },
+          { chunk: "on the same page", meaning: "hiểu thống nhất ý nhau", example: "Let's have a quick call to make sure we're on the same page." },
+          { chunk: "tied up with", meaning: "đang bận bịu/kẹt với việc gì", example: "I'm a bit tied up with a client meeting right now." },
+          { chunk: "right on track", meaning: "đang đi đúng tiến độ", example: "Everything is right on track for next week's launch." },
+          { chunk: "give me a hand", meaning: "giúp tôi một tay", example: "Could you give me a hand with this presentation?" },
+          { chunk: "touch base", meaning: "trao đổi/liên hệ ngắn", example: "I just wanted to touch base with you regarding the schedule." }
+        ]
+      },
+      {
+        week: 7, month: 2, title: "Giải quyết vấn đề & Tình huống phát sinh", subtitle: "Problem Solving & Handling Issues",
+        testPrompt: "Kể lại một sự cố bất ngờ bạn từng gặp trong công việc hoặc cuộc sống và cách bạn đã tìm ra hướng giải quyết.",
+        vocabPool: [
+          { chunk: "figure out how to", meaning: "tìm ra cách để giải quyết...", example: "We need to figure out how to fix this error quickly." },
+          { chunk: "sort it out", meaning: "giải quyết / dàn xếp ổn thỏa", example: "Don't worry, I'll sort it out this afternoon." },
+          { chunk: "due to an unexpected issue", meaning: "do một sự cố ngoài ý muốn", example: "The delivery was delayed due to an unexpected issue." },
+          { chunk: "come up with a solution", meaning: "nghĩ ra một giải pháp", example: "My team came up with a great solution." },
+          { chunk: "look into the matter", meaning: "kiểm tra / xem xét kỹ vấn đề", example: "I will look into the matter and get back to you soon." },
+          { chunk: "avoid the same mistake", meaning: "tránh lặp lại lỗi tương tự", example: "We took notes to avoid the same mistake in the future." }
+        ]
+      },
+      {
+        week: 8, month: 2, title: "Nghệ thuật kể chuyện & Miêu tả chi tiết", subtitle: "Storytelling & Describing People",
+        testPrompt: "Miêu tả một người đồng nghiệp hoặc người bạn mà bạn rất quý trọng và kể một kỷ niệm giữa hai người.",
+        vocabPool: [
+          { chunk: "down-to-earth", meaning: "gần gũi, thực tế, khiêm tốn", example: "Even though he is a director, he is very down-to-earth." },
+          { chunk: "easy to get along with", meaning: "dễ hòa đồng / dễ làm việc cùng", example: "My teammates are very easy to get along with." },
+          { chunk: "go the extra mile", meaning: "nỗ lực hơn cả mong đợi", example: "She always goes the extra mile to help customers." },
+          { chunk: "what impressed me most", meaning: "điều làm tôi ấn tượng nhất là...", example: "What impressed me most was his patience." },
+          { chunk: "surprisingly", meaning: "đáng ngạc nhiên là...", example: "Surprisingly, we finished the project two days early." },
+          { chunk: "taught me a valuable lesson", meaning: "dạy cho tôi một bài học quý giá", example: "That experience taught me a valuable lesson." }
+        ]
+      },
+      {
+        week: 9, month: 3, title: "Công nghệ, Sức khỏe & Lối sống hiện đại", subtitle: "Modern Life, Health & Trends",
+        testPrompt: "So sánh thói quen sống của bạn trước đây và hiện tại, đồng thời chia sẻ cách bạn giữ cân bằng cuộc sống.",
+        vocabPool: [
+          { chunk: "work-life balance", meaning: "sự cân bằng giữa công việc và cuộc sống", example: "Maintaining a healthy work-life balance is my top priority." },
+          { chunk: "cut down on", meaning: "cắt giảm (đồ ngọt, thức khuya, dùng điện thoại)", example: "I'm trying to cut down on screen time before bed." },
+          { chunk: "used to", meaning: "đã từng (thói quen trong quá khứ)", example: "I used to drink three cups of coffee a day." },
+          { chunk: "stay active", meaning: "giữ cơ thể năng động", example: "I exercise three times a week to stay active." },
+          { chunk: "in the long run", meaning: "về lâu về dài", example: "Good habits will benefit your health in the long run." },
+          { chunk: "make a big difference", meaning: "tạo ra sự khác biệt lớn", example: "Sleeping 30 minutes earlier makes a big difference." }
+        ]
+      },
+      {
+        week: 10, month: 3, title: "Văn hóa, Ẩm thực, Du lịch & Giao lưu", subtitle: "Culture, Food & Travel Guide",
+        testPrompt: "Giới thiệu 2 món ăn đặc sản và 1 địa điểm phải ghé thăm tại Việt Nam cho một người bạn nước ngoài.",
+        vocabPool: [
+          { chunk: "a must-try dish", meaning: "món ăn nhất định phải thử", example: "Pho is definitely a must-try dish when you visit Vietnam." },
+          { chunk: "local specialty", meaning: "đặc sản địa phương", example: "Egg coffee is a famous local specialty in Hanoi." },
+          { chunk: "rich in flavour", meaning: "đậm đà hương vị", example: "The broth is very rich in flavour and aromatic." },
+          { chunk: "off the beaten track", meaning: "nơi hoang sơ, ít khách du lịch biết đến", example: "I prefer travelling to places off the beaten track." },
+          { chunk: "vibrant atmosphere", meaning: "bầu không khí sôi động, tràn đầy sức sống", example: "Ho Chi Minh City has a very vibrant atmosphere at night." },
+          { chunk: "show you around", meaning: "dẫn bạn đi tham quan một vòng", example: "If you come to my city, I'd love to show you around!" }
+        ]
+      },
+      {
+        week: 11, month: 3, title: "So sánh lựa chọn & Ra quyết định", subtitle: "Pros & Cons, Decision Making",
+        testPrompt: "Phân tích ưu điểm và nhược điểm của một quyết định quan trọng trong công việc hoặc cuộc sống của bạn.",
+        vocabPool: [
+          { chunk: "weigh up the pros and cons", meaning: "cân nhắc kỹ ưu và nhược điểm", example: "Let's weigh up the pros and cons before deciding." },
+          { chunk: "on the bright side", meaning: "nhìn về mặt tích cực thì...", example: "On the bright side, we learned a lot from this challenge." },
+          { chunk: "the main drawback is", meaning: "nhược điểm chính là...", example: "The main drawback is that the commute takes longer." },
+          { chunk: "take into account", meaning: "tính đến / cân nhắc đến yếu tố...", example: "We need to take our budget into account." },
+          { chunk: "worth the effort", meaning: "xứng đáng với công sức bỏ ra", example: "Learning English every day is totally worth the effort." },
+          { chunk: "make up my mind", meaning: "đưa ra quyết định cuối cùng", example: "After thinking carefully, I finally made up my mind." }
+        ]
+      },
+      {
+        week: 12, month: 3, title: "Tổng duyệt Thực chiến Đa tình huống", subtitle: "Mastery & Full Conversation Simulation",
+        testPrompt: "Bài tổng kết 3 tháng: Chia sẻ hành trình thay đổi khả năng phản xạ tiếng Anh của bạn và mục tiêu tiếp theo.",
+        vocabPool: [
+          { chunk: "express myself fluently", meaning: "diễn đạt bản thân trôi chảy", example: "Now I can express myself fluently in daily conversations." },
+          { chunk: "overcome my fear of speaking", meaning: "vượt qua nỗi sợ nói tiếng Anh", example: "Practicing every day helped me overcome my fear of speaking." },
+          { chunk: "come a long way", meaning: "đã tiến bộ một chặng đường dài", example: "Looking back, I have come a long way in three months." },
+          { chunk: "keep up the momentum", meaning: "duy trì đà phát triển này", example: "I will definitely keep up the momentum!" },
+          { chunk: "feel much more confident", meaning: "cảm thấy tự tin hơn rất nhiều", example: "I feel much more confident when talking to foreigners." },
+          { chunk: "step out of my comfort zone", meaning: "bước ra khỏi vùng an toàn", example: "Speaking out loud helped me step out of my comfort zone." }
+        ]
+      }
+    ];
+
+    const WEEK_1_DAYS = {
+      1: {
+        dayTitle: "Ngày 1: Giới Thiệu Bản Thân Tự Nhiên (Beyond 'My name is...')",
+        goal: "Ngừng dịch từng từ; dùng cụm câu bản xứ để giới thiệu quê quán, công việc và mục tiêu.",
+        vocab: [
+          { chunk: "born and raised in", meaning: "sinh ra và lớn lên ở...", example: "I was born and raised in Hanoi, but now I work here." },
+          { chunk: "currently working as", meaning: "hiện đang làm công việc...", example: "I'm currently working as a team leader." },
+          { chunk: "what I really enjoy about", meaning: "điều tôi thực sự thích ở...", example: "What I really enjoy about my job is the friendly environment." },
+          { chunk: "a big fan of", meaning: "rất yêu thích / là fan lớn của...", example: "In my free time, I'm a big fan of outdoor activities." },
+          { chunk: "brush up on my English", meaning: "cải thiện / ôn luyện lại tiếng Anh", example: "I'm trying to brush up on my English this year." },
+          { chunk: "so that I can", meaning: "để tôi có thể...", example: "I practice every day so that I can speak more naturally." }
+        ],
+        dialogue: [
+          { speaker: "Alex", text: "Hi there! I don't think we've met before. I'm Alex, by the way." },
+          { speaker: "Minh", text: "Nice to meet you, Alex! You can call me Minh." },
+          { speaker: "Alex", text: "So Minh, where‿are you from‿originally?" },
+          { speaker: "Minh", text: "I was born‿and raised‿in Da Nang, but I moved here three years‿ago for work." },
+          { speaker: "Alex", text: "Oh, cool! And what do you do for‿a living?" },
+          { speaker: "Minh", text: "I'm currently working‿as a project coordinator. Right now, I'm also trying to brush‿up‿on my English so that‿I can communicate more confidently." }
+        ],
+        questions: [
+          "How should I call you, and where were you born and raised?",
+          "What are you currently working as, and what do you enjoy about it?",
+          "Why are you trying to brush up on your English right now?"
+        ],
+        writingPrompt: "Viết 5–7 câu tự giới thiệu bản thân (Quê quán, công việc hiện tại, điều bạn thích và mục tiêu học tiếng Anh trong 3 tháng tới)."
+      },
+      2: {
+        dayTitle: "Ngày 2: Nói Về Công Việc & Nhiệm Vụ Hàng Ngày",
+        goal: "Mô tả công việc cụ thể mình phụ trách theo công thức A-R-E.",
+        vocab: [
+          { chunk: "do for a living", meaning: "làm nghề gì để kiếm sống", example: "So, what do you do for a living?" },
+          { chunk: "in charge of", meaning: "phụ trách / chịu trách nhiệm về...", example: "I'm mainly in charge of taking care of customers." },
+          { chunk: "deal with", meaning: "giải quyết / làm việc với...", example: "Every day, I have to deal with a lot of numbers and reports." },
+          { chunk: "have a lot on my plate", meaning: "có rất nhiều việc phải làm (rất bận)", example: "Sorry, I have a lot on my plate this week." },
+          { chunk: "quite demanding", meaning: "khá đòi hỏi cao / vất vả", example: "My job can be quite demanding at the end of the month." },
+          { chunk: "very rewarding", meaning: "rất xứng đáng / mang lại nhiều giá trị", example: "Seeing happy clients makes my work very rewarding." }
+        ],
+        dialogue: [
+          { speaker: "Lisa", text: "Hey! How is work going these days? You look quite busy!" },
+          { speaker: "Minh", text: "Tell me about‿it! I really have‿a lot‿on my plate this month." },
+          { speaker: "Lisa", text: "Oh really? What‿are you mainly in charge‿of right now?" },
+          { speaker: "Minh", text: "I'm in charge‿of launching our new service, so I have to deal with many tight deadlines." },
+          { speaker: "Lisa", text: "That sounds quite demanding!" },
+          { speaker: "Minh", text: "It‿is, to be honest, but‿it's also very rewarding when everything goes smoothly." }
+        ],
+        questions: [
+          "What are you mainly in charge of in your daily work?",
+          "Do you have a lot on your plate this week? Why?",
+          "Do you find your current work demanding or rewarding?"
+        ],
+        writingPrompt: "Viết 6–7 câu mô tả công việc hàng ngày của bạn theo công thức A-R-E (Bạn làm gì, phụ trách việc gì, tại sao nó bận rộn nhưng vẫn thú vị)."
+      },
+      3: {
+        dayTitle: "Ngày 3: Chia Sẻ Sở Thích & Cách Thư Giãn Sau Giờ Làm",
+        goal: "Mở rộng câu chuyện sang sở thích cá nhân và biết cách hỏi ngược lại người đối diện.",
+        vocab: [
+          { chunk: "unwind after work", meaning: "thư giãn / xả hơi sau giờ làm", example: "Listening to music helps me unwind after work." },
+          { chunk: "clear my mind", meaning: "làm thoáng đầu óc / giải tỏa căng thẳng", example: "A short walk in the evening helps me clear my mind." },
+          { chunk: "really into", meaning: "cực kỳ thích / đam mê...", example: "Lately, I'm really into cooking healthy meals." },
+          { chunk: "whenever I get a chance", meaning: "bất cứ khi nào có thời gian/cơ hội", example: "Whenever I get a chance, I travel to the countryside." },
+          { chunk: "not my cup of tea", meaning: "không phải gu / sở thích của tôi", example: "Noisy bars are really not my cup of tea." },
+          { chunk: "what about you", meaning: "còn bạn thì sao? (hỏi ngược lại)", example: "I love quiet coffee shops. What about you?" }
+        ],
+        dialogue: [
+          { speaker: "Sarah", text: "Working all week can be exhausting! What do you usually do to unwind‿after work?" },
+          { speaker: "Minh", text: "Well, after‿a long day, I just want to clear my mind. I'm really into jogging around the park." },
+          { speaker: "Sarah", text: "Nice! And what do you like doing‿on weekends?" },
+          { speaker: "Minh", text: "Whenever‿I get‿a chance, I love trying out new coffee shops with friends. Crowded parties are not my cup‿of tea. What‿about you?" }
+        ],
+        questions: [
+          "What do you usually do to unwind after a busy day?",
+          "What is an activity that you are really into these days?",
+          "Is there anything popular that is NOT your cup of tea?"
+        ],
+        writingPrompt: "Viết 6–8 câu chia sẻ cách bạn thư giãn sau giờ làm và vào cuối tuần, kết thúc bằng một câu hỏi ngược lại cho người đọc."
+      },
+      4: {
+        dayTitle: "Ngày 4: Kỹ Thuật Bắt Chuyện & Dùng Từ Đệm Giữ Nhịp (Fillers)",
+        goal: "Loại bỏ khoảng lặng 'ờ... à...' khi đang suy nghĩ bằng các cụm từ đệm bản xứ.",
+        vocab: [
+          { chunk: "how's your week going", meaning: "tuần này của bạn thế nào rồi?", example: "Morning! How's your week going so far?" },
+          { chunk: "can't complain", meaning: "cũng ổn cả / không có gì phàn nàn", example: "Pretty good, can't complain!" },
+          { chunk: "keeping busy", meaning: "vẫn bận rộn đều đều", example: "Just keeping busy, as usual." },
+          { chunk: "well let me see", meaning: "à để tôi xem nào... (từ đệm câu giờ)", example: "Well, let me see... I think I'm free on Saturday." },
+          { chunk: "to be honest", meaning: "thật lòng mà nói thì...", example: "To be honest, I was a bit tired yesterday." },
+          { chunk: "actually", meaning: "thực ra thì...", example: "Actually, I prefer working in the morning." }
+        ],
+        dialogue: [
+          { speaker: "David", text: "Morning, Minh! How's your week going so far?" },
+          { speaker: "Minh", text: "Morning, David! Can't complain! Just keeping busy, as‿usual. Actually, we're finishing‿up a project today." },
+          { speaker: "David", text: "Sounds productive! Do you have‿any plans for the weekend yet?" },
+          { speaker: "Minh", text: "Well, let me see... To be honest, I haven't planned anything special yet. Maybe I'll just catch‿up on sleep!" }
+        ],
+        questions: [
+          "How's your week going so far? (Bắt đầu bằng Can't complain / Actually...)",
+          "Do you prefer working in the morning or at night? (Bắt đầu bằng Well, let me see...)",
+          "What are your plans for this evening? (Bắt đầu bằng To be honest...)"
+        ],
+        writingPrompt: "Tự viết một đoạn hội thoại ngắn (6 lượt lời) bắt chuyện buổi sáng với đồng nghiệp hoặc bạn bè, có dùng ít nhất 3 từ đệm (Fillers)."
+      },
+      5: {
+        dayTitle: "Ngày 5: Phản Hồi Cảm Xúc & Duy Trì Hội Thoại 2 Chiều",
+        goal: "Biết cách biểu lộ sự quan tâm (Active Listening) và đặt câu hỏi mở để cuộc trò chuyện không bị cụt.",
+        vocab: [
+          { chunk: "that sounds amazing", meaning: "nghe tuyệt vời thật đấy!", example: "You went to Da Lat? That sounds amazing!" },
+          { chunk: "that sounds tough", meaning: "nghe vất vả/căng thẳng thật đấy!", example: "Working until midnight? Oh, that sounds tough!" },
+          { chunk: "I know what you mean", meaning: "tôi hiểu ý bạn mà (đồng cảm)", example: "Traffic in the rain is terrible. I know what you mean!" },
+          { chunk: "how did you get into that", meaning: "cơ duyên nào đưa bạn đến với sở thích đó?", example: "You play the guitar? How did you get into that?" },
+          { chunk: "tell me more about", meaning: "kể thêm cho tôi nghe về...", example: "Wait, tell me more about your trip!" },
+          { chunk: "give it a try", meaning: "thử sức làm cái gì đó", example: "I saw a baking video and decided to give it a try." }
+        ],
+        dialogue: [
+          { speaker: "Anna", text: "I just started learning how to make coffee at home last month!" },
+          { speaker: "Minh", text: "Oh, seriously? That sounds‿amazing! How did you get‿into that?" },
+          { speaker: "Anna", text: "Well, I wanted to save money, so I bought‿a machine and decided to give‿it‿a try." },
+          { speaker: "Minh", text: "I know what you mean! Buying coffee every day adds‿up quickly. Tell me more‿about your favorite recipe!" }
+        ],
+        questions: [
+          "Bạn của bạn nói: 'I just came back from a 4-day trip to Japan!' ➔ Hãy phản hồi cảm xúc + hỏi thêm 1 câu.",
+          "Đồng nghiệp nói: 'I had three meetings back-to-back this morning.' ➔ Hãy đồng cảm + hỏi thăm 1 câu.",
+          "Kể về một kỹ năng hoặc sở thích mới mà bạn muốn 'give it a try' trong năm nay."
+        ],
+        writingPrompt: "Viết câu phản hồi cho 2 tình huống trên và viết thêm 4–5 câu về một điều mới mẻ bạn đã hoặc đang muốn thử sức (give it a try)."
+      }
+    };
+
+    function getLessonData(week, day) {
+      if (week === 1 && WEEK_1_DAYS[day]) {
+        const d = WEEK_1_DAYS[day];
+        return {
+          ...d,
+          dialogueText: d.dialogue.map(l => l.text.replace(/‿/g, ' ')).join(' ')
+        };
+      }
+      const wInfo = WEEKS_DATA[week - 1];
+      const dayThemes = [
+        "Nạp cụm từ cốt lõi & Phá băng chủ đề",
+        "Mở rộng tình huống & Luyện nối âm",
+        "Phản xạ Hỏi - Đáp 2 chiều (Role-play)",
+        "Xử lý tình huống & Dùng từ đệm (Fillers)",
+        "Kể chuyện cá nhân hóa theo A-R-E",
+        "Thực chiến tổng hợp (Fluency 2 phút)",
+        "Ôn tập & Kiểm tra tiến bộ cuối tuần"
+      ];
+      const dialogue = [
+        { speaker: "Ms. Clara (AI)", text: `Hi there! Today in Week ${week}, Day ${day}, we're practicing "${wInfo.subtitle}". How do you usually handle this in your daily life?` },
+        { speaker: "You", text: `Well, to be honest, "${wInfo.vocabPool[0].example}" Moreover, "${wInfo.vocabPool[1].example}" What‿about you?` },
+        { speaker: "Ms. Clara (AI)", text: `That sounds great! I really like how you used those natural chunks. Let's keep practicing "${wInfo.vocabPool[2].chunk}" today!` }
+      ];
+      return {
+        dayTitle: `Ngày ${day}: ${wInfo.title} — ${dayThemes[day - 1]}`,
+        goal: `Làm chủ 6 cụm từ chủ đề "${wInfo.title}" và phản xạ hội thoại 2 chiều với Giáo viên AI.`,
+        vocab: wInfo.vocabPool,
+        dialogue: dialogue,
+        dialogueText: dialogue.map(l => l.text.replace(/‿/g, ' ')).join(' '),
+        questions: [
+          `Make a personal answer using "${wInfo.vocabPool[0].chunk}" and explain your reason (A-R-E).`,
+          `In what situation can you use "${wInfo.vocabPool[1].chunk}" or "${wInfo.vocabPool[2].chunk}" this week?`,
+          `Share a short story or opinion about "${wInfo.subtitle}" in 2–3 sentences.`
+        ],
+        writingPrompt: `Viết 5–8 câu về chủ đề "${wInfo.title}" (${dayThemes[day - 1]}), sử dụng ít nhất 3 cụm từ mục tiêu bên dưới rồi bấm nút Nộp Bài Cho Giáo Viên AI Chấm!`
+      };
+    }
+
+    let state = {
+      currentWeek: 1,
+      currentDay: 1,
+      blindMode: false,
+      completedDays: {},
+      drafts: {},
+      testDrafts: {},
+      fcIndex: 0,
+      fcFlipped: false,
+      coachMode: "roleplay",
+      roleplayStep: 0,
+      chatHistory: [],
+      geminiApiKey: ""
+    };
+
+    const STORAGE_KEY = "english_reflex_coach_ai_v2";
+    let currentLessonData = getLessonData(1, 1);
+    let lastUpgradedText = "";
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          state = { ...state, ...JSON.parse(raw) };
+        }
+      } catch (e) {}
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function getDayKey(w = state.currentWeek, d = state.currentDay) {
+      return `w${w}_d${d}`;
+    }
+
+    function initApp() {
+      loadState();
+      if (state.geminiApiKey) {
+        const inp = document.getElementById("geminiApiKeyInput");
+        if (inp) inp.value = state.geminiApiKey;
+      }
+      renderWeekSelect();
+      renderDayButtons();
+      loadLessonIntoUI();
+      renderRoadmap();
+      updateOverallProgress();
+      initChatIfEmpty();
+    }
+
+    function renderWeekSelect() {
+      const sel = document.getElementById("weekSelect");
+      sel.innerHTML = WEEKS_DATA.map(w =>
+        `<option value="${w.week}" ${w.week === state.currentWeek ? "selected" : ""}>
+          Tháng ${w.month} - Tuần ${w.week}: ${w.title}
+        </option>`
+      ).join("");
+    }
+
+    function onWeekChange() {
+      state.currentWeek = parseInt(document.getElementById("weekSelect").value, 10);
+      state.currentDay = 1;
+      saveState();
+      renderDayButtons();
+      loadLessonIntoUI();
+    }
+
+    function selectDay(day) {
+      state.currentDay = day;
+      saveState();
+      renderDayButtons();
+      loadLessonIntoUI();
+    }
+
+    function renderDayButtons() {
+      const container = document.getElementById("dayButtonsContainer");
+      const dayNames = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"];
+      container.innerHTML = dayNames.map((label, idx) => {
+        const d = idx + 1;
+        const key = getDayKey(state.currentWeek, d);
+        const isDone = !!state.completedDays[key];
+        const isCurrent = d === state.currentDay;
+        const cls = isCurrent
+          ? "bg-[var(--primary)] text-[var(--primary-foreground)] border-[var(--primary)] shadow-sm"
+          : "bg-[var(--sidebar)] text-[var(--foreground)] border-[var(--border)] hover:opacity-85";
+        return `
+          <button onclick="selectDay(${d})" class="border rounded-xl p-2.5 text-left transition-all ${cls}">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span>Ngày ${d} (${label})</span>
+              <span>${isDone ? "✅" : "○"}</span>
+            </div>
+            <div class="text-xs opacity-80 truncate mt-0.5">
+              ${d === 7 ? "Kiểm tra tuần" : "4 kỹ năng + AI"}
+            </div>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function loadLessonIntoUI() {
+      currentLessonData = getLessonData(state.currentWeek, state.currentDay);
+      const wInfo = WEEKS_DATA[state.currentWeek - 1];
+      const key = getDayKey();
+      const draft = state.drafts[key] || { vocabSentences: "", qAnswers: ["", "", ""], paragraph: "", studentQuestion: "" };
+
+      document.getElementById("lessonBreadcrumb").textContent =
+        `THÁNG ${wInfo.month} • TUẦN ${state.currentWeek} (${wInfo.subtitle.toUpperCase()}) • NGÀY ${state.currentDay}`;
+      document.getElementById("lessonTitle").textContent = currentLessonData.dayTitle;
+      document.getElementById("lessonGoal").textContent = `🎯 Mục tiêu: ${currentLessonData.goal}`;
+
+      const isDone = !!state.completedDays[key];
+      document.getElementById("dayStatusBadge").textContent = isDone ? "✅ Đã hoàn thành" : "⏳ Đang học";
+      document.getElementById("markDoneBtn").textContent = isDone ? "↺ Đánh dấu Chưa xong" : "✓ Đánh dấu Hoàn thành";
+
+      document.getElementById("vocabListContainer").innerHTML = currentLessonData.vocab.map((item, idx) => `
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-2.5 flex items-start justify-between gap-2">
+          <div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-xs md:text-sm font-bold text-[var(--foreground)]">${idx + 1}. ${item.chunk}</span>
+              <span class="text-xs font-medium px-2 py-0.5 rounded bg-[var(--secondary)] text-[var(--secondary-foreground)]">${item.meaning}</span>
+            </div>
+            <div class="text-xs text-[var(--muted-foreground)] mt-1 italic">"${item.example}"</div>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="speakText('${item.chunk.replace(/'/g, "\\'")}. ${item.example.replace(/'/g, "\\'")}', 1.0)" class="px-2 py-1 rounded-lg text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">🔊</button>
+            <button onclick="speakText('${item.chunk.replace(/'/g, "\\'")}', 0.75)" class="px-2 py-1 rounded-lg text-xs font-medium bg-[var(--secondary)] text-[var(--secondary-foreground)]">🐢</button>
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("inputVocabSentences").value = draft.vocabSentences || "";
+
+      renderDialogueBox();
+      document.getElementById("shadowCheckResult").classList.add("hidden");
+
+      document.getElementById("questionsContainer").innerHTML = currentLessonData.questions.map((q, idx) => {
+        const ans = (draft.qAnswers && draft.qAnswers[idx]) ? draft.qAnswers[idx] : "";
+        return `
+          <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-3">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-bold text-[var(--foreground)]">❓ Câu ${idx + 1}: ${q}</span>
+              <div class="flex items-center gap-1 shrink-0">
+                <button onclick="speakText('${q.replace(/'/g, "\\'")}', 0.95)" class="px-2 py-0.5 rounded text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">🔊 Nghe</button>
+                <button onclick="startDictation('qAns_${idx}')" class="px-2 py-0.5 rounded text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">🎙️ Trả lời</button>
+              </div>
+            </div>
+            <input type="text" id="qAns_${idx}" oninput="saveCurrentDraft()" value="${ans.replace(/"/g, '&quot;')}" placeholder="Bấm 🎙️ nói hoặc nhập câu trả lời của bạn (dùng Well, actually... + because...)..." class="w-full rounded-lg bg-[var(--card)] border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--foreground)] placeholder-[var(--placeholder)] focus:outline-none" />
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("writingPromptText").textContent = `📝 Đề bài: ${currentLessonData.writingPrompt}`;
+      document.getElementById("inputWritingParagraph").value = draft.paragraph || "";
+      document.getElementById("inputStudentQuestion").value = draft.studentQuestion || "";
+      updateChunkChecker();
+
+      document.getElementById("aiFeedbackPanel").classList.add("hidden");
+
+      state.fcIndex = 0;
+      state.fcFlipped = false;
+      renderFlashcard();
+      renderWeeklyTest();
+    }
+
+    function renderDialogueBox() {
+      const box = document.getElementById("dialogueBox");
+      if (state.blindMode) {
+        box.innerHTML = `<div class="py-6 text-center text-xs text-[var(--muted-foreground)]">🙈 <strong>Đang ẩn chữ (Luyện nghe chay).</strong> Bấm ▶️ 1.0x để nghe ý chính trước khi mở chữ!</div>`;
+        return;
+      }
+      box.innerHTML = currentLessonData.dialogue.map(line => {
+        const cleanLine = line.text.replace(/‿/g, ' ').replace(/'/g, "\\'");
+        const formattedText = line.text.replace(/‿/g, '<span class="text-[var(--primary)] font-bold">‿</span>');
+        return `
+          <div onclick="speakText('${cleanLine}', 0.95)" class="cursor-pointer p-2 rounded-lg hover:bg-[var(--card)] transition-all flex items-start justify-between gap-2">
+            <div>
+              <span class="font-bold text-[var(--foreground)] mr-1">${line.speaker}:</span>
+              <span class="text-[var(--foreground)]">${formattedText}</span>
+            </div>
+            <span class="text-xs text-[var(--muted-foreground)] shrink-0">🔊</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggleBlindMode() {
+      state.blindMode = !state.blindMode;
+      document.getElementById("blindModeBtn").textContent = state.blindMode ? "👁️ Hiện chữ" : "👁️ Ẩn chữ";
+      renderDialogueBox();
+    }
+
+    function saveCurrentDraft() {
+      const key = getDayKey();
+      const vocabSentences = document.getElementById("inputVocabSentences").value;
+      const qAnswers = currentLessonData.questions.map((_, idx) => {
+        const el = document.getElementById(`qAns_${idx}`);
+        return el ? el.value : "";
+      });
+      const paragraph = document.getElementById("inputWritingParagraph").value;
+      const studentQuestion = document.getElementById("inputStudentQuestion").value;
+      state.drafts[key] = { vocabSentences, qAnswers, paragraph, studentQuestion };
+
+      const testSub = document.getElementById("testFinalSubmission");
+      if (testSub) {
+        const wKey = `w${state.currentWeek}`;
+        state.testDrafts[wKey] = state.testDrafts[wKey] || {};
+        state.testDrafts[wKey].finalSubmission = testSub.value;
+      }
+      saveState();
+    }
+
+    function onWritingChange() {
+      saveCurrentDraft();
+      updateChunkChecker();
+    }
+
+    function updateChunkChecker() {
+      const text = (document.getElementById("inputWritingParagraph").value || "").toLowerCase();
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      document.getElementById("wordCountBadge").textContent = `${words} từ`;
+
+      document.getElementById("chunkCheckerList").innerHTML = currentLessonData.vocab.map(v => {
+        const used = text.includes(v.chunk.toLowerCase());
+        const cls = used
+          ? "bg-[var(--primary)] text-[var(--primary-foreground)] font-bold"
+          : "bg-[var(--sidebar)] text-[var(--muted-foreground)] border border-[var(--border)]";
+        return `<span class="px-2.5 py-0.5 rounded-full text-xs transition-all ${cls}">${used ? "✓ " : ""}${v.chunk}</span>`;
+      }).join("");
+    }
+
+    // ==================== BUILT-IN SMART AI TEACHER ENGINE ====================
+    const COMMON_ERROR_RULES = [
+      { regex: /\bi very like\b/gi, wrong: "I very like...", fix: "I really like... / I'm really into...", reason: "Trong tiếng Anh không dùng 'very' trực tiếp trước động từ 'like'. Hãy dùng 'really like' hoặc cụm bản xứ 'I'm really into...'." },
+      { regex: /\bi am born\b/gi, wrong: "I am born...", fix: "I was born and raised in...", reason: "Việc sinh ra ở quá khứ nên luôn dùng bị động quá khứ 'I was born in...' (hoặc chuẩn hơn: 'I was born and raised in...')." },
+      { regex: /\bpeople is\b/gi, wrong: "people is", fix: "people are", reason: "'People' là danh từ số nhiều nên đi với động từ 'are'." },
+      { regex: /\bi working\b/gi, wrong: "I working...", fix: "I am currently working...", reason: "Thiếu động từ to-be 'am' trước V-ing." },
+      { regex: /\bmy job is ([a-z]+)\b/gi, wrong: "My job is...", fix: "I'm currently working as a/an...", reason: "Nói 'I'm currently working as a...' hoặc 'I work in...' nghe tự nhiên hơn nhiều so với 'My job is...'." },
+      { regex: /\bi very busy\b/gi, wrong: "I very busy", fix: "I'm really busy / I have a lot on my plate", reason: "Câu thiếu động từ 'am' và có thể nâng cấp thành idiom 'I have a lot on my plate'." },
+      { regex: /\bhelp me to ([a-z]+)\b/gi, wrong: "help me to V", fix: "help me + V nguyên mẫu", reason: "Cấu trúc 'help someone do something' không cần 'to' sẽ tự nhiên hơn trong văn nói." },
+      { regex: /\bdiscuss about\b/gi, wrong: "discuss about", fix: "discuss + danh từ (không có about)", reason: "Động từ 'discuss' không đi kèm giới từ 'about'." },
+      { regex: /\bin weekend\b/gi, wrong: "in weekend", fix: "on the weekend / on weekends", reason: "Với ngày cuối tuần, hãy dùng 'on weekends' hoặc 'at the weekend'." }
+    ];
+
+    const VIET_TO_ENG_DICTIONARY = [
+      { keys: ["áp lực", "căng thẳng", "mệt"], reply: "Để diễn đạt **'công việc khá áp lực/căng thẳng'**, bạn hãy nói:\n• *My job can be quite demanding / stressful sometimes.*\n• *I'm feeling a bit stressed out because I have a lot on my plate.*" },
+      { keys: ["đồng nghiệp", "vui vẻ", "hòa đồng"], reply: "Để khen **'đồng nghiệp thân thiện, dễ hòa đồng'**, bạn hãy dùng:\n• *My coworkers are very friendly and easy to get along with.*\n• *What I really enjoy about my job is the supportive team.*" },
+      { keys: ["cân bằng", "cuộc sống"], reply: "Để nói **'cố gắng cân bằng công việc và cuộc sống'**, bạn dùng cụm:\n• *I'm trying to maintain a healthy work-life balance.*" },
+      { keys: ["mất gốc", "phản xạ chậm", "ngại nói", "dịch từng từ"], reply: "**Bí quyết trị bệnh dịch từng từ trong đầu:**\n1. Luôn mở miệng bằng 1 cụm Filler trong 2 giây đầu (*Well, actually... / Let me see...*).\n2. Học thuộc nguyên cụm 3-4 từ (như *in charge of*, *unwind after work*) thay vì ghép từng từ rời.\n3. Trả lời theo khung **A-R-E**: Nói 1 câu ngắn ➔ Thêm *because...* ➔ Thêm *For example,...*" },
+      { keys: ["rảnh", "thư giãn", "xả hơi"], reply: "Khi muốn nói **'xả hơi / thư giãn lúc rảnh rỗi'**, thay vì chỉ dùng *relax*, bạn hãy nói:\n• *To unwind after work, I usually...*\n• *Whenever I get a chance, I love... to clear my mind.*" }
+    ];
+
+    function analyzeStudentText(text, targetVocab) {
+      const clean = (text || "").trim();
+      const fixes = [];
+
+      COMMON_ERROR_RULES.forEach(rule => {
+        if (rule.regex.test(clean)) {
+          fixes.push(`• Phát hiện <strong>"${rule.wrong}"</strong> ➔ Nên sửa thành: <strong class="text-[var(--primary)]">"${rule.fix}"</strong> <em>(${rule.reason})</em>`);
+        }
+      });
+
+      if (clean && clean[0] !== clean[0].toUpperCase()) {
+        fixes.push(`• Chú ý viết hoa chữ cái đầu câu để câu văn chỉnh chu hơn.`);
+      }
+
+      const usedChunks = [];
+      const missedChunks = [];
+      (targetVocab || []).forEach(v => {
+        if (clean.toLowerCase().includes(v.chunk.toLowerCase())) {
+          usedChunks.push(v.chunk);
+        } else {
+          missedChunks.push(v);
+        }
+      });
+
+      const hasReason = /\b(because|since|as|so that|which)\b/i.test(clean);
+      const hasFiller = /\b(well|actually|to be honest|personally|from my perspective|at first)\b/i.test(clean);
+
+      return { fixes, usedChunks, missedChunks, hasReason, hasFiller, wordCount: clean ? clean.split(/\s+/).length : 0 };
+    }
+
+    async function gradeDailyReportWithAI() {
+      saveCurrentDraft();
+      const key = getDayKey();
+      const draft = state.drafts[key] || { vocabSentences: "", qAnswers: [], paragraph: "", studentQuestion: "" };
+      const combinedText = [draft.vocabSentences, ...(draft.qAnswers || []), draft.paragraph].join(" ").trim();
+
+      if (!combinedText) {
+        alert("Bạn hãy nhập (hoặc bấm 🎙️ đọc) ít nhất một vài câu ở Phần 1, Phần 3 hoặc Phần 4 trước khi nộp cho Giáo viên AI chấm nhé!");
+        return;
+      }
+
+      const analysis = analyzeStudentText(combinedText, currentLessonData.vocab);
+
+      let score = 70;
+      score += Math.min(18, analysis.usedChunks.length * 6);
+      if (analysis.hasReason) score += 6;
+      if (analysis.hasFiller) score += 6;
+      if (analysis.wordCount < 15) score -= 10;
+      score = Math.max(55, Math.min(98, score));
+
+      document.getElementById("aiTotalScoreBadge").textContent = `🏆 Điểm AI Chấm: ${score}/100`;
+      document.getElementById("aiFeedbackSubtitle").textContent =
+        `Đã dùng ${analysis.usedChunks.length}/${currentLessonData.vocab.length} cụm từ mục tiêu • Tổng số từ: ${analysis.wordCount} từ`;
+
+      const corrParts = [];
+      if (analysis.usedChunks.length > 0) {
+        corrParts.push(`✅ <strong>Điểm cộng rất tốt:</strong> Bạn đã áp dụng thành công các cụm từ mục tiêu: <span class="font-bold text-[var(--primary)]">${analysis.usedChunks.join(", ")}</span>.`);
+      } else {
+        corrParts.push(`⚠️ <strong>Lưu ý từ vựng:</strong> Bạn chưa dùng cụm từ mục tiêu nào của bài hôm nay. Hãy thử chèn <em>"${currentLessonData.vocab[0].chunk}"</em> hoặc <em>"${currentLessonData.vocab[1].chunk}"</em> vào câu nhé!`);
+      }
+
+      if (analysis.fixes.length > 0) {
+        corrParts.push(`🔧 <strong>Chữa lỗi ngữ pháp & diễn đạt:</strong><br/>` + analysis.fixes.join("<br/>"));
+      } else {
+        corrParts.push(`✅ <strong>Ngữ pháp:</strong> Cấu trúc câu của bạn khá rõ ràng, không mắc các lỗi dịch từng từ phổ biến.`);
+      }
+
+      if (!analysis.hasReason) {
+        corrParts.push(`💡 <strong>Mẹo mở rộng câu (A-R-E):</strong> Hãy thêm từ nối giải thích lý do như <em>"because...", "so that I can..."</em> để câu nói dài và có chiều sâu hơn.`);
+      }
+      if (!analysis.hasFiller) {
+        corrParts.push(`💡 <strong>Mẹo phản xạ tự nhiên:</strong> Hãy mở đầu bằng từ đệm như <em>"Well, actually...", "To be honest..."</em> để giữ nhịp tự nhiên như người bản xứ.`);
+      }
+
+      if (draft.studentQuestion) {
+        let qReply = `📌 <strong>Giải đáp thắc mắc của bạn ("${draft.studentQuestion}"):</strong> `;
+        const matched = VIET_TO_ENG_DICTIONARY.find(item => item.keys.some(k => draft.studentQuestion.toLowerCase().includes(k)));
+        if (matched) {
+          qReply += matched.reply;
+        } else {
+          qReply += `Bạn có thể diễn đạt ý này một cách tự nhiên bằng khung câu: <em>"Well, to be honest, what I mean is..."</em> kèm theo cụm <em>"${currentLessonData.vocab[0].chunk}"</em>. Hãy bấm sang tab <strong>Phòng Hội Thoại AI</strong> để luyện nói câu này cùng mình nhé!`;
+        }
+        corrParts.push(qReply);
+      }
+
+      document.getElementById("aiCorrectionContent").innerHTML = corrParts.map(p => `<p>${p}</p>`).join("");
+
+      const v0 = currentLessonData.vocab[0];
+      const v1 = currentLessonData.vocab[1];
+      const v2 = currentLessonData.vocab[2];
+      const userBase = (draft.paragraph || draft.vocabSentences || "I am learning English every day.").trim();
+      lastUpgradedText = `Well, to be honest, ${v0.example} Currently, ${v1.example} Moreover, ${v2.example} I'm practicing out loud every single day so that I can communicate much more naturally!`;
+
+      document.getElementById("aiUpgradeContent").innerHTML = `
+        <div class="p-2.5 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+          <div class="text-xs text-[var(--muted-foreground)] font-semibold mb-1">Bài gốc của bạn:</div>
+          <div class="italic">"${userBase}"</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-[var(--card)] border border-[var(--primary)]">
+          <div class="text-xs text-[var(--primary)] font-bold mb-1">🌟 Bản nâng cấp chuẩn bản xứ (Áp dụng Chunking + A-R-E):</div>
+          <div class="font-medium">"${lastUpgradedText}"</div>
+        </div>
+      `;
+
+      document.getElementById("aiPronunciationContent").innerHTML = `
+        <p>• <strong>Chú ý nối âm (Linking):</strong> Đọc liền hơi các cụm: <code class="px-1.5 py-0.5 rounded bg-[var(--card)] font-bold">${v0.chunk.replace(" ", "‿")}</code> và <code class="px-1.5 py-0.5 rounded bg-[var(--card)] font-bold">${v1.chunk.replace(" ", "‿")}</code>.</p>
+        <p>• <strong>Ngữ điệu (Intonation):</strong> Nhấn mạnh giọng vào các động từ và tính từ chính (<em>enjoy, currently, rewarding, amazing</em>), hạ giọng nhẹ ở cuối câu khẳng định.</p>
+        <p>• <strong>Bài tập miệng ngay bây giờ:</strong> Bấm nút <strong>🔊 Nghe AI đọc mẫu</strong> bên cạnh và đọc to đuổi theo (Shadowing) 3 lần liên tiếp!</p>
+      `;
+
+      const followupQ = `Great effort on ${currentLessonData.dayTitle}! Let me ask you a quick follow-up question: How can you apply "${v0.chunk}" or "${v1.chunk}" when talking to a colleague or friend tomorrow?`;
+      document.getElementById("aiFollowupQuestion").textContent = `👩‍🏫 Ms. Clara: "${followupQ}"`;
+
+      state.completedDays[key] = true;
+      saveState();
+      renderDayButtons();
+      updateOverallProgress();
+
+      const panel = document.getElementById("aiFeedbackPanel");
+      panel.classList.remove("hidden");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function speakUpgradedVersion() {
+      if (lastUpgradedText) speakText(lastUpgradedText, 0.95);
+    }
+
+    function sendFollowupToChat() {
+      const val = document.getElementById("quickFollowupReply").value.trim();
+      if (!val) return;
+      document.getElementById("quickFollowupReply").value = "";
+      switchTab("aicoach");
+      appendChatMessage("user", val);
+      processAIChatResponse(val);
+    }
+
+    // ==================== INTERACTIVE AI CHAT & VOICE ROOM ====================
+    function initChatIfEmpty() {
+      if (!state.chatHistory || state.chatHistory.length === 0) {
+        const wInfo = WEEKS_DATA[state.currentWeek - 1];
+        state.chatHistory = [
+          {
+            role: "ai",
+            text: `Hello! 👋 Tôi là **Ms. Clara**, giáo viên tiếng Anh AI cá nhân của bạn.\n\nHôm nay chúng ta đang ở **Tuần ${state.currentWeek} (${wInfo.title}) - Ngày ${state.currentDay}**.\nBạn có thể bấm nút **🎙️ Nói** hoặc gõ tin nhắn để:\n1. Trả lời câu hỏi khởi động của tôi: *"${currentLessonData.questions[0]}"*\n2. Hoặc hỏi tôi bất kỳ câu tiếng Việt nào bạn muốn biết cách nói sang tiếng Anh tự nhiên nhé!`
+          }
+        ];
+        saveState();
+      }
+      renderChatMessages();
+    }
+
+    function renderChatMessages() {
+      const box = document.getElementById("chatMessagesBox");
+      if (!box) return;
+      box.innerHTML = state.chatHistory.map(msg => {
+        if (msg.role === "user") {
+          return `
+            <div class="flex justify-end">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2.5 bg-[var(--primary)] text-[var(--primary-foreground)] text-xs md:text-sm">
+                ${msg.text}
+              </div>
+            </div>
+          `;
+        } else {
+          const cleanSpeak = msg.speakText ? msg.speakText.replace(/'/g, "\\'") : "";
+          return `
+            <div class="flex justify-start">
+              <div class="max-w-[88%] rounded-2xl p-3.5 bg-[var(--sidebar)] border border-[var(--border)] text-[var(--foreground)] text-xs md:text-sm space-y-1.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-bold text-xs text-[var(--primary)]">👩‍🏫 Ms. Clara (Giáo viên AI)</span>
+                  ${cleanSpeak ? `<button onclick="speakText('${cleanSpeak}', 0.95)" class="px-2 py-0.5 rounded text-xs bg-[var(--secondary)] text-[var(--secondary-foreground)]">🔊 Nghe</button>` : ""}
+                </div>
+                <div class="leading-relaxed whitespace-pre-line">${msg.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>')}</div>
+              </div>
+            </div>
+          `;
+        }
+      }).join("");
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function appendChatMessage(role, text, speakText = "") {
+      state.chatHistory.push({ role, text, speakText });
+      saveState();
+      renderChatMessages();
+      if (role === "ai" && speakText && document.getElementById("autoSpeakToggle")?.checked) {
+        speakText(speakText, 0.95);
+      }
+    }
+
+    function setCoachMode(mode) {
+      state.coachMode = mode;
+      ["roleplay", "qna", "reflex"].forEach(m => {
+        const btn = document.getElementById(`modeBtn-${m}`);
+        if (btn) {
+          btn.className = m === mode
+            ? "w-full text-left p-3 rounded-xl border-2 border-[var(--primary)] bg-[var(--sidebar)] text-xs font-semibold text-[var(--foreground)]"
+            : "w-full text-left p-3 rounded-xl border border-[var(--border)] bg-[var(--sidebar)] text-xs font-semibold text-[var(--foreground)]";
+        }
+      });
+
+      if (mode === "roleplay") {
+        state.roleplayStep = 0;
+        const q = currentLessonData.questions[0];
+        appendChatMessage(
+          "ai",
+          `🗣️ **Chế độ Đóng vai Hội thoại (Role-Play) - ${currentLessonData.dayTitle}:**\nHãy trả lời câu hỏi đầu tiên của tôi bằng tiếng Anh (nhớ dùng cụm từ **${currentLessonData.vocab[0].chunk}** hoặc **${currentLessonData.vocab[1].chunk}** nhé):\n\n👉 **"${q}"**`,
+          q
+        );
+      } else if (mode === "reflex") {
+        const q = currentLessonData.questions[Math.floor(Math.random() * currentLessonData.questions.length)];
+        appendChatMessage(
+          "ai",
+          `⚡ **Thử thách Phản xạ 3 Giây:**\nKhông cần suy nghĩ quá lâu! Hãy mở đầu bằng *"Well, actually..."* hoặc *"To be honest..."* và trả lời ngay câu này:\n\n👉 **"${q}"**`,
+          `Quick reflex question! ${q}`
+        );
+      } else {
+        appendChatMessage(
+          "ai",
+          `❓ **Chế độ Hỏi đáp & Dịch tự nhiên:**\nBạn muốn biết câu tiếng Việt nào nói sang tiếng Anh tự nhiên như người bản xứ, hoặc muốn mình sửa câu tiếng Anh nào? Hãy gõ vào bên dưới nhé!`
+        );
+      }
+    }
+
+    function startRolePlayForToday() {
+      switchTab("aicoach");
+      setCoachMode("roleplay");
+    }
+
+    function sendQuickPrompt(promptText) {
+      document.getElementById("chatUserInput").value = promptText;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById("chatUserInput");
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      appendChatMessage("user", text);
+
+      if (state.geminiApiKey) {
+        try {
+          const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${state.geminiApiKey}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{
+                  text: `Bạn là Ms. Clara, giáo viên tiếng Anh cá nhân dạy học viên trình độ A1-A2 mục tiêu giao tiếp trong 3 tháng. Đang học bài: ${currentLessonData.dayTitle}. Các cụm từ mục tiêu: ${currentLessonData.vocab.map(v => v.chunk).join(", ")}. Hãy nhận xét ngắn gọn, sửa lỗi (nếu có), gợi ý nâng cấp tự nhiên và đặt 1 câu hỏi tiếng Anh tiếp theo cho học viên dựa trên tin nhắn này: "${text}"`
+                }]
+              }]
+            })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (aiText) {
+              appendChatMessage("ai", aiText, currentLessonData.questions[0]);
+              return;
+            }
+          }
+        } catch (e) {}
+      }
+
+      setTimeout(() => processAIChatResponse(text), 250);
+    }
+
+    function processAIChatResponse(userText) {
+      const lower = userText.toLowerCase();
+
+      if (lower.includes("bắt đầu đóng vai") || lower.includes("role-play")) {
+        setCoachMode("roleplay");
+        return;
+      }
+      if (lower.includes("phản xạ 3 giây") || lower.includes("hỏi phản xạ")) {
+        setCoachMode("reflex");
+        return;
+      }
+
+      const matchedFaq = VIET_TO_ENG_DICTIONARY.find(item => item.keys.some(k => lower.includes(k)));
+      if (matchedFaq) {
+        appendChatMessage(
+          "ai",
+          `💡 **Gợi ý từ Giáo viên AI:**\n${matchedFaq.reply}\n\n👉 Bạn hãy thử đặt 1 câu tiếng Anh áp dụng một trong các cụm trên gửi cho mình kiểm tra nhé!`,
+          "Here are some natural expressions you can use. Give it a try!"
+        );
+        return;
+      }
+
+      const analysis = analyzeStudentText(userText, currentLessonData.vocab);
+      const nextQIdx = (state.roleplayStep + 1) % currentLessonData.questions.length;
+      state.roleplayStep = nextQIdx;
+      const nextQ = currentLessonData.questions[nextQIdx];
+      const suggestedChunk = currentLessonData.vocab[nextQIdx % currentLessonData.vocab.length];
+
+      let feedbackLines = [];
+
+      if (analysis.fixes.length > 0) {
+        feedbackLines.push(`🔧 **Sửa lỗi nhanh:**\n${analysis.fixes.map(f => f.replace(/<[^>]+>/g, "")).join("\n")}`);
+      } else {
+        feedbackLines.push(`✅ **Nhận xét:** Câu tiếng Anh của bạn rất rõ ý và đúng ngữ pháp!`);
+      }
+
+      if (analysis.usedChunks.length > 0) {
+        feedbackLines.push(`🌟 Tuyệt vời! Bạn đã dùng cụm từ mục tiêu: **${analysis.usedChunks.join(", ")}**.`);
+      } else {
+        feedbackLines.push(`💡 **Cách nói tự nhiên hơn (Native Upgrade):**\nBạn có thể kết hợp thêm cụm **"${suggestedChunk.chunk}"** (*${suggestedChunk.meaning}*), ví dụ:\n*"Well, to be honest, ${userText.replace(/\.$/, "")}, and ${suggestedChunk.example}"*`);
+      }
+
+      if (analysis.wordCount < 8) {
+        feedbackLines.push(`⚡ **Gợi ý mở rộng câu (A-R-E):** Câu trả lời hơi ngắn (${analysis.wordCount} từ). Lần tới bạn hãy thêm **"because..."** để giải thích lý do nhé!`);
+      }
+
+      const englishFollowUp = `That's interesting! Let me ask you the next question: ${nextQ}`;
+      feedbackLines.push(`\n🗣️ **Câu hỏi tiếp theo cho bạn:**\n**"${nextQ}"**\n*(Gợi ý: Thử dùng cụm "${suggestedChunk.chunk}" trong câu trả lời nhé!)*`);
+
+      appendChatMessage("ai", feedbackLines.join("\n"), englishFollowUp);
+    }
+
+    function clearChatHistory() {
+      state.chatHistory = [];
+      saveState();
+      initChatIfEmpty();
+    }
+
+    // ==================== SPEECH TO TEXT ====================
+    function startDictation(targetInputId) {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        alert("Trình duyệt hiện tại không hỗ trợ nhận diện giọng nói trực tiếp. Bạn có thể mở file index.html trên Google Chrome hoặc Microsoft Edge để dùng micro nhé!");
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = "en-US";
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+
+      const el = document.getElementById(targetInputId);
+      const oldPlaceholder = el.placeholder;
+      el.placeholder = "🎙️ Đang lắng nghe bạn nói tiếng Anh... Hãy nói to rõ ràng!";
+
+      rec.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        el.value = el.value ? `${el.value} ${transcript}` : transcript;
+        el.placeholder = oldPlaceholder;
+        onWritingChange();
+      };
+      rec.onerror = () => { el.placeholder = oldPlaceholder; };
+      rec.onend = () => { el.placeholder = oldPlaceholder; };
+      rec.start();
+    }
+
+    function startChatVoiceInput() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) {
+        alert("Hãy mở trên Chrome/Edge để sử dụng tính năng thu âm giọng nói trực tiếp nhé!");
+        return;
+      }
+      const btn = document.getElementById("chatVoiceBtn");
+      const rec = new SpeechRec();
+      rec.lang = "en-US";
+      btn.textContent = "🔴 Đang nghe...";
+      rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        document.getElementById("chatUserInput").value = transcript;
+        btn.textContent = "🎙️ Nói";
+        sendChatMessage();
+      };
+      rec.onerror = () => { btn.textContent = "🎙️ Nói"; };
+      rec.onend = () => { btn.textContent = "🎙️ Nói"; };
+      rec.start();
+    }
+
+    function practiceShadowingCheck() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const resBox = document.getElementById("shadowCheckResult");
+      resBox.classList.remove("hidden");
+
+      if (!SpeechRec) {
+        resBox.innerHTML = `💡 Để thu âm chấm phát âm tự động, bạn hãy mở file <strong>index.html</strong> bằng trình duyệt Chrome hoặc Edge nhé!`;
+        return;
+      }
+
+      const btn = document.getElementById("shadowCheckBtn");
+      btn.textContent = "🔴 Đang nghe bạn đọc...";
+      const rec = new SpeechRec();
+      rec.lang = "en-US";
+      rec.onresult = (e) => {
+        const spoken = e.results[0][0].transcript;
+        const conf = Math.round((e.results[0][0].confidence || 0.88) * 100);
+        resBox.innerHTML = `
+          <div class="font-bold text-[var(--primary)]">🎙️ Máy nhận diện bạn vừa đọc (${conf}% độ rõ):</div>
+          <div class="italic mt-1">"${spoken}"</div>
+          <div class="mt-1 text-[var(--muted-foreground)]">✅ Hãy đối chiếu với câu mẫu phía trên và chú ý nối âm mượt hơn ở các dấu ‿ nhé!</div>
+        `;
+        btn.textContent = "🎙️ Thu âm kiểm tra độ chính xác";
+      };
+      rec.onerror = () => {
+        btn.textContent = "🎙️ Thu âm kiểm tra độ chính xác";
+        resBox.innerHTML = `⚠️ Không nghe rõ âm thanh từ micro. Bạn hãy kiểm tra quyền truy cập Micro và thử lại nhé!`;
+      };
+      rec.start();
+    }
+
+    // ==================== SPEECH SYNTHESIS ====================
+    function speakText(text, rate = 1.0) {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      utter.rate = rate;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function stopSpeech() {
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    }
+
+    // ==================== TIMERS ====================
+    let timerInterval = null;
+    let timerSeconds = 600;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function startPresetTimer(seconds, label) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = seconds;
+      document.getElementById("timerLabel").textContent = `Đồng hồ học: ${label}`;
+      document.getElementById("timerDisplay").textContent = formatTime(timerSeconds);
+      document.getElementById("timerToggleBtn").textContent = "▶️ Bắt đầu";
+      toggleTimer();
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("timerToggleBtn");
+      if (timerRunning) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = "▶️ Tiếp tục";
+      } else {
+        timerRunning = true;
+        btn.textContent = "⏸ Tạm dừng";
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            document.getElementById("timerDisplay").textContent = formatTime(timerSeconds);
+          } else {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            btn.textContent = "▶️ Bắt đầu";
+            speakText("Time is up! Awesome job!", 1.0);
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = 600;
+      document.getElementById("timerDisplay").textContent = "10:00";
+      document.getElementById("timerToggleBtn").textContent = "▶️ Bắt đầu";
+    }
+
+    function trigger3SecChallenge() {
+      const btn = document.getElementById("reflexTimerBtn");
+      let count = 3;
+      btn.textContent = `⚡ ${count}s...`;
+      const iv = setInterval(() => {
+        count--;
+        if (count > 0) {
+          btn.textContent = `⚡ ${count}s...`;
+        } else {
+          clearInterval(iv);
+          btn.textContent = "🗣️ NÓI NGAY!";
+          setTimeout(() => { btn.textContent = "⚡ Đếm ngược 3s"; }, 2500);
+        }
+      }, 1000);
+    }
+
+    // ==================== FLASHCARDS ====================
+    function renderFlashcard() {
+      const list = currentLessonData.vocab;
+      if (!list || !list.length) return;
+      const item = list[state.fcIndex % list.length];
+      document.getElementById("flashcardCounter").textContent = `${(state.fcIndex % list.length) + 1} / ${list.length}`;
+      const badge = document.getElementById("fcSideBadge");
+      const main = document.getElementById("fcMainText");
+      const sub = document.getElementById("fcSubText");
+
+      if (!state.fcFlipped) {
+        badge.textContent = "MẶT TRƯỚC (Nghĩa Tiếng Việt ➔ Bật ra tiếng Anh trong 3s)";
+        main.textContent = item.meaning;
+        sub.textContent = "👆 Bấm vào thẻ để lật xem đáp án tiếng Anh & câu ví dụ";
+      } else {
+        badge.textContent = "MẶT SAU (Cụm từ & Câu ví dụ)";
+        main.textContent = item.chunk;
+        sub.textContent = `Ví dụ: "${item.example}"`;
+      }
+    }
+
+    function flipFlashcard() {
+      state.fcFlipped = !state.fcFlipped;
+      renderFlashcard();
+      if (state.fcFlipped) speakCurrentFlashcard();
+    }
+    function nextFlashcard() {
+      state.fcIndex = (state.fcIndex + 1) % currentLessonData.vocab.length;
+      state.fcFlipped = false;
+      renderFlashcard();
+    }
+    function prevFlashcard() {
+      state.fcIndex = (state.fcIndex - 1 + currentLessonData.vocab.length) % currentLessonData.vocab.length;
+      state.fcFlipped = false;
+      renderFlashcard();
+    }
+    function shuffleFlashcards() {
+      state.fcIndex = Math.floor(Math.random() * currentLessonData.vocab.length);
+      state.fcFlipped = false;
+      renderFlashcard();
+    }
+    function speakCurrentFlashcard() {
+      const item = currentLessonData.vocab[state.fcIndex % currentLessonData.vocab.length];
+      speakText(`${item.chunk}. ${item.example}`, 0.95);
+    }
+
+    // ==================== ROADMAP ====================
+    function renderRoadmap() {
+      const grid = document.getElementById("roadmapGrid");
+      const months = [
+        { m: 1, name: "Tháng 1: Phá Băng & Phản Xạ Câu Ngắn (A1+ ➔ A2)" },
+        { m: 2, name: "Tháng 2: Tăng Tốc & Mở Rộng Ý A-R-E (A2 ➔ A2+)" },
+        { m: 3, name: "Tháng 3: Làm Chủ Hội Thoại Tự Nhiên (B1 Giao Tiếp)" }
+      ];
+      grid.innerHTML = months.map(mObj => {
+        const weeks = WEEKS_DATA.filter(w => w.month === mObj.m);
+        const cards = weeks.map(w => {
+          let doneInWeek = 0;
+          for (let d = 1; d <= 7; d++) {
+            if (state.completedDays[`w${w.week}_d${d}`]) doneInWeek++;
+          }
+          return `
+            <div onclick="jumpToWeek(${w.week})" class="cursor-pointer bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] rounded-xl p-3.5 transition-all">
+              <div class="flex items-center justify-between text-xs font-bold mb-1">
+                <span class="text-[var(--primary)]">TUẦN ${w.week}</span>
+                <span class="text-[var(--muted-foreground)]">${doneInWeek}/7 ngày</span>
+              </div>
+              <div class="text-sm font-bold text-[var(--foreground)]">${w.title}</div>
+              <div class="text-xs text-[var(--muted-foreground)] mt-0.5">${w.subtitle}</div>
+            </div>
+          `;
+        }).join("");
+        return `
+          <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-2xl p-4 space-y-3">
+            <h3 class="text-sm font-bold text-[var(--foreground)] pb-2 border-b border-[var(--border)]">${mObj.name}</h3>
+            <div class="space-y-2.5">${cards}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function jumpToWeek(week) {
+      state.currentWeek = week;
+      state.currentDay = 1;
+      saveState();
+      renderWeekSelect();
+      renderDayButtons();
+      loadLessonIntoUI();
+      switchTab("daily");
+    }
+
+    // ==================== WEEKLY TEST & AI GRADING ====================
+    function renderWeeklyTest() {
+      const wInfo = WEEKS_DATA[state.currentWeek - 1];
+      document.getElementById("testWeekLabel").textContent = `BÀI KIỂM TRA CUỐI TUẦN • THÁNG ${wInfo.month} - TUẦN ${wInfo.week}`;
+      document.getElementById("testTitle").textContent = `Mini-Test Tuần ${wInfo.week}: ${wInfo.title}`;
+      document.getElementById("testWritingPrompt").textContent = wInfo.testPrompt;
+
+      const wKey = `w${state.currentWeek}`;
+      const tDraft = state.testDrafts[wKey] || {};
+      document.getElementById("testFinalSubmission").value = tDraft.finalSubmission || "";
+      document.getElementById("weeklyTestAIFeedback").classList.add("hidden");
+
+      const pool = wInfo.vocabPool;
+      const quizItems = [
+        { q: `1. Cụm từ nào mang nghĩa "${pool[0].meaning}"?`, options: [pool[0].chunk, pool[1].chunk, pool[2].chunk], answer: 0 },
+        { q: `2. Câu nào sử dụng đúng cụm "${pool[1].chunk}"?`, options: [pool[2].example, pool[1].example, pool[3].example], answer: 1 },
+        { q: `3. Khi muốn diễn đạt "${pool[3].meaning}", bạn dùng cụm nào?`, options: [pool[4].chunk, pool[5].chunk, pool[3].chunk], answer: 2 },
+        { q: `4. Cụm "${pool[4].chunk}" có nghĩa tiếng Việt là gì?`, options: [pool[4].meaning, pool[0].meaning, pool[2].meaning], answer: 0 }
+      ];
+      window.currentWeekQuiz = quizItems;
+
+      document.getElementById("testQuizContainer").innerHTML = quizItems.map((item, qIdx) => `
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-3.5">
+          <div class="text-xs md:text-sm font-bold text-[var(--foreground)] mb-2">${item.q}</div>
+          <div class="space-y-1">
+            ${item.options.map((opt, oIdx) => `
+              <label class="flex items-center gap-2 text-xs text-[var(--foreground)] cursor-pointer p-1.5 rounded hover:bg-[var(--card)]">
+                <input type="radio" name="quiz_q_${qIdx}" value="${oIdx}" />
+                <span>${opt}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function gradeWeeklyTestWithAI() {
+      const quizItems = window.currentWeekQuiz || [];
+      let correct = 0;
+      quizItems.forEach((item, qIdx) => {
+        const checked = document.querySelector(`input[name="quiz_q_${qIdx}"]:checked`);
+        if (checked && parseInt(checked.value, 10) === item.answer) correct++;
+      });
+
+      const essay = document.getElementById("testFinalSubmission").value.trim();
+      const wInfo = WEEKS_DATA[state.currentWeek - 1];
+      const analysis = analyzeStudentText(essay, wInfo.vocabPool);
+
+      const totalScore = Math.min(100, correct * 15 + (essay ? 25 : 0) + Math.min(15, analysis.usedChunks.length * 5));
+      document.getElementById("testScoreBadge").textContent = `🏆 Tổng điểm Tuần ${wInfo.week}: ${totalScore}/100`;
+
+      const fbBox = document.getElementById("weeklyTestAIFeedback");
+      fbBox.classList.remove("hidden");
+      fbBox.innerHTML = `
+        <div class="font-bold text-sm text-[var(--primary)]">👩‍🏫 Nhận xét Bài Kiểm Tra Tuần ${wInfo.week} từ Giáo viên AI:</div>
+        <div>• <strong>Phần 1 (Trắc nghiệm cụm từ):</strong> Đạt <strong>${correct}/${quizItems.length}</strong> câu đúng.</div>
+        <div>• <strong>Phần 2 (Bài nói/viết tổng hợp - ${analysis.wordCount} từ):</strong> Đã áp dụng <strong>${analysis.usedChunks.length}/6</strong> cụm từ cốt lõi của tuần (${analysis.usedChunks.join(", ") || "chưa dùng cụm mục tiêu"}).</div>
+        ${analysis.fixes.length ? `<div>• <strong>Sửa lỗi ngữ pháp:</strong><br/>${analysis.fixes.join("<br/>")}</div>` : `<div>• <strong>Ngữ pháp:</strong> Diễn đạt tốt, câu văn rõ ràng!</div>`}
+        <div class="pt-1 font-semibold">🎉 Chúc mừng bạn đã hoàn thành bài kiểm tra Tuần ${wInfo.week}! Hãy tiếp tục giữ vững phong độ sang tuần tiếp theo nhé!</div>
+      `;
+    }
+
+    // ==================== PROGRESS & TABS ====================
+    function toggleDayComplete() {
+      const key = getDayKey();
+      state.completedDays[key] = !state.completedDays[key];
+      saveState();
+      renderDayButtons();
+      loadLessonIntoUI();
+      renderRoadmap();
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const totalDays = 84;
+      const completedCount = Object.values(state.completedDays).filter(Boolean).length;
+      const pct = Math.min(100, Math.round((completedCount / totalDays) * 100));
+      document.getElementById("progressText").textContent = `${completedCount} / ${totalDays} ngày (${pct}%)`;
+      document.getElementById("progressBar").style.width = `${pct}%`;
+      document.getElementById("streakDisplay").textContent = `🔥 Đã hoàn thành: ${completedCount} bài`;
+    }
+
+    function resetAllProgress() {
+      if (confirm("Đặt lại trạng thái hoàn thành của các ngày học?")) {
+        state.completedDays = {};
+        saveState();
+        initApp();
+      }
+    }
+
+    function switchTab(tabName) {
+      const tabs = ["daily", "aicoach", "roadmap", "flashcards", "test"];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabName) {
+          view.classList.remove("hidden");
+          btn.className = "px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--primary)] text-[var(--primary-foreground)]";
+        } else {
+          view.classList.add("hidden");
+          btn.className = "px-3.5 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:opacity-90";
+        }
+      });
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
