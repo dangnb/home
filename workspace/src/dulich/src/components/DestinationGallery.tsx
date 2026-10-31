@@ -321,8 +321,8 @@ export default function DestinationGallery({
         </div>
       </motion.div>
 
-      <motion.div layout className={styles.photoGrid}>
-        <AnimatePresence mode="popLayout">
+      <div className={styles.photoGrid}>
+        <AnimatePresence initial={false}>
           {filteredDestinations.map((item, idx) => {
             const name = isEn ? item.nameEn : item.nameVi;
             const province = isEn ? item.provinceEn : item.provinceVi;
@@ -331,7 +331,6 @@ export default function DestinationGallery({
 
             return (
               <motion.article
-                layout
                 key={item.id}
                 initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -384,7 +383,7 @@ export default function DestinationGallery({
             );
           })}
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       <AnimatePresence>
         {activePhoto && (

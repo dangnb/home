@@ -1,0 +1,335 @@
+.loaderBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(20px, 3.5vw, 40px) clamp(22px, 4.5vw, 56px);
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(46, 66, 49, 0.42) 0%,
+      rgba(20, 27, 21, 0.96) 62%,
+      #111712 100%
+    ),
+    #141b15;
+  color: #f4f2ee;
+  overflow: hidden;
+  transform: translateY(0%);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 820ms cubic-bezier(0.76, 0, 0.24, 1),
+    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0ms linear 840ms;
+}
+
+.loaderExiting {
+  transform: translateY(-102%);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.loaderHidden {
+  transform: translateY(-102%);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Đường kẻ tọa độ bản đồ mờ phía sau */
+.gridLines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(229, 185, 111, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(229, 185, 111, 0.05) 1px,
+      transparent 1px
+    );
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at 50% 50%, #000 35%, transparent 85%);
+}
+
+.meridianCircle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(520px, 78vw);
+  height: min(520px, 78vw);
+  border-radius: 50%;
+  border: 1px dashed rgba(229, 185, 111, 0.16);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Hàng thông tin trên cùng */
+.topBar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(229, 185, 111, 0.18);
+  font-family: var(--font-text), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 242, 238, 0.72);
+}
+
+.archiveTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e5b96f;
+  box-shadow: 0 0 10px rgba(229, 185, 111, 0.8);
+}
+
+.coordTicker {
+  color: #e5b96f;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  transition: opacity 220ms ease;
+}
+
+/* Tâm điểm giữa màn hình */
+.centerStage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.sealWrapper {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+}
+
+.ringSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: rgba(229, 185, 111, 0.18);
+  stroke-width: 1.5;
+}
+
+.ringFill {
+  fill: none;
+  stroke: #e5b96f;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.emblemSvg {
+  width: 68px;
+  height: 68px;
+  border-radius: 15px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.regionPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px;
+  margin-bottom: 14px;
+  border-radius: 3px;
+  background: rgba(229, 185, 111, 0.12);
+  border: 1px solid rgba(229, 185, 111, 0.35);
+  color: #e5b96f;
+  font-family: var(--font-text), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.brandHeading {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(42px, 6.2vw, 68px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #f4f2ee;
+}
+
+.brandHeading em {
+  font-style: italic;
+  font-weight: 400;
+  color: #e5b96f;
+  margin-left: 10px;
+}
+
+.tagline {
+  margin: 14px 0 0;
+  max-width: 46ch;
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.65;
+  color: rgba(244, 242, 238, 0.78);
+}
+
+.destinationSteps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.stepItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-text), sans-serif;
+  font-size: 12px;
+  color: rgba(244, 242, 238, 0.42);
+  transition: color 240ms ease;
+}
+
+.stepItemActive {
+  color: #f4f2ee;
+  font-weight: 600;
+}
+
+.stepNum {
+  font-variant-numeric: tabular-nums;
+  color: #e5b96f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Hàng chân trang: tiến độ + bộ đếm lớn */
+.bottomBar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bottomMeta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.statusColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statusLabel {
+  font-family: var(--font-text), sans-serif;
+  font-size: 13px;
+  color: rgba(244, 242, 238, 0.85);
+}
+
+.skipBtn {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(229, 185, 111, 0.82);
+  font-family: var(--font-text), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.skipBtn:hover {
+  color: #ffffff;
+}
+
+.counterValue {
+  flex-shrink: 0;
+  min-width: 4.2ch;
+  text-align: right;
+  font-family: var(--font-text), sans-serif;
+  font-size: clamp(32px, 4.2vw, 48px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  color: #e5b96f;
+}
+
+.counterUnit {
+  font-size: 0.55em;
+  font-weight: 500;
+  margin-left: 4px;
+  color: rgba(229, 185, 111, 0.78);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #c8a97e 0%, #e5b96f 100%);
+  transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 640px) {
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .coordTicker {
+    text-align: left;
+  }
+
+  .destinationSteps {
+    gap: 12px;
+  }
+}

@@ -116,6 +116,9 @@ export default function Footer({ settings: propSettings }: FooterProps) {
             >
               Zalo
             </a>
+            <a href="/reels" className={styles.socialLink}>
+              {isEn ? "Reels Video" : "Video Reels"}
+            </a>
             <a href="/admin" className={styles.socialLink}>
               {isEn ? "Admin CMS" : "Quản trị"}
             </a>

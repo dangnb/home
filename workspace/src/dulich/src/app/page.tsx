@@ -16,6 +16,8 @@ import Footer from "@/components/Footer";
 import SlideOutBooking from "@/components/SlideOutBooking";
 import FloatingButtons from "@/components/FloatingButtons";
 import TourBookingModal from "@/components/TourBookingModal";
+import ReelAutoPilot from "@/components/ReelAutoPilot";
+import PageLoader from "@/components/PageLoader";
 
 import toursData from "../../data/tours.json";
 import categoriesData from "../../data/categories.json";
@@ -72,6 +74,7 @@ export default function HomePage() {
 
   return (
     <>
+      <PageLoader />
       <Navbar />
 
       <main>
@@ -113,6 +116,8 @@ export default function HomePage() {
           />
         )}
       </AnimatePresence>
+
+      <ReelAutoPilot />
     </>
   );
 }

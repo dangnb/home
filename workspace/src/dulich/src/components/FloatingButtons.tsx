@@ -108,8 +108,6 @@ export default function FloatingButtons({
           </span>
         </button>
 
-        <span className={styles.divider} aria-hidden="true" />
-
         {/* Nút Facebook */}
         <a
           href={fbHref}
