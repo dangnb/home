@@ -5,11 +5,19 @@ import { AnimatePresence, motion } from "framer-motion";
 import styles from "./ContactSection.module.css";
 import { useLocale } from "./LocaleProvider";
 import { FiArrowUpRight } from "react-icons/fi";
-import settings from "../../data/settings.json";
+import defaultSettings from "../../data/settings.json";
+import type { SiteSettings } from "@/types";
 
 type SubmissionStatus = "idle" | "submitting" | "success" | "error";
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  settings?: SiteSettings;
+}
+
+export default function ContactSection({
+  settings: propSettings,
+}: ContactSectionProps) {
+  const settings = propSettings || (defaultSettings as SiteSettings);
   const { locale, dictionary } = useLocale();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<SubmissionStatus>("idle");

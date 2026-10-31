@@ -1,0 +1,41 @@
+[
+  {
+    "id": "book_1730184000001",
+    "customerName": "Nguyễn Minh Khuê",
+    "phone": "0912 345 678",
+    "tourId": "ha-giang-stone-whisper",
+    "tourTitle": "Hà Giang — Lời Thì Thầm Của Đá",
+    "departureDate": "2026-11-14",
+    "guestsCount": 4,
+    "notes": "Gia đình có 2 người lớn tuổi, ưu tiên phòng tầng thấp và thực đơn ấm nóng buổi tối.",
+    "totalEstimatedPrice": "51.600.000₫",
+    "createdAt": "2026-10-29T09:30:00.000Z",
+    "status": "confirmed"
+  },
+  {
+    "id": "book_1730270400002",
+    "customerName": "Trần Bảo Ngọc",
+    "phone": "0987 654 321",
+    "tourId": "hue-imperial-reverie",
+    "tourTitle": "Huế — Mộng Kinh Kỳ & Nhã Nhạc",
+    "departureDate": "2026-11-22",
+    "guestsCount": 2,
+    "notes": "Kỷ niệm ngày cưới, muốn đặt riêng bữa tối tại nhà vườn Kim Long.",
+    "totalEstimatedPrice": "23.000.000₫",
+    "createdAt": "2026-10-30T14:15:00.000Z",
+    "status": "consulting"
+  },
+  {
+    "id": "book_1730356800003",
+    "customerName": "Lê Hoàng Nam",
+    "phone": "0903 888 999",
+    "tourId": "con-dao-silent-archipelago",
+    "tourTitle": "Côn Đảo — Quần Đảo Tĩnh Lặng",
+    "departureDate": "2026-12-05",
+    "guestsCount": 6,
+    "notes": "Đoàn riêng gia đình, cần hỗ trợ vé bay thẳng từ TP.HCM.",
+    "totalEstimatedPrice": "111.000.000₫",
+    "createdAt": "2026-10-31T08:20:00.000Z",
+    "status": "new"
+  }
+]

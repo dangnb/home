@@ -1,0 +1,7 @@
+{
+  "username": "admin",
+  "passwordSalt": "54e594b4e2a7eeb887b4e6862893d39e",
+  "passwordHash": "e5fef32b90fb211badb4a8fe18d3eccf5e72620f07fcdf6b2acdc57be92ea487d91db4a4f129c200c6f3bdb34dcba79bbaa44f2aea9214c98578da63e8f78d15",
+  "secretKey": "98914b422d4e1ea73d745b82a558a8f0684ad415e451c91730c6d5bbc323b4fd",
+  "updatedAt": "2026-10-31T12:04:16.276Z"
+}

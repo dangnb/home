@@ -5,18 +5,7 @@ import { motion } from "framer-motion";
 import styles from "./TravelerPostcards.module.css";
 import { useLocale } from "./LocaleProvider";
 
-interface PostcardItem {
-  id: string;
-  stampVi: string;
-  stampEn: string;
-  quoteTitleVi: string;
-  quoteTitleEn: string;
-  bodyVi: string;
-  bodyEn: string;
-  guestName: string;
-  guestRoleVi: string;
-  guestRoleEn: string;
-}
+import type { PostcardItem } from "@/types";
 
 const POSTCARDS: PostcardItem[] = [
   {
@@ -69,9 +58,16 @@ const POSTCARDS: PostcardItem[] = [
   },
 ];
 
-export default function TravelerPostcards() {
+interface TravelerPostcardsProps {
+  postcards?: PostcardItem[];
+}
+
+export default function TravelerPostcards({
+  postcards,
+}: TravelerPostcardsProps) {
   const { locale } = useLocale();
   const isEn = locale === "en";
+  const items = postcards && postcards.length > 0 ? postcards : POSTCARDS;
 
   return (
     <section className={styles.postcardsSection} id="luu-but">
@@ -103,7 +99,7 @@ export default function TravelerPostcards() {
       </motion.div>
 
       <div className={styles.cardGrid}>
-        {POSTCARDS.map((item, idx) => (
+        {items.map((item, idx) => (
           <motion.article
             key={item.id}
             className={styles.postcard}

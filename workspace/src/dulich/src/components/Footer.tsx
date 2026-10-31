@@ -5,10 +5,16 @@ import { motion } from "framer-motion";
 import styles from "./Footer.module.css";
 import BrandLogo from "./BrandLogo";
 import { useLocale } from "./LocaleProvider";
-import settings from "../../data/settings.json";
+import defaultSettings from "../../data/settings.json";
+import type { SiteSettings } from "@/types";
 import { FiArrowUp } from "react-icons/fi";
 
-export default function Footer() {
+interface FooterProps {
+  settings?: SiteSettings;
+}
+
+export default function Footer({ settings: propSettings }: FooterProps) {
+  const settings = propSettings || (defaultSettings as SiteSettings);
   const { locale, dictionary } = useLocale();
   const isEn = locale === "en";
 
@@ -109,6 +115,9 @@ export default function Footer() {
               className={styles.socialLink}
             >
               Zalo
+            </a>
+            <a href="/admin" className={styles.socialLink}>
+              {isEn ? "Admin CMS" : "Quản trị"}
             </a>
           </div>
         </div>

@@ -9,16 +9,14 @@ import {
 } from "framer-motion";
 import styles from "./Hero.module.css";
 import { useLocale } from "./LocaleProvider";
-import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
+import {
+  FiArrowDown,
+  FiArrowUpRight,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi";
 
-interface HeroScene {
-  id: string;
-  placeVi: string;
-  placeEn: string;
-  captionVi: string;
-  captionEn: string;
-  image: string;
-}
+import type { HeroScene } from "@/types";
 
 const HERO_SCENES: HeroScene[] = [
   {
@@ -61,9 +59,14 @@ const HERO_SCENES: HeroScene[] = [
 
 const SLIDE_DURATION_MS = 6000;
 
-export default function Hero() {
+interface HeroProps {
+  slides?: HeroScene[];
+}
+
+export default function Hero({ slides }: HeroProps) {
   const { locale, dictionary } = useLocale();
   const isEn = locale === "en";
+  const scenes = slides && slides.length > 0 ? slides : HERO_SCENES;
   const [activeIdx, setActiveIdx] = useState(0);
 
   const { scrollY } = useScroll();
@@ -71,12 +74,21 @@ export default function Hero() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % HERO_SCENES.length);
+      setActiveIdx((prev) => (prev + 1) % scenes.length);
     }, SLIDE_DURATION_MS);
     return () => window.clearInterval(timer);
-  }, [activeIdx]);
+  }, [activeIdx, scenes.length]);
 
-  const currentScene = HERO_SCENES[activeIdx];
+  const safeIdx = activeIdx % scenes.length;
+  const currentScene = scenes[safeIdx] || scenes[0];
+
+  const handlePrevSlide = () => {
+    setActiveIdx((prev) => (prev - 1 + scenes.length) % scenes.length);
+  };
+
+  const handleNextSlide = () => {
+    setActiveIdx((prev) => (prev + 1) % scenes.length);
+  };
 
   const facts = isEn
     ? [
@@ -112,6 +124,32 @@ export default function Hero() {
         </AnimatePresence>
         <div className={styles.heroScrim} />
       </motion.div>
+
+      <div className={styles.heroTopBar}>
+        <span className={styles.slideCounter}>
+          {String(safeIdx + 1).padStart(2, "0")} /{" "}
+          {String(scenes.length).padStart(2, "0")} ·{" "}
+          {isEn ? currentScene.placeEn : currentScene.placeVi}
+        </span>
+        <div className={styles.sliderArrows}>
+          <button
+            type="button"
+            className={styles.arrowBtn}
+            onClick={handlePrevSlide}
+            aria-label={isEn ? "Previous slide" : "Ảnh trước"}
+          >
+            <FiChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            className={styles.arrowBtn}
+            onClick={handleNextSlide}
+            aria-label={isEn ? "Next slide" : "Ảnh tiếp theo"}
+          >
+            <FiChevronRight size={18} />
+          </button>
+        </div>
+      </div>
 
       <div className={styles.heroStage}>
         <motion.div
@@ -162,8 +200,8 @@ export default function Hero() {
                 isEn ? "Featured destinations" : "Điểm đến tiêu biểu"
               }
             >
-              {HERO_SCENES.map((scene, index) => {
-                const isActive = index === activeIdx;
+              {scenes.map((scene, index) => {
+                const isActive = index === safeIdx;
                 return (
                   <button
                     key={scene.id}

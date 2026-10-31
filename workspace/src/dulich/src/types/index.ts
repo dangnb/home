@@ -95,3 +95,51 @@ export interface BookingSubmission {
   notes?: string;
   totalEstimatedPrice?: string;
 }
+
+export interface HeroScene {
+  id: string;
+  placeVi: string;
+  placeEn: string;
+  captionVi: string;
+  captionEn: string;
+  image: string;
+}
+
+export interface DestinationPhoto {
+  id: string;
+  region: "bac" | "trung" | "nam" | string;
+  regionLabelVi: string;
+  regionLabelEn: string;
+  nameVi: string;
+  nameEn: string;
+  provinceVi: string;
+  provinceEn: string;
+  seasonVi: string;
+  seasonEn: string;
+  timeOfDayVi: string;
+  timeOfDayEn: string;
+  storyVi: string;
+  storyEn: string;
+  image: string;
+  spanWide?: boolean;
+}
+
+export interface PostcardItem {
+  id: string;
+  stampVi: string;
+  stampEn: string;
+  quoteTitleVi: string;
+  quoteTitleEn: string;
+  bodyVi: string;
+  bodyEn: string;
+  guestName: string;
+  guestRoleVi: string;
+  guestRoleEn: string;
+}
+
+export interface SiteMedia {
+  heroSlides: HeroScene[];
+  destinations: DestinationPhoto[];
+  postcards: PostcardItem[];
+}
+

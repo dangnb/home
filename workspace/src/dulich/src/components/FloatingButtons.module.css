@@ -11,7 +11,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px;
-  border-radius: 999px;
+  border-radius: 8px;
   background: #ffffff;
   border: 2px solid #d7d2ca;
 }
@@ -20,7 +20,7 @@
   width: 24px;
   height: 2px;
   margin: 2px 0;
-  border-radius: 999px;
+  border-radius: 2px;
   background: #d7d2ca;
 }
 
@@ -43,7 +43,7 @@
   width: 48px;
   height: 48px;
   place-items: center;
-  border-radius: 999px;
+  border-radius: 6px;
   color: #ffffff;
   transition:
     background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -127,7 +127,7 @@
 .pulseRing {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
+  border-radius: 6px;
   border: 2px solid #1b7f4c;
   opacity: 0;
   pointer-events: none;
@@ -159,7 +159,7 @@
   align-items: flex-end;
   gap: 2px;
   padding: 9px 16px;
-  border-radius: 12px;
+  border-radius: 6px;
   background: #182019;
   border: 2px solid #c8a97e;
   color: #ffffff;

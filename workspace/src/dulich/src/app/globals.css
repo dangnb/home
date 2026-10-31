@@ -37,6 +37,13 @@
   --margin: max(clamp(1.25rem, 4.5vw, 3.5rem), calc((100vw - 1180px) / 2));
   --gutter: clamp(0.75rem, 1.2vw, 1.25rem);
 
+  /* Subtle architectural corner radius — used sparingly */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-pill: 4px;
+  --radius-alt: 4px;
+
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);

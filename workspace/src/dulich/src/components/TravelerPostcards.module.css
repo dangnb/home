@@ -58,12 +58,16 @@
   justify-content: space-between;
   gap: 16px;
   padding: clamp(22px, 2.5vw, 30px);
+  border-radius: var(--radius-sm);
   background: var(--bg);
-  transition: background-color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .postcard:hover {
   background: var(--stone-deep);
+  transform: translateY(-3px);
 }
 
 .stampRow {
@@ -73,7 +77,8 @@
 
 .stampBadge {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
   background: var(--surface);
   color: var(--accent);
   font-family: var(--font-sans);
@@ -136,7 +141,10 @@
     padding: 52px var(--margin);
   }
 
-  .postcard {
+  .postcard,
+  .postcard:nth-child(2),
+  .postcard:nth-child(3) {
     grid-column: 1 / -1;
+    margin-top: 0;
   }
 }

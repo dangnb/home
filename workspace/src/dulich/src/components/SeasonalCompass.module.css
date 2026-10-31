@@ -56,19 +56,22 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
-  padding: 14px 16px;
+  padding: 14px 18px;
   border: 0;
+  border-radius: var(--radius-md);
   background: var(--field-dark-surface);
   color: #ffffff;
   cursor: pointer;
   text-align: left;
   transition:
     background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
-    color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .seasonTab:hover:not([data-active="true"]) {
   background: #2c382e;
+  transform: translateY(-2px);
 }
 
 .seasonTab[data-active="true"] {
@@ -96,8 +99,9 @@
 .seasonCard {
   display: flex;
   flex-direction: column;
-  background: var(--field-dark-surface);
   overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--field-dark-surface);
 }
 
 .mediaWrap {
@@ -128,7 +132,8 @@
 }
 
 .tempBadge {
-  padding: 6px 12px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
   background: var(--accent);
   color: #ffffff;
   font-family: var(--font-sans);
@@ -139,6 +144,7 @@
 
 .weatherText {
   padding: 6px 14px;
+  border-radius: var(--radius-pill);
   background: rgba(24, 32, 25, 0.86);
   color: #ffffff;
   font-family: var(--font-sans);
@@ -187,8 +193,8 @@
   justify-content: space-between;
   gap: 16px;
   margin-top: 8px;
-  padding: 16px 20px;
-  background: rgba(18, 25, 19, 0.65);
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .recommendInfo {
@@ -215,8 +221,9 @@
   min-height: 44px;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border: 0;
+  border-radius: var(--radius-pill);
   background: var(--bg);
   color: var(--ink);
   cursor: pointer;
@@ -241,6 +248,16 @@
 @media (max-width: 640px) {
   .compassSection {
     padding: 56px var(--margin);
+  }
+
+  .seasonTab:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .mediaWrap,
+  .cardBody {
+    width: 100%;
+    margin-top: 0;
   }
 
   .seasonTab {

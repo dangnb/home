@@ -152,7 +152,8 @@
   display: inline-flex;
   min-height: 40px;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
   background: var(--field-dark-surface);
   color: #ffffff;
   font-family: var(--font-sans);
@@ -172,7 +173,8 @@
   column-gap: var(--gutter);
   row-gap: 16px;
   align-items: center;
-  padding: 24px 28px;
+  padding: 22px 28px;
+  border-radius: var(--radius-md);
   background: var(--field-dark-surface);
   font-size: var(--step-small);
 }
@@ -191,10 +193,11 @@
   grid-column: 10 / span 3;
   justify-self: end;
   display: inline-flex;
-  min-height: 44px;
+  min-height: 42px;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);

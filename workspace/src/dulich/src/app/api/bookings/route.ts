@@ -1,13 +1,24 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { getServerAdminSession } from "@/lib/adminAuth";
 
 const bookingsFilePath = path.join(process.cwd(), "data", "bookings.json");
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { customerName, phone, tourId, tourTitle, departureDate, guestsCount, notes, totalEstimatedPrice } = body;
+    const {
+      customerName,
+      phone,
+      email,
+      tourId,
+      tourTitle,
+      departureDate,
+      guestsCount,
+      notes,
+      totalEstimatedPrice,
+    } = body;
 
     if (!customerName || !phone) {
       return NextResponse.json(
@@ -20,6 +31,7 @@ export async function POST(request: Request) {
       id: "book_" + Date.now(),
       customerName,
       phone,
+      email: email || "",
       tourId: tourId || null,
       tourTitle: tourTitle || null,
       departureDate: departureDate || null,
@@ -40,7 +52,7 @@ export async function POST(request: Request) {
       existingBookings = [];
     }
 
-    existingBookings.push(newBooking);
+    existingBookings.unshift(newBooking);
 
     try {
       fs.writeFileSync(bookingsFilePath, JSON.stringify(existingBookings, null, 2), "utf8");
@@ -63,6 +75,10 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const session = await getServerAdminSession();
+  if (!session.authenticated) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     if (fs.existsSync(bookingsFilePath)) {
       const fileData = fs.readFileSync(bookingsFilePath, "utf8");

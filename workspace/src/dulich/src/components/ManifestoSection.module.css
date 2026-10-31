@@ -51,6 +51,7 @@
   aspect-ratio: 21 / 9;
   max-height: 320px;
   overflow: hidden;
+  border-radius: var(--radius-sm);
   background: #232f25;
 }
 
@@ -90,18 +91,22 @@
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
+  border-radius: var(--radius-pill);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   white-space: nowrap;
 }
 
 .ctaLink:hover {
   background: var(--surface);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 960px) {

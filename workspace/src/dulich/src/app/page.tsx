@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -21,10 +21,42 @@ import toursData from "../../data/tours.json";
 import categoriesData from "../../data/categories.json";
 import journalData from "../../data/journal.json";
 import settingsData from "../../data/settings.json";
-import type { Tour } from "@/types";
+import mediaData from "../../data/media.json";
+import type { JournalArticle, SiteMedia, SiteSettings, Tour } from "@/types";
 
 export default function HomePage() {
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
+  const [tours, setTours] = useState<Tour[]>(toursData as Tour[]);
+  const [articles, setArticles] = useState<JournalArticle[]>(
+    journalData as JournalArticle[]
+  );
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>(
+    settingsData as SiteSettings
+  );
+  const [siteMedia, setSiteMedia] = useState<SiteMedia>(
+    mediaData as SiteMedia
+  );
+
+  useEffect(() => {
+    fetch("/api/admin", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data) return;
+        if (Array.isArray(data.tours) && data.tours.length > 0) {
+          setTours(data.tours);
+        }
+        if (Array.isArray(data.journal) && data.journal.length > 0) {
+          setArticles(data.journal);
+        }
+        if (data.settings && data.settings.brandName) {
+          setSiteSettings(data.settings);
+        }
+        if (data.media && Array.isArray(data.media.heroSlides)) {
+          setSiteMedia(data.media);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleOpenBooking = (tour: Tour) => {
     setSelectedTour(tour);
@@ -43,33 +75,33 @@ export default function HomePage() {
       <Navbar />
 
       <main>
-        <Hero />
+        <Hero slides={siteMedia.heroSlides} />
         <IntroSection />
         <TourSection
           categories={categoriesData}
-          tours={toursData as Tour[]}
+          tours={tours}
           onOpenBooking={handleOpenBooking}
           onViewDetails={handleViewDetails}
         />
         <SeasonalCompass
-          tours={toursData as Tour[]}
+          tours={tours}
           onSelectTour={handleViewDetails}
         />
-        <DestinationGallery />
+        <DestinationGallery destinations={siteMedia.destinations} />
         <ManifestoSection />
-        <TravelerPostcards />
-        <JournalSection articles={journalData} />
-        <ContactSection />
+        <TravelerPostcards postcards={siteMedia.postcards} />
+        <JournalSection articles={articles} />
+        <ContactSection settings={siteSettings} />
       </main>
 
-      <Footer />
+      <Footer settings={siteSettings} />
 
-      <SlideOutBooking tours={toursData as Tour[]} />
+      <SlideOutBooking tours={tours} />
       <FloatingButtons
-        hotline={settingsData.hotline}
-        zalo={settingsData.zalo}
-        messenger={settingsData.messenger}
-        facebook={settingsData.socials?.facebook}
+        hotline={siteSettings.hotline}
+        zalo={siteSettings.zalo}
+        messenger={siteSettings.messenger}
+        facebook={siteSettings.socials?.facebook}
       />
 
       <AnimatePresence>

@@ -12,24 +12,7 @@ import {
   FiX,
 } from "react-icons/fi";
 
-interface DestinationPhoto {
-  id: string;
-  region: "bac" | "trung" | "nam";
-  regionLabelVi: string;
-  regionLabelEn: string;
-  nameVi: string;
-  nameEn: string;
-  provinceVi: string;
-  provinceEn: string;
-  seasonVi: string;
-  seasonEn: string;
-  timeOfDayVi: string;
-  timeOfDayEn: string;
-  storyVi: string;
-  storyEn: string;
-  image: string;
-  spanWide?: boolean;
-}
+import type { DestinationPhoto } from "@/types";
 
 const DESTINATIONS: DestinationPhoto[] = [
   {
@@ -196,9 +179,17 @@ const DESTINATIONS: DestinationPhoto[] = [
   },
 ];
 
-export default function DestinationGallery() {
+interface DestinationGalleryProps {
+  destinations?: DestinationPhoto[];
+}
+
+export default function DestinationGallery({
+  destinations,
+}: DestinationGalleryProps) {
   const { locale } = useLocale();
   const isEn = locale === "en";
+  const items =
+    destinations && destinations.length > 0 ? destinations : DESTINATIONS;
   const [activeRegion, setActiveRegion] = useState<string>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -207,31 +198,31 @@ export default function DestinationGallery() {
       {
         id: "all",
         label: isEn ? "All destinations" : "Tất cả điểm đến",
-        count: DESTINATIONS.length,
+        count: items.length,
       },
       {
         id: "bac",
         label: isEn ? "Northern Vietnam" : "Miền Bắc",
-        count: DESTINATIONS.filter((d) => d.region === "bac").length,
+        count: items.filter((d) => d.region === "bac").length,
       },
       {
         id: "trung",
         label: isEn ? "Central Heritage" : "Miền Trung",
-        count: DESTINATIONS.filter((d) => d.region === "trung").length,
+        count: items.filter((d) => d.region === "trung").length,
       },
       {
         id: "nam",
         label: isEn ? "Highlands & South" : "Tây Nguyên & Nam Bộ",
-        count: DESTINATIONS.filter((d) => d.region === "nam").length,
+        count: items.filter((d) => d.region === "nam").length,
       },
     ],
-    [isEn],
+    [isEn, items],
   );
 
   const filteredDestinations = useMemo(() => {
-    if (activeRegion === "all") return DESTINATIONS;
-    return DESTINATIONS.filter((item) => item.region === activeRegion);
-  }, [activeRegion]);
+    if (activeRegion === "all") return items;
+    return items.filter((item) => item.region === activeRegion);
+  }, [activeRegion, items]);
 
   const selectedIndex = useMemo(
     () =>

@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       list = [];
     }
 
-    list.push(newContact);
+    list.unshift(newContact);
 
     try {
       fs.writeFileSync(contactsFilePath, JSON.stringify(list, null, 2), "utf8");
