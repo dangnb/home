@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import styles from "./Navbar.module.css";
+import BrandLogo from "./BrandLogo";
 import { useLocale } from "./LocaleProvider";
 import { SUPPORTED_LOCALES, LOCALE_METADATA } from "@/lib/i18n/config";
 import { FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
@@ -14,8 +15,15 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    restDelta: 0.001,
+  });
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => setScrolled(window.scrollY > 48);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -38,9 +46,11 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   const navItems = [
+    { label: dictionary.nav.about, href: "#ban-sac" },
     { label: dictionary.nav.journeys, href: "#hanh-trinh" },
-    { label: dictionary.nav.identity, href: "#ban-sac" },
-    { label: dictionary.nav.philosophy, href: "#cach-di" },
+    { label: locale === "en" ? "Seasons" : "Mùa đi", href: "#la-ban-mua" },
+    { label: dictionary.nav.gallery, href: "#thu-vien-anh" },
+    { label: dictionary.nav.way, href: "#cach-di" },
     { label: dictionary.nav.journal, href: "#nhat-ky" },
     { label: dictionary.nav.contact, href: "#lien-he" },
   ];
@@ -50,13 +60,13 @@ export default function Navbar() {
   return (
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-        <a href="#top" className={styles.brand} aria-label="Nếp Journeys">
-          <span className={styles.brandSymbol}>n.</span>
-          <span className={styles.brandText}>
-            <span>NẾP</span>
-            <span className={styles.brandSub}>JOURNEYS</span>
-          </span>
-        </a>
+        <motion.div
+          className={styles.progressBar}
+          style={{ scaleX }}
+          aria-hidden="true"
+        />
+
+        <BrandLogo size="md" showTagline />
 
         <nav className={styles.navLinks} aria-label="Main Navigation">
           {navItems.map((item) => (
@@ -90,12 +100,9 @@ export default function Navbar() {
             })}
           </div>
 
-          <a href="#lien-he" className={`${styles.headerCta} group`}>
+          <a href="#lien-he" className={styles.headerCta}>
             <span>{dictionary.nav.planTrip}</span>
-            <FiArrowUpRight
-              size={14}
-              className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-            />
+            <FiArrowUpRight size={16} aria-hidden="true" />
           </a>
 
           <button
@@ -111,7 +118,7 @@ export default function Navbar() {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
           >
-            {mobileMenuOpen ? <FiX size={21} /> : <FiMenu size={21} />}
+            {mobileMenuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
           </button>
         </div>
       </header>
@@ -122,7 +129,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className={styles.mobileOverlay}
             onClick={closeMobileMenu}
             role="presentation"
@@ -132,16 +139,18 @@ export default function Navbar() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
               className={styles.mobileDrawer}
               onClick={(event) => event.stopPropagation()}
               aria-label="Mobile navigation"
             >
               <div className={styles.mobileDrawerHead}>
-                <span className={styles.mobileBrand}>
-                  <span className={styles.mobileBrandSymbol}>n.</span>
-                  <span>NẾP JOURNEYS</span>
-                </span>
+                <BrandLogo
+                  size="sm"
+                  showTagline={false}
+                  href="#top"
+                  onClick={closeMobileMenu}
+                />
                 <button
                   type="button"
                   className={styles.mobileClose}
@@ -153,31 +162,25 @@ export default function Navbar() {
               </div>
 
               <nav className={styles.mobileDrawerNav}>
-                {navItems.map((item, index) => (
+                {navItems.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
-                    className={`${styles.mobileNavLink} group`}
+                    className={styles.mobileNavLink}
                     onClick={closeMobileMenu}
                   >
-                    <span className={styles.mobileNavIndex}>0{index + 1}</span>
-                    <span className="transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-                      {item.label}
-                    </span>
+                    <span>{item.label}</span>
                   </a>
                 ))}
               </nav>
 
               <a
                 href="#lien-he"
-                className={`${styles.mobileCta} group`}
+                className={styles.mobileCta}
                 onClick={closeMobileMenu}
               >
                 <span>{dictionary.nav.planTrip}</span>
-                <FiArrowUpRight
-                  size={15}
-                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-                />
+                <FiArrowUpRight size={16} aria-hidden="true" />
               </a>
             </motion.aside>
           </motion.div>

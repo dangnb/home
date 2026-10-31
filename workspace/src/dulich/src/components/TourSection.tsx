@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./TourSection.module.css";
-import ScrollReveal from "./ScrollReveal";
 import type { Tour, Category } from "@/types";
 import TourCard from "./TourCard";
 import { useLocale } from "./LocaleProvider";
-import { FiArrowUpRight } from "react-icons/fi";
 
 interface TourSectionProps {
   categories: Category[];
@@ -38,103 +36,112 @@ export default function TourSection({
 
   return (
     <section className={styles.section} id="hanh-trinh">
-      <ScrollReveal className={styles.headingRow}>
-        <div>
-          <p className={styles.eyebrow}>{dictionary.journeys.eyebrow}</p>
-          <h2 className={styles.title}>
-            {dictionary.journeys.heading}{" "}
-            <em>{dictionary.journeys.headingItalic}</em>
-          </h2>
-        </div>
-        <a
-          href="#hanh-trinh"
-          className={`${styles.allLink} group`}
-          onClick={() => setActiveCategory("all")}
-        >
-          <span>{dictionary.journeys.allLink}</span>
-          <FiArrowUpRight
-            size={14}
-            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-          />
-        </a>
-      </ScrollReveal>
-
-      <ScrollReveal
-        className={styles.filterBar}
-        delay={60}
-        role="group"
-        aria-label={
-          isEn
-            ? "Filter journeys by region"
-            : "Lọc hành trình theo vùng miền"
-        }
+      <motion.div
+        className={styles.headingRow}
+        initial={{ opacity: 0, y: 22 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25, margin: "0px 0px -30px 0px" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        {categories.map((cat) => {
-          const isActive = activeCategory === cat.id;
-          const count =
-            cat.id === "all"
-              ? tours.length
-              : tours.filter((tour) => tour.region === cat.id).length;
+        <h2 className={styles.title}>
+          {dictionary.journeys.heading} {dictionary.journeys.headingItalic}
+        </h2>
 
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              className={styles.filterBtn}
-              data-active={isActive}
-              aria-pressed={isActive}
-              onClick={() => setActiveCategory(cat.id)}
-            >
-              <span>{isEn ? cat.nameEn : cat.name}</span>
-              <span className={styles.filterCount}>
-                {count < 10 ? `0${count}` : count}
-              </span>
-            </button>
-          );
-        })}
-      </ScrollReveal>
+        <div
+          className={styles.filterBar}
+          role="group"
+          aria-label={
+            isEn
+              ? "Filter journeys by region"
+              : "Lọc hành trình theo vùng miền"
+          }
+        >
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            const count =
+              cat.id === "all"
+                ? tours.length
+                : tours.filter((tour) => tour.region === cat.id).length;
 
-      <ScrollReveal delay={100} aria-live="polite">
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                className={styles.filterBtn}
+                data-active={isActive}
+                aria-pressed={isActive}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                <span>{isEn ? cat.nameEn : cat.name}</span>
+                <span className={styles.filterCount}>({count})</span>
+              </button>
+            );
+          })}
+        </div>
+      </motion.div>
+
+      <div aria-live="polite">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className={styles.journeyCollection}
           >
             {featuredTour ? (
-              <div className={styles.featuredItem}>
+              <motion.div
+                className={styles.featuredItem}
+                initial={{ opacity: 0, y: 26 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{
+                  once: true,
+                  amount: 0.18,
+                  margin: "0px 0px -40px 0px",
+                }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <TourCard
                   tour={featuredTour}
                   featured
                   onOpenBooking={onOpenBooking}
                   onViewDetails={onViewDetails}
                 />
-              </div>
+              </motion.div>
             ) : null}
 
             {remainingTours.length ? (
               <div className={styles.grid}>
                 {remainingTours.map((tour, index) => (
-                  <div
+                  <motion.div
                     key={tour.id}
                     className={styles.cardItem}
-                    style={{ "--reveal-order": String(index) } as React.CSSProperties}
+                    initial={{ opacity: 0, y: 28 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{
+                      once: true,
+                      amount: 0.15,
+                      margin: "0px 0px -40px 0px",
+                    }}
+                    transition={{
+                      duration: 0.62,
+                      delay: (index % 3) * 0.1,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                   >
                     <TourCard
                       tour={tour}
                       onOpenBooking={onOpenBooking}
                       onViewDetails={onViewDetails}
                     />
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             ) : null}
           </motion.div>
         </AnimatePresence>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }

@@ -1,0 +1,122 @@
+.logoRoot {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.logoRoot:hover {
+  opacity: 0.88;
+}
+
+.emblem {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.logoRoot:hover .emblem {
+  transform: translateY(-1px);
+}
+
+.emblemSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sm .emblem {
+  width: 36px;
+  height: 36px;
+}
+
+.md .emblem {
+  width: 42px;
+  height: 42px;
+}
+
+.lg .emblem {
+  width: 48px;
+  height: 48px;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.titleRow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1;
+}
+
+.titlePrimary {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.titleAccent {
+  font-family: var(--font-serif);
+  font-size: 23px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: #e4d5be;
+}
+
+.sm .titlePrimary {
+  font-size: 21px;
+}
+
+.sm .titleAccent {
+  font-size: 20px;
+}
+
+.lg .titlePrimary {
+  font-size: 28px;
+}
+
+.lg .titleAccent {
+  font-size: 27px;
+}
+
+.tagline {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: rgba(242, 240, 236, 0.76);
+}
+
+@media (max-width: 640px) {
+  .md .emblem {
+    width: 36px;
+    height: 36px;
+  }
+
+  .md .titlePrimary {
+    font-size: 20px;
+  }
+
+  .md .titleAccent {
+    font-size: 19px;
+  }
+
+  .md .tagline {
+    display: none;
+  }
+}

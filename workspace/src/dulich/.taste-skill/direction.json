@@ -1,0 +1,70 @@
+{
+ "version": 1,
+ "at": "2026-10-31T00:00:00.000Z",
+ "seed": 849201,
+ "redraws": 0,
+ "input": {
+  "brief": "Hành trình văn hóa và nghỉ dưỡng chậm qua ba miền Việt Nam — Nếp Journeys",
+  "sector": "hospitality",
+  "tone": "quiet",
+  "have": [
+   "photography"
+  ],
+  "keep": [],
+  "avoid": [],
+  "sections": [
+   "intro",
+   "work",
+   "about",
+   "gallery",
+   "contact",
+   "footer"
+  ],
+  "direction": "place-carries-it"
+ },
+ "imagery": "own",
+ "allow": [],
+ "direction": {
+  "id": "place-carries-it",
+  "name": "The place carries it",
+  "sectors": [
+   "hospitality",
+   "restaurant",
+   "real-estate",
+   "architecture",
+   "event",
+   "health",
+   "culture",
+   "nonprofit"
+  ],
+  "tones": [
+   "quiet",
+   "luxury",
+   "warm"
+  ]
+ },
+ "palette": {
+  "id": "three-stones",
+  "name": "Three stones & forest",
+  "tags": [
+   "light-neutral",
+   "photographic-neutral"
+  ],
+  "bg": "#eeecea",
+  "surface": "#e4e1dd",
+  "ink": "#1e1d1c",
+  "muted": "#565450",
+  "accent": "#2e4231",
+  "accentInk": "#ffffff",
+  "fields": [
+   {
+    "bg": "#182019",
+    "ink": "#eeecea"
+   },
+   {
+    "bg": "#d7d2ca",
+    "ink": "#1e1d1c"
+   }
+  ]
+ }
+}

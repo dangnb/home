@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./ContactSection.module.css";
-import ScrollReveal from "./ScrollReveal";
 import { useLocale } from "./LocaleProvider";
 import { FiArrowUpRight } from "react-icons/fi";
 import settings from "../../data/settings.json";
@@ -46,21 +45,52 @@ export default function ContactSection() {
 
   return (
     <section className={styles.contact} id="lien-he">
-      <ScrollReveal className={styles.contactTop}>
-        <p className={styles.eyebrow}>{dictionary.contact.eyebrow}</p>
-        <span className={styles.contactMark} aria-hidden="true">
-          NẾP / 01
-        </span>
-      </ScrollReveal>
+      <div className={styles.contactGrid}>
+        <motion.div
+          className={styles.leftCol}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25, margin: "0px 0px -30px 0px" }}
+          transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2 className={styles.heading}>
+            {dictionary.contact.headingMain} {dictionary.contact.headingItalic}
+          </h2>
+          <p className={styles.tagline}>{dictionary.contact.tagline}</p>
 
-      <ScrollReveal className={styles.contactMain} delay={80}>
-        <h2 className={styles.heading}>
-          {dictionary.contact.headingMain}
-          <br />
-          <em>{dictionary.contact.headingItalic}</em>
-        </h2>
+          <div className={styles.contactLinks}>
+            <a
+              href={`tel:${settings.hotline.replace(/\s/g, "")}`}
+              className={styles.mailLink}
+            >
+              {settings.hotlineDisplay}
+            </a>
+            <a href={`mailto:${settings.email}`} className={styles.mailLink}>
+              {settings.email}
+            </a>
+            <a
+              href={settings.zalo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mailLink}
+            >
+              {locale === "en" ? "Chat on Zalo" : "Nhắn tin qua Zalo"}
+            </a>
+          </div>
+        </motion.div>
 
-        <form className={styles.contactForm} onSubmit={handleSubmit}>
+        <motion.form
+          className={styles.contactForm}
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25, margin: "0px 0px -30px 0px" }}
+          transition={{
+            duration: 0.65,
+            delay: 0.12,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
           <label htmlFor="contact-email" className={styles.formLabel}>
             {dictionary.contact.label}
           </label>
@@ -78,18 +108,12 @@ export default function ContactSection() {
             />
             <button
               type="submit"
-              className={`${styles.submitBtn} group`}
+              className={styles.submitBtn}
               aria-label={dictionary.contact.submit}
               disabled={status === "submitting"}
             >
-              {status === "submitting" ? (
-                <span className={styles.loadingDot} aria-hidden="true" />
-              ) : (
-                <FiArrowUpRight
-                  size={19}
-                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-                />
-              )}
+              <span>{dictionary.contact.submit}</span>
+              <FiArrowUpRight size={17} aria-hidden="true" />
             </button>
           </div>
           <AnimatePresence mode="wait">
@@ -99,7 +123,7 @@ export default function ContactSection() {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+                transition={{ duration: 0.25 }}
                 className={`${styles.formMessage} ${status === "error" ? styles.formError : ""}`}
                 role="status"
                 aria-live="polite"
@@ -108,23 +132,8 @@ export default function ContactSection() {
               </motion.p>
             ) : null}
           </AnimatePresence>
-        </form>
-      </ScrollReveal>
-
-      <ScrollReveal className={styles.contactBottom} delay={140}>
-        <span>{dictionary.contact.tagline}</span>
-        <div className={styles.contactLinks}>
-          <a
-            href={`tel:${settings.hotline.replace(/\s/g, "")}`}
-            className={styles.mailLink}
-          >
-            {settings.hotlineDisplay}
-          </a>
-          <a href={`mailto:${settings.email}`} className={styles.mailLink}>
-            {settings.email} ↗
-          </a>
-        </div>
-      </ScrollReveal>
+        </motion.form>
+      </div>
     </section>
   );
 }

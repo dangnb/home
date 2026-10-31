@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Nền ấn triện xanh rừng sâu bo góc -->
+  <rect width="64" height="64" rx="14" fill="#182019" />
+  <!-- Viền trong mảnh màu đá ấm -->
+  <rect x="4.5" y="4.5" width="55" height="55" rx="10.5" stroke="#D7D2CA" stroke-opacity="0.28" stroke-width="1.2" />
+
+  <!-- Mặt trời ban mai phía sau đỉnh núi -->
+  <circle cx="43" cy="19" r="5.5" fill="#C8A97E" fill-opacity="0.92" />
+
+  <!-- Dãy núi đá vôi & ruộng bậc thang cách điệu ở hậu cảnh -->
+  <path
+    d="M10 46L21.5 29.5L30.5 39.5L40.5 26.5L54 46H10Z"
+    fill="#2E4231"
+  />
+
+  <!-- Chữ N nghệ thuật kết hợp dáng hạt lúa / mái nhà cổ Việt Nam -->
+  <path
+    d="M19 46V21.5C19 20.4 20.3 19.8 21.1 20.6L42.9 42.4C43.7 43.2 45 42.6 45 41.5V18"
+    stroke="#EEECEA"
+    stroke-width="3.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Nhành lúa nếp / dấu mũ chữ Ê thanh mảnh phía trên -->
+  <path
+    d="M27.5 16.5L32 12.2L36.5 16.5"
+    stroke="#C8A97E"
+    stroke-width="2.4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Sóng nước êm đềm dưới chân núi -->
+  <path
+    d="M15 51.5C20.5 49.3 26.5 49.3 32 51.5C37.5 53.7 43.5 53.7 49 51.5"
+    stroke="#C8A97E"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+</svg>

@@ -32,18 +32,17 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const closeDrawer = () => setIsOpen(false);
-  const { openWithTrigger } = useOverlayAccessibility(
-    isOpen,
-    closeDrawer,
-    "#quick-tour",
-  );
+  useOverlayAccessibility(isOpen, closeDrawer, "#quick-tour");
 
-  const openDrawer = (event: React.MouseEvent<HTMLButtonElement>) => {
-    openWithTrigger(event.currentTarget);
-    setStatus("idle");
-    setErrorMsg("");
-    setIsOpen(true);
-  };
+  React.useEffect(() => {
+    const handleOpen = () => {
+      setStatus("idle");
+      setErrorMsg("");
+      setIsOpen(true);
+    };
+    window.addEventListener("nep:open-booking", handleOpen);
+    return () => window.removeEventListener("nep:open-booking", handleOpen);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -98,16 +97,6 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
 
   return (
     <>
-      <button
-        type="button"
-        className={styles.tabTrigger}
-        onClick={openDrawer}
-        aria-label={isEn ? "Open quick booking form" : "Mở form đặt tour nhanh"}
-        style={{ display: isOpen ? "none" : "flex" }}
-      >
-        <span>✦ {dictionary.drawer.tabTitle}</span>
-      </button>
-
       <AnimatePresence>
         {isOpen && (
           <>
@@ -115,7 +104,7 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.25 }}
               className={styles.drawerBackdrop}
               onClick={closeDrawer}
               role="presentation"
@@ -124,7 +113,7 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
               className={styles.drawer}
               role="dialog"
               aria-modal="true"
@@ -154,7 +143,7 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{ duration: 0.25 }}
                     className={styles.successBox}
                     role="status"
                     aria-live="polite"
@@ -205,8 +194,8 @@ export default function SlideOutBooking({ tours }: SlideOutBookingProps) {
                         </option>
                         {tours.map((tour) => (
                           <option key={tour.id} value={tour.id}>
-                            {isEn ? tour.titleEn : tour.title} ({tour.location} —{" "}
-                            {tour.price})
+                            {isEn ? tour.titleEn : tour.title} ({tour.location}{" "}
+                            · {tour.price})
                           </option>
                         ))}
                       </select>

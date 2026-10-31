@@ -6,7 +6,10 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import IntroSection from "@/components/IntroSection";
 import TourSection from "@/components/TourSection";
+import SeasonalCompass from "@/components/SeasonalCompass";
+import DestinationGallery from "@/components/DestinationGallery";
 import ManifestoSection from "@/components/ManifestoSection";
+import TravelerPostcards from "@/components/TravelerPostcards";
 import JournalSection from "@/components/JournalSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
@@ -48,22 +51,27 @@ export default function HomePage() {
           onOpenBooking={handleOpenBooking}
           onViewDetails={handleViewDetails}
         />
+        <SeasonalCompass
+          tours={toursData as Tour[]}
+          onSelectTour={handleViewDetails}
+        />
+        <DestinationGallery />
         <ManifestoSection />
+        <TravelerPostcards />
         <JournalSection articles={journalData} />
         <ContactSection />
       </main>
 
       <Footer />
 
-      {/* Floating Elements from suli-salon */}
       <SlideOutBooking tours={toursData as Tour[]} />
       <FloatingButtons
         hotline={settingsData.hotline}
         zalo={settingsData.zalo}
         messenger={settingsData.messenger}
+        facebook={settingsData.socials?.facebook}
       />
 
-      {/* Tour Booking & Detail Pop-up Modal */}
       <AnimatePresence>
         {selectedTour && (
           <TourBookingModal

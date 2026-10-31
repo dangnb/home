@@ -1,34 +1,33 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro, Montserrat, Playfair_Display } from "next/font/google";
+import { Be_Vietnam_Pro, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-import BrandLoader from "@/components/BrandLoader";
 import { LocaleProvider } from "@/components/LocaleProvider";
 
-const montserrat = Montserrat({
+const fontDisplay = Cormorant_Garamond({
   subsets: ["latin", "vietnamese"],
-  variable: "--font-montserrat",
-});
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
-  variable: "--font-playfair",
+  variable: "--font-display",
+  display: "swap",
 });
 
-const beVietnamPro = Be_Vietnam_Pro({
+const fontText = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-be-vietnam-pro",
+  weight: ["400", "500", "600"],
+  variable: "--font-text",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Nếp Journeys — Chạm vào nếp sống Việt",
+  title: "Nếp Journeys · Hành trình văn hóa và nghỉ dưỡng chậm Việt Nam",
   description:
-    "Nếp tạo nên những hành trình riêng tư, chậm rãi và giàu bản sắc tại Việt Nam.",
+    "Nếp kiến tạo những hành trình riêng tư, chậm rãi và giàu bản sắc qua ba miền Việt Nam.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/favicon.svg"],
+    apple: ["/favicon.svg"],
   },
 };
 
@@ -40,10 +39,9 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body
-        className={`${montserrat.variable} ${playfairDisplay.variable} ${beVietnamPro.variable} antialiased`}
+        className={`${fontDisplay.variable} ${fontText.variable} antialiased`}
         suppressHydrationWarning
       >
-        <BrandLoader />
         <LocaleProvider>{children}</LocaleProvider>
       </body>
     </html>

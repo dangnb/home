@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./TourCard.module.css";
 import type { Tour } from "@/types";
 import { useLocale } from "./LocaleProvider";
-import { FiArrowUpRight, FiCompass, FiUsers } from "react-icons/fi";
+import { FiArrowUpRight } from "react-icons/fi";
 
 interface TourCardProps {
   tour: Tour;
@@ -30,22 +30,14 @@ export default function TourCard({
   const transport = isEn ? tour.transportEn : tour.transport;
 
   return (
-    <article
-      className={`${styles.card} ${featured ? styles.featured : ""} group`}
-    >
+    <article className={`${styles.card} ${featured ? styles.featured : ""}`}>
       <button
         type="button"
         className={styles.visualLink}
         onClick={() => onViewDetails(tour)}
         aria-label={isEn ? `View details for ${title}` : `Xem chi tiết ${title}`}
       >
-        {badge ? (
-          <span
-            className={`${styles.badge} ${tour.isSale ? styles.saleBadge : ""}`}
-          >
-            {badge}
-          </span>
-        ) : null}
+        {badge ? <span className={styles.badge}>{badge}</span> : null}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={tour.image}
@@ -53,21 +45,15 @@ export default function TourCard({
           className={styles.image}
           loading="lazy"
         />
-        <span className={styles.imageOverlay} aria-hidden="true" />
-        <span className={styles.regionLabel}>{regionLabel}</span>
-        <span className={styles.arrowBtn} aria-hidden="true">
-          <FiArrowUpRight
-            size={16}
-            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]"
-          />
-        </span>
+        <span className={styles.regionPill}>{regionLabel}</span>
       </button>
 
       <div className={styles.content}>
-        <div className={styles.cardMeta}>
+        <p className={styles.cardMeta}>
           <span>{tour.location}</span>
+          <span aria-hidden="true">·</span>
           <span>{duration}</span>
-        </div>
+        </p>
 
         <button
           type="button"
@@ -76,17 +62,12 @@ export default function TourCard({
         >
           <h3 className={styles.title}>{title}</h3>
         </button>
+
         <p className={styles.subtitle}>{subtitle}</p>
 
         <div className={styles.supportingMeta}>
-          <span>
-            <FiUsers size={13} aria-hidden="true" />
-            {groupSize}
-          </span>
-          <span>
-            <FiCompass size={13} aria-hidden="true" />
-            {transport}
-          </span>
+          <p className={styles.metaLine}>{groupSize}</p>
+          <p className={styles.metaLine}>{transport}</p>
         </div>
 
         <div className={styles.footer}>
@@ -96,18 +77,24 @@ export default function TourCard({
             </span>
             <span className={styles.priceValue}>{tour.price}</span>
           </div>
-          <button
-            type="button"
-            className={`${styles.bookBtn} group/btn`}
-            onClick={() => onOpenBooking(tour)}
-          >
-            <span>{dictionary.journeys.bookNow}</span>
-            <FiArrowUpRight
-              size={14}
-              aria-hidden="true"
-              className="transition-transform duration-300 ease-in-out group-hover/btn:translate-x-[2px] group-hover/btn:-translate-y-[1px]"
-            />
-          </button>
+
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.detailBtn}
+              onClick={() => onViewDetails(tour)}
+            >
+              <span>{dictionary.journeys.viewDetails}</span>
+            </button>
+            <button
+              type="button"
+              className={styles.bookBtn}
+              onClick={() => onOpenBooking(tour)}
+            >
+              <span>{dictionary.journeys.bookNow}</span>
+              <FiArrowUpRight size={15} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
     </article>

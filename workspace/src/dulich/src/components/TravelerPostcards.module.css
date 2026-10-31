@@ -1,0 +1,142 @@
+.postcardsSection {
+  padding: clamp(64px, 7vw, 100px) var(--margin);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.headerGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 16px;
+  align-items: end;
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.titleBlock {
+  grid-column: 1 / span 7;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.heading {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--step-head);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.summary {
+  grid-column: 8 / span 5;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.6;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: 24px;
+}
+
+.postcard {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(22px, 2.5vw, 30px);
+  background: var(--bg);
+  transition: background-color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.postcard:hover {
+  background: var(--stone-deep);
+}
+
+.stampRow {
+  display: flex;
+  align-items: center;
+}
+
+.stampBadge {
+  display: inline-block;
+  padding: 5px 10px;
+  background: var(--surface);
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.quoteTitle {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.12rem + 0.45vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.24;
+}
+
+.quoteBody {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.62;
+}
+
+.guestFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.guestName {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.guestRole {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--step-small);
+}
+
+@media (max-width: 1024px) {
+  .titleBlock,
+  .summary {
+    grid-column: 1 / -1;
+  }
+
+  .postcard {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 680px) {
+  .postcardsSection {
+    padding: 52px var(--margin);
+  }
+
+  .postcard {
+    grid-column: 1 / -1;
+  }
+}

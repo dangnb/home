@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import styles from "./JournalSection.module.css";
-import ScrollReveal from "./ScrollReveal";
 import type { JournalArticle } from "@/types";
 import { useLocale } from "./LocaleProvider";
 import { FiArrowUpRight, FiX } from "react-icons/fi";
@@ -63,30 +62,33 @@ export default function JournalSection({ articles }: JournalSectionProps) {
 
   return (
     <section className={styles.journal} id="nhat-ky">
-      <ScrollReveal className={styles.headingRow}>
-        <div>
-          <p className={styles.eyebrow}>{dictionary.journal.eyebrow}</p>
-          <h2 className={styles.title}>
-            {dictionary.journal.heading}{" "}
-            <em>{dictionary.journal.headingItalic}</em>
-          </h2>
-        </div>
+      <motion.div
+        className={styles.headingRow}
+        initial={{ opacity: 0, y: 22 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25, margin: "0px 0px -30px 0px" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <h2 className={styles.title}>
+          {dictionary.journal.heading} {dictionary.journal.headingItalic}
+        </h2>
         <button
           type="button"
-          className={`${styles.allLink} group`}
+          className={styles.allLink}
           onClick={(event) => handleOpenArticle(featured, event)}
         >
           <span>{dictionary.journal.allLink}</span>
-          <FiArrowUpRight
-            size={14}
-            className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-          />
+          <FiArrowUpRight size={15} aria-hidden="true" />
         </button>
-      </ScrollReveal>
+      </motion.div>
 
-      <ScrollReveal className={styles.journalGrid} delay={80}>
-        <article
-          className={`${styles.journalFeature} group`}
+      <div className={styles.journalGrid}>
+        <motion.article
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.18, margin: "0px 0px -40px 0px" }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className={styles.journalFeature}
           onClick={(event) => handleOpenArticle(featured, event)}
           role="button"
           tabIndex={0}
@@ -96,7 +98,7 @@ export default function JournalSection({ articles }: JournalSectionProps) {
               setActiveArticle(featured);
             }
           }}
-          aria-label={`${featuredCopy.title} — ${dictionary.journal.readStory}`}
+          aria-label={`${featuredCopy.title}: ${dictionary.journal.readStory}`}
         >
           <div className={styles.journalPhoto}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -107,31 +109,43 @@ export default function JournalSection({ articles }: JournalSectionProps) {
             />
           </div>
           <div className={styles.journalCopy}>
-            <p className={styles.articleTag}>{featuredCopy.tag}</p>
             <p className={styles.articleMeta}>
-              {featuredCopy.date} · {featuredCopy.readTime}
+              <span>{featuredCopy.tag}</span>
+              <span aria-hidden="true">·</span>
+              <span>{featuredCopy.date}</span>
+              <span aria-hidden="true">·</span>
+              <span>{featuredCopy.readTime}</span>
             </p>
             <h3 className={styles.articleTitle}>{featuredCopy.title}</h3>
             <p className={styles.articleExcerpt}>{featuredCopy.excerpt}</p>
             <div className={styles.articleFooter}>
-              <span>{featuredCopy.author}</span>
+              <span className={styles.authorName}>{featuredCopy.author}</span>
               <span className={styles.readLink}>
                 <span>{dictionary.journal.readStory}</span>
-                <FiArrowUpRight
-                  size={13}
-                  className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-                />
+                <FiArrowUpRight size={15} aria-hidden="true" />
               </span>
             </div>
           </div>
-        </article>
+        </motion.article>
 
         {secondary
           ? (() => {
               const secondaryCopy = getArticleCopy(secondary);
               return (
-                <article
-                  className={`${styles.secondaryStory} group`}
+                <motion.article
+                  initial={{ opacity: 0, y: 26 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{
+                    once: true,
+                    amount: 0.18,
+                    margin: "0px 0px -40px 0px",
+                  }}
+                  transition={{
+                    duration: 0.65,
+                    delay: 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className={styles.secondaryStory}
                   onClick={(event) => handleOpenArticle(secondary, event)}
                   role="button"
                   tabIndex={0}
@@ -141,7 +155,7 @@ export default function JournalSection({ articles }: JournalSectionProps) {
                       setActiveArticle(secondary);
                     }
                   }}
-                  aria-label={`${secondaryCopy.title} — ${dictionary.journal.readStory}`}
+                  aria-label={`${secondaryCopy.title}: ${dictionary.journal.readStory}`}
                 >
                   <div className={styles.secondaryPhoto}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -152,24 +166,27 @@ export default function JournalSection({ articles }: JournalSectionProps) {
                     />
                   </div>
                   <div className={styles.secondaryBody}>
-                    <p className={styles.articleTag}>{secondaryCopy.tag}</p>
-                    <h3>{secondaryCopy.title}</h3>
                     <p className={styles.secondaryMeta}>
-                      {secondaryCopy.date} · {secondaryCopy.readTime}
+                      <span>{secondaryCopy.tag}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{secondaryCopy.date}</span>
+                    </p>
+                    <h3 className={styles.secondaryTitle}>
+                      {secondaryCopy.title}
+                    </h3>
+                    <p className={styles.secondaryExcerpt}>
+                      {secondaryCopy.excerpt}
                     </p>
                     <span className={styles.readLink}>
                       <span>{dictionary.journal.readStory}</span>
-                      <FiArrowUpRight
-                        size={13}
-                        className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-                      />
+                      <FiArrowUpRight size={15} aria-hidden="true" />
                     </span>
                   </div>
-                </article>
+                </motion.article>
               );
             })()
           : null}
-      </ScrollReveal>
+      </div>
 
       <AnimatePresence>
         {activeArticle && activeCopy && (
@@ -177,7 +194,7 @@ export default function JournalSection({ articles }: JournalSectionProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.25 }}
             className={styles.modalOverlay}
             onClick={closeArticle}
             role="presentation"
@@ -187,7 +204,7 @@ export default function JournalSection({ articles }: JournalSectionProps) {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
               className={styles.articleModal}
               onClick={(event) => event.stopPropagation()}
               role="dialog"
@@ -211,7 +228,6 @@ export default function JournalSection({ articles }: JournalSectionProps) {
                   alt={activeCopy.title}
                   className={styles.modalHeroImage}
                 />
-                <div className={styles.modalHeroShade} />
                 <div className={styles.modalHeroCaption}>
                   <span>{activeCopy.tag}</span>
                   {activeCopy.location ? (
@@ -251,12 +267,7 @@ export default function JournalSection({ articles }: JournalSectionProps) {
 
                 <div className={styles.modalBodyCopy}>
                   {activeCopy.paragraphs.map((paragraph, idx) => (
-                    <p
-                      key={idx}
-                      className={idx === 0 ? styles.dropCapParagraph : undefined}
-                    >
-                      {paragraph}
-                    </p>
+                    <p key={idx}>{paragraph}</p>
                   ))}
                 </div>
 
@@ -264,21 +275,20 @@ export default function JournalSection({ articles }: JournalSectionProps) {
                   {nextArticle ? (
                     <button
                       type="button"
-                      className={`${styles.nextStoryBtn} group`}
+                      className={styles.nextStoryBtn}
                       onClick={() => setActiveArticle(nextArticle)}
                     >
                       <span className={styles.nextStoryLabel}>
-                        {isEn ? "NEXT NOTE" : "GHI CHÉP TIẾP THEO"}
+                        {isEn ? "Next note" : "Ghi chép tiếp theo"}
                       </span>
                       <span className={styles.nextStoryTitle}>
                         {isEn ? nextArticle.titleEn : nextArticle.title}
-                        <FiArrowUpRight
-                          size={15}
-                          className="transition-transform duration-300 ease-in-out group-hover:translate-x-[2px] group-hover:-translate-y-[1px]"
-                        />
+                        <FiArrowUpRight size={15} aria-hidden="true" />
                       </span>
                     </button>
-                  ) : <span />}
+                  ) : (
+                    <span />
+                  )}
 
                   <a
                     href="#hanh-trinh"
@@ -286,9 +296,9 @@ export default function JournalSection({ articles }: JournalSectionProps) {
                     onClick={closeArticle}
                   >
                     <span>
-                      {isEn ? "Explore Journeys" : "Xem các hành trình"}
+                      {isEn ? "Explore journeys" : "Xem các hành trình"}
                     </span>
-                    <FiArrowUpRight size={14} />
+                    <FiArrowUpRight size={15} aria-hidden="true" />
                   </a>
                 </div>
               </div>

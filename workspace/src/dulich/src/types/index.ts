@@ -29,7 +29,7 @@ export interface Tour {
   transport: string;
   transportEn: string;
   image: string;
-  gallery: string[];
+  gallery?: string[];
   highlights: string[];
   highlightsEn: string[];
   itinerary: TourItineraryItem[];
@@ -45,7 +45,7 @@ export interface Category {
 
 export interface JournalArticle {
   id: string;
-  slug: string;
+  slug?: string;
   title: string;
   titleEn: string;
   readTime: string;

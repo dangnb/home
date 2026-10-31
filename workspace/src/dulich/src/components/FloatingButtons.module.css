@@ -1,141 +1,222 @@
-.container {
+.dock {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 999;
+  right: 20px;
+  bottom: 20px;
+  z-index: 950;
+}
+
+.rail {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding: 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid #d7d2ca;
 }
 
-.buttonStack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+.divider {
+  width: 24px;
+  height: 2px;
+  margin: 2px 0;
+  border-radius: 999px;
+  background: #d7d2ca;
 }
 
-.button {
+.item {
   position: relative;
   display: flex;
-  width: 44px;
-  height: 44px;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: var(--radius-sm);
-  color: #fff;
-  box-shadow: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
   text-decoration: none;
-  transition:
-    background-color 300ms ease-in-out,
-    border-color 300ms ease-in-out;
 }
 
-.button:hover {
-  border-color: var(--gold-soft);
-}
-
-.icon {
+.circleBtn {
   position: relative;
-  z-index: 1;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 999px;
+  color: #ffffff;
+  transition:
+    background-color 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.phone {
-  background: var(--deep-green);
+.item:hover .circleBtn {
+  transform: scale(1.08);
 }
 
-.phone:hover {
-  background: var(--green-accent);
+/* 1. Nút Lên đầu trang: nền xanh rừng đậm + viền vàng đồng rõ nét */
+.topItem .circleBtn {
+  background: #182019;
+  color: #ffffff;
 }
 
-.zalo {
-  background: #1f4f43;
+.topItem:hover .circleBtn {
+  background: #2e4231;
 }
 
-.zalo:hover {
-  background: var(--green-accent);
+.progressSvg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
 }
 
-.messenger {
-  background: #163a30;
+.progressTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.24);
+  stroke-width: 2.5;
 }
 
-.messenger:hover {
-  background: var(--green-accent);
+.progressBar {
+  fill: none;
+  stroke: #e5b96f;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 2. Nút Facebook: xanh chuẩn Facebook sắc nét ngay từ đầu */
+.fbItem .circleBtn {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.fbItem:hover .circleBtn {
+  background: #0f62d0;
+}
+
+/* 3. Nút Zalo: xanh chuẩn Zalo + chữ trắng đậm rõ nét */
+.zaloItem .circleBtn {
+  background: #0068ff;
+  color: #ffffff;
+}
+
+.zaloItem:hover .circleBtn {
+  background: #0054d1;
 }
 
 .zaloText {
-  position: relative;
-  z-index: 1;
-  color: #fff;
-  font-family: var(--font-ui), sans-serif;
-  font-size: 10px;
+  font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #ffffff;
 }
 
-.pulseRing,
-.pulseRingDelayed {
-  display: none;
+/* 4. Nút Gọi điện thoại: xanh ngọc lục bảo nổi bật + vòng sóng */
+.phoneItem .circleBtn {
+  background: #1b7f4c;
+  color: #ffffff;
 }
 
-.tooltip {
+.phoneItem:hover .circleBtn {
+  background: #14633b;
+}
+
+.pulseRing {
   position: absolute;
-  top: 50%;
-  left: 54px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 0;
-  background: var(--deep-green);
-  color: var(--paper);
-  font-family: var(--font-body);
-  font-size: 11px;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid #1b7f4c;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-50%) translateX(-4px);
-  transition:
-    opacity 250ms ease-in-out,
-    transform 250ms ease-in-out;
+  animation: gentlePulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes gentlePulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  80% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+/* Thẻ chú thích trượt bên trái khi hover */
+.labelCard {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 9px 16px;
+  border-radius: 12px;
+  background: #182019;
+  border: 2px solid #c8a97e;
+  color: #ffffff;
   white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) translateX(8px);
+  transition:
+    opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tooltip strong {
-  color: var(--gold-soft);
-  font-family: var(--font-ui);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.tooltip .subtext {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 10.5px;
-}
-
-.button:hover .tooltip {
+.item:hover .labelCard,
+.item:focus-visible .labelCard {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
 
+.labelTitle {
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.labelSub {
+  color: #e5b96f;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
 @media (max-width: 640px) {
-  .container {
+  .dock {
+    right: 14px;
     bottom: max(14px, env(safe-area-inset-bottom));
-    left: 14px;
   }
-  .button {
-    width: 40px;
-    height: 40px;
-  }
-  .tooltip {
-    display: none;
-  }
-  .buttonStack {
+
+  .rail {
+    padding: 6px;
     gap: 6px;
+  }
+
+  .circleBtn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .progressSvg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .labelCard {
+    display: none;
   }
 }
