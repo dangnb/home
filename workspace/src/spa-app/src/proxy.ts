@@ -8,7 +8,7 @@ const secretKey = new TextEncoder().encode(process.env.JWT_SECRET || 'ngochuongs
 
 const intlMiddleware = createMiddleware(routing);
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   const isApi = pathname.startsWith('/api');

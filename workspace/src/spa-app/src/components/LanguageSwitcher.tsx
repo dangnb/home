@@ -13,16 +13,16 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-1 items-center bg-gray-100 rounded-full p-1">
+    <div className="flex gap-1 items-center bg-[#f4ece1] border border-[#e8ddd0] rounded-full p-1">
       <button 
         onClick={() => handleLocaleChange('vi')}
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${locale === 'vi' ? 'bg-primary text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`px-3 py-1 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${locale === 'vi' ? 'bg-[#9e5a6b] text-white shadow-xs' : 'text-[#6e5c57] hover:text-[#3d312e]'}`}
       >
         VI
       </button>
       <button 
         onClick={() => handleLocaleChange('en')}
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${locale === 'en' ? 'bg-primary text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+        className={`px-3 py-1 rounded-full text-xs font-semibold tracking-wider transition-all cursor-pointer ${locale === 'en' ? 'bg-[#9e5a6b] text-white shadow-xs' : 'text-[#6e5c57] hover:text-[#3d312e]'}`}
       >
         EN
       </button>

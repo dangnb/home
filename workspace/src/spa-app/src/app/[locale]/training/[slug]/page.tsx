@@ -3,16 +3,13 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, Clock, Award, CheckCircle2, BookOpen, GraduationCap } from 'lucide-react';
 import FadeIn from '@/components/FadeIn';
+import { readDb } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
-
-const VALID_SLUGS = ['basic', 'advanced', 'body', 'management'];
-
-export function generateStaticParams() {
-  return VALID_SLUGS.map((slug) => ({ slug }));
-}
 
 export default async function TrainingDetailsPage(props: Props) {
   const params = await props.params;
@@ -20,7 +17,10 @@ export default async function TrainingDetailsPage(props: Props) {
   
   setRequestLocale(locale);
 
-  if (!VALID_SLUGS.includes(slug)) {
+  const courses = (await readDb('training')) || [];
+  const course = courses.find((c: any) => c.slug === slug || c.id === slug);
+
+  if (!course) {
     notFound();
   }
 
@@ -28,16 +28,17 @@ export default async function TrainingDetailsPage(props: Props) {
   const tNav = await getTranslations('Navigation');
   const tCommon = t.raw('common') as Record<string, string>;
 
-  const title = t(`courses.${slug}.title`);
-  const description = t(`courses.${slug}.desc`);
-  const duration = t(`courses.${slug}.duration`);
-  const level = t(`courses.${slug}.level`);
-  const price = t(`courses.${slug}.price`);
+  const content = course[locale] || course['vi'] || {};
+  const title = content.title || '';
+  const description = content.excerpt || '';
+  const duration = course.duration || '';
+  const level = content.level || '';
+  const price = course.price || '';
 
-  const benefits = t.raw(`courses.${slug}.benefits`) as string[];
-  const curriculum = t.raw(`courses.${slug}.curriculum`) as { title: string, desc: string }[];
+  const benefits = Array.isArray(content.benefits) ? content.benefits : [];
+  const curriculum = Array.isArray(content.curriculum) ? content.curriculum : [];
 
-  const heroImage = slug === 'basic' ? '/spa_gallery.png' : slug === 'advanced' ? '/spa_service.png' : '/spa_about.png';
+  const heroImage = course.image || '/spa_service.png';
 
   return (
     <main className="flex-1 w-full bg-gray-50 pb-24">
@@ -72,7 +73,7 @@ export default async function TrainingDetailsPage(props: Props) {
             <FadeIn>
               <div className="grid grid-cols-2 gap-4 mb-12">
                 <div className="h-64 rounded-3xl overflow-hidden shadow-sm">
-                  <img src="/spa_service.png" alt="Training" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  <img src={heroImage} alt="Training" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="h-64 rounded-3xl overflow-hidden shadow-sm">
                   <img src="/spa_about.png" alt="Practice" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
@@ -80,23 +81,27 @@ export default async function TrainingDetailsPage(props: Props) {
               </div>
             </FadeIn>
 
-            <FadeIn>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <GraduationCap className="w-8 h-8 text-primary" /> {tCommon.benefits}
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-16">
-                <ul className="space-y-5">
-                  {benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-start gap-4">
-                      <CheckCircle2 className="w-7 h-7 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-lg font-medium">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
+            {benefits.length > 0 && (
+              <>
+                <FadeIn>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <GraduationCap className="w-8 h-8 text-primary" /> {tCommon.benefits}
+                  </h2>
+                </FadeIn>
+                <FadeIn delay={0.1}>
+                  <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-16">
+                    <ul className="space-y-5">
+                      {benefits.map((benefit: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-4">
+                          <CheckCircle2 className="w-7 h-7 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-700 text-lg font-medium">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeIn>
+              </>
+            )}
 
             <FadeIn>
               <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
@@ -104,7 +109,7 @@ export default async function TrainingDetailsPage(props: Props) {
               </h2>
             </FadeIn>
             <div className="space-y-6 mb-16">
-              {curriculum.map((step, idx) => (
+              {curriculum.map((step: any, idx: number) => (
                 <FadeIn key={idx} delay={0.1 * idx}>
                   <div className="flex gap-6 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-primary/30 transition-colors group">
                     <div className="flex-shrink-0 w-14 h-14 bg-gray-50 text-gray-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors rounded-full flex items-center justify-center font-bold text-xl">

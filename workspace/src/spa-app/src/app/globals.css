@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #9B2D77;
+  --background: #fcf9f5;
+  --foreground: #3d312e;
+  --primary: #9e5a6b;
   --primary-foreground: #ffffff;
+  --accent-gold: #c8a46e;
+  --sage: #6e806b;
+  --warm-sand: #f4ece1;
 }
 
 @theme inline {
@@ -12,22 +15,42 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-jakarta);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #b3398c;
-    --primary-foreground: #ffffff;
-  }
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-jakarta), Arial, Helvetica, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.7;
   overflow-x: hidden;
-  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, textarea, select {
+  color: #3d312e;
+  font-size: 1rem;
+}
+
+/* Soft Spa Custom Utilities */
+.spa-card {
+  background: #ffffff;
+  border: 1px solid #efe6dd;
+  box-shadow: 0 12px 36px -12px rgba(110, 80, 75, 0.08);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.spa-card:hover {
+  box-shadow: 0 20px 44px -12px rgba(158, 90, 107, 0.14);
+  transform: translateY(-3px);
 }

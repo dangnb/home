@@ -1,0 +1,10 @@
+[
+  {
+    "id": "booking-1",
+    "name": "Nguyễn Thị Mai",
+    "phone": "0901234567",
+    "service": "Chăm Sóc Da Mặt Chuyên Sâu",
+    "status": "pending",
+    "createdAt": "2026-05-15T10:30:00.000Z"
+  }
+]

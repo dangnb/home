@@ -3,17 +3,13 @@ import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, Clock, DollarSign, CheckCircle2 } from 'lucide-react';
 import FadeIn from '@/components/FadeIn';
+import { readDb } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
-
-// valid slugs for static generation
-const VALID_SLUGS = ['facial', 'massage', 'laser', 'thai-chi', 'phuc-hoi-da', 'thai-doc'];
-
-export function generateStaticParams() {
-  return VALID_SLUGS.map((slug) => ({ slug }));
-}
 
 export default async function ServiceDetailsPage(props: Props) {
   const params = await props.params;
@@ -21,24 +17,26 @@ export default async function ServiceDetailsPage(props: Props) {
   
   setRequestLocale(locale);
 
-  if (!VALID_SLUGS.includes(slug)) {
+  const services = (await readDb('services')) || [];
+  const service = services.find((s: any) => s.slug === slug || s.id === slug);
+
+  if (!service) {
     notFound();
   }
 
-  const t = await getTranslations('Services');
   const tNav = await getTranslations('Navigation');
   const tCommon = await getTranslations('Services.common');
 
-  // We have dynamic keys based on slug
-  const title = t(`${slug}.title`);
-  const description = t(`${slug}.description`);
-  const duration = t(`${slug}.duration`);
-  const price = t(`${slug}.price`);
+  const content = service[locale] || service['vi'] || {};
+  const title = content.title || '';
+  const description = content.excerpt || '';
+  const duration = service.duration || '';
+  const price = service.price || '';
 
-  const benefits = t.raw(`${slug}.benefits`) as string[];
-  const steps = t.raw(`${slug}.steps`) as { title: string, desc: string }[];
+  const benefits = Array.isArray(content.benefits) ? content.benefits : [];
+  const steps = Array.isArray(content.steps) ? content.steps : [];
 
-  const heroImage = slug === 'facial' ? '/spa_service.png' : slug === 'massage' ? '/spa_about.png' : '/spa_gallery.png';
+  const heroImage = service.image || '/spa_service.png';
 
   return (
     <main className="flex-1 w-full bg-gray-50 pb-24">
@@ -71,7 +69,7 @@ export default async function ServiceDetailsPage(props: Props) {
             </FadeIn>
             
             <div className="space-y-8 mb-16">
-              {steps.map((step, idx) => (
+              {steps.map((step: any, idx: number) => (
                 <div key={idx}>
                   <FadeIn delay={0.1 * idx}>
                     <div className="flex gap-6 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -85,7 +83,6 @@ export default async function ServiceDetailsPage(props: Props) {
                     </div>
                   </FadeIn>
 
-                  {/* Inject a beautiful image halfway through the steps for professional look */}
                   {idx === Math.floor(steps.length / 2) - 1 && (
                     <FadeIn delay={0.2} className="mt-8 mb-2">
                       <div className="w-full h-[300px] rounded-2xl overflow-hidden shadow-md">
@@ -101,21 +98,25 @@ export default async function ServiceDetailsPage(props: Props) {
               ))}
             </div>
 
-            <FadeIn>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">{tCommon('benefits')}</h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-10 hover:shadow-md transition-shadow">
-                <ul className="space-y-5">
-                  {benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-start gap-4">
-                      <CheckCircle2 className="w-7 h-7 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 text-lg font-medium">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
+            {benefits.length > 0 && (
+              <>
+                <FadeIn>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-6">{tCommon('benefits')}</h2>
+                </FadeIn>
+                <FadeIn delay={0.2}>
+                  <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-10 hover:shadow-md transition-shadow">
+                    <ul className="space-y-5">
+                      {benefits.map((benefit: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-4">
+                          <CheckCircle2 className="w-7 h-7 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-700 text-lg font-medium">{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeIn>
+              </>
+            )}
           </div>
 
           {/* Sticky Sidebar: Right Column */}
@@ -167,14 +168,15 @@ export default async function ServiceDetailsPage(props: Props) {
         </FadeIn>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {VALID_SLUGS.filter(s => s !== slug).slice(0, 3).map((relSlug, idx) => {
-            const relTitle = t(`${relSlug}.title`);
-            const relDesc = t(`${relSlug}.description`);
-            const relPrice = t(`${relSlug}.price`);
-            const relImage = relSlug === 'facial' ? '/spa_service.png' : relSlug === 'massage' ? '/spa_about.png' : '/spa_gallery.png';
+          {services.filter((s: any) => s.slug !== service.slug).slice(0, 3).map((relService: any, idx: number) => {
+            const relContent = relService[locale] || relService['vi'] || {};
+            const relTitle = relContent.title || '';
+            const relDesc = relContent.excerpt || '';
+            const relPrice = relService.price || '';
+            const relImage = relService.image || '/spa_service.png';
 
             return (
-              <FadeIn key={relSlug} delay={idx * 0.15}>
+              <FadeIn key={relService.id || idx} delay={idx * 0.15}>
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 flex flex-col h-full group">
                   <div className="h-48 overflow-hidden">
                     <img src={relImage} alt={relTitle} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -184,7 +186,7 @@ export default async function ServiceDetailsPage(props: Props) {
                     <p className="text-gray-500 text-sm mb-4 line-clamp-2 flex-1">{relDesc}</p>
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
                       <span className="font-bold text-primary">{relPrice}</span>
-                      <Link href={`/services/${relSlug}`} className="text-sm font-semibold text-gray-900 hover:text-primary transition-colors flex items-center gap-1">
+                      <Link href={`/services/${relService.slug}`} className="text-sm font-semibold text-gray-900 hover:text-primary transition-colors flex items-center gap-1">
                         {tCommon('viewMore')} <ChevronRight className="w-4 h-4" />
                       </Link>
                     </div>

@@ -1,0 +1,260 @@
+[
+  {
+    "id": "facial",
+    "slug": "facial",
+    "image": "/spa_service.png",
+    "duration": "60 Phút",
+    "price": "Từ 500.000 VNĐ",
+    "featured": true,
+    "category": "facial-care",
+    "vi": {
+      "title": "Chăm Sóc Da Mặt Chuyên Sâu",
+      "excerpt": "Trẻ hóa làn da của bạn với liệu trình chăm sóc da mặt cao cấp sử dụng các sản phẩm hữu cơ hoàn toàn tự nhiên.",
+      "content": "<p>Trẻ hóa làn da của bạn với liệu trình chăm sóc da mặt cao cấp sử dụng các sản phẩm hữu cơ hoàn toàn tự nhiên.</p>",
+      "benefits": [
+        "Làm sạch sâu lỗ chân lông",
+        "Cấp ẩm và nuôi dưỡng làn da",
+        "Giảm nếp nhăn và dấu hiệu lão hóa"
+      ],
+      "steps": [
+        { "title": "Bước 1: Làm sạch", "desc": "Tẩy trang và loại bỏ bụi bẩn trên bề mặt da." },
+        { "title": "Bước 2: Tẩy tế bào chết", "desc": "Loại bỏ lớp sừng già cỗi, giúp da sáng mịn hơn." },
+        { "title": "Bước 3: Massage", "desc": "Massage mặt chuyên sâu giúp tăng cường lưu thông máu và thư giãn." },
+        { "title": "Bước 4: Đắp mặt nạ", "desc": "Đắp mặt nạ cao cấp phù hợp với từng loại da." }
+      ]
+    },
+    "en": {
+      "title": "Advanced Facial Treatment",
+      "excerpt": "Rejuvenate your skin with our premium facial treatment using high-end organic products.",
+      "content": "<p>Rejuvenate your skin with our premium facial treatment using high-end organic products.</p>",
+      "benefits": [
+        "Deeply cleanses pores",
+        "Hydrates and nourishes skin",
+        "Reduces fine lines and wrinkles"
+      ],
+      "steps": [
+        { "title": "Step 1: Cleansing", "desc": "Removing makeup and impurities from the skin surface." },
+        { "title": "Step 2: Exfoliation", "desc": "Removing dead skin cells to reveal a brighter complexion." },
+        { "title": "Step 3: Massage", "desc": "Facial massage to improve blood circulation and relaxation." },
+        { "title": "Step 4: Mask", "desc": "Applying a premium hydrating mask tailored to your skin type." }
+      ]
+    }
+  },
+  {
+    "id": "massage",
+    "slug": "massage",
+    "image": "/spa_about.png",
+    "duration": "90 Phút",
+    "price": "Từ 800.000 VNĐ",
+    "featured": true,
+    "category": "full-body-massage",
+    "vi": {
+      "title": "Massage Trị Liệu Toàn Thân",
+      "excerpt": "Liệu pháp massage toàn thân giúp thư giãn cơ bắp, giảm căng thẳng mệt mỏi hiệu quả.",
+      "content": "<p>Liệu pháp massage toàn thân giúp thư giãn cơ bắp, giảm căng thẳng mệt mỏi hiệu quả.</p>",
+      "benefits": [
+        "Giảm đau nhức cơ bắp tức thì",
+        "Tăng cường lưu thông tuần hoàn máu",
+        "Mang lại giấc ngủ sâu và ngon hơn"
+      ],
+      "steps": [
+        { "title": "Bước 1: Tư vấn", "desc": "Trao đổi về tình trạng sức khỏe và vùng cơ cần tập trung." },
+        { "title": "Bước 2: Khởi động", "desc": "Thao tác nhẹ nhàng để làm nóng cơ thể." },
+        { "title": "Bước 3: Ấn huyệt sâu", "desc": "Tác động vào các huyệt đạo để giải tỏa sự ách tắc." },
+        { "title": "Bước 4: Thư giãn", "desc": "Kết thúc bằng những động tác xoa bóp êm ái." }
+      ]
+    },
+    "en": {
+      "title": "Therapeutic Massage",
+      "excerpt": "A relaxing full-body massage to relieve stress and muscle tension.",
+      "content": "<p>A relaxing full-body massage to relieve stress and muscle tension.</p>",
+      "benefits": [
+        "Relieves muscle tension and pain",
+        "Improves blood circulation",
+        "Promotes deep relaxation and better sleep"
+      ],
+      "steps": [
+        { "title": "Step 1: Consultation", "desc": "Discussing your specific needs and focus areas." },
+        { "title": "Step 2: Warm Up", "desc": "Gentle strokes to warm up the muscles." },
+        { "title": "Step 3: Deep Tissue", "desc": "Applying targeted pressure to relieve knots and tension." },
+        { "title": "Step 4: Relaxation", "desc": "Soothing techniques to conclude the session." }
+      ]
+    }
+  },
+  {
+    "id": "laser",
+    "slug": "laser",
+    "image": "/spa_gallery.png",
+    "duration": "45 Phút",
+    "price": "Từ 1.200.000 VNĐ",
+    "featured": true,
+    "category": "melasma-treatment",
+    "vi": {
+      "title": "Trẻ Hóa Da Công Nghệ Laser",
+      "excerpt": "Ứng dụng công nghệ Laser tiên tiến giúp đánh bay nám, tàn nhang và sẹo rỗ.",
+      "content": "<p>Ứng dụng công nghệ Laser tiên tiến giúp đánh bay nám, tàn nhang và sẹo rỗ.</p>",
+      "benefits": [
+        "Làm đều màu da tự nhiên",
+        "Xóa mờ các vết thâm nám và sẹo rỗ",
+        "Kích thích tăng sinh collagen"
+      ],
+      "steps": [
+        { "title": "Bước 1: Chuẩn bị", "desc": "Làm sạch da và thoa gel lạnh bảo vệ." },
+        { "title": "Bước 2: Bắn Laser", "desc": "Sử dụng tia laser với bước sóng phù hợp tác động lên da." },
+        { "title": "Bước 3: Làm dịu", "desc": "Đắp mặt nạ phục hồi và làm mát da tức thì." },
+        { "title": "Bước 4: Bảo vệ", "desc": "Thoa kem dưỡng phục hồi và kem chống nắng." }
+      ]
+    },
+    "en": {
+      "title": "Laser Skin Care",
+      "excerpt": "Advanced laser technology to treat pigmentation, acne scars, and aging signs.",
+      "content": "<p>Advanced laser technology to treat pigmentation, acne scars, and aging signs.</p>",
+      "benefits": [
+        "Evens out skin tone",
+        "Reduces acne scars and pigmentation",
+        "Stimulates collagen production"
+      ],
+      "steps": [
+        { "title": "Step 1: Preparation", "desc": "Cleansing the skin and applying a cooling gel." },
+        { "title": "Step 2: Laser Treatment", "desc": "Precise application of laser energy to targeted areas." },
+        { "title": "Step 3: Cooling", "desc": "Applying a soothing mask to calm the skin." },
+        { "title": "Step 4: Protect", "desc": "Apply soothing cream and sunscreen." }
+      ]
+    }
+  },
+  {
+    "id": "thai-chi",
+    "slug": "thai-chi",
+    "image": "/spa_service.png",
+    "duration": "60 Phút",
+    "price": "350.000 VNĐ",
+    "featured": false,
+    "category": "traditional-medicine-skin-care",
+    "vi": {
+      "title": "Thải Chì Bằng Phương Pháp Đông Y",
+      "excerpt": "Liệu pháp hút chì độc tố bằng công nghệ hiện đại kết hợp dược liệu Đông Y, mang lại làn da trắng hồng khỏe mạnh.",
+      "content": "<p>Liệu pháp hút chì độc tố bằng công nghệ hiện đại kết hợp dược liệu Đông Y, mang lại làn da trắng hồng khỏe mạnh.</p>",
+      "benefits": [
+        "Hút sạch độc tố, chì tích tụ do trang điểm",
+        "Làm sáng da, mờ vết thâm sạm",
+        "Se khít lỗ chân lông hiệu quả",
+        "Sử dụng 100% thảo dược Đông Y an toàn"
+      ],
+      "steps": [
+        { "title": "Tẩy trang và rửa mặt", "desc": "Làm sạch bề mặt da với sữa rửa mặt dịu nhẹ, loại bỏ bụi bẩn và bã nhờn." },
+        { "title": "Tẩy tế bào chết", "desc": "Lấy đi lớp sừng già cỗi, giúp da thông thoáng dễ hấp thụ dưỡng chất." },
+        { "title": "Xông hơi hút bã nhờn", "desc": "Mở rộng lỗ chân lông, hút sạch dầu thừa và mụn cám." },
+        { "title": "Chạy máy hút chì", "desc": "Sử dụng viên nang thải chì Đông Y kết hợp máy siêu âm để đẩy chì ra khỏi da." },
+        { "title": "Đắp mặt nạ thảo dược", "desc": "Làm dịu da, cung cấp độ ẩm và dưỡng chất phục hồi." }
+      ]
+    },
+    "en": {
+      "title": "Traditional Lead Detoxification",
+      "excerpt": "A detoxifying therapy using modern technology combined with traditional herbs, bringing you healthy, glowing skin.",
+      "content": "<p>A detoxifying therapy using modern technology combined with traditional herbs, bringing you healthy, glowing skin.</p>",
+      "benefits": [
+        "Removes toxins and lead accumulated from makeup",
+        "Brightens skin and fades dark spots",
+        "Effectively tightens pores",
+        "Uses 100% safe traditional herbs"
+      ],
+      "steps": [
+        { "title": "Step 1: Cleansing", "desc": "Cleanse the skin surface with a gentle cleanser, removing dirt and sebum." },
+        { "title": "Step 2: Exfoliation", "desc": "Remove dead skin cells, helping the skin absorb nutrients easily." },
+        { "title": "Step 3: Steaming & Extraction", "desc": "Open pores, extract excess oil and blackheads." },
+        { "title": "Step 4: Lead Detox Machine", "desc": "Use traditional herbal detox capsules combined with an ultrasonic machine to push lead out of the skin." },
+        { "title": "Step 5: Herbal Mask", "desc": "Soothe the skin, provide moisture and restorative nutrients." }
+      ]
+    }
+  },
+  {
+    "id": "phuc-hoi-da",
+    "slug": "phuc-hoi-da",
+    "image": "/spa_about.png",
+    "duration": "90 Phút",
+    "price": "500.000 VNĐ",
+    "featured": false,
+    "category": "traditional-medicine-skin-care",
+    "vi": {
+      "title": "Phục Hồi Da Bằng Đông Y",
+      "excerpt": "Quy trình tái tạo màng bảo vệ tự nhiên của da, dành riêng cho da mỏng yếu, nhạy cảm hoặc bị tổn thương.",
+      "content": "<p>Quy trình tái tạo màng bảo vệ tự nhiên của da, dành riêng cho da mỏng yếu, nhạy cảm hoặc bị tổn thương.</p>",
+      "benefits": [
+        "Làm dịu tức thì tình trạng da ửng đỏ, mẫn cảm",
+        "Phục hồi lớp màng lipid bảo vệ da",
+        "Nuôi dưỡng từ sâu bên trong với nhân sâm, nấm linh chi",
+        "Cân bằng độ ẩm và độ pH tự nhiên"
+      ],
+      "steps": [
+        { "title": "Làm sạch chuyên sâu", "desc": "Sử dụng sản phẩm dành riêng cho da nhạy cảm." },
+        { "title": "Phun oxy tươi", "desc": "Cung cấp lượng oxy tinh khiết giúp làm dịu và làm mát da tức thì." },
+        { "title": "Điện di tinh chất phục hồi", "desc": "Đưa huyết thanh Đông Y vào sâu lớp biểu bì giúp tái tạo tế bào." },
+        { "title": "Massage ấn huyệt", "desc": "Kích thích tuần hoàn máu, giúp da hồng hào." },
+        { "title": "Đắp mặt nạ yến mạch", "desc": "Khóa ẩm và tăng cường hàng rào bảo vệ da." }
+      ]
+    },
+    "en": {
+      "title": "Traditional Skin Restoration",
+      "excerpt": "A process to regenerate the skin's natural protective barrier, specifically for thin, sensitive, or damaged skin.",
+      "content": "<p>A process to regenerate the skin's natural protective barrier, specifically for thin, sensitive, or damaged skin.</p>",
+      "benefits": [
+        "Instantly soothes redness and sensitivity",
+        "Restores the skin's protective lipid barrier",
+        "Nourishes deeply with ginseng and reishi mushroom",
+        "Balances natural moisture and pH levels"
+      ],
+      "steps": [
+        { "title": "Step 1: Deep Cleansing", "desc": "Use products specifically for sensitive skin." },
+        { "title": "Step 2: Fresh Oxygen Spray", "desc": "Provide pure oxygen to instantly soothe and cool the skin." },
+        { "title": "Step 3: Restorative Essence Electroporation", "desc": "Deliver traditional herbal serum deep into the epidermis to regenerate cells." },
+        { "title": "Step 4: Acupressure Massage", "desc": "Stimulate blood circulation, giving the skin a rosy glow." },
+        { "title": "Step 5: Oatmeal Mask", "desc": "Lock in moisture and strengthen the skin's protective barrier." }
+      ]
+    }
+  },
+  {
+    "id": "thai-doc",
+    "slug": "thai-doc",
+    "image": "/spa_gallery.png",
+    "duration": "120 Phút",
+    "price": "750.000 VNĐ",
+    "featured": false,
+    "category": "traditional-medicine-skin-care",
+    "vi": {
+      "title": "Thải Độc Phục Hồi Da",
+      "excerpt": "Giải pháp toàn diện kết hợp giữa thải độc tố và phục hồi chuyên sâu, mang lại sức sống mới cho làn da mệt mỏi.",
+      "content": "<p>Giải pháp toàn diện kết hợp giữa thải độc tố và phục hồi chuyên sâu, mang lại sức sống mới cho làn da mệt mỏi.</p>",
+      "benefits": [
+        "Đào thải tận gốc corticoid, kem trộn tích tụ",
+        "Kích thích sản sinh collagen và elastin mới",
+        "Trẻ hóa làn da, giảm thiểu nếp nhăn",
+        "Hiệu quả thấy rõ ngay sau lần đầu tiên"
+      ],
+      "steps": [
+        { "title": "Soi da và tư vấn", "desc": "Đánh giá mức độ nhiễm độc và tình trạng tổn thương của da." },
+        { "title": "Làm sạch và xông hơi", "desc": "Giúp lỗ chân lông giãn nở hoàn toàn." },
+        { "title": "Đắp mặt nạ sủi bọt thải độc", "desc": "Sử dụng mặt nạ carbon hoạt tính sủi bọt để đẩy độc tố từ sâu trong lỗ chân lông lên bề mặt." },
+        { "title": "Siêu âm lạnh phục hồi", "desc": "Sử dụng máy búa lạnh kết hợp tế bào gốc để làm dịu và se khít lỗ chân lông." },
+        { "title": "Chiếu ánh sáng sinh học", "desc": "Sử dụng ánh sáng đỏ để kích thích tăng sinh tế bào mới." }
+      ]
+    },
+    "en": {
+      "title": "Herbal Detox & Rejuvenation",
+      "excerpt": "A comprehensive solution combining detoxification and deep restoration, bringing new life to tired skin.",
+      "content": "<p>A comprehensive solution combining detoxification and deep restoration, bringing new life to tired skin.</p>",
+      "benefits": [
+        "Completely eliminates accumulated corticoids and mixed creams",
+        "Stimulates the production of new collagen and elastin",
+        "Rejuvenates the skin, minimizing wrinkles",
+        "Visible results right after the first session"
+      ],
+      "steps": [
+        { "title": "Step 1: Skin Analysis", "desc": "Assess the level of toxicity and skin damage." },
+        { "title": "Step 2: Cleansing & Steaming", "desc": "Help pores expand completely." },
+        { "title": "Step 3: Detox Bubbling Mask", "desc": "Use an active carbon bubbling mask to push toxins from deep within the pores to the surface." },
+        { "title": "Step 4: Cold Ultrasound Restoration", "desc": "Use a cold hammer combined with stem cells to soothe and tighten pores." },
+        { "title": "Step 5: Bio-Light Therapy", "desc": "Use red light to stimulate the proliferation of new cells." }
+      ]
+    }
+  }
+]

@@ -2,16 +2,13 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, Calendar, ArrowLeft } from 'lucide-react';
+import { readDb } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
-
-const VALID_SLUGS = ['post1', 'post2', 'post3'];
-
-export function generateStaticParams() {
-  return VALID_SLUGS.map((slug) => ({ slug }));
-}
 
 export default async function NewsDetailsPage(props: Props) {
   const params = await props.params;
@@ -19,24 +16,27 @@ export default async function NewsDetailsPage(props: Props) {
   
   setRequestLocale(locale);
 
-  if (!VALID_SLUGS.includes(slug)) {
+  const posts = (await readDb('posts')) || [];
+  const post = posts.find((p: any) => p.slug === slug || p.id === slug);
+
+  if (!post) {
     notFound();
   }
 
-  const t = await getTranslations('NewsDetails');
   const tNav = await getTranslations('Navigation');
   const tCommon = await getTranslations('NewsDetails.common');
 
-  const title = t(`${slug}.title`);
-  const date = t(`${slug}.date`);
-  const author = t(`${slug}.author`);
-  const contentArray = t.raw(`${slug}.content`) as string[];
+  const contentObj = post[locale] || post['vi'] || {};
+  const title = contentObj.title || '';
+  const date = post.date ? new Date(post.date).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US') : '';
+  const author = 'Ban Biên Tập';
+  const htmlContent = contentObj.content || `<p>${contentObj.excerpt || ''}</p>`;
 
   return (
     <main className="flex-1 w-full bg-white pb-32">
       {/* Cover Image */}
       <section className="w-full h-[50vh] md:h-[65vh] relative">
-        <img src="/spa_news.png" alt={title} className="w-full h-full object-cover" />
+        <img src={post.image || '/spa_news.png'} alt={title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
         <div className="absolute inset-0 flex items-end">
           <div className="container mx-auto px-4 pb-16 md:pb-24 max-w-4xl">
@@ -70,28 +70,10 @@ export default async function NewsDetailsPage(props: Props) {
         </nav>
 
         {/* Content Body */}
-        <article className="prose prose-lg md:prose-xl max-w-none text-gray-700">
-          {contentArray.map((paragraph, idx) => {
-            // Simple markdown-like bold parsing: **bold**
-            const parts = paragraph.split(/(\*\*.*?\*\*)/g);
-            return (
-              <p key={idx} className="mb-8 leading-relaxed text-[1.1rem] md:text-[1.25rem]">
-                {parts.map((part, i) => {
-                  if (part.startsWith('**') && part.endsWith('**')) {
-                    return <strong key={i} className="text-gray-900 font-extrabold text-[1.2rem] md:text-[1.35rem] block mt-12 mb-4">{part.slice(2, -2)}</strong>;
-                  }
-                  // Handle line breaks within the string
-                  return part.split('\n').map((line, j) => (
-                    <span key={j}>
-                      {line}
-                      {j < part.split('\n').length - 1 && <br />}
-                    </span>
-                  ));
-                })}
-              </p>
-            );
-          })}
-        </article>
+        <article 
+          className="prose prose-lg md:prose-xl max-w-none text-gray-700 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
 
         {/* Footer actions */}
         <div className="mt-20 pt-10 border-t border-gray-200 flex justify-between items-center">

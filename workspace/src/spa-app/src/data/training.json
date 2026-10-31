@@ -1,0 +1,162 @@
+[
+  {
+    "id": "basic",
+    "slug": "basic",
+    "image": "/spa_gallery.png",
+    "duration": "1 Tháng",
+    "price": "5.000.000 VNĐ",
+    "vi": {
+      "title": "Chăm Sóc Da Cơ Bản",
+      "level": "Cơ bản",
+      "excerpt": "Nắm vững kiến thức nền tảng về da, kỹ thuật massage mặt cơ bản và quy trình chăm sóc da chuẩn Spa.",
+      "content": "<p>Nắm vững kiến thức nền tảng về da, kỹ thuật massage mặt cơ bản và quy trình chăm sóc da chuẩn Spa.</p>",
+      "benefits": [
+        "Nắm vững lý thuyết cơ bản về các loại da",
+        "Thực hành thành thạo các bước làm sạch và massage mặt",
+        "Được cấp chứng chỉ sau khóa học"
+      ],
+      "curriculum": [
+        { "title": "Tuần 1: Lý thuyết Da liễu cơ bản", "desc": "Cấu tạo da, phân biệt các loại da và các vấn đề thường gặp." },
+        { "title": "Tuần 2: Kỹ thuật làm sạch", "desc": "Tẩy trang, rửa mặt, tẩy tế bào chết chuẩn y khoa." },
+        { "title": "Tuần 3: Kỹ thuật massage", "desc": "Các bài massage nâng cơ, ấn huyệt trên khuôn mặt." },
+        { "title": "Tuần 4: Thực hành tổng hợp", "desc": "Thực hành trên mẫu thật và thi cấp chứng chỉ." }
+      ]
+    },
+    "en": {
+      "title": "Basic Skin Care",
+      "level": "Beginner",
+      "excerpt": "Master basic skin knowledge, facial massage techniques, and standard Spa skin care procedures.",
+      "content": "<p>Master basic skin knowledge, facial massage techniques, and standard Spa skin care procedures.</p>",
+      "benefits": [
+        "Master basic theory about different skin types",
+        "Proficiently practice cleansing and facial massage steps",
+        "Receive a certificate upon course completion"
+      ],
+      "curriculum": [
+        { "title": "Week 1: Basic Dermatology Theory", "desc": "Skin structure, distinguishing skin types and common problems." },
+        { "title": "Week 2: Cleansing Techniques", "desc": "Makeup removal, face washing, medical-standard exfoliation." },
+        { "title": "Week 3: Massage Techniques", "desc": "Facial lifting massage and acupressure." },
+        { "title": "Week 4: Comprehensive Practice", "desc": "Practice on real models and certification exam." }
+      ]
+    }
+  },
+  {
+    "id": "advanced",
+    "slug": "advanced",
+    "image": "/spa_service.png",
+    "duration": "3 Tháng",
+    "price": "15.000.000 VNĐ",
+    "vi": {
+      "title": "Trị Liệu Da Chuyên Sâu",
+      "level": "Nâng cao",
+      "excerpt": "Ứng dụng máy móc công nghệ cao trong điều trị mụn, nám, sẹo rỗ và các vấn đề phức tạp về da.",
+      "content": "<p>Ứng dụng máy móc công nghệ cao trong điều trị mụn, nám, sẹo rỗ và các vấn đề phức tạp về da.</p>",
+      "benefits": [
+        "Sử dụng thành thạo các loại máy móc thẩm mỹ công nghệ cao (Laser, Hifu...)",
+        "Xây dựng phác đồ điều trị chuẩn y khoa cho từng tình trạng da",
+        "Cơ hội làm việc tại các Clinic & Thẩm mỹ viện lớn"
+      ],
+      "curriculum": [
+        { "title": "Tháng 1: Điều trị mụn chuyên sâu", "desc": "Phân loại mụn, kỹ thuật lấy nhân mụn chuẩn y khoa, peel da trị mụn." },
+        { "title": "Tháng 2: Điều trị nám và sắc tố", "desc": "Cơ chế hình thành sắc tố, ứng dụng Laser Toning trong điều trị nám, tàn nhang." },
+        { "title": "Tháng 3: Trị sẹo và trẻ hóa", "desc": "Kỹ thuật lăn kim, phi kim, ứng dụng tế bào gốc và PRP." }
+      ]
+    },
+    "en": {
+      "title": "Advanced Skin Therapy",
+      "level": "Advanced",
+      "excerpt": "Application of high-tech machinery in the treatment of acne, melasma, pitted scars, and complex skin issues.",
+      "content": "<p>Application of high-tech machinery in the treatment of acne, melasma, pitted scars, and complex skin issues.</p>",
+      "benefits": [
+        "Proficiently use high-tech aesthetic machines (Laser, Hifu...)",
+        "Build medical-standard treatment protocols for each skin condition",
+        "Opportunities to work at major Clinics & Beauty Salons"
+      ],
+      "curriculum": [
+        { "title": "Month 1: Intensive Acne Treatment", "desc": "Acne classification, medical standard extraction techniques, acne peeling." },
+        { "title": "Month 2: Melasma and Pigmentation Treatment", "desc": "Pigmentation mechanism, application of Laser Toning in melasma treatment." },
+        { "title": "Month 3: Scar Treatment and Rejuvenation", "desc": "Microneedling techniques, application of stem cells and PRP." }
+      ]
+    }
+  },
+  {
+    "id": "body",
+    "slug": "body",
+    "image": "/spa_about.png",
+    "duration": "2 Tháng",
+    "price": "8.000.000 VNĐ",
+    "vi": {
+      "title": "Kỹ Thuật Massage Body",
+      "level": "Trung cấp",
+      "excerpt": "Học các bài massage thư giãn, ấn huyệt trị liệu chuẩn Đông Y giúp giải tỏa căng thẳng toàn thân.",
+      "content": "<p>Học các bài massage thư giãn, ấn huyệt trị liệu chuẩn Đông Y giúp giải tỏa căng thẳng toàn thân.</p>",
+      "benefits": [
+        "Thành thạo các kỹ thuật massage thư giãn và trị liệu",
+        "Nắm bắt được hệ thống kinh lạc và huyệt đạo cơ bản",
+        "Nâng cao sức khỏe và giảm đau nhức cho khách hàng"
+      ],
+      "curriculum": [
+        { "title": "Tuần 1-3: Massage Thụy Điển", "desc": "Các kỹ thuật xoa bóp, vuốt, nhào cơ bản giúp thư giãn toàn thân." },
+        { "title": "Tuần 4-6: Massage Thái và Đá nóng", "desc": "Kỹ thuật kéo giãn cơ, bấm huyệt kiểu Thái và sử dụng đá nóng." },
+        { "title": "Tuần 7-8: Massage trị liệu Đông Y", "desc": "Ấn huyệt đả thông kinh lạc, trị liệu đau cổ vai gáy." }
+      ]
+    },
+    "en": {
+      "title": "Body Massage Techniques",
+      "level": "Intermediate",
+      "excerpt": "Learn relaxing massage routines and traditional acupressure therapy to relieve full-body tension.",
+      "content": "<p>Learn relaxing massage routines and traditional acupressure therapy to relieve full-body tension.</p>",
+      "benefits": [
+        "Master relaxing and therapeutic massage techniques",
+        "Understand the meridian system and basic acupressure points",
+        "Improve health and reduce pain for clients"
+      ],
+      "curriculum": [
+        { "title": "Week 1-3: Swedish Massage", "desc": "Basic rubbing, stroking, and kneading techniques for full body relaxation." },
+        { "title": "Week 4-6: Thai Massage and Hot Stone", "desc": "Muscle stretching techniques, Thai-style acupressure, and using hot stones." },
+        { "title": "Week 7-8: Traditional Therapy Massage", "desc": "Acupressure to clear meridians, treating neck and shoulder pain." }
+      ]
+    }
+  },
+  {
+    "id": "management",
+    "slug": "management",
+    "image": "/spa_about.png",
+    "duration": "1 Tháng",
+    "price": "12.000.000 VNĐ",
+    "vi": {
+      "title": "Quản Lý & Vận Hành Spa",
+      "level": "Chuyên gia",
+      "excerpt": "Đào tạo kỹ năng setup spa, quản lý nhân sự, marketing và chăm sóc khách hàng hiệu quả.",
+      "content": "<p>Đào tạo kỹ năng setup spa, quản lý nhân sự, marketing và chăm sóc khách hàng hiệu quả.</p>",
+      "benefits": [
+        "Tự tin setup và vận hành một Spa chuyên nghiệp",
+        "Biết cách thu hút và giữ chân khách hàng (Marketing Spa)",
+        "Tối ưu hóa doanh thu và chi phí hoạt động"
+      ],
+      "curriculum": [
+        { "title": "Phần 1: Setup Spa", "desc": "Lựa chọn mặt bằng, thiết kế không gian, xin giấy phép kinh doanh." },
+        { "title": "Phần 2: Quản lý nhân sự", "desc": "Tuyển dụng, đào tạo, xây dựng KPIs và chính sách lương thưởng." },
+        { "title": "Phần 3: Marketing & Sales", "desc": "Chiến lược Marketing đa kênh, kỹ năng chốt sale và tư vấn khách hàng." },
+        { "title": "Phần 4: Chăm sóc khách hàng", "desc": "Quy trình chăm sóc trước, trong và sau khi sử dụng dịch vụ." }
+      ]
+    },
+    "en": {
+      "title": "Spa Management & Operation",
+      "level": "Expert",
+      "excerpt": "Training in spa setup skills, personnel management, marketing, and effective customer service.",
+      "content": "<p>Training in spa setup skills, personnel management, marketing, and effective customer service.</p>",
+      "benefits": [
+        "Confidently setup and operate a professional Spa",
+        "Know how to attract and retain customers (Spa Marketing)",
+        "Optimize revenue and operating costs"
+      ],
+      "curriculum": [
+        { "title": "Part 1: Spa Setup", "desc": "Choosing location, space design, applying for business licenses." },
+        { "title": "Part 2: Human Resource Management", "desc": "Recruitment, training, building KPIs and salary policies." },
+        { "title": "Part 3: Marketing & Sales", "desc": "Multi-channel marketing strategy, sales closing skills and customer consulting." },
+        { "title": "Part 4: Customer Care", "desc": "Care process before, during, and after using the service." }
+      ]
+    }
+  }
+]

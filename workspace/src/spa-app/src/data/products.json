@@ -3,48 +3,160 @@
     "id": "cleanser",
     "slug": "cleanser",
     "image": "/spa_service.png",
-    "price": "500.000 VNĐ",
+    "price": "480.000 VNĐ",
+    "category": "cleansing",
+    "badge": "Best Seller",
+    "volume": "150ml",
+    "rating": 5.0,
     "vi": {
-      "title": "Sữa Rửa Mặt Thảo Dược",
-      "excerpt": "Làm sạch sâu, dịu nhẹ cho mọi loại da với chiết xuất 100% từ thiên nhiên.",
-      "content": "<p>Làm sạch sâu, dịu nhẹ cho mọi loại da với chiết xuất 100% từ thiên nhiên.</p>"
+      "title": "Sữa Rửa Mặt Thảo Dược Đông Y",
+      "excerpt": "Làm sạch sâu lỗ chân lông, cân bằng độ pH 5.5 dịu nhẹ cho mọi loại da với chiết xuất nhân sâm và trà xanh.",
+      "content": "<p><strong>Sữa Rửa Mặt Thảo Dược Đông Y Ngọc Hương</strong> được nghiên cứu độc quyền dành cho làn da nhạy cảm và da đang trong liệu trình điều trị thẩm mỹ.</p><h3>Công dụng nổi bật</h3><ul><li>Làm sạch sâu bụi bẩn, bã nhờn và cặn trang điểm mà không gây khô căng.</li><li>Chiết xuất nhân sâm, hoa cúc và trà xanh giúp kháng khuẩn, làm dịu nốt mụn sưng đỏ.</li><li>Duy trì độ pH chuẩn 5.5 bảo vệ hàng rào ẩm tự nhiên của da.</li></ul><h3>Hướng dẫn sử dụng</h3><p>Lấy một lượng vừa đủ tạo bọt với nước ấm, massage nhẹ nhàng theo chiều xoắn ốc từ 60 giây rồi rửa sạch.</p>"
     },
     "en": {
-      "title": "Herbal Cleanser",
-      "excerpt": "Deep cleansing, gentle for all skin types with 100% natural extracts.",
-      "content": "<p>Deep cleansing, gentle for all skin types with 100% natural extracts.</p>"
+      "title": "Oriental Herbal Gentle Cleanser",
+      "excerpt": "Deep pore cleansing and pH 5.5 balancing for all skin types with ginseng and green tea extracts.",
+      "content": "<p><strong>Ngoc Huong Oriental Herbal Cleanser</strong> is exclusively formulated for sensitive and post-treatment skin.</p><h3>Key Benefits</h3><ul><li>Deeply removes dirt, excess oil, and makeup residue without stripping moisture.</li><li>Ginseng, chamomile, and green tea extracts soothe redness and prevent acne.</li><li>Maintains optimal pH 5.5 to protect the natural skin barrier.</li></ul>"
     }
   },
   {
     "id": "serum",
     "slug": "serum",
-    "image": "/spa_service.png",
-    "price": "1.200.000 VNĐ",
+    "image": "/spa_about.png",
+    "price": "1.250.000 VNĐ",
+    "category": "treatment",
+    "badge": "Bác sĩ khuyên dùng",
+    "volume": "30ml",
+    "rating": 5.0,
     "vi": {
-      "title": "Serum Phục Hồi Chuyên Sâu",
-      "excerpt": "Tái tạo làn da hư tổn, giảm thâm nám và chống lão hóa hiệu quả.",
-      "content": "<p>Tái tạo làn da hư tổn, giảm thâm nám và chống lão hóa hiệu quả.</p>"
+      "title": "Serum Tế Bào Gốc Phục Hồi Chuyên Sâu",
+      "excerpt": "Tái tạo làn da hư tổn sau Laser/Lăn kim, làm mờ thâm nám và kích thích tăng sinh Collagen tự nhiên.",
+      "content": "<p><strong>Serum Tế Bào Gốc Phục Hồi Chuyên Sâu</strong> chứa phức hợp Peptide sinh học, Hyaluronic Acid đa phân tử và chiết xuất Nhau thai cừu.</p><h3>Công dụng nổi bật</h3><ul><li>Phục hồi nhanh gấp 3 lần làn da mỏng yếu, lộ mao mạch hoặc sau điều trị công nghệ cao.</li><li>Ức chế sắc tố Melanin, làm mờ thâm sạm và đều màu da.</li><li>Tăng độ đàn hồi, xóa mờ nếp nhăn li ti nơi khóe mắt, rãnh cười.</li></ul>"
     },
     "en": {
-      "title": "Intensive Recovery Serum",
-      "excerpt": "Regenerate damaged skin, reduce pigmentation and effective anti-aging.",
-      "content": "<p>Regenerate damaged skin, reduce pigmentation and effective anti-aging.</p>"
+      "title": "Stem Cell Intensive Recovery Serum",
+      "excerpt": "Regenerate damaged skin after Laser/Microneedling, fade pigmentation and boost natural Collagen.",
+      "content": "<p><strong>Stem Cell Intensive Recovery Serum</strong> features bio-peptides, multi-molecular Hyaluronic Acid, and botanical stem cell extracts to rapidly repair damaged skin.</p>"
     }
   },
   {
     "id": "cream",
     "slug": "cream",
-    "image": "/spa_service.png",
-    "price": "850.000 VNĐ",
+    "image": "/spa_gallery.png",
+    "price": "890.000 VNĐ",
+    "category": "moisturizer",
+    "badge": "Yêu thích nhất",
+    "volume": "50g",
+    "rating": 4.9,
     "vi": {
-      "title": "Kem Dưỡng Cấp Ẩm",
-      "excerpt": "Khóa ẩm 24h, mang lại làn da căng bóng mịn màng chuẩn Hàn Quốc.",
-      "content": "<p>Khóa ẩm 24h, mang lại làn da căng bóng mịn màng chuẩn Hàn Quốc.</p>"
+      "title": "Kem Dưỡng Cấp Ẩm & Trắng Da Ngọc Trai",
+      "excerpt": "Khóa ẩm suốt 24h, nuôi dưỡng làn da căng bóng mịn màng và bật tông trắng hồng tự nhiên.",
+      "content": "<p><strong>Kem Dưỡng Cấp Ẩm & Trắng Da Ngọc Trai</strong> kết hợp bột ngọc trai thiên nhiên, Niacinamide 5% và Ceramide NP.</p><h3>Công dụng nổi bật</h3><ul><li>Cấp nước và khóa ẩm tầng sâu suốt 24 giờ.</li><li>Dưỡng trắng da an toàn, cải thiện làn da xỉn màu, thiếu sức sống.</li><li>Tạo hiệu ứng da căng bóng ngậm nước chuẩn Hàn Quốc.</li></ul>"
     },
     "en": {
-      "title": "Moisturizing Cream",
-      "excerpt": "24h moisture lock, bringing smooth and glowing skin.",
-      "content": "<p>24h moisture lock, bringing smooth and glowing skin.</p>"
+      "title": "Pearl Whitening & 24h Moisture Cream",
+      "excerpt": "24-hour moisture lock, nourishing smooth, dewy, and naturally radiant skin.",
+      "content": "<p>Formulated with natural pearl powder, 5% Niacinamide, and Ceramide NP to deeply hydrate and brighten dull skin.</p>"
+    }
+  },
+  {
+    "id": "sunscreen",
+    "slug": "sunscreen",
+    "image": "/spa_service.png",
+    "price": "650.000 VNĐ",
+    "category": "sunscreen",
+    "badge": "Bảo vệ toàn diện",
+    "volume": "60ml",
+    "rating": 5.0,
+    "vi": {
+      "title": "Kem Chống Nắng Sinh Học Phổ Rộng SPF 50+ PA++++",
+      "excerpt": "Chống nắng phổ rộng bảo vệ da sau điều trị Laser/Peel, nâng tông tự nhiên và kiềm dầu 8 tiếng.",
+      "content": "<p><strong>Kem Chống Nắng Sinh Học SPF 50+ PA++++</strong> là màng chắn hoàn hảo trước tia UVA/UVB và ánh sáng xanh từ màn hình máy tính.</p><h3>Công dụng nổi bật</h3><ul><li>Màng lọc chống nắng thế hệ mới an toàn tuyệt đối cho cả da đang bong tróc hoặc sau Laser.</li><li>Kết cấu mỏng nhẹ, thấm nhanh trong 3 giây, nâng tông trắng hồng tự nhiên.</li><li>Bổ sung tinh chất rau má và Panthenol B5 giúp làm mát da tức thì.</li></ul>"
+    },
+    "en": {
+      "title": "Bio-Shield Broad Spectrum Sunscreen SPF 50+",
+      "excerpt": "Broad-spectrum UV & blue light protection for post-laser skin with natural tone-up effect.",
+      "content": "<p>Advanced broad-spectrum protection with Centella Asiatica and Vitamin B5 to soothe and shield sensitive skin.</p>"
+    }
+  },
+  {
+    "id": "toner-herbal",
+    "slug": "toner-herbal",
+    "image": "/spa_about.png",
+    "price": "520.000 VNĐ",
+    "category": "cleansing",
+    "badge": "100% Organic",
+    "volume": "200ml",
+    "rating": 4.9,
+    "vi": {
+      "title": "Nước Hoa Hồng Cốt Yến & Nhụy Hoa Nghệ Tây",
+      "excerpt": "Cấp ẩm tức thì, se khít lỗ chân lông và mở đường dẫn giúp da hấp thu trọn vẹn dưỡng chất.",
+      "content": "<p><strong>Nước Hoa Hồng Cốt Yến & Saffron</strong> không chứa cồn, giàu axit amin và khoáng chất giúp đánh thức làn da mệt mỏi ngay sau bước rửa mặt.</p>"
+    },
+    "en": {
+      "title": "Bird's Nest & Saffron Hydrating Toner",
+      "excerpt": "Instant hydration, pore tightening, and nutrient absorption booster with alcohol-free formula.",
+      "content": "<p>Alcohol-free hydrating toner infused with Saffron and Bird's Nest essence to refine pores and prep skin.</p>"
+    }
+  },
+  {
+    "id": "melasma-essence",
+    "slug": "melasma-essence",
+    "image": "/spa_gallery.png",
+    "price": "1.450.000 VNĐ",
+    "category": "treatment",
+    "badge": "Đặc trị Nám",
+    "volume": "30ml",
+    "rating": 5.0,
+    "vi": {
+      "title": "Tinh Chất Đặc Trị Nám & Tàn Nhang Đông Y",
+      "excerpt": "Phân giải chân nám mảng, nám chân sâu và đồi mồi nhờ hoạt chất Tranexamic Acid kết hợp Bạch Phục Linh.",
+      "content": "<p><strong>Tinh Chất Đặc Trị Nám Đông Y</strong> tác động kép vừa bóc tách sắc tố sẫm màu trên bề mặt vừa ngăn chặn hình thành melanin mới từ tầng đáy biểu bì.</p>"
+    },
+    "en": {
+      "title": "Oriental Melasma & Dark Spot Corrector",
+      "excerpt": "Targets stubborn melasma, freckles, and dark spots with Tranexamic Acid and Oriental herbs.",
+      "content": "<p>Dual-action brightening essence that fades existing dark spots and inhibits melanin synthesis.</p>"
+    }
+  },
+  {
+    "id": "acne-gel",
+    "slug": "acne-gel",
+    "image": "/spa_service.png",
+    "price": "420.000 VNĐ",
+    "category": "treatment",
+    "badge": "Giảm mụn 24h",
+    "volume": "20g",
+    "rating": 4.8,
+    "vi": {
+      "title": "Gel Chấm Mụn Thảo Dược Kháng Khuẩn",
+      "excerpt": "Làm xẹp mụn viêm, gom khô cồi mụn sau 24h và ngăn ngừa sẹo thâm để lại sau nặn mụn.",
+      "content": "<p><strong>Gel Chấm Mụn Thảo Dược</strong> chiết xuất tràm trà cô đặc, vỏ cây liễu trắng (BHA tự nhiên) và nghệ nano không màu.</p>"
+    },
+    "en": {
+      "title": "Herbal Anti-Acne Spot Gel",
+      "excerpt": "Calms inflamed acne within 24 hours and prevents post-acne dark marks.",
+      "content": "<p>Concentrated Tea Tree, White Willow Bark, and Nano Curcumin to rapidly clear blemishes.</p>"
+    }
+  },
+  {
+    "id": "detox-mask",
+    "slug": "detox-mask",
+    "image": "/spa_about.png",
+    "price": "680.000 VNĐ",
+    "category": "moisturizer",
+    "badge": "Chuẩn Spa",
+    "volume": "100g",
+    "rating": 5.0,
+    "vi": {
+      "title": "Mặt Nạ Thảo Dược Thải Độc & Sáng Da",
+      "excerpt": "Hút sạch độc tố chì, làm mát da tức thì và mang lại làn da hồng hào rạng rỡ như vừa đi Spa.",
+      "content": "<p><strong>Mặt Nạ Thảo Dược Thải Độc</strong> kết hợp 12 vị thảo mộc cung đình giúp thanh lọc độc tố và thư giãn làn da sau ngày dài.</p>"
+    },
+    "en": {
+      "title": "Royal Herbal Detox & Glow Mask",
+      "excerpt": "Draws out toxins and impurities while delivering an instant spa-like radiance at home.",
+      "content": "<p>Crafted with 12 royal oriental herbs to detoxify pores and revitalize tired skin.</p>"
     }
   }
 ]
