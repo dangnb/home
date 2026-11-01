@@ -961,6 +961,10 @@ export default function AdminPage() {
         </div>
 
         <div className={styles.sidebarFooter}>
+          <Link href="/reels" className={styles.viewSiteLink}>
+            <span>🎬 Xuất Video Reels FB (9:16)</span>
+            <FiArrowUpRight size={15} />
+          </Link>
           <Link href="/" className={styles.viewSiteLink}>
             <span>Mở trang chủ Nếp Journeys</span>
             <FiArrowUpRight size={15} />
