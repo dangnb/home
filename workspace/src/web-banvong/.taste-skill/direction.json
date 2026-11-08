@@ -1,0 +1,23 @@
+{
+  "dealtAt": "2026-11-07T00:00:00.000Z",
+  "project": "d:\\WORKSPACE\\Home\\web\\home\\workspace\\src\\web-banvong",
+  "sector": "product-physical",
+  "tone": "dark",
+  "direction": "hero-object",
+  "hero": "object-stage",
+  "type": "editorial-serif-grotesk",
+  "palette": "green-black-bone",
+  "motion": "masked-headline",
+  "sections": [
+    { "role": "overview", "pattern": "statement-and-proof" },
+    { "role": "work", "pattern": "two-up-unequal" },
+    { "role": "features", "pattern": "spec-sheet" },
+    { "role": "process", "pattern": "step-spread" },
+    { "role": "cta", "pattern": "closing-band" },
+    { "role": "footer", "pattern": "wordmark-footer" }
+  ],
+  "photos": [491, 609, 796, 564, 353, 544],
+  "scenes": [
+    { "id": "object-spin", "role": "anatomy-3d" }
+  ]
+}
